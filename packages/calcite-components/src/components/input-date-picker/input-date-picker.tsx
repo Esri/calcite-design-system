@@ -1,16 +1,16 @@
 // @ts-strict-ignore
-import { FocusTrap } from "focus-trap";
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -49,41 +49,29 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable, getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
+  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import {
-  activateFocusTrap,
-  connectFocusTrap,
-  deactivateFocusTrap,
-  FocusTrapComponent,
-} from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
-import { CSS, IDS } from "./resources";
+import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
@@ -97,22 +85,20 @@ export class InputDatePicker
   extends LitElement
   implements
     FloatingUIComponent,
-    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private commonDateSeparators = [".", "-", "/"];
 
@@ -124,7 +110,7 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  private dialogId = `date-picker-dialog--${guid()}`;
+  private dialogId = IDS.dialog(guid());
 
   private endInput: InputText["el"];
 
@@ -136,11 +122,25 @@ export class InputDatePicker
 
   private focusOnOpen = false;
 
-  focusTrap: FocusTrap;
-
-  private focusTrapDeactivates = (): void => {
-    this.open = false;
-  };
+  focusTrap = useFocusTrap<this>({
+    triggerProp: "open",
+    focusTrapOptions: {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.datePickerEl?.setFocus();
+          this.focusOnOpen = false;
+        }
+      },
+      allowOutsideClick: true,
+      // Allow outside click and let the popover manager take care of closing the popover.
+      clickOutsideDeactivates: false,
+      initialFocus: false,
+      setReturnFocus: false,
+      onDeactivate: () => {
+        this.open = false;
+      },
+    },
+  })(this);
 
   formEl: HTMLFormElement;
 
@@ -148,7 +148,7 @@ export class InputDatePicker
 
   transitionProp = "opacity" as const;
 
-  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
+  private placeholderTextId = IDS.placeholder(guid());
 
   private rangeStartValueChangedByUser = false;
 
@@ -166,9 +166,16 @@ export class InputDatePicker
 
   private valueAsDateChangedExternally = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() datePickerActiveDate: Date;
 
@@ -176,9 +183,9 @@ export class InputDatePicker
 
   @state() private localeData: DateLocaleData;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -199,6 +206,9 @@ export class InputDatePicker
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
@@ -213,13 +223,6 @@ export class InputDatePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -323,10 +326,12 @@ export class InputDatePicker
   get value(): string | string[] {
     return this._value;
   }
-
   set value(value: string | string[]) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
+    const valueChanged = value !== this._value;
+    const invalidValueCleared =
+      value === "" && (this.startInput?.value !== "" || this.endInput?.value !== "");
+
+    if (valueChanged || invalidValueCleared) {
       this._value = value;
       this.valueWatcher(value);
     }
@@ -335,9 +340,9 @@ export class InputDatePicker
   /** The component's value as a full date object. */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -370,9 +375,9 @@ export class InputDatePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
@@ -389,9 +394,9 @@ export class InputDatePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -448,7 +453,6 @@ export class InputDatePicker
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
     this.onMinChanged(this.min);
@@ -460,10 +464,6 @@ export class InputDatePicker
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("focusTrapDisabled") && (this.hasUpdated || this.focusTrapDisabled !== false)) {
-      this.handleFocusTrapDisabled(this.focusTrapDisabled);
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
     }
@@ -517,33 +517,19 @@ export class InputDatePicker
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.localizeInputValues();
     connectFloatingUI(this);
   }
 
   override disconnectedCallback(): void {
-    deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    if (focusTrapDisabled) {
-      deactivateFocusTrap(this);
-    } else {
-      activateFocusTrap(this);
-    }
-  }
+  //#region Private Methods
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
@@ -599,7 +585,7 @@ export class InputDatePicker
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled || this.readOnly) {
       return;
@@ -641,7 +627,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(this.messages._lang),
+      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -687,6 +673,10 @@ export class InputDatePicker
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -699,14 +689,7 @@ export class InputDatePicker
   }
 
   onOpen(): void {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.datePickerEl?.setFocus();
-          this.focusOnOpen = false;
-        }
-      },
-    });
+    this.focusTrap.activate();
     this.calciteInputDatePickerOpen.emit();
   }
 
@@ -717,7 +700,7 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     hideFloatingUI(this);
-    deactivateFocusTrap(this);
+    this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
   }
@@ -840,22 +823,16 @@ export class InputDatePicker
   }
 
   private setDatePickerRef(el: DatePicker["el"]): void {
+    if (!el) {
+      return;
+    }
+
     this.datePickerEl = el;
-    connectFocusTrap(this, {
-      focusTrapEl: el,
-      focusTrapOptions: {
-        allowOutsideClick: true,
-        // Allow outside click and let the popover manager take care of closing the popover.
-        clickOutsideDeactivates: false,
-        initialFocus: false,
-        setReturnFocus: false,
-        onDeactivate: this.focusTrapDeactivates,
-      },
-    });
+    this.focusTrap.overrideFocusTrapEl(el);
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
     numberStringFormatter.numberFormatOptions = {
@@ -1081,9 +1058,9 @@ export class InputDatePicker
     focusedInput.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1101,141 +1078,139 @@ export class InputDatePicker
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        {this.localeData && (
-          <div class={CSS.container}>
-            <div class={CSS.inputContainer}>
+        <div class={CSS.container}>
+          <div aria-label={this.label} class={CSS.inputContainer} role="group">
+            <div
+              class={CSS.inputWrapper}
+              data-position={POSITION.start}
+              onClick={this.onInputWrapperClick}
+              onPointerDown={this.onInputWrapperPointerDown}
+              ref={this.setStartWrapper}
+            >
+              <calcite-input-text
+                aria-controls={this.dialogId}
+                aria-describedby={this.placeholderTextId}
+                aria-errormessage={IDS.validationMessage}
+                ariaAutoComplete="none"
+                ariaExpanded={this.open}
+                ariaHasPopup="dialog"
+                ariaInvalid={this.status === "invalid"}
+                class={{
+                  [CSS.input]: true,
+                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
+                  [CSS.inputNoRightBorder]: this.range,
+                }}
+                disabled={disabled}
+                icon={ICONS.calendar}
+                label={this.range ? this.messages.startDate : this.messages.date}
+                oncalciteInputTextInput={this.calciteInternalInputInputHandler}
+                oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
+                oncalciteInternalInputTextFocus={this.startInputFocus}
+                placeholder={this.localeData?.placeholder}
+                readOnly={readOnly}
+                ref={this.setStartInput}
+                role="combobox"
+                scale={this.scale}
+                status={this.status}
+              />
+              {!this.readOnly &&
+                !this.range &&
+                this.renderToggleIcon(this.open && this.focusedInput === "start")}
+              <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
+              </span>
+            </div>
+            <div
+              ariaHidden={!this.open}
+              ariaLabel={messages.chooseDate}
+              ariaLive="polite"
+              ariaModal="true"
+              class={CSS.menu}
+              id={this.dialogId}
+              ref={this.setFloatingEl}
+              role="dialog"
+            >
+              <div
+                class={{
+                  [CSS.calendarWrapper]: true,
+                  [FloatingCSS.animation]: true,
+                  [FloatingCSS.animationActive]: this.open,
+                }}
+                ref={this.setTransitionEl}
+              >
+                <calcite-date-picker
+                  activeDate={this.datePickerActiveDate}
+                  activeRange={this.focusedInput}
+                  headingLevel={this.headingLevel}
+                  layout={this.layout}
+                  max={this.max}
+                  maxAsDate={this.maxAsDate}
+                  messageOverrides={this.messageOverrides}
+                  min={this.min}
+                  minAsDate={this.minAsDate}
+                  monthStyle={this.monthStyle}
+                  numberingSystem={numberingSystem}
+                  oncalciteDatePickerChange={this.handleDateChange}
+                  oncalciteDatePickerRangeChange={this.handleDateRangeChange}
+                  proximitySelectionDisabled={this.proximitySelectionDisabled}
+                  range={this.range}
+                  ref={this.setDatePickerRef}
+                  scale={this.scale}
+                  tabIndex={this.open ? undefined : -1}
+                  valueAsDate={this.valueAsDate}
+                />
+              </div>
+            </div>
+            {this.range && (
+              <div class={CSS.dividerContainer}>
+                <div class={CSS.divider} />
+              </div>
+            )}
+            {this.range && (
               <div
                 class={CSS.inputWrapper}
-                data-position="start"
+                data-position={POSITION.end}
                 onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
-                ref={this.setStartWrapper}
+                ref={this.setEndWrapper}
               >
                 <calcite-input-text
                   aria-controls={this.dialogId}
-                  aria-describedby={this.placeholderTextId}
-                  aria-errormessage={IDS.validationMessage}
                   ariaAutoComplete="none"
                   ariaExpanded={this.open}
                   ariaHasPopup="dialog"
-                  ariaInvalid={this.status === "invalid"}
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoRightBorder]: this.range,
+                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
+                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
+                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
                   }}
                   disabled={disabled}
-                  icon="calendar"
+                  icon={ICONS.calendar}
+                  label={this.messages.endDate}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
-                  oncalciteInternalInputTextFocus={this.startInputFocus}
+                  oncalciteInternalInputTextFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setStartInput}
+                  ref={this.setEndInput}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
                 />
-                {!this.readOnly &&
-                  !this.range &&
-                  this.renderToggleIcon(this.open && this.focusedInput === "start")}
-                <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                  {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
-                </span>
-              </div>
-              <div
-                ariaHidden={!this.open}
-                ariaLabel={messages.chooseDate}
-                ariaLive="polite"
-                ariaModal="true"
-                class={CSS.menu}
-                id={this.dialogId}
-                ref={this.setFloatingEl}
-                role="dialog"
-              >
-                <div
-                  class={{
-                    [CSS.calendarWrapper]: true,
-                    [FloatingCSS.animation]: true,
-                    [FloatingCSS.animationActive]: this.open,
-                  }}
-                  ref={this.setTransitionEl}
-                >
-                  <calcite-date-picker
-                    activeDate={this.datePickerActiveDate}
-                    activeRange={this.focusedInput}
-                    headingLevel={this.headingLevel}
-                    layout={this.layout}
-                    max={this.max}
-                    maxAsDate={this.maxAsDate}
-                    messageOverrides={this.messageOverrides}
-                    min={this.min}
-                    minAsDate={this.minAsDate}
-                    monthStyle={this.monthStyle}
-                    numberingSystem={numberingSystem}
-                    oncalciteDatePickerChange={this.handleDateChange}
-                    oncalciteDatePickerRangeChange={this.handleDateRangeChange}
-                    proximitySelectionDisabled={this.proximitySelectionDisabled}
-                    range={this.range}
-                    ref={this.setDatePickerRef}
-                    scale={this.scale}
-                    tabIndex={this.open ? undefined : -1}
-                    valueAsDate={this.valueAsDate}
-                  />
-                </div>
-              </div>
-              {this.range && (
-                <div class={CSS.dividerContainer}>
-                  <div class={CSS.divider} />
-                </div>
-              )}
-              {this.range && (
-                <div
-                  class={CSS.inputWrapper}
-                  data-position="end"
-                  onClick={this.onInputWrapperClick}
-                  onPointerDown={this.onInputWrapperPointerDown}
-                  ref={this.setEndWrapper}
-                >
-                  <calcite-input-text
-                    aria-controls={this.dialogId}
-                    ariaAutoComplete="none"
-                    ariaExpanded={this.open}
-                    ariaHasPopup="dialog"
-                    class={{
-                      [CSS.input]: true,
-                      [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                      [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                      [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
-                    }}
-                    disabled={disabled}
-                    icon="calendar"
-                    oncalciteInputTextInput={this.calciteInternalInputInputHandler}
-                    oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
-                    oncalciteInternalInputTextFocus={this.endInputFocus}
-                    placeholder={this.localeData?.placeholder}
-                    readOnly={readOnly}
-                    ref={this.setEndInput}
-                    role="combobox"
-                    scale={this.scale}
-                    status={this.status}
-                  />
-                  {!this.readOnly &&
-                    this.layout === "horizontal" &&
-                    this.renderToggleIcon(this.open)}
-                </div>
-              )}
-            </div>
-            {this.range && this.layout === "vertical" && (
-              <div class={CSS.verticalChevronContainer}>
-                <calcite-icon
-                  icon={this.open ? "chevron-up" : "chevron-down"}
-                  scale={getIconScale(this.scale)}
-                />
+                {!this.readOnly && this.layout === "horizontal" && this.renderToggleIcon(this.open)}
               </div>
             )}
           </div>
-        )}
+          {this.range && this.layout === "vertical" && (
+            <div class={CSS.verticalChevronContainer}>
+              <calcite-icon
+                icon={this.open ? ICONS.chevronUp : ICONS.chevronDown}
+                scale={getIconScale(this.scale)}
+              />
+            </div>
+          )}
+        </div>
         <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -1256,12 +1231,12 @@ export class InputDatePicker
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
           class={CSS.chevronIcon}
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>
     );
   }
 
-  // #endregion
+  //#endregion
 }

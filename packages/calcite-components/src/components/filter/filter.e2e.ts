@@ -1,12 +1,27 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
+import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import type { Filter } from "./filter";
+import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-filter", { display: "flex" });
   });
@@ -217,11 +232,11 @@ describe("calcite-filter", () => {
         "regex",
       ]);
 
-      const filterChangeEvent = page.waitForEvent("calciteFilterChange");
+      const filterChangeEventSpy = await page.spyOnEvent("calciteFilterChange");
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("developer");
-      await filterChangeEvent;
+      await filterChangeEventSpy.next();
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
@@ -245,25 +260,25 @@ describe("calcite-filter", () => {
     });
 
     it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("volt");
-      await waitForEvent;
+      await waitForEventSpy.next();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["franco"]);
     });
 
     it("should escape regex", async () => {
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
+      const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
       await page.waitForChanges();
       await filter.type("regex()");
-      await waitForEvent;
+      await waitForEventSpy.next();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
     });
@@ -357,5 +372,68 @@ describe("calcite-filter", () => {
 
   describe("translation support", () => {
     t9n("calcite-filter");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-filter></calcite-filter>`, {
+        "--calcite-filter-content-space": {
+          targetProp: "padding",
+          shadowSelector: `.${CSS.container}`,
+        },
+        "--calcite-filter-input-background-color": {
+          targetProp: "--calcite-input-background-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-border-color": {
+          targetProp: "--calcite-input-border-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-corner-radius": {
+          targetProp: "--calcite-input-corner-radius",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-shadow": {
+          targetProp: "--calcite-input-shadow",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-icon-color": {
+          targetProp: "--calcite-input-icon-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-text-color": {
+          targetProp: "--calcite-input-text-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-placeholder-text-color": {
+          targetProp: "--calcite-input-placeholder-text-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-background-color": {
+          targetProp: "--calcite-input-actions-background-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-background-color-hover": {
+          targetProp: "--calcite-input-actions-background-color-hover",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-background-color-press": {
+          targetProp: "--calcite-input-actions-background-color-press",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-icon-color": {
+          targetProp: "--calcite-input-actions-icon-color",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-icon-color-hover": {
+          targetProp: "--calcite-input-actions-icon-color-hover",
+          shadowSelector: "calcite-input",
+        },
+        "--calcite-filter-input-actions-icon-color-press": {
+          targetProp: "--calcite-input-actions-icon-color-press",
+          shadowSelector: "calcite-input",
+        },
+      });
+    });
   });
 });

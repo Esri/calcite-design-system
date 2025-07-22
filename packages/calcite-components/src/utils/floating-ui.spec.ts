@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
-import { waitForAnimationFrame } from "../tests/utils";
+import { waitForAnimationFrame } from "../tests/utils/timing";
+import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
 import type { positionFloatingUI } from "./floating-ui";
@@ -212,8 +213,12 @@ it("should have correct value for defaultOffsetDistance", () => {
   expect(defaultOffsetDistance).toBe(6);
 });
 
-it("should filter valid placements", () => {
-  expect(new Set(filterValidFlipPlacements([...placements], document.createElement("div")))).toEqual(
-    new Set(flipPlacements),
-  );
+describe("filterValidFlipPlacements", () => {
+  mockConsole();
+
+  it("should filter valid placements", () => {
+    expect(new Set(filterValidFlipPlacements([...placements], document.createElement("div")))).toEqual(
+      new Set(flipPlacements),
+    );
+  });
 });

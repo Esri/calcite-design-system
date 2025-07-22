@@ -109,19 +109,24 @@ describe("calcite-handle", () => {
   it("fires calciteHandleNudge event when focused and up or down key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-handle></calcite-handle>");
-
+    const handle = await page.find(`calcite-handle`);
+    const nudgeEventSpy = await handle.spyOnEvent("calciteHandleNudge");
     const calciteHandleNudgeSpy = await page.spyOnEvent<HandleNudge>("calciteHandleNudge");
 
-    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
-
-    await button.focus();
-
+    await handle.callMethod("setFocus");
     await page.keyboard.press(" ");
+    await page.waitForChanges();
     await page.keyboard.press("ArrowUp");
-    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
+    await page.waitForChanges();
+    await nudgeEventSpy.next();
+
+    expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
 
     await page.keyboard.press("ArrowDown");
-    expect(await calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
+    await page.waitForChanges();
+    await nudgeEventSpy.next();
+
+    expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
     expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
   });
 

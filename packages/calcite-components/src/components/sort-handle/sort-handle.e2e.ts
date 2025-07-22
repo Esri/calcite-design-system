@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { MoveEventDetail } from "./interfaces";
@@ -69,14 +69,17 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
-    expect(await calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+    expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
     expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("fires calciteSortHandleMove event", async () => {
@@ -98,14 +101,17 @@ describe("calcite-sort-handle", () => {
     const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
     await action.callMethod("setFocus");
 
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
+    await openEventSpy.next();
     expect(await sortHandle.getProperty("open")).toBe(true);
 
     await page.keyboard.press(" ");
     await page.waitForChanges();
-    expect(await calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+    expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("is disabled when no moveToItems, setPosition < 1 or setSize < 2", async () => {

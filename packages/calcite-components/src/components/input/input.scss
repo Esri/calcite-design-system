@@ -33,11 +33,6 @@
  *
  */
 
-@mixin input-placeholder-styles {
-  @apply font-normal;
-  color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
-}
-
 :host {
   @apply block;
 }
@@ -54,8 +49,7 @@
     min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-6;
   }
   & .clear-button {
@@ -81,8 +75,7 @@
     min-block-size: theme("spacing.8");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-8;
   }
   & .clear-button {
@@ -108,8 +101,7 @@
     min-block-size: theme("spacing.11");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-11;
   }
   & .clear-button {
@@ -158,21 +150,6 @@ input {
     @apply text-ellipsis;
   }
 }
-
-// Placeholder styles
-// Do not combine these style rules. The browser interprets the rule as one. When combined, properties like -ms can not be found in non-Microsoft browsers and thus the whole selector is invalidated and is ignored.
-:-ms-input-placeholder {
-  @include input-placeholder-styles;
-}
-
-::-ms-input-placeholder {
-  @include input-placeholder-styles;
-}
-
-::placeholder {
-  @include input-placeholder-styles;
-}
-// End Placeholder styles
 
 textarea {
   border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
@@ -632,6 +609,18 @@ input {
   }
 }
 
+:host([type="datetime-local"]) {
+  .element-wrapper {
+    inline-size: 100%;
+
+    input {
+      display: inline-block;
+      min-inline-size: 0;
+    }
+  }
+}
+
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include input-placeholder-text();

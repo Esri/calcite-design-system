@@ -1,11 +1,25 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
+ * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
+ * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered.
+ * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
+ * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
+ * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
+*/
+
 @mixin item-styling {
-  @apply text-color-3
-    relative
+  @apply relative
     flex
     flex-grow
     cursor-pointer
     items-center
     no-underline;
+
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
 }
 
 :host {
@@ -34,7 +48,6 @@
 .dropdown-item-icon {
   @apply relative
     opacity-0
-    duration-150
     ease-in-out;
   transform: scale(0.9);
 }
@@ -87,40 +100,47 @@
 //focus
 :host(:focus) {
   .container {
-    @apply focus-inset text-color-1 no-underline;
+    @apply focus-inset no-underline;
   }
+}
+
+:host(:hover:not([disabled])) {
+  .container {
+    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-foreground-2));
+  }
+}
+
+:host(:active:not([disabled])) .container {
+  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-foreground-3));
 }
 
 :host(:hover:not([disabled])),
 :host(:active:not([disabled])) {
   .container {
-    @apply bg-foreground-2 text-color-1 no-underline;
+    @apply no-underline;
+    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
   .dropdown-link {
-    @apply text-color-1;
+    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
-}
-
-:host(:active:not([disabled])) .container {
-  @apply bg-foreground-3;
 }
 
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .dropdown-link {
-  @apply text-color-1 font-medium;
-  & calcite-icon {
-    color: theme("backgroundColor.brand");
+  @apply font-medium;
+  color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+
+  calcite-icon {
+    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: theme("borderColor.color.1");
-  @apply opacity-100;
+  color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
 :host([selected]) .dropdown-item-icon {
-  color: theme("backgroundColor.brand");
   @apply opacity-100;
 }
 

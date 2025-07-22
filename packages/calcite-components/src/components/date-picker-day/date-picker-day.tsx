@@ -18,14 +18,10 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import type { DatePicker } from "../date-picker/date-picker";
 import { styles } from "./date-picker-day.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -33,7 +29,7 @@ declare global {
   }
 }
 
-export class DatePickerDay extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DatePickerDay extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -143,16 +139,11 @@ export class DatePickerDay extends LitElement implements InteractiveComponent, L
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -214,9 +205,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent, L
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div ariaHidden="true" class="day-wrapper">
-          <span class="day">
-            <span class="text">{formattedDay}</span>
+        <div ariaHidden="true" class={CSS.dayWrapper}>
+          <span class={CSS.day}>
+            <span class={CSS.text}>{formattedDay}</span>
           </span>
         </div>
       </InteractiveContainer>

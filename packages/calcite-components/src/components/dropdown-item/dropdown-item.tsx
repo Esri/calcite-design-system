@@ -13,12 +13,7 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { getIconScale } from "../../utils/component";
 import {
   InteractiveComponent,
@@ -27,7 +22,7 @@ import {
 } from "../../utils/interactive";
 import { IconNameOrString } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
 
 declare global {
@@ -37,7 +32,7 @@ declare global {
 }
 
 /** @slot - A slot for adding text. */
-export class DropdownItem extends LitElement implements InteractiveComponent, LoadableComponent {
+export class DropdownItem extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -158,16 +153,11 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.initialize();
   }
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -337,7 +327,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent, Lo
           {selectionMode !== "none" ? (
             <calcite-icon
               class={CSS.icon}
-              icon={selectionMode === "multiple" ? "check" : "bullet-point"}
+              icon={selectionMode === "multiple" ? ICONS.check : ICONS.bulletPoint}
               scale={getIconScale(this.scale)}
             />
           ) : null}

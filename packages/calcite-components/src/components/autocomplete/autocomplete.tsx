@@ -11,7 +11,7 @@ import {
   stringOrBoolean,
   LuminaJsx,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { debounce, escapeRegExp } from "lodash-es";
 import {
   FlipPlacement,
@@ -30,12 +30,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
@@ -52,12 +47,14 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
+import { componentFocusable } from "../../utils/component";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -83,17 +80,16 @@ export class Autocomplete
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    LoadableComponent,
     OpenCloseComponent,
     TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = guid();
 
@@ -112,11 +108,11 @@ export class Autocomplete
 
   formEl: HTMLFormElement;
 
-  private inputId = `autocomplete-input-${this.guid}`;
+  private inputId = IDS.input(this.guid);
 
   labelEl: Label["el"];
 
-  private listId = `autocomplete-list-${this.guid}`;
+  private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only
@@ -133,9 +129,19 @@ export class Autocomplete
 
   private inputValueMatchPattern: RegExp;
 
-  // #endregion
+  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
-  // #region State Properties
+  private resizeObserver = createObserver("resize", () => {
+    this.setFloatingElSize();
+  });
+
+  private cancelable = useCancelable<this>()(this);
+
+  private getAllItemsDebounced = debounce(this.getAllItems, 0);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() activeDescendant = "";
 
@@ -159,9 +165,9 @@ export class Autocomplete
     return this.items.filter((item) => !item.disabled);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -321,9 +327,9 @@ export class Autocomplete
   /** The component's value. */
   @property() value = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -383,12 +389,14 @@ export class Autocomplete
    */
   @method()
   async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
     return this.referenceEl.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAutocompleteBeforeClose = createEvent({ cancelable: false });
@@ -411,9 +419,9 @@ export class Autocomplete
   /** Fires each time a new `inputValue` is typed. */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -428,10 +436,10 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.getAllItemsDebounced();
   }
 
@@ -440,22 +448,16 @@ export class Autocomplete
       this.handleDisabledChange(this.disabled);
     }
 
-    if (changes.has("flipPlacements")) {
-      this.reposition(true);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      changes.has("flipPlacements") ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
-      this.reposition(true);
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
       this.reposition(true);
     }
 
@@ -491,7 +493,6 @@ export class Autocomplete
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
     this.defaultInputValue = this.inputValue || "";
-    setComponentLoaded(this);
     connectFloatingUI(this);
   }
 
@@ -503,9 +504,9 @@ export class Autocomplete
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
@@ -528,7 +529,7 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (!this.open) {
       this.activeIndex = -1;
@@ -558,12 +559,6 @@ export class Autocomplete
     await this.setFocus();
     this.open = false;
   }
-
-  private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
-
-  private resizeObserver = createObserver("resize", () => {
-    this.setFloatingElSize();
-  });
 
   onLabelClick(): void {
     this.setFocus();
@@ -641,8 +636,6 @@ export class Autocomplete
   private handleContentBottomSlotChange(event: Event): void {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
-
-  private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
   private getAllItems(): void {
     const { el } = this;
@@ -755,6 +748,7 @@ export class Autocomplete
   private inputHandler(event: CustomEvent): void {
     event.stopPropagation();
     this.inputValue = (event.target as Input["el"]).value;
+    this.open = this.inputValue?.length > 0;
     this.calciteAutocompleteTextInput.emit();
   }
 
@@ -764,12 +758,16 @@ export class Autocomplete
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
@@ -869,6 +867,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"
@@ -897,5 +896,5 @@ export class Autocomplete
       ));
   }
 
-  // #endregion
+  //#endregion
 }

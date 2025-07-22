@@ -17,7 +17,7 @@ import {
   listItemGroupSelector,
   listItemSelector,
   listSelector,
-  openAncestors,
+  expandedAncestors,
   updateListItemChildren,
 } from "../list-item/utils";
 import {
@@ -26,16 +26,12 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
@@ -43,7 +39,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode, ListMoveDetail } from "./interfaces";
+import { ListDragDetail, ListDisplayMode } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -62,21 +58,20 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponent
-{
-  // #region Static Members
+export class List extends LitElement implements InteractiveComponent, SortableComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   dragSelector = listItemSelector;
 
   filterEl: Filter["el"];
+
+  defaultSlotEl: HTMLSlotElement;
 
   private focusableItems: ListItem["el"][] = [];
 
@@ -96,6 +91,8 @@ export class List
   private parentListEl: List["el"];
 
   sortable: Sortable;
+
+  private cancelable = useCancelable<this>()(this);
 
   private updateListItems = debounce((): void => {
     this.updateGroupItems();
@@ -160,9 +157,16 @@ export class List
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willPerformFilter: boolean = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string;
 
@@ -194,11 +198,11 @@ export class List
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can  move from the list. */
+  /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: ListDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
@@ -230,7 +234,7 @@ export class List
   /** Placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value, group heading). */
+  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
@@ -284,13 +288,6 @@ export class List
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  /**
    * Specifies the nesting behavior of `calcite-list-item`s, where
    *
    * `"flat"` displays `calcite-list-item`s in a uniform list, and
@@ -334,9 +331,20 @@ export class List
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
+
+  /**
+   * Emits a `calciteListMoveHalt` event.
+   *
+   * @private
+   * @param dragDetail
+   */
+  @method()
+  putFailed(dragDetail: ListDragDetail): void {
+    this.calciteListMoveHalt.emit(dragDetail);
+  }
 
   /**
    * Sets focus on the component's first focusable element.
@@ -354,9 +362,9 @@ export class List
     return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
@@ -377,12 +385,15 @@ export class List
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
+
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -415,10 +426,10 @@ export class List
     this.setUpSorting();
     this.setParentList();
     this.setListItemGroups();
+    this.cancelable.add(this.updateListItems);
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.handleInteractionModeWarning();
   }
 
@@ -455,18 +466,14 @@ export class List
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleListItemChange(): void {
     this.willPerformFilter = true;
@@ -527,18 +534,20 @@ export class List
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentListEl) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleReorder(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentListEl) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleMove(event);
   }
 
@@ -608,10 +617,14 @@ export class List
   }
 
   private setUpSorting(): void {
-    const { dragEnabled } = this;
+    const { dragEnabled, defaultSlotEl } = this;
 
     if (!dragEnabled) {
       return;
+    }
+
+    if (defaultSlotEl) {
+      updateListItemChildren(defaultSlotEl);
     }
 
     connectSortableComponent(this);
@@ -627,10 +640,6 @@ export class List
 
   onDragEnd(detail: ListDragDetail): void {
     this.calciteListDragEnd.emit(detail);
-  }
-
-  onDragMove({ relatedEl }: ListMoveDetail): void {
-    relatedEl.open = true;
   }
 
   onDragStart(detail: ListDragDetail): void {
@@ -649,8 +658,7 @@ export class List
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
-    updateListItemChildren(event.target as HTMLSlotElement);
+  private handleDefaultSlotChange(): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
@@ -721,21 +729,21 @@ export class List
     });
   }
 
-  private allParentListItemsOpen(item: ListItem["el"]): boolean {
+  private allParentListItemsExpanded(item: ListItem["el"]): boolean {
     const parentItem = item.parentElement?.closest(listItemSelector);
 
     if (!parentItem) {
       return true;
-    } else if (!parentItem.open) {
+    } else if (!parentItem.expanded) {
       return false;
     }
 
-    return this.allParentListItemsOpen(parentItem);
+    return this.allParentListItemsExpanded(parentItem);
   }
 
   private borderItems(): void {
     const visibleItems = this.visibleItems.filter(
-      (item) => !item.filterHidden && this.allParentListItemsOpen(item),
+      (item) => !item.filterHidden && this.allParentListItemsExpanded(item),
     );
 
     visibleItems.forEach(
@@ -809,6 +817,10 @@ export class List
     this.filterAndUpdateData();
   }
 
+  private setDefaultSlotEl(el: HTMLSlotElement): void {
+    this.defaultSlotEl = el;
+  }
+
   private setFilterEl(el: Filter["el"]): void {
     this.filterEl = el;
     this.performFilter();
@@ -854,7 +866,7 @@ export class List
     this.moveToItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
 
     const groupItems = Array.from(this.el.querySelectorAll(listItemGroupSelector));
@@ -883,7 +895,7 @@ export class List
       return true;
     }
 
-    return parentListItemEl.open && this.isNavigable(parentListItemEl);
+    return parentListItemEl.expanded && this.isNavigable(parentListItemEl);
   }
 
   private handleListKeydown(event: KeyboardEvent): void {
@@ -950,8 +962,35 @@ export class List
     const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
     if (!fromEl) {
+      return;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      this.calciteListMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return;
+    }
+
+    if (
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
@@ -960,10 +999,7 @@ export class List
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    openAncestors(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isListItem);
-    const newIndex = toElItems.indexOf(dragEl);
-
+    expandedAncestors(dragEl);
     this.updateListItems();
     this.connectObserver();
 
@@ -1030,9 +1066,9 @@ export class List
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -1098,7 +1134,7 @@ export class List
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
-              <slot onSlotChange={this.handleDefaultSlotChange} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>
           <div
@@ -1152,5 +1188,5 @@ export class List
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }

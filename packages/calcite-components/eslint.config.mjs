@@ -4,6 +4,8 @@ import calcitePlugin from "@esri/eslint-plugin-calcite-components";
 import vitestPlugin from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import unusedImports from "eslint-plugin-unused-imports";
+import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
 
 export default tseslint.config(
   {
@@ -14,16 +16,20 @@ export default tseslint.config(
     extends: [calciteCoreConfig, calciteJsxConfig],
     plugins: {
       "@esri/calcite-components": calcitePlugin,
+      "unused-imports": unusedImports,
+      lumina: luminaPlugin,
     },
 
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ["tsconfig-eslint.json"],
+        project: ["tsconfig.eslint.json"],
       },
     },
 
     rules: {
+      "lumina/member-ordering": "warn",
+
       "no-restricted-imports": [
         "error",
         {
@@ -32,6 +38,11 @@ export default tseslint.config(
               group: ["tests/commonTests/*"],
               message:
                 "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+            },
+            {
+              group: ["tests/commonTests/browser/*"],
+              message:
+                "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
             },
           ],
         },
@@ -42,7 +53,17 @@ export default tseslint.config(
           property: "findAll",
           message: "Use custom findAll test util for more predictable (non-empty) result usage.",
         },
+        {
+          property: "waitForEvent",
+          message: "Use spyOnEvent and await on its next property instead for more reliable async event handling.",
+        },
+        {
+          property: "cancel",
+          message: "Use the useCancelable controller to manage cancelable resources.",
+        },
       ],
+
+      "unused-imports/no-unused-imports": "error",
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",

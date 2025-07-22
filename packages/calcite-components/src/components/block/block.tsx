@@ -9,13 +9,8 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { componentFocusable } from "../../utils/component";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -27,6 +22,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
+import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -45,17 +41,14 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, OpenCloseComponent
-{
-  // #region Static Members
+export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
+  //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   transitionProp = "margin-top" as const;
 
@@ -63,9 +56,16 @@ export class Block
 
   private sortHandleEl: SortHandle["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasContentStart = false;
 
@@ -77,9 +77,9 @@ export class Block
 
   @state() hasMenuActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -99,6 +99,9 @@ export class Block
    * @deprecated No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
+
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
 
   /**
    * The component header text.
@@ -136,21 +139,29 @@ export class Block
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Sets the item to display a border.
    *
    * @private
    */
   @property() moveToItems: MoveTo[] = [];
 
-  /** When `true`, expands the component and its contents. */
-  @property({ reflect: true }) open = false;
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -185,9 +196,9 @@ export class Block
    */
   @property({ reflect: true }) status: Status;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first tabbable element. */
   @method()
@@ -196,9 +207,9 @@ export class Block
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -231,17 +242,15 @@ export class Block
    */
   calciteBlockToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.transitionEl = this.el;
   }
 
   load(): void {
-    setUpLoadableComponent(this);
-
     if (!this.heading && !this.label) {
       logger.warn(
         `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
@@ -254,8 +263,8 @@ export class Block
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      onToggleOpenCloseComponent(this);
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+      toggleOpenClose(this);
     }
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
@@ -267,13 +276,10 @@ export class Block
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
   }
@@ -295,7 +301,7 @@ export class Block
       return;
     }
 
-    // we set the property instead of the attribute to ensure open/close events are emitted properly
+    // we set the property instead of the attribute to ensure expanded/collapsed events are emitted properly
     this.sortHandleEl.open = this.sortHandleOpen;
   }
 
@@ -327,7 +333,7 @@ export class Block
   }
 
   private onHeaderClick(): void {
-    this.open = !this.open;
+    this.expanded = !this.expanded;
     this.calciteBlockToggle.emit();
   }
 
@@ -351,9 +357,9 @@ export class Block
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderScrim(): JsxNode {
     const { loading } = this;
@@ -447,7 +453,7 @@ export class Block
     const {
       collapsible,
       loading,
-      open,
+      expanded,
       label,
       heading,
       messages,
@@ -460,7 +466,7 @@ export class Block
       dragDisabled,
     } = this;
 
-    const toggleLabel = open ? messages.collapse : messages.expand;
+    const toggleLabel = expanded ? messages.collapse : messages.expand;
 
     const headerContent = (
       <header
@@ -474,7 +480,7 @@ export class Block
       </header>
     );
 
-    const collapseIcon = open ? ICONS.opened : ICONS.closed;
+    const collapseIcon = expanded ? ICONS.expanded : ICONS.collapsed;
 
     const headerNode = (
       <div class={CSS.headerContainer}>
@@ -497,7 +503,7 @@ export class Block
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? open : null}
+            ariaExpanded={collapsible ? expanded : null}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
@@ -543,7 +549,12 @@ export class Block
           }}
         >
           {headerNode}
-          <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+          <section
+            aria-labelledby={IDS.toggle}
+            class={CSS.content}
+            hidden={!expanded}
+            id={IDS.content}
+          >
             {this.renderScrim()}
           </section>
         </article>
@@ -551,5 +562,5 @@ export class Block
     );
   }
 
-  // #endregion
+  //#endregion
 }

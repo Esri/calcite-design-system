@@ -4,11 +4,12 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-switch-background-color: Specifies the component's background color.
- * @prop --calcite-switch-border-color: Specifies the component's border color.
+ * @prop --calcite-switch-background-color-hover: Specifies the component's background color when hovered or pressed.
+ * @prop --calcite-switch-border-color: [Deprecated] No longer necessary. Specifies the component's border color.
  * @prop --calcite-switch-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-switch-handle-background-color: Specifies the handle's background color.
- * @prop --calcite-switch-handle-border-color: Specifies the handle's border color.
- * @prop --calcite-switch-handle-shadow: Specifies the handle's shadow.
+ * @prop --calcite-switch-handle-border-color: [Deprecated] No longer necessary. Specifies the handle's border color.
+ * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
  */
 
 // sizes
@@ -69,59 +70,47 @@
     relative
     box-border
     inline-block
-    border
-    border-solid
     align-top
     focus-base;
 
   border-radius: var(--calcite-switch-corner-radius, 9999px);
-  border-color: var(--calcite-switch-border-color, var(--calcite-color-border-2));
-  background-color: var(--calcite-switch-background-color, var(--calcite-color-foreground-2));
+  border-color: var(--calcite-switch-border-color);
+  background-color: var(--calcite-switch-background-color, var(--calcite-color-border-input));
 }
 
 .container:focus .track {
   @apply focus-outset;
 }
 
+.container:hover .track {
+  background-color: var(--calcite-switch-background-color-hover, var(--calcite-color-text-3));
+}
+
 .handle {
   @apply pointer-events-none
     absolute
     block
-    border-2
-    border-solid
     transition-all
-    duration-150
     ease-in-out;
-  inset-block-start: -1px;
-  inset-inline: -1px theme("inset.auto");
+  inset-block-start: var(--calcite-spacing-base);
+  inset-inline: var(--calcite-spacing-base) auto;
   background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
-  border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-border-input));
+  border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
   box-shadow: var(--calcite-switch-handle-shadow);
 }
 
-:host(:hover:not([disabled])),
-:host(:focus:not([disabled])) {
-  .handle {
-    border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand));
-    box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand));
-  }
-}
-
 :host([checked]) {
   .track {
-    border-color: var(--calcite-switch-border-color, var(--calcite-color-brand-hover));
     background-color: var(--calcite-switch-background-color, var(--calcite-color-brand));
   }
   .handle {
-    border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand));
-    inset-inline: theme("inset.auto") -1px;
+    inset-inline: auto var(--calcite-spacing-base);
   }
 
   &:host(:hover:not([disabled])) {
-    .handle {
-      border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-brand-hover));
-      box-shadow: var(--calcite-switch-handle-shadow, inset 0 0 0 1px var(--calcite-color-brand-hover));
+    .track {
+      background-color: var(--calcite-switch-background-color-hover, var(--calcite-color-brand-hover));
     }
   }
 }

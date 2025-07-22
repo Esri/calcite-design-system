@@ -351,7 +351,10 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        await (isDirectionLeft ? this.nextMonthAction.setFocus() : this.prevMonthAction.setFocus());
+        const target = isDirectionLeft ? this.nextMonthAction : this.prevMonthAction;
+        // enabling the action to be focusable when min & max are one month apart.
+        target.disabled = false;
+        await target.setFocus();
       } else {
         this.yearInputEl.value.focus();
       }
@@ -477,9 +480,7 @@ export class DatePickerMonthHeader extends LitElement {
       <span class={CSS.yearContainer}>
         <input
           ariaLabel={this.messages.year}
-          class={{
-            year: true,
-          }}
+          class={{ [CSS.year]: true }}
           inputMode="numeric"
           maxLength="4"
           minLength="1"

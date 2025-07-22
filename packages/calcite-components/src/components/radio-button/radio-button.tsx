@@ -15,12 +15,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { CSS } from "./resources";
@@ -34,7 +29,7 @@ declare global {
 
 export class RadioButton
   extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
 {
   // #region Static Members
 
@@ -194,10 +189,6 @@ export class RadioButton
     super.connectedCallback();
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -221,8 +212,6 @@ export class RadioButton
   }
 
   loaded(): void {
-    setComponentLoaded(this);
-
     if (this.focused && !this.disabled) {
       this.setFocus();
     }
@@ -423,8 +412,6 @@ export class RadioButton
     ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
-    const radioButtonsLength = radioButtons.length;
-
     radioButtons.some((item, index) => {
       if (item.checked) {
         currentIndex = index;
@@ -438,17 +425,35 @@ export class RadioButton
         event.preventDefault();
         this.selectItem(
           radioButtons,
-          getRoundRobinIndex(Math.max(currentIndex - 1, -1), radioButtonsLength),
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "left"),
         );
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        this.selectItem(radioButtons, getRoundRobinIndex(currentIndex + 1, radioButtonsLength));
+        this.selectItem(
+          radioButtons,
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "right"),
+        );
         return;
       default:
         return;
     }
+  }
+
+  private getNextNonDisabledIndex(
+    radioButtons: RadioButton["el"][],
+    startIndex: number,
+    dir: "left" | "right",
+  ): number {
+    const totalButtons = radioButtons.length;
+    const offset = dir === "left" ? -1 : 1;
+    let selectIndex = getRoundRobinIndex(startIndex + offset, totalButtons);
+    while (radioButtons[selectIndex].disabled) {
+      selectIndex = getRoundRobinIndex(selectIndex + offset, totalButtons);
+    }
+
+    return selectIndex;
   }
 
   private onContainerBlur(): void {
@@ -481,7 +486,7 @@ export class RadioButton
           role="radio"
           tabIndex={tabIndex}
         >
-          <div class="radio" />
+          <div class={CSS.radio} />
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

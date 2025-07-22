@@ -1,4 +1,7 @@
 {
   "chooseDate": "Избор на дата",
-  "dateFormat": "Формат на дата: {format}"
+  "date": "Дата",
+  "dateFormat": "Формат на дата: {format}",
+  "endDate": "Крайна дата",
+  "startDate": "Начална дата"
 }

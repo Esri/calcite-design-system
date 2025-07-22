@@ -2578,7 +2578,7 @@
     "release": "2.3.2"
   },
   "person2": {
-    "alias": ["2.3.3", "people", "human", "accessibility "],
+    "alias": ["2.3.3", "people", "human", "accessibility"],
     "category": "People",
     "release": "2.3.3"
   },
@@ -5352,7 +5352,7 @@
     "release": "3.17.8"
   },
   "language-translate": {
-    "alias": ["3.17.8", "communication", "interchange", "lexicon", "conversation", "word", "countries "],
+    "alias": ["3.17.8", "communication", "interchange", "lexicon", "conversation", "word", "countries"],
     "category": "Generic",
     "release": "3.17.8"
   },
@@ -5659,18 +5659,7 @@
     "release": "3.18.6"
   },
   "contingent-values": {
-    "alias": [
-      "3.18.6",
-      "forms",
-      "table",
-      "value",
-      "connected",
-      "levels",
-      "field",
-      "forms",
-      "dependent",
-      "conditional "
-    ],
+    "alias": ["3.18.6", "forms", "table", "value", "connected", "levels", "field", "forms", "dependent", "conditional"],
     "category": "Forms",
     "release": "3.18.6"
   },
@@ -5849,10 +5838,10 @@
       "bug",
       "code",
       "find",
-      "search                                                              "
+      "search"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "configure": {
     "alias": [
@@ -5870,8 +5859,8 @@
       "list",
       "menu"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "debug-script": {
     "alias": [
@@ -5895,13 +5884,13 @@
       "hardware",
       "software"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "profile-variables": {
     "alias": ["3.19.1", "generic", "variables", "math", "equation", "x", "mathematics", "parentheses", "calculation"],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "test-data": {
     "alias": [
@@ -5917,8 +5906,8 @@
       "check mark",
       "find"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "rfid": {
     "alias": [
@@ -6033,7 +6022,7 @@
     "release": "3.19.4"
   },
   "number-circle-4": {
-    "alias": ["3.19.4", "numbers", " circle", "4", "four"],
+    "alias": ["3.19.4", "numbers", "circle", "4", "four"],
     "category": "Numbers",
     "release": "3.19.4"
   },
@@ -6241,7 +6230,7 @@
       "signal",
       "on",
       "off",
-      "fill "
+      "fill"
     ],
     "category": "Objects",
     "release": "3.20.2"
@@ -6292,13 +6281,13 @@
     "release": "3.20.2"
   },
   "files-csv-collection": {
-    "alias": ["3.20.3 ", "files", "csv", "esri", "definition", "format", "extension", "collection", "file type"],
+    "alias": ["3.20.3", "files", "csv", "esri", "definition", "format", "extension", "collection", "file type"],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "file-ppt": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "files",
       "ppt",
       "esri",
@@ -6313,11 +6302,11 @@
       "file type"
     ],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "file-sqlite": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "files",
       "sqlite",
       "feather",
@@ -6329,11 +6318,11 @@
       "file type"
     ],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "browser-map": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "windows",
       "os",
       "map",
@@ -6345,12 +6334,12 @@
       "mapping software"
     ],
     "category": "Windows",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "dimensions": {
-    "alias": [" 3.20.4", " generic", "measure", "size", "scale", "width", "height", "dimensions"],
-    "category": " Generic",
-    "release": " 3.20.4"
+    "alias": ["3.20.4", "generic", "measure", "size", "scale", "width", "height", "dimensions"],
+    "category": "Generic",
+    "release": "3.20.4"
   },
   "triangle": {
     "alias": ["3.20.5", "symbols", "shapes", "single shape", "geometry", "glyphs", "generic"],
@@ -6363,13 +6352,13 @@
     "release": "3.20.5"
   },
   "label-off": {
-    "alias": [" 3.20.6", "objects", "turn off", "hide", "remove", "labels", "disappear"],
+    "alias": ["3.20.6", "objects", "turn off", "hide", "remove", "labels", "disappear"],
     "category": "Objects",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "decrease-link-chart-symbol-size": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "circle",
       "link chart",
@@ -6382,11 +6371,11 @@
       "data model"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "find-path": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "magnifying glass",
       "link chart",
@@ -6400,11 +6389,11 @@
       "route"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "geographic-link-chart-layout": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "map",
       "link chart",
@@ -6418,11 +6407,11 @@
       "layout"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "increase-link-chart-symbol-size": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "circle",
       "link chart",
@@ -6436,11 +6425,11 @@
       "scale"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "investigation": {
     "alias": [
-      " 3.25.2",
+      "3.25.2",
       "generic",
       "knowledge graph",
       "briefcase",
@@ -6454,11 +6443,11 @@
       "data model"
     ],
     "category": "Generic",
-    "release": " 3.25.2"
+    "release": "3.25.2"
   },
   "knowledge-graph": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6471,11 +6460,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-dashboard": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6490,11 +6479,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-data-model": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "database canister",
       "link chart",
@@ -6511,11 +6500,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-export": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6531,11 +6520,11 @@
       "arrow"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-import": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6551,11 +6540,11 @@
       "arrow"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-new": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6570,11 +6559,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-relationship": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6588,11 +6577,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-layer": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "layer type",
       "link chart",
@@ -6606,11 +6595,11 @@
       "scale"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "link-chart": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6625,7 +6614,7 @@
       "select"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "all-servers": {
     "alias": ["3.20.7", "gis", "connections", "connected", "networks"],
@@ -6668,7 +6657,7 @@
     "release": "3.20.7"
   },
   "personal-homepage": {
-    "alias": [" 3.20.8", "generic", "Generic", " 3.20.8", "home", "user", "house", "person", "single "],
+    "alias": ["3.20.8", "generic", "Generic", "3.20.8", "home", "user", "house", "person", "single"],
     "category": "Generic",
     "release": "3.20.8"
   },
@@ -6747,27 +6736,27 @@
     "release": "3.21.0"
   },
   "graph-pie-slice": {
-    "alias": [" 3.21.1", "charts and graphs", "pie", "chart", "slice", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "pie", "chart", "slice", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-line-series": {
-    "alias": [" 3.21.1", "charts and graphs", "lines", "chart", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "lines", "chart", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-guides": {
-    "alias": [" 3.21.1", "charts and graphs", "guides", "chart", "guide", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "guides", "chart", "guide", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-axis": {
-    "alias": [" 3.21.1", "charts and graphs", "axis", "chart", "x", "y", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "axis", "chart", "x", "y", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "read-only-non-editable": {
-    "alias": ["3.21.2", "objects", "pencil", "do not", "backslash", "prohibited", "don't edit "],
+    "alias": ["3.21.2", "objects", "pencil", "do not", "backslash", "prohibited", "don't edit"],
     "category": "Objects",
     "release": "3.21.2"
   },
@@ -6779,12 +6768,12 @@
   "asterisk-small": {
     "alias": ["Generic", "3.21.6", "asterisk", "required", "symbol", "small", "star", "starburst"],
     "category": "Generic",
-    "release": " 3.21.6"
+    "release": "3.21.6"
   },
   "asterisk-large": {
     "alias": ["Generic", "3.21.6", "asterisk", "required", "symbol", "large", "star", "starburst"],
     "category": "Generic",
-    "release": " 3.21.6"
+    "release": "3.21.6"
   },
   "heading-layout": {
     "alias": ["3.21.7", "text", "heading", "layout", "title", "words", "list", "bold text", "large text"],
@@ -7080,7 +7069,7 @@
       "3.22.3",
       "numbers",
       "filled",
-      " circle",
+      "circle",
       "list item",
       "number circle 4",
       "fourth item",
@@ -7378,7 +7367,7 @@
     "release": "3.23.3"
   },
   "update-project": {
-    "alias": [" 3.23.4", "objects", "briefcase", "arrows", "portfolio case", "refresh", "update", "projects"],
+    "alias": ["3.23.4", "objects", "briefcase", "arrows", "portfolio case", "refresh", "update", "projects"],
     "category": "Objects",
     "release": "3.23.4"
   },
@@ -7497,7 +7486,7 @@
     "release": "3.23.6"
   },
   "channels": {
-    "alias": ["3.23.6", "generic", "discussion", "api", "chat", "teams", "text", "post", "social "],
+    "alias": ["3.23.6", "generic", "discussion", "api", "chat", "teams", "text", "post", "social"],
     "category": "Generic",
     "release": "3.23.6"
   },
@@ -7872,7 +7861,7 @@
     "release": "3.24.6"
   },
   "configure-grid-unit": {
-    "alias": ["3.25.2", "gis", "indoors", "grids", "modify", "gear", "changes", "units", "spaces "],
+    "alias": ["3.25.2", "gis", "indoors", "grids", "modify", "gear", "changes", "units", "spaces"],
     "category": "GIS",
     "release": "3.25.2"
   },
@@ -9292,18 +9281,7 @@
     "release": "4.0.0"
   },
   "add-link-chart-root-nodes": {
-    "alias": [
-      "4.0.0",
-      "knowledge graph",
-      "filter",
-      "points",
-      "model",
-      "select",
-      "add to",
-      "nodes",
-      "area",
-      "distance "
-    ],
+    "alias": ["4.0.0", "knowledge graph", "filter", "points", "model", "select", "add to", "nodes", "area", "distance"],
     "category": "Knowledge Graph",
     "release": "4.0.0"
   },
@@ -9502,5 +9480,387 @@
     "alias": ["4.0.0", "gis", "distance", "two", "gap", "span", "reach"],
     "category": "GIS",
     "release": "4.0.0"
+  },
+  "language-2": {
+    "alias": ["4.0.1", "generic", "speech", "dialect", "tongue", "vernacular"],
+    "category": "Generic",
+    "release": "4.0.1"
+  },
+  "browser-join": {
+    "alias": ["4.1.0", "windows", "web", "explore", "combine", "tables"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "browser-plus": {
+    "alias": ["4.1.0", "windows", "web", "add", "explore", "table"],
+    "category": "Windows",
+    "release": "4.1.0"
+  },
+  "parameters": {
+    "alias": ["4.1.1", "text", "framework", "limitation", "restriction", "specification"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "map-information": {
+    "alias": ["4.1.1", "gis", "map", "guide", "instructions"],
+    "category": "GIS",
+    "release": "4.1.1"
+  },
+  "parameters-gear": {
+    "alias": ["4.1.1", "text", "limit", "guideline", "criteria", "tool"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "layer-set": {
+    "alias": ["4.1.1", "layers", "tier", "stack", "bed", "stratum"],
+    "category": "Layers",
+    "release": "4.1.1"
+  },
+  "double-float-set": {
+    "alias": ["4.1.1", "text", "floating", "precision", "memory"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "variable-plus": {
+    "alias": ["4.1.1", "text", "add", "changeable", "fluctating", "inconstant"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "parameters-plus": {
+    "alias": ["4.1.1", "text", "framework", "restriction", "guideline", "limit"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "multiple-variables-set": {
+    "alias": ["4.1.1", "symbols", "changeable", "many", "numbers"],
+    "category": "Symbols",
+    "release": "4.1.1"
+  },
+  "string-set": {
+    "alias": ["4.1.1", "text", "chain", "sequence", "series", "group", "collection"],
+    "category": "Text",
+    "release": "4.1.1"
+  },
+  "table-set": {
+    "alias": ["4.1.1", "generic", "setting", "cover", "arrangement", "columns", "features"],
+    "category": "Generic",
+    "release": "4.1.1"
+  },
+  "mooc": {
+    "alias": ["4.2.0", "education", "courses", "training", "online", "graduation", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-gis-workflow": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "gis",
+      "lab",
+      "workflow",
+      "plan",
+      "interact",
+      "system",
+      "roadmap",
+      "productivity",
+      "map"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-steps": {
+    "alias": ["4.2.0", "education", "learning", "plan", "steps", "workflow", "planner", "number", "chronological"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "storymap-experience": {
+    "alias": ["4.2.0", "education", "web", "app", "logo", "app", "product"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "document-learning": {
+    "alias": ["4.2.0", "education", "document", "learning", "pencil", "note", "folder", "write", "class"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "learning-web-course": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "learning",
+      "web",
+      "course",
+      "online",
+      "virtual",
+      "internet",
+      "interactive",
+      "cloud"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "classroom-gis": {
+    "alias": ["4.2.0", "education", "classroom", "gis", "presenter", "desk", "podium", "map", "teacher"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "video-learning": {
+    "alias": [
+      "4.2.0",
+      "education",
+      "video",
+      "learning",
+      "visual",
+      "coffee",
+      "playback",
+      "relax",
+      "record",
+      "clip",
+      "cup",
+      "warm"
+    ],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "e-learning-gis": {
+    "alias": ["4.2.0", "education", "learning", "gis", "presenter", "online", "video", "virtual", "asynchronous"],
+    "category": "Education",
+    "release": "4.2.0"
+  },
+  "mosaic-method-mean": {
+    "alias": ["4.2.0", "gis", "analysis", "error", "computer", "diagnosis"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-by-attribute": {
+    "alias": ["4.2.0", "gis", "sort-by", "atttribute", "data", "mosaic"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-blend": {
+    "alias": ["4.2.0", "gis", "combine", "merge", "fuse", "composite"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-nadir": {
+    "alias": ["4.2.0", "gis", "raster", "bottom", "lowest-point", "rock-bottom", "data"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-closest-to-center": {
+    "alias": ["4.2.0", "gis", "center", "target", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-first": {
+    "alias": ["4.2.0", "gis", "collage", "composition", "fusion", "first"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-last": {
+    "alias": ["4.2.0", "gis", "final", "terminal", "concluding", "completion", "culmination"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-north-west": {
+    "alias": ["4.2.0", "gis", "number", "method", "modify", "dataset"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-lock-raster": {
+    "alias": ["4.2.0", "gis", "technique", "select", "attribute", "spatial", "control"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-maximum": {
+    "alias": ["4.2.0", "gis", "dataset", "mixture", "collage", "blend", "variety"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-minimum": {
+    "alias": ["4.2.0", "gis", "smallest", "minimum", "collage", "small-scale"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-sum": {
+    "alias": ["4.2.0", "gis", "blend", "mix", "whole", "total"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-none": {
+    "alias": ["4.2.0", "gis", "nothing", "uncombined", "unblended", "separated", "disassembled"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "mosaic-method-seamline": {
+    "alias": ["4.2.0", "gis", "boundary", "edge", "line", "border"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "calendar-heat-chart": {
+    "alias": ["4.2.0", "gis", "data", "display", "calendar", "value", "patterns"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "matrix-heat-chart": {
+    "alias": ["4.2.0", "gis", "analysis", "categorical", "count", "variable"],
+    "category": "GIS",
+    "release": "4.2.0"
+  },
+  "progress-bar-chart": {
+    "alias": ["4.2.0", "charts and graphs", "indicator", "input", "control", "adjustment"],
+    "category": "Charts and Graphs",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "open", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outline", "shape"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "spike-data-visualization-outlined-open-color-locked": {
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
+    "category": "Generic",
+    "release": "4.2.0"
+  },
+  "transfer": {
+    "alias": ["4.2.1", "people", "move", "shift", "remove", "conduct", "transmit"],
+    "category": "People",
+    "release": "4.2.1"
+  },
+  "tapestry": {
+    "alias": ["4.2.1", "brand", "segmentation", "data", "classification", "group"],
+    "category": "Brand",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "spike-data-visualization-outlined-open-gradient": {
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
+    "category": "Generic",
+    "release": "4.2.1"
+  },
+  "subheading-1-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-2-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-4-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-3-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "subheading-5-rtl": {
+    "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
+    "category": "Text",
+    "release": "4.2.1"
+  },
+  "image-navigation": {
+    "alias": ["4.3.0", "generic", "gps", "image", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "sequential-navigation": {
+    "alias": ["4.3.0", "generic", "sequence", "gps", "location", "direction"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "directional-navigation": {
+    "alias": ["4.3.0", "generic", "direction", "gps", "location", "instructions"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "content-side-by-side-right": {
+    "alias": ["4.3.0", "windows", "table", "content", "html", "css"],
+    "category": "Windows",
+    "release": "4.3.0"
+  },
+  "location-label": {
+    "alias": ["4.3.0", "gis", "marker", "navigation", "map", "identify", "data"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "create", "location", "point", "radius", "pass"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "bezier-curve": {
+    "alias": ["4.3.0", "geometry editing", "nonlinear", "create", "shape", "angle", "height"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "tangent-curve": {
+    "alias": ["4.3.0", "geometry editing", "create", "segments", "points", "circular"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "arrow-curve-tool": {
+    "alias": ["4.3.0", "geometry editing", "tool", "map", "points", "midpoint", "line"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "end-point-arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "circular", "create", "typing", "define", "point"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "dimensions-centered": {
+    "alias": ["4.3.0", "generic", "alignment", "placement", "position", "settings"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "person-magnifying-glass": {
+    "alias": ["4.3.0", "people", "launch", "preview", "information", "magnify", "user"],
+    "category": "People",
+    "release": "4.3.0"
+  },
+  "arrow-left-10": {
+    "alias": ["4.3.0", "arrows", "video", "direction", "scrub", "time"],
+    "category": "Arrows",
+    "release": "4.3.0"
+  },
+  "arrow-right-10": {
+    "alias": ["4.3.0", "arrows", "skip", "ahead", "time", "scrub", "direction"],
+    "category": "Arrows",
+    "release": "4.3.0"
   }
 }

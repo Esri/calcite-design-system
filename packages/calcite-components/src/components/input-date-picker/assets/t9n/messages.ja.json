@@ -1,4 +1,7 @@
 {
   "chooseDate": "日付の選択",
-  "dateFormat": "日付形式: {format}"
+  "date": "日付",
+  "dateFormat": "日付形式: {format}",
+  "endDate": "終了日",
+  "startDate": "開始日"
 }

@@ -1,10 +1,4 @@
 // @ts-strict-ignore
-import dayjs from "dayjs/esm/index.js";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat/index.js";
-import localeData from "dayjs/esm/plugin/localeData/index.js";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat/index.js";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat/index.js";
-import updateLocale from "dayjs/esm/plugin/updateLocale/index.js";
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -12,7 +6,6 @@ import {
   createEvent,
   h,
   method,
-  state,
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
@@ -30,51 +23,26 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
-import {
-  localizedTwentyFourHourMeridiems,
-  getSupportedLocale,
-  NumberingSystem,
-  numberStringFormatter,
-  SupportedLocale,
-} from "../../utils/locale";
-import {
-  formatTimePart,
-  formatTimeString,
-  FractionalSecondDigits,
-  getLocaleHourFormat,
-  getLocaleOppositeHourFormat,
-  getMeridiemFormatToken,
-  getMeridiemOrder,
-  EffectiveHourFormat,
-  isLocaleHourFormatOpposite,
-  isValidTime,
-  localizeTimeString,
-  toISOTimeString,
-  HourFormat,
-} from "../../utils/time";
+import { componentFocusable } from "../../utils/component";
+import { NumberingSystem } from "../../utils/locale";
+import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable } from "../../utils/dom";
+import { focusFirstTabbable, getElementDir } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
-import type { InputText } from "../input-text/input-text";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
+import { isValidNumber } from "../../utils/number";
+import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, ICONS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -82,126 +50,56 @@ declare global {
   }
 }
 
-// some bundlers (e.g., Webpack) need dynamic import paths to be static
-const supportedDayjsLocaleToLocaleConfigImport = new Map([
-  ["ar", () => import("dayjs/esm/locale/ar.js")],
-  ["bg", () => import("dayjs/esm/locale/bg.js")],
-  ["bs", () => import("dayjs/esm/locale/bs.js")],
-  ["ca", () => import("dayjs/esm/locale/ca.js")],
-  ["cs", () => import("dayjs/esm/locale/cs.js")],
-  ["da", () => import("dayjs/esm/locale/da.js")],
-  ["de", () => import("dayjs/esm/locale/de.js")],
-  ["de-at", () => import("dayjs/esm/locale/de-at.js")],
-  ["de-ch", () => import("dayjs/esm/locale/de-ch.js")],
-  ["el", () => import("dayjs/esm/locale/el.js")],
-  ["en", () => import("dayjs/esm/locale/en.js")],
-  ["en-au", () => import("dayjs/esm/locale/en-au.js")],
-  ["en-ca", () => import("dayjs/esm/locale/en-ca.js")],
-  ["en-gb", () => import("dayjs/esm/locale/en-gb.js")],
-  ["es", () => import("dayjs/esm/locale/es.js")],
-  ["es-mx", () => import("dayjs/esm/locale/es-mx.js")],
-  ["et", () => import("dayjs/esm/locale/et.js")],
-  ["fi", () => import("dayjs/esm/locale/fi.js")],
-  ["fr", () => import("dayjs/esm/locale/fr.js")],
-  ["fr-ch", () => import("dayjs/esm/locale/fr-ch.js")],
-  ["he", () => import("dayjs/esm/locale/he.js")],
-  ["hi", () => import("dayjs/esm/locale/hi.js")],
-  ["hr", () => import("dayjs/esm/locale/hr.js")],
-  ["hu", () => import("dayjs/esm/locale/hu.js")],
-  ["id", () => import("dayjs/esm/locale/id.js")],
-  ["it", () => import("dayjs/esm/locale/it.js")],
-  ["it-ch", () => import("dayjs/esm/locale/it-ch.js")],
-  ["ja", () => import("dayjs/esm/locale/ja.js")],
-  ["ko", () => import("dayjs/esm/locale/ko.js")],
-  ["lt", () => import("dayjs/esm/locale/lt.js")],
-  ["lv", () => import("dayjs/esm/locale/lv.js")],
-  ["mk", () => import("dayjs/esm/locale/mk.js")],
-  ["nl", () => import("dayjs/esm/locale/nl.js")],
-  ["nb", () => import("dayjs/esm/locale/nb.js")],
-  ["pl", () => import("dayjs/esm/locale/pl.js")],
-  ["pt", () => import("dayjs/esm/locale/pt.js")],
-  ["pt-br", () => import("dayjs/esm/locale/pt-br.js")],
-  ["ro", () => import("dayjs/esm/locale/ro.js")],
-  ["ru", () => import("dayjs/esm/locale/ru.js")],
-  ["sk", () => import("dayjs/esm/locale/sk.js")],
-  ["sl", () => import("dayjs/esm/locale/sl.js")],
-  ["sr", () => import("dayjs/esm/locale/sr.js")],
-  ["sv", () => import("dayjs/esm/locale/sv.js")],
-  ["th", () => import("dayjs/esm/locale/th.js")],
-  ["tr", () => import("dayjs/esm/locale/tr.js")],
-  ["uk", () => import("dayjs/esm/locale/uk.js")],
-  ["vi", () => import("dayjs/esm/locale/vi.js")],
-  ["zh-cn", () => import("dayjs/esm/locale/zh-cn.js")],
-  ["zh-hk", () => import("dayjs/esm/locale/zh-hk.js")],
-  ["zh-tw", () => import("dayjs/esm/locale/zh-tw.js")],
-]);
-
-dayjs.extend(customParseFormat);
-dayjs.extend(localeData);
-dayjs.extend(localizedFormat);
-dayjs.extend(preParsePostFormat);
-dayjs.extend(updateLocale);
-
-interface DayjsTimeParts {
-  hour: number;
-  minute: number;
-  second: number;
-  millisecond: number;
-}
-
-interface GetLocalizedTimeStringParameters {
-  hourFormat?: EffectiveHourFormat;
-  isoTimeString?: string;
-  locale?: SupportedLocale;
-  numberingSystem?: NumberingSystem;
-}
-
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, LoadableComponent
+  implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  private calciteTimePickerEl: TimePicker["el"];
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private activeEl: HTMLSpanElement;
+
+  private containerEl: HTMLDivElement;
 
   defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
 
+  private fractionalSecondEl: HTMLSpanElement;
+
+  private hourEl: HTMLSpanElement;
+
+  private meridiemEl: HTMLSpanElement;
+
+  private minuteEl: HTMLSpanElement;
+
   labelEl: Label["el"];
-
-  private localeConfig: ILocale;
-
-  private localeDefaultLTFormat: string;
-
-  private localeDefaultLTSFormat: string;
 
   private popoverEl: Popover["el"];
 
-  /** whether the value of the input was changed as a result of user typing or not */
-  private userChangedValue = false;
+  private previousEmittedValue: string;
 
-  private _value = null;
+  private secondEl: HTMLSpanElement;
 
-  // #endregion
+  private time = useTime(this);
 
-  // #region State Properties
+  //#endregion
 
-  @state() calciteInputEl: InputText["el"];
-
-  @state() effectiveHourFormat: EffectiveHourFormat;
-
-  // #endregion
-
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -227,6 +125,9 @@ export class InputTimePicker
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
+  /** Accessible name for the component. */
+  @property() label: string;
+
   /**
    * When the component resides in a form,
    * specifies the maximum value.
@@ -237,13 +138,6 @@ export class InputTimePicker
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -257,7 +151,7 @@ export class InputTimePicker
   @property() name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
@@ -294,7 +188,7 @@ export class InputTimePicker
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
-  @property() step = 60;
+  @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
@@ -325,22 +219,11 @@ export class InputTimePicker
   };
 
   /** The time value in ISO (24-hour) format. */
-  @property()
-  get value(): string {
-    return this._value;
-  }
+  @property() value: string;
 
-  set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.valueWatcher(value);
-    }
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -359,9 +242,9 @@ export class InputTimePicker
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteInputTimePickerBeforeClose = createEvent({ cancelable: false });
@@ -369,7 +252,7 @@ export class InputTimePicker
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   calciteInputTimePickerBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` is changes. */
+  /** Fires when the component's `value` is modified by the user. */
   calciteInputTimePickerChange = createEvent();
 
   /** Fires when the component is closed and animation is complete. */
@@ -378,31 +261,20 @@ export class InputTimePicker
   /** Fires when the component is open and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
-    this.listen("blur", this.hostBlurHandler);
+    this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
   override connectedCallback(): void {
-    if (isValidTime(this.value)) {
-      this.setValueDirectly(this.value);
-    } else {
-      this.value = undefined;
-    }
-
     connectLabel(this);
     connectForm(this);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    await this.loadLocaleData();
-    this.updateLocale();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -420,26 +292,21 @@ export class InputTimePicker
       }
     }
 
-    if (changes.has("hourFormat")) {
-      this.updateLocale();
-    }
-
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
       if (!this.readOnly) {
         this.open = false;
       }
     }
 
-    if (changes.has("messages")) {
-      this.langWatcher();
-    }
-
-    if (changes.has("numberingSystem")) {
-      this.setLocalizedInputValue({ numberingSystem: changes.get("numberingSystem") });
-    }
-
-    if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
-      this.stepWatcher(this.step, changes.get("step"));
+    if (changes.has("value")) {
+      if (this.hasUpdated) {
+        if (!this.time.userChangedValue) {
+          this.previousEmittedValue = this.value;
+        }
+        this.time.setValue(this.value);
+      } else {
+        this.previousEmittedValue = this.value;
+      }
     }
   }
 
@@ -447,25 +314,120 @@ export class InputTimePicker
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-    if (isValidTime(this.value)) {
-      this.setLocalizedInputValue();
-    }
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
-  private async langWatcher(): Promise<void> {
-    await this.loadLocaleData();
-    this.updateLocale();
+  private blurHandler(): void {
+    this.changeEventHandler();
+  }
+
+  /**
+   * Emits a change event and resets to previous value if the event's default behavior is prevented.
+   */
+  private changeEventHandler(): void {
+    const { previousEmittedValue, value } = this;
+    if (previousEmittedValue !== value) {
+      const changeEvent = this.calciteInputTimePickerChange.emit();
+      if (changeEvent.defaultPrevented) {
+        this.time.setValue(this.previousEmittedValue);
+      } else {
+        this.previousEmittedValue = value;
+      }
+    }
+  }
+
+  private keyDownHandler(event: KeyboardEvent): void {
+    const { defaultPrevented, key } = event;
+    const { hourFormat, meridiemOrder } = this.time;
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    if (key === "Enter") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+      this.changeEventHandler();
+    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
+      this.open = false;
+      event.preventDefault();
+    } else {
+      const showFractionalSecond = decimalPlaces(this.step) > 0;
+      const showSecond = this.step < 60;
+      switch (this.activeEl) {
+        case this.hourEl:
+          if (key === "ArrowRight") {
+            this.setFocusPart("minute");
+          } else if (key === "ArrowLeft" && hourFormat === "12" && meridiemOrder === 0) {
+            this.setFocusPart("meridiem");
+          }
+          break;
+        case this.minuteEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocusPart("hour");
+              break;
+            case "ArrowRight":
+              if (this.step !== 60) {
+                this.setFocusPart("second");
+              } else if (hourFormat === "12") {
+                this.setFocusPart("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.secondEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocusPart("minute");
+              break;
+            case "ArrowRight":
+              if (decimalPlaces(this.step) > 0) {
+                this.setFocusPart("fractionalSecond");
+              } else if (hourFormat === "12") {
+                this.setFocusPart("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.fractionalSecondEl:
+          switch (key) {
+            case "ArrowLeft":
+              this.setFocusPart("second");
+              break;
+            case "ArrowRight":
+              if (hourFormat === "12" && meridiemOrder !== 0) {
+                this.setFocusPart("meridiem");
+              }
+              break;
+          }
+          break;
+        case this.meridiemEl:
+          if (key === "ArrowLeft" && meridiemOrder !== 0) {
+            if (showFractionalSecond) {
+              this.setFocusPart("fractionalSecond");
+            } else if (showSecond) {
+              this.setFocusPart("second");
+            } else {
+              this.setFocusPart("minute");
+            }
+          } else if (key === "ArrowRight" && meridiemOrder === 0) {
+            this.setFocusPart("hour");
+          }
+          break;
+      }
+    }
+  }
+
+  onLabelClick(): void {
+    this.setFocus();
   }
 
   private openHandler(): void {
@@ -477,87 +439,6 @@ export class InputTimePicker
       // we set the property instead of the attribute to ensure popover's open/close events are emitted properly
       this.popoverEl.open = this.open;
     }
-  }
-
-  private stepWatcher(newStep: number, oldStep?: number): void {
-    if (
-      (oldStep >= 60 && newStep > 0 && newStep < 60) ||
-      (newStep >= 60 && oldStep > 0 && oldStep < 60)
-    ) {
-      this.setValueDirectly(this.value);
-    }
-  }
-
-  private valueWatcher(newValue: string): void {
-    if (!this.userChangedValue) {
-      this.setValueDirectly(newValue);
-    }
-    this.userChangedValue = false;
-  }
-
-  private hostBlurHandler(): void {
-    const delocalizedInputValue = this.delocalizeTimeString(this.calciteInputEl.value);
-
-    if (!delocalizedInputValue) {
-      this.setValue("");
-    } else if (delocalizedInputValue !== this.value) {
-      this.setValue(delocalizedInputValue);
-      this.setLocalizedInputValue();
-    }
-
-    this.deactivate();
-  }
-
-  private calciteInternalInputFocusHandler(event: CustomEvent): void {
-    if (!this.readOnly) {
-      event.stopPropagation();
-    }
-  }
-
-  private calciteInternalInputInputHandler(event: CustomEvent): void {
-    const {
-      messages: { _lang: locale },
-      numberingSystem,
-    } = this;
-
-    if (numberingSystem && numberingSystem !== "latn") {
-      const target = event.target as TimePicker["el"];
-
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem,
-        useGrouping: false,
-      };
-
-      const valueInNumberingSystem = numberStringFormatter
-        .delocalize(target.value)
-        .split("")
-        .map((char) =>
-          numberKeys.includes(char)
-            ? numberStringFormatter.numberFormatter.format(Number(char))
-            : char,
-        )
-        .join("");
-
-      this.setInputValue(valueInNumberingSystem);
-    }
-  }
-
-  private timePickerChangeHandler(event: CustomEvent): void {
-    event.stopPropagation();
-    const target = event.target as TimePicker["el"];
-    const value = target.value;
-    const includeSeconds = this.shouldIncludeSeconds();
-    this.setValue(toISOTimeString(value, includeSeconds));
-    this.setLocalizedInputValue({ isoTimeString: value });
-  }
-
-  private updateLocale(locale: SupportedLocale = this.messages._lang): void {
-    this.effectiveHourFormat =
-      this.hourFormat === "user" ? getLocaleHourFormat(this.messages._lang) : this.hourFormat;
-    this.localeDefaultLTFormat = this.localeConfig.formats.LT;
-    this.localeDefaultLTSFormat = this.localeConfig.formats.LTS;
-    this.setLocalizedInputValue({ locale });
   }
 
   private popoverBeforeOpenHandler(event: CustomEvent<void>): void {
@@ -581,527 +462,247 @@ export class InputTimePicker
     this.open = false;
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
-  }
-
-  private delocalizeTimeString(value: string): string {
-    // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
-    dayjs.locale(this.getSupportedDayjsLocale(this.messages._lang.toLowerCase()));
-
-    const nonFractionalSecondParts = this.delocalizeTimeStringToParts(value);
-
-    let delocalizedTimeString: string;
-
-    if (this.shouldIncludeFractionalSeconds()) {
-      const stepPrecision = decimalPlaces(this.step);
-      const centisecondParts = this.delocalizeTimeStringToParts(value, "S");
-
-      if (stepPrecision === 1) {
-        delocalizedTimeString =
-          centisecondParts.millisecond !== 0
-            ? this.getTimeStringFromParts(centisecondParts)
-            : this.getTimeStringFromParts(nonFractionalSecondParts);
-      } else {
-        const decisecondParts = this.delocalizeTimeStringToParts(value, "SS");
-
-        if (stepPrecision === 2) {
-          if (decisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
-          } else if (centisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
-          } else {
-            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-          }
-        } else if (stepPrecision >= 3) {
-          const millisecondParts = this.delocalizeTimeStringToParts(value, "SSS");
-
-          if (millisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(millisecondParts);
-          } else if (decisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(decisecondParts);
-          } else if (centisecondParts.millisecond !== 0) {
-            delocalizedTimeString = this.getTimeStringFromParts(centisecondParts);
-          } else {
-            delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-          }
-        }
-      }
-    } else {
-      delocalizedTimeString = this.getTimeStringFromParts(nonFractionalSecondParts);
-    }
-
-    return delocalizedTimeString;
-  }
-
-  private delocalizeTimeStringToParts(
-    value: string,
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS",
-  ): DayjsTimeParts {
-    const effectiveLocale = this.messages._lang;
-    let localizedTimeString = value;
-    const effectiveHourFormat = isLocaleHourFormatOpposite(
-      this.effectiveHourFormat,
-      effectiveLocale,
-    )
-      ? getLocaleOppositeHourFormat(effectiveLocale)
-      : getLocaleHourFormat(effectiveLocale);
-
-    if (localizedTwentyFourHourMeridiems.has(effectiveLocale) && effectiveHourFormat === "12") {
-      const localizedAM = localizedTwentyFourHourMeridiems.get(effectiveLocale).am;
-      const localizedPM = localizedTwentyFourHourMeridiems.get(effectiveLocale).pm;
-      const meridiemFormatToken = getMeridiemFormatToken(effectiveLocale);
-      const caseAdjustedAMString =
-        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "AM" : "am";
-      const caseAdjustedPMString =
-        meridiemFormatToken === meridiemFormatToken.toUpperCase() ? "PM" : "pm";
-
-      localizedTimeString = localizedTimeString.includes(localizedPM)
-        ? localizedTimeString.replaceAll(localizedPM, caseAdjustedPMString)
-        : localizedTimeString.replaceAll(localizedAM, caseAdjustedAMString);
-    }
-
-    this.setLocaleTimeFormat({
-      fractionalSecondFormatToken,
-      hourFormat: effectiveHourFormat,
-    });
-
-    const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
-    if (dayjsParseResult.isValid()) {
-      return {
-        hour: dayjsParseResult.get("hour"),
-        minute: dayjsParseResult.get("minute"),
-        second: dayjsParseResult.get("second"),
-        millisecond: dayjsParseResult.get("millisecond"),
-      };
-    }
-    return {
-      hour: null,
-      minute: null,
-      second: null,
-      millisecond: null,
-    };
-  }
-
-  private getTimeStringFromParts(parts: DayjsTimeParts): string {
-    let timeString = "";
-    if (!parts) {
-      return timeString;
-    }
-    if (parts.hour !== null && parts.minute !== null) {
-      timeString = `${formatTimePart(parts.hour)}:${formatTimePart(parts.minute)}`;
-      if (this.shouldIncludeSeconds() && parts.second !== null) {
-        timeString += `:${formatTimePart(parts.second)}`;
-        if (this.shouldIncludeFractionalSeconds() && parts.millisecond !== null) {
-          const second = (parts.millisecond * 0.001).toFixed(decimalPlaces(this.step));
-          timeString += `.${second.toString().replace("0.", "")}`;
-        }
-      }
-    }
-    return timeString;
-  }
-
-  private keyDownHandler(event: KeyboardEvent): void {
-    const { defaultPrevented, key } = event;
-
-    if (defaultPrevented) {
-      return;
-    }
-
-    if (key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-        this.calciteInputEl.setFocus();
-      }
-
-      if (event.composedPath().includes(this.calciteTimePickerEl)) {
-        return;
-      }
-
-      const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
-
-      if (isValidTime(newValue)) {
-        this.setValue(newValue);
-        this.setLocalizedInputValue();
-      } else {
-        this.setValue("");
-      }
-    } else if (key === "ArrowDown") {
-      this.open = true;
-      event.preventDefault();
-    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  private getSupportedDayjsLocale(locale: string) {
-    const dayjsLocale = locale.toLowerCase();
-    if (dayjsLocale === "no") {
-      return "nb";
-    }
-    if (dayjsLocale === "pt-pt") {
-      return "pt";
-    }
-    return dayjsLocale;
-  }
-
-  private async loadLocaleData(): Promise<void> {
-    let supportedLocale = getSupportedLocale(this.messages._lang).toLowerCase();
-
-    supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
-
-    const { default: localeConfig } =
-      await supportedDayjsLocaleToLocaleConfigImport.get(supportedLocale)();
-
-    this.localeConfig = localeConfig;
-
-    dayjs.locale(this.localeConfig, null, true);
-    dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
-  }
-
-  private getExtendedLocaleConfig(
-    locale: SupportedLocale,
-  ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
-    /*
-     * Meridiem and format tokens below are based on https://github.com/unicode-org/cldr-json/
-     *
-     * To reference a specific locale, check:
-     * https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-dates-modern/main/<locale>/ca-generic.json
-     *
-     * Example (es-MX):
-     * https://github.com/unicode-org/cldr-json/blob/d38478855dd8342749f0494332cc8acc2895d20d/cldr-json/cldr-dates-modern/main/es-MX/ca-generic.json#L227
-     */
-    if (locale === "ar") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "م" : "ص"),
-        formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
-          L: "DD/MM/YYYY",
-          LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY h:mm a",
-          LLLL: "dddd D MMMM YYYY h:mm a",
-        },
-      };
-    }
-
-    if (locale === "en-au") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
-      };
-    }
-
-    if (locale === "en-ca") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
-      };
-    }
-
-    if (locale === "el") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "μ.μ." : "π.μ."),
-      };
-    }
-
-    if (locale === "es-mx") {
-      return {
-        formats: {
-          LT: "h:mm a",
-          LTS: "h:mm:ss a",
-          L: "DD/MM/YYYY",
-          LL: "D [de] MMMM [de] YYYY",
-          LLL: "D [de] MMMM [de] YYYY H:mm",
-          LLLL: "dddd, D [de] MMMM [de] YYYY H:mm",
-        },
-      };
-    }
-
-    if (locale === "hi") {
-      return {
-        formats: {
-          LT: "h:mm A",
-          LTS: "h:mm:ss A",
-          L: "DD/MM/YYYY",
-          LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY, h:mm A",
-          LLLL: "dddd, D MMMM YYYY, h:mm A",
-        },
-        meridiem: (hour: number) => (hour > 12 ? "pm" : "am"),
-      };
-    }
-
-    if (locale === "ja") {
-      return {
-        meridiem: (hour) => (hour > 12 ? "午後" : "午前"),
-      };
-    }
-
-    if (locale === "ko") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "오후" : "오전"),
-      };
-    }
-
-    if (locale === "no") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "p.m." : "a.m."),
-      };
-    }
-
-    if (locale === "ru") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "PM" : "AM"),
-      };
-    }
-
-    if (locale === "zh-cn") {
-      return {
-        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
-      };
-    }
-
-    if (locale === "zh-tw") {
-      return {
-        formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
-        },
-      };
-    }
-
-    if (locale === "zh-hk") {
-      return {
-        formats: {
-          LT: "Ah:mm",
-          LTS: "Ah:mm:ss",
-        },
-        meridiem: (hour: number) => (hour > 12 ? "下午" : "上午"),
-      };
-    }
-  }
-
-  private getLocalizedTimeString(params?: GetLocalizedTimeStringParameters): string {
-    const hour12 =
-      params?.hourFormat === "12" ||
-      (this.effectiveHourFormat && this.effectiveHourFormat === "12");
-    const locale = params?.locale ?? this.messages._lang;
-    const numberingSystem = params?.numberingSystem ?? this.numberingSystem;
-    const value = params?.isoTimeString ?? this.value;
-    return (
-      localizeTimeString({
-        fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        hour12,
-        includeSeconds: this.shouldIncludeSeconds(),
-        locale,
-        numberingSystem,
-        value,
-      }) ?? ""
-    );
-  }
-
-  onLabelClick(): void {
-    this.setFocus();
-  }
-
-  private shouldIncludeSeconds(): boolean {
-    return this.step < 60;
-  }
-
-  private shouldIncludeFractionalSeconds(): boolean {
-    return decimalPlaces(this.step) > 0;
-  }
-
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
   }
 
-  private setInputEl(el: InputText["el"]): void {
-    if (!el) {
-      return;
-    }
-    this.calciteInputEl = el;
+  private setContainerEl(el: HTMLDivElement): void {
+    this.containerEl = el;
   }
 
-  private setCalciteTimePickerEl(el: TimePicker["el"]): void {
-    if (!el) {
-      return;
-    }
-    this.calciteTimePickerEl = el;
+  private async setFocusPart(target: TimePart): Promise<void> {
+    this[`${target || "hour"}El`]?.focus();
   }
 
-  private setLocaleTimeFormat({
-    fractionalSecondFormatToken,
-    hourFormat,
-  }: {
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS";
-    hourFormat: EffectiveHourFormat;
-  }): void {
-    const effectiveLocale = this.messages._lang;
-    const localeDefaultHourFormat = getLocaleHourFormat(effectiveLocale);
-    const hourRegEx = /h+|H+/g;
-    const meridiemRegEx = /\s+|a+|A+|\s+/g;
-
-    let ltFormatString = this.localeConfig.formats.LT;
-    let ltsFormatString = this.localeConfig.formats.LTS;
-
-    if (hourFormat === "12" && localeDefaultHourFormat === "24") {
-      const meridiemFormatToken = getMeridiemFormatToken(effectiveLocale);
-      const meridiemOrder = getMeridiemOrder(effectiveLocale);
-      ltFormatString = ltFormatString.replaceAll(hourRegEx, "h");
-      ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
-      ltFormatString =
-        meridiemOrder === 0
-          ? `${meridiemFormatToken}${ltFormatString}`
-          : `${ltFormatString}${meridiemFormatToken}`;
-      ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "h");
-      ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
-      ltsFormatString =
-        meridiemOrder === 0
-          ? `${meridiemFormatToken}${ltsFormatString}`
-          : `${ltsFormatString}${meridiemFormatToken}`;
-    } else if (hourFormat === "24" && localeDefaultHourFormat === "12") {
-      ltFormatString = ltFormatString.replaceAll(hourRegEx, "H");
-      ltFormatString = ltFormatString.replaceAll(meridiemRegEx, "");
-      ltsFormatString = ltsFormatString.replaceAll(hourRegEx, "H");
-      ltsFormatString = ltsFormatString.replaceAll(meridiemRegEx, "");
-    } else {
-      ltFormatString = this.localeDefaultLTFormat;
-      ltsFormatString = this.localeDefaultLTSFormat;
-    }
-
-    const fractionalSecondTokenMatch = ltsFormatString?.match(/ss\.*(S+)/g);
-    if (fractionalSecondFormatToken && this.shouldIncludeFractionalSeconds()) {
-      const secondFormatToken = `ss.${fractionalSecondFormatToken}`;
-      ltsFormatString = fractionalSecondTokenMatch
-        ? ltsFormatString.replace(fractionalSecondTokenMatch[0], secondFormatToken)
-        : ltsFormatString.replace("ss", secondFormatToken);
-    } else if (fractionalSecondTokenMatch) {
-      ltsFormatString = ltsFormatString.replace(fractionalSecondTokenMatch[0], "ss");
-    }
-
-    this.localeConfig.formats.LT = ltFormatString;
-    this.localeConfig.formats.LTS = ltsFormatString;
-
-    dayjs.updateLocale(
-      this.getSupportedDayjsLocale(getSupportedLocale(effectiveLocale)),
-      this.localeConfig as Record<string, any>,
-    );
+  private setFractionalSecondEl(el: HTMLSpanElement) {
+    this.fractionalSecondEl = el;
   }
 
-  private setLocalizedInputValue = (params?: GetLocalizedTimeStringParameters): void => {
-    this.setInputValue(this.getLocalizedTimeString(params));
-  };
-
-  private setInputValue(newInputValue: string): void {
-    if (!this.calciteInputEl) {
-      return;
-    }
-    this.calciteInputEl.value = newInputValue;
+  private setHourEl(el: HTMLSpanElement): void {
+    this.hourEl = el;
   }
 
-  /**
-   * Sets the value and emits a change event.
-   * This is used to update the value as a result of user interaction.
-   *
-   * @param value The new value
-   */
-  private setValue(value: string): void {
-    const oldValue = this.value;
-    const newValue = formatTimeString(value) || "";
+  private setMinuteEl(el: HTMLSpanElement): void {
+    this.minuteEl = el;
+  }
 
-    if (newValue === oldValue) {
+  private setSecondEl(el: HTMLSpanElement): void {
+    this.secondEl = el;
+  }
+
+  private setMeridiemEl(el: HTMLSpanElement): void {
+    this.meridiemEl = el;
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("time", this, input);
+  }
+
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
+    if (this.disabled) {
       return;
     }
 
-    this.userChangedValue = true;
-    this.value = newValue || "";
-
-    const changeEvent = this.calciteInputTimePickerChange.emit();
-
-    if (changeEvent.defaultPrevented) {
-      this.userChangedValue = false;
-      this.value = oldValue;
-      this.setLocalizedInputValue({ isoTimeString: oldValue });
+    const newValue = event.detail;
+    if (newValue !== this.value) {
+      this.value = newValue;
     }
   }
 
-  /**
-   * Sets the value directly without emitting a change event.
-   * This is used to update the value on initial load and when props change that are not the result of user interaction.
-   *
-   * @param value The new value
-   */
-  private setValueDirectly(value: string): void {
-    const includeSeconds = this.shouldIncludeSeconds();
-    this.value = toISOTimeString(value, includeSeconds);
-    this.setLocalizedInputValue();
+  private timePartFocusHandler(event: FocusEvent): void {
+    this.activeEl = event.currentTarget as HTMLSpanElement;
   }
 
-  private onInputWrapperClick() {
+  private timePickerChangeHandler(event: CustomEvent): void {
+    event.stopPropagation();
+  }
+
+  private toggleIconClickHandler() {
     this.open = !this.open;
   }
 
-  private deactivate(): void {
-    this.open = false;
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
-    const { disabled, messages, readOnly } = this;
+    const { messages, readOnly, scale } = this;
+    const {
+      fractionalSecond,
+      handleHourKeyDownEvent,
+      handleMinuteKeyDownEvent,
+      handleSecondKeyDownEvent,
+      handleFractionalSecondKeyDownEvent,
+      hour,
+      hourFormat,
+      localizedDecimalSeparator,
+      localizedFractionalSecond,
+      localizedHour,
+      localizedHourSuffix,
+      localizedMinute,
+      localizedMinuteSuffix,
+      localizedSecond,
+      localizedSecondSuffix,
+      meridiemOrder,
+      minute,
+      second,
+    } = this.time;
+    const emptyPlaceholder = "--";
+    const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
+    const hourIsNumber = isValidNumber(hour);
+    const minuteIsNumber = isValidNumber(minute);
+    const secondIsNumber = isValidNumber(second);
+    const showFractionalSecond = decimalPlaces(this.step) > 0;
+    const showMeridiem = hourFormat === "12";
+    const showSecond = this.step < 60;
+    const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input-text
-            aria-errormessage={IDS.validationMessage}
-            ariaAutoComplete="none"
-            ariaHasPopup="dialog"
-            ariaInvalid={this.status === "invalid"}
-            disabled={disabled}
-            icon="clock"
-            label={getLabelText(this)}
-            lang={this.messages._lang}
-            oncalciteInputTextInput={this.calciteInternalInputInputHandler}
-            oncalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
-            readOnly={readOnly}
-            ref={this.setInputEl}
-            role="combobox"
-            scale={this.scale}
-            status={this.status}
+        <div
+          aria-controls={IDS.inputContainer}
+          aria-labelledby={IDS.inputContainer}
+          class={{
+            [CSS.container]: true,
+            [CSS.readOnly]: readOnly,
+          }}
+          ref={this.setContainerEl}
+          role="combobox"
+        >
+          <calcite-icon
+            class={CSS.clockIcon}
+            icon={ICONS.clock}
+            scale={scale === "l" ? "m" : "s"}
+          />
+          <div
+            aria-label={getLabelText(this)}
+            class={CSS.inputContainer}
+            dir="ltr"
+            id={IDS.inputContainer}
+            role="group"
           >
-            {!this.readOnly && this.renderToggleIcon(this.open)}
-          </calcite-input-text>
+            {showMeridiem && meridiemStart && this.renderMeridiem("start")}
+            <span
+              aria-label={this.messages.hour}
+              aria-valuemax="23"
+              aria-valuemin="1"
+              aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
+              aria-valuetext={hour}
+              class={{
+                [CSS.empty]: !localizedHour,
+                [CSS.hour]: true,
+                [CSS.input]: true,
+              }}
+              onFocus={this.timePartFocusHandler}
+              onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
+              ref={this.setHourEl}
+              role="spinbutton"
+              tabIndex={0}
+            >
+              {localizedHour || emptyPlaceholder}
+            </span>
+            <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
+            <span
+              aria-label={this.messages.minute}
+              aria-valuemax="12"
+              aria-valuemin="1"
+              aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
+              aria-valuetext={minute}
+              class={{
+                [CSS.empty]: !localizedMinute,
+                [CSS.input]: true,
+                [CSS.minute]: true,
+              }}
+              onFocus={this.timePartFocusHandler}
+              onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
+              ref={this.setMinuteEl}
+              role="spinbutton"
+              tabIndex={0}
+            >
+              {localizedMinute || emptyPlaceholder}
+            </span>
+            {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
+            {showSecond && (
+              <span
+                aria-label={this.messages.second}
+                aria-valuemax="59"
+                aria-valuemin="0"
+                aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
+                aria-valuetext={second}
+                class={{
+                  [CSS.empty]: !localizedSecond,
+                  [CSS.input]: true,
+                  [CSS.second]: true,
+                }}
+                onFocus={this.timePartFocusHandler}
+                onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
+                ref={this.setSecondEl}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {localizedSecond || emptyPlaceholder}
+              </span>
+            )}
+            {showFractionalSecond && (
+              <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
+            )}
+            {showFractionalSecond && (
+              <span
+                aria-label={this.messages.fractionalSecond}
+                aria-valuemax="999"
+                aria-valuemin="1"
+                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
+                aria-valuetext={localizedFractionalSecond}
+                class={{
+                  [CSS.empty]: !localizedFractionalSecond,
+                  [CSS.fractionalSecond]: true,
+                  [CSS.input]: true,
+                }}
+                onFocus={this.timePartFocusHandler}
+                onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
+                ref={this.setFractionalSecondEl}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+              </span>
+            )}
+            {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
+            {showMeridiem && !meridiemStart && this.renderMeridiem("end")}
+          </div>
+          {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover
           autoClose={true}
           focusTrapDisabled={this.focusTrapDisabled}
-          initialFocusTrapFocus={false}
+          focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
+          offsetDistance={0}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
           oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
           oncalcitePopoverClose={this.popoverCloseHandler}
           oncalcitePopoverOpen={this.popoverOpenHandler}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
+          pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.calciteInputEl}
+          referenceElement={this.containerEl}
           triggerDisabled={true}
         >
           <calcite-time-picker
-            hourFormat={this.effectiveHourFormat}
+            hourFormat={this.time.hourFormat}
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
-            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
+            time={this.time}
             value={this.value}
           />
         </calcite-popover>
@@ -1119,16 +720,44 @@ export class InputTimePicker
     );
   }
 
+  private renderMeridiem(position: "start" | "end"): JsxNode {
+    const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
+    const isInteractive = !this.disabled && !this.readOnly;
+    return (
+      <span
+        aria-label={this.messages.meridiem}
+        aria-valuemax="2"
+        aria-valuemin="1"
+        aria-valuenow={(meridiem === "PM" && "2") || "1"}
+        aria-valuetext={meridiem}
+        class={{
+          [CSS.empty]: !localizedMeridiem,
+          [CSS.input]: true,
+          [CSS.meridiem]: true,
+          [CSS.meridiemStart]: position === "start",
+          [CSS.meridiemEnd]: position === "end",
+        }}
+        onFocus={this.timePartFocusHandler}
+        onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
+        ref={this.setMeridiemEl}
+        role="spinbutton"
+        tabIndex={0}
+      >
+        {localizedMeridiem || "--"}
+      </span>
+    );
+  }
+
   private renderToggleIcon(open: boolean): JsxNode {
     return (
-      <span class={CSS.toggleIcon} slot="action">
+      <span class={CSS.toggleIcon} onClick={this.toggleIconClickHandler}>
         <calcite-icon
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>
     );
   }
 
-  // #endregion
+  //#endregion
 }

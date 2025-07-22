@@ -31,6 +31,16 @@
         margin: 60px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-notice-background-color: pink;
+        --calcite-notice-close-background-color-focus: aquamarine;
+        --calcite-notice-close-background-color-press: teal;
+        --calcite-notice-close-icon-color-hover: red;
+        --calcite-notice-close-icon-color: green;
+        --calcite-notice-title-text-color: purple;
+        --calcite-notice-content-text-color: yellow;
+      }
     </style>
     <script src="./_assets/head.ts"></script>
   </head>
@@ -510,6 +520,19 @@
             <div slot="message">
               Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
             </div>
+          </calcite-notice>
+        </div>
+      </div>
+
+      <!-- themed -->
+      <div class="parent">
+        <div class="child right-aligned-text">Themed</div>
+
+        <div class="child themed">
+          <calcite-notice icon scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-link slot="link" title="my action">Link ispum </calcite-link>
           </calcite-notice>
         </div>
       </div>

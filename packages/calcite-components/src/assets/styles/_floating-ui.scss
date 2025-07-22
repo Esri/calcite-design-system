@@ -1,22 +1,5 @@
+$floating-ui-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
 $floating-ui-transition-offset: 5px;
-
-@mixin floating-ui-offset-bottom {
-  inset-block-start: -$floating-ui-transition-offset;
-}
-
-@mixin floating-ui-offset-top {
-  inset-block-start: $floating-ui-transition-offset;
-}
-
-@mixin floating-ui-offset-left {
-  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-  left: $floating-ui-transition-offset;
-}
-
-@mixin floating-ui-offset-right {
-  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-  left: -$floating-ui-transition-offset;
-}
 
 @mixin floating-ui-base {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
@@ -26,12 +9,22 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-anim {
   .calcite-floating-ui-anim {
     position: relative;
-    transition: var(--calcite-floating-ui-transition);
+    transition-duration: var(--calcite-floating-ui-transition);
     /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    transition-property: inset, left, opacity;
+    transition-property: inset, left, opacity, display;
     opacity: 0;
-    box-shadow: $shadow-2;
+    box-shadow: $floating-ui-shadow;
     @apply rounded z-default;
+    @include floating-ui-anim-starting-style;
+  }
+}
+
+@mixin floating-ui-anim-starting-style {
+  @starting-style {
+    opacity: 0;
+    inset-block-start: -$floating-ui-transition-offset;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: auto;
   }
 }
 
@@ -40,30 +33,50 @@ $floating-ui-transition-offset: 5px;
   inset-block-start: 0;
   /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
+
+  @include floating-ui-anim-starting-style;
 }
 
 @mixin floating-ui-elem-anim($selector) {
   #{$selector} {
-    @include floating-ui-anim();
+    .calcite-floating-ui-anim {
+      position: relative;
+      transition-duration: var(--calcite-floating-ui-transition);
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      transition-property: inset-block-start, left, opacity, display;
+      transition-behavior: allow-discrete;
+      opacity: 0;
+      box-shadow: $floating-ui-shadow;
+      @apply rounded z-default;
+    }
 
     &[data-placement^="bottom"] .calcite-floating-ui-anim {
-      @include floating-ui-offset-bottom();
+      inset-block-start: -$floating-ui-transition-offset;
     }
 
     &[data-placement^="top"] .calcite-floating-ui-anim {
-      @include floating-ui-offset-top();
+      inset-block-start: $floating-ui-transition-offset;
     }
 
     &[data-placement^="left"] .calcite-floating-ui-anim {
-      @include floating-ui-offset-left();
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: $floating-ui-transition-offset;
     }
 
     &[data-placement^="right"] .calcite-floating-ui-anim {
-      @include floating-ui-offset-right();
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: -$floating-ui-transition-offset;
     }
 
     &[data-placement] .calcite-floating-ui-anim--active {
-      @include floating-ui-anim-active();
+      opacity: 1;
+      inset-block-start: 0;
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: 0;
+
+      @starting-style {
+        opacity: 0;
+      }
     }
   }
 }
@@ -71,10 +84,19 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-container() {
   inline-size: max-content;
   display: none;
+  max-inline-size: 100vw;
+  max-block-size: 100vh;
   inset-block-start: 0;
   /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
   z-index: var(--calcite-floating-ui-z-index);
+
+  @starting-style {
+    opacity: 0;
+    inset-block-start: 0;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: 0;
+  }
 }
 
 @mixin floating-ui-arrow {

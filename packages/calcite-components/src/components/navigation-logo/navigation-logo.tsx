@@ -1,11 +1,6 @@
 // @ts-strict-ignore
-import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { componentFocusable } from "../../utils/component";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
 import { CSS } from "./resources";
@@ -17,7 +12,7 @@ declare global {
   }
 }
 
-export class NavigationLogo extends LitElement implements LoadableComponent {
+export class NavigationLogo extends LitElement {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -80,18 +75,6 @@ export class NavigationLogo extends LitElement implements LoadableComponent {
     if (this.href) {
       this.el.focus();
     }
-  }
-
-  // #endregion
-
-  // #region Lifecycle
-
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion

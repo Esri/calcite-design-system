@@ -19,7 +19,7 @@ import {
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
-import { findAll, isElementFocused, skipAnimations } from "../../tests/utils";
+import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
@@ -455,6 +455,14 @@ describe("calcite-autocomplete", () => {
     focusable("calcite-autocomplete");
   });
 
+  it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
+    expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
+  });
+
   it("should be able to remove icon", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
@@ -860,5 +868,29 @@ describe("calcite-autocomplete", () => {
     await page.waitForChanges();
 
     expect(inputEvent).toHaveReceivedEventTimes(4);
+  });
+
+  it("should open on input if text exists or close otherwise", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    autocomplete.setProperty("open", false);
+    await page.waitForChanges();
+
+    await page.keyboard.type("a");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(false);
   });
 });

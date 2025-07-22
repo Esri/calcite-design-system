@@ -4,11 +4,6 @@ import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
 import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
-import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
@@ -35,14 +30,14 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent, LoadableComponent {
-  // #region Static Members
+export class Meter extends LitElement implements FormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: Meter["value"];
 
@@ -81,9 +76,14 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
 
   private valueLabelEl = createRef<HTMLDivElement>();
 
-  // #endregion
+  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
+    this.updateLabels();
+    this.handleResponsiveOverrides(width);
+  };
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() currentPercent: number;
 
@@ -95,9 +95,9 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
 
   @state() lowPercent: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<
@@ -174,9 +174,9 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   /** Specifies the component's responsive overrides. */
   @property() responsiveOverrides: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     connectForm(this);
@@ -184,7 +184,6 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   }
 
   load(): void {
-    setUpLoadableComponent(this);
     this.calculateValues();
     afterConnectDefaultValueSet(this, this.value);
   }
@@ -216,7 +215,6 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.updateLabels();
   }
 
@@ -225,19 +223,14 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleRangeChange(): void {
     this.calculateValues();
     this.updateLabels();
   }
-
-  private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
-    this.updateLabels();
-    this.handleResponsiveOverrides(width);
-  };
 
   private updateLabels(): void {
     if (this.valueLabelEl.value) {
@@ -404,9 +397,9 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderMeterFill(): JsxNode {
     const { currentPercent, fillType } = this;
@@ -582,5 +575,5 @@ export class Meter extends LitElement implements FormComponent, LoadableComponen
     );
   }
 
-  // #endregion
+  //#endregion
 }

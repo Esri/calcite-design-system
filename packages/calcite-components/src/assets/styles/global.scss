@@ -1,4 +1,3 @@
-@import "@esri/calcite-base/dist/index";
 @import "@esri/calcite-design-tokens/dist/scss/index";
 @import "@esri/calcite-design-tokens/dist/scss/core";
 
@@ -41,5 +40,3 @@
 @include animation-reduced-motion();
 
 @include animation-helper-classes();
-
-@include sortable-helper-classes();

@@ -13,19 +13,14 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
-import { centerItemsByBreakpoint, CSS, DURATION, ICONS } from "./resources";
+import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
 import { styles } from "./carousel.scss";
@@ -37,14 +32,14 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-carousel-item`s. */
-export class Carousel extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class Carousel extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private autoplayHandler = (): void => {
     this.clearIntervals();
@@ -53,7 +48,7 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   private container: HTMLDivElement;
 
-  private containerId = `calcite-carousel-container-${guid()}`;
+  private containerId = IDS.host(guid());
 
   private itemContainer: HTMLDivElement;
 
@@ -89,9 +84,16 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     }
   };
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() direction: "forward" | "backward" | "standby" = "standby";
 
@@ -113,9 +115,9 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
 
   @state() userPreventsSuspend = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies how and if the "previous" and "next" arrows are displayed. */
   @property({ reflect: true }) arrowType: ArrowType = "inline";
@@ -147,13 +149,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
   @property() paused: boolean;
 
   /**
@@ -163,9 +158,9 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
    */
   @property() selectedItem: CarouselItem["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @method()
@@ -193,9 +188,9 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     this.handlePause(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the selected `calcite-carousel-item` changes. */
   calciteCarouselChange = createEvent({ cancelable: false });
@@ -212,9 +207,9 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
   /** Fires when the carousel autoplay state is stopped by a user. */
   calciteCarouselStop = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
@@ -227,7 +222,6 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     } else if (this.autoplay === "paused") {
       this.paused = true;
     }
-    setUpLoadableComponent(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -261,18 +255,14 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     this.clearIntervals();
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private autoplayWatcher(autoplay: AutoplayType): void {
     if (!autoplay) {
@@ -572,9 +562,9 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     this.itemContainer = el;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderRotationControl(): JsxNode {
     const text = this.playing ? this.messages.pause : this.messages.play;
@@ -728,5 +718,5 @@ export class Carousel extends LitElement implements InteractiveComponent, Loadab
     );
   }
 
-  // #endregion
+  //#endregion
 }

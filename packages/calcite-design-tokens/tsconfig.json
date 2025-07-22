@@ -1,11 +1,8 @@
 {
+  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "typescript-strict-plugin"
-      }
-    ]
+    "moduleResolution": "nodenext"
   },
-  "extends": "./tsconfig-base",
-  "include": ["support", "src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

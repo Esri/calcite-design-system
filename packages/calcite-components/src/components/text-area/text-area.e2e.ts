@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
@@ -14,6 +15,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
@@ -214,6 +216,33 @@ describe("calcite-text-area", () => {
     });
   });
 
+  it("does not throw when removed early in the cycle (#11514)", async () => {
+    async function runTest(): Promise<void> {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async () => {
+        await new Promise<void>((resolve) => {
+          const textArea = document.createElement("calcite-text-area");
+          let firstResize = false;
+          const resizeObserver = new ResizeObserver(async () => {
+            if (!firstResize) {
+              firstResize = true;
+              return;
+            }
+
+            resizeObserver.disconnect();
+            textArea.remove();
+            resolve();
+          });
+          document.body.append(textArea);
+          resizeObserver.observe(textArea);
+        });
+      });
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
+
   describe("translation support", () => {
     t9n("calcite-text-area");
   });
@@ -261,6 +290,18 @@ describe("calcite-text-area", () => {
           shadowSelector: `.${CSS.textArea}::placeholder`,
           targetProp: "color",
         },
+        "--calcite-text-area-corner-radius": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-text-area-shadow": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-text-area-footer-background-color": {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "backgroundColor",
+        },
       });
     });
 
@@ -295,5 +336,105 @@ describe("calcite-text-area", () => {
         },
       });
     });
+  });
+
+  it("does not change height & width when status changes from valid to invalid", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-text-area max-length="1" validation-message="Must not be blank"></calcite-text-area>
+      `);
+    await page.evaluate(() => {
+      const textarea = document.querySelector("calcite-text-area");
+      textarea.addEventListener("calciteTextAreaInput", () => {
+        const { value } = textarea;
+        textarea.status = value ? "valid" : "invalid";
+      });
+    });
+    const element = await page.find("calcite-text-area");
+    const textAreaRect = await getElementRect(page, "calcite-text-area", "textarea");
+    const inputEventSpy = await page.spyOnEvent("calciteTextAreaInput");
+    await element.callMethod("setFocus");
+    await page.keyboard.type("a");
+    await page.waitForChanges();
+    await inputEventSpy.next();
+    const inputEventSpy2 = await page.spyOnEvent("calciteTextAreaInput");
+    await page.waitForChanges();
+    await page.keyboard.press("Backspace");
+    await inputEventSpy2.next();
+
+    expect(await element.getProperty("status")).toBe("invalid");
+    const textAreaInvalidRect = await getElementRect(page, "calcite-text-area", "textarea");
+    expect(textAreaRect.width).toEqual(textAreaInvalidRect.width);
+    expect(textAreaInvalidRect.height).toEqual(textAreaRect.height);
+  });
+
+  // Ref https://github.com/Esri/calcite-design-system/issues/8456
+  it("should not set width and height to auto when resizing viewport to narrow height", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <style>
+       .resizable-container {
+        position: relative;
+        width: 300px;
+        height: 200px;
+      }
+
+      .resizer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 10px;
+        cursor: ns-resize;
+      }
+
+      .content {
+        padding: 16px;
+        height: 100%;
+        box-sizing: border-box;
+      }
+        </style>
+      <div class="resizable-container" id="resizable-container">
+      <div class="resizer" id="resizer"></div>
+      <div class="content">
+        <calcite-text-area scale="l"></calcite-text-area>
+      </div>`);
+
+    const textarea = await page.find("calcite-text-area");
+    const resizerRect = await getElementRect(page, "#resizer");
+    const resizableContainerRect = await getElementRect(page, "#resizable-container");
+
+    await page.evaluate((resizableContainerRect) => {
+      const resizableContainer = document.getElementById("resizable-container");
+      const resizer = document.getElementById("resizer");
+      let resizableContainerY;
+
+      resizer.addEventListener("mousedown", (event) => {
+        resizableContainerY = event.clientY;
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+      });
+
+      function onMouseMove(event) {
+        const dy = event.clientY - resizableContainerY;
+        resizableContainer.style.height = `${resizableContainerRect.height - dy}px`;
+        resizableContainer.style.top = `${resizableContainerRect.top + dy}px`;
+      }
+
+      function onMouseUp() {
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+      }
+    }, resizableContainerRect);
+
+    await page.mouse.move(resizerRect.x + resizerRect.width / 2, resizerRect.y + resizerRect.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(
+      resizerRect.x + resizerRect.width / 2,
+      resizableContainerRect.y + resizableContainerRect.height,
+    );
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    expect(textarea.style.width).not.toBe("auto");
+    expect(textarea.style.height).not.toBe("auto");
   });
 });

@@ -3,12 +3,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale } from "../interfaces";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -29,20 +24,27 @@ declare global {
 }
 
 /** @slot - A slot for adding content, usually text content. */
-export class TableCell extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class TableCell extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLTableCellElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() contentsText = "";
 
@@ -50,9 +52,9 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
 
   @state() selectionText = "";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the alignment of the component. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -71,13 +73,6 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** @private */
   @property() numberCell: boolean;
@@ -109,9 +104,9 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
   /** @private */
   @property() selectionCell: boolean;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -120,12 +115,11 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
     this.containerEl.value.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateScreenReaderContentsText();
     this.updateScreenReaderSelectionText();
   }
@@ -140,13 +134,10 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   private updateScreenReaderSelectionText(): void {
     const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
     const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
@@ -165,9 +156,9 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
     this.focused = true;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -211,5 +202,5 @@ export class TableCell extends LitElement implements InteractiveComponent, Loada
     );
   }
 
-  // #endregion
+  //#endregion
 }

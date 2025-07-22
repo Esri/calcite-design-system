@@ -1,12 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -22,7 +17,7 @@ import {
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
+import { CSS, ICONS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
@@ -32,7 +27,7 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements LoadableComponent, InteractiveComponent {
+export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -141,21 +136,17 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
   calciteSortHandleClose = createEvent({ cancelable: false });
 
   /** Fires when a move item has been selected. */
-  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: false });
+  calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
   /** Fires when a reorder has been selected. */
-  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: false });
+  calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
   // #endregion
 
   // #region Lifecycle
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -169,10 +160,6 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
 
   override updated(): void {
     updateHostInteraction(this);
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   // #endregion
@@ -287,7 +274,7 @@ export class SortHandle extends LitElement implements LoadableComponent, Interac
             icon={disabled ? ICONS.blank : ICONS.drag}
             label={text}
             scale={scale}
-            slot="trigger"
+            slot={SLOTS.trigger}
             text={text}
             title={text}
           />

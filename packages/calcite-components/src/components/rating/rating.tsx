@@ -23,12 +23,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
 import { Validation } from "../functional/Validation";
@@ -38,7 +33,7 @@ import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { IDS } from "./resources";
+import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 
 declare global {
@@ -49,15 +44,15 @@ declare global {
 
 export class Rating
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: Rating["value"];
 
@@ -65,7 +60,7 @@ export class Rating
 
   formEl: HTMLFormElement;
 
-  private guid = `calcite-ratings-${guid()}`;
+  private guid = IDS.host(guid());
 
   private isKeyboardInteraction = true;
 
@@ -79,15 +74,22 @@ export class Rating
 
   private _value = 0;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hoverValue: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies a cumulative average from previous ratings to display. */
   @property({ reflect: true }) average: number;
@@ -107,13 +109,6 @@ export class Rating
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * Specifies the name of the component.
@@ -175,7 +170,6 @@ export class Rating
   get value(): number {
     return this._value;
   }
-
   set value(value: number) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -186,9 +180,9 @@ export class Rating
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -197,16 +191,16 @@ export class Rating
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's value changes. */
   calciteRatingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -221,7 +215,6 @@ export class Rating
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestUpdate("value");
   }
 
@@ -256,7 +249,6 @@ export class Rating
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -264,9 +256,9 @@ export class Rating
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
@@ -351,7 +343,7 @@ export class Rating
     target.focus();
   }
 
-  private handleLabelClick(event: Event) {
+  private handleLabelClick(event: MouseEvent) {
     //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   }
@@ -386,24 +378,24 @@ export class Rating
     return currentValue === 1 ? 5 : currentValue - 1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const countString = this.count?.toString();
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <span class="wrapper">
-          <fieldset class="fieldset" disabled={this.disabled}>
-            <legend class="visually-hidden">{this.messages.rating}</legend>
+        <span class={CSS.wrapper}>
+          <fieldset class={CSS.fieldSet} disabled={this.disabled}>
+            <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
             {this.starsMap.map(
               ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
                   <label
                     class={{
-                      star: true,
+                      [CSS.star]: true,
                       selected,
                       hovered,
                       average,
@@ -422,7 +414,7 @@ export class Rating
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
                       checked={checked}
-                      class="visually-hidden"
+                      class={CSS.visuallyHidden}
                       disabled={this.disabled || this.readOnly}
                       id={id}
                       name={this.guid}
@@ -431,13 +423,13 @@ export class Rating
                       type="radio"
                       value={value}
                     />
-                    <StarIcon full={selected || average} scale={this.scale} />
+                    <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
-                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                      <div class={CSS.fraction} style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />
                       </div>
                     )}
-                    <span class="visually-hidden">
+                    <span class={CSS.visuallyHidden}>
                       {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>
@@ -447,8 +439,8 @@ export class Rating
 
             {(this.count || this.average) && this.showChip ? (
               <calcite-chip label={countString} scale={this.scale} value={countString}>
-                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({countString})</span>}
+                {!!this.average && <span class={CSS.numberAverage}>{this.average.toString()}</span>}
+                {!!this.count && <span class={CSS.numberCount}>({countString})</span>}
               </calcite-chip>
             ) : null}
           </fieldset>
@@ -467,5 +459,5 @@ export class Rating
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -14,13 +14,14 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { componentFocusable } from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { focusFirstTabbable, getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
+import { useCancelable } from "../../controllers/useCancelable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -56,6 +57,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   sortable: Sortable;
 
+  private cancelable = useCancelable<this>()(this);
+
   private updateBlockItems = debounce((): void => {
     this.updateGroupItems();
     const { dragEnabled, el, moveToItems } = this;
@@ -86,7 +89,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   // #region Public Properties
 
-  /** When provided, the method will be called to determine whether the element is sortable in the component. */
+  /** When provided, the method will be called to determine whether the element can move from the component. */
   @property() canPull: (detail: BlockDragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
@@ -133,6 +136,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     focusFirstTabbable(this.el);
   }
 
+  /**
+   * Emits a `calciteBlockGroupMoveHalt` event.
+   *
+   * @private
+   * @param dragDetail
+   */
+  @method()
+  putFailed(dragDetail: BlockDragDetail): void {
+    this.calciteBlockGroupMoveHalt.emit(dragDetail);
+  }
+
   // #endregion
 
   // #region Events
@@ -145,6 +159,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
+
+  /** Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy. */
+  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
 
   // #endregion
 
@@ -166,6 +183,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItems();
     this.setUpSorting();
     this.setParentBlockGroup();
+    this.cancelable.add(this.updateBlockItems);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -204,7 +222,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.moveToItems = blockGroups.map((element) => ({
       element,
       label: element.label ?? element.id,
-      id: el.id || guid(),
+      id: guid(),
     }));
   }
 
@@ -214,18 +232,20 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleReorder(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleMove(event);
   }
 
@@ -287,8 +307,35 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const toEl = moveTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
     if (!fromEl) {
+      return;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      this.calciteBlockGroupMoveHalt.emit({ toEl, fromEl, dragEl, oldIndex, newIndex });
+      return;
+    }
+
+    if (
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      toEl.putFailed({ toEl, fromEl, dragEl, oldIndex, newIndex });
       return;
     }
 
@@ -297,8 +344,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isBlock);
-    const newIndex = toElItems.indexOf(dragEl);
 
     this.updateBlockItems();
     this.connectObserver();

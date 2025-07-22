@@ -10,12 +10,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
@@ -24,6 +19,8 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
+import { logger } from "../../utils/logger";
+import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -45,17 +42,14 @@ const focusMap = new Map<List["el"], number>();
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem
-  extends LitElement
-  implements InteractiveComponent, LoadableComponent, SortableComponentItem
-{
-  // #region Static Members
+export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
+  //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionsEndEl = createRef<HTMLDivElement>();
 
@@ -71,9 +65,16 @@ export class ListItem
 
   private sortHandleEl: SortHandle["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
@@ -89,13 +90,13 @@ export class ListItem
 
   @state() level: number = null;
 
-  @state() openable = false;
+  @state() expandable = false;
 
   @state() parentListEl: List["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
@@ -133,6 +134,9 @@ export class ListItem
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /** When `true`, the item is expanded to show child components. */
+  @property({ reflect: true }) expanded = false;
+
   /**
    * Hides the component when filtered.
    *
@@ -153,13 +157,6 @@ export class ListItem
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata: Record<string, unknown>;
 
@@ -177,8 +174,23 @@ export class ListItem
    */
   @property() moveToItems: MoveTo[] = [];
 
-  /** When `true`, the item is open to show child components. */
-  @property({ reflect: true }) open = false;
+  /**
+   * When `true`, the item is open to show child components.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
 
   /**
    * Specifies the size of the component.
@@ -212,14 +224,14 @@ export class ListItem
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
@@ -239,9 +251,9 @@ export class ListItem
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -266,9 +278,9 @@ export class ListItem
     containerEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    *
@@ -329,9 +341,9 @@ export class ListItem
   /** Fires when the open button is clicked. */
   calciteListItemToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -350,10 +362,6 @@ export class ListItem
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
     this.setSelectionDefaults();
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
   }
 
   /**
@@ -378,8 +386,8 @@ export class ListItem
       this.handleDisabledChange();
     }
 
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.handleOpenChange();
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+      this.handleExpandedChange();
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
@@ -391,7 +399,7 @@ export class ListItem
     }
 
     if (changes.has("displayMode") && this.hasUpdated) {
-      this.handleOpenableChange(this.defaultSlotEl.value);
+      this.handleExpandableChange(this.defaultSlotEl.value);
     }
   }
 
@@ -399,13 +407,9 @@ export class ListItem
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private activeHandler(active: boolean): void {
     if (!active) {
@@ -421,7 +425,7 @@ export class ListItem
     this.emitCalciteInternalListItemChange();
   }
 
-  private handleOpenChange(): void {
+  private handleExpandedChange(): void {
     this.emitCalciteInternalListItemToggle();
   }
 
@@ -440,7 +444,7 @@ export class ListItem
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
-    this.handleOpenableChange(this.defaultSlotEl.value);
+    this.handleExpandableChange(this.defaultSlotEl.value);
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
@@ -527,7 +531,7 @@ export class ListItem
     }
   }
 
-  private handleOpenableChange(slotEl: HTMLSlotElement): void {
+  private handleExpandableChange(slotEl: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
@@ -538,20 +542,20 @@ export class ListItem
       list.displayMode = this.displayMode;
     });
 
-    this.openable =
+    this.expandable =
       this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    this.handleOpenableChange(event.target as HTMLSlotElement);
+    this.handleExpandableChange(event.target as HTMLSlotElement);
   }
 
   private handleToggleClick(): void {
     this.toggle();
   }
 
-  private toggle(value = !this.open): void {
-    this.open = value;
+  private toggle(value = !this.expanded): void {
+    this.expanded = value;
     this.calciteListItemToggle.emit();
   }
 
@@ -604,8 +608,8 @@ export class ListItem
       containerEl: { value: containerEl },
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
-      open,
-      openable,
+      expanded,
+      expandable,
     } = this;
 
     const cells = this.getGridCells();
@@ -622,7 +626,7 @@ export class ListItem
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if (!open && openable) {
+        if (!expanded && expandable) {
           this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
@@ -636,7 +640,7 @@ export class ListItem
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if (open && openable) {
+        if (expanded && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
@@ -695,9 +699,9 @@ export class ListItem
     focusedEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
@@ -761,8 +765,8 @@ export class ListItem
     ) : null;
   }
 
-  private renderOpen(): JsxNode {
-    const { el, open, openable, messages, displayMode, scale } = this;
+  private renderExpanded(): JsxNode {
+    const { el, expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -770,25 +774,25 @@ export class ListItem
 
     const dir = getElementDir(el);
 
-    const icon = openable
-      ? open
+    const icon = expandable
+      ? expanded
         ? ICONS.open
         : dir === "rtl"
-          ? ICONS.closedRTL
-          : ICONS.closedLTR
+          ? ICONS.collapsedRTL
+          : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+    const tooltip = expandable ? (expanded ? messages.collapse : messages.expand) : undefined;
 
-    const openClickHandler = openable ? this.handleToggleClick : undefined;
+    const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
     return (
       <div
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={openClickHandler}
+        class={CSS.expandedContainer}
+        key="expanded-container"
+        onClick={expandedClickHandler}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale={iconScale} />
@@ -909,7 +913,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerOpen]: this.openable && this.open,
+          [CSS.nestedContainerExpanded]: this.expandable && this.expanded,
         }}
       >
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
@@ -970,8 +974,8 @@ export class ListItem
 
   override render(): JsxNode {
     const {
-      openable,
-      open,
+      expandable,
+      expanded,
       level,
       active,
       label,
@@ -1003,7 +1007,7 @@ export class ListItem
       <InteractiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={openable ? open : null}
+            ariaExpanded={expandable ? expanded : null}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
@@ -1025,7 +1029,7 @@ export class ListItem
           >
             {this.renderDragHandle()}
             {this.renderSelected()}
-            {this.renderOpen()}
+            {this.renderExpanded()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
@@ -1044,5 +1048,5 @@ export class ListItem
     );
   }
 
-  // #endregion
+  //#endregion
 }

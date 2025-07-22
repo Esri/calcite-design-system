@@ -1,38 +1,27 @@
 // @ts-strict-ignore
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  Fragment,
-  h,
-  method,
-  state,
-  JsxNode,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { Action } from "../action/action";
+import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { geActionDimensions, getOverflowCount, overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -47,21 +36,25 @@ declare global {
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
-export class ActionBar extends LitElement implements LoadableComponent {
-  // #region Static Members
+export class ActionBar extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
+  private cancelable = useCancelable<this>()(this);
+
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
 
     if (
       overflowActionsDisabled ||
@@ -71,8 +64,8 @@ export class ActionBar extends LitElement implements LoadableComponent {
       return;
     }
 
-    const actions = queryActions(el);
-    const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    const itemSizes = this.getItemSizes();
+
     this.updateGroups();
 
     const groupCount =
@@ -80,16 +73,10 @@ export class ActionBar extends LitElement implements LoadableComponent {
         ? actionGroups.length + 1
         : actionGroups.length;
 
-    const { actionHeight, actionWidth } = geActionDimensions(actions);
-
     const overflowCount = getOverflowCount({
-      layout,
-      actionCount,
-      actionHeight,
-      actionWidth,
-      height,
-      width,
-      groupCount,
+      bufferSize: groupCount, // 1px border for each group
+      containerSize: layout === "horizontal" ? width : height,
+      itemSizes,
     });
 
     overflowActions({
@@ -113,9 +100,16 @@ export class ActionBar extends LitElement implements LoadableComponent {
     this.calciteActionBarToggle.emit();
   };
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() expandTooltip: Tooltip["el"];
 
@@ -123,12 +117,17 @@ export class ActionBar extends LitElement implements LoadableComponent {
 
   @state() hasBottomActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
+
+  /**
+   * When `true`, the component is in a floating state.
+   */
+  @property({ reflect: true }) floating = false;
 
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
@@ -137,17 +136,11 @@ export class ActionBar extends LitElement implements LoadableComponent {
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
-  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
@@ -167,9 +160,9 @@ export class ActionBar extends LitElement implements LoadableComponent {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Overflows actions that won't fit into menus.
@@ -189,16 +182,16 @@ export class ActionBar extends LitElement implements LoadableComponent {
     focusFirstTabbable(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -210,10 +203,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
-  }
-
-  async load(): Promise<void> {
-    setUpLoadableComponent(this);
+    this.cancelable.add(this.resize);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -242,7 +232,6 @@ export class ActionBar extends LitElement implements LoadableComponent {
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.overflowActions();
   }
 
@@ -251,9 +240,24 @@ export class ActionBar extends LitElement implements LoadableComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private getItemSizes(): number[] {
+    const { el, layout, expandToggleEl } = this;
+
+    const actions = queryActions(el);
+
+    if (expandToggleEl) {
+      actions.push(expandToggleEl);
+    }
+
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
+    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+    return actions.map((action) => action[clientSize] || fallbackSize);
+  }
+
   private expandedHandler(): void {
     const { el, expanded } = this;
     toggleChildActionText({ el, expanded });
@@ -293,11 +297,10 @@ export class ActionBar extends LitElement implements LoadableComponent {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
-    this.setGroupLayout(groups);
-  }
-
-  private setGroupLayout(groups: ActionGroup["el"][]): void {
-    groups.forEach((group) => (group.layout = this.layout));
+    groups.forEach((group) => {
+      group.layout = this.layout;
+      group.scale = this.scale;
+    });
   }
 
   private handleDefaultSlotChange(): void {
@@ -320,9 +323,9 @@ export class ActionBar extends LitElement implements LoadableComponent {
     this.expandTooltip = tooltips[0];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBottomActionGroup(): JsxNode {
     const {
@@ -347,6 +350,7 @@ export class ActionBar extends LitElement implements LoadableComponent {
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={(el: Action["el"]) => (this.expandToggleEl = el)}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
@@ -372,12 +376,12 @@ export class ActionBar extends LitElement implements LoadableComponent {
 
   override render(): JsxNode {
     return (
-      <>
+      <div class={CSS.container}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
-      </>
+      </div>
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -12,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
@@ -31,12 +31,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -58,7 +53,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
 
@@ -76,16 +71,15 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     NumericInputComponent,
-    TextualInputComponent,
-    LoadableComponent
+    TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
@@ -104,10 +98,6 @@ export class InputNumber
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   labelEl: Label["el"];
 
@@ -141,17 +131,24 @@ export class InputNumber
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() displayedValue: string;
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
@@ -232,13 +229,6 @@ export class InputNumber
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -344,7 +334,6 @@ export class InputNumber
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -359,9 +348,9 @@ export class InputNumber
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -377,9 +366,9 @@ export class InputNumber
     this.childNumberEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new value is typed and committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
@@ -393,9 +382,9 @@ export class InputNumber
   /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -417,7 +406,6 @@ export class InputNumber
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
@@ -463,10 +451,6 @@ export class InputNumber
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -476,9 +460,13 @@ export class InputNumber
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -671,6 +659,7 @@ export class InputNumber
       return;
     }
     if (event.key === "ArrowDown") {
+      event.preventDefault();
       this.nudgeNumberValue("down", event);
       return;
     }
@@ -834,6 +823,9 @@ export class InputNumber
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
+    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
+    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
+
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? valueHandleInteger
@@ -857,21 +849,52 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    this.displayedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-        : newLocalizedValue;
+    if (hasTrailingDecimalSeparator && isValueDeleted) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
 
+    // adds localized leading zeros
+    if (hasLeadingZeros) {
+      newLocalizedValue = `${
+        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
+        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
-    this.value = ["-", "."].includes(newValue) ? "" : newValue;
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+    this.value = validNewValue;
+
+    const localizedCharAllowlist = new Set([
+      "e",
+      "E",
+      numberStringFormatter.decimal,
+      numberStringFormatter.minusSign,
+      numberStringFormatter.group,
+      ...numberStringFormatter.digits,
+    ]);
+
+    const childInputValue = this.childNumberEl?.value;
+    // remove invalid characters from child input
+    if (childInputValue) {
+      const sanitizedChildInputValue = Array.from(childInputValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+
+      if (sanitizedChildInputValue !== childInputValue) {
+        this.setInputNumberValue(sanitizedChildInputValue);
+      }
+    }
 
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
-      this.setPreviousEmittedNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(validNewValue);
     }
 
     if (nativeEvent) {
@@ -895,9 +918,9 @@ export class InputNumber
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -916,7 +939,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.clear} scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -937,7 +960,7 @@ export class InputNumber
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="up"
+        data-adjustment={DIRECTION.up}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -945,7 +968,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -956,7 +979,7 @@ export class InputNumber
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="down"
+        data-adjustment={DIRECTION.down}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -964,7 +987,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1013,7 +1036,13 @@ export class InputNumber
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+            [CSS.clearable]: this.isClearable,
+          }}
           ref={this.inputWrapperEl}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly
@@ -1049,5 +1078,5 @@ export class InputNumber
     );
   }
 
-  // #endregion
+  //#endregion
 }

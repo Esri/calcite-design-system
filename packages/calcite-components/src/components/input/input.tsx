@@ -13,7 +13,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import {
   focusFirstTabbable,
   getElementDir,
@@ -37,12 +37,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -60,7 +55,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -77,17 +72,16 @@ export class Input
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LoadableComponent,
     NumericInputComponent,
     TextualInputComponent
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionWrapperEl = createRef<HTMLDivElement>();
 
@@ -112,14 +106,6 @@ export class Input
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperEl = createRef<HTMLDivElement>();
-
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
-  }
-
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
-  }
 
   labelEl: Label["el"];
 
@@ -153,17 +139,24 @@ export class Input
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() displayedValue: string;
 
   @state() slottedActionElDisabledInternally = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
@@ -252,13 +245,6 @@ export class Input
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * When the component resides in a form,
@@ -406,7 +392,6 @@ export class Input
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -421,9 +406,9 @@ export class Input
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Selects the text of the component's `value`. */
   @method()
@@ -443,9 +428,9 @@ export class Input
     focusFirstTabbable(this.type === "number" ? this.childNumberEl : this.childEl);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires each time a new `value` is typed and committed. */
   calciteInputChange = createEvent({ cancelable: false });
@@ -459,9 +444,9 @@ export class Input
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -483,7 +468,6 @@ export class Input
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
@@ -527,10 +511,6 @@ export class Input
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -540,9 +520,17 @@ export class Input
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  get isClearable(): boolean {
+    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
+
+  get isTextarea(): boolean {
+    return this.childElType === "textarea";
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -980,9 +968,9 @@ export class Input
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dir = getElementDir(this.el);
@@ -1001,7 +989,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
     );
     const iconEl = (
@@ -1022,7 +1010,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="up"
+        data-adjustment={DIRECTION.up}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1030,7 +1018,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1041,7 +1029,7 @@ export class Input
           [CSS.numberButtonItem]: true,
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
-        data-adjustment="down"
+        data-adjustment={DIRECTION.down}
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1049,7 +1037,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={getIconScale(this.scale)} />
+        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
       </button>
     );
 
@@ -1193,5 +1181,5 @@ export class Input
     );
   }
 
-  // #endregion
+  //#endregion
 }

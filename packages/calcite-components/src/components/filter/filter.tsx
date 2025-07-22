@@ -9,14 +9,10 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
+import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -29,16 +25,18 @@ declare global {
   }
 }
 
-export class Filter extends LitElement implements InteractiveComponent, LoadableComponent {
-  // #region Static Members
+export class Filter extends LitElement implements InteractiveComponent {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  private cancelable = useCancelable<this>()(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
@@ -50,9 +48,16 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -84,13 +89,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies placeholder text for the input element. */
   @property() placeholder: string;
 
@@ -102,7 +100,6 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -111,9 +108,9 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Performs a filter on the component.
@@ -140,19 +137,22 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     return this.textInput.value?.setFocus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the filter text changes. */
   calciteFilterChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
+
+  override connectedCallback(): void {
+    this.cancelable.add(this.filterDebounced);
+  }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
   }
 
@@ -173,17 +173,10 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     updateHostInteraction(this);
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  override disconnectedCallback(): void {
-    this.filterDebounced.cancel();
-  }
+  //#region Private Methods
 
-  // #endregion
-
-  // #region Private Methods
   private valueHandler(value: string): void {
     this.filterDebounced(value);
   }
@@ -223,9 +216,9 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     callback?.();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, scale } = this;
@@ -254,5 +247,5 @@ export class Filter extends LitElement implements InteractiveComponent, Loadable
     );
   }
 
-  // #endregion
+  //#endregion
 }

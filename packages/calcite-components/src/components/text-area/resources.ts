@@ -15,6 +15,7 @@ export const CSS = {
   footerEndSlotOnly: "footer--end-only",
   textArea: "text-area",
   textAreaOnly: "text-area--only",
+  wrapper: "wrapper",
 };
 
 export const IDS = {
@@ -27,3 +28,5 @@ export const SLOTS = {
 };
 
 export const RESIZE_TIMEOUT = 100;
+
+export const NO_DIMENSIONS = Object.freeze({ height: 0, width: 0 });

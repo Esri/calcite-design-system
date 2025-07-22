@@ -15,17 +15,12 @@ import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS, IDS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -39,9 +34,9 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 /**
  * @slot - A slot for adding `calcite-action`s.
  * @slot trigger - A slot for adding a `calcite-action` to trigger opening the menu.
- * @slot tooltip - A slot for adding an tooltip for the menu.
+ * @slot tooltip - A slot for adding a tooltip for the menu.
  */
-export class ActionMenu extends LitElement implements LoadableComponent {
+export class ActionMenu extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -50,7 +45,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   // #region Private Properties
 
-  private guid = `calcite-action-menu-${guid()}`;
+  private guid = guid();
 
   private actionElements: Action["el"][] = [];
 
@@ -60,7 +55,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     this.toggleOpen();
   };
 
-  private menuButtonId = `${this.guid}-menu-button`;
+  private menuButtonId = IDS.button(this.guid);
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -100,7 +95,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     this.handleActionNavigation(event, key, actionElements);
   };
 
-  private menuId = `${this.guid}-menu`;
+  private menuId = IDS.menu(this.guid);
 
   private _open = false;
 
@@ -112,8 +107,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
-    const id = `${guid}-action-${index}`;
-
+    const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
 
@@ -121,8 +115,8 @@ export class ActionMenu extends LitElement implements LoadableComponent {
       action.id = id;
     }
 
-    // data attribute is used to style the "activeMenuItemIndex" action using token focus styling.
-    action.toggleAttribute(activeAttr, index === activeMenuItemIndex);
+    // Used to style the "activeMenuItemIndex" action using token focus styling.
+    action.activeDescendant = index === activeMenuItemIndex;
   };
 
   // #endregion
@@ -208,10 +202,6 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     this.connectMenuButtonEl();
   }
 
-  load(): void {
-    setUpLoadableComponent(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -227,10 +217,6 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     ) {
       this.updateActions(this.actionElements);
     }
-  }
-
-  loaded(): void {
-    setComponentLoaded(this);
   }
 
   override disconnectedCallback(): void {
@@ -379,7 +365,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     actions?.forEach(this.updateAction);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true,
@@ -397,6 +383,7 @@ export class ActionMenu extends LitElement implements LoadableComponent {
         return previousValue;
       }, []);
 
+    await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   }
 
@@ -448,12 +435,14 @@ export class ActionMenu extends LitElement implements LoadableComponent {
     this.open = value;
   }
 
-  private handlePopoverOpen(): void {
+  private handlePopoverOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = true;
     this.setFocus();
   }
 
-  private handlePopoverClose(): void {
+  private handlePopoverClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
     this.open = false;
   }
 

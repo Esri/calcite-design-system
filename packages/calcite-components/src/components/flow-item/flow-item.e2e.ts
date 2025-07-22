@@ -15,10 +15,11 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, GlobalTestProps } from "../../tests/utils";
+import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
@@ -27,6 +28,8 @@ type TestWindow = GlobalTestProps<{
 }>;
 
 describe("calcite-flow-item", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
   });
@@ -63,6 +66,14 @@ describe("calcite-flow-item", () => {
       },
       {
         propertyName: "disabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
         defaultValue: false,
       },
       {
@@ -116,6 +127,14 @@ describe("calcite-flow-item", () => {
       },
       {
         propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
         value: true,
       },
       {
@@ -276,6 +295,17 @@ describe("calcite-flow-item", () => {
     expect(await flowItem.getProperty("collapsed")).toBe(false);
   });
 
+  it("sets icon on internal panel", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-flow-item icon="x" icon-flip-rtl></calcite-flow-item>`);
+    await page.waitForChanges();
+
+    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+    expect(await panel.getProperty("icon")).toBe("x");
+    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  });
+
   it("allows scrolling content", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -394,7 +424,7 @@ describe("calcite-flow-item", () => {
   });
 
   describe("theme", () => {
-    themed(html`<calcite-flow-item show-back-button></calcite-flow-item>`, {
+    themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
       "--calcite-flow-corner-radius": {
         shadowSelector: "calcite-panel",
         targetProp: "--calcite-panel-corner-radius",
@@ -402,6 +432,10 @@ describe("calcite-flow-item", () => {
       "--calcite-flow-heading-text-color": {
         shadowSelector: "calcite-panel",
         targetProp: "--calcite-panel-heading-text-color",
+      },
+      "--calcite-flow-icon-color": {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-icon-color",
       },
       "--calcite-flow-description-text-color": {
         shadowSelector: "calcite-panel",

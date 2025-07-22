@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { literal } from "lit-html/static.js";
 import {
@@ -11,7 +12,7 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   InteractiveComponent,
@@ -19,17 +20,11 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -53,15 +48,15 @@ declare global {
  */
 export class Button
   extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner
 {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(["aria-expanded"], this.handleGlobalAttributesChanged);
 
@@ -80,9 +75,16 @@ export class Button
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   /** determine if there is slotted content for styling purposes */
   @state() private hasContent = false;
@@ -90,9 +92,9 @@ export class Button
   /** keeps track of the tooltipText */
   @state() tooltipText: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the alignment of the component's elements. */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
@@ -140,18 +142,11 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed and interaction is disabled. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Specifies the name of the component on form submission. */
   @property({ reflect: true }) name?: string;
@@ -184,14 +179,14 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @property({ reflect: true }) type = "button";
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component. */
   @method()
@@ -201,9 +196,9 @@ export class Button
     this.childEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.setupTextContentObserver();
@@ -212,8 +207,7 @@ export class Button
   }
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
-    if (isBrowser()) {
+    if (!isServer) {
       this.updateHasContent();
     }
   }
@@ -223,7 +217,6 @@ export class Button
   }
 
   loaded(): void {
-    setComponentLoaded(this);
     this.setTooltipText();
   }
 
@@ -234,9 +227,9 @@ export class Button
     this.formEl = null;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -288,9 +281,9 @@ export class Button
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const childElType = this.href ? "a" : "button";
@@ -367,11 +360,7 @@ export class Button
           tabIndex={this.disabled ? -1 : null}
           target={childElType === "a" && this.target}
           title={this.tooltipText}
-          type={
-            childElType === "button"
-              ? (this.type as LuminaJsx.HTMLElementTags["button"]["type"])
-              : null
-          }
+          type={childElType === "button" ? this.type : null}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}
@@ -382,5 +371,5 @@ export class Button
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,12 +1,14 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeAll, describe, expect, it } from "vitest";
-import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { defaults, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
-import { findAll, isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { StepperItem } from "../stepper-item/stepper-item";
+import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
+import { CSS } from "./resources";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: StepperItem["el"]) {
@@ -97,7 +99,7 @@ describe("calcite-stepper", () => {
     expect((await containerEl.getComputedStyle()).display).toBe("grid");
   });
 
-  it.skip("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
+  it("inheritable props: `icon`, `layout`, `numbered`, and `scale` get passed to items from parents", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-stepper layout="vertical" scale="l" numbered icon>
@@ -115,7 +117,7 @@ describe("calcite-stepper", () => {
         </calcite-stepper-item>
       </calcite-stepper>
     `);
-    const stepperItems = await findAll(page, "calcite-stepper-items");
+    const stepperItems = await findAll(page, "calcite-stepper-item");
 
     for (const item of stepperItems) {
       expect(await item.getProperty("icon")).toBe(true);
@@ -125,7 +127,7 @@ describe("calcite-stepper", () => {
     }
   });
 
-  describe.skip("honors hidden attribute", () => {
+  describe("honors hidden attribute", () => {
     hidden("calcite-stepper");
   });
 
@@ -526,6 +528,50 @@ describe("calcite-stepper", () => {
     });
   });
 
+  describe("items should retain focus after being clicked for all layouts with clickable, focusable item UX", () => {
+    function createStepperHTML(
+      clickableFocusableItemLayout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+    ): string {
+      return html`
+        <calcite-stepper layout="${clickableFocusableItemLayout}">
+          <calcite-stepper-item heading="Step 1" id="step-1">
+            <div>Step 1 content</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Step 2" id="step-2">
+            <div>Step 2 content</div>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      `;
+    }
+
+    async function assertFocusRetention(page: E2EPage, layout: "horizontal" | "vertical"): Promise<void> {
+      await page.setContent(createStepperHTML(layout));
+
+      const internalClickableElementSelector =
+        layout === "horizontal" ? `>>> .${STEPPER_ITEM_CSS.stepperItemHeader}` : "";
+
+      await page.click(`#step-2 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-2")).toBe(true);
+
+      await page.click(`#step-1 ${internalClickableElementSelector}`);
+      expect(await isElementFocused(page, "#step-1")).toBe(true);
+    }
+
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    it("retains item focus in horizontal layout", async () => {
+      await assertFocusRetention(page, "horizontal");
+    });
+
+    it("retains item focus in vertical layout", async () => {
+      await assertFocusRetention(page, "vertical");
+    });
+  });
+
   describe("should emit calciteStepperChange/calciteStepperItemChange on user interaction", () => {
     let layout: Stepper["el"]["layout"];
 
@@ -894,19 +940,17 @@ describe("calcite-stepper", () => {
       expect(changeSpy).toHaveReceivedEventTimes(0);
       expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
-      // shouldn't emit change event when disabled element is visible
       await actionEnd.click();
-      expect(changeSpy).toHaveReceivedEventTimes(0);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       await actionEnd.click();
       expect(changeSpy).toHaveReceivedEventTimes(1);
       expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
-      // shouldn't emit change event when disabled element is visible
       await actionStart.click();
-      expect(changeSpy).toHaveReceivedEventTimes(1);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 
       await actionStart.click();
       expect(changeSpy).toHaveReceivedEventTimes(2);
@@ -938,6 +982,40 @@ describe("calcite-stepper", () => {
 
       const displayedItems = await findAll(page, "calcite-stepper-item:not([hidden]):not([item-hidden])");
       expect(displayedItems.length).toBe(1);
+    });
+  });
+
+  describe("theme", () => {
+    describe("horizontal-single", () => {
+      themed(
+        html`<calcite-stepper layout="horizontal-single" scale="m"
+          ><calcite-stepper-item heading="Item 1" active> </calcite-stepper-item
+          ><calcite-stepper-item heading="Item 2" complete> </calcite-stepper-item
+          ><calcite-stepper-item heading="Item 3" error> </calcite-stepper-item>
+        </calcite-stepper>`,
+        {
+          "--calcite-stepper-bar-gap": {
+            shadowSelector: `.${CSS.stepBarContainer}`,
+            targetProp: "gap",
+          },
+          "--calcite-stepper-bar-inactive-fill-color": {
+            shadowSelector: `.${CSS.stepBarInactive}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-active-fill-color": {
+            shadowSelector: `.${CSS.stepBarActive}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-complete-fill-color": {
+            shadowSelector: `.${CSS.stepBarComplete}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-error-fill-color": {
+            shadowSelector: `.${CSS.stepBarError}`,
+            targetProp: "fill",
+          },
+        },
+      );
     });
   });
 });

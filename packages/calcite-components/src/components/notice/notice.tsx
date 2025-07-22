@@ -12,15 +12,10 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  componentFocusable,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
+import { componentFocusable } from "../../utils/component";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -45,14 +40,14 @@ declare global {
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
-export class Notice extends LitElement implements LoadableComponent, OpenCloseComponent {
-  // #region Static Members
+export class Notice extends LitElement implements OpenCloseComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   /** The close button element. */
   private closeButton = createRef<HTMLButtonElement>();
@@ -64,15 +59,22 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
 
   transitionEl: HTMLElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionEnd = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
@@ -92,13 +94,6 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** When `true`, the component is visible. */
   @property({ reflect: true }) open = false;
 
@@ -108,9 +103,9 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Sets focus on the component's first focusable element. */
   @method()
@@ -129,9 +124,9 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteNoticeBeforeClose = createEvent({ cancelable: false });
@@ -145,12 +140,11 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   /** Fires when the component is open and animation is complete. */
   calciteNoticeOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   async load(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
@@ -160,7 +154,7 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (
@@ -171,13 +165,10 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     }
   }
 
-  loaded(): void {
-    setComponentLoaded(this);
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   onBeforeClose(): void {
     this.calciteNoticeBeforeClose.emit();
   }
@@ -195,6 +186,10 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
   }
 
   private setTransitionEl(el: HTMLElement): void {
+    if (!el) {
+      return;
+    }
+
     this.transitionEl = el;
   }
 
@@ -206,9 +201,9 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     this.hasActionEnd = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const closeButton = (
@@ -246,5 +241,5 @@ export class Notice extends LitElement implements LoadableComponent, OpenCloseCo
     );
   }
 
-  // #endregion
+  //#endregion
 }

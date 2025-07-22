@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
-import { getFocusedElementProp } from "../../tests/utils";
+import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 
 describe("calcite-menu", () => {
   describe("renders", () => {
