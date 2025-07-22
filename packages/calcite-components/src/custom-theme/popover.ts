@@ -4,6 +4,7 @@ export const popoverTokens = {
   calcitePopoverBackgroundColor: "",
   calcitePopoverBorderColor: "",
   calcitePopoverCornerRadius: "",
+  calcitePopoverMaxSizeX: "",
   calcitePopoverTextColor: "",
   calcitePopoverZIndex: "",
 };
