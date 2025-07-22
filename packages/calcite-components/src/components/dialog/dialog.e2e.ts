@@ -1250,7 +1250,7 @@ describe("calcite-dialog", () => {
 
   describe("theme appearance", () => {
     themed(
-      html` <calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal>
+      html` <calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
         <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
         <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
         <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
