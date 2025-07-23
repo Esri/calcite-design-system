@@ -4,8 +4,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -18,6 +17,7 @@ import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
@@ -100,6 +100,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -267,8 +269,9 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    */
   @method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
+    return this.focusSetter(() => {
+      return this.panelEl.value ?? this.el;
+    });
   }
 
   /**

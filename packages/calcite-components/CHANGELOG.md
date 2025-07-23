@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.42...@esri/calcite-components@3.3.0-next.43) (2025-07-22)
+
+### Bug Fixes
+
+- **pagination:** prevent invalid start-item and set default to 1 ([#12557](https://github.com/Esri/calcite-design-system/issues/12557)) ([e86b142](https://github.com/Esri/calcite-design-system/commit/e86b142ea0138827daf133f76952cf92d29c7d58))
+
+## [3.3.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.41...@esri/calcite-components@3.3.0-next.42) (2025-07-22)
+
+### Bug Fixes
+
+- **slider:** allow range handle dragging in either direction when both handles share the same position ([#12527](https://github.com/Esri/calcite-design-system/issues/12527)) ([f3ae795](https://github.com/Esri/calcite-design-system/commit/f3ae7954590dfc4eec6f111f3f89431d240740e1)), closes [#10351](https://github.com/Esri/calcite-design-system/issues/10351)
+
+## [3.3.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.40...@esri/calcite-components@3.3.0-next.41) (2025-07-22)
+
+### Features
+
+- **popover:** add token for specifying the max width ([#12516](https://github.com/Esri/calcite-design-system/issues/12516)) ([e58b1a6](https://github.com/Esri/calcite-design-system/commit/e58b1a67a6332647db8a2f0b7c52ff581e6f3c76)), closes [#12319](https://github.com/Esri/calcite-design-system/issues/12319)
+
+### Bug Fixes
+
+- **popover, tooltip:** do not close when a click was initiated inside the component ([#12543](https://github.com/Esri/calcite-design-system/issues/12543)) ([10a9e2a](https://github.com/Esri/calcite-design-system/commit/10a9e2a31695d7f5d8faec20046addcf2d2ea3e0)), closes [#9506](https://github.com/Esri/calcite-design-system/issues/9506)
+
+## [3.3.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.39...@esri/calcite-components@3.3.0-next.40) (2025-07-22)
+
+### Bug Fixes
+
+- **list, block-group:** update menu item labels and call `canPut` / `canPull` to filter items before opening a sort handle menu ([#12487](https://github.com/Esri/calcite-design-system/issues/12487)) ([bce91df](https://github.com/Esri/calcite-design-system/commit/bce91dffedee8c581842867f54e23e5847e265a7)), closes [#12361](https://github.com/Esri/calcite-design-system/issues/12361) [#12273](https://github.com/Esri/calcite-design-system/issues/12273)
+
 ## [3.3.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.38...@esri/calcite-components@3.3.0-next.39) (2025-07-17)
 
 **Note:** Version bump only for package @esri/calcite-components
