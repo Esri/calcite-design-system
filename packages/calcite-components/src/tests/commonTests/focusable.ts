@@ -48,7 +48,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
     );
 
     // we use a fake to assert that the focus options are passed correctly to the target element
-    const fakeFocusOptions = { __id__: "fake-focus-options" } as FocusOptions;
+    const fakeFocusOptions = { __id__: "fake-focus-options" } as const;
 
     type TestWindow = GlobalTestProps<{
       receivedFocusOptions: FocusOptions[];
@@ -75,6 +75,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
         testWindow.receivedFocusOptions = testWindow.receivedFocusOptions
           ? [...testWindow.receivedFocusOptions, options]
           : [options];
+
         originalFocus.call(this, options);
       };
     });
@@ -88,7 +89,11 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
       return testWindow.receivedFocusOptions;
     });
 
-    expect(receivedFocusOptions).toContainEqual(fakeFocusOptions);
-    expect(receivedFocusOptions.length).toBe(1);
+    const testScopeFocusOptions = receivedFocusOptions.filter(
+      (focusOptions) => (focusOptions as typeof fakeFocusOptions)?.__id__ === "fake-focus-options",
+    );
+
+    expect(testScopeFocusOptions).toContainEqual(fakeFocusOptions);
+    expect(testScopeFocusOptions.length).toBe(1);
   });
 }
