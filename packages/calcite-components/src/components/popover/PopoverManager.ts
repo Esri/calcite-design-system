@@ -87,7 +87,7 @@ export default class PopoverManager {
   };
 
   private clickHandler = (event: PointerEvent): void => {
-    if (isKeyboardTriggeredClick(event) || event.defaultPrevented) {
+    if (isKeyboardTriggeredClick(event) || event.defaultPrevented || window.getSelection()?.type === "Range") {
       return;
     }
 

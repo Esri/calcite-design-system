@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders, t9n, openClose } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n, openClose, focusable } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
@@ -19,6 +19,10 @@ describe("calcite-sort-handle", () => {
 
   describe("disabled", () => {
     disabled(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-sort-handle");
   });
 
   describe("accessible", () => {

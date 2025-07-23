@@ -1,4 +1,3 @@
-// import { getVariableTestValue } from "../../tests/utils";
 import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";

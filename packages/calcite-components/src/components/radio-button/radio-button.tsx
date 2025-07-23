@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -15,9 +15,9 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -50,6 +50,8 @@ export class RadioButton
   labelEl: Label["el"];
 
   private rootNode: HTMLElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -122,14 +124,18 @@ export class RadioButton
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    if (!this.disabled) {
-      focusElement(this.containerEl);
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.containerEl;
+    }, options);
   }
 
   // #endregion
