@@ -1825,14 +1825,14 @@ export class Combobox
             <slot />
             {this.noMatches === "add" && (
               <li
-                aria-label={`${add} ${this.filterText}`}
+                aria-label={`${add}: ${this.filterText}`}
                 class={CSS.noMatches}
                 onClick={this.customChipAddHandler}
                 role="option"
                 style={{ cursor: "pointer" }}
                 tabIndex={0}
               >
-                {add} <strong>{this.filterText}</strong>
+                {add}: <strong>{this.filterText}</strong>
               </li>
             )}
             {this.noMatches === "none" && <li class={CSS.noMatches}>{noMatches}</li>}
