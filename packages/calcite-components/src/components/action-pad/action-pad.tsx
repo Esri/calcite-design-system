@@ -1,8 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -10,6 +9,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
@@ -52,6 +52,8 @@ export class ActionPad extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -98,11 +100,18 @@ export class ActionPad extends LitElement {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion

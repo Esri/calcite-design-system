@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import { tabbable } from "tabbable";
+import { focusable, tabbable } from "tabbable";
+import { LitElement } from "@arcgis/lumina";
 import { IconNameOrString } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
@@ -234,55 +235,109 @@ function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
   return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
 }
 
-/** An element which may contain a `setFocus` method. */
-export interface FocusableElement extends HTMLElement {
-  setFocus?: () => Promise<void>;
+export type FocusableElement = SetFocusable | HTMLElement;
+
+export interface SetFocusable extends LitElement {
+  setFocus: (options?: FocusOptions) => Promise<void>;
 }
 
 /**
  * This helper returns true when an element has a setFocus method.
  *
  * @param {Element} el An element.
- * @returns {boolean} The result.
+ * @returns {boolean} Whether the element is focusable.
  */
-export function isCalciteFocusable(el: FocusableElement): boolean {
-  return typeof el?.setFocus === "function";
+export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
+  return typeof (el as SetFocusable)?.setFocus === "function";
 }
 
 /**
  * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
  *
  * @param {Element} el An element.
+ * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
+ * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
+ * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
+ * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+ *
+ * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
-export async function focusElement(el: FocusableElement): Promise<void> {
+export async function focusElement(
+  el: FocusableElement,
+  includeContainer = false,
+  strategy: "focusable" | "tabbable" = "tabbable",
+  context?: HTMLElement,
+  options?: FocusOptions,
+): Promise<void> {
   if (!el) {
     return;
   }
 
-  return isCalciteFocusable(el) ? el.setFocus() : el.focus();
+  if (isCalciteFocusable(el) && context !== el) {
+    return el.setFocus(options);
+  }
+
+  const firstFocusFunction = strategy === "tabbable" ? focusFirstTabbable : focusFirstFocusable;
+  return firstFocusFunction(el, includeContainer, options);
 }
 
 /**
  * Helper to get the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
  * @returns the first tabbable element.
  */
-export function getFirstTabbable(element: HTMLElement): HTMLElement {
+export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
   if (!element) {
     return;
   }
 
-  return (tabbable(element, tabbableOptions)[0] ?? element) as HTMLElement;
+  return (tabbable(element, { ...tabbableOptions, includeContainer })[0] ?? element) as HTMLElement;
 }
 
 /**
  * Helper to focus the first tabbable element.
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+ *
+ * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
-export function focusFirstTabbable(element: HTMLElement): void {
-  getFirstTabbable(element)?.focus();
+export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+  getFirstTabbable(element, includeContainer)?.focus(options);
+}
+
+/**
+ * Helper to get the first focusable element.
+ *
+ * @param {HTMLElement} element The html element containing focusable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
+ * @returns the first focusable element.
+ *
+ * @internal
+ */
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+  if (!element) {
+    return;
+  }
+
+  return (focusable(element, { ...tabbableOptions, includeContainer })[0] ?? element) as HTMLElement;
+}
+
+/**
+ * Helper to focus the first focusable element.
+ *
+ * @param {HTMLElement} element The html element containing focusable elements.
+ * @param {boolean} includeContainer When true, the container element will be considered as well.
+ *
+ * @internal
+ */
+function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+  getFirstFocusable(element, includeContainer)?.focus(options);
 }
 
 /**
@@ -523,6 +578,8 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {Element} currentElement The current element.
  * @param {FocusElementInGroupDestination} destination The target destination element to focus.
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
+ * @param {boolean} includeContainer Determines whether the container element should be considered as well - defaults to true.
+ * @param targetAsContext
  * @returns {Element} The focused element
  */
 export const focusElementInGroup = <T extends Element = Element>(
@@ -530,6 +587,8 @@ export const focusElementInGroup = <T extends Element = Element>(
   currentElement: Element,
   destination: FocusElementInGroupDestination,
   cycle = true,
+  includeContainer = true,
+  targetAsContext = false,
 ): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
@@ -550,7 +609,7 @@ export const focusElementInGroup = <T extends Element = Element>(
     focusTarget = elements[0];
   }
 
-  focusElement(focusTarget);
+  focusElement(focusTarget, includeContainer, "tabbable", targetAsContext ? focusTarget : undefined);
   return focusTarget;
 };
 

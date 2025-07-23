@@ -7,13 +7,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -53,6 +53,8 @@ export class Action extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -132,11 +134,18 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.buttonEl.value?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.buttonEl.value;
+    }, options);
   }
 
   //#endregion
