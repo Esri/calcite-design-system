@@ -95,16 +95,22 @@ export class RadioButtonGroup extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
+  /**
+   * Sets focus on the fist focusable `calcite-radio-button` element in the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       if (this.selectedItem && !this.selectedItem.disabled) {
         return this.selectedItem;
       }
 
       return this.getFocusableRadioButton();
-    });
+    }, options);
   }
 
   // #endregion

@@ -473,7 +473,7 @@ describe("calcite-panel", () => {
     `);
   });
 
-  describe("is focusable", () => {
+  describe("focusable", () => {
     describe("with scrolling content", () => {
       describe("closable", () => {
         focusable(

@@ -704,7 +704,7 @@ describe("calcite-dialog", () => {
     });
   });
 
-  describe("setFocus", () => {
+  describe("focusable", () => {
     const createDialogHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
 
