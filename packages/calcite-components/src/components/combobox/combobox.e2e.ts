@@ -7,7 +7,6 @@ import {
   disabled,
   floatingUIOwner,
   focusable,
-  focusable,
   formAssociated,
   hidden,
   labelable,
