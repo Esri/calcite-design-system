@@ -97,7 +97,7 @@ export class Pagination extends LitElement {
   @property({ reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
-  @property({ reflect: true }) totalItems = 1;
+  @property({ reflect: true }) totalItems = 0;
 
   //#endregion
 
@@ -221,10 +221,8 @@ export class Pagination extends LitElement {
   //#region Private Methods
 
   private handleTotalPages(): void {
-    if (this.pageSize < 1) {
-      this.pageSize = 1;
-    }
-    this.totalPages = this.totalItems / this.pageSize;
+    this.pageSize = Math.max(1, this.pageSize);
+    this.totalPages = Math.max(1, this.totalItems / this.pageSize);
   }
 
   private effectiveLocaleChange(): void {
