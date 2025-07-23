@@ -76,6 +76,18 @@ export const simple = (): string => html`
       Add Notes
       <calcite-text-area></calcite-text-area>
     </calcite-label>
+    <calcite-label layout="block">
+      layout="block"
+      <calcite-input-text placeholder="I'm below the label"></calcite-input-text>
+    </calcite-label>
+    <calcite-label layout="inline">
+      layout="inline"
+      <calcite-input-text placeholder="I'm next to the label"></calcite-input-text>
+    </calcite-label>
+    <calcite-label layout="inline-space-between">
+      layout="inline-space-between"
+      <calcite-input-text placeholder="I'm right aligned"></calcite-input-text>
+    </calcite-label>
   </div>
 `;
 
