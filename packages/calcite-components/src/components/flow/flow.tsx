@@ -93,7 +93,9 @@ export class Flow extends LitElement {
   /**
    * Sets focus on the component.
    *
-   * @param options
+   * @param options - Enables customization of focus behavior.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns Promise<void>
    */
   @method()

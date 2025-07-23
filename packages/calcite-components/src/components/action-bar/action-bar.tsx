@@ -175,7 +175,9 @@ export class ActionBar extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
-   * @param options
+   * @param options - Enables customization of focus behavior.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

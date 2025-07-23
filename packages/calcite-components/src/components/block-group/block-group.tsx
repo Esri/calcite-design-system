@@ -113,7 +113,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /**
    * Sets focus on the component's first focusable element.
    *
-   * @param options
+   * @param options - Enables customization of focus behavior.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()

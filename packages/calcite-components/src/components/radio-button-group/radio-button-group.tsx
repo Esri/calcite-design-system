@@ -98,7 +98,9 @@ export class RadioButtonGroup extends LitElement {
   /**
    * Sets focus on the fist focusable `calcite-radio-button` element in the component.
    *
-   * @param options
+   * @param options - Enables customization of focus behavior.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

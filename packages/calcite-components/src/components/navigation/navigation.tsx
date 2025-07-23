@@ -85,7 +85,9 @@ export class Navigation extends LitElement {
   /**
    * When `navigationAction` is `true`, sets focus on the component's action element.
    *
-   * @param options
+   * @param options - Enables customization of focus behavior.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
