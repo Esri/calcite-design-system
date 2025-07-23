@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.44...@esri/calcite-components@3.3.0-next.45) (2025-07-23)
+
+### Features
+
+- add focus options support ([#12555](https://github.com/Esri/calcite-design-system/issues/12555)) ([3111a34](https://github.com/Esri/calcite-design-system/commit/3111a343b71db9cf394aebc089cdef2009dbaa79))
+
 ## [3.3.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.43...@esri/calcite-components@3.3.0-next.44) (2025-07-23)
 
 ### Features
