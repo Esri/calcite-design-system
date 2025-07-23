@@ -3183,130 +3183,107 @@ describe("keyboard navigation", () => {
     it("starts on specific page and programmatically changes page", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-table id="calcite-table" caption="Simple table" page-size="6" bordered start-page="2">
-            <calcite-table-row slot="table-header">
-              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 1</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 2</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 3</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 4</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 5</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row selected>
-              <calcite-table-cell>cell content 6</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row selected>
-              <calcite-table-cell>cell content 7</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 8</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 9 </calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 10</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 11</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 12</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-            <calcite-table-row>
-              <calcite-table-cell>cell content 13</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-              <calcite-table-cell>cell content</calcite-table-cell>
-            </calcite-table-row>
-          </calcite-table>
-
-          <button onclick="changeProg()" id="changeBtn">Change Prog</button>
-
-          <script>
-            function changeProg() {
-              var table = document.getElementById("calcite-table");
-              table.startPage = 3;
-            }
-          </script>`,
+        html`<calcite-table id="calcite-table" caption="Simple table" page-size="6" bordered current-page="2">
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 1</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 2</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 3</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 4</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 5</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell content 6</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell content 7</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 8</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 9 </calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 10</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 11</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 12</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 13</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
       );
 
       const table = await page.find("calcite-table");
 
-      await page.waitForChanges();
-
-      expect(await table.getProperty("startPage")).toBe(2);
       expect(await table.getProperty("currentPage")).toBe(2);
 
-      await page.$eval("calcite-table", () => {
-        const btn = document.getElementById("changeBtn");
-        btn.click();
-      });
+      table.setProperty("currentPage", 3);
+      await page.waitForChanges();
 
-      expect(await table.getProperty("startPage")).toBe(3);
       expect(await table.getProperty("currentPage")).toBe(3);
 
-      await page.$eval(
-        "calcite-table",
-        (table, PAGINATION_CSS) => {
-          const pagination = table.shadowRoot.querySelector("calcite-pagination");
-          const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.chevron}`)[0];
+      const chevron = await page.find(`calcite-table >>> calcite-pagination >>> .${PAGINATION_CSS.chevron}`);
+      chevron?.click();
+      await page.waitForChanges();
 
-          button?.click();
-        },
-        PAGINATION_CSS,
-      );
-
-      expect(await table.getProperty("startPage")).toBe(3);
       expect(await table.getProperty("currentPage")).toBe(2);
     });
   });

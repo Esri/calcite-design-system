@@ -92,6 +92,16 @@ export class Table extends LitElement {
    */
   @property() caption: string;
 
+  /**
+   * Sets/gets the current page
+   */
+  @property() get currentPage(): number {
+    return Math.ceil(this.pageStartRow / this.pageSize);
+  }
+  set currentPage(page: number) {
+    this.pageStartRow = (page - 1) * this.pageSize + 1;
+  }
+
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
@@ -145,18 +155,6 @@ export class Table extends LitElement {
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
-  /** Paginates to a specific page */
-  @property({ reflect: true }) startPage: number = 1;
-
-  /**
-   * Specifies the current page
-   *
-   * @readonly
-   */
-  @property() get currentPage(): number {
-    return Math.ceil(this.pageStartRow / this.pageSize);
-  }
-
   //#endregion
 
   //#region Events
@@ -194,12 +192,6 @@ export class Table extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    const updateStartPage =
-      changes.has("startPage") && (this.hasUpdated || this.startPage > 1) && this.pageSize > 0;
-    if (updateStartPage) {
-      this.pageStartRow = (this.startPage - 1) * this.pageSize + 1;
-    }
-
     if (
       (changes.has("groupSeparator") && (this.hasUpdated || this.groupSeparator !== false)) ||
       (changes.has("interactionMode") &&
@@ -209,7 +201,7 @@ export class Table extends LitElement {
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
-      updateStartPage
+      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
       this.updateRows();
     }
