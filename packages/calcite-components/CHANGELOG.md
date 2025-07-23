@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.43...@esri/calcite-components@3.3.0-next.44) (2025-07-23)
+
+### Features
+
+- **label:** add new layout "block" ([#12552](https://github.com/Esri/calcite-design-system/issues/12552)) ([47f0252](https://github.com/Esri/calcite-design-system/commit/47f0252529bd9fe76bf5daa98c5a9a4966ba791e)), closes [#9184](https://github.com/Esri/calcite-design-system/issues/9184)
+
 ## [3.3.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.42...@esri/calcite-components@3.3.0-next.43) (2025-07-22)
 
 ### Bug Fixes
