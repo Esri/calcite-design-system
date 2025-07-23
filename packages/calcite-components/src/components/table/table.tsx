@@ -145,18 +145,6 @@ export class Table extends LitElement {
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
-  /** Paginates to a specific page */
-  @property({ reflect: true }) startPage: number = 1;
-
-  /**
-   * Specifies the current page
-   *
-   * @readonly
-   */
-  @property() get currentPage(): number {
-    return Math.ceil(this.pageStartRow / this.pageSize);
-  }
-
   //#endregion
 
   //#region Events
