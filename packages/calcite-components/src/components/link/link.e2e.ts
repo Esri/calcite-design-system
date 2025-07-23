@@ -234,8 +234,9 @@ describe("calcite-link", () => {
 
     it("keyboard without href", async () => {
       const element = await page.find("calcite-link");
-      element.setProperty("href", undefined);
       const clickEvent = await element.spyOnEvent("click");
+      element.setProperty("href", undefined);
+      await page.waitForChanges();
 
       await element.callMethod("setFocus");
       await page.waitForChanges();

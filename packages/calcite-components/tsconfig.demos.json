@@ -1,0 +1,4 @@
+{
+  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "include": ["src/demos"]
+}
