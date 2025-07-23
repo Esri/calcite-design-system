@@ -55,7 +55,7 @@ export class NavigationUser extends LitElement {
   /**
    * Sets focus on the component.
    *
-   * @param options - Enables customization of focus behavior.
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */

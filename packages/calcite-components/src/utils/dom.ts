@@ -269,7 +269,7 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @param includeContainer When true, the container element will be considered as well. Note, this is only applicable when `setFocus` is not applicable.
  * @param strategy The focus strategy to use when finding the first focusable element. Defaults to "tabbable".
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
- * @param options - Enables customization of focus behavior.
+ * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
  * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
@@ -313,7 +313,7 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  *
  * @param {HTMLElement} element The html element containing tabbable elements.
  * @param {boolean} includeContainer When true, the container element will be considered as well.
- * @param options - Enables customization of focus behavior.
+ * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
  * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
