@@ -108,9 +108,7 @@ function toContainerArray(containers: FocusTrapOptions["extraContainers"] = []) 
  *
  * Note: traps will be deactivated automatically when the component is disconnected.
  *
- * @param options - Enables customization of focus behavior.
- *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @param options
  */
 export const useFocusTrap = <T extends FocusTrapComponent>(
   options: UseFocusTrapOptions<T>,
