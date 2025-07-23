@@ -11,7 +11,7 @@ import { join, resolve, sep, win32 } from "node:path";
 
   for (const entry of entries) {
     const path = entry.split(win32.sep).join(sep);
-    const componentName = path.split(sep).at(-3);
+    const componentName = path.split(sep).at(-3)!;
     const monorepoRoot = join(import.meta.dirname, "../../..");
 
     const source = resolve(monorepoRoot, `${path}/messages.json`);
