@@ -30,13 +30,11 @@ describe("calcite-switch", () => {
   });
 
   describe("accessible", () => {
-    describe("unchecked", () => {
-      accessible(`<calcite-switch label="test-label"></calcite-switch>`);
-    });
+    accessible(`<calcite-switch label="test-label"></calcite-switch>`);
+  });
 
-    describe("checked", () => {
-      accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
-    });
+  describe("accessible: checked", () => {
+    accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
   });
 
   describe("labelable", () => {

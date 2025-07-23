@@ -24,17 +24,9 @@ describe("calcite-link", () => {
   });
 
   describe("accessible", () => {
-    describe("default", () => {
-      accessible("<calcite-link>link</calcite-link>");
-    });
-
-    describe("with href", () => {
-      accessible("<calcite-link href='/'>link</calcite-link>");
-    });
-
-    describe("with href + icons", () => {
-      accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
-    });
+    accessible("<calcite-link href='/'>link</calcite-link>");
+    accessible("<calcite-link>link</calcite-link>");
+    accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
   });
 
   describe("disabled", () => {

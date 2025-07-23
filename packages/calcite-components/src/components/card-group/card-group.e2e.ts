@@ -33,42 +33,40 @@ describe("calcite-card-group", () => {
     );
   });
 
-  describe("accessible", () => {
-    describe("is accessible in selection mode none (default)", () => {
-      accessible(
-        html` <calcite-card-group label="test-label-group">
-          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-        </calcite-card-group>`,
-      );
-    });
+  describe("is accessible in selection mode none (default)", () => {
+    accessible(
+      html`<calcite-card-group label="test-label-group">
+        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+      </calcite-card-group>`,
+    );
+  });
 
-    describe("is accessible in selection mode single", () => {
-      accessible(
-        html` <calcite-card-group label="test-label-group" selection-mode="single">
-          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-        </calcite-card-group>`,
-      );
-    });
+  describe("is accessible in selection mode single", () => {
+    accessible(
+      html`<calcite-card-group label="test-label-group" selection-mode="single">
+        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+      </calcite-card-group>`,
+    );
+  });
 
-    describe("is accessible in selection mode single-persist", () => {
-      accessible(
-        html` <calcite-card-group label="test-label-group" selection-mode="single-persist">
-          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-        </calcite-card-group>`,
-      );
-    });
+  describe("is accessible in selection mode single-persist", () => {
+    accessible(
+      html`<calcite-card-group label="test-label-group" selection-mode="single-persist">
+        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+      </calcite-card-group>`,
+    );
+  });
 
-    describe("is accessible in selection mode multiple", () => {
-      accessible(
-        html` <calcite-card-group label="test-label-group" selection-mode="multiple">
-          <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-          <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-        </calcite-card-group>`,
-      );
-    });
+  describe("is accessible in selection mode multiple", () => {
+    accessible(
+      html`<calcite-card-group label="test-label-group" selection-mode="multiple">
+        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
+      </calcite-card-group>`,
+    );
   });
 
   describe("selection modes function as intended", () => {

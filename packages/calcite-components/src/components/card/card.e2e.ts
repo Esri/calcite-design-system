@@ -24,17 +24,15 @@ describe("calcite-card", () => {
   });
 
   describe("accessible", () => {
-    describe("default", () => {
-      accessible("calcite-card");
-    });
+    accessible("calcite-card");
+  });
 
-    describe("when selectable (deprecated)", () => {
-      accessible(
-        html`<calcite-card label="example-label" selectable>
-          <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-        </calcite-card>`,
-      );
-    });
+  describe("accessible when selectable (deprecated)", () => {
+    accessible(
+      html`<calcite-card label="example-label" selectable>
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+      </calcite-card>`,
+    );
   });
 
   describe("slots", () => {
