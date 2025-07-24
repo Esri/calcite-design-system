@@ -67,7 +67,7 @@ declare global {
 /**
  * @slot action - A slot for positioning a button next to the component.
  * @slot internal-label-content - A slot for rendering content next to the component's labelText.
- * */
+ */
 export class InputNumber
   extends LitElement
   implements

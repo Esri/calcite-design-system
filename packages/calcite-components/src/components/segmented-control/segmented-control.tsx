@@ -46,7 +46,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.
  * @slot internal-label-content - A slot for rendering content next to the component's labelText.
- *  */
+ */
 export class SegmentedControl
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
