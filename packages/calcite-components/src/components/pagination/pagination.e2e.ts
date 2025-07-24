@@ -39,7 +39,7 @@ describe("calcite-pagination", () => {
     defaults("calcite-pagination", [
       {
         propertyName: "totalItems",
-        defaultValue: 1,
+        defaultValue: 0,
       },
       {
         propertyName: "startItem",
