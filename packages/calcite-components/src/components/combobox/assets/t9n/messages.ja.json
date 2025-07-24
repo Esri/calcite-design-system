@@ -1,8 +1,10 @@
 {
+  "add": "Add",
   "all": "すべて",
   "allSelected": "すべて選択",
-  "selectAll": "すべて選択",
   "clear": "値の削除",
+  "noMatches": "No matches",
   "removeTag": "タグの削除",
+  "selectAll": "Select all",
   "selected": "選択済み"
 }

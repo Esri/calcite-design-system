@@ -1,8 +1,10 @@
 {
+  "add": "Add",
   "all": "Kaikki",
   "allSelected": "Kaikki valitut",
-  "selectAll": "Valitse kaikki",
   "clear": "Tyhjennä arvo",
+  "noMatches": "No matches",
   "removeTag": "Poista tunniste",
+  "selectAll": "Select all",
   "selected": "valitut"
 }
