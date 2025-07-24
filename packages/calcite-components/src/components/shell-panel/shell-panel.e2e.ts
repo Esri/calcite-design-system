@@ -565,6 +565,27 @@ describe("calcite-shell-panel", () => {
     t9n("calcite-shell-panel");
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-shell-panel heading="Test"></calcite-shell-panel>`);
+    const item = await page.find("calcite-shell-panel");
+
+    const expandedSpy = await page.spyOnEvent("calciteShellPanelExpanded");
+    const collapsedSpy = await page.spyOnEvent("calciteShellPanelCollapsed");
+
+    item.setProperty("collapsed", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(true);
+    expect(expandedSpy).toHaveReceivedEventTimes(0);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+
+    item.setProperty("collapsed", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(false);
+    expect(expandedSpy).toHaveReceivedEventTimes(1);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("themed", () => {
     describe("default", () => {
       themed(html`<calcite-shell-panel slot="panel-start" display-mode="float-all" resizable></calcite-shell-panel>`, {

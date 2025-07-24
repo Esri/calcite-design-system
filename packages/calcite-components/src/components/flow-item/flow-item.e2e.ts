@@ -423,6 +423,27 @@ describe("calcite-flow-item", () => {
     expect(await flowItem.getProperty("closed")).toBe(false);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-flow-item heading="Test"></calcite-flow-item>`);
+    const item = await page.find("calcite-flow-item");
+
+    const expandedSpy = await page.spyOnEvent("calciteFlowItemExpanded");
+    const collapsedSpy = await page.spyOnEvent("calciteFlowItemCollapsed");
+
+    item.setProperty("collapsed", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(true);
+    expect(expandedSpy).toHaveReceivedEventTimes(0);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+
+    item.setProperty("collapsed", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(false);
+    expect(expandedSpy).toHaveReceivedEventTimes(1);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("theme", () => {
     themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
       "--calcite-flow-corner-radius": {

@@ -74,6 +74,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _expanded = false;
+
   //#endregion
 
   //#region State Properties
@@ -136,8 +138,22 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the item is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteListItemExpanded.emit();
+      } else {
+        this.calciteListItemCollapsed.emit();
+      }
+    }
+  }
 
   /**
    * Hides the component when filtered.
@@ -337,6 +353,12 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteListItemCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteListItemExpanded = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });

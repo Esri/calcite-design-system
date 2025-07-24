@@ -35,13 +35,13 @@ declare global {
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 export class TreeItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionSlotWrapper = createRef<HTMLDivElement>();
 
@@ -53,9 +53,11 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private userChangedValue = false;
 
-  // #endregion
+  private _expanded = false;
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() private hasEndActions = false;
 
@@ -67,9 +69,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
    */
   @state() updateAfterInitialRender = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
   @property({ reflect: true }) depth = -1;
@@ -77,8 +79,22 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is expanded. */
-  @property({ reflect: true }) expanded = false;
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteTreeItemExpanded.emit();
+      } else {
+        this.calciteTreeItemCollapsed.emit();
+      }
+    }
+  }
 
   /** @private */
   @property({ reflect: true }) get hasChildren(): boolean {
@@ -116,16 +132,22 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) selectionMode: SelectionMode;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
 
-  // #endregion
+  /** Fires when the component's content area is collapsed. */
+  calciteTreeItemCollapsed = createEvent({ cancelable: false });
 
-  // #region Lifecycle
+  /** Fires when the component's content area is expanded. */
+  calciteTreeItemExpanded = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -168,9 +190,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     this.updateAncestorTree();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private handleSelectedChange(value: boolean): void {
     if (this.selectionMode === "ancestors" && !this.userChangedValue) {
       if (value) {
@@ -342,9 +365,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
@@ -494,5 +517,5 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

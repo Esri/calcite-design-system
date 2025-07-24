@@ -744,6 +744,27 @@ describe("calcite-panel", () => {
     });
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-panel heading="Test"></calcite-panel>`);
+    const item = await page.find("calcite-panel");
+
+    const expandedSpy = await page.spyOnEvent("calcitePanelExpanded");
+    const collapsedSpy = await page.spyOnEvent("calcitePanelCollapsed");
+
+    item.setProperty("collapsed", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(true);
+    expect(expandedSpy).toHaveReceivedEventTimes(0);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+
+    item.setProperty("collapsed", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(false);
+    expect(expandedSpy).toHaveReceivedEventTimes(1);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("theme", () => {
     themed(
       html`<calcite-panel

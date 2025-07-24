@@ -55,6 +55,8 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private _collapsed = false;
+
   //#endregion
 
   //#region State Properties
@@ -75,7 +77,21 @@ export class ShellPanel extends LitElement {
   //#region Public Properties
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true }) collapsed = false;
+  @property({ reflect: true })
+  get collapsed(): boolean {
+    return this._collapsed;
+  }
+  set collapsed(value: boolean) {
+    const oldValue = this._collapsed;
+    this._collapsed = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteShellPanelCollapsed.emit();
+      } else {
+        this.calciteShellPanelExpanded.emit();
+      }
+    }
+  }
 
   /**
    * Specifies the display mode of the component, where:
@@ -133,6 +149,12 @@ export class ShellPanel extends LitElement {
 
   /** @private */
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteShellPanelCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteShellPanelExpanded = createEvent({ cancelable: false });
 
   //#endregion
 

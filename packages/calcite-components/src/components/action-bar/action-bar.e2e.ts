@@ -611,5 +611,26 @@ describe("calcite-action-bar", () => {
         },
       );
     });
+
+    it("should emit expanded/collapsed events when toggled", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-action-bar heading="Test"></calcite-action-bar>`);
+      const item = await page.find("calcite-action-bar");
+
+      const expandedSpy = await page.spyOnEvent("calciteActionBarExpanded");
+      const collapsedSpy = await page.spyOnEvent("calciteActionBarCollapsed");
+
+      item.setProperty("expanded", true);
+      await page.waitForChanges();
+      expect(await item.getProperty("expanded")).toBe(true);
+      expect(expandedSpy).toHaveReceivedEventTimes(1);
+      expect(collapsedSpy).toHaveReceivedEventTimes(0);
+
+      item.setProperty("expanded", false);
+      await page.waitForChanges();
+      expect(await item.getProperty("expanded")).toBe(false);
+      expect(expandedSpy).toHaveReceivedEventTimes(1);
+      expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    });
   });
 });

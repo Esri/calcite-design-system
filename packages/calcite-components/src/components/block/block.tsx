@@ -65,6 +65,8 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _expanded = false;
+
   //#endregion
 
   //#region State Properties
@@ -103,7 +105,21 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property({ reflect: true }) dragHandle = false;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteBlockExpanded.emit();
+      } else {
+        this.calciteBlockCollapsed.emit();
+      }
+    }
+  }
 
   /**
    * The component header text.
@@ -220,12 +236,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   //#region Events
 
-  /**
-   *
-   * @private
-   */
-  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
-
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
 
@@ -234,6 +244,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   /** Fires when the component is closed and animation is complete. */
   calciteBlockClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockExpanded = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
@@ -256,6 +272,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
   //#endregion
 

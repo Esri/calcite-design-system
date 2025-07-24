@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+  createEvent,
+} from "@arcgis/lumina";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -44,6 +53,8 @@ export class ActionGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _expanded = false;
+
   //#endregion
 
   //#region State Properties
@@ -57,8 +68,22 @@ export class ActionGroup extends LitElement {
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, the component is expanded. */
-  @property({ reflect: true }) expanded = false;
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteActionGroupExpanded.emit();
+      } else {
+        this.calciteActionGroupCollapsed.emit();
+      }
+    }
+  }
 
   /** Accessible name for the component. */
   @property() label: string;
@@ -111,6 +136,16 @@ export class ActionGroup extends LitElement {
       return this.el;
     }, options);
   }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionGroupCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionGroupExpanded = createEvent({ cancelable: false });
 
   //#endregion
 

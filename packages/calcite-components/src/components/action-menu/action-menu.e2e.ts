@@ -622,6 +622,27 @@ describe("calcite-action-menu", () => {
     });
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-action-menu heading="Test"></calcite-action-menu>`);
+    const item = await page.find("calcite-action-menu");
+
+    const expandedSpy = await page.spyOnEvent("calciteActionMenuExpanded");
+    const collapsedSpy = await page.spyOnEvent("calciteActionMenuCollapsed");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandedSpy).toHaveReceivedEventTimes(1);
+    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandedSpy).toHaveReceivedEventTimes(1);
+    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("theme", () => {
     themed(
       html`<calcite-action-menu open>

@@ -55,6 +55,8 @@ export class ActionPad extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _expanded = false;
+
   //#endregion
 
   //#region State Properties
@@ -71,8 +73,22 @@ export class ActionPad extends LitElement {
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When `true`, the component is expanded. */
-  @property({ reflect: true }) expanded = false;
+  /** When `true`, the component is expanded to show child components. */
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteActionPadExpanded.emit();
+      } else {
+        this.calciteActionPadCollapsed.emit();
+      }
+    }
+  }
 
   /** Indicates the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
@@ -117,6 +133,12 @@ export class ActionPad extends LitElement {
   //#endregion
 
   //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionPadCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionPadExpanded = createEvent({ cancelable: false });
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionPadToggle = createEvent({ cancelable: false });

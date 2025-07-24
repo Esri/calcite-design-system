@@ -36,12 +36,28 @@ export class BlockSection extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _expanded = false;
+
   //#endregion
 
   //#region Public Properties
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true }) expanded = false;
+  @property({ reflect: true })
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(value: boolean) {
+    const oldValue = this._expanded;
+    this._expanded = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteBlockSectionExpanded.emit();
+      } else {
+        this.calciteBlockSectionCollapsed.emit();
+      }
+    }
+  }
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
@@ -113,6 +129,12 @@ export class BlockSection extends LitElement {
   //#endregion
 
   //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockSectionCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockSectionExpanded = createEvent({ cancelable: false });
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });

@@ -64,6 +64,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _collapsed = false;
+
   //#endregion
 
   //#region Public Properties
@@ -88,7 +90,21 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true }) collapsed = false;
+  @property({ reflect: true })
+  get collapsed(): boolean {
+    return this._collapsed;
+  }
+  set collapsed(value: boolean) {
+    const oldValue = this._collapsed;
+    this._collapsed = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calciteFlowItemCollapsed.emit();
+      } else {
+        this.calciteFlowItemExpanded.emit();
+      }
+    }
+  }
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -187,6 +203,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calciteFlowItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteFlowItemCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteFlowItemExpanded = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calciteFlowItemScroll = createEvent({ cancelable: false });

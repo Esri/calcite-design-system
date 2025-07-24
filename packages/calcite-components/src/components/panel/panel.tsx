@@ -74,6 +74,8 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private _collapsed = false;
+
   //#endregion
 
   //#region State Properties
@@ -134,7 +136,21 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true }) collapsed = false;
+  @property({ reflect: true })
+  get collapsed(): boolean {
+    return this._collapsed;
+  }
+  set collapsed(value: boolean) {
+    const oldValue = this._collapsed;
+    this._collapsed = value;
+    if (oldValue !== value) {
+      if (value) {
+        this.calcitePanelCollapsed.emit();
+      } else {
+        this.calcitePanelExpanded.emit();
+      }
+    }
+  }
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -225,6 +241,12 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapsed = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpanded = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
