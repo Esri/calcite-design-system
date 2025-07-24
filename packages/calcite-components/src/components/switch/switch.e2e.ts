@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   accessible,
   disabled,
+  focusable,
   formAssociated,
   hidden,
   HYDRATED_ATTR,
@@ -46,6 +47,10 @@ describe("calcite-switch", () => {
 
   describe("disabled", () => {
     disabled("calcite-switch");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-switch");
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {
