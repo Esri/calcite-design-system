@@ -57,12 +57,7 @@ import {
   numberStringFormatter,
 } from "../../utils/locale";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
-import {
-  DateLocaleData,
-  getLocaleData,
-  getValueAsDateRange,
-  stringOrBooleanFromAttribute,
-} from "../date-picker/utils";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
@@ -194,6 +189,9 @@ export class InputDatePicker
 
   //#region Public Properties
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ reflect: true }) calendars: "one" | "two" = "two";
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -281,12 +279,8 @@ export class InputDatePicker
   /** When `true`, activates a range for the component. */
   @property({
     reflect: true,
-    converter: {
-      fromAttribute: stringOrBooleanFromAttribute,
-      toAttribute: stringOrBoolean.toAttribute,
-    },
   })
-  range: boolean | "single" = false;
+  range = false;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -1162,6 +1156,7 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
+                  calendars={this.calendars}
                   headingLevel={this.headingLevel}
                   layout={this.layout}
                   max={this.max}

@@ -9,8 +9,6 @@ import {
   method,
   state,
   JsxNode,
-  stringOrBoolean,
-  // stringOrBoolean,
 } from "@arcgis/lumina";
 import {
   dateFromISO,
@@ -30,12 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
-import {
-  DateLocaleData,
-  getLocaleData,
-  getValueAsDateRange,
-  stringOrBooleanFromAttribute,
-} from "./utils";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -99,6 +92,9 @@ export class DatePicker extends LitElement {
   /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
   @property({ reflect: true }) activeRange: "start" | "end";
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ reflect: true }) calendars: "one" | "two" = "two";
+
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
@@ -136,14 +132,7 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
   /** When `true`, activates the component's range mode to allow a start and end date. */
-  @property({
-    reflect: true,
-    converter: {
-      fromAttribute: stringOrBooleanFromAttribute,
-      toAttribute: stringOrBoolean.toAttribute,
-    },
-  })
-  range: boolean | "single" = false;
+  @property({ reflect: true }) range = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
@@ -672,6 +661,7 @@ export class DatePicker extends LitElement {
     return (
       <calcite-date-picker-month
         activeDate={activeDate}
+        calendars={this.calendars}
         dateTimeFormat={this.dateTimeFormat}
         endDate={this.range ? endDate : undefined}
         headingLevel={this.headingLevel || HEADING_LEVEL}

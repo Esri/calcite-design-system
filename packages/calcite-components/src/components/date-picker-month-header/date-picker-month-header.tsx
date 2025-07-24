@@ -107,7 +107,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property({
     reflect: true,
   })
-  range: boolean | "single" = false;
+  range = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
@@ -440,7 +440,7 @@ export class DatePickerMonthHeader extends LitElement {
           <div class={{ [CSS.chevronContainer]: true }}>{this.renderChevron("left")}</div>
         )}
         <div class={{ [CSS.chevronContainer]: true }}>
-          {(this.position !== "start" || this.range === "single") && this.renderChevron("right")}
+          {this.position !== "start" && this.renderChevron("right")}
         </div>
       </>
     );

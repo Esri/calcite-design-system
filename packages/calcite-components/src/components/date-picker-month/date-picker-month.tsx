@@ -63,6 +63,9 @@ export class DatePickerMonth extends LitElement {
   /** The currently active Date. */
   @property() activeDate: Date = new Date();
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ reflect: true }) calendars: "one" | "two" = "two";
+
   /**
    * The DateTimeFormat used to provide screen reader labels.
    *
@@ -113,7 +116,7 @@ export class DatePickerMonth extends LitElement {
   @property({
     reflect: true,
   })
-  range: boolean | "single" = false;
+  range = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
@@ -558,7 +561,7 @@ export class DatePickerMonth extends LitElement {
   private updateFocusableDate(date: Date): void {
     if (!this.selectedDate || !this.range) {
       this.focusedDate = this.getFirstValidDateOfMonth(date);
-    } else if (this.selectedDate && !!this.range) {
+    } else if (this.selectedDate && this.range) {
       if (!hasSameMonthAndYear(this.startDate, date) || !hasSameMonthAndYear(this.endDate, date)) {
         this.focusedDate = this.getFirstValidDateOfMonth(date);
       }
@@ -609,7 +612,7 @@ export class DatePickerMonth extends LitElement {
       <div class={{ [CSS.calendarContainer]: true }} role="grid">
         {this.renderCalendar(adjustedWeekDays, days)}
         {this.range &&
-          this.range !== "single" &&
+          this.calendars === "two" &&
           this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
       </div>
     );
@@ -647,7 +650,7 @@ export class DatePickerMonth extends LitElement {
             [CSS.currentDay]: currentDay,
             [CSS.insideRangeHover]: this.isHoverInRange(),
             [CSS.outsideRangeHover]: !this.isHoverInRange(),
-            [CSS.noncurrent]: !!this.range && !currentMonth,
+            [CSS.noncurrent]: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}
@@ -693,7 +696,7 @@ export class DatePickerMonth extends LitElement {
           min={this.min}
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
-          position={isEndCalendar ? "end" : this.range ? "start" : null}
+          position={isEndCalendar ? "end" : this.range && this.calendars === "two" ? "start" : null}
           range={this.range}
           scale={this.scale}
           selectedDate={this.selectedDate}
