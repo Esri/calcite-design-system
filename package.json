@@ -35,7 +35,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/eslint-config": "4.33.10",
+    "@arcgis/eslint-config": "^4.34.0-next.49",
     "@cspell/dict-gis": "1.0.2",
     "@cspell/dict-pokemon": "1.0.2",
     "@cspell/dict-scientific-terms-us": "3.0.7",
@@ -114,7 +114,7 @@
     "typescript": "5.8.2",
     "typescript-eslint": "8.36.0",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "6.3.5",
+    "vite": "7.0.5",
     "vite-plugin-dts": "4.5.4"
   },
   "license": "SEE LICENSE.md",
