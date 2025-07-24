@@ -37,22 +37,34 @@ check_ui_icon_name_consistency() {
   unset staged_files
 }
 
-update_t9nmanifest() {
-
+update_t9n_manifest() {
   staged_files="$(
     git diff --cached --name-only --diff-filter=ACD | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
-  )"                                               
+  )"
 
   if [ -n "$staged_files" ]; then
     # Run the script to update the t9nmanifest
     npx tsx ./packages/calcite-components/support/updateT9nManifest.ts || {
-    echo "Error: Failed to update T9n manifest."
-    exit 1
+      echo "Error: Failed to update T9n manifest."
+      exit 1
     }
   fi
 }
 
-update_t9nmanifest
+update_internal_custom_prop_doc() {
+  staged_scss_files="$(
+    git diff --cached --name-only --diff-filter=ACM | grep -E "^packages/calcite-components/.*\.scss$" || true
+  )"
+
+  if [ -n "$staged_scss_files" ]; then
+    npx tsx packages/calcite-components/support/addInternalCustomPropDoc.ts $staged_scss_files
+  fi
+
+  unset staged_scss_files
+}
+
+update_t9n_manifest
+update_internal_custom_prop_doc
 lint-staged
 check_ui_icon_name_consistency
 
