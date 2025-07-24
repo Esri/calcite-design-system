@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@arcgis/eslint-config": "^4.34.0-next.49",
-    "@cspell/dict-gis": "1.0.2",
-    "@cspell/dict-pokemon": "1.0.2",
-    "@cspell/dict-scientific-terms-us": "3.0.7",
+    "@cspell/dict-gis": "1.0.3",
+    "@cspell/dict-pokemon": "1.0.3",
+    "@cspell/dict-scientific-terms-us": "3.0.8",
     "@cspell/eslint-plugin": "8.19.4",
     "@eslint/js": "9.30.1",
     "@esri/calcite-typescript-config": "0.0.0",
