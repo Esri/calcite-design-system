@@ -659,15 +659,15 @@ describe("calcite-slider", () => {
 
     it("does not allow text selection when slider is used", async () => {
       const page = await newE2EPage({
-        html: `<calcite-slider 
-          value="30" 
-          label-handles 
-          label-ticks 
-          max-label="100" 
-          ticks="10" 
-          min="0" 
-          max="100" 
-          value="50" 
+        html: `<calcite-slider
+          value="30"
+          label-handles
+          label-ticks
+          max-label="100"
+          ticks="10"
+          min="0"
+          max="100"
+          value="50"
           step="1"
         >
         </calcite-slider>`,
@@ -737,6 +737,7 @@ describe("calcite-slider", () => {
     let changeEvent: EventSpy;
     let inputEvent: EventSpy;
     let element: E2EElement;
+    let handleRect: DOMRect;
     let trackRect: DOMRect;
 
     const commonSliderAttrs = `
@@ -761,6 +762,7 @@ describe("calcite-slider", () => {
       await page.setContent(html`<calcite-slider ${sliderAttrs}></calcite-slider>`);
 
       element = await page.find("calcite-slider");
+      handleRect = await getElementRect(page, "calcite-slider", `.${CSS.handle}`);
       trackRect = await getElementRect(page, "calcite-slider", `.${CSS.track}`);
       changeEvent = await element.spyOnEvent("calciteSliderChange");
       inputEvent = await element.spyOnEvent("calciteSliderInput");
@@ -825,6 +827,27 @@ describe("calcite-slider", () => {
 
         expect(isMinThumbFocused).toBe(true);
         await assertValuesUnchanged(expectedValue);
+      });
+
+      it("pressing mouse down on right side of handle and dragging towards the left shifts drag to the min handle", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+
+        await assertValuesUnchanged(expectedValue);
+
+        const initialMinValue = expectedValue;
+        const rightHalfOfHandleCircleDragTarget = handleRect.x + handleRect.width - 2;
+
+        await page.mouse.move(rightHalfOfHandleCircleDragTarget, handleRect.y);
+        await page.mouse.down();
+        await page.mouse.move(rightHalfOfHandleCircleDragTarget - 10, handleRect.y);
+        await page.mouse.up();
+        await page.waitForChanges();
+
+        const isMinHandleFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
+
+        expect(isMinHandleFocused).toBe(true);
+        const newMinValue = await element.getProperty("value")[0];
+        expect(newMinValue).not.toBe(initialMinValue);
       });
     });
   });

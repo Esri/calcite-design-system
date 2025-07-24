@@ -340,6 +340,48 @@
           </calcite-block-group>
         </div>
       </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">canPull & canPut</div>
+
+        <div class="child">
+          <div style="display: flex; gap: 20px">
+            <div>
+              <h2>Block 1</h2>
+              <calcite-block-group id="pull-put-block-1" drag-enabled group="pull-put-group" label="Block 1">
+                <calcite-block sort-handle-open heading="One"></calcite-block>
+                <calcite-block heading="Two"></calcite-block>
+                <calcite-block heading="Three"></calcite-block>
+              </calcite-block-group>
+            </div>
+            <div>
+              <h2>Block 2</h2>
+              <calcite-block-group id="pull-put-block-2" drag-enabled group="pull-put-group" label="Block 2">
+                <calcite-block heading="Four"></calcite-block>
+                <calcite-block heading="Five"></calcite-block>
+                <calcite-block heading="Six"></calcite-block>
+              </calcite-block-group>
+            </div>
+            <script>
+              document.addEventListener("DOMContentLoaded", async () => {
+                const block1 = document.getElementById("pull-put-block-1");
+                const block2 = document.getElementById("pull-put-block-2");
+
+                await block1.componentOnReady();
+                await block2.componentOnReady();
+                block1.canPut = () => {
+                  console.log("canPut called for block 1");
+                  return true;
+                };
+                block2.canPut = () => {
+                  console.log("canPut called for block 2");
+                  return false;
+                };
+              });
+            </script>
+          </div>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>

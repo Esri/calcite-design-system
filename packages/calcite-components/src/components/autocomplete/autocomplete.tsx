@@ -55,7 +55,7 @@ import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -132,6 +132,8 @@ export class Autocomplete
   private inputValueMatchPattern: RegExp;
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
@@ -390,13 +392,16 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.referenceEl.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    }, options);
   }
 
   //#endregion

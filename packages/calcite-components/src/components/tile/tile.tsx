@@ -9,7 +9,7 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconNameOrString } from "../icon/interfaces";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -35,6 +35,8 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   // #region Private Properties
 
   private containerEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -148,13 +150,20 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled && this.interactive) {
-      this.containerEl?.focus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      if (this.interactive) {
+        return this.containerEl;
+      }
+    }, options);
   }
 
   // #endregion

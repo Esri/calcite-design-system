@@ -13,13 +13,12 @@ import {
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { useT9n } from "../../controllers/useT9n";
 import { IconNameOrString } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
-import { focusFirstTabbable } from "../../utils/dom";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
@@ -51,6 +50,8 @@ export class RadioButtonGroup extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -113,17 +114,22 @@ export class RadioButtonGroup extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
+  /**
+   * Sets focus on the fist focusable `calcite-radio-button` element in the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      if (this.selectedItem && !this.selectedItem.disabled) {
+        return this.selectedItem;
+      }
 
-    if (this.selectedItem && !this.selectedItem.disabled) {
-      focusFirstTabbable(this.selectedItem);
-    }
-    if (this.radioButtons.length > 0) {
-      focusFirstTabbable(this.getFocusableRadioButton());
-    }
+      return this.getFocusableRadioButton();
+    }, options);
   }
 
   // #endregion
@@ -172,6 +178,7 @@ export class RadioButtonGroup extends LitElement {
   // #endregion
 
   // #region Private Methods
+
   private passPropsToRadioButtons(): void {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
