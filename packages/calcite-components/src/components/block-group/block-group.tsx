@@ -14,13 +14,13 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { componentFocusable } from "../../utils/component";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { focusFirstTabbable, getRootNode } from "../../utils/dom";
+import { getRootNode } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
@@ -60,6 +60,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   private cancelable = useCancelable<this>()(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -111,13 +113,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion

@@ -388,7 +388,7 @@ describe("calcite-modal", () => {
     });
   });
 
-  describe("setFocus", () => {
+  describe("focusable", () => {
     const createModalHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-modal open ${attrs}>${contentHTML}</calcite-modal>`;
 

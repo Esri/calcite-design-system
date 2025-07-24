@@ -11,16 +11,16 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { CSS, ICONS, SLOTS, IDS } from "./resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -119,6 +119,8 @@ export class ActionMenu extends LitElement {
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -152,7 +154,6 @@ export class ActionMenu extends LitElement {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -179,12 +180,18 @@ export class ActionMenu extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return focusElement(this.menuButtonEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.menuButtonEl;
+    }, options);
   }
 
   // #endregion

@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.45...@esri/calcite-components@3.3.0-next.46) (2025-07-24)
+
+### Bug Fixes
+
+- map `bs` locale to `sr-Latn-CS` ([#12566](https://github.com/Esri/calcite-design-system/issues/12566)) ([64eedae](https://github.com/Esri/calcite-design-system/commit/64eedaebf72d032b7032f1fa23300807ce5d699d)), closes [#12274](https://github.com/Esri/calcite-design-system/issues/12274)
+
+## [3.3.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.44...@esri/calcite-components@3.3.0-next.45) (2025-07-23)
+
+### Features
+
+- add focus options support ([#12555](https://github.com/Esri/calcite-design-system/issues/12555)) ([3111a34](https://github.com/Esri/calcite-design-system/commit/3111a343b71db9cf394aebc089cdef2009dbaa79))
+
+## [3.3.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.43...@esri/calcite-components@3.3.0-next.44) (2025-07-23)
+
+### Features
+
+- **label:** add new layout "block" ([#12552](https://github.com/Esri/calcite-design-system/issues/12552)) ([47f0252](https://github.com/Esri/calcite-design-system/commit/47f0252529bd9fe76bf5daa98c5a9a4966ba791e)), closes [#9184](https://github.com/Esri/calcite-design-system/issues/9184)
+
+## [3.3.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.42...@esri/calcite-components@3.3.0-next.43) (2025-07-22)
+
+### Bug Fixes
+
+- **pagination:** prevent invalid start-item and set default to 1 ([#12557](https://github.com/Esri/calcite-design-system/issues/12557)) ([e86b142](https://github.com/Esri/calcite-design-system/commit/e86b142ea0138827daf133f76952cf92d29c7d58))
+
+## [3.3.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.41...@esri/calcite-components@3.3.0-next.42) (2025-07-22)
+
+### Bug Fixes
+
+- **slider:** allow range handle dragging in either direction when both handles share the same position ([#12527](https://github.com/Esri/calcite-design-system/issues/12527)) ([f3ae795](https://github.com/Esri/calcite-design-system/commit/f3ae7954590dfc4eec6f111f3f89431d240740e1)), closes [#10351](https://github.com/Esri/calcite-design-system/issues/10351)
+
 ## [3.3.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.40...@esri/calcite-components@3.3.0-next.41) (2025-07-22)
 
 ### Features

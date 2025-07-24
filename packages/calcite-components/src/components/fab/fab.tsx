@@ -1,16 +1,15 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Button } from "../button/button";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./fab.scss";
 
@@ -30,6 +29,8 @@ export class Fab extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private buttonEl = createRef<Button["el"]>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -74,12 +75,18 @@ export class Fab extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.buttonEl.value);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.buttonEl.value;
+    }, options);
   }
 
   // #endregion
