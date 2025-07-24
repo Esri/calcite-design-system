@@ -254,7 +254,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
-   * @param options
+   * @param options - allows specific coordinates to be defined.
    * @returns - promise that resolves once the content is scrolled to.
    */
   @method()
