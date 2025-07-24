@@ -57,6 +57,41 @@
       **************************************************
     -->
       <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Internal label</div>
+
+        <!-- Internal label -->
+        <div>
+          <calcite-segmented-control scale="s" label-text="Label text" required>
+            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+            <calcite-icon slot="internal-label-content" icon="banana" scale="s"></calcite-icon>
+          </calcite-segmented-control>
+        </div>
+
+        <div style="margin-left: 100px">
+          <calcite-segmented-control scale="m" label-text="Label text" required>
+            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+            <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+          </calcite-segmented-control>
+        </div>
+
+        <div style="margin-left: 50px">
+          <calcite-segmented-control scale="l" label-text="Label text" required>
+            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+            <calcite-icon slot="internal-label-content" icon="banana" scale="l"></calcite-icon>
+          </calcite-segmented-control>
+        </div>
+      </div>
+
+      <div class="parent-flex">
         <div class="child-flex right-aligned-text">solid</div>
 
         <!-- solid -->

@@ -11,6 +11,7 @@ import {
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -440,6 +441,10 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-select");
   });
 
   describe("theme", () => {

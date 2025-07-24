@@ -134,6 +134,14 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
   </div>
 `;
 
+export const internalLabel = (): string => html`
+  <div style="width:350px">
+    <calcite-autocomplete scale="m" label-text="Label text" required>
+      <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+    </calcite-autocomplete>
+  </div>
+`;
+
 export const smallViewport = (): string => html`
   <calcite-autocomplete open>
     <calcite-autocomplete-item-group heading="Dogs">

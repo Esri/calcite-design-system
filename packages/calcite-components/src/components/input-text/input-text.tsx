@@ -28,12 +28,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
@@ -50,7 +51,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a button next to the component. */
+/**
+ * @slot action - A slot for positioning a button next to the component.
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class InputText
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
@@ -167,6 +171,9 @@ export class InputText
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
@@ -575,7 +582,7 @@ export class InputText
       <input
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
-        ariaLabel={getLabelText(this)}
+        ariaLabel={this.labelText}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
         class={{
@@ -607,6 +614,16 @@ export class InputText
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           class={{
             [CSS.inputWrapper]: true,

@@ -9,6 +9,7 @@ import {
   hidden,
   HYDRATED_ATTR,
   labelable,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -223,6 +224,10 @@ describe("calcite-checkbox", () => {
         });
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-checkbox");
   });
 
   describe("theme", () => {

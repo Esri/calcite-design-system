@@ -30,3 +30,7 @@ export const ICONS = {
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
 };
+
+export const SLOTS = {
+  internalLabelContent: "internal-label-content",
+};

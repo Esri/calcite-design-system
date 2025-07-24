@@ -5,3 +5,7 @@ export const CSS = {
 export const IDS = {
   validationMessage: "segmentedControlValidationMessage",
 };
+
+export const SLOTS = {
+  internalLabelContent: "internal-label-content",
+};

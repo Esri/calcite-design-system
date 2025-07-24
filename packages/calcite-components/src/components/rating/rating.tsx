@@ -26,6 +26,7 @@ import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/l
 import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { focusFirstTabbable } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -33,7 +34,7 @@ import type { Label } from "../label/label";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { IDS, CSS } from "./resources";
+import { IDS, CSS, SLOTS } from "./resources";
 import { styles } from "./rating.scss";
 
 declare global {
@@ -42,6 +43,9 @@ declare global {
   }
 }
 
+/**
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class Rating
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -106,6 +110,9 @@ export class Rating
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -388,6 +395,16 @@ export class Rating
     return (
       <InteractiveContainer disabled={this.disabled}>
         <span class={CSS.wrapper}>
+          {this.labelText && (
+            <InternalLabel
+              labelText={this.labelText}
+              onClick={() => this.onLabelClick()}
+              required={this.required}
+              slot={<slot name={SLOTS.internalLabelContent} />}
+              spaceBottom
+              tooltipText={this.messages.required}
+            />
+          )}
           <fieldset class={CSS.fieldSet} disabled={this.disabled}>
             <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
             {this.starsMap.map(
@@ -413,6 +430,8 @@ export class Rating
                     <input
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
+                      ariaLabel={this.labelText}
+                      ariaRequired={this.required}
                       checked={checked}
                       class={CSS.visuallyHidden}
                       disabled={this.disabled || this.readOnly}

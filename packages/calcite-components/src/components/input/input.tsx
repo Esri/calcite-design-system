@@ -36,7 +36,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
@@ -459,7 +459,6 @@ export class Input
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
-    this.listen("click", this.inputOnClickFocusHandler);
   }
 
   override connectedCallback(): void {
@@ -583,14 +582,6 @@ export class Input
         event.preventDefault();
       }
     }
-  }
-
-  private inputOnClickFocusHandler(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.setFocus();
   }
 
   onLabelClick(): void {
@@ -1077,8 +1068,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
-          ariaRequired={this.required}
+          ariaLabel={this.labelText}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
@@ -1100,6 +1090,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
+          required={this.required}
           type="text"
           value={this.displayedValue}
         />
@@ -1115,8 +1106,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
-          ariaRequired={this.required}
+          ariaLabel={this.labelText}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1157,8 +1147,10 @@ export class Input
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
             required={this.required}
             slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
             tooltipText={this.messages.required}
           />
         )}

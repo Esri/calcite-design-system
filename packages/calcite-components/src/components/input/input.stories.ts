@@ -109,6 +109,14 @@ export const simple = (args: InputStoryArgs): string => html`
   </div>
 `;
 
+export const internalLabel = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input type="text" placeholder="Placeholder" scale="m" label-text="Label text" required>
+      <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+    </calcite-input>
+  </div>
+`;
+
 export const withSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input

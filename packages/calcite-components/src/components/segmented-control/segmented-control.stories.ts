@@ -78,6 +78,16 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
   </calcite-segmented-control>
 `;
 
+export const internalLabel = (): string => html`
+  <calcite-segmented-control scale="m" label-text="Label text" required>
+    <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+    <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+    <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+  </calcite-segmented-control>
+`;
+
 export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="m">

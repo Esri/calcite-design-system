@@ -73,6 +73,17 @@ export const simple = (args: SelectStoryArgs): string => html`
   </div>
 `;
 
+export const internalLabel = (): string => html`
+  <div style="width:260px">
+    <calcite-select label="calcite select" width="auto" scale="m" label-text="Label text" required>
+      <calcite-option value="high">😃</calcite-option>
+      <calcite-option value="medium">😶</calcite-option>
+      <calcite-option value="low">😭</calcite-option>
+      <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+    </calcite-select>
+  </div>
+`;
+
 export const grouped = (): string => html`
   <calcite-select status="idle" width="auto" scale="m">
     <calcite-option-group label="My fancy group label">

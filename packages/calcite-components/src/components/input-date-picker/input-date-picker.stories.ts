@@ -76,6 +76,11 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
   </div>
 `;
 
+export const internalLabel = (): string =>
+  html`<calcite-input-date-picker scale="m" value="2023-03-07" label-text="Label text" required>
+    <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+  </calcite-input-date-picker>`;
+
 export const withMinMax = (): string =>
   html` <style>
       .container {

@@ -23,13 +23,14 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { focusFirstTabbable, getElementDir } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
@@ -42,7 +43,7 @@ import { isValidNumber } from "../../utils/number";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, ICONS } from "./resources";
+import { CSS, IDS, ICONS, SLOTS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -50,6 +51,9 @@ declare global {
   }
 }
 
+/**
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
@@ -127,6 +131,9 @@ export class InputTimePicker
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /**
    * When the component resides in a form,
@@ -562,6 +569,16 @@ export class InputTimePicker
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
@@ -578,7 +595,8 @@ export class InputTimePicker
             scale={scale === "l" ? "m" : "s"}
           />
           <div
-            aria-label={getLabelText(this)}
+            aria-label={this.labelText}
+            ariaRequired={this.required}
             class={CSS.inputContainer}
             dir="ltr"
             id={IDS.inputContainer}

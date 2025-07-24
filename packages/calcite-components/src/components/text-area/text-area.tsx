@@ -19,7 +19,7 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -480,8 +480,10 @@ export class TextArea
           {this.labelText && (
             <InternalLabel
               labelText={this.labelText}
+              onClick={() => this.onLabelClick()}
               required={this.required}
               slot={<slot name={SLOTS.internalLabelContent} />}
+              spaceBottom
               tooltipText={this.messages.required}
             />
           )}
@@ -489,7 +491,7 @@ export class TextArea
             aria-describedby={this.guid}
             aria-errormessage={IDS.validationMessage}
             ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
-            ariaLabel={getLabelText(this)}
+            ariaLabel={this.labelText}
             autofocus={this.el.autofocus}
             class={{
               [CSS.textArea]: true,

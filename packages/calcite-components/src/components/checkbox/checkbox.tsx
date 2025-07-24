@@ -15,14 +15,16 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { CSS, SLOTS } from "./resources";
+import { useT9n } from "../../controllers/useT9n";
+import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -30,9 +32,6 @@ declare global {
   }
 }
 
-/**
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
- */
 export class Checkbox
   extends LitElement
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent
@@ -62,6 +61,13 @@ export class Checkbox
   };
 
   private toggleEl = createRef<HTMLDivElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   // #endregion
 
@@ -101,6 +107,9 @@ export class Checkbox
 
   /** Label text to be displayed with the component */
   @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the name of the component.
@@ -250,17 +259,10 @@ export class Checkbox
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        {this.labelText && (
-          <InternalLabel
-            labelText={this.labelText}
-            required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
-            //tooltipText={this.messages.required}
-          />
-        )}
         <div
           ariaChecked={this.checked}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelText}
+          ariaRequired={this.required}
           class={{
             [CSS.toggle]: true,
             [CSS_UTILITY.rtl]: rtl,
@@ -276,6 +278,16 @@ export class Checkbox
           </svg>
           <slot />
         </div>
+        {this.labelText && (
+          <div>
+            <InternalLabel
+              labelText={this.labelText}
+              required={this.required}
+              spaceInlineStart
+              tooltipText={this.messages.required}
+            />
+          </div>
+        )}
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>
     );

@@ -24,7 +24,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
@@ -418,8 +418,10 @@ export class Select
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
             required={this.required}
             slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
             tooltipText={this.messages.required}
           />
         )}
@@ -427,11 +429,12 @@ export class Select
           <select
             aria-errormessage={IDS.validationMessage}
             ariaInvalid={this.status === "invalid"}
-            ariaLabel={getLabelText(this)}
+            ariaLabel={this.labelText}
             class={CSS.select}
             disabled={disabled}
             onChange={this.handleInternalSelectChange}
             ref={this.storeSelectRef}
+            required={this.required}
           >
             <slot />
           </select>

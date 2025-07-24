@@ -62,6 +62,7 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-pick
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
@@ -71,7 +72,7 @@ import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { styles } from "./input-date-picker.scss";
-import { CSS, ICONS, IDS, POSITION } from "./resources";
+import { CSS, ICONS, IDS, POSITION, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
@@ -81,6 +82,9 @@ declare global {
   }
 }
 
+/**
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ */
 export class InputDatePicker
   extends LitElement
   implements
@@ -208,6 +212,9 @@ export class InputDatePicker
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -1078,8 +1085,23 @@ export class InputDatePicker
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
+            tooltipText={this.messages.required}
+          />
+        )}
         <div class={CSS.container}>
-          <div aria-label={this.label} class={CSS.inputContainer} role="group">
+          <div
+            aria-label={this.labelText}
+            ariaRequired={this.required}
+            class={CSS.inputContainer}
+            role="group"
+          >
             <div
               class={CSS.inputWrapper}
               data-position={POSITION.start}

@@ -43,7 +43,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -1734,7 +1734,7 @@ export class Combobox
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelText}
           class={{
             [CSS.input]: true,
             [CSS.inputSingle]: true,
@@ -1750,6 +1750,7 @@ export class Combobox
           placeholder={placeholder}
           readOnly={this.readOnly}
           ref={this.textInput}
+          required={this.required}
           role="combobox"
           tabIndex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
@@ -1872,8 +1873,10 @@ export class Combobox
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
             required={this.required}
             slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
             tooltipText={this.messages.required}
           />
         )}

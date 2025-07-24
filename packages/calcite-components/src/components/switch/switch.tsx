@@ -13,10 +13,11 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -67,6 +68,12 @@ export class Switch
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** Label text to be displayed at the end of the component */
+  @property() labelTextEnd: string;
+
+  /** Label text to be displayed at the start of the component */
+  @property() labelTextStart: string;
 
   /**
    * Specifies the name of the component.
@@ -172,15 +179,17 @@ export class Switch
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelTextStart + " " + this.labelTextEnd}
           class={CSS.container}
           ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
         >
+          {this.labelTextStart && <InternalLabel labelText={this.labelTextStart} spaceInlineEnd />}
           <div class={CSS.track}>
             <div class={CSS.handle} />
           </div>
+          {this.labelTextEnd && <InternalLabel labelText={this.labelTextEnd} spaceInlineStart />}
           <HiddenFormInputSlot component={this} />
         </div>
       </InteractiveContainer>

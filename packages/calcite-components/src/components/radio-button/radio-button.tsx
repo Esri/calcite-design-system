@@ -14,7 +14,8 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
@@ -88,6 +89,9 @@ export class RadioButton
    * @private
    */
   @property() label?: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /**
    * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
@@ -462,7 +466,7 @@ export class RadioButton
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.labelText}
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
@@ -471,6 +475,9 @@ export class RadioButton
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
+          {this.labelText && (
+            <InternalLabel labelText={this.labelText} spaceBottom spaceInlineStart />
+          )}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

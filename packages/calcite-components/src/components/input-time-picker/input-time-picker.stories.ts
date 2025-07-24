@@ -81,6 +81,12 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
   </calcite-input-time-picker>
 `;
 
+export const internalLabel = (): string => html`
+  <calcite-input-time-picker label-text="Label text" required scale="m" step="0.1" value="10:37:09.5"
+    ><calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon
+  ></calcite-input-time-picker>
+`;
+
 export const deciSeconds_TestOnly = (): string => html`
   <calcite-input-time-picker step="0.1" value="10:37:09.5" open> </calcite-input-time-picker>
 `;

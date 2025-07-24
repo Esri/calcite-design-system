@@ -18,6 +18,7 @@
   .container {
     @apply relative
     outline-none;
+    display: flex;
   }
 
   .radio {
@@ -142,5 +143,6 @@
   }
 }
 
+@include form-internal-label();
 @include hidden-form-input();
 @include base-component();

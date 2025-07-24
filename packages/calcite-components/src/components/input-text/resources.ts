@@ -19,4 +19,5 @@ export const IDS = {
 
 export const SLOTS = {
   action: "action",
+  internalLabelContent: "internal-label-content",
 };

@@ -30,7 +30,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
@@ -43,6 +43,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   NumericInputComponent,
@@ -63,7 +64,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a button next to the component. */
+/**
+ * @slot action - A slot for positioning a button next to the component.
+ * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * */
 export class InputNumber
   extends LitElement
   implements
@@ -199,6 +203,9 @@ export class InputNumber
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
+
+  /** Label text to be displayed with the component */
+  @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
@@ -1006,7 +1013,7 @@ export class InputNumber
       <input
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
-        ariaLabel={getLabelText(this)}
+        ariaLabel={this.labelText}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
         defaultValue={this.defaultValue}
@@ -1028,6 +1035,7 @@ export class InputNumber
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildNumberElRef}
+        required={this.required}
         type="text"
         value={this.displayedValue}
       />
@@ -1035,6 +1043,16 @@ export class InputNumber
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
+            required={this.required}
+            slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           class={{
             [CSS.inputWrapper]: true,

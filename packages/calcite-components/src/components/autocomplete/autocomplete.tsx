@@ -432,7 +432,6 @@ export class Autocomplete
     super();
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
-    this.listen("click", this.autocompleteOnClickFocusHandler);
   }
 
   override connectedCallback(): void {
@@ -564,14 +563,6 @@ export class Autocomplete
     this.emitChange();
     await this.setFocus();
     this.open = false;
-  }
-
-  private autocompleteOnClickFocusHandler(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.setFocus();
   }
 
   onLabelClick(): void {
@@ -795,8 +786,10 @@ export class Autocomplete
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
+            onClick={() => this.onLabelClick()}
             required={this.required}
             slot={<slot name={SLOTS.internalLabelContent} />}
+            spaceBottom
             tooltipText={this.messages.required}
           />
         )}
@@ -807,7 +800,6 @@ export class Autocomplete
             aria-controls={listId}
             aria-label={this.labelText}
             aria-owns={listId}
-            aria-required={this.required}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}
             ariaHasPopup="listbox"
@@ -838,6 +830,7 @@ export class Autocomplete
             prefixText={this.prefixText}
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
+            required={this.required}
             role="combobox"
             scale={this.scale}
             status={this.status}

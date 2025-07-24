@@ -4,5 +4,6 @@
   "selectAll": "Select All",
   "clear": "Clear value",
   "removeTag": "Remove tag",
+  "required": "Required",
   "selected": "selected"
 }
