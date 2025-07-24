@@ -32,7 +32,7 @@
  * @prop --calcite-dialog-space: Specifies the padding of the component's `"unnamed (default)"` slot.
  * @prop --calcite-dialog-header-content-space: Specifies the padding of the `"header-content"` slot.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
- * @prop --calcite-popover-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+ * @prop --calcite-dialog-action-menu-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
  */
 
 :host {
@@ -152,7 +152,7 @@ calcite-panel {
     var(--calcite-internal-dialog-content-padding)
   );
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
-  --calcite-popover-border-color: var(--calcite-dialog-popover-border-color, var(--calcite-color-border-1));
+  --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
 }
 
 :host([kind="brand"]) calcite-panel {

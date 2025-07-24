@@ -1,22 +1,6 @@
 import { html } from "../../support/formatting";
 
 export const dialogTokens = {
-  calcitePanelBackgroundColor: "",
-  calcitePanelBorderColor: "",
-  calcitePanelContentSpace: "",
-  calcitePanelCornerRadius: "",
-  calcitePanelDescriptionTextColor: "",
-  calcitePanelFooterBackgroundColor: "",
-  calcitePanelFooterSpace: "",
-  calcitePanelHeaderActionBackgroundColorHover: "",
-  calcitePanelHeaderActionBackgroundColorPress: "",
-  calcitePanelHeaderActionBackgroundColor: "",
-  calcitePanelHeaderActionTextColorPress: "",
-  calcitePanelHeaderActionTextColor: "",
-  calcitePanelHeaderBackgroundColor: "",
-  calcitePanelHeaderContentSpace: "",
-  calcitePanelHeadingTextColor: "",
-  calcitePanelSpace: "",
   calciteDialogScrimBackgroundColor: "",
   calciteDialogSizeX: "",
   calciteDialogMinSizeX: "",
@@ -43,7 +27,7 @@ export const dialogTokens = {
   calciteDialogSpace: "",
   calciteDialogHeaderContentSpace: "",
   calciteDialogFooterSpace: "",
-  calcitePopoverBorderColor: "",
+  calciteDialogActionMenuBorderColor: "",
 };
 
 export const dialog = html`
