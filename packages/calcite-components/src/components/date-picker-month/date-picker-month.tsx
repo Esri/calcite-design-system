@@ -113,7 +113,7 @@ export class DatePickerMonth extends LitElement {
   @property() monthStyle: "abbreviated" | "wide";
 
   /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
-  @property({ reflect: true }) range = false;
+  @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
@@ -694,7 +694,6 @@ export class DatePickerMonth extends LitElement {
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
           position={isEndCalendar ? "end" : this.range && this.calendars === "two" ? "start" : null}
-          range={this.range}
           scale={this.scale}
           selectedDate={this.selectedDate}
         />

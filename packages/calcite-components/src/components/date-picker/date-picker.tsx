@@ -633,6 +633,7 @@ export class DatePicker extends LitElement {
         : this.minAsDate;
 
     const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
+
     return (
       <>
         <div ariaHidden={true} class={CSS.container} tabIndex={-1}>
