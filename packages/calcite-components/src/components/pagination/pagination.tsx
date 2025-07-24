@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
@@ -60,6 +60,8 @@ export class Pagination extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -95,7 +97,7 @@ export class Pagination extends LitElement {
   @property({ reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
-  @property({ reflect: true }) totalItems = 0;
+  @property({ reflect: true }) totalItems = 1;
 
   //#endregion
 
@@ -139,11 +141,18 @@ export class Pagination extends LitElement {
     this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -229,8 +238,14 @@ export class Pagination extends LitElement {
   private handleLastStartItemChange(): void {
     const { totalItems, pageSize, totalPages } = this;
 
+    const isStartNegative = totalItems - pageSize < 0;
+
     this.lastStartItem =
-      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
+      (totalItems % pageSize === 0
+        ? isStartNegative
+          ? 0
+          : totalItems - pageSize
+        : Math.floor(totalPages) * pageSize) + 1;
   }
 
   private handleIsXXSmall(): void {

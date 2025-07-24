@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import baseConfig from "../../lint-staged.config.mjs";
 
 /**
@@ -6,5 +7,12 @@ import baseConfig from "../../lint-staged.config.mjs";
  */
 export default {
   ...baseConfig,
-  "*.{m,c,}js": ["eslint --fix", "prettier --write"],
+  "*.{m,c}js": (absolutePaths) => {
+    const files = absolutePaths.join(" ");
+    const { dirname } = import.meta;
+    return [
+      `eslint --fix ${files}`,
+      `prettier --ignore-path ${resolve(dirname, "../../.prettierignore")} --write ${files}`,
+    ];
+  },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components-react",
-  "version": "3.3.0-next.32",
+  "version": "3.3.0-next.46",
   "description": "A set of React components that wrap calcite components",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -22,14 +22,14 @@
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",
     "lint": "concurrently npm:lint:*",
-    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "tsc": "tsc",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.0-next.32",
-    "@lit/react": "1.0.7"
+    "@esri/calcite-components": "3.3.0-next.46",
+    "@lit/react": "1.0.8"
   },
   "peerDependencies": {
     "react": ">=18.3",

@@ -1,12 +1,11 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -34,6 +33,8 @@ export class BlockSection extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -95,11 +96,18 @@ export class BlockSection extends LitElement {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first tabbable element. */
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion

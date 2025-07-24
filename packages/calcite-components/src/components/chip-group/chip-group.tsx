@@ -2,15 +2,19 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import type { Chip } from "../chip/chip";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./chip-group.scss";
 
 declare global {
@@ -31,6 +35,8 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   private items: Chip["el"][] = [];
 
   private slotRefEl = createRef<HTMLSlotElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -76,13 +82,18 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled) {
-      return (this.selectedItems[0] || this.items[0])?.setFocus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.selectedItems[0] || this.items[0];
+    }, options);
   }
 
   // #endregion
@@ -122,22 +133,20 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
-          break;
+      const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
+        ArrowRight: "next",
+        ArrowLeft: "previous",
+        Home: "first",
+        End: "last",
+      };
+      const destination = destinationFromKey[event.detail.key];
+
+      if (destination) {
+        const interactiveItems = this.items?.filter((el) => !el.disabled);
+        focusElementInGroup(interactiveItems, event.detail.target, destination, true, true, true);
       }
     }
     event.stopPropagation();
@@ -147,11 +156,11 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     const item = event.target as Chip["el"];
     if (this.items?.includes(item)) {
       if (this.items?.indexOf(item) > 0) {
-        focusElementInGroup(this.items, item, "previous");
+        focusElementInGroup(this.items, item, "previous", false, false);
       } else if (this.items?.indexOf(item) === 0) {
-        focusElementInGroup(this.items, item, "next");
+        focusElementInGroup(this.items, item, "next", false, false);
       } else {
-        focusElementInGroup(this.items, item, "first");
+        focusElementInGroup(this.items, item, "first", false, false);
       }
     }
     this.items = this.items?.filter((el) => el !== item);

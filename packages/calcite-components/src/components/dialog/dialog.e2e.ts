@@ -279,7 +279,6 @@ describe("calcite-dialog", () => {
 
     const messageOverrides = { close: "shut the front door" };
 
-    await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     dialog.setProperty("closeDisabled", true);
     dialog.setProperty("loading", true);
     dialog.setProperty("menuOpen", true);
@@ -304,7 +303,6 @@ describe("calcite-dialog", () => {
     expect(await panel.getProperty("icon")).toBe("x");
     expect(await panel.getProperty("iconFlipRtl")).toBe(true);
     expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
-    expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
 
   it("outsideCloseDisabled", async () => {
@@ -470,7 +468,7 @@ describe("calcite-dialog", () => {
       const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
       await closeButton.click();
       await page.waitForChanges();
-      expect(mockCallBack).toHaveBeenCalledTimes(2);
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
     });
 
@@ -499,7 +497,7 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
       await closeEventSpy;
 
-      expect(mockCallBack).toHaveBeenCalledTimes(2);
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
     });
 
@@ -522,7 +520,7 @@ describe("calcite-dialog", () => {
       dialog.removeAttribute("open");
       await page.waitForChanges();
 
-      expect(mockCallBack).toHaveBeenCalledTimes(2);
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
       expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
     });
 
@@ -541,7 +539,7 @@ describe("calcite-dialog", () => {
       dialog.setProperty("open", false);
       await page.waitForChanges();
 
-      expect(mockCallBack).toHaveBeenCalledTimes(2);
+      expect(mockCallBack).toHaveBeenCalledTimes(1);
     });
 
     it("should remain open with rejected 'beforeClose' promise'", async () => {
@@ -706,7 +704,7 @@ describe("calcite-dialog", () => {
     });
   });
 
-  describe("setFocus", () => {
+  describe("focusable", () => {
     const createDialogHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
 

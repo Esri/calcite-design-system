@@ -26,18 +26,18 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -103,6 +103,8 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -137,6 +139,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -247,12 +250,18 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     );
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.requestUpdate();
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   /** Updates the element(s) that are used within the focus-trap of the component. */
