@@ -99,6 +99,7 @@ export const ExpandToggle = ({
 
   const actionNode = (
     <calcite-action
+      aria={{ ariaExpanded: expanded }}
       icon={expanded ? expandIcon : collapseIcon}
       id="expand-toggle"
       label={label}

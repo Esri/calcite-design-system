@@ -343,6 +343,7 @@ export class MenuItem extends LitElement {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
+        aria={{ ariaExpanded: this.open }}
         class={CSS.dropdownAction}
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -43,9 +43,9 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private buttonId = IDS.button(this.guid);
 
-  private indicatorId = IDS.indicator(this.guid);
-
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
+
+  private indicatorEl: HTMLDivElement;
 
   /**
    * Made into a prop for testing purposes only
@@ -59,6 +59,8 @@ export class Action extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Public Properties
+
+  @property() aria?: LuminaJsx.AriaAttributes;
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
@@ -182,6 +184,10 @@ export class Action extends LitElement implements InteractiveComponent {
     }
   }
 
+  private storeIndicatorEl(el: HTMLDivElement): void {
+    this.indicatorEl = el;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -202,13 +208,13 @@ export class Action extends LitElement implements InteractiveComponent {
   }
 
   private renderIndicatorText(): JsxNode {
-    const { indicator, messages, indicatorId, buttonId } = this;
+    const { indicator, messages, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
         class={CSS.indicatorText}
-        id={indicatorId}
+        ref={this.storeIndicatorEl}
         role="region"
       >
         {indicator ? messages.indicator : null}
@@ -254,7 +260,6 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private renderButton(): JsxNode {
     const {
-      active,
       compact,
       disabled,
       icon,
@@ -263,7 +268,6 @@ export class Action extends LitElement implements InteractiveComponent {
       label,
       text,
       indicator,
-      indicatorId,
       buttonId,
       messages,
     } = this;
@@ -291,11 +295,12 @@ export class Action extends LitElement implements InteractiveComponent {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          aria-controls={indicator ? indicatorId : null}
-          ariaBusy={loading}
-          ariaDisabled={this.disabled ? this.disabled : null}
-          ariaLabel={ariaLabel}
-          ariaPressed={active}
+          ariaBusy={this.aria?.ariaBusy ?? loading}
+          ariaControlsElements={[this.indicatorEl, ...(this.aria?.ariaControlsElements ?? [])]}
+          ariaDescribedByElements={this.aria?.ariaDescribedByElements}
+          ariaExpanded={this.aria?.ariaExpanded}
+          ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+          ariaPressed={this.aria?.ariaPressed}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -309,10 +314,12 @@ export class Action extends LitElement implements InteractiveComponent {
 
     return (
       <button
-        aria-controls={indicator ? indicatorId : null}
-        ariaBusy={loading}
-        ariaLabel={ariaLabel}
-        ariaPressed={active}
+        ariaBusy={this.aria?.ariaBusy ?? loading}
+        ariaControlsElements={[this.indicatorEl, ...(this.aria?.ariaControlsElements ?? [])]}
+        ariaDescribedByElements={this.aria?.ariaDescribedByElements}
+        ariaExpanded={this.aria?.ariaExpanded}
+        ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+        ariaPressed={this.aria?.ariaPressed}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}

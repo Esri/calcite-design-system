@@ -278,6 +278,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
           <calcite-action
             active={open}
             appearance="transparent"
+            aria={{ ariaExpanded: open }}
             class={CSS.handle}
             dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}
