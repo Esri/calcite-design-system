@@ -38,10 +38,8 @@
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-dialog-scrim-background-color: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-  @apply flex
-    inset-0
-    z-overlay
-    pointer-events-none;
+  --calcite-internal-dialog-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1))
+    @apply flex inset-0 z-overlay pointer-events-none;
   --calcite-internal-dialog-animation-offset: 20px;
 }
 
@@ -135,7 +133,7 @@ calcite-panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
-  --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
+  --calcite-panel-background-color: var(--calcite-internal-dialog-background-color);
   --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
   --calcite-panel-heading-text-color: var(--calcite-dialog-heading-text-color);
   --calcite-panel-description-text-color: var(--calcite-dialog-description-text-color);
