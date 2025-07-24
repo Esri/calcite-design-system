@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.45...@esri/calcite-components@3.3.0-next.46) (2025-07-24)
+
+### Bug Fixes
+
+- map `bs` locale to `sr-Latn-CS` ([#12566](https://github.com/Esri/calcite-design-system/issues/12566)) ([64eedae](https://github.com/Esri/calcite-design-system/commit/64eedaebf72d032b7032f1fa23300807ce5d699d)), closes [#12274](https://github.com/Esri/calcite-design-system/issues/12274)
+
 ## [3.3.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.44...@esri/calcite-components@3.3.0-next.45) (2025-07-23)
 
 ### Features
