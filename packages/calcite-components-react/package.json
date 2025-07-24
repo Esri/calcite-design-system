@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@esri/calcite-components": "3.3.0-next.46",
-    "@arcgis/lumina": "^4.34.0-next.49",
+    "@arcgis/lumina": ">= 4.34.0-next.69 < 4.35.0",
     "@lit/react": "1.0.8",
     "lit": "3.3.0"
   },
