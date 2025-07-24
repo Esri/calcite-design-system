@@ -161,7 +161,7 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/index.html`](./packages/calcite-components/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components/`](packages/calcite-components/src/components/src/components/), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/index.html`](./packages/calcite-components/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components/`](packages/calcite-components/src/components/), and the changes will be reflected in the demos.
 
 ## Linting
 
