@@ -104,10 +104,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() position: Extract<"start" | "end", Position>;
 
   /** When `true`, activates the component's range mode. */
-  @property({
-    reflect: true,
-  })
-  range = false;
+  @property({ reflect: true }) range = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
