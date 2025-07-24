@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { GenericController, T9nMeta, toFunction } from "@arcgis/lumina/controllers";
-import { GenericT9nStrings } from "@arcgis/components-utils";
+import { GenericT9nStrings } from "@arcgis/toolkit/intl";
 import { createEvent, LitElement } from "@arcgis/lumina";
 import {
   EffectiveHourFormat,
