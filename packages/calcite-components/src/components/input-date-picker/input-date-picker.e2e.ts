@@ -650,7 +650,7 @@ describe("calcite-input-date-picker", () => {
       });
 
       it("handles Bosnian locale", async () => {
-        await testLocaleDateSelection("bs", "01.05.2023.");
+        await testLocaleDateSelection("bs", "1. 5. 2023.");
       });
 
       it("handles Italian (Switzerland) locale", async () => {
