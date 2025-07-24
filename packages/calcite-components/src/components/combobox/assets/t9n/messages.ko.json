@@ -1,8 +1,10 @@
 {
+  "add": "Add",
   "all": "모두",
   "allSelected": "모두 선택됨",
-  "selectAll": "모두 선택",
   "clear": "값 지우기",
+  "noMatches": "No matches",
   "removeTag": "태그 제거",
+  "selectAll": "Select all",
   "selected": "선택함"
 }

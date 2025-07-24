@@ -1,8 +1,10 @@
 {
+  "add": "Add",
   "all": "Všetko",
   "allSelected": "Všetky vybrané",
-  "selectAll": "Vybrať všetko",
   "clear": "Vymazať hodnotu",
+  "noMatches": "No matches",
   "removeTag": "Odstrániť štítok",
+  "selectAll": "Select all",
   "selected": "vybrané"
 }

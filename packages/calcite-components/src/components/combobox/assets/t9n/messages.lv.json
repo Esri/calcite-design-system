@@ -1,8 +1,10 @@
 {
+  "add": "Add",
   "all": "Viss",
   "allSelected": "Visi atlasītie",
-  "selectAll": "Izvēlēties visu",
   "clear": "Notīrīt vērtību",
+  "noMatches": "No matches",
   "removeTag": "Noņemt atslēgvārdu",
+  "selectAll": "Select all",
   "selected": "atlasīts"
 }
