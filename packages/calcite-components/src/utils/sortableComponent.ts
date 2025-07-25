@@ -99,7 +99,13 @@ export function connectSortableComponent(component: SortableComponent): void {
   const dataIdAttr = "id";
   const { group, handleSelector: handle, dragSelector: draggable } = component;
 
+  const params = new URLSearchParams(document.location.search);
+  const swapThreshold = parseInt(params.get("swapThreshold")) ?? 1;
+  const invertSwap = params.has("invertSwap") ?? false;
+
   component.sortable = Sortable.create(component.el, {
+    swapThreshold,
+    invertSwap,
     dataIdAttr,
     ...CSS,
     ...(!!draggable && { draggable }),
