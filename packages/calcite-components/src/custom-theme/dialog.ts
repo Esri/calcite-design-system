@@ -37,7 +37,7 @@ export const dialog = html`
       description="Themed"
       kind="info"
       scale="s"
-      placement="bottom-end"
+      modal
       open
       width="s"
       slot="dialogs"
