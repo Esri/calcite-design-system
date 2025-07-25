@@ -253,6 +253,29 @@ export class Combobox
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
+
+  private customChipAddHandler = (): void => {
+    this.addCustomChip(this.filterText, true);
+  };
+
   //#endregion
 
   //#region State Properties
@@ -638,27 +661,8 @@ export class Combobox
 
   //#region Private Methods
 
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
-
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
-  }
-
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
   }
 
   private filterTextChange(value: string): void {
@@ -1827,7 +1831,6 @@ export class Combobox
                 class={CSS.noMatches}
                 onClick={this.customChipAddHandler}
                 role="option"
-                style={{ cursor: "pointer" }}
                 tabIndex={0}
               >
                 {add}: <strong>{this.filterText}</strong>

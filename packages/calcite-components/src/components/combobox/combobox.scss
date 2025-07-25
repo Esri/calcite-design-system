@@ -254,6 +254,7 @@ calcite-chip {
   @apply block px-4 py-2;
   color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
   background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  cursor: pointer;
 
   strong {
     color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
