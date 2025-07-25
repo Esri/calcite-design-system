@@ -17,7 +17,34 @@
  * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
  * @prop --calcite-dialog-background-color: Specifies the background color of the component.
  * @prop --calcite-dialog-icon-color: Specifies the color of the component's icon.
+ * @prop --calcite-dialog-accent-color: Specifies the component's accent color when `kind` is specified.
+ * @prop --calcite-dialog-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-dialog-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-dialog-description-text-color: Specifies the text color of the component's `description`.
+ * @prop --calcite-dialog-border-color: Specifies the component's border color.
+ * @prop --calcite-dialog-header-background-color: Specifies the background color of the component's header.
+ * @prop --calcite-dialog-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+ * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+ * @prop --calcite-dialog-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+ * @prop --calcite-dialog-footer-background-color: Specifies the background color of the component's footer.
+ * @prop --calcite-dialog-space: Specifies the padding of the component's `"unnamed (default)"` slot.
+ * @prop --calcite-dialog-header-content-space: Specifies the padding of the `"header-content"` slot.
+ * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
+ * @prop --calcite-dialog-action-menu-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dialog-animation-offset
+// --calcite-internal-dialog-content-padding
+// --calcite-internal-dialog-hidden-position
+// --calcite-internal-dialog-min-size-x
+// --calcite-internal-dialog-min-size-y
+// --calcite-internal-dialog-shown-position
 
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
@@ -121,6 +148,19 @@ calcite-panel {
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
   --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
   --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
+  --calcite-panel-heading-text-color: var(--calcite-dialog-heading-text-color);
+  --calcite-panel-description-text-color: var(--calcite-dialog-description-text-color);
+  --calcite-panel-header-background-color: var(--calcite-dialog-header-background-color);
+  --calcite-panel-header-action-background-color: var(--calcite-dialog-header-action-background-color);
+  --calcite-panel-header-action-background-color-hover: var(--calcite-dialog-header-action-background-color-hover);
+  --calcite-panel-header-action-background-color-press: var(--calcite-dialog-header-action-background-color-press);
+  --calcite-panel-header-action-text-color: var(--calcite-dialog-header-action-text-color);
+  --calcite-panel-header-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
+  --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
+  --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
+  --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
+  --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
+  --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
 }
 
 :host([kind="brand"]) calcite-panel {
@@ -291,19 +331,19 @@ calcite-panel {
 }
 
 :host([kind="danger"]) .dialog {
-  @apply border-color-danger;
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-danger));
 }
 
 :host([kind="info"]) .dialog {
-  @apply border-color-info;
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-info));
 }
 
 :host([kind="success"]) .dialog {
-  @apply border-color-success;
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-success));
 }
 
 :host([kind="warning"]) .dialog {
-  @apply border-color-warning;
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-warning));
 }
 
 :host([kind="brand"][open]),
