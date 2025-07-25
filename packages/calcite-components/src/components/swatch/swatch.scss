@@ -3,7 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-swatch-background-color: Specifies the component's background color.
  * @prop --calcite-swatch-corner-radius: Specifies the component's corner radius.
  *
  */
@@ -43,11 +42,14 @@
 }
 
 .container {
-  @apply relative;
+  @apply relative focus-base
+  justify-center
+  box-border;
   font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
+  border-radius: var(--calcite-swatch-corner-radius, 0);
 
   &:hover .select-icon--active {
     opacity: 1;
@@ -67,6 +69,7 @@
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
+  border-radius: var(--calcite-swatch-corner-radius, 0);
 }
 
 .image-container {

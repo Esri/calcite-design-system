@@ -6,15 +6,18 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-swatch", () => {
   describe("renders", () => {
-    renders("<calcite-swatch>doritos</calcite-swatch>", { display: "block" });
+    renders("calcite-swatch", { display: "block" });
   });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-swatch");
   });
 
-  describe("accessible with icon only", () => {
-    accessible(`<calcite-swatch label="Gray basemap"></calcite-swatch>`);
+  describe("accessible", () => {
+    accessible("calcite-swatch");
+    accessible(`<calcite-swatch active></calcite-swatch>`);
+    accessible(`<calcite-swatch color='#c0ffee'></calcite-swatch>`);
+    accessible(`<calcite-swatch active color='#c0ffee'></calcite-swatch>`);
   });
 
   describe("slots", () => {
@@ -83,7 +86,7 @@ describe("calcite-swatch", () => {
 
   describe("accepts CSS color strings", () => {
     let page: E2EPage;
-    const fillSwatchPartSelector = `.${CSS.container} rect:nth-child(4)`;
+    const fillSwatchPartSelector = `.${CSS.swatch} rect:nth-child(4)`;
 
     beforeEach(async () => (page = await newE2EPage()));
 
@@ -120,7 +123,7 @@ describe("calcite-swatch", () => {
     });
 
     describe("with alpha values", () => {
-      const fillSwatchPartSelector = `.${CSS.container} rect:nth-child(5)`;
+      const fillSwatchPartSelector = `.${CSS.swatch} rect:nth-child(5)`;
 
       it("supports rgba", async () => {
         await page.setContent("<calcite-swatch color='rgba(255, 255, 255, 0.5)'></calcite-swatch>");
@@ -147,18 +150,9 @@ describe("calcite-swatch", () => {
       });
     });
   });
-
   describe("themed", () => {
     describe("default", () => {
       themed(html`calcite-swatch`, {
-        "--calcite-swatch-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-swatch-text-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "color",
-        },
         "--calcite-swatch-corner-radius": {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",

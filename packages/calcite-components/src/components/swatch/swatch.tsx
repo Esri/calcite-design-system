@@ -417,7 +417,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
           ? "radio"
           : this.interactive
             ? "button"
-            : "img";
+            : "presentation";
 
     const isEmpty = !this.internalColor;
 
@@ -447,7 +447,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
           {this.renderSwatchImage()}
           {!this.internalColor && !this.hasImage && this.renderEmptyDisplay()}
           {this.disabled && this.renderDisabledDisplay()}
-          <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+          <svg class={classes} role="presentation" xmlns="http://www.w3.org/2000/svg">
             {this.renderSwatch()}
           </svg>
         </div>
