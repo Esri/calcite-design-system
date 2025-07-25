@@ -1,0 +1,90 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-swatch-background-color: Specifies the component's background color.
+ * @prop --calcite-swatch-border-color: Specifies the component's border color.
+ * @prop --calcite-swatch-corner-radius: Specifies the component's corner radius.
+ *
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-swatch-size
+
+:host {
+  @apply block;
+}
+
+:host([selected]) .container {
+  box-shadow:
+    0 0 0 0 white,
+    0 0 0 2px black;
+}
+
+:host([scale="s"]) {
+  .container {
+    --calcite-internal-swatch-size: 1.5rem /* 24px */;
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    --calcite-internal-swatch-size: 2rem /* 32px */;
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    --calcite-internal-swatch-size: 2.75rem /* 44px */;
+  }
+}
+
+.container {
+  @apply inline-flex
+  h-full
+  max-w-full
+  items-center
+  focus-base
+  justify-center
+  box-border
+  font-medium
+  cursor-pointer;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  box-shadow: inset 0 0 0 2px white;
+  border-color: var(--calcite-color-border-3);
+  font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
+  padding-inline-start: var(--calcite-internal-swatch-container-space-x-start);
+  padding-inline-end: var(--calcite-internal-swatch-container-space-x-end);
+  block-size: var(--calcite-internal-swatch-size, auto);
+  inline-size: var(--calcite-internal-swatch-size, auto);
+  min-inline-size: var(--calcite-internal-swatch-size, auto);
+
+  &:hover .select-icon--active {
+    opacity: 1;
+  }
+
+  &.selectable {
+    @apply cursor-pointer;
+  }
+  &:not(.non-interactive):focus {
+    @apply focus-normal;
+  }
+}
+
+.image-container {
+  @apply inline-flex overflow-hidden;
+  block-size: calc(100% - 1rem);
+  inline-size: calc(100% - 1rem);
+  padding: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+@include disabled();
+@include base-component();

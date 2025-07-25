@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Swatch Group</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 35px 0;
+      }
+
+      .parent.column {
+        flex-direction: column;
+      }
+
+      .parent.column calcite-swatch-group {
+        margin: 10px 0;
+      }
+
+      .child {
+        flex: 0 0 15%;
+        margin: 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child:first-child {
+        flex: 0 0 25%;
+      }
+
+      .parent .child {
+        text-align: right;
+      }
+
+      .parent .child:not(:first-of-type) {
+        text-align: center;
+      }
+
+      .icon-search calcite-swatch {
+        --calcite-color-brand: #974dff;
+        --calcite-color-text-1: var(--calcite-color-text-1);
+      }
+
+      .icon-search calcite-swatch[selected] {
+        --calcite-icon-color: #974dff;
+      }
+
+      .themed-children calcite-swatch:first-of-type {
+        --calcite-color-brand: var(--calcite-color-status-danger);
+        --calcite-color-text-1: var(--calcite-color-status-danger);
+        --calcite-color-border-1: var(--calcite-color-status-danger);
+        --calcite-color-foreground-1: rgba(255, 0, 0, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(2) {
+        --calcite-color-brand: var(--calcite-color-status-success);
+        --calcite-color-text-1: var(--calcite-color-status-success);
+        --calcite-color-border-1: var(--calcite-color-status-success);
+        --calcite-color-foreground-1: rgba(0, 128, 0, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(3) {
+        --calcite-color-brand: var(--calcite-color-status-info);
+        --calcite-color-text-1: var(--calcite-color-status-info);
+        --calcite-color-border-1: var(--calcite-color-status-info);
+        --calcite-color-foreground-1: rgba(0, 0, 255, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(4) {
+        --calcite-color-brand: orange;
+        --calcite-color-text-1: orange;
+        --calcite-color-border-1: orange;
+        --calcite-color-foreground-1: rgba(255, 165, 0, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(5) {
+        --calcite-color-brand: purple;
+        --calcite-color-text-1: purple;
+        --calcite-color-border-1: purple;
+        --calcite-color-foreground-1: rgba(128, 0, 128, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(6) {
+        --calcite-color-brand: pink;
+        --calcite-color-text-1: pink;
+        --calcite-color-foreground-1: rgba(255, 192, 203, 0.15);
+      }
+
+      .themed-children calcite-swatch:nth-of-type(7) {
+        --calcite-color-brand: teal;
+        --calcite-color-text-1: teal;
+        --calcite-color-foreground-1: rgba(0, 128, 128, 0.15);
+      }
+
+      .themed-children-card calcite-swatch:first-of-type {
+        --calcite-color-foreground-2: rgb(222 239 220);
+        --calcite-color-text-1: var(--calcite-color-status-success);
+        --calcite-icon-color: var(--calcite-color-status-success);
+      }
+
+      .themed-children-card calcite-swatch:nth-of-type(2) {
+        --calcite-color-foreground-2: rgb(221 238 249);
+        --calcite-color-text-1: var(--calcite-color-status-info);
+        --calcite-icon-color: var(--calcite-color-status-info);
+      }
+
+      .themed-children-card calcite-swatch:nth-of-type(3) {
+        --calcite-color-foreground-2: rgb(221 238 249);
+        --calcite-color-text-1: var(--calcite-color-status-info);
+        --calcite-icon-color: var(--calcite-color-status-info);
+      }
+
+      hr {
+        margin: 60px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+
+      h2 {
+        margin: 80px auto 40px;
+        font-size: 22px;
+        text-align: center;
+        max-width: 50%;
+        font-weight: 500;
+      }
+    </style>
+    <script src="_assets/head.ts"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- Header -->
+      <div class="child">
+        <h2>Swatch group and selection mode examples</h2>
+      </div>
+      <div class="parent">
+        <div class="child">Single programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single" id="single-programmatic">
+          <calcite-swatch color="#aabbcc" value="calcite swatch">Research</calcite-swatch>
+          <calcite-swatch color="#ddeeff" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#112233" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#445566" id="swatch-to-change-single" value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#778899" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallySingle()}">Programmatically select swatch</calcite-button>
+      </div>
+      <div class="parent">
+        <div class="child">Single-persist programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single-persist" id="single-persist-programmatic">
+          <calcite-swatch color="#aabbcc" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#ddeeff" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#112233" id="swatch-to-change-single-persist" value="calcite swatch"
+            >Supplies</calcite-swatch
+          >
+          <calcite-swatch color="#445566" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallySinglePersist()}"
+          >Programmatically select swatch</calcite-button
+        >
+      </div>
+      <div class="parent">
+        <div class="child">Multiple programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="multiple" id="multiple-programmatic">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected id="swatch-to-change-multiple" value="calcite swatch"
+            >Supplies</calcite-swatch
+          >
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallyMultiple()}"
+          >Programmatically select swatch</calcite-button
+        >
+      </div>
+      <!-- Neutral (default) -->
+      <div class="parent">
+        <div class="child">None</div>
+        <calcite-swatch-group label="demo-group-label">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Great idea!</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">No chance, Ed </calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">I'm on PTO</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <!-- Inverse-->
+      <div class="parent">
+        <div class="child">Single</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">Single w disabled</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#6a0dad" disabled selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#6a0dad" disabled value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#6a0dad" disabled value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">Single parent disabled</div>
+        <calcite-swatch-group disabled label="demo-group-label" selection-mode="single">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <!-- Inverse-->
+      <div class="parent">
+        <div class="child">Single-persist</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single-persist">
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <!-- Brand -->
+      <div class="parent">
+        <div class="child">Multiple</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="multiple">
+          <calcite-swatch color="#008000" value="calcite swatch">Research </calcite-swatch>
+          <calcite-swatch color="#008000" selected value="calcite swatch">Findings </calcite-swatch>
+          <calcite-swatch color="#008000" selected value="calcite swatch">Hypothesis </calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch">Employees</calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+      <!-- Header -->
+      <div class="child">
+        <h2>All swatch usage combinations</h2>
+      </div>
+
+      <!-- Examples -->
+      <div class="parent column">
+        <div class="child">no selection</div>
+        <calcite-swatch-group scale="s" label="demo-group-label">
+          <calcite-swatch color="#008000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-4.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group scale="l" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-4.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-5.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <div class="parent column">
+        <div class="child">single selection</div>
+        <calcite-swatch-group selection-mode="single" scale="s" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single" scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single" scale="l" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single" scale="l" label="demo-group-label">
+          <calcite-swatch selected color="#aabbff" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ffaabb" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#eee" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single" scale="l" label="demo-group-label">
+          <calcite-swatch selected color="#ffaabb" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ffaabb" value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ffaabb" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ffaabb" value="calcite swatch">
+            <img src="_assets/images/hatch-2.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <div class="parent column">
+        <div class="child">single persist</div>
+        <calcite-swatch-group selection-mode="single-persist" scale="s" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single-persist" scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="single-persist" scale="l" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <div class="parent column">
+        <div class="child">multiple selection</div>
+        <calcite-swatch-group selection-mode="multiple" scale="s" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="multiple" scale="m" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-swatch-group selection-mode="multiple" scale="l" label="demo-group-label">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/pattern-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-1.png" slot="image" />
+          </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <hr />
+    </demo-dom-swapper>
+    <script>
+      function selectSwatchProgrammaticallySingle() {
+        const swatchToChange = document.getElementById("swatch-to-change-single");
+        swatchToChange.selected = !swatchToChange.selected;
+      }
+
+      function selectSwatchProgrammaticallySinglePersist() {
+        const swatchToChange = document.getElementById("swatch-to-change-single-persist");
+        swatchToChange.selected = !swatchToChange.selected;
+      }
+
+      function selectSwatchProgrammaticallyMultiple() {
+        const swatchToChange = document.getElementById("swatch-to-change-multiple");
+        swatchToChange.selected = !swatchToChange.selected;
+      }
+
+      document.querySelectorAll("calcite-swatch-group").forEach((item) => {
+        item.addEventListener("calciteSwatchGroupSelect", (event) => {
+          console.log(event.target.selectedItems);
+        });
+      });
+    </script>
+  </body>
+</html>
