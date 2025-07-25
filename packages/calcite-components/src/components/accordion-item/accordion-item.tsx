@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
@@ -40,8 +41,6 @@ export class AccordionItem extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -65,21 +64,7 @@ export class AccordionItem extends LitElement {
   @property() description: string;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteAccordionItemExpanded.emit();
-      } else {
-        this.calciteAccordionItemCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies heading text for the component. */
   @property() heading: string;
@@ -175,6 +160,16 @@ export class AccordionItem extends LitElement {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteAccordionItemExpanded.emit();
+      } else {
+        this.calciteAccordionItemCollapsed.emit();
+      }
+    }
   }
 
   //#endregion

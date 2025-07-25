@@ -64,8 +64,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _collapsed = false;
-
   //#endregion
 
   //#region Public Properties
@@ -90,21 +88,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true })
-  get collapsed(): boolean {
-    return this._collapsed;
-  }
-  set collapsed(value: boolean) {
-    const oldValue = this._collapsed;
-    this._collapsed = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteFlowItemCollapsed.emit();
-      } else {
-        this.calciteFlowItemExpanded.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) collapsed = false;
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -230,6 +214,13 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteFlowItemCollapsed.emit();
+      } else {
+        this.calciteFlowItemExpanded.emit();
+      }
     }
   }
 

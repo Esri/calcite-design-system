@@ -105,8 +105,6 @@ export class ActionBar extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -133,21 +131,7 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) expandDisabled = false;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteActionBarExpanded.emit();
-      } else {
-        this.calciteActionBarCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
@@ -241,10 +225,6 @@ export class ActionBar extends LitElement {
       this.overflowActions();
     }
 
-    if (changes.has("expanded") && this.hasUpdated) {
-      this.expandedHandler();
-    }
-
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
     }
@@ -254,6 +234,15 @@ export class ActionBar extends LitElement {
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
       this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      this.expandedHandler();
+      if (this.expanded) {
+        this.calciteActionBarExpanded.emit();
+      } else {
+        this.calciteActionBarCollapsed.emit();
+      }
     }
   }
 

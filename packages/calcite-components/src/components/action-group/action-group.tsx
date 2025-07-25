@@ -53,8 +53,6 @@ export class ActionGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -69,21 +67,7 @@ export class ActionGroup extends LitElement {
   @property({ type: Number, reflect: true }) columns: Columns;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteActionGroupExpanded.emit();
-      } else {
-        this.calciteActionGroupCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
   @property() label: string;
@@ -156,8 +140,14 @@ export class ActionGroup extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.menuOpen = false;
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.menuOpen = false;
+        this.calciteActionGroupExpanded.emit();
+      } else {
+        this.calciteActionGroupCollapsed.emit();
+      }
     }
   }
 

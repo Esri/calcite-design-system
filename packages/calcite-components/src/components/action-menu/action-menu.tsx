@@ -121,8 +121,6 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -139,21 +137,7 @@ export class ActionMenu extends LitElement {
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteActionMenuExpanded.emit();
-      } else {
-        this.calciteActionMenuCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
@@ -245,6 +229,14 @@ export class ActionMenu extends LitElement {
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
       this.updateActions(this.actionElements);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteActionMenuExpanded.emit();
+      } else {
+        this.calciteActionMenuCollapsed.emit();
+      }
     }
   }
 

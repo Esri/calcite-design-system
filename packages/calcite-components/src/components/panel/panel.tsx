@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
@@ -74,8 +75,6 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _collapsed = false;
-
   //#endregion
 
   //#region State Properties
@@ -136,21 +135,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true })
-  get collapsed(): boolean {
-    return this._collapsed;
-  }
-  set collapsed(value: boolean) {
-    const oldValue = this._collapsed;
-    this._collapsed = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calcitePanelCollapsed.emit();
-      } else {
-        this.calcitePanelExpanded.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) collapsed = false;
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -262,6 +247,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapsed.emit();
+      } else {
+        this.calcitePanelExpanded.emit();
+      }
+    }
   }
 
   override updated(): void {

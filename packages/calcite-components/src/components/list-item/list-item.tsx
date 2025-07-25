@@ -74,8 +74,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -139,21 +137,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @property({ reflect: true }) dragHandle = false;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteListItemExpanded.emit();
-      } else {
-        this.calciteListItemCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /**
    * Hides the component when filtered.
@@ -423,10 +407,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       this.handleDisabledChange();
     }
 
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.handleExpandedChange();
-    }
-
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.handleSelectedChange();
     }
@@ -437,6 +417,15 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
     if (changes.has("displayMode") && this.hasUpdated) {
       this.handleExpandableChange(this.defaultSlotEl.value);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.handleExpandedChange();
+        this.calciteListItemExpanded.emit();
+      } else {
+        this.calciteListItemCollapsed.emit();
+      }
     }
   }
 

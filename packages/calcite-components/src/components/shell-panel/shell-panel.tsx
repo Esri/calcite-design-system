@@ -55,8 +55,6 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private _collapsed = false;
-
   //#endregion
 
   //#region State Properties
@@ -77,21 +75,7 @@ export class ShellPanel extends LitElement {
   //#region Public Properties
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true })
-  get collapsed(): boolean {
-    return this._collapsed;
-  }
-  set collapsed(value: boolean) {
-    const oldValue = this._collapsed;
-    this._collapsed = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteShellPanelCollapsed.emit();
-      } else {
-        this.calciteShellPanelExpanded.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) collapsed = false;
 
   /**
    * Specifies the display mode of the component, where:
@@ -167,6 +151,13 @@ export class ShellPanel extends LitElement {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteShellPanelCollapsed.emit();
+      } else {
+        this.calciteShellPanelExpanded.emit();
+      }
     }
   }
 

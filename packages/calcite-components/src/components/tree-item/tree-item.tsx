@@ -53,8 +53,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private userChangedValue = false;
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -80,21 +78,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteTreeItemExpanded.emit();
-      } else {
-        this.calciteTreeItemCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** @private */
   @property({ reflect: true }) get hasChildren(): boolean {
@@ -169,8 +153,13 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.updateChildTree();
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.updateChildTree();
+        this.calciteTreeItemExpanded.emit();
+      } else {
+        this.calciteTreeItemCollapsed.emit();
+      }
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {

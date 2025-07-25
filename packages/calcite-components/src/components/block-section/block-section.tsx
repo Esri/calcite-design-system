@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Status } from "../interfaces";
@@ -36,28 +37,12 @@ export class BlockSection extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region Public Properties
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteBlockSectionExpanded.emit();
-      } else {
-        this.calciteBlockSectionCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
@@ -138,6 +123,25 @@ export class BlockSection extends LitElement {
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+      To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+      Please refactor your code to reduce the need for this check.
+      Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockSectionExpanded.emit();
+      } else {
+        this.calciteBlockSectionCollapsed.emit();
+      }
+    }
+  }
 
   //#endregion
 

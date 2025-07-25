@@ -65,8 +65,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private _expanded = false;
-
   //#endregion
 
   //#region State Properties
@@ -105,21 +103,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property({ reflect: true }) dragHandle = false;
 
   /** When `true`, the component is expanded to show child components. */
-  @property({ reflect: true })
-  get expanded(): boolean {
-    return this._expanded;
-  }
-  set expanded(value: boolean) {
-    const oldValue = this._expanded;
-    this._expanded = value;
-    if (oldValue !== value) {
-      if (value) {
-        this.calciteBlockExpanded.emit();
-      } else {
-        this.calciteBlockCollapsed.emit();
-      }
-    }
-  }
+  @property({ reflect: true }) expanded = false;
 
   /**
    * The component header text.
@@ -306,6 +290,14 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockExpanded.emit();
+      } else {
+        this.calciteBlockCollapsed.emit();
+      }
     }
   }
 
