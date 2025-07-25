@@ -17,12 +17,6 @@
   @apply block;
 }
 
-:host([selected]) .container {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 4px black;
-}
-
 :host([scale="s"]) {
   .container {
     --calcite-internal-swatch-size: 1.5rem /* 24px */;
@@ -42,24 +36,24 @@
 }
 
 .container {
-  @apply relative focus-base
-  justify-center
-  box-border;
+  @apply relative focus-base justify-center box-border  overflow-hidden;
   font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
   border-radius: var(--calcite-swatch-corner-radius, 0);
 
-  &:hover .select-icon--active {
-    opacity: 1;
+  &:not(.non-interactive):hover {
+    @apply cursor-pointer;
   }
-
+  &:not(.non-interactive):hover {
+    box-shadow: 0 0 0 2px var(--calcite-color-border-2);
+  }
   &.selectable {
     @apply cursor-pointer;
   }
   &:not(.non-interactive):focus {
-    @apply focus-outset;
+    @apply focus-normal;
   }
 }
 
@@ -72,18 +66,37 @@
   border-radius: var(--calcite-swatch-corner-radius, 0);
 }
 
+:host([selected]) .swatch {
+  inset: calc(var(--calcite-internal-swatch-size) / 8);
+  block-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
+  inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
+  min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
+}
+
+:host([selected]) .container {
+}
+
+:host([selected]) .image-container {
+  inset: calc(var(--calcite-internal-swatch-size) / 8);
+  box-shadow:
+    0 0 0 2px var(--calcite-color-foreground-1),
+    0 0 0 4px var(--calcite-color-text-1);
+}
+
 .image-container {
   @apply inline-flex overflow-hidden absolute z-20;
-  inset: calc(var(--calcite-internal-swatch-size) / 8);
+  inset: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  border-radius: var(--calcite-swatch-corner-radius, 0);
 }
 
 .empty-container {
   @apply absolute inset-0 flex items-center justify-center z-30;
 }
+
 .disabled-container {
   @apply absolute inset-0 flex items-center justify-center z-30;
 }
@@ -108,5 +121,4 @@
   fill: #cacaca;
 }
 
-@include disabled();
 @include base-component();

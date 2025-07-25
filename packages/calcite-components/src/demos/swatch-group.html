@@ -138,14 +138,45 @@
       <div class="child">
         <h2>Swatch group selection mode examples</h2>
       </div>
-
+      <div class="parent">
+        <div class="child">Swatch outside of Swatch Group</div>
+        <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+        <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+        <calcite-swatch value="calcite swatch">
+          <img src="_assets/images/pattern-2.png" slot="image" />
+        </calcite-swatch>
+        <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+          <img src="_assets/images/pattern-2.png" slot="image" />
+        </calcite-swatch>
+        <calcite-swatch value="calcite swatch">
+          <img src="_assets/images/hatch-3.png" slot="image" />
+        </calcite-swatch>
+        <calcite-swatch color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+        <calcite-swatch disabled color="#ddd" value="calcite swatch">
+          <img src="_assets/images/hatch-3.png" slot="image" />
+        </calcite-swatch>
+        <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
+      </div>
       <!-- Neutral (default) -->
       <div class="parent">
         <div class="child">None</div>
         <calcite-swatch-group label="demo-group-label">
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -153,33 +184,22 @@
       <div class="parent">
         <div class="child">Single</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-        </calcite-swatch-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">Single w disabled</div>
-        <calcite-swatch-group label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" disabled selected value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-        </calcite-swatch-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">Single parent disabled</div>
-        <calcite-swatch-group disabled label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch selected color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -187,10 +207,22 @@
       <div class="parent">
         <div class="child">Single-persist</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="single-persist">
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch selected color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -198,27 +230,69 @@
       <div class="parent">
         <div class="child">Multiple</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="multiple">
-          <calcite-swatch color="#008000" value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch selected color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch selected color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
       </div>
-
-      <!-- Brand -->
+      <div class="parent">
+        <div class="child">Swatch Group Disabled</div>
+        <calcite-swatch-group disabled label="demo-group-label" selection-mode="single">
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <!-- Themed -->
       <div class="parent">
         <div class="child">Themed</div>
         <calcite-swatch-group
           label="demo-group-label"
           selection-mode="multiple"
-          style="--calcite-swatch-corner-radius: 12px"
+          style="--calcite-swatch-corner-radius: 8px"
         >
-          <calcite-swatch color="#008000" value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch color="rgba(25,25,25,0.1)" value="calcite swatch">Swatch</calcite-swatch>
+          <calcite-swatch disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
       </div>
 
