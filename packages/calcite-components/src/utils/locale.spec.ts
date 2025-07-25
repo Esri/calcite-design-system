@@ -248,8 +248,8 @@ describe("getDateFormatSupportedLocale", () => {
       assertLocaleMapping("it-CH", "de-CH");
     });
 
-    it("maps `bs` to `bs-Cyrl`", () => {
-      assertLocaleMapping("bs", "bs-Cyrl");
+    it("maps `bs` to `sr-Latn-CS`", () => {
+      assertLocaleMapping("bs", "sr-Latn-CS");
     });
 
     it("maps `en` to `en`", () => {

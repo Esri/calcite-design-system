@@ -4,8 +4,7 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -18,6 +17,7 @@ import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import { breakpoints } from "../../utils/responsive";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -109,6 +109,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.handleResponsiveOverrides(width);
   };
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -275,12 +277,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.panelEl.value ?? this.el;
+    }, options);
   }
 
   /**
