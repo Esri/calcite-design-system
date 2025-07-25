@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "All",
   "allSelected": "All selected",
   "clear": "Clear value",
