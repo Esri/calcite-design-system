@@ -9,6 +9,7 @@ import {
   ensureId,
   focusElement,
   focusElementInGroup,
+  focusFirstTabbable,
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
@@ -611,20 +612,20 @@ describe("dom", () => {
           this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
         }
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           if (setFocusCalls++ > 10) {
             // simulates infinite loop without having to trigger a real one in test environment
             throw new RangeError("setFocus called too many times, likely an infinite loop");
           }
 
-          return focusElement(this, false, "tabbable", useContext ? this : undefined);
+          return focusElement(this, false, "tabbable", useContext ? this : undefined, options);
         }
       }
 
       const testElTag = registerTestElement(Test);
 
       const el = document.createElement(testElTag) as Test;
-      document.body.appendChild(el);
+      document.body.append(el);
       vi.spyOn(el, "focus");
       vi.spyOn(el, "setFocus");
 
@@ -640,6 +641,109 @@ describe("dom", () => {
       } catch (error) {
         expect(error).toBeInstanceOf(RangeError);
       }
+    });
+
+    describe("focus options", () => {
+      it("supports focus options", () => {
+        const el = create("div", { tabIndex: 0 });
+        const focusOptions = { preventScroll: true };
+        const focusSpy = vi.spyOn(el, "focus");
+
+        focusElement(el, true, "tabbable", undefined, focusOptions);
+
+        expect(document.activeElement).toBe(el);
+        expect(focusSpy).toHaveBeenCalledWith(focusOptions);
+        expect(focusSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it("supports focus options on setFocus elements", () => {
+        class Test extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: "open" });
+            this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
+          }
+          async setFocus(options?: FocusOptions): Promise<void> {
+            return focusElement(this, false, "tabbable", this, options);
+          }
+        }
+        const testElTag = registerTestElement(Test);
+        const el = document.createElement(testElTag) as Test;
+        document.body.append(el);
+        vi.spyOn(el, "setFocus");
+
+        const focusOptions = { preventScroll: true };
+        focusElement(el, false, "tabbable", undefined, focusOptions);
+
+        expect(document.activeElement).toBe(el);
+        expect(el.setFocus).toHaveBeenCalledWith(focusOptions);
+        expect(el.setFocus).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe("focusFirstTabbable()", () => {
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
+
+    it("focuses the first tabbable element", () => {
+      const el1 = document.createElement("div");
+      const el2 = document.createElement("div");
+      el2.tabIndex = 0;
+      const el3 = document.createElement("div");
+      document.body.append(el1, el2, el3);
+
+      focusFirstTabbable(document.body);
+
+      expect(document.activeElement).toBe(el2);
+    });
+
+    it("does not focus if no tabbable elements are found", () => {
+      const el1 = document.createElement("div");
+      const el2 = document.createElement("div");
+      const el3 = document.createElement("div");
+      document.body.append(el1, el2, el3);
+
+      focusFirstTabbable(document.body);
+
+      expect(document.activeElement).toBe(document.body);
+    });
+
+    it("supports including parent in focus search", () => {
+      const el1 = document.createElement("div");
+      const el2 = document.createElement("div");
+      const el3 = document.createElement("div");
+      const container = document.createElement("div");
+      el2.tabIndex = 0;
+      container.tabIndex = 0;
+      container.append(el1, el2, el3);
+      document.body.append(container);
+
+      focusFirstTabbable(container);
+
+      expect(document.activeElement).toBe(el2);
+
+      focusFirstTabbable(container, true);
+
+      expect(document.activeElement).toBe(container);
+    });
+
+    it("supports passing focus options", () => {
+      const el1 = document.createElement("div");
+      const el2 = document.createElement("div");
+      el2.tabIndex = 0;
+      const el3 = document.createElement("div");
+      document.body.append(el1, el2, el3);
+
+      const focusSpy = vi.spyOn(el2, "focus");
+      const focusOptions = { preventScroll: true };
+
+      focusFirstTabbable(document.body, false, focusOptions);
+
+      expect(document.activeElement).toBe(el2);
+      expect(focusSpy).toHaveBeenCalledWith(focusOptions);
+      expect(focusSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -713,9 +817,9 @@ describe("dom", () => {
           this.shadowRoot.innerHTML = `<div tabindex="0" id="inner"></div>`;
         }
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           // simulate setFocus workflow
-          this.focus();
+          this.focus(options);
         }
       }
 
@@ -725,7 +829,7 @@ describe("dom", () => {
         const el = document.createElement(testTag) as Test;
         el.id = `item-${index}`;
         el.tabIndex = 0;
-        document.body.appendChild(el);
+        document.body.append(el);
         return el;
       });
 
