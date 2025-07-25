@@ -158,10 +158,7 @@ calcite-panel {
   --calcite-panel-header-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
   --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
   --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
-  --calcite-panel-header-content-space: var(
-    --calcite-dialog-header-content-space,
-    var(--calcite-internal-dialog-content-padding)
-  );
+  --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
 }
