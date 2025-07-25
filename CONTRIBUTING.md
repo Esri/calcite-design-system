@@ -1,6 +1,6 @@
 # Contributing
 
-Esri welcomes contributions from anyone and everyone. Please see Esri's [guidelines for contributing](https://github.com/esri/contributing).
+Esri welcomes contributions from everyone. Please see Esri's [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Calcite roles and responsibilities
 
@@ -8,7 +8,7 @@ Calcite provides support to two roles that include different responsibilities: [
 
 ### Users
 
-Anyone can be a user; no permissions are needed to search, comment, provide feedback, or [create](#before-filing-an-issue) issues using a personal [GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github). _Of note, kind emojis 🏆, kudos 👍, and thank you's 🙌 fuel and energize Calcite team members_ 😊.
+Anyone can be a user; no permissions are needed to search, comment, provide feedback, or [create](#before-filing-an-issue) issues using a personal [GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github). _Of note, kind emojis 🏆, kudos 👍, and thank yous 🙌 fuel and energize Calcite team members_ 😊.
 
 Users can help most by:<a href="#users-help" id="users-help" />
 
@@ -20,7 +20,7 @@ Users can help most by:<a href="#users-help" id="users-help" />
 
 ### Contributors
 
-Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PR's.
+Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
 
 To become a contributor, you must:
 
@@ -30,7 +30,7 @@ To become a contributor, you must:
 - Be a member of the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors)
   - For access, reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco)
 
-Once access is granted to the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members), contributors can [clone the cacite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup yuor local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
+Once access is granted to the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members), contributors can [clone the calcite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup your local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
 
 #### I want to contribute, what should I work on?
 
@@ -39,7 +39,7 @@ Contributors can help most by:
 - Any of the items listed under the [user role](#users-help)
 - Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started
   - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you
-- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/calcite-components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/calcite-components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
