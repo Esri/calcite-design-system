@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -437,7 +437,7 @@ export class Select
           <select
             aria-errormessage={IDS.validationMessage}
             ariaInvalid={this.status === "invalid"}
-            ariaLabel={this.labelText}
+            ariaLabel={this.labelText || getLabelText(this)}
             class={CSS.select}
             disabled={disabled}
             onChange={this.handleInternalSelectChange}

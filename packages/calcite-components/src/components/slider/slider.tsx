@@ -29,7 +29,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -1174,7 +1174,7 @@ export class Slider
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           ariaRequired={this.required}
           class={{
             [CSS.container]: true,

@@ -15,7 +15,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
@@ -269,7 +269,7 @@ export class Checkbox
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           ariaRequired={this.required}
           class={{
             [CSS.toggle]: true,

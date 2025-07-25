@@ -14,7 +14,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
@@ -488,7 +488,7 @@ export class RadioButton
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
