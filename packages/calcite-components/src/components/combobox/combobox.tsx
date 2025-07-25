@@ -1795,14 +1795,12 @@ export class Combobox
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { messages, messageOverrides, setFloatingEl, setContainerEl, open, scale } = this;
+    const { messages, setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open,
     };
-    const noMatches = messageOverrides?.noMatches ?? messages.noMatches;
-    const add = messageOverrides?.add ?? messages.add;
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
@@ -1827,16 +1825,16 @@ export class Combobox
             <slot />
             {this.noMatches === "add" && (
               <li
-                aria-label={`${add}: ${this.filterText}`}
+                aria-label={`${messages.add}: ${this.filterText}`}
                 class={CSS.noMatches}
                 onClick={this.customChipAddHandler}
                 role="option"
                 tabIndex={0}
               >
-                {add}: <strong>{this.filterText}</strong>
+                {messages.add}: <strong>{this.filterText}</strong>
               </li>
             )}
-            {this.noMatches === "none" && <li class={CSS.noMatches}>{noMatches}</li>}
+            {this.noMatches === "none" && <li class={CSS.noMatches}>{messages.noMatches}</li>}
           </ul>
         </div>
       </div>
