@@ -1,8 +1,17 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import Color from "color";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  Fragment,
+} from "@arcgis/lumina";
+import Color, { ColorInstance } from "color";
+import { getModeName, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import {
@@ -12,7 +21,8 @@ import {
 } from "../../utils/interactive";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
-import { CSS, SLOTS } from "./resources";
+import { COLORS, CHECKER_DIMENSIONS } from "../color-picker-swatch/resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./swatch.scss";
 
 declare global {
@@ -30,11 +40,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
+  private internalColor: ColorInstance;
 
   private containerEl = createRef<HTMLDivElement>();
-
-  private internalColor: Color;
 
   //#endregion
 
@@ -104,8 +112,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
     await componentFocusable(this);
     if (!this.disabled && this.interactive) {
       this.containerEl.value?.focus();
-    } else if (!this.disabled) {
-      this.closeButtonEl.value?.focus();
     }
   }
 
@@ -122,9 +128,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalSyncSelectedSwatches = createEvent({ cancelable: false });
 
-  /** Fires when the component's close button is selected. */
-  calciteSwatchClose = createEvent({ cancelable: false });
-
   /** Fires when the selected state of the component changes. */
   calciteSwatchSelect = createEvent({ cancelable: false });
 
@@ -135,7 +138,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
   constructor() {
     super();
     this.listen("keydown", this.keyDownHandler);
-    this.listen("click", this.clickHandler);
   }
 
   async load(): Promise<void> {
@@ -195,12 +197,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
     }
   }
 
-  private clickHandler(): void {
-    if (!this.interactive) {
-      this.closeButtonEl.value.focus();
-    }
-  }
-
   private handleSlotImageChange(event: Event): void {
     this.hasImage = slotChangeHasAssignedElement(event);
   }
@@ -251,8 +247,167 @@ export class Swatch extends LitElement implements InteractiveComponent {
     );
   }
 
+  private renderEmptyDisplay(): JsxNode {
+    const scale = this.scale === "s" ? "12" : this.scale === "m" ? "24" : "32";
+
+    return (
+      <div class={CSS.emptyContainer}>
+        <svg
+          fill="none"
+          height={scale}
+          viewBox={`0 0 ${scale} ${scale}`}
+          width={scale}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d={`M${scale} 0L0 ${scale}`} stroke="#D83020" stroke-width="3" />
+        </svg>
+      </div>
+    );
+  }
+
+  private renderDisabledDisplay(): JsxNode {
+    const scale = this.scale === "s" ? "12" : this.scale === "m" ? "16" : "20";
+    return (
+      <div class={CSS.disabledContainer}>
+        <svg
+          fill="none"
+          height={scale}
+          viewBox={`0 0 ${scale} ${scale}`}
+          width={scale}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 0.5C10.5899 0.5 13.5 3.41015 13.5 7C13.5 10.5899 10.5899 13.5 7 13.5C3.41015 13.5 0.5 10.5899 0.5 7C0.5 3.41015 3.41015 0.5 7 0.5ZM4.78906 10.917C5.44221 11.2866 6.19529 11.5 7 11.5C9.48528 11.5 11.5 9.48528 11.5 7C11.5 6.19529 11.2866 5.44221 10.917 4.78906L4.78906 10.917ZM7 2.5C4.51472 2.5 2.5 4.51472 2.5 7C2.5 7.95644 2.79808 8.84235 3.30664 9.57129L9.57129 3.30664C8.84235 2.79808 7.95644 2.5 7 2.5Z"
+            fill="white"
+            stroke="#6A6A6A"
+          />
+        </svg>
+      </div>
+    );
+  }
+
+  private renderSwatch(): JsxNode {
+    const { el, internalColor } = this;
+    const borderRadius = "0";
+    const theme = getModeName(el);
+    const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
+    const isEmpty = !internalColor;
+    const commonSwatchProps = {
+      height: "100%",
+      rx: borderRadius,
+      stroke: borderColor,
+      strokeWidth: "2",
+      width: "100%",
+    };
+
+    if (isEmpty) {
+      return (
+        <>
+          <clipPath id={IDS.shape}>
+            <rect height="100%" rx={borderRadius} width="100%" />
+          </clipPath>
+          {this.renderSwatchRect({
+            clipPath: `inset(0 round ${borderRadius})`,
+            ...commonSwatchProps,
+          })}
+          <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
+        </>
+      );
+    }
+
+    const alpha = internalColor.alpha();
+    const hex = hexify(internalColor);
+    const hexa = hexify(internalColor, alpha < 1);
+
+    return (
+      <>
+        <title>{hexa}</title>
+        <defs>
+          <pattern
+            height={CHECKER_DIMENSIONS.size}
+            id={IDS.checker}
+            patternUnits="userSpaceOnUse"
+            width={CHECKER_DIMENSIONS.size}
+            x="0"
+            y="0"
+          >
+            <rect
+              class={CSS.checker}
+              height={CHECKER_DIMENSIONS.squareSize}
+              width={CHECKER_DIMENSIONS.squareSize}
+              x="0"
+              y="0"
+            />
+            <rect
+              class={CSS.checker}
+              height={CHECKER_DIMENSIONS.squareSize}
+              width={CHECKER_DIMENSIONS.squareSize}
+              x={CHECKER_DIMENSIONS.squareSize}
+              y={CHECKER_DIMENSIONS.squareSize}
+            />
+          </pattern>
+        </defs>
+        {this.renderSwatchRect({
+          fill: "url(#checker)",
+          rx: commonSwatchProps.rx,
+          height: commonSwatchProps.height,
+          width: commonSwatchProps.width,
+        })}
+        {this.renderSwatchRect({
+          clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`,
+          fill: hex,
+          ...commonSwatchProps,
+        })}
+        {alpha < 1
+          ? this.renderSwatchRect({
+              clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+              fill: hexa,
+              key: "opacity-fill",
+              ...commonSwatchProps,
+            })
+          : null}
+      </>
+    );
+  }
+
+  private renderSwatchRect({
+    clipPath,
+    fill,
+    height,
+    key,
+    rx,
+    stroke,
+    strokeWidth,
+    width,
+  }: {
+    clipPath?: string;
+    fill?: string;
+    height: string;
+    key?: string;
+    rx: string;
+
+    // note: stroke-width and clip-path are needed to hide overflowing portion of stroke
+    // @see https://stackoverflow.com/a/7273346/194216
+    stroke?: string;
+    strokeWidth?: string;
+
+    width: string;
+  }): JsxNode {
+    return (
+      <rect
+        clip-path={clipPath}
+        fill={fill}
+        height={height}
+        key={key}
+        rx={rx}
+        stroke={stroke}
+        stroke-width={strokeWidth}
+        width={width}
+      />
+    );
+  }
+
   override render(): JsxNode {
-    // todo
     const { disabled } = this;
     const disableInteraction = disabled || (!disabled && !this.interactive);
     const role =
@@ -263,6 +418,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
           : this.interactive
             ? "button"
             : "img";
+
+    const isEmpty = !this.internalColor;
+
+    const classes = {
+      [CSS.swatch]: true,
+      [CSS.noColorSwatch]: isEmpty || (this.hasImage && !this.internalColor),
+    };
+
     return (
       <InteractiveContainer disabled={disabled}>
         <div
@@ -279,12 +442,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
           onClick={this.handleEmittingEvent}
           ref={this.containerEl}
           role={role}
-          style={{
-            backgroundColor: this.internalColor ? this.getFormattedColor() : "",
-          }}
           tabIndex={disableInteraction ? -1 : 0}
         >
           {this.renderSwatchImage()}
+          {!this.internalColor && !this.hasImage && this.renderEmptyDisplay()}
+          {this.disabled && this.renderDisabledDisplay()}
+          <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+            {this.renderSwatch()}
+          </svg>
         </div>
       </InteractiveContainer>
     );

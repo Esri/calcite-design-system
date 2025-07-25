@@ -136,54 +136,16 @@
     <demo-dom-swapper>
       <!-- Header -->
       <div class="child">
-        <h2>Swatch group and selection mode examples</h2>
+        <h2>Swatch group selection mode examples</h2>
       </div>
-      <div class="parent">
-        <div class="child">Single programmatic</div>
-        <calcite-swatch-group label="demo-group-label" selection-mode="single" id="single-programmatic">
-          <calcite-swatch color="#aabbcc" value="calcite swatch">Research</calcite-swatch>
-          <calcite-swatch color="#ddeeff" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#112233" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#445566" id="swatch-to-change-single" value="calcite swatch">Supplies</calcite-swatch>
-          <calcite-swatch color="#778899" value="calcite swatch">Employees</calcite-swatch>
-        </calcite-swatch-group>
-        <calcite-button onClick="{selectSwatchProgrammaticallySingle()}">Programmatically select swatch</calcite-button>
-      </div>
-      <div class="parent">
-        <div class="child">Single-persist programmatic</div>
-        <calcite-swatch-group label="demo-group-label" selection-mode="single-persist" id="single-persist-programmatic">
-          <calcite-swatch color="#aabbcc" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#ddeeff" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#112233" id="swatch-to-change-single-persist" value="calcite swatch"
-            >Supplies</calcite-swatch
-          >
-          <calcite-swatch color="#445566" value="calcite swatch">Employees</calcite-swatch>
-        </calcite-swatch-group>
-        <calcite-button onClick="{selectSwatchProgrammaticallySinglePersist()}"
-          >Programmatically select swatch</calcite-button
-        >
-      </div>
-      <div class="parent">
-        <div class="child">Multiple programmatic</div>
-        <calcite-swatch-group label="demo-group-label" selection-mode="multiple" id="multiple-programmatic">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected id="swatch-to-change-multiple" value="calcite swatch"
-            >Supplies</calcite-swatch
-          >
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
-        </calcite-swatch-group>
-        <calcite-button onClick="{selectSwatchProgrammaticallyMultiple()}"
-          >Programmatically select swatch</calcite-button
-        >
-      </div>
+
       <!-- Neutral (default) -->
       <div class="parent">
         <div class="child">None</div>
         <calcite-swatch-group label="demo-group-label">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Great idea!</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">No chance, Ed </calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">I'm on PTO</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -191,33 +153,33 @@
       <div class="parent">
         <div class="child">Single</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
       <div class="parent">
         <div class="child">Single w disabled</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#6a0dad" disabled selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#6a0dad" disabled value="calcite swatch">Supplies</calcite-swatch>
-          <calcite-swatch color="#6a0dad" disabled value="calcite swatch">Employees</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" disabled selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
       <div class="parent">
         <div class="child">Single parent disabled</div>
         <calcite-swatch-group disabled label="demo-group-label" selection-mode="single">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Employees</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -225,10 +187,10 @@
       <div class="parent">
         <div class="child">Single-persist</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="single-persist">
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Research</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Findings</calcite-swatch>
-          <calcite-swatch color="#6a0dad" selected value="calcite swatch">Hypothesis</calcite-swatch>
-          <calcite-swatch color="#6a0dad" value="calcite swatch">Supplies</calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -236,11 +198,11 @@
       <div class="parent">
         <div class="child">Multiple</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="multiple">
-          <calcite-swatch color="#008000" value="calcite swatch">Research </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch">Findings </calcite-swatch>
-          <calcite-swatch color="#008000" selected value="calcite swatch">Hypothesis </calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch">Supplies</calcite-swatch>
-          <calcite-swatch color="#008000" value="calcite swatch">Employees</calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch"> </calcite-swatch>
+          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
+          <calcite-swatch color="#008000" selected value="calcite swatch"> </calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#008000" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
       </div>
 
@@ -248,7 +210,7 @@
       <!-- A horizontal line -->
       <!-- Header -->
       <div class="child">
-        <h2>All swatch usage combinations</h2>
+        <h2>Swatch usage combinations</h2>
       </div>
 
       <!-- Examples -->
@@ -270,6 +232,11 @@
           <calcite-swatch color="#ddd" value="calcite swatch">
             <img src="_assets/images/hatch-3.png" slot="image" />
           </calcite-swatch>
+          <calcite-swatch color="#ddd" value="calcite swatch" disabled>
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch value="calcite swatch" disabled> </calcite-swatch>
+          <calcite-swatch value="calcite swatch"> </calcite-swatch>
         </calcite-swatch-group>
         <calcite-swatch-group scale="m" label="demo-group-label">
           <calcite-swatch value="calcite swatch">Swatch</calcite-swatch>
@@ -528,6 +495,50 @@
         </calcite-swatch-group>
       </div>
       <hr />
+      <div class="child">
+        <h2>Programmatic selection</h2>
+      </div>
+      <div class="parent">
+        <div class="child">Single programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single" id="single-programmatic">
+          <calcite-swatch color="#aabbcc" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#ddeeff" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="rgba(20,20,20,0.25)" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#445566" id="swatch-to-change-single" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#778899" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#778899" value="calcite swatch"></calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallySingle()}">Programmatically select swatch</calcite-button>
+      </div>
+      <div class="parent">
+        <div class="child">Single-persist programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="single-persist" id="single-persist-programmatic">
+          <calcite-swatch color="#aabbcc" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#ddeeff" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#112233" id="swatch-to-change-single-persist" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#445566" value="calcite swatch"></calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallySinglePersist()}"
+          >Programmatically select swatch</calcite-button
+        >
+      </div>
+      <div class="parent">
+        <div class="child">Multiple programmatic</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="multiple" id="multiple-programmatic">
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" selected value="calcite swatch"></calcite-swatch>
+          <calcite-swatch
+            color="#6a0dad"
+            selected
+            id="swatch-to-change-multiple"
+            value="calcite swatch"
+          ></calcite-swatch>
+          <calcite-swatch color="#6a0dad" value="calcite swatch"></calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{selectSwatchProgrammaticallyMultiple()}"
+          >Programmatically select swatch</calcite-button
+        >
+      </div>
     </demo-dom-swapper>
     <script>
       function selectSwatchProgrammaticallySingle() {
