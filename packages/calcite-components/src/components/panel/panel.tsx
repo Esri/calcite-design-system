@@ -252,9 +252,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
-        this.calcitePanelCollapsed.emit();
+        this.calcitePanelCollapse.emit();
       } else {
-        this.calcitePanelExpanded.emit();
+        this.calcitePanelExpand.emit();
       }
     }
   }

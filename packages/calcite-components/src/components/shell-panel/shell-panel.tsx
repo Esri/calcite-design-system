@@ -154,9 +154,9 @@ export class ShellPanel extends LitElement {
     }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
-        this.calciteShellPanelCollapsed.emit();
+        this.calciteShellPanelCollapse.emit();
       } else {
-        this.calciteShellPanelExpanded.emit();
+        this.calciteShellPanelExpand.emit();
       }
     }
   }
