@@ -77,7 +77,7 @@
 }
 
 :host([selected]) .image-container {
-  inset: calc(var(--calcite-internal-swatch-size) / 8);
+  inset: calc(var(--calcite-internal-swatch-size) / 10);
   box-shadow:
     0 0 0 2px var(--calcite-color-foreground-1),
     0 0 0 4px var(--calcite-color-text-1);

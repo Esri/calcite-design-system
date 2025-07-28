@@ -225,16 +225,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
     this.internalColor = color ? Color(color) : null;
   }
 
-  private getFormattedColor(): JsxNode {
-    const { internalColor } = this;
-
-    const alpha = internalColor.alpha();
-    //  const hex = hexify(internalColor);
-    const hexa = hexify(internalColor, alpha < 1);
-    // todo if hexa render opacity grid behind
-    return hexa;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -323,13 +313,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const { el, internalColor } = this;
     const borderRadius = "0";
     const theme = getModeName(el);
-    const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
+    const strokeColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
+    const strokeWidth = this.selected ? "0" : "2";
     const isEmpty = !internalColor;
     const commonSwatchProps = {
       height: "100%",
       rx: borderRadius,
-      stroke: borderColor,
-      strokeWidth: "2",
+      stroke: strokeColor,
+      strokeWidth: strokeWidth,
       width: "100%",
     };
 
