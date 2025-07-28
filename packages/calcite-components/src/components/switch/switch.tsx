@@ -12,7 +12,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -186,7 +186,7 @@ export class Switch
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelTextStart + " " + this.labelTextEnd}
+          ariaLabel={this.labelTextStart + " " + this.labelTextEnd || getLabelText(this)}
           class={CSS.container}
           ref={this.setSwitchEl}
           role="switch"

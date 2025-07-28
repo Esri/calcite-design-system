@@ -31,7 +31,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -1071,7 +1071,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
@@ -1109,7 +1109,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{

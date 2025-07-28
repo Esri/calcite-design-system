@@ -23,7 +23,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
@@ -604,7 +604,7 @@ export class InputTimePicker
             scale={scale === "l" ? "m" : "s"}
           />
           <div
-            aria-label={this.labelText}
+            aria-label={this.labelText || getLabelText(this)}
             ariaRequired={this.required}
             class={CSS.inputContainer}
             dir="ltr"

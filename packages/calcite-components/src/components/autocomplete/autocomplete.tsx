@@ -803,7 +803,7 @@ export class Autocomplete
             alignment={this.alignment}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
-            //aria-label={this.labelText}
+            aria-label={this.labelText}
             aria-owns={listId}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}

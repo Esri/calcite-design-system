@@ -28,7 +28,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -590,7 +590,7 @@ export class InputText
       <input
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
-        ariaLabel={this.labelText}
+        ariaLabel={this.labelText || getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
         class={{

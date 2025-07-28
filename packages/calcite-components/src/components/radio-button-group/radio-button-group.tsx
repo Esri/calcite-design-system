@@ -227,7 +227,7 @@ export class RadioButtonGroup extends LitElement {
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          //ariaLabel={this.labelText}
+          ariaLabel={this.labelText}
           ariaRequired={this.required}
           class={CSS.itemWrapper}
         >

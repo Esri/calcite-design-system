@@ -43,7 +43,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
@@ -1742,7 +1742,7 @@ export class Combobox
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText}
+          ariaLabel={this.labelText || getLabelText(this)}
           class={{
             [CSS.input]: true,
             [CSS.inputSingle]: true,
