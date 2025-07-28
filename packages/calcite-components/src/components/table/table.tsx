@@ -349,6 +349,7 @@ export class Table extends LitElement {
     const totalRows = this.bodyRows?.length || 0;
     const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
 
+    // todo - isn't updating on paginationChange
     if (totalPages > 0) {
       const page = Math.min(Math.max(requestedPage, 1), totalPages);
       this.currentPage = page;
