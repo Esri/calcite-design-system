@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { getShadowRootNode } from "../../utils/dom";
+import { elementHasSelectionRange, getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -98,11 +98,6 @@ export default class TooltipManager {
     }
   };
 
-  private activeTooltipHasSelection(): boolean {
-    const selection = window.getSelection();
-    return selection?.type === "Range" && this.activeTooltip?.contains(selection?.anchorNode);
-  }
-
   private pointerLeaveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
@@ -110,7 +105,7 @@ export default class TooltipManager {
 
     this.clearHoverTimeout();
 
-    if (this.activeTooltipHasSelection()) {
+    if (elementHasSelectionRange(this.activeTooltip)) {
       return;
     }
 
@@ -127,7 +122,7 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (this.activeTooltipHasSelection() || this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (elementHasSelectionRange(this.activeTooltip) || this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
@@ -160,7 +155,7 @@ export default class TooltipManager {
   }
 
   private clickHandler = (event: Event): void => {
-    if (event.defaultPrevented || window.getSelection()?.type === "Range") {
+    if (event.defaultPrevented) {
       return;
     }
 

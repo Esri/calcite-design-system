@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
-import { isKeyboardTriggeredClick } from "../../utils/dom";
+import { elementHasSelectionRange, isKeyboardTriggeredClick } from "../../utils/dom";
 import type { Popover } from "./popover";
 
 export default class PopoverManager {
@@ -86,8 +86,13 @@ export default class PopoverManager {
     }
   };
 
+  private openPopoverHasSelection(): boolean {
+    const { registeredElements } = this;
+    return Array.from(registeredElements.values()).some((popover) => popover.open && elementHasSelectionRange(popover));
+  }
+
   private clickHandler = (event: PointerEvent): void => {
-    if (isKeyboardTriggeredClick(event) || event.defaultPrevented || window.getSelection()?.type === "Range") {
+    if (isKeyboardTriggeredClick(event) || event.defaultPrevented || this.openPopoverHasSelection()) {
       return;
     }
 

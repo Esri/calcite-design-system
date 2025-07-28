@@ -706,44 +706,6 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
   });
 
-  it("should not open on click if selection range is present", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
-      <calcite-tooltip id="hoverTip" reference-element="hoverRef">Content</calcite-tooltip>
-      <button id="hoverRef">Button</button>
-      <div id="selection">Selection</div>
-    `);
-
-    const hoverTip = await page.find("#hoverTip");
-
-    expect(await hoverTip.getProperty("open")).toBe(false);
-
-    await page.$eval("div#selection", (el) => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.selectNode(el);
-      selection.addRange(range);
-    });
-
-    await dispatchClickEvent(page, "#hoverRef");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-
-    expect(await hoverTip.getProperty("open")).toBe(false);
-
-    await page.evaluate(() => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-    });
-    await page.waitForChanges();
-
-    await dispatchClickEvent(page, "#hoverRef");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-
-    expect(await hoverTip.getProperty("open")).toBe(true);
-  });
-
   it("should not close if selection range occurs within the tooltip", async () => {
     const page = await newE2EPage();
 

@@ -400,31 +400,6 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("should not toggle popovers if selection range is present", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
-      <calcite-popover reference-element="ref">Content</calcite-popover>
-      <button id="ref">Button</button>
-    `);
-
-    const popover = await page.find("calcite-popover");
-
-    expect(await popover.getProperty("open")).toBe(false);
-
-    await page.$eval("button#ref", (el) => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.selectNode(el);
-      selection.addRange(range);
-      el.click();
-    });
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(false);
-  });
-
   it("should not close active popover if selection range occurs within the popover", async () => {
     const page = await newE2EPage();
 

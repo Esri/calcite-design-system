@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { getHost, getRootNode, queryElementRoots } from "./dom";
+import { elementHasSelectionRange, getHost, getRootNode, queryElementRoots } from "./dom";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -186,5 +186,66 @@ describe("queries", () => {
     );
 
     expect(text).toBe(outsideHost);
+  });
+});
+
+describe("elementHasSelection", () => {
+  let el: HTMLElement;
+  let child: HTMLElement;
+
+  beforeEach(() => {
+    el = document.createElement("div");
+    child = document.createElement("span");
+    child.textContent = "Hello world";
+    el.appendChild(child);
+    document.body.appendChild(el);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(el);
+    window.getSelection().removeAllRanges();
+  });
+
+  it("returns false when there is no selection", () => {
+    expect(elementHasSelectionRange(el)).toBe(false);
+  });
+
+  it("returns true when selection is inside the element (anchorNode)", () => {
+    const range = document.createRange();
+    range.selectNodeContents(child);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    expect(elementHasSelectionRange(el)).toBe(true);
+  });
+
+  it("returns true when selection focusNode is inside the element (reverse selection)", () => {
+    const range = document.createRange();
+    range.setStart(child.firstChild, 5);
+    range.setEnd(child.firstChild, 0);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    // focusNode should be child, anchorNode should be child
+    expect(elementHasSelectionRange(el)).toBe(true);
+  });
+
+  it("returns false when selection is outside the element", () => {
+    const outside = document.createElement("div");
+    outside.textContent = "Outside";
+    document.body.appendChild(outside);
+    const range = document.createRange();
+    range.selectNodeContents(outside);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    expect(elementHasSelectionRange(el)).toBe(false);
+    document.body.removeChild(outside);
+  });
+
+  it("returns false when selection is empty", () => {
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    expect(elementHasSelectionRange(el)).toBe(false);
   });
 });

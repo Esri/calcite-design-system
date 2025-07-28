@@ -730,3 +730,14 @@ export function viewportUnitToPixel(value: number, viewportSize: number): number
   // intentionally dividing last to avoid rounding errors
   return (value * viewportSize) / 100;
 }
+
+/**
+ * Checks if the given element contains the current text selection.
+ *
+ * @param {HTMLElement} el - The element to check for selection containment.
+ * @returns {boolean} True if the element contains a non-empty selection, otherwise false.
+ */
+export function elementHasSelectionRange(el: HTMLElement): boolean {
+  const selection = window.getSelection();
+  return selection.type === "Range" && el && (el.contains(selection.anchorNode) || el.contains(selection.focusNode));
+}
