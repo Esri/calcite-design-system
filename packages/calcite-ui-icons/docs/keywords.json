@@ -9862,5 +9862,15 @@
     "alias": ["4.3.0", "arrows", "skip", "ahead", "time", "scrub", "direction"],
     "category": "Arrows",
     "release": "4.3.0"
+  },
+  "magic-wand": {
+    "alias": ["4.3.0", "objects", "artificial-intelligence", "effects", "edit", "image"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "catalog": {
+    "alias": ["4.3.0", "generic", "organize", "search", "content", "filter", "folders"],
+    "category": "Generic",
+    "release": "4.3.0"
   }
 }
