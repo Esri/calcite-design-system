@@ -112,12 +112,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private containerEl: HTMLDivElement;
-
-  private resizeObserver = createObserver("resize", () => {
-    this.setContainerHeight();
-  });
-
   //#endregion
 
   //#region State Properties
@@ -380,7 +374,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   async load(): Promise<void> {
     this.handleInteractionModeWarning();
-    this.resizeObserver?.observe(this.el);
   }
 
   /**
@@ -419,7 +412,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   override disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
-    this.resizeObserver?.disconnect();
   }
 
   //#endregion
@@ -1113,24 +1105,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     });
   }
 
-  private setContainerRef(node: HTMLDivElement): void {
-    this.containerEl = node;
-  }
-
-  private setContainerHeight(): void {
-    const { containerEl, el } = this;
-    if (containerEl && this.listItems.length < 1) {
-      const parentHeight = el.getBoundingClientRect().height;
-      const currentHeight = containerEl.getBoundingClientRect().height;
-
-      const desiredHeight = `${parentHeight}px`;
-
-      if (Math.abs(parentHeight - currentHeight) > 10) {
-        containerEl.style.height = desiredHeight;
-      }
-    }
-  }
-
   //#endregion
 
   //#region Rendering
@@ -1151,7 +1125,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container} ref={this.setContainerRef}>
+        <div class={CSS.container}>
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}

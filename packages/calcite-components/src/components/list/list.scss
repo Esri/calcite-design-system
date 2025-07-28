@@ -7,12 +7,13 @@
  */
 
 :host {
-  @apply block;
+  @apply flex;
 }
 
 @include disabled();
 
 .container {
+  @apply flex-grow;
   position: relative;
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
 }
