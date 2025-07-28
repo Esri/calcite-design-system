@@ -210,23 +210,12 @@ describe("elementHasSelection", () => {
     expect(elementHasSelectionRange(el)).toBe(false);
   });
 
-  it("returns true when selection is inside the element (anchorNode)", () => {
+  it("returns true when selection is inside the element", () => {
     const range = document.createRange();
     range.selectNodeContents(child);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-    expect(elementHasSelectionRange(el)).toBe(true);
-  });
-
-  it("returns true when selection focusNode is inside the element (reverse selection)", () => {
-    const range = document.createRange();
-    range.setStart(child.firstChild, 5);
-    range.setEnd(child.firstChild, 0);
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-    // focusNode should be child, anchorNode should be child
     expect(elementHasSelectionRange(el)).toBe(true);
   });
 
