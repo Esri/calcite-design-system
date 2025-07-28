@@ -338,7 +338,8 @@ export class DatePicker extends LitElement {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
-        month !== nextMonth(this.activeStartDate).getMonth();
+        (this.calendars === "one" || month !== nextMonth(this.activeStartDate).getMonth());
+
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
           this.activeEndDate = date;
