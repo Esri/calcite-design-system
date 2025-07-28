@@ -380,7 +380,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   async load(): Promise<void> {
     this.handleInteractionModeWarning();
-    this.observeListResize();
+    this.resizeObserver?.observe(this.el);
   }
 
   /**
@@ -1111,14 +1111,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       newIndex,
       oldIndex,
     });
-  }
-
-  private observeListResize(): void {
-    const parent = this.el;
-    if (!parent) {
-      return;
-    }
-    this.resizeObserver?.observe(parent);
   }
 
   private setContainerRef(node: HTMLDivElement): void {
