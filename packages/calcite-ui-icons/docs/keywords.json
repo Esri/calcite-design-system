@@ -9864,7 +9864,7 @@
     "release": "4.3.0"
   },
   "magic-wand": {
-    "alias": ["4.3.0", "objects", "artificial-intelligence", "effects", "edit", "image"],
+    "alias": ["4.3.0", "objects", "effects", "edit", "image"],
     "category": "Objects",
     "release": "4.3.0"
   },
