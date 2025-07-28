@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Összes",
   "allSelected": "Összes kiválasztva",
   "clear": "Érték törlése",

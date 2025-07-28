@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Kõik",
   "allSelected": "Kõik valitud",
   "clear": "Eemalda väärtus",

@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "모두",
   "allSelected": "모두 선택됨",
   "clear": "값 지우기",
