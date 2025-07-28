@@ -627,20 +627,20 @@ describe("calcite-action-menu", () => {
     await page.setContent(html`<calcite-action-menu heading="Test"></calcite-action-menu>`);
     const item = await page.find("calcite-action-menu");
 
-    const expandedSpy = await page.spyOnEvent("calciteActionMenuExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteActionMenuCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteActionMenuExpand");
+    const collapseSpy = await page.spyOnEvent("calciteActionMenuCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("theme", () => {

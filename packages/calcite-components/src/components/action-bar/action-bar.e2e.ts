@@ -617,20 +617,20 @@ describe("calcite-action-bar", () => {
       await page.setContent(html`<calcite-action-bar heading="Test"></calcite-action-bar>`);
       const item = await page.find("calcite-action-bar");
 
-      const expandedSpy = await page.spyOnEvent("calciteActionBarExpanded");
-      const collapsedSpy = await page.spyOnEvent("calciteActionBarCollapsed");
+      const expandSpy = await page.spyOnEvent("calciteActionBarExpand");
+      const collapseSpy = await page.spyOnEvent("calciteActionBarCollapse");
 
       item.setProperty("expanded", true);
       await page.waitForChanges();
       expect(await item.getProperty("expanded")).toBe(true);
-      expect(expandedSpy).toHaveReceivedEventTimes(1);
-      expect(collapsedSpy).toHaveReceivedEventTimes(0);
+      expect(expandSpy).toHaveReceivedEventTimes(1);
+      expect(collapseSpy).toHaveReceivedEventTimes(0);
 
       item.setProperty("expanded", false);
       await page.waitForChanges();
       expect(await item.getProperty("expanded")).toBe(false);
-      expect(expandedSpy).toHaveReceivedEventTimes(1);
-      expect(collapsedSpy).toHaveReceivedEventTimes(1);
+      expect(expandSpy).toHaveReceivedEventTimes(1);
+      expect(collapseSpy).toHaveReceivedEventTimes(1);
     });
   });
 });

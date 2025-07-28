@@ -119,10 +119,10 @@ export class ActionPad extends LitElement {
   //#region Events
 
   /** Fires when the component's content area is collapsed. */
-  calciteActionPadCollapsed = createEvent({ cancelable: false });
+  calciteActionPadCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteActionPadExpanded = createEvent({ cancelable: false });
+  calciteActionPadExpand = createEvent({ cancelable: false });
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionPadToggle = createEvent({ cancelable: false });
@@ -163,9 +163,9 @@ export class ActionPad extends LitElement {
 
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
-        this.calciteActionPadExpanded.emit();
+        this.calciteActionPadExpand.emit();
       } else {
-        this.calciteActionPadCollapsed.emit();
+        this.calciteActionPadCollapse.emit();
       }
     }
   }

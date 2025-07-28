@@ -339,10 +339,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   calciteListItemClose = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
-  calciteListItemCollapsed = createEvent({ cancelable: false });
+  calciteListItemCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteListItemExpanded = createEvent({ cancelable: false });
+  calciteListItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -422,9 +422,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.handleExpandedChange();
-        this.calciteListItemExpanded.emit();
+        this.calciteListItemExpand.emit();
       } else {
-        this.calciteListItemCollapsed.emit();
+        this.calciteListItemCollapse.emit();
       }
     }
   }

@@ -570,20 +570,20 @@ describe("calcite-shell-panel", () => {
     await page.setContent(html`<calcite-shell-panel heading="Test"></calcite-shell-panel>`);
     const item = await page.find("calcite-shell-panel");
 
-    const expandedSpy = await page.spyOnEvent("calciteShellPanelExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteShellPanelCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteShellPanelExpand");
+    const collapseSpy = await page.spyOnEvent("calciteShellPanelCollapse");
 
     item.setProperty("collapsed", true);
     await page.waitForChanges();
     expect(await item.getProperty("collapsed")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(0);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(0);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
 
     item.setProperty("collapsed", false);
     await page.waitForChanges();
     expect(await item.getProperty("collapsed")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("themed", () => {

@@ -124,10 +124,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
-  calciteTreeItemCollapsed = createEvent({ cancelable: false });
+  calciteTreeItemCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteTreeItemExpanded = createEvent({ cancelable: false });
+  calciteTreeItemExpand = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -156,9 +156,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.updateChildTree();
-        this.calciteTreeItemExpanded.emit();
+        this.calciteTreeItemExpand.emit();
       } else {
-        this.calciteTreeItemCollapsed.emit();
+        this.calciteTreeItemCollapse.emit();
       }
     }
 

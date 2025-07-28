@@ -230,10 +230,10 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   calciteBlockClose = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
-  calciteBlockCollapsed = createEvent({ cancelable: false });
+  calciteBlockCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteBlockExpanded = createEvent({ cancelable: false });
+  calciteBlockExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
@@ -294,9 +294,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
-        this.calciteBlockExpanded.emit();
+        this.calciteBlockExpand.emit();
       } else {
-        this.calciteBlockCollapsed.emit();
+        this.calciteBlockCollapse.emit();
       }
     }
   }

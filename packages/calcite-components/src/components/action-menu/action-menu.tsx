@@ -199,10 +199,10 @@ export class ActionMenu extends LitElement {
   //#region Events
 
   /** Fires when the component's content area is collapsed. */
-  calciteActionMenuCollapsed = createEvent({ cancelable: false });
+  calciteActionMenuCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteActionMenuExpanded = createEvent({ cancelable: false });
+  calciteActionMenuExpand = createEvent({ cancelable: false });
 
   /** Fires when the `open` property is toggled. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
@@ -233,9 +233,9 @@ export class ActionMenu extends LitElement {
 
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
-        this.calciteActionMenuExpanded.emit();
+        this.calciteActionMenuExpand.emit();
       } else {
-        this.calciteActionMenuCollapsed.emit();
+        this.calciteActionMenuCollapse.emit();
       }
     }
   }

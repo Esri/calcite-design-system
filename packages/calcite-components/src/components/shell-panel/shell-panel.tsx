@@ -135,10 +135,10 @@ export class ShellPanel extends LitElement {
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
-  calciteShellPanelCollapsed = createEvent({ cancelable: false });
+  calciteShellPanelCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteShellPanelExpanded = createEvent({ cancelable: false });
+  calciteShellPanelExpand = createEvent({ cancelable: false });
 
   //#endregion
 

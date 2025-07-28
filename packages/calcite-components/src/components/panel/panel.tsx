@@ -228,10 +228,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   calcitePanelClose = createEvent({ cancelable: true });
 
   /** Fires when the component's content area is collapsed. */
-  calcitePanelCollapsed = createEvent({ cancelable: false });
+  calcitePanelCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calcitePanelExpanded = createEvent({ cancelable: false });
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });

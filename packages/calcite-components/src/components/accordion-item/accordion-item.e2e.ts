@@ -224,19 +224,19 @@ describe("calcite-accordion-item", () => {
     await page.setContent(html`<calcite-accordion-item heading="Test"></calcite-accordion-item>`);
     const item = await page.find("calcite-accordion-item");
 
-    const expandedSpy = await page.spyOnEvent("calciteAccordionItemExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteAccordionItemCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteAccordionItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteAccordionItemCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 });

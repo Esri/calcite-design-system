@@ -189,10 +189,10 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   calciteFlowItemClose = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is collapsed. */
-  calciteFlowItemCollapsed = createEvent({ cancelable: false });
+  calciteFlowItemCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteFlowItemExpanded = createEvent({ cancelable: false });
+  calciteFlowItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calciteFlowItemScroll = createEvent({ cancelable: false });
@@ -217,9 +217,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
-        this.calciteFlowItemCollapsed.emit();
+        this.calciteFlowItemCollapse.emit();
       } else {
-        this.calciteFlowItemExpanded.emit();
+        this.calciteFlowItemExpand.emit();
       }
     }
   }

@@ -191,10 +191,10 @@ export class ActionBar extends LitElement {
   //#region Events
 
   /** Fires when the component's content area is collapsed. */
-  calciteActionBarCollapsed = createEvent({ cancelable: false });
+  calciteActionBarCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteActionBarExpanded = createEvent({ cancelable: false });
+  calciteActionBarExpand = createEvent({ cancelable: false });
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
@@ -239,9 +239,9 @@ export class ActionBar extends LitElement {
     if (changes.has("expanded") && this.hasUpdated) {
       this.expandedHandler();
       if (this.expanded) {
-        this.calciteActionBarExpanded.emit();
+        this.calciteActionBarExpand.emit();
       } else {
-        this.calciteActionBarCollapsed.emit();
+        this.calciteActionBarCollapse.emit();
       }
     }
   }

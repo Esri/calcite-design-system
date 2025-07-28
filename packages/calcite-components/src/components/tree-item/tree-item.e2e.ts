@@ -434,20 +434,20 @@ describe("calcite-tree-item", () => {
     await page.setContent(html`<calcite-tree-item heading="Test"></calcite-tree-item>`);
     const item = await page.find("calcite-tree-item");
 
-    const expandedSpy = await page.spyOnEvent("calciteTreeItemExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteTreeItemCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteTreeItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteTreeItemCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("themed", () => {

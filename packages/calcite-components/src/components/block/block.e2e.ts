@@ -481,20 +481,20 @@ describe("calcite-block", () => {
     await page.setContent(html`<calcite-block heading="Test"></calcite-block>`);
     const item = await page.find("calcite-block");
 
-    const expandedSpy = await page.spyOnEvent("calciteBlockExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteBlockCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteBlockExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("translation support", () => {

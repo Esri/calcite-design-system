@@ -116,10 +116,10 @@ export class BlockSection extends LitElement {
   //#region Events
 
   /** Fires when the component's content area is collapsed. */
-  calciteBlockSectionCollapsed = createEvent({ cancelable: false });
+  calciteBlockSectionCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteBlockSectionExpanded = createEvent({ cancelable: false });
+  calciteBlockSectionExpand = createEvent({ cancelable: false });
 
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
@@ -129,16 +129,11 @@ export class BlockSection extends LitElement {
   //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-      To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-      Please refactor your code to reduce the need for this check.
-      Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
-        this.calciteBlockSectionExpanded.emit();
+        this.calciteBlockSectionExpand.emit();
       } else {
-        this.calciteBlockSectionCollapsed.emit();
+        this.calciteBlockSectionCollapse.emit();
       }
     }
   }

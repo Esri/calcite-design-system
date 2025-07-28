@@ -371,20 +371,20 @@ describe("calcite-action-pad", () => {
     await page.setContent(html`<calcite-action-pad heading="Test"></calcite-action-pad>`);
     const item = await page.find("calcite-action-pad");
 
-    const expandedSpy = await page.spyOnEvent("calciteActionPadExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteActionPadCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteActionPadExpand");
+    const collapseSpy = await page.spyOnEvent("calciteActionPadCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("theme", () => {

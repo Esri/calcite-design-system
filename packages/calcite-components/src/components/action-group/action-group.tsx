@@ -126,10 +126,10 @@ export class ActionGroup extends LitElement {
   //#region Events
 
   /** Fires when the component's content area is collapsed. */
-  calciteActionGroupCollapsed = createEvent({ cancelable: false });
+  calciteActionGroupCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
-  calciteActionGroupExpanded = createEvent({ cancelable: false });
+  calciteActionGroupExpand = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -144,9 +144,9 @@ export class ActionGroup extends LitElement {
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.menuOpen = false;
-        this.calciteActionGroupExpanded.emit();
+        this.calciteActionGroupExpand.emit();
       } else {
-        this.calciteActionGroupCollapsed.emit();
+        this.calciteActionGroupCollapse.emit();
       }
     }
   }

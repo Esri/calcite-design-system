@@ -266,20 +266,20 @@ describe("calcite-block-section", () => {
     await page.setContent(html`<calcite-block-section heading="Test"></calcite-block-section>`);
     const item = await page.find("calcite-block-section");
 
-    const expandedSpy = await page.spyOnEvent("calciteBlockSectionExpanded");
-    const collapsedSpy = await page.spyOnEvent("calciteBlockSectionCollapsed");
+    const expandSpy = await page.spyOnEvent("calciteBlockSectionExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockSectionCollapse");
 
     item.setProperty("expanded", true);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(0);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandedSpy).toHaveReceivedEventTimes(1);
-    expect(collapsedSpy).toHaveReceivedEventTimes(1);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("theme", () => {
