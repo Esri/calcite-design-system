@@ -19,19 +19,19 @@
 
 :host([scale="s"]) {
   .container {
-    --calcite-internal-swatch-size: 1.5rem /* 24px */;
+    --calcite-internal-swatch-size: 1.25rem;
   }
 }
 
 :host([scale="m"]) {
   .container {
-    --calcite-internal-swatch-size: 2rem /* 32px */;
+    --calcite-internal-swatch-size: 1.5rem;
   }
 }
 
 :host([scale="l"]) {
   .container {
-    --calcite-internal-swatch-size: 2.75rem /* 44px */;
+    --calcite-internal-swatch-size: 2rem;
   }
 }
 

@@ -238,7 +238,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
   }
 
   private renderEmptyDisplay(): JsxNode {
-    const scale = this.scale === "s" ? "12" : this.scale === "m" ? "24" : "32";
+    const scale = this.scale === "s" ? "12" : this.scale === "m" ? "16" : "20";
 
     return (
       <div class={CSS.emptyContainer}>
@@ -259,9 +259,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgSmPath = (
       <svg
         fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
+        height="12"
+        viewBox="0 0 12 12"
+        width="12"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -274,9 +274,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgMdPath = (
       <svg
         fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
+        height="12"
+        viewBox="0 0 12 12"
+        width="12"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -290,9 +290,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgLgPath = (
       <svg
         fill="none"
-        height="18"
-        viewBox="0 0 18 18"
-        width="18"
+        height="16"
+        viewBox="0 0 16 16"
+        width="16"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

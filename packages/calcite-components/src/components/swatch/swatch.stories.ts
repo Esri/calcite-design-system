@@ -19,6 +19,24 @@ export const simple = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
+export const disabled = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" label="${args.label}" disabled> </calcite-swatch>
+  </div>
+`;
+
+export const withHex = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" color="#FF0000" label="${args.label}" disabled> </calcite-swatch>
+  </div>
+`;
+
+export const withRgba = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" color="rgba(255, 0, 0, 0.5)" label="${args.label}" disabled> </calcite-swatch>
+  </div>
+`;
+
 export const withImage = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" label="${args.label}">
