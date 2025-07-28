@@ -103,6 +103,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** TODO: [MIGRATION] this flag was used to work around an issue with debounce using the last args passed when invoking the debounced fn, causing events to not emit */
   private willPerformFilter: boolean = false;
 
+  private containerRef: HTMLDivElement;
+
+  resizeObserver = createObserver("resize", () => {
+    this.setContainerHeight();
+  });
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -374,6 +380,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   async load(): Promise<void> {
     this.handleInteractionModeWarning();
+    this.resizeObserver?.observe(this.el);
   }
 
   /**
@@ -412,6 +419,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   override disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
+    this.resizeObserver?.disconnect();
   }
 
   //#endregion
@@ -1105,6 +1113,23 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     });
   }
 
+  private setContainerRef(node: HTMLDivElement): void {
+    this.containerRef = node;
+  }
+
+  private setContainerHeight(): void {
+    const { containerRef, listItems, el } = this;
+
+    if (containerRef && listItems.length < 1) {
+      const parentHeight = el.getBoundingClientRect().height;
+      const currentHeight = containerRef.getBoundingClientRect().height;
+
+      if (Math.abs(parentHeight - currentHeight) > 10) {
+        containerRef.style.minHeight = `${el.getBoundingClientRect().height}px`;
+      }
+    }
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1125,7 +1150,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div class={CSS.container} ref={this.setContainerRef}>
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}
