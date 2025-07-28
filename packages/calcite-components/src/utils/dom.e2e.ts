@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { describe, expect, it, beforeEach, afterEach } from "vitest";
 import { elementHasSelectionRange, getHost, getRootNode, queryElementRoots } from "./dom";
 
 interface SetUpTestComponentOptions {
