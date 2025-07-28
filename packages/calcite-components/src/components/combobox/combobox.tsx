@@ -1819,25 +1819,30 @@ export class Combobox
                   class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
-                  label={this.messages.selectAll}
+                  label={messages.selectAll}
                   ref={this.selectAllComboboxItemReferenceEl}
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={this.messages.selectAll}
+                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}
             <slot />
             {this.noMatches === "add" && (
               <li
-                aria-label={this.messages.add.replace("{text}", `${filterText}`)}
+                aria-label={messages.add.replace("{text}", `${filterText}`)}
                 class={CSS.noMatches}
                 onClick={this.customChipAddHandler}
                 role="option"
                 tabIndex={0}
               >
-                {this.messages.add.replace("{text}", `<strong>${filterText}</strong>`)}
+                {messages.add
+                  .split("{text}")
+                  .map((part, index) =>
+                    index === 0 ? part : [<strong key="{index}">{filterText}</strong>],
+                  )
+                  .flat()}
               </li>
             )}
             {this.noMatches === "none" && <li class={CSS.noMatches}>{messages.noMatches}</li>}
