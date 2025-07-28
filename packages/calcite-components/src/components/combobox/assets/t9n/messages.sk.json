@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Všetko",
   "allSelected": "Všetky vybrané",
   "clear": "Vymazať hodnotu",
