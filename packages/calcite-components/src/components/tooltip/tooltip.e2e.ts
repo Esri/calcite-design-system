@@ -706,46 +706,6 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
   });
 
-  it("should not close if selection range occurs within the tooltip", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
-      <button id="otherRef">Other Button</button>
-      <calcite-tooltip id="hoverTip" reference-element="hoverRef"><div id="content">Content</div></calcite-tooltip>
-      <button id="hoverRef">Button</button>
-    `);
-
-    const hoverTip = await page.find("#hoverTip");
-    await dispatchPointerEvent(page, "#hoverRef");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
-    expect(await hoverTip.getProperty("open")).toBe(true);
-
-    await page.$eval("div#content", (el) => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.selectNode(el);
-      selection.addRange(range);
-    });
-    await page.waitForChanges();
-
-    await dispatchPointerEvent(page, "#otherRef");
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
-
-    expect(await hoverTip.getProperty("open")).toBe(true);
-
-    await page.evaluate(() => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-    });
-    await page.waitForChanges();
-
-    await dispatchPointerEvent(page, "#otherRef");
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
-
-    expect(await hoverTip.getProperty("open")).toBe(false);
-  });
-
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,

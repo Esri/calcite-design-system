@@ -1,8 +1,25 @@
 // @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
-import { elementHasSelectionRange, isKeyboardTriggeredClick } from "../../utils/dom";
+import { isKeyboardTriggeredClick, isPrimaryPointerButton } from "../../utils/dom";
 import type { Popover } from "./popover";
+
+const clickTolerance = 5;
+
+export function isDragEvent({
+  startX,
+  startY,
+  endX,
+  endY,
+}: {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+}): boolean {
+  const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+  return distance > clickTolerance;
+}
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -14,6 +31,8 @@ export default class PopoverManager {
   private registeredElements = new Map<ReferenceElement, Popover["el"]>();
 
   private registeredElementCount = 0;
+
+  private pointerDownPosition?: { startX: number; startY: number };
 
   // --------------------------------------------------------------------------
   //
@@ -86,25 +105,42 @@ export default class PopoverManager {
     }
   };
 
-  private openPopoverHasSelection(): boolean {
-    const { registeredElements } = this;
-    return Array.from(registeredElements.values()).some((popover) => popover.open && elementHasSelectionRange(popover));
-  }
-
-  private clickHandler = (event: PointerEvent): void => {
-    if (isKeyboardTriggeredClick(event) || event.defaultPrevented || this.openPopoverHasSelection()) {
+  private pointerDownHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented || !isPrimaryPointerButton(event)) {
       return;
     }
+
+    const { clientX, clientY } = event;
+    this.pointerDownPosition = { startX: clientX, startY: clientY };
+  };
+
+  private clickHandler = (event: PointerEvent): void => {
+    if (
+      isKeyboardTriggeredClick(event) ||
+      event.defaultPrevented ||
+      (this.pointerDownPosition &&
+        isDragEvent({
+          endY: event.clientY,
+          endX: event.clientX,
+          ...this.pointerDownPosition,
+        }))
+    ) {
+      return;
+    }
+
+    this.pointerDownPosition = undefined;
 
     this.togglePopovers(event);
   };
 
   private addListeners(): void {
+    window.addEventListener("pointerdown", this.pointerDownHandler);
     window.addEventListener("click", this.clickHandler);
     window.addEventListener("keydown", this.keyDownHandler);
   }
 
   private removeListeners(): void {
+    window.removeEventListener("pointerdown", this.pointerDownHandler);
     window.removeEventListener("click", this.clickHandler);
     window.removeEventListener("keydown", this.keyDownHandler);
   }

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { elementHasSelectionRange, getShadowRootNode } from "../../utils/dom";
+import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -104,11 +104,6 @@ export default class TooltipManager {
     }
 
     this.clearHoverTimeout();
-
-    if (elementHasSelectionRange(this.activeTooltip)) {
-      return;
-    }
-
     this.closeHoveredTooltip();
   };
 
@@ -122,7 +117,7 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (elementHasSelectionRange(this.activeTooltip) || this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
@@ -154,7 +149,7 @@ export default class TooltipManager {
     );
   }
 
-  private clickHandler = (event: Event): void => {
+  private clickHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
