@@ -867,6 +867,7 @@ export class Autocomplete
                   name={SLOTS.contentBottom}
                   onSlotChange={this.handleContentBottomSlotChange}
                 />
+                <slot ariaHidden="true" name={SLOTS.internalLabelContent} />
               </div>
             </div>
           </div>

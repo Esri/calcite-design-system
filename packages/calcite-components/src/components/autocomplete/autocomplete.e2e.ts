@@ -316,7 +316,7 @@ describe("calcite-autocomplete", () => {
     hidden("calcite-autocomplete");
   });
 
-  describe.skip("slots", () => {
+  describe("slots", () => {
     slots("calcite-autocomplete", SLOTS);
   });
 
