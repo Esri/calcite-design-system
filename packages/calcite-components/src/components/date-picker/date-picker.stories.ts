@@ -61,13 +61,13 @@ export const simple = (args: DatePickerStoryArgs): string => html`
 
 export const range = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      lang="${defaultLocale}"
-      min="2016-08-09"
-      range
-      scale="m"
-      value="2020-02-28"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="${defaultLocale}" min="2016-08-09" range scale="m"></calcite-date-picker>
+  </div>
+`;
+
+export const rangeOneCalendar = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker lang="${defaultLocale}" min="2016-08-09" range scale="m" calendars="one"></calcite-date-picker>
   </div>
 `;
 
@@ -84,9 +84,35 @@ export const rangeHighlighted_TestOnly = (): string => html`
   </script>
 `;
 
+export const rangeOneCalendarWithValue = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker range calendars="one"></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      document.querySelector("calcite-date-picker").value = ["2020-02-14", "2020-02-28"];
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    })();
+  </script>
+`;
+
 export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker range></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      document.querySelector("calcite-date-picker").value = ["2024-02-14", "2025-01-28"];
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    })();
+  </script>
+`;
+
+export const rangeOneCalendarValuesNotInSameMonthAndYear = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker range calendars="one"></calcite-date-picker>
   </div>
   <script>
     (async () => {
