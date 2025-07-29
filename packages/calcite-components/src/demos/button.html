@@ -89,6 +89,14 @@
       hr {
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      #themed-button {
+        --calcite-button-background-color: var(--calcite-color-status-warning);
+        --calcite-button-text-color: var(--calcite-color-status-info);
+        --calcite-button-border-color: var(--calcite-color-status-danger);
+        --calcite-button-shadow: var(--calcite-shadow-sm);
+        --calcite-button-corner-radius: 8px;
+      }
     </style>
 
     <!-- scripts -->
@@ -2105,6 +2113,8 @@
       ***************************************************************"
     -->
       <div class="loader">
+        <p class="loader-padding">Themed</p>
+        <calcite-button id="themed-button" icon-start="drive-time">Themed</calcite-button>
         <p class="loader-padding">Loader</p>
 
         <section>

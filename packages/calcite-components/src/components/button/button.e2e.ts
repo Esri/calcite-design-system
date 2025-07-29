@@ -657,6 +657,10 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "borderColor",
         },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
       });
     });
     describe("loading", () => {
