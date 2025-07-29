@@ -42,6 +42,34 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+      .themed-dialog {
+        --calcite-dialog-scrim-background-color: rgba(50, 20, 50, 0.4);
+        --calcite-dialog-background-color: orange;
+        --calcite-dialog-corner-radius: 12px;
+        --calcite-dialog-heading-text-color: darkgreen;
+        --calcite-dialog-description-text-color: lightgreen;
+        --calcite-dialog-border-color: blue;
+        --calcite-dialog-background-color: yellow;
+        --calcite-dialog-header-background-color: orange;
+        --calcite-dialog-footer-background-color: red;
+        --calcite-dialog-border-color: lime;
+        --calcite-dialog-space: 2rem;
+        --calcite-dialog-header-content-space: 0;
+        --calcite-dialog-footer-space: 0;
+        --calcite-dialog-content-space: 12px;
+        --calcite-dialog-footer-padding: 3rem;
+        --calcite-dialog-header-border-block-end: rgb(13, 242, 204);
+        --calcite-dialog-header-action-background-color: blue;
+        --calcite-dialog-header-action-background-color-hover: blue;
+        --calcite-dialog-header-action-background-color-press: blue;
+        --calcite-dialog-accent-color: pink;
+      }
+
+      .themed-dialog calcite-action[slot="header-actions-end"] {
+        --calcite-action-background-color: red;
+        --calcite-action-background-color-hover: red;
+        --calcite-action-background-color-press: red;
+      }
     </style>
 
     <script src="./_assets/head.ts"></script>
@@ -1690,7 +1718,64 @@
           </calcite-button>
         </div>
       </div>
+      <hr />
 
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">
+          <calcite-dialog
+            class="themed-dialog"
+            heading="Information"
+            id="js-dialog-themed"
+            description="Themed"
+            kind="info"
+            scale="s"
+            modal
+          >
+            <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+            <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+            <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
+            <div slot="content-top">To continue, you must agree to the terms</div>
+
+            <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
+              <calcite-checkbox></calcite-checkbox>I agree to the terms
+            </calcite-label>
+            <p>
+              Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
+              fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros.
+              Aenean sodales sollicitudin dui in fermentum. Fusce egestas erat nec eros sodales ornare. Ut malesuada est
+              tortor, vitae semper turpis rutrum at. Donec suscipit, nulla in euismod luctus, nulla sapien interdum
+              tortor, a iaculis elit mi sed lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor,
+              porttitor est sed, vestibulum risus. Integer non erat libero.
+            </p>
+
+            <p>
+              Cras sagittis vel neque sed efficitur. Vestibulum mattis diam eget urna condimentum tempus. Donec
+              malesuada velit sit amet metus faucibus pharetra. Sed sit amet massa facilisis, porttitor nunc vitae,
+              sollicitudin mauris. Nullam nec rhoncus augue. Praesent rhoncus varius sapien, sit amet porttitor nisl
+              varius eu. Pellentesque at eros eget metus dignissim lacinia. Sed sed justo eget sapien ultrices commodo.
+              Donec eget pretium urna. Vestibulum ut tortor ut quam viverra dictum. Morbi ut turpis velit. Phasellus
+              maximus lacus nunc, ac consequat est varius in. Nullam facilisis, purus ut aliquet condimentum, est tortor
+              accumsan justo, at sagittis urna dolor eget lacus. Interdum et malesuada fames ac ante ipsum primis in
+              faucibus.
+            </p>
+            <p>
+              Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
+              fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros.
+              Aenean sodales sollicitudin dui in fermentum. Fusce egestas erat nec eros sodales ornare. Ut malesuada est
+              tortor, vitae semper turpis rutrum at. Donec suscipit, nulla in euismod luctus, nulla sapien interdum
+              tortor, a iaculis elit mi sed lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor,
+              porttitor est sed, vestibulum risus. Integer non erat libero.
+            </p>
+            <calcite-button slot="footer-end" width="auto" scale="s" appearance="outline"
+              >Start with no members</calcite-button
+            >
+            <calcite-button slot="footer-end" width="auto" scale="s">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button data-dialog-ref="js-dialog-themed" appearance="outline" scale="s"> Themed </calcite-button>
+        </div>
+      </div>
       <hr />
 
       <div class="parent">

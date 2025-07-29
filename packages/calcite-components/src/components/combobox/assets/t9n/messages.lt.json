@@ -1,5 +1,5 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Viskas",
   "allSelected": "Pasirinkti visi",
   "clear": "Išvalyti reikšmę",
