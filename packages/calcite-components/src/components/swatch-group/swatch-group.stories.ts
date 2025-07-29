@@ -35,15 +35,7 @@ export const simple = (args: SwatchGroupStoryArgs): string => html`
         slot="image"
       />
     </calcite-swatch>
-    <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
-      <img
-        src="${placeholderImage({
-          width: 24,
-          height: 24,
-        })}"
-        slot="image"
-      />
-    </calcite-swatch>
+    <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch"> </calcite-swatch>
     <calcite-swatch value="calcite swatch">
       <img
         src="${placeholderImage({

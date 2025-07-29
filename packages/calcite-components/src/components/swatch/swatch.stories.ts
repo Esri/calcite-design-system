@@ -20,21 +20,27 @@ export const simple = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
-export const disabled = (args: SwatchStoryArgs): string => html`
-  <div style="background-color:white;padding:100px">
-    <calcite-swatch scale="m" label="${args.label}" disabled> </calcite-swatch>
-  </div>
-`;
-
 export const withHex = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-swatch scale="m" color="#FF0000" label="${args.label}" disabled> </calcite-swatch>
+    <calcite-swatch scale="m" color="#FF0000" label="${args.label}"> </calcite-swatch>
   </div>
 `;
 
 export const withRgba = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-swatch scale="m" color="rgba(255, 0, 0, 0.5)" label="${args.label}" disabled> </calcite-swatch>
+    <calcite-swatch scale="m" color="rgba(255, 0, 0, 0.5)" label="${args.label}"> </calcite-swatch>
+  </div>
+`;
+
+export const hexDisabled = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" color="#FF0000" label="${args.label}" disabled> </calcite-swatch>
+  </div>
+`;
+
+export const emptyDisabled = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" label="${args.label}" disabled> </calcite-swatch>
   </div>
 `;
 
@@ -47,6 +53,21 @@ export const withImage = (args: SwatchStoryArgs): string => html`
           height: 24,
         })}"
         slot="image"
+      />
+    </calcite-swatch>
+  </div>
+`;
+
+export const withImageDisabled = (args: SwatchStoryArgs): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-swatch scale="m" label="${args.label}">
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+        disabled
       />
     </calcite-swatch>
   </div>
