@@ -110,7 +110,7 @@
             "category": "spacing"
           }
         },
-        "sm+": {
+        "sm-plus": {
           "value": "{core.size.default.10}",
           "type": "dimension",
           "attributes": {
@@ -124,7 +124,7 @@
             "category": "spacing"
           }
         },
-        "md+": {
+        "md-plus": {
           "value": "{core.size.default.14}",
           "type": "dimension",
           "attributes": {
