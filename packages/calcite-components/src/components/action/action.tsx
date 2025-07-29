@@ -306,7 +306,7 @@ export class Action extends LitElement implements InteractiveComponent {
       </>
     );
 
-    const internalControlsElements = indicatorEl ? [indicatorEl] : [];
+    const internalControlsElements = indicator && indicatorEl ? [indicatorEl] : [];
 
     const ariaControlsElements = [
       ...(this.aria?.ariaControlsElements ?? []),
