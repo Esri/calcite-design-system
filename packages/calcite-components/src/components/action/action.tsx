@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  JsxNode,
+  Fragment,
+  LuminaJsx,
+  state,
+} from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -45,8 +54,6 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
-  private indicatorEl: HTMLDivElement;
-
   /**
    * Made into a prop for testing purposes only
    *
@@ -55,6 +62,13 @@ export class Action extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state()
+  private indicatorEl: HTMLDivElement;
 
   //#endregion
 
@@ -268,6 +282,7 @@ export class Action extends LitElement implements InteractiveComponent {
       label,
       text,
       indicator,
+      indicatorEl,
       buttonId,
       messages,
     } = this;
@@ -291,12 +306,19 @@ export class Action extends LitElement implements InteractiveComponent {
       </>
     );
 
+    const internalControlsElements = indicatorEl ? [indicatorEl] : [];
+
+    const ariaControlsElements = [
+      ...(this.aria?.ariaControlsElements ?? []),
+      ...internalControlsElements,
+    ];
+
     if (this.dragHandle) {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
           ariaBusy={this.aria?.ariaBusy ?? loading}
-          ariaControlsElements={[this.indicatorEl, ...(this.aria?.ariaControlsElements ?? [])]}
+          ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.ariaDescribedByElements}
           ariaExpanded={this.aria?.ariaExpanded}
           ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
@@ -315,7 +337,7 @@ export class Action extends LitElement implements InteractiveComponent {
     return (
       <button
         ariaBusy={this.aria?.ariaBusy ?? loading}
-        ariaControlsElements={[this.indicatorEl, ...(this.aria?.ariaControlsElements ?? [])]}
+        ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.ariaDescribedByElements}
         ariaExpanded={this.aria?.ariaExpanded}
         ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
