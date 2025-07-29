@@ -40,67 +40,47 @@
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <h1 style="margin: 0 auto; text-align: center">Icon</h1>
+    <h1>prototype</h1>
 
-      <!-- Header -->
-      <div class="parent">
-        <div class="child"></div>
-        <div class="child">Small</div>
-        <div class="child">Medium</div>
-        <div class="child">Large</div>
-      </div>
+    <h2>path data</h2>
+    <calcite-icon icon="M20 5h1v1h-1zM1 3h22v18H1zm21 5H7v12h15zM2 7h20V4H2zm0 13h4V8H2z"></calcite-icon>
+    <calcite-icon
+      icon="M16.605 31.2006C16.4263 31.2977 16.2173 31.3488 16 31.3488C15.7827 31.3488 15.5736 31.2977 15.3949 31.2006C10.0849 27.395 4.6588 22.97 -0.0734 16.4182C-0.2328 16.1565 -0.2331 15.8453 -0.0745 15.5837C4.4675 9.5829 9.2878 4.8849 15.3928 0.8005C15.572 0.7028 15.7819 0.6512 16 0.6512C16.218 0.6512 16.4278 0.7028 16.6071 0.8005C22.7121 4.8849 27.5533 9.5829 32.0954 15.5837C32.254 15.8453 32.2536 16.1565 32.0943 16.4182C27.3616 22.9705 21.9148 27.3952 16.605 31.2006ZM17.3692 26.3062C19.9474 23.3316 21.7852 21.4776 22.2039 17.9218L10.909 16.3116C12.867 20.3599 14.1576 22.2456 17.3692 26.3062ZM3.5446 16.5839L3.6651 16.752C6.0124 20.0274 8.7103 22.4679 12.4002 24.6509C12.4671 24.6904 12.5569 24.6841 12.6152 24.6354L12.6323 24.6212C12.6906 24.5727 12.7016 24.4957 12.6592 24.4362C11.0335 22.1576 9.7349 19.8126 7.786 16.0562L7.7372 15.9621L3.5446 16.5839ZM19.0645 5.9837C19.0005 6.0298 18.984 6.1086 19.0251 6.1713C20.7817 8.8502 22.7077 12.0955 24.0754 15.4639L27.7273 14.641C26.6511 13.179 23.7189 9.2953 18.9042 5.9184C18.8383 5.8715 18.7329 5.8707 18.667 5.9168L19.0645 5.9837ZM10.9636 13.5244L20.1823 15.1279C18.4333 11.1526 17.1681 8.8757 14.8544 4.934C11.7376 8.4791 10.9706 10.6506 10.9636 13.5244Z"
+      scale="l"
+    ></calcite-icon>
+    <calcite-icon
+      icon="M480-440q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm240-280q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z"
+    ></calcite-icon>
 
-      <!-- Default -->
-      <div class="parent">
-        <div class="child right-aligned-text">Default</div>
+    <h2>path data with viewBox</h2>
+    <calcite-icon
+      scale="s"
+      icon="M160-240q-33 0-56.5-23.5T80-320v-320q0-33 23.5-56.5T160-720h640q33 0 56.5 23.5T880-640v320q0 33-23.5 56.5T800-240H160Zm0-80h640v-320H160v320Zm120-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm300 0q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480q-25 0-42.5 17.5T520-420q0 25 17.5 42.5T580-360Zm120-120q25 0 42.5-17.5T760-540q0-25-17.5-42.5T700-600q-25 0-42.5 17.5T640-540q0 25 17.5 42.5T700-480ZM160-320v-320 320Z|0 -960 960 960"
+    ></calcite-icon>
+    <calcite-icon
+      scale="m"
+      icon="M160-240q-33 0-56.5-23.5T80-320v-320q0-33 23.5-56.5T160-720h640q33 0 56.5 23.5T880-640v320q0 33-23.5 56.5T800-240H160Zm0-80h640v-320H160v320Zm120-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm300 0q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480q-25 0-42.5 17.5T520-420q0 25 17.5 42.5T580-360Zm120-120q25 0 42.5-17.5T760-540q0-25-17.5-42.5T700-600q-25 0-42.5 17.5T640-540q0 25 17.5 42.5T700-480ZM160-320v-320 320Z|0 -960 960 960"
+    ></calcite-icon>
+    <calcite-icon
+      scale="l"
+      icon="M160-240q-33 0-56.5-23.5T80-320v-320q0-33 23.5-56.5T160-720h640q33 0 56.5 23.5T880-640v320q0 33-23.5 56.5T800-240H160Zm0-80h640v-320H160v320Zm120-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm300 0q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480q-25 0-42.5 17.5T520-420q0 25 17.5 42.5T580-360Zm120-120q25 0 42.5-17.5T760-540q0-25-17.5-42.5T700-600q-25 0-42.5 17.5T640-540q0 25 17.5 42.5T700-480ZM160-320v-320 320Z|0 -960 960 960"
+    ></calcite-icon>
 
-        <div class="child">
-          <calcite-icon icon="aZ" scale="s"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon icon="aZ" scale="m"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon icon="aZ" scale="l"></calcite-icon>
-        </div>
-      </div>
-
-      <!-- Default (semantic) -->
-      <div class="parent">
-        <div class="child right-aligned-text">Default (semantic)</div>
-
-        <div class="child">
-          <calcite-icon icon="basemap" text-label="sort options" scale="s"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon icon="basemap" text-label="select a basemap" scale="m"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon icon="basemap" text-label="upload an image" scale="l"></calcite-icon>
-        </div>
-      </div>
-
-      <!-- custom icon-color -->
-      <div class="parent">
-        <div class="child right-aligned-text">Custom icon-color</div>
-
-        <div class="child">
-          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="s"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="m"></calcite-icon>
-        </div>
-
-        <div class="child">
-          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="l"></calcite-icon>
-        </div>
-      </div>
-    </demo-dom-swapper>
+    <calcite-combobox
+      label="test"
+      placeholder="select folder"
+      placeholder-icon="M160-240q-33 0-56.5-23.5T80-320v-320q0-33 23.5-56.5T160-720h640q33 0 56.5 23.5T880-640v320q0 33-23.5 56.5T800-240H160Zm0-80h640v-320H160v320Zm120-40h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80Zm300 0q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480q-25 0-42.5 17.5T520-420q0 25 17.5 42.5T580-360Zm120-120q25 0 42.5-17.5T760-540q0-25-17.5-42.5T700-600q-25 0-42.5 17.5T640-540q0 25 17.5 42.5T700-480ZM160-320v-320 320Z|0 -960 960 960"
+      max-items="6"
+      selection-mode="single"
+      scale="s"
+    >
+      <calcite-combobox-item value="root" text-label="username" icon="home"></calcite-combobox-item>
+      <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="3" text-label="Folder 3" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="4" text-label="Folder 4" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="5" text-label="Folder 5" icon="folder"></calcite-combobox-item>
+      <calcite-combobox-item value="6" text-label="Folder 6" icon="folder"></calcite-combobox-item>
+    </calcite-combobox>
   </body>
 </html>
