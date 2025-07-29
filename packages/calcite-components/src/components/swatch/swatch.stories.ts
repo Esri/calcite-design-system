@@ -1,4 +1,5 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Swatch } from "./swatch";
@@ -40,7 +41,13 @@ export const withRgba = (args: SwatchStoryArgs): string => html`
 export const withImage = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" label="${args.label}">
-      <img src="_assets/images/pattern-2.png" slot="image" />
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
     </calcite-swatch>
   </div>
 `;

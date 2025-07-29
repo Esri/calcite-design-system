@@ -1,6 +1,7 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { SwatchGroup } from "./swatch-group";
 
 const { selectionMode, scale } = ATTRIBUTES;
@@ -26,17 +27,41 @@ export const simple = (args: SwatchGroupStoryArgs): string => html`
     <calcite-swatch value="calcite swatch"></calcite-swatch>
     <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
     <calcite-swatch value="calcite swatch">
-      <img src="_assets/images/pattern-2.png" slot="image" />
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
     </calcite-swatch>
     <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
-      <img src="_assets/images/pattern-2.png" slot="image" />
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
     </calcite-swatch>
     <calcite-swatch value="calcite swatch">
-      <img src="_assets/images/hatch-3.png" slot="image" />
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
     </calcite-swatch>
     <calcite-swatch selected color="rgba(25,25,25,0.1)" value="calcite swatch"></calcite-swatch>
     <calcite-swatch disabled color="#ddd" value="calcite swatch">
-      <img src="_assets/images/hatch-3.png" slot="image" />
+      <img
+        src="${placeholderImage({
+          width: 24,
+          height: 24,
+        })}"
+        slot="image"
+      />
     </calcite-swatch>
     <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
   </calcite-swatch-group>
@@ -48,17 +73,41 @@ export const darkThemeRTL_TestOnly = (): string => html`
       <calcite-swatch value="calcite swatch"></calcite-swatch>
       <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
       <calcite-swatch value="calcite swatch">
-        <img src="_assets/images/pattern-2.png" slot="image" />
+        <img
+          src="${placeholderImage({
+            width: 24,
+            height: 24,
+          })}"
+          slot="image"
+        />
       </calcite-swatch>
       <calcite-swatch color="rgba(250,210,150,0.2)" value="calcite swatch">
-        <img src="_assets/images/pattern-2.png" slot="image" />
+        <img
+          src="${placeholderImage({
+            width: 24,
+            height: 24,
+          })}"
+          slot="image"
+        />
       </calcite-swatch>
       <calcite-swatch value="calcite swatch">
-        <img src="_assets/images/hatch-3.png" slot="image" />
+        <img
+          src="${placeholderImage({
+            width: 24,
+            height: 24,
+          })}"
+          slot="image"
+        />
       </calcite-swatch>
       <calcite-swatch selected color="rgba(25,25,25,0.1)" value="calcite swatch"></calcite-swatch>
       <calcite-swatch disabled color="#ddd" value="calcite swatch">
-        <img src="_assets/images/hatch-3.png" slot="image" />
+        <img
+          src="${placeholderImage({
+            width: 24,
+            height: 24,
+          })}"
+          slot="image"
+        />
       </calcite-swatch>
       <calcite-swatch disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
     </calcite-swatch-group>

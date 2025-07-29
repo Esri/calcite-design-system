@@ -73,14 +73,15 @@
   min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
 }
 
-:host([selected]) .container {
-}
-
 :host([selected]) .image-container {
-  inset: calc(var(--calcite-internal-swatch-size) / 10);
+  inset: calc(var(--calcite-internal-swatch-size) / 8);
   box-shadow:
     0 0 0 2px var(--calcite-color-foreground-1),
     0 0 0 4px var(--calcite-color-text-1);
+}
+
+:host([selected][scale="s"]) .image-container {
+  inset: calc(var(--calcite-internal-swatch-size) / 5);
 }
 
 .image-container {

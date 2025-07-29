@@ -259,9 +259,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgSmPath = (
       <svg
         fill="none"
-        height="12"
-        viewBox="0 0 12 12"
-        width="12"
+        height="14"
+        viewBox="0 0 14 14"
+        width="14"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -274,9 +274,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgMdPath = (
       <svg
         fill="none"
-        height="12"
-        viewBox="0 0 12 12"
-        width="12"
+        height="14"
+        viewBox="0 0 14 14"
+        width="14"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -290,9 +290,9 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const svgLgPath = (
       <svg
         fill="none"
-        height="16"
-        viewBox="0 0 16 16"
-        width="16"
+        height="18"
+        viewBox="0 0 18 18"
+        width="18"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
