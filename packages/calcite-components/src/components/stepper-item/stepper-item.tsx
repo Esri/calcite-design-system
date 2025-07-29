@@ -24,13 +24,13 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { slotChangeHasContent } from "../../utils/dom";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
 
@@ -67,6 +67,8 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -144,12 +146,18 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.layout === "vertical" ? this.el : this.headerEl.value)?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.layout === "vertical" ? this.el : this.headerEl.value;
+    }, options);
   }
 
   //#endregion
@@ -370,18 +378,18 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   private renderIcon(): JsxNode {
-    let path: IconNameOrString = "circle";
+    let path: IconNameOrString = ICONS.circle;
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
-      path = "circleF";
+      path = ICONS.circleF;
     } else if (this.error) {
-      path = "exclamationMarkCircleF";
+      path = ICONS.exclamationMarkCircleF;
     } else if (this.complete) {
-      path = "checkCircleF";
+      path = ICONS.checkCircleF;
     }
 
     return (
-      <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
+      <calcite-icon class={CSS.stepperItemIcon} flipRtl={this.iconFlipRtl} icon={path} scale="s" />
     );
   }
 

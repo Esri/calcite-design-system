@@ -1,8 +1,10 @@
 {
+  "add": "Add: {text}",
   "all": "Όλα",
   "allSelected": "Όλα τα επιλεγμένα",
-  "selectAll": "Επιλογή όλων",
   "clear": "Απαλοιφή τιμής",
+  "noMatches": "No matches",
   "removeTag": "Κατάργηση ετικέτας",
+  "selectAll": "Select all",
   "selected": "επιλέχθηκε"
 }

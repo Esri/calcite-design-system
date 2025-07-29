@@ -5,7 +5,7 @@ import vitestPlugin from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
-import luminaPlugin from "@arcgis/eslint-config/plugins/lumina";
+import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
 
 export default tseslint.config(
   {
@@ -23,7 +23,7 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ["tsconfig-eslint.json"],
+        project: ["tsconfig.eslint.json"],
       },
     },
 
@@ -39,6 +39,11 @@ export default tseslint.config(
               message:
                 "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
             },
+            {
+              group: ["tests/commonTests/browser/*"],
+              message:
+                "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+            },
           ],
         },
       ],
@@ -51,6 +56,10 @@ export default tseslint.config(
         {
           property: "waitForEvent",
           message: "Use spyOnEvent and await on its next property instead for more reliable async event handling.",
+        },
+        {
+          property: "cancel",
+          message: "Use the useCancelable controller to manage cancelable resources.",
         },
       ],
 

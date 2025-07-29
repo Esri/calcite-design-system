@@ -26,6 +26,12 @@ type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
 }>;
 
+type TestPanelWindow = GlobalTestProps<{
+  lastEventCancelable: boolean;
+  lastEventDefaultPrevented: boolean;
+  calledTimes: number;
+}>;
+
 const panelTemplate = (scrollable = false) =>
   html`<div style="height: 200px; display: flex">
     <calcite-panel>
@@ -360,6 +366,43 @@ describe("calcite-panel", () => {
     expect(calcitePanelClose).toHaveReceivedEventTimes(1);
   });
 
+  it("close event can be cancelled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate(() => {
+      (window as TestPanelWindow).calledTimes = 0;
+
+      const panel = document.createElement("calcite-panel");
+      panel.heading = "Hello World";
+      panel.closable = true;
+      panel.innerText = "Hello World";
+
+      panel.addEventListener("calcitePanelClose", (event) => {
+        event.preventDefault();
+        // needed to work around event spy limitation - details are captured before event is canceled
+        (window as TestPanelWindow).lastEventCancelable = event.cancelable;
+        (window as TestPanelWindow).lastEventDefaultPrevented = event.defaultPrevented;
+        (window as TestPanelWindow).calledTimes++;
+      });
+
+      document.body.append(panel);
+    });
+    await page.waitForChanges();
+
+    const panel = await page.find("calcite-panel");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
+    await closeButton.click();
+    await page.waitForChanges();
+
+    const calledTimes = await page.evaluate(() => (window as TestPanelWindow).calledTimes);
+    const lastEventCancelable = await page.evaluate(() => (window as TestPanelWindow).lastEventCancelable);
+    const lastEventDefaultPrevented = await page.evaluate(() => (window as TestPanelWindow).lastEventDefaultPrevented);
+
+    expect(calledTimes).toBe(1);
+    expect(lastEventCancelable).toBe(true);
+    expect(lastEventDefaultPrevented).toBe(true);
+    expect(await panel.getProperty("closed")).toBe(false);
+  });
+
   it("toggle event should fire when collapsed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
@@ -430,7 +473,7 @@ describe("calcite-panel", () => {
     `);
   });
 
-  describe("is focusable", () => {
+  describe("focusable", () => {
     describe("with scrolling content", () => {
       describe("closable", () => {
         focusable(

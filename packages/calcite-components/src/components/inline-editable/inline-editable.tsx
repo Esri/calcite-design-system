@@ -8,15 +8,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { Label } from "../label/label";
 import type { Button } from "../button/button";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./inline-editable.scss";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
@@ -60,6 +60,8 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region Public Properties
@@ -99,12 +101,18 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.inputElement?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.inputElement;
+    }, options);
   }
 
   //#endregion
@@ -302,7 +310,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               appearance="transparent"
               class={CSS.enableEditingButton}
               disabled={this.disabled}
-              iconStart="pencil"
+              iconStart={ICONS.pencil}
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
@@ -321,7 +329,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                   appearance="transparent"
                   class={CSS.cancelEditingButton}
                   disabled={this.disabled}
-                  iconStart="x"
+                  iconStart={ICONS.close}
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
@@ -335,7 +343,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 appearance="solid"
                 class={CSS.confirmChangesButton}
                 disabled={this.disabled}
-                iconStart="check"
+                iconStart={ICONS.check}
                 kind="brand"
                 label={this.messages.confirmChanges}
                 loading={this.loading}

@@ -1,7 +1,7 @@
 {
   "chooseDate": "选择日期",
-  "date": "Date",
+  "date": "日期",
   "dateFormat": "日期格式：{format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "结束日期",
+  "startDate": "开始日期"
 }

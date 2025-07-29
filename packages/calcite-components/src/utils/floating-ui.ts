@@ -373,10 +373,12 @@ function getMiddleware({
   return middleware;
 }
 
-export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
-  const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    flipPlacements.includes(placement),
-  ) as EffectivePlacement[];
+function isFlipPlacement(placement: string): placement is FlipPlacement {
+  return flipPlacements.includes(placement as FlipPlacement);
+}
+
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): FlipPlacement[] {
+  const filteredPlacements = placements.filter(isFlipPlacement);
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
@@ -589,6 +591,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent): void {
 
   autoUpdatingComponentMap.delete(component);
 
+  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
 }

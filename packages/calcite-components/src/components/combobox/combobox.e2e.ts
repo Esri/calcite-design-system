@@ -6,6 +6,7 @@ import {
   defaults,
   disabled,
   floatingUIOwner,
+  focusable,
   formAssociated,
   hidden,
   labelable,
@@ -138,6 +139,15 @@ describe("calcite-combobox", () => {
         value: true,
       },
     ]);
+  });
+
+  describe("focusable", () => {
+    focusable(html`
+      <calcite-combobox label="Trees" value="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
   });
 
   describe("honors hidden attribute", () => {
@@ -2466,12 +2476,12 @@ describe("calcite-combobox", () => {
     const inputEl = await page.find("calcite-combobox >>> span");
     await page.waitForChanges();
 
-    expect(inputEl).toHaveClass("icon-start");
+    expect(inputEl).toHaveClass(CSS.iconStart);
 
     comboboxEl.setProperty("open", true);
     await page.waitForChanges();
 
-    expect(inputEl).toHaveClass("icon-start");
+    expect(inputEl).toHaveClass(CSS.iconStart);
   });
 
   it("should be able to type when tab through the component once", async () => {

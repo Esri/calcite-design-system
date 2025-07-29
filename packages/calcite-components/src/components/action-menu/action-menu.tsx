@@ -11,16 +11,16 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./action-menu.scss";
 
 declare global {
@@ -45,7 +45,7 @@ export class ActionMenu extends LitElement {
 
   // #region Private Properties
 
-  private guid = `calcite-action-menu-${guid()}`;
+  private guid = guid();
 
   private actionElements: Action["el"][] = [];
 
@@ -55,7 +55,7 @@ export class ActionMenu extends LitElement {
     this.toggleOpen();
   };
 
-  private menuButtonId = `${this.guid}-menu-button`;
+  private menuButtonId = IDS.button(this.guid);
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
@@ -95,7 +95,7 @@ export class ActionMenu extends LitElement {
     this.handleActionNavigation(event, key, actionElements);
   };
 
-  private menuId = `${this.guid}-menu`;
+  private menuId = IDS.menu(this.guid);
 
   private _open = false;
 
@@ -107,8 +107,7 @@ export class ActionMenu extends LitElement {
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
-    const id = `${guid}-action-${index}`;
-
+    const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
 
@@ -119,6 +118,8 @@ export class ActionMenu extends LitElement {
     // Used to style the "activeMenuItemIndex" action using token focus styling.
     action.activeDescendant = index === activeMenuItemIndex;
   };
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -153,7 +154,6 @@ export class ActionMenu extends LitElement {
   get open(): boolean {
     return this._open;
   }
-
   set open(open: boolean) {
     const oldOpen = this._open;
     if (open !== oldOpen) {
@@ -180,12 +180,18 @@ export class ActionMenu extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return focusElement(this.menuButtonEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.menuButtonEl;
+    }, options);
   }
 
   // #endregion
@@ -366,7 +372,7 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private handleDefaultSlotChange(event: Event): void {
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
     const actions = (event.target as HTMLSlotElement)
       .assignedElements({
         flatten: true,
@@ -384,6 +390,7 @@ export class ActionMenu extends LitElement {
         return previousValue;
       }, []);
 
+    await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   }
 

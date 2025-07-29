@@ -10,8 +10,9 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
 import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
 
@@ -52,6 +53,8 @@ export class TimePicker extends LitElement implements TimeComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -102,12 +105,18 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -359,6 +368,8 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Rendering
 
+  // #region Rendering
+
   override render(): JsxNode {
     const { activeEl, messages, scale } = this;
     const { _lang: locale } = messages;
@@ -398,7 +409,7 @@ export class TimePicker extends LitElement implements TimeComponent {
           [CSS.timePicker]: true,
           [CSS.showMeridiem]: showMeridiem,
           [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${scale}`]]: true,
+          [CSS.scale(scale)]: true,
         }}
         dir="ltr"
       >
@@ -413,7 +424,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.hourUpClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
           </span>
           <span
             ariaLabel={messages.hour}
@@ -445,7 +456,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.hourDownClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
           </span>
         </div>
         <span class={{ [CSS.delimiter]: true, [CSS.hourSuffix]: true }}>{localizedHourSuffix}</span>
@@ -459,7 +470,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.minuteUpClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
           </span>
           <span
             ariaLabel={messages.minute}
@@ -490,7 +501,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.minuteDownClickHandler}
             role="button"
           >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
+            <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
           </span>
         </div>
         {this.showSecond && (
@@ -509,7 +520,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.secondUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={messages.second}
@@ -540,7 +551,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.secondDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}
@@ -560,7 +571,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.fractionalSecondUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={messages.fractionalSecond}
@@ -591,7 +602,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.fractionalSecondDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}
@@ -618,7 +629,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.meridiemUpClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronUp} scale={iconScale} />
             </span>
             <span
               ariaLabel={messages.meridiem}
@@ -650,7 +661,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.meridiemDownClickHandler}
               role="button"
             >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
+              <calcite-icon icon={ICONS.chevronDown} scale={iconScale} />
             </span>
           </div>
         )}

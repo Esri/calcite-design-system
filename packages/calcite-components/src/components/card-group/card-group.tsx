@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -10,7 +10,9 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./card-group.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -31,6 +33,8 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   private items: Card["el"][] = [];
 
   private slotRefEl = createRef<HTMLSlotElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -63,13 +67,18 @@ export class CardGroup extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await this.componentOnReady();
-    if (!this.disabled) {
-      focusElement(this.items[0]);
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.items[0];
+    }, options);
   }
 
   // #endregion
@@ -110,21 +119,28 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);
       switch (event.detail["key"]) {
         case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "next");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "next", true, false);
           break;
         case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "previous");
+          focusElementInGroup(
+            interactiveItems,
+            event.target as Card["el"],
+            "previous",
+            true,
+            false,
+          );
           break;
         case "Home":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "first");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "first", true, false);
           break;
         case "End":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "last");
+          focusElementInGroup(interactiveItems, event.target as Card["el"], "last", true, false);
           break;
       }
     }
@@ -199,7 +215,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div ariaLabel={this.label} class="container" role={role}>
+        <div ariaLabel={this.label} class={CSS.container} role={role}>
           <slot onSlotChange={this.updateItemsOnSlotChange} ref={this.slotRefEl} />
         </div>
       </InteractiveContainer>

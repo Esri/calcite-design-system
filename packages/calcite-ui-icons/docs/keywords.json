@@ -2578,7 +2578,7 @@
     "release": "2.3.2"
   },
   "person2": {
-    "alias": ["2.3.3", "people", "human", "accessibility "],
+    "alias": ["2.3.3", "people", "human", "accessibility"],
     "category": "People",
     "release": "2.3.3"
   },
@@ -5352,7 +5352,7 @@
     "release": "3.17.8"
   },
   "language-translate": {
-    "alias": ["3.17.8", "communication", "interchange", "lexicon", "conversation", "word", "countries "],
+    "alias": ["3.17.8", "communication", "interchange", "lexicon", "conversation", "word", "countries"],
     "category": "Generic",
     "release": "3.17.8"
   },
@@ -5659,18 +5659,7 @@
     "release": "3.18.6"
   },
   "contingent-values": {
-    "alias": [
-      "3.18.6",
-      "forms",
-      "table",
-      "value",
-      "connected",
-      "levels",
-      "field",
-      "forms",
-      "dependent",
-      "conditional "
-    ],
+    "alias": ["3.18.6", "forms", "table", "value", "connected", "levels", "field", "forms", "dependent", "conditional"],
     "category": "Forms",
     "release": "3.18.6"
   },
@@ -5849,10 +5838,10 @@
       "bug",
       "code",
       "find",
-      "search                                                              "
+      "search"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "configure": {
     "alias": [
@@ -5870,8 +5859,8 @@
       "list",
       "menu"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "debug-script": {
     "alias": [
@@ -5895,13 +5884,13 @@
       "hardware",
       "software"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "profile-variables": {
     "alias": ["3.19.1", "generic", "variables", "math", "equation", "x", "mathematics", "parentheses", "calculation"],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "test-data": {
     "alias": [
@@ -5917,8 +5906,8 @@
       "check mark",
       "find"
     ],
-    "category": " Generic",
-    "release": " 3.19.1"
+    "category": "Generic",
+    "release": "3.19.1"
   },
   "rfid": {
     "alias": [
@@ -6033,7 +6022,7 @@
     "release": "3.19.4"
   },
   "number-circle-4": {
-    "alias": ["3.19.4", "numbers", " circle", "4", "four"],
+    "alias": ["3.19.4", "numbers", "circle", "4", "four"],
     "category": "Numbers",
     "release": "3.19.4"
   },
@@ -6241,7 +6230,7 @@
       "signal",
       "on",
       "off",
-      "fill "
+      "fill"
     ],
     "category": "Objects",
     "release": "3.20.2"
@@ -6292,13 +6281,13 @@
     "release": "3.20.2"
   },
   "files-csv-collection": {
-    "alias": ["3.20.3 ", "files", "csv", "esri", "definition", "format", "extension", "collection", "file type"],
+    "alias": ["3.20.3", "files", "csv", "esri", "definition", "format", "extension", "collection", "file type"],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "file-ppt": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "files",
       "ppt",
       "esri",
@@ -6313,11 +6302,11 @@
       "file type"
     ],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "file-sqlite": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "files",
       "sqlite",
       "feather",
@@ -6329,11 +6318,11 @@
       "file type"
     ],
     "category": "Files",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "browser-map": {
     "alias": [
-      "3.20.3 ",
+      "3.20.3",
       "windows",
       "os",
       "map",
@@ -6345,12 +6334,12 @@
       "mapping software"
     ],
     "category": "Windows",
-    "release": "3.20.3 "
+    "release": "3.20.3"
   },
   "dimensions": {
-    "alias": [" 3.20.4", " generic", "measure", "size", "scale", "width", "height", "dimensions"],
-    "category": " Generic",
-    "release": " 3.20.4"
+    "alias": ["3.20.4", "generic", "measure", "size", "scale", "width", "height", "dimensions"],
+    "category": "Generic",
+    "release": "3.20.4"
   },
   "triangle": {
     "alias": ["3.20.5", "symbols", "shapes", "single shape", "geometry", "glyphs", "generic"],
@@ -6363,13 +6352,13 @@
     "release": "3.20.5"
   },
   "label-off": {
-    "alias": [" 3.20.6", "objects", "turn off", "hide", "remove", "labels", "disappear"],
+    "alias": ["3.20.6", "objects", "turn off", "hide", "remove", "labels", "disappear"],
     "category": "Objects",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "decrease-link-chart-symbol-size": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "circle",
       "link chart",
@@ -6382,11 +6371,11 @@
       "data model"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "find-path": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "magnifying glass",
       "link chart",
@@ -6400,11 +6389,11 @@
       "route"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "geographic-link-chart-layout": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "map",
       "link chart",
@@ -6418,11 +6407,11 @@
       "layout"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "increase-link-chart-symbol-size": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "circle",
       "link chart",
@@ -6436,11 +6425,11 @@
       "scale"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "investigation": {
     "alias": [
-      " 3.25.2",
+      "3.25.2",
       "generic",
       "knowledge graph",
       "briefcase",
@@ -6454,11 +6443,11 @@
       "data model"
     ],
     "category": "Generic",
-    "release": " 3.25.2"
+    "release": "3.25.2"
   },
   "knowledge-graph": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6471,11 +6460,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-dashboard": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6490,11 +6479,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-data-model": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "database canister",
       "link chart",
@@ -6511,11 +6500,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-export": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6531,11 +6520,11 @@
       "arrow"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-import": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6551,11 +6540,11 @@
       "arrow"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-new": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6570,11 +6559,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-graph-relationship": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6588,11 +6577,11 @@
       "link"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "knowledge-layer": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "layer type",
       "link chart",
@@ -6606,11 +6595,11 @@
       "scale"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "link-chart": {
     "alias": [
-      " 3.20.6",
+      "3.20.6",
       "knowledge graph",
       "link chart",
       "relationships",
@@ -6625,7 +6614,7 @@
       "select"
     ],
     "category": "Knowledge Graph",
-    "release": " 3.20.6"
+    "release": "3.20.6"
   },
   "all-servers": {
     "alias": ["3.20.7", "gis", "connections", "connected", "networks"],
@@ -6668,7 +6657,7 @@
     "release": "3.20.7"
   },
   "personal-homepage": {
-    "alias": [" 3.20.8", "generic", "Generic", " 3.20.8", "home", "user", "house", "person", "single "],
+    "alias": ["3.20.8", "generic", "Generic", "3.20.8", "home", "user", "house", "person", "single"],
     "category": "Generic",
     "release": "3.20.8"
   },
@@ -6747,27 +6736,27 @@
     "release": "3.21.0"
   },
   "graph-pie-slice": {
-    "alias": [" 3.21.1", "charts and graphs", "pie", "chart", "slice", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "pie", "chart", "slice", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-line-series": {
-    "alias": [" 3.21.1", "charts and graphs", "lines", "chart", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "lines", "chart", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-guides": {
-    "alias": [" 3.21.1", "charts and graphs", "guides", "chart", "guide", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "guides", "chart", "guide", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "graph-axis": {
-    "alias": [" 3.21.1", "charts and graphs", "axis", "chart", "x", "y", "data", "diagram", "visualization"],
+    "alias": ["3.21.1", "charts and graphs", "axis", "chart", "x", "y", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
-    "release": " 3.21.1"
+    "release": "3.21.1"
   },
   "read-only-non-editable": {
-    "alias": ["3.21.2", "objects", "pencil", "do not", "backslash", "prohibited", "don't edit "],
+    "alias": ["3.21.2", "objects", "pencil", "do not", "backslash", "prohibited", "don't edit"],
     "category": "Objects",
     "release": "3.21.2"
   },
@@ -6779,12 +6768,12 @@
   "asterisk-small": {
     "alias": ["Generic", "3.21.6", "asterisk", "required", "symbol", "small", "star", "starburst"],
     "category": "Generic",
-    "release": " 3.21.6"
+    "release": "3.21.6"
   },
   "asterisk-large": {
     "alias": ["Generic", "3.21.6", "asterisk", "required", "symbol", "large", "star", "starburst"],
     "category": "Generic",
-    "release": " 3.21.6"
+    "release": "3.21.6"
   },
   "heading-layout": {
     "alias": ["3.21.7", "text", "heading", "layout", "title", "words", "list", "bold text", "large text"],
@@ -7080,7 +7069,7 @@
       "3.22.3",
       "numbers",
       "filled",
-      " circle",
+      "circle",
       "list item",
       "number circle 4",
       "fourth item",
@@ -7378,7 +7367,7 @@
     "release": "3.23.3"
   },
   "update-project": {
-    "alias": [" 3.23.4", "objects", "briefcase", "arrows", "portfolio case", "refresh", "update", "projects"],
+    "alias": ["3.23.4", "objects", "briefcase", "arrows", "portfolio case", "refresh", "update", "projects"],
     "category": "Objects",
     "release": "3.23.4"
   },
@@ -7497,7 +7486,7 @@
     "release": "3.23.6"
   },
   "channels": {
-    "alias": ["3.23.6", "generic", "discussion", "api", "chat", "teams", "text", "post", "social "],
+    "alias": ["3.23.6", "generic", "discussion", "api", "chat", "teams", "text", "post", "social"],
     "category": "Generic",
     "release": "3.23.6"
   },
@@ -7872,7 +7861,7 @@
     "release": "3.24.6"
   },
   "configure-grid-unit": {
-    "alias": ["3.25.2", "gis", "indoors", "grids", "modify", "gear", "changes", "units", "spaces "],
+    "alias": ["3.25.2", "gis", "indoors", "grids", "modify", "gear", "changes", "units", "spaces"],
     "category": "GIS",
     "release": "3.25.2"
   },
@@ -9292,18 +9281,7 @@
     "release": "4.0.0"
   },
   "add-link-chart-root-nodes": {
-    "alias": [
-      "4.0.0",
-      "knowledge graph",
-      "filter",
-      "points",
-      "model",
-      "select",
-      "add to",
-      "nodes",
-      "area",
-      "distance "
-    ],
+    "alias": ["4.0.0", "knowledge graph", "filter", "points", "model", "select", "add to", "nodes", "area", "distance"],
     "category": "Knowledge Graph",
     "release": "4.0.0"
   },
@@ -9838,6 +9816,61 @@
   "location-label": {
     "alias": ["4.3.0", "gis", "marker", "navigation", "map", "identify", "data"],
     "category": "GIS",
+    "release": "4.3.0"
+  },
+  "arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "create", "location", "point", "radius", "pass"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "bezier-curve": {
+    "alias": ["4.3.0", "geometry editing", "nonlinear", "create", "shape", "angle", "height"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "tangent-curve": {
+    "alias": ["4.3.0", "geometry editing", "create", "segments", "points", "circular"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "arrow-curve-tool": {
+    "alias": ["4.3.0", "geometry editing", "tool", "map", "points", "midpoint", "line"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "end-point-arc-segment": {
+    "alias": ["4.3.0", "geometry editing", "circular", "create", "typing", "define", "point"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "dimensions-centered": {
+    "alias": ["4.3.0", "generic", "alignment", "placement", "position", "settings"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "person-magnifying-glass": {
+    "alias": ["4.3.0", "people", "launch", "preview", "information", "magnify", "user"],
+    "category": "People",
+    "release": "4.3.0"
+  },
+  "arrow-left-10": {
+    "alias": ["4.3.0", "arrows", "video", "direction", "scrub", "time"],
+    "category": "Arrows",
+    "release": "4.3.0"
+  },
+  "arrow-right-10": {
+    "alias": ["4.3.0", "arrows", "skip", "ahead", "time", "scrub", "direction"],
+    "category": "Arrows",
+    "release": "4.3.0"
+  },
+  "magic-wand": {
+    "alias": ["4.3.0", "objects", "effects", "edit", "image"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "catalog": {
+    "alias": ["4.3.0", "generic", "organize", "search", "content", "filter", "folders"],
+    "category": "Generic",
     "release": "4.3.0"
   }
 }

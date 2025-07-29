@@ -18,7 +18,7 @@ import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { CSS } from "./resources";
+import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
 const animationDurationInMs = 200;
@@ -370,14 +370,14 @@ describe("calcite-input-date-picker", () => {
         expect(await calendar.isVisible()).toBe(false);
 
         const startInput = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.start}] calcite-input-text`,
         );
 
         const endInput = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] calcite-input-text`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.end}] calcite-input-text`,
         );
         const endInputToggle = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] .${CSS.toggleIcon}`,
+          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.end}] .${CSS.toggleIcon}`,
         );
 
         // toggling via start date input
@@ -537,7 +537,7 @@ describe("calcite-input-date-picker", () => {
       expect(await calendar.isVisible()).toBe(false);
 
       const startInput = await page.find(
-        `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
+        `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position=${POSITION.start}] calcite-input-text`,
       );
 
       await startInput.click();
@@ -650,7 +650,7 @@ describe("calcite-input-date-picker", () => {
       });
 
       it("handles Bosnian locale", async () => {
-        await testLocaleDateSelection("bs", "01.05.2023.");
+        await testLocaleDateSelection("bs", "1. 5. 2023.");
       });
 
       it("handles Italian (Switzerland) locale", async () => {
@@ -1916,7 +1916,9 @@ describe("calcite-input-date-picker", () => {
     await skipAnimations(page);
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
-    const endInput = await page.find(`calcite-input-date-picker >>> div[data-position="end"] >>> calcite-input-text`);
+    const endInput = await page.find(
+      `calcite-input-date-picker >>> div[data-position=${POSITION.end}] >>> calcite-input-text`,
+    );
     await page.$eval("calcite-input-date-picker", (element: InputDatePicker["el"]) => {
       element.valueAsDate = [new Date("09-21-2025"), new Date("11-11-2025")];
     });

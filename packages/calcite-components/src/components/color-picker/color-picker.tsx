@@ -3,12 +3,7 @@ import Color, { type ColorInstance } from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import {
-  Direction,
-  focusFirstTabbable,
-  getElementDir,
-  isPrimaryPointerButton,
-} from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
   InteractiveComponent,
@@ -16,14 +11,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { InputNumber } from "../input-number/input-number";
 import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import {
   alphaCompatible,
   alphaToOpacity,
@@ -52,6 +48,7 @@ import {
   RGB_LIMITS,
   SCOPE_SIZE,
   STATIC_DIMENSIONS,
+  ICONS,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -139,6 +136,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       skipEqual,
     );
   };
+
+  private cancelable = useCancelable<this>()(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
@@ -250,6 +249,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     };
   };
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -316,6 +317,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /** When `true`, hides the color field. */
+  @property({ reflect: true }) fieldDisabled = false;
+
   /**
    * The format of `value`.
    *
@@ -368,17 +372,23 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Events
+  // #region Events
 
   /** Fires when the color value has changed. */
   calciteColorPickerChange = createEvent({ cancelable: false });
@@ -402,6 +412,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
+    this.cancelable.add([this.drawColorControls, this.resizeCanvas]);
   }
 
   async load(): Promise<void> {
@@ -1464,6 +1475,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       staticDimensions: {
         thumb: { radius: thumbRadius },
       },
+      fieldDisabled,
       hexDisabled,
       hueScopeLeft,
       messages,
@@ -1501,28 +1513,30 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
-          <div class={CSS.controlAndScope}>
-            <canvas
-              class={CSS.colorField}
-              onPointerDown={this.handleColorFieldPointerDown}
-              ref={this.initColorField}
-            />
-            <div
-              ariaLabel={vertical ? messages.value : messages.saturation}
-              ariaValueMax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
-              ariaValueMin="0"
-              ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-              class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
-              onKeyDown={this.handleColorFieldScopeKeyDown}
-              ref={this.storeColorFieldScope}
-              role="slider"
-              style={{
-                top: `${adjustedColorFieldScopeTop || 0}px`,
-                left: `${adjustedColorFieldScopeLeft || 0}px`,
-              }}
-              tabIndex="0"
-            />
-          </div>
+          {fieldDisabled ? null : (
+            <div class={CSS.controlAndScope}>
+              <canvas
+                class={CSS.colorField}
+                onPointerDown={this.handleColorFieldPointerDown}
+                ref={this.initColorField}
+              />
+              <div
+                ariaLabel={vertical ? messages.value : messages.saturation}
+                ariaValueMax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
+                ariaValueMin="0"
+                ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
+                class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
+                onKeyDown={this.handleColorFieldScopeKeyDown}
+                ref={this.storeColorFieldScope}
+                role="slider"
+                style={{
+                  top: `${adjustedColorFieldScopeTop || 0}px`,
+                  left: `${adjustedColorFieldScopeLeft || 0}px`,
+                }}
+                tabIndex="0"
+              />
+            </div>
+          )}
           <div class={CSS.previewAndSliders}>
             <calcite-color-picker-swatch
               class={CSS.preview}
@@ -1628,7 +1642,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.deleteColor}
                     disabled={noColor}
-                    iconStart="minus"
+                    iconStart={ICONS.minus}
                     kind="neutral"
                     label={messages.deleteColor}
                     onClick={this.deleteColor}
@@ -1639,7 +1653,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.saveColor}
                     disabled={noColor}
-                    iconStart="plus"
+                    iconStart={ICONS.plus}
                     kind="neutral"
                     label={messages.saveColor}
                     onClick={this.saveColor}

@@ -10,3 +10,10 @@ export const CSS = {
   stepperItemNumber: "stepper-item-number",
   visuallyHidden: "visually-hidden",
 };
+
+export const ICONS = {
+  circle: "circle",
+  circleF: "circleF",
+  exclamationMarkCircleF: "exclamationMarkCircleF",
+  checkCircleF: "checkCircleF",
+};

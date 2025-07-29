@@ -86,6 +86,9 @@ import {
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
 import { meter, meterTokens } from "./custom-theme/meter";
+import { table, tableTokens } from "./custom-theme/table";
+import { carousel, carouselTokens } from "./custom-theme/carousel";
+import { dialog, dialogTokens } from "./custom-theme/dialog";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -215,6 +218,15 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${stepperItemVertical}</div>
       <div class="demo-column">${stepperItem}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${table}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${carousel}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${dialog}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -280,6 +292,9 @@ const componentTokens = {
   ...shellPanelTokens,
   ...meterTokens,
   ...stepperTokens,
+  ...tableTokens,
+  ...carouselTokens,
+  ...dialogTokens,
 };
 
 export default {

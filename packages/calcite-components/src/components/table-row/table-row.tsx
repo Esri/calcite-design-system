@@ -15,7 +15,7 @@ import {
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
 
 declare global {
@@ -274,11 +274,11 @@ export class TableRow extends LitElement implements InteractiveComponent {
           event.preventDefault();
           break;
         case "ArrowLeft":
-          focusElementInGroup(cells, el, "previous", false);
+          focusElementInGroup(cells, el, "previous", false, false);
           event.preventDefault();
           break;
         case "ArrowRight":
-          focusElementInGroup(cells, el, "next", false);
+          focusElementInGroup(cells, el, "next", false, false);
           event.preventDefault();
           break;
         case "Home":
@@ -286,7 +286,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
             this.emitTableRowFocusRequest(1, this.positionAll, "first");
             event.preventDefault();
           } else {
-            focusElementInGroup(cells, el, "first", false);
+            focusElementInGroup(cells, el, "first", false, false);
             event.preventDefault();
           }
           break;
@@ -295,7 +295,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
             this.emitTableRowFocusRequest(this.rowCells?.length, this.positionAll, "last", true);
             event.preventDefault();
           } else {
-            focusElementInGroup(cells, el, "last", false);
+            focusElementInGroup(cells, el, "last", false, false);
             event.preventDefault();
           }
           break;
@@ -373,12 +373,12 @@ export class TableRow extends LitElement implements InteractiveComponent {
   renderSelectionIcon(): JsxNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
-        ? "check-square-f"
+        ? ICONS.checkSquare
         : this.selectionMode === "multiple"
-          ? "square"
+          ? ICONS.square
           : this.selected
-            ? "circle-f"
-            : "circle";
+            ? ICONS.circleF
+            : ICONS.circle;
 
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }

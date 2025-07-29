@@ -1,17 +1,18 @@
 // @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./link.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -39,6 +40,8 @@ export class Link extends LitElement implements InteractiveComponent {
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLButtonElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -77,12 +80,18 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.childEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.childEl;
+    }, options);
   }
 
   // #endregion
@@ -134,7 +143,7 @@ export class Link extends LitElement implements InteractiveComponent {
     const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon
-        class="calcite-link--icon icon-start"
+        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -143,7 +152,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-link--icon icon-end"
+        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"

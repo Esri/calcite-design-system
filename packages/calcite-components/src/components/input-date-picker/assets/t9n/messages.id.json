@@ -1,7 +1,7 @@
 {
   "chooseDate": "Pilih tanggal",
-  "date": "Date",
+  "date": "Tanggal",
   "dateFormat": "Format Tanggal: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Tanggal Berakhir",
+  "startDate": "Tanggal Mulai"
 }

@@ -20,7 +20,6 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -49,7 +48,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedLocale,
@@ -70,8 +69,9 @@ import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./input-date-picker.scss";
-import { CSS, IDS } from "./resources";
+import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
@@ -110,7 +110,7 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  private dialogId = `date-picker-dialog--${guid()}`;
+  private dialogId = IDS.dialog(guid());
 
   private endInput: InputText["el"];
 
@@ -148,7 +148,7 @@ export class InputDatePicker
 
   transitionProp = "opacity" as const;
 
-  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
+  private placeholderTextId = IDS.placeholder(guid());
 
   private rangeStartValueChangedByUser = false;
 
@@ -172,6 +172,8 @@ export class InputDatePicker
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -368,11 +370,18 @@ export class InputDatePicker
     );
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -1082,7 +1091,7 @@ export class InputDatePicker
           <div aria-label={this.label} class={CSS.inputContainer} role="group">
             <div
               class={CSS.inputWrapper}
-              data-position="start"
+              data-position={POSITION.start}
               onClick={this.onInputWrapperClick}
               onPointerDown={this.onInputWrapperPointerDown}
               ref={this.setStartWrapper}
@@ -1101,7 +1110,7 @@ export class InputDatePicker
                   [CSS.inputNoRightBorder]: this.range,
                 }}
                 disabled={disabled}
-                icon="calendar"
+                icon={ICONS.calendar}
                 label={this.range ? this.messages.startDate : this.messages.date}
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
@@ -1169,7 +1178,7 @@ export class InputDatePicker
             {this.range && (
               <div
                 class={CSS.inputWrapper}
-                data-position="end"
+                data-position={POSITION.end}
                 onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
                 ref={this.setEndWrapper}
@@ -1186,7 +1195,7 @@ export class InputDatePicker
                     [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
                   }}
                   disabled={disabled}
-                  icon="calendar"
+                  icon={ICONS.calendar}
                   label={this.messages.endDate}
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
@@ -1205,7 +1214,7 @@ export class InputDatePicker
           {this.range && this.layout === "vertical" && (
             <div class={CSS.verticalChevronContainer}>
               <calcite-icon
-                icon={this.open ? "chevron-up" : "chevron-down"}
+                icon={this.open ? ICONS.chevronUp : ICONS.chevronDown}
                 scale={getIconScale(this.scale)}
               />
             </div>
@@ -1231,7 +1240,7 @@ export class InputDatePicker
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
           class={CSS.chevronIcon}
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>

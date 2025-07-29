@@ -27,3 +27,5 @@ export const SLOTS = {
   contentEnd: "content-end",
   contentStart: "content-start",
 };
+
+export const itemSpacingMultiplier = "--calcite-combobox-item-spacing-indent-multiplier";

@@ -159,8 +159,8 @@ const config: Config = {
       prefix: "calcite",
       expand: {
         typesMap: commonExpand.typesMap,
-        exclude: (token) => {
-          return token.type === "color" || token.type !== "string";
+        include: (token) => {
+          return token.type === "color";
         },
       },
       options: {
@@ -229,8 +229,8 @@ const config: Config = {
       prefix: "calcite",
       expand: {
         typesMap: commonExpand.typesMap,
-        exclude: (token) => {
-          return token.type === "color" || token.type !== "string";
+        include: (token) => {
+          return token.type === "color";
         },
       },
       options: {
@@ -275,8 +275,8 @@ const config: Config = {
       prefix: "calcite",
       expand: {
         typesMap: commonExpand.typesMap,
-        exclude: (token) => {
-          return token.type === "color" || token.type !== "string";
+        include: (token) => {
+          return token.type === "color";
         },
       },
       options: {

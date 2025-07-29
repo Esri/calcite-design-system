@@ -24,14 +24,13 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,10 +38,11 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, ICONS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -76,6 +76,8 @@ export class InputTimePicker
   private containerEl: HTMLDivElement;
 
   defaultValue: InputTimePicker["value"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   formEl: HTMLFormElement;
 
@@ -235,11 +237,18 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -572,7 +581,11 @@ export class InputTimePicker
           ref={this.setContainerEl}
           role="combobox"
         >
-          <calcite-icon class={CSS.clockIcon} icon="clock" scale={scale === "l" ? "m" : "s"} />
+          <calcite-icon
+            class={CSS.clockIcon}
+            icon={ICONS.clock}
+            scale={scale === "l" ? "m" : "s"}
+          />
           <div
             aria-label={getLabelText(this)}
             class={CSS.inputContainer}
@@ -677,12 +690,14 @@ export class InputTimePicker
           focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
+          offsetDistance={0}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
           oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
           oncalcitePopoverClose={this.popoverCloseHandler}
           oncalcitePopoverOpen={this.popoverOpenHandler}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
+          pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
           referenceElement={this.containerEl}
           triggerDisabled={true}
@@ -746,7 +761,7 @@ export class InputTimePicker
     return (
       <span class={CSS.toggleIcon} onClick={this.toggleIconClickHandler}>
         <calcite-icon
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>

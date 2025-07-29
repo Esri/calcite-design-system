@@ -1,3 +1,6 @@
+import { TabPosition } from "../tabs/interfaces";
+import { Scale } from "../interfaces";
+
 export const ICON = {
   chevronRight: "chevron-right",
   chevronLeft: "chevron-left",
@@ -12,4 +15,6 @@ export const CSS = {
   scrollBackwardContainerButton: "scroll-button-container--backward",
   scrollForwardContainerButton: "scroll-button-container--forward",
   tabTitleSlotWrapper: "tab-titles-slot-wrapper",
+  scale: (scale: Scale) => `scale-${scale}` as const,
+  position: (position: TabPosition) => `position-${position}` as const,
 };

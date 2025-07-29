@@ -15,3 +15,8 @@ export const CHECKER_DIMENSIONS = {
   squareSize: checkerSquareSize,
   size: checkerSquareSize * 2,
 };
+
+export const IDS = {
+  checker: "checker",
+  shape: "shape",
+};

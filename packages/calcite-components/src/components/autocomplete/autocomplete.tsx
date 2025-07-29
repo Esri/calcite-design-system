@@ -47,13 +47,14 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -107,11 +108,11 @@ export class Autocomplete
 
   formEl: HTMLFormElement;
 
-  private inputId = `autocomplete-input-${this.guid}`;
+  private inputId = IDS.input(this.guid);
 
   labelEl: Label["el"];
 
-  private listId = `autocomplete-list-${this.guid}`;
+  private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only
@@ -130,9 +131,13 @@ export class Autocomplete
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
+  private focusSetter = useSetFocus<this>()(this);
+
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
   });
+
+  private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
@@ -382,13 +387,16 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.referenceEl.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    }, options);
   }
 
   //#endregion
@@ -433,6 +441,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {
@@ -863,6 +872,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"
