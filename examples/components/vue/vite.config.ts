@@ -9,7 +9,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          // Treat all tags including `calcite-` as custom elements
+          // Treat all tags that include `calcite-` as custom elements
           isCustomElement: (tag) => tag.includes("calcite-"),
         },
       },
