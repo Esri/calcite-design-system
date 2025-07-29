@@ -1,15 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import {
-  LitElement,
-  property,
-  h,
-  method,
-  JsxNode,
-  Fragment,
-  LuminaJsx,
-  state,
-} from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -63,12 +54,7 @@ export class Action extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  //#endregion
-
-  //#region State Properties
-
-  @state()
-  private indicatorEl: HTMLDivElement;
+  private indicatorEl?: HTMLDivElement;
 
   //#endregion
 
