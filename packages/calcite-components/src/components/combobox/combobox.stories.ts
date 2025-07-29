@@ -1031,10 +1031,20 @@ export const withDescriptionShortLabelAndContentSlots = (): string => html`
   </calcite-combobox-item>
 `;
 
-export const noMatchesOrAddCustomValue = (): string => html`
+export const noMatchesScaledOrAddCustomValue = (): string => html`
   <div style="display: flex; gap: 48px; padding: 100px;">
-    <div>
-      <calcite-combobox open filter-text="Three" selection-mode="single">
+    <div style="display: flex; flex-direction: column; gap: 48px;">
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="s">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="m">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="l">
         <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
         <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
       </calcite-combobox>

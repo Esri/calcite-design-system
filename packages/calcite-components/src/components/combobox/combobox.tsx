@@ -56,6 +56,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
+import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -1801,12 +1802,14 @@ export class Combobox
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { filterText, messages, setFloatingEl, setContainerEl, open, scale } = this;
+    const { messages, setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open,
     };
+
+    const label = this.filterText ? messages.add.replace("{text}", `${this.filterText}`) : "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
@@ -1829,20 +1832,18 @@ export class Combobox
                 />
               )}
             <slot />
-            {this.noMatches === "add" && (
+            {this.noMatches === "add" && this.filterText && (
               <li
-                aria-label={messages.add.replace("{text}", `${filterText}`)}
+                aria-label={label}
                 class={CSS.noMatches}
                 onClick={this.customChipAddHandler}
                 role="option"
                 tabIndex={0}
               >
-                {messages.add
-                  .split("{text}")
-                  .map((part, index) =>
-                    index === 0 ? part : [<strong key="{index}">{filterText}</strong>],
-                  )
-                  .flat()}
+                {highlightText({
+                  text: label,
+                  pattern: new RegExp(`(${escapeRegExp(this.filterText)})`, "i"),
+                })}
               </li>
             )}
             {this.noMatches === "none" && <li class={CSS.noMatches}>{messages.noMatches}</li>}

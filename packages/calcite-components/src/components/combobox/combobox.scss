@@ -251,7 +251,9 @@ calcite-chip {
 }
 
 .no-matches {
-  @apply block px-4 py-2;
+  padding-block: var(--calcite-internal-combobox-spacing-unit-s);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
+
   color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
   background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
   cursor: pointer;
