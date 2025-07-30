@@ -11,7 +11,7 @@ import {
   Fragment,
 } from "@arcgis/lumina";
 import Color, { ColorInstance } from "color";
-import { getModeName, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import {
@@ -21,7 +21,7 @@ import {
 } from "../../utils/interactive";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
-import { COLORS, CHECKER_DIMENSIONS } from "../color-picker-swatch/resources";
+import { CHECKER_DIMENSIONS } from "../color-picker-swatch/resources";
 import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./swatch.scss";
 
@@ -249,14 +249,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
           width={scale}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d={`M${scale} 0L0 ${scale}`} stroke="#D83020" stroke-width="3" />
+          <path class={CSS.internalSvgEmpty} d={`M${scale} 0L0 ${scale}`} />
         </svg>
       </div>
     );
   }
 
   private renderDisabledDisplay(): JsxNode {
-    const svgSmPath = (
+    const svgSmMdPath = (
       <svg
         fill="none"
         height="14"
@@ -265,24 +265,8 @@ export class Swatch extends LitElement implements InteractiveComponent {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
+          class={CSS.internalSvgDisabled}
           d="M7 0.5C10.5899 0.5 13.5 3.41015 13.5 7C13.5 10.5899 10.5899 13.5 7 13.5C3.41015 13.5 0.5 10.5899 0.5 7C0.5 3.41015 3.41015 0.5 7 0.5ZM4.78906 10.917C5.44221 11.2866 6.19529 11.5 7 11.5C9.48528 11.5 11.5 9.48528 11.5 7C11.5 6.19529 11.2866 5.44221 10.917 4.78906L4.78906 10.917ZM7 2.5C4.51472 2.5 2.5 4.51472 2.5 7C2.5 7.95644 2.79808 8.84235 3.30664 9.57129L9.57129 3.30664C8.84235 2.79808 7.95644 2.5 7 2.5Z"
-          fill="white"
-          stroke="#6A6A6A"
-        />
-      </svg>
-    );
-    const svgMdPath = (
-      <svg
-        fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M7 0.5C10.5899 0.5 13.5 3.41015 13.5 7C13.5 10.5899 10.5899 13.5 7 13.5C3.41015 13.5 0.5 10.5899 0.5 7C0.5 3.41015 3.41015 0.5 7 0.5ZM4.78906 10.917C5.44221 11.2866 6.19529 11.5 7 11.5C9.48528 11.5 11.5 9.48528 11.5 7C11.5 6.19529 11.2866 5.44221 10.917 4.78906L4.78906 10.917ZM7 2.5C4.51472 2.5 2.5 4.51472 2.5 7C2.5 7.95644 2.79808 8.84235 3.30664 9.57129L9.57129 3.30664C8.84235 2.79808 7.95644 2.5 7 2.5Z"
-          fill="white"
-          stroke="#6A6A6A"
         />
       </svg>
     );
@@ -296,31 +280,23 @@ export class Swatch extends LitElement implements InteractiveComponent {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
+          class={CSS.internalSvgDisabled}
           d="M9 0.5C13.6944 0.5 17.5 4.30558 17.5 9C17.5 13.6944 13.6944 17.5 9 17.5C4.30558 17.5 0.5 13.6944 0.5 9C0.5 4.30558 4.30558 0.5 9 0.5ZM5.78125 14.2588C6.71828 14.8337 7.81941 15.167 9 15.167C12.4058 15.167 15.167 12.4058 15.167 9C15.167 7.81941 14.8337 6.71828 14.2588 5.78125L5.78125 14.2588ZM9 2.83301C5.59424 2.83301 2.83301 5.59424 2.83301 9C2.83301 10.3817 3.28731 11.6565 4.05469 12.6846L12.6846 4.05469C11.6565 3.28731 10.3817 2.83301 9 2.83301Z"
-          fill="white"
-          stroke="#6A6A6A"
         />
       </svg>
     );
     return (
-      <div class={CSS.internalSvgContainer}>
-        {this.scale === "s" ? svgSmPath : this.scale === "m" ? svgMdPath : svgLgPath}
-      </div>
+      <div class={CSS.internalSvgContainer}>{this.scale === "l" ? svgLgPath : svgSmMdPath}</div>
     );
   }
 
   private renderSwatch(): JsxNode {
-    const { el, internalColor } = this;
+    const { internalColor } = this;
     const borderRadius = "0";
-    const theme = getModeName(el);
-    const strokeColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
-    const strokeWidth = this.selected ? "0" : "2";
     const isEmpty = !internalColor;
     const commonSwatchProps = {
       height: "100%",
       rx: borderRadius,
-      stroke: strokeColor,
-      strokeWidth: strokeWidth,
       width: "100%",
     };
 
@@ -331,10 +307,10 @@ export class Swatch extends LitElement implements InteractiveComponent {
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
           {this.renderSwatchRect({
-            clipPath: `inset(0 round ${borderRadius})`,
+            clipPath: `inset(0 round "${borderRadius}")`,
             ...commonSwatchProps,
           })}
-          <line clip-path="url(#shape)" stroke-width="2" x1="100%" x2="0" y1="0" y2="100%" />
+          <line clip-path="url(#shape)" x1="100%" x2="0" y1="0" y2="100%" />
         </>
       );
     }
@@ -378,7 +354,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
           width: commonSwatchProps.width,
         })}
         {this.renderSwatchRect({
-          clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`,
+          clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round "${borderRadius}")`,
           fill: hex,
           ...commonSwatchProps,
         })}
@@ -422,6 +398,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
         clip-path={clipPath}
         fill={fill}
         height={height}
+        id={IDS.swatchRect}
         key={key}
         rx={rx}
         stroke={stroke}

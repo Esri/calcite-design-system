@@ -6,6 +6,8 @@ export const CSS = {
   nonInteractive: "non-interactive",
   selected: "selected",
   internalSvgContainer: "internal-svg-container",
+  internalSvgDisabled: "internal-svg-disabled",
+  internalSvgEmpty: "internal-svg-empty",
   swatch: "swatch",
   checker: "checker",
   noColorSwatch: "swatch--no-color",
@@ -30,4 +32,5 @@ export const CHECKER_DIMENSIONS = {
 export const IDS = {
   checker: "checker",
   shape: "shape",
+  swatchRect: "swatch-rect",
 };

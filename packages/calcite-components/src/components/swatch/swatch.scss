@@ -111,6 +111,25 @@
   }
 }
 
+:host([selected]) #swatch-rect {
+  stroke-width: 0;
+}
+
+#swatch-rect {
+  stroke: var(--calcite-color-transparent-press);
+  stroke-width: 2px;
+}
+
+.internal-svg-disabled {
+  stroke: #6a6a6a;
+  fill: white;
+}
+
+.internal-svg-empty {
+  stroke: var(--calcite-color-status-danger);
+  stroke-width: 3;
+}
+
 .checker {
   fill: #cacaca;
 }
