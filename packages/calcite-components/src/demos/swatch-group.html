@@ -642,7 +642,7 @@
         >
       </div>
       <div class="parent">
-        <div class="child">setFocus programmatic</div>
+        <div class="child">setFocus programmatic on group</div>
         <calcite-swatch-group label="demo-group-label" selection-mode="multiple" id="programmatic-focus">
           <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
           <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
@@ -650,6 +650,21 @@
           <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
         </calcite-swatch-group>
         <calcite-button onClick="{setFocusOnGroup()}">Programmatically set focus</calcite-button>
+      </div>
+      <div class="parent">
+        <div class="child">setFocus programmatic on swatch</div>
+        <calcite-swatch-group label="demo-group-label" selection-mode="multiple">
+          <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch
+            color="#6a0dad"
+            id="programmatic-focus-swatch"
+            label="example"
+            value="calcite swatch"
+          ></calcite-swatch>
+          <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch color="#6a0dad" label="example" value="calcite swatch"></calcite-swatch>
+        </calcite-swatch-group>
+        <calcite-button onClick="{setFocusOnSwatch()}">Programmatically set focus on swatch</calcite-button>
       </div>
     </demo-dom-swapper>
     <script>
@@ -670,6 +685,10 @@
       function setFocusOnGroup() {
         const swatchGroup = document.getElementById("programmatic-focus");
         swatchGroup.setFocus();
+      }
+      function setFocusOnSwatch() {
+        const swatch = document.getElementById("programmatic-focus-swatch");
+        swatch.setFocus();
       }
 
       document.querySelectorAll("calcite-swatch-group").forEach((item) => {

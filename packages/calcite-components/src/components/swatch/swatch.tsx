@@ -13,12 +13,12 @@ import {
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
 import { CHECKER_DIMENSIONS } from "../color-picker-swatch/resources";
@@ -43,6 +43,8 @@ export class Swatch extends LitElement implements InteractiveComponent {
   private internalColor: ColorInstance;
 
   private containerEl = createRef<HTMLDivElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -106,13 +108,16 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled && this.interactive) {
-      this.containerEl.value?.focus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
