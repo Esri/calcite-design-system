@@ -136,7 +136,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**

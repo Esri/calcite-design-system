@@ -41,7 +41,7 @@ export class BlockSection extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */

@@ -66,7 +66,7 @@ export class ActionGroup extends LitElement {
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
