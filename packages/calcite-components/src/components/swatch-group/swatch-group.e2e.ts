@@ -7,7 +7,7 @@ import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 describe("calcite-swatch-group", () => {
   describe("renders", () => {
     renders("<calcite-swatch-group><calcite-swatch></calcite-swatch></calcite-swatch-group>", {
-      display: "flex",
+      display: "block",
     });
   });
 
