@@ -71,6 +71,10 @@ describe("calcite-block", () => {
         propertyName: "sortHandleOpen",
         defaultValue: false,
       },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -106,6 +110,10 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "sortHandleOpen",
+        value: true,
+      },
+      {
+        propertyName: "sortDisabled",
         value: true,
       },
     ]);
