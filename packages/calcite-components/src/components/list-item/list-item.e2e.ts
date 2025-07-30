@@ -122,10 +122,6 @@ describe("calcite-list-item", () => {
         propertyName: "closable",
         value: true,
       },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
     ]);
   });
 
