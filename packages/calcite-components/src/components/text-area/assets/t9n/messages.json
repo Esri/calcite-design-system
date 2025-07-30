@@ -1,6 +1,5 @@
 {
   "invalid": "Invalid",
-  "required": "Required",
   "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
   "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }
