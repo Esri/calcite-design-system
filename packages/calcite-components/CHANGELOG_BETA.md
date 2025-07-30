@@ -203,7 +203,7 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     set to `hex` by default.
   - Removed ,`intlNoColor` property.
 
-  _note: color-picker-hex-input is `internal` component._
+  *note: color-picker-hex-input is `internal` component.*
 
 - **color-picker:**
   - Removed the property `intlB` , use `messsageOverrides.b` instead.
