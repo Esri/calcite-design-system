@@ -8,7 +8,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import type { Swatch } from "../swatch/swatch";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
@@ -31,6 +31,8 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
   private items: Swatch["el"][] = [];
 
   private slotRefEl = createRef<HTMLSlotElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -76,13 +78,16 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (!this.disabled) {
-      return (this.selectedItems[0] || this.items[0])?.setFocus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion
