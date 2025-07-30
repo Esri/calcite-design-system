@@ -8,6 +8,7 @@
  * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
  * @prop --calcite-block-section-text-color: Specifies the component's text color.
  * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
+ * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in`default` slot.
  */
 
 :host {
@@ -55,13 +56,13 @@ calcite-switch {
 
 :host([scale="s"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-xxs);
+    padding-block: var(--calcite-spacing-xs);
     gap: var(--calcite-spacing-sm);
     font-size: var(--calcite-font-size-sm);
   }
 
   .content {
-    padding-block: var(--calcite-spacing-xxs);
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xs));
   }
 }
 
@@ -72,7 +73,7 @@ calcite-switch {
     font-size: var(--calcite-font-size);
   }
   .content {
-    padding-block: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm));
   }
 }
 
@@ -83,7 +84,7 @@ calcite-switch {
     font-size: var(--calcite-font-size-lg);
   }
   .content {
-    padding-block: var(--calcite-spacing-sm-plus);
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm-plus));
   }
 }
 

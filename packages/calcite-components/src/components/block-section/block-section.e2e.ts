@@ -318,6 +318,10 @@ describe("calcite-block-section", () => {
               state: "hover",
             },
           ],
+          "--calcite-block-section-content-space": {
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "paddingBlock",
+          },
         },
       );
     });
