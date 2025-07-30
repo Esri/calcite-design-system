@@ -404,7 +404,7 @@ export class InputText
     }
 
     if (this.isClearable && event.key === "Escape") {
-      this.clearInputTextValue(event);
+      this.clearInputTextValue();
       event.preventDefault();
     }
     if (event.key === "Enter") {
