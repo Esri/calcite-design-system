@@ -2,6 +2,7 @@ import { html } from "../../support/formatting";
 
 export const blockSectionTokens = {
   calciteBlockSectionBorderColor: "",
+  calciteBlockSectionContentSpace: "",
   calciteBlockSectionHeaderTextColor: "",
   calciteBlockSectionHeaderTextColorHover: "",
   calciteBlockSectionTextColor: "",
