@@ -334,7 +334,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
             clipPath: `inset(0 round ${borderRadius})`,
             ...commonSwatchProps,
           })}
-          <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
+          <line clip-path="url(#shape)" stroke-width="2" x1="100%" x2="0" y1="0" y2="100%" />
         </>
       );
     }

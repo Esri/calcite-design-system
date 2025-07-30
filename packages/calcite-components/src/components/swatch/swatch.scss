@@ -15,23 +15,24 @@
 
 :host {
   @apply block;
+  --calcite-internal-swatch-inset: var(--calcite-spacing-xxs);
 }
 
 :host([scale="s"]) {
   .container {
-    --calcite-internal-swatch-size: 1.25rem;
+    --calcite-internal-swatch-size: var(--calcite-spacing-xl);
   }
 }
 
 :host([scale="m"]) {
   .container {
-    --calcite-internal-swatch-size: 1.5rem;
+    --calcite-internal-swatch-size: var(--calcite-spacing-xxl);
   }
 }
 
 :host([scale="l"]) {
   .container {
-    --calcite-internal-swatch-size: 2rem;
+    --calcite-internal-swatch-size: var(--calcite-spacing-xxxl);
   }
 }
 
@@ -67,26 +68,25 @@
 }
 
 :host([selected]) .swatch {
-  inset: calc(var(--calcite-internal-swatch-size) / 8);
-  block-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
-  inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
-  min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(var(--calcite-internal-swatch-size) / 4));
+  inset: var(--calcite-internal-swatch-inset);
+  block-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
+  inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
+  min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
 }
 
 :host([selected]) .image-container {
-  inset: calc(var(--calcite-internal-swatch-size) / 8);
-  box-shadow:
-    0 0 0 2px var(--calcite-color-foreground-1),
-    0 0 0 4px var(--calcite-color-text-1);
+  inset: var(--calcite-internal-swatch-inset);
 }
 
-:host([selected][scale="s"]) .image-container {
-  inset: calc(var(--calcite-internal-swatch-size) / 5);
+:host([selected]) .container {
+  box-shadow:
+    inset 0 0 0 2px var(--calcite-color-text-1),
+    inset 0 0 0 4px var(--calcite-color-foreground-1);
 }
 
 .image-container {
   @apply inline-flex overflow-hidden absolute z-20;
-  inset: 1px;
+  inset: var(--calcite-internal-swatch-inset);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,10 +106,6 @@
   @apply overflow-hidden;
   block-size: inherit;
   inline-size: inherit;
-
-  rect {
-    @apply transition-all ease-in-out;
-  }
 }
 
 .swatch--no-color {
