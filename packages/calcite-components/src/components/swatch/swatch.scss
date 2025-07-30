@@ -61,7 +61,8 @@
 
 .swatch {
   position: absolute;
-  @apply inline-flex overflow-hidden absolute z-10;
+  @apply inline-flex overflow-hidden absolute;
+  z-index: calc(var(--calcite-z-index) + 1);
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
@@ -86,7 +87,8 @@
 }
 
 .image-container {
-  @apply inline-flex overflow-hidden absolute z-20;
+  @apply inline-flex overflow-hidden absolute;
+  z-index: calc(var(--calcite-z-index) + 2);
   inset: var(--calcite-spacing-px);
   display: flex;
   align-items: center;
@@ -96,7 +98,8 @@
 }
 
 .internal-svg-container {
-  @apply absolute inset-0 flex items-center justify-center z-30;
+  @apply absolute inset-0 flex items-center justify-center;
+  z-index: calc(var(--calcite-z-index) + 2);
 }
 
 .swatch {
