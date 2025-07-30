@@ -44,6 +44,10 @@ describe("calcite-block-group", () => {
         propertyName: "loading",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ]);
   });
 

@@ -17,11 +17,12 @@ import {
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { getRootNode } from "../../utils/dom";
+import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
+import { Scale } from "../interfaces";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -62,6 +63,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
   // #endregion
 
@@ -105,6 +108,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 
@@ -172,6 +178,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
       this.updateBlockItemsDebounced();
+    }
+    if (changes.has("scale") || this.hasUpdated) {
+      this.updateBlockChildrenScale();
     }
   }
 
@@ -316,7 +325,23 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    updateBlockChildren(event.target as HTMLSlotElement);
+    this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
+      (el): el is Block["el"] | BlockGroup["el"] =>
+        el.matches(blockSelector) || el.matches(blockGroupSelector),
+    );
+
+    const blockChildren = this.blockAndGroups.filter((block): block is Block["el"] =>
+      block.matches(blockSelector),
+    );
+
+    updateBlockChildren(blockChildren);
+    this.updateBlockChildrenScale();
+  }
+
+  private updateBlockChildrenScale(): void {
+    this.blockAndGroups.forEach((block) => {
+      block.scale = this.scale;
+    });
   }
 
   private validateMove({

@@ -1,8 +1,11 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { BlockGroup } from "./block-group";
 
-type BlockGroupStoryArgs = Pick<BlockGroup, "disabled" | "group" | "dragEnabled" | "label" | "loading">;
+const { scale } = ATTRIBUTES;
+
+type BlockGroupStoryArgs = Pick<BlockGroup, "disabled" | "group" | "dragEnabled" | "label" | "loading" | "scale">;
 
 export default {
   title: "Components/Block Group",
@@ -12,6 +15,13 @@ export default {
     group: "",
     label: "My Group",
     loading: false,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -53,6 +63,7 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
     ${boolean("loading", args.loading)}
     label="${args.label}"
     group="${args.group}"
+    scale="${args.scale}
   >
     ${blockHTML}
   </calcite-block-group>
