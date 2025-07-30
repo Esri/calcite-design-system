@@ -38,7 +38,7 @@
 }
 
 .container {
-  @apply relative focus-base justify-center box-border  overflow-hidden;
+  @apply relative focus-base justify-center box-border overflow-hidden;
   font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
@@ -95,11 +95,7 @@
   border-radius: var(--calcite-swatch-corner-radius, 0);
 }
 
-.empty-container {
-  @apply absolute inset-0 flex items-center justify-center z-30;
-}
-
-.disabled-container {
+.internal-svg-container {
   @apply absolute inset-0 flex items-center justify-center z-30;
 }
 

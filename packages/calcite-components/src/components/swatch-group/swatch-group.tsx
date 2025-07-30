@@ -10,6 +10,7 @@ import {
 import { Scale, SelectionMode } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import type { Swatch } from "../swatch/swatch";
+import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
 
 declare global {
@@ -230,7 +231,7 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        <div ariaLabel={this.label} class="container" role={role}>
+        <div ariaLabel={this.label} class={CSS.container} role={role}>
           <slot onSlotChange={this.updateItems} ref={this.slotRefEl} />
         </div>
       </InteractiveContainer>

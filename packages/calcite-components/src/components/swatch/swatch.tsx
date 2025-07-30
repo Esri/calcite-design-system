@@ -241,7 +241,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     const scale = this.scale === "s" ? "12" : this.scale === "m" ? "16" : "20";
 
     return (
-      <div class={CSS.emptyContainer}>
+      <div class={CSS.internalSvgContainer}>
         <svg
           fill="none"
           height={scale}
@@ -303,7 +303,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
       </svg>
     );
     return (
-      <div class={CSS.disabledContainer}>
+      <div class={CSS.internalSvgContainer}>
         {this.scale === "s" ? svgSmPath : this.scale === "m" ? svgMdPath : svgLgPath}
       </div>
     );
