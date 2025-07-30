@@ -31,7 +31,7 @@
     "@arcgis/lumina": "^4.34.0-next.49",
     "@esri/calcite-components": "3.3.0-next.50",
     "@lit/react": "1.0.8",
-    "lit": "3.3.0"
+    "lit": "^3.3.0"
   },
   "peerDependencies": {
     "react": ">=18.3",
