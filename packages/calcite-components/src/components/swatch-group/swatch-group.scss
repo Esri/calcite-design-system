@@ -1,26 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-swatch-group-space: Specifies the space between slotted elements.
+ */
+
 :host {
-  display: flex;
+  @apply block;
 }
 
 .container {
   display: flex;
-  inline-size: 100%;
   flex-wrap: wrap;
-  align-items: center;
-  gap: theme("spacing.2");
-}
-
-::slotted(calcite-swatch) {
-  flex: none;
+  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-md));
 }
 
 :host([scale="s"]) .container {
-  gap: theme("spacing.1");
+  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-sm));
 }
-
-:host([scale="l"]) .container {
-  gap: theme("spacing.3");
-}
-
-@include disabled();
 @include base-component();
+@include disabled();

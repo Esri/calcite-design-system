@@ -11,6 +11,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-swatch-inset
 // --calcite-internal-swatch-size
 
 :host {
@@ -74,19 +75,19 @@
   min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
 }
 
-:host([selected]) .image-container {
-  inset: var(--calcite-internal-swatch-inset);
-}
-
 :host([selected]) .container {
   box-shadow:
     inset 0 0 0 2px var(--calcite-color-text-1),
     inset 0 0 0 4px var(--calcite-color-foreground-1);
 }
 
+:host([selected]) .image-container {
+  inset: var(--calcite-internal-swatch-inset);
+}
+
 .image-container {
   @apply inline-flex overflow-hidden absolute z-20;
-  inset: var(--calcite-internal-swatch-inset);
+  inset: var(--calcite-spacing-px);
   display: flex;
   align-items: center;
   justify-content: center;
