@@ -114,6 +114,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() bordered = false;
 
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
+
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
@@ -753,7 +760,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderDragHandle(): JsxNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems, sortDisabled } =
+      this;
 
     return dragHandle ? (
       <div
@@ -776,6 +784,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
+          sortDisabled={sortDisabled}
         />
       </div>
     ) : null;

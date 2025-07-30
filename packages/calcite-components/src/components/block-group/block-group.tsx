@@ -87,6 +87,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When `true`, `calcite-block`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
+  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   /**
    * The block-group's group identifier.
    *
@@ -172,7 +175,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
-      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
+      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
       this.updateBlockItemsDebounced();
     }
@@ -193,7 +197,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems(): void {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems } = this;
+    const { dragEnabled, el, moveToItems, sortDisabled } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
@@ -203,6 +207,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.sortDisabled = sortDisabled;
       }
     });
 

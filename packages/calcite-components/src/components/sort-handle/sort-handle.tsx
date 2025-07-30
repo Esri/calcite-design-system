@@ -85,6 +85,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
+  /** When `true`, items are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -287,7 +290,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
             text={text}
             title={text}
           />
-          {this.renderGroup()}
+          {this.renderReorderGroup()}
           {this.renderMoveToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
@@ -307,8 +310,8 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     );
   }
 
-  private renderGroup(): JsxNode {
-    return this.hasSetInfo ? (
+  private renderReorderGroup(): JsxNode {
+    return this.hasSetInfo && !this.sortDisabled ? (
       <calcite-dropdown-group
         groupTitle={this.messages.reorder}
         id={IDS.reorder}
