@@ -15,9 +15,10 @@ describe("calcite-swatch", () => {
 
   describe("accessible", () => {
     accessible("calcite-swatch");
-    accessible(`<calcite-swatch active></calcite-swatch>`);
-    accessible(`<calcite-swatch color='#c0ffee'></calcite-swatch>`);
-    accessible(`<calcite-swatch active color='#c0ffee'></calcite-swatch>`);
+    accessible(`<calcite-swatch label="swatch" value="123" selected></calcite-swatch>`);
+    accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
+    accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
+    accessible(`<calcite-swatch label="swatch" value="123" selected color='#c0ffee'></calcite-swatch>`);
   });
 
   describe("slots", () => {

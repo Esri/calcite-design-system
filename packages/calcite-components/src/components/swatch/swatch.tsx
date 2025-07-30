@@ -456,7 +456,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
           }
-          ariaLabel={this.label}
+          ariaLabel={role !== "presentation" ? this.label : ""}
           class={{
             [CSS.container]: true,
             [CSS.selectable]: this.selectionMode !== "none",
