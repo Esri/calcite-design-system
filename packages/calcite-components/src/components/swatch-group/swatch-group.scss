@@ -17,7 +17,7 @@
 }
 
 :host([scale="s"]) .container {
-  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-xxs));
+  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-xs));
 }
 @include base-component();
 @include disabled();

@@ -55,7 +55,7 @@
     @apply cursor-pointer;
   }
   &:not(.non-interactive):focus {
-    @apply focus-normal;
+    @apply focus-outset;
   }
 }
 
