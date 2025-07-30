@@ -55,7 +55,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * The color value.
+   * Specifies the component's color
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
