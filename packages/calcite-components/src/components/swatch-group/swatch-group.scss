@@ -13,11 +13,11 @@
 .container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-md));
+  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-sm));
 }
 
 :host([scale="s"]) .container {
-  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-sm));
+  gap: var(--calcite-swatch-group-space, var(--calcite-spacing-xxs));
 }
 @include base-component();
 @include disabled();
