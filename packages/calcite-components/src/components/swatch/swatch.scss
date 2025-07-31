@@ -49,7 +49,7 @@
     @apply cursor-pointer;
   }
   &:not(.non-interactive):hover {
-    box-shadow: 0 0 0 2px var(--calcite-color-border-2);
+    box-shadow: 0 0 0 var(--calcite-border-width-md) var(--calcite-color-border-2);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -78,8 +78,8 @@
 
 :host([selected]) .container {
   box-shadow:
-    inset 0 0 0 2px var(--calcite-color-text-1),
-    inset 0 0 0 4px var(--calcite-color-foreground-1);
+    inset 0 0 0 var(--calcite-border-width-md) var(--calcite-color-text-1),
+    inset 0 0 0 var(--calcite-border-width-lg) var(--calcite-color-foreground-1);
 }
 
 :host([selected]) .image-container {
@@ -119,8 +119,9 @@
 }
 
 #swatch-rect {
-  stroke: var(--calcite-color-transparent-press);
-  stroke-width: 2px;
+  stroke: var(--calcite-color-text-1);
+  stroke-width: var(--calcite-border-width-md);
+  stroke-opacity: 0.3;
 }
 
 .internal-svg-disabled {
