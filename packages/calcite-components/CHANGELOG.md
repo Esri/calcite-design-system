@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.51...@esri/calcite-components@3.3.0-next.52) (2025-07-31)
+
+### Features
+
+- emit `expanded`/`collapsed` end-state events for expandable components ([#12580](https://github.com/Esri/calcite-design-system/issues/12580)) ([df04cf3](https://github.com/Esri/calcite-design-system/commit/df04cf34652f63c582b693d6e94f616d0910bb85)), closes [#12565](https://github.com/Esri/calcite-design-system/issues/12565)
+
 ## [3.3.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.50...@esri/calcite-components@3.3.0-next.51) (2025-07-30)
 
 ### Bug Fixes
