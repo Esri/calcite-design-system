@@ -77,7 +77,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** @private */
