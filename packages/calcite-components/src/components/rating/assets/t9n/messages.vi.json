@@ -1,4 +1,5 @@
 {
   "rating": "Xếp loại",
+  "required": "Required",
   "stars": "Sao: {num}"
 }
