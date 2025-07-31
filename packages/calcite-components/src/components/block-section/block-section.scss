@@ -14,7 +14,6 @@
 :host {
   @apply box-border block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
 
 calcite-switch {
@@ -104,7 +103,7 @@ calcite-switch {
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @apply focus-outset;
+    @apply focus-normal;
   }
   &:hover {
     color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
