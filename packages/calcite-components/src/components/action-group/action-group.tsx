@@ -141,12 +141,16 @@ export class ActionGroup extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
-    if (changes.has("expanded") && this.hasUpdated) {
-      if (this.expanded) {
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
         this.menuOpen = false;
-        this.calciteActionGroupExpand.emit();
-      } else {
-        this.calciteActionGroupCollapse.emit();
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteActionGroupExpand.emit();
+        } else {
+          this.calciteActionGroupCollapse.emit();
+        }
       }
     }
   }

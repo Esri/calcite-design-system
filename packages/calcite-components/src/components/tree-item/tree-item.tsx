@@ -153,12 +153,16 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && this.hasUpdated) {
-      if (this.expanded) {
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
         this.updateChildTree();
-        this.calciteTreeItemExpand.emit();
-      } else {
-        this.calciteTreeItemCollapse.emit();
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteTreeItemExpand.emit();
+        } else {
+          this.calciteTreeItemCollapse.emit();
+        }
       }
     }
 
