@@ -307,6 +307,7 @@ export class Action extends LitElement implements InteractiveComponent {
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.ariaDescribedByElements}
           ariaExpanded={this.aria?.ariaExpanded}
+          ariaHasPopup={this.aria?.ariaHasPopup}
           ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
           ariaPressed={this.aria?.ariaPressed}
           class={buttonClasses}
@@ -326,6 +327,7 @@ export class Action extends LitElement implements InteractiveComponent {
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.ariaDescribedByElements}
         ariaExpanded={this.aria?.ariaExpanded}
+        ariaHasPopup={this.aria?.ariaHasPopup}
         ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
         ariaPressed={this.aria?.ariaPressed}
         class={buttonClasses}
