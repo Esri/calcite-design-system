@@ -179,7 +179,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     ) {
       this.updateBlockItemsDebounced();
     }
-    if (changes.has("scale") || this.hasUpdated) {
+    if (changes.has("scale") && this.hasUpdated) {
       this.updateBlockChildrenScale();
     }
   }

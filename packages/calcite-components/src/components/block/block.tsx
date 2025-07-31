@@ -56,7 +56,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   transitionEl: HTMLElement;
 
-  private blockSectionElements: BlockSection["el"][] = [];
+  private blockSectionChildren: BlockSection["el"][] = [];
 
   private sortHandleEl: SortHandle["el"];
 
@@ -288,7 +288,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     }
 
     if (changes.has("scale") && this.hasUpdated) {
-      this.updateBlockSectionProps();
+      this.updateBlockSectionScale();
     }
   }
 
@@ -378,16 +378,16 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
-  private updateBlockSectionElements(event: Event): void {
-    this.blockSectionElements = (event.target as HTMLSlotElement)
+  private updateBlockSectionChildren(event: Event): void {
+    this.blockSectionChildren = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
       .filter((el): el is BlockSection["el"] => el?.matches("calcite-block-section"));
-    this.updateBlockSectionProps();
+    this.updateBlockSectionScale();
   }
 
-  private updateBlockSectionProps(): void {
-    this.blockSectionElements?.forEach((descendant: BlockSection["el"]) => {
-      descendant.scale = this.scale;
+  private updateBlockSectionScale(): void {
+    this.blockSectionChildren.forEach((el: BlockSection["el"]) => {
+      el.scale = this.scale;
     });
   }
 
@@ -397,7 +397,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private renderScrim(): JsxNode {
     const { loading } = this;
-    const defaultSlot = <slot onSlotChange={this.updateBlockSectionElements} />;
+    const defaultSlot = <slot onSlotChange={this.updateBlockSectionChildren} />;
 
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
