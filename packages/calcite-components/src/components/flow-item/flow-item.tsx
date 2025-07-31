@@ -69,7 +69,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
-  @property() beforeBack: () => Promise<void>;
+  @property() beforeBack?: () => Promise<void>;
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
