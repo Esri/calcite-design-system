@@ -95,7 +95,7 @@ export class Table extends LitElement {
   /**
    * Sets/gets the current page
    */
-  @property() get currentPage(): number {
+  @property({ reflect: true }) get currentPage(): number {
     return Math.ceil(this.pageStartRow / this.pageSize);
   }
   set currentPage(page: number) {
@@ -336,13 +336,28 @@ export class Table extends LitElement {
     this.footRows = footRows;
     this.allRows = allRows;
 
+    this.handleCurrentPageRange();
     this.updateSelectedItems();
+  }
+
+  private handleCurrentPageRange(): void {
+    const requestedPage = this.currentPage;
+    const totalRows = this.bodyRows?.length || 0;
+    const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
+
+    // todo - isn't updating on paginationChange
+    if (totalPages > 0) {
+      const page = Math.min(Math.max(requestedPage, 1), totalPages);
+      this.currentPage = page;
+      this.pageStartRow = (page - 1) * this.pageSize + 1;
+    }
     this.paginateRows();
   }
 
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
+    this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }

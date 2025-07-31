@@ -3281,10 +3281,19 @@ describe("keyboard navigation", () => {
       expect(await table.getProperty("currentPage")).toBe(3);
 
       const chevron = await page.find(`calcite-table >>> calcite-pagination >>> .${PAGINATION_CSS.chevron}`);
-      chevron?.click();
-      await page.waitForChanges();
+      await chevron.click();
 
       expect(await table.getProperty("currentPage")).toBe(2);
+
+      table.setProperty("currentPage", 21);
+      await page.waitForChanges();
+
+      expect(await table.getProperty("currentPage")).toBe(3);
+
+      table.setProperty("currentPage", 0);
+      await page.waitForChanges();
+
+      expect(await table.getProperty("currentPage")).toBe(1);
     });
   });
 });
