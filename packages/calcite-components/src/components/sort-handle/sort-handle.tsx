@@ -51,16 +51,22 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() get hasSetInfo(): boolean {
-    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+    const { setPosition, setSize } = this;
+
+    return (
+      typeof setPosition === "number" &&
+      typeof setSize === "number" &&
+      setPosition > 0 &&
+      setSize > 0
+    );
   }
 
-  @state() get isSetDisabled(): boolean {
-    const { setPosition, setSize, moveToItems } = this;
+  @state() get hasReorderItems(): boolean {
+    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 && !this.sortDisabled : false;
+  }
 
-    // todo: refactor
-    return this.hasSetInfo
-      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
-      : false;
+  @state() get hasNoItems(): boolean {
+    return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
   }
 
   // #endregion
@@ -94,6 +100,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
+
+  /** When `true`, items are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -209,9 +218,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   }
 
   private getLabel(): string {
-    const { label, messages, setPosition, setSize } = this;
+    const { label, messages, setPosition, setSize, hasSetInfo } = this;
 
-    if (!this.hasSetInfo) {
+    if (!hasSetInfo) {
       return label ?? "";
     }
 
@@ -272,11 +281,20 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Rendering
 
   override render(): JsxNode {
-    const { disabled, flipPlacements, open, overlayPositioning, placement, scale, widthScale } =
-      this;
+    const {
+      disabled,
+      flipPlacements,
+      open,
+      overlayPositioning,
+      placement,
+      scale,
+      widthScale,
+      hasSetInfo,
+      hasNoItems,
+    } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || this.isSetDisabled;
+    const isDisabled = disabled || !hasSetInfo || hasNoItems;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -306,7 +324,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
             text={text}
             title={text}
           />
-          {this.renderGroup()}
+          {this.renderReorderGroup()}
           {this.renderMoveToGroup()}
           {this.renderAddToGroup()}
         </calcite-dropdown>
@@ -340,8 +358,8 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     );
   }
 
-  private renderGroup(): JsxNode {
-    return this.hasSetInfo ? (
+  private renderReorderGroup(): JsxNode {
+    return this.hasReorderItems ? (
       <calcite-dropdown-group
         groupTitle={this.messages.reorder}
         id={IDS.reorder}

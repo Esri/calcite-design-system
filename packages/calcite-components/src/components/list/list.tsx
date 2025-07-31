@@ -167,6 +167,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When `true`, `calcite-list-item`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
@@ -399,6 +402,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
       changes.has("group") ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
@@ -436,6 +440,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       filterEl,
       displayMode,
       scale,
+      sortDisabled,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -448,6 +453,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       if (item.closest(listSelector) === el) {
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
+        item.sortDisabled = sortDisabled;
       }
     });
 
