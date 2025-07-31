@@ -60,14 +60,13 @@ export const withImage = (args: SwatchStoryArgs): string => html`
 
 export const withImageDisabled = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
-    <calcite-swatch scale="m" label="${args.label}">
+    <calcite-swatch scale="m" label="${args.label}" disabled>
       <img
         src="${placeholderImage({
           width: 24,
           height: 24,
         })}"
         slot="image"
-        disabled
       />
     </calcite-swatch>
   </div>
