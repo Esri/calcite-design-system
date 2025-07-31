@@ -1,22 +1,23 @@
+import { writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { globby } from "globby";
 
 (async () => {
-  const {
-    promises: { writeFile },
-  } = await import("fs");
-
-  const rootBundleFile = "messages.json";
-  const rootBundlePattern = `src/components/**/assets/t9n/${rootBundleFile}`;
+  const bundleFile = "messages.json";
+  const bundlePattern = `src/components/**/assets/t9n/${bundleFile}`;
   const rootManifestFilePath = "packages/calcite-components/";
 
-  const rootBundles = await globby([rootBundlePattern]);
+  const bundlePath = resolve(rootManifestFilePath, bundlePattern);
+  const bundles = await globby([bundlePath]);
   const manifestFilePathSeparator = "\\";
 
+  console.log(`found ${bundles.length} t9n bundles`);
   console.log("starting generation of file paths for t9n files");
 
   const paths = await Promise.all(
-    rootBundles.map(async (bundle) => {
-      const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
+    bundles.map(async (bundle) => {
+      const bundlePath = bundle.split(rootManifestFilePath)[1];
+      const t9nPath = `${bundlePath.split(`/t9n`)[0]}/t9n`;
       const relativeT9nPath = `${rootManifestFilePath}${t9nPath}`;
       return relativeT9nPath.replace(/\//g, manifestFilePathSeparator);
     }),
@@ -31,6 +32,11 @@ import { globby } from "globby";
     })
     .join("\n");
 
-  await writeFile("../../t9nmanifest.txt", manifestFileContents);
-  console.log("finished writing manifest");
+  try {
+    await writeFile(resolve("t9nmanifest.txt"), manifestFileContents);
+    console.log("finished writing manifest");
+  } catch (error) {
+    console.error("Error writing t9n manifest file:", error);
+    return;
+  }
 })();
