@@ -257,10 +257,6 @@ calcite-chip {
   color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
   background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
   cursor: pointer;
-
-  strong {
-    color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
-  }
 }
 
 @include disabled();
@@ -272,6 +268,7 @@ calcite-chip {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include text-highlight-item();
 
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
