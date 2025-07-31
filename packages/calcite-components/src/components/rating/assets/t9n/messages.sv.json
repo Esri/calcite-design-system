@@ -1,4 +1,5 @@
 {
   "rating": "Bedömning",
+  "required": "Required",
   "stars": "Stjärnor: {num}"
 }
