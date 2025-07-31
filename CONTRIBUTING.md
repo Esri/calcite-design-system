@@ -27,10 +27,10 @@ To become a contributor, you must:
 - Be a current Esri employee
 - Be a member of the [Esri](https://github.com/Esri) GitHub organization
   - For access, reach out to the Esri GitHub administrators email alias
-- Be a member of the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors)
+- Be a member of the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors)
   - For access, reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco)
 
-Once access is granted to the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members), contributors can [clone the calcite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup your local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
+Once access is granted to the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors), contributors can [clone the calcite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup your local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
 
 #### I want to contribute, what should I work on?
 
