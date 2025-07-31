@@ -37,13 +37,13 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
  * @slot tooltip - A slot for adding a tooltip for the menu.
  */
 export class ActionMenu extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = guid();
 
@@ -121,22 +121,22 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() activeMenuItemIndex = -1;
 
   @state() menuButtonEl: Action["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -176,9 +176,9 @@ export class ActionMenu extends LitElement {
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -194,16 +194,22 @@ export class ActionMenu extends LitElement {
     }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionMenuCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionMenuExpand = createEvent({ cancelable: false });
 
   /** Fires when the `open` property is toggled. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
@@ -224,15 +230,23 @@ export class ActionMenu extends LitElement {
     ) {
       this.updateActions(this.actionElements);
     }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteActionMenuExpand.emit();
+      } else {
+        this.calciteActionMenuCollapse.emit();
+      }
+    }
   }
 
   override disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private expandedHandler(): void {
     this.open = false;
@@ -453,9 +467,9 @@ export class ActionMenu extends LitElement {
     this.open = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderMenuButton(): JsxNode {
     const { appearance, label, scale, expanded } = this;
@@ -533,5 +547,5 @@ export class ActionMenu extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -35,13 +35,13 @@ declare global {
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 export class TreeItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionSlotWrapper = createRef<HTMLDivElement>();
 
@@ -53,9 +53,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private userChangedValue = false;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() private hasEndActions = false;
 
@@ -67,9 +67,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
    */
   @state() updateAfterInitialRender = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
   @property({ reflect: true }) depth = -1;
@@ -77,7 +77,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** @private */
@@ -116,16 +116,22 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) selectionMode: SelectionMode;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
 
-  // #endregion
+  /** Fires when the component's content area is collapsed. */
+  calciteTreeItemCollapse = createEvent({ cancelable: false });
 
-  // #region Lifecycle
+  /** Fires when the component's content area is expanded. */
+  calciteTreeItemExpand = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -147,8 +153,17 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.updateChildTree();
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
+        this.updateChildTree();
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteTreeItemExpand.emit();
+        } else {
+          this.calciteTreeItemCollapse.emit();
+        }
+      }
     }
 
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
@@ -168,9 +183,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     this.updateAncestorTree();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private handleSelectedChange(value: boolean): void {
     if (this.selectionMode === "ancestors" && !this.userChangedValue) {
       if (value) {
@@ -342,9 +358,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
@@ -494,5 +510,5 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

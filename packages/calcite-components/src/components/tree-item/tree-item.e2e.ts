@@ -429,6 +429,27 @@ describe("calcite-tree-item", () => {
     expect(itemBounds.height).not.toBe(0);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tree-item heading="Test"></calcite-tree-item>`);
+    const item = await page.find("calcite-tree-item");
+
+    const expandSpy = await page.spyOnEvent("calciteTreeItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteTreeItemCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("themed", () => {
     describe(`selection-mode="none"`, () => {
       themed(
