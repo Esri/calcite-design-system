@@ -1,4 +1,5 @@
 {
   "clear": "Очистить значение",
-  "loading": "Загрузка"
+  "loading": "Загрузка",
+  "required": "Required"
 }

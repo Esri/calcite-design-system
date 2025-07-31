@@ -1,4 +1,5 @@
 {
   "rating": "評級次數",
+  "required": "Required",
   "stars": "星星: {num}"
 }

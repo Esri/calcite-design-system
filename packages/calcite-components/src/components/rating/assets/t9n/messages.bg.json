@@ -1,4 +1,5 @@
 {
   "rating": "Оценка",
+  "required": "Required",
   "stars": "Звезди: {num}"
 }

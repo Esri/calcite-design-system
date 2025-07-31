@@ -1,4 +1,5 @@
 {
   "rating": "Peringkat",
+  "required": "Required",
   "stars": "Bintang: {num}"
 }

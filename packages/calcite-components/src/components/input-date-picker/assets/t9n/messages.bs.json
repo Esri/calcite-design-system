@@ -3,5 +3,6 @@
   "date": "Datum",
   "dateFormat": "Format datuma:{format}",
   "endDate": "Datum kraja",
+  "required": "Required",
   "startDate": "Datum početka"
 }

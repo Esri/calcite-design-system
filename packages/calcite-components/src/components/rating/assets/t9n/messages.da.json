@@ -1,4 +1,5 @@
 {
   "rating": "Vurdering",
+  "required": "Required",
   "stars": "Stjerner: {num}"
 }
