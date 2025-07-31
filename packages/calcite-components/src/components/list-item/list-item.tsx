@@ -12,7 +12,7 @@ import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interface
 import { SelectionAppearance } from "../list/resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
-import { MoveTo } from "../sort-handle/interfaces";
+import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
@@ -170,11 +170,18 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
-   * Sets the item to display a border.
+   * Defines the "Add to" items.
    *
    * @private
    */
-  @property() moveToItems: MoveTo[] = [];
+  @property() addToItems: SortMenuItem[] = [];
+
+  /**
+   * Defines the "Move to" items.
+   *
+   * @private
+   */
+  @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * When `true`, the item is open to show child components.
@@ -333,7 +340,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    *
    * @private
    */
-  calciteInternalListItemUpdateMoveToItems = createEvent({ cancelable: false });
+  calciteInternalListItemUpdateSortMenuItems = createEvent({ cancelable: false });
 
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
@@ -470,7 +477,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeOpen.emit();
-    this.calciteInternalListItemUpdateMoveToItems.emit();
+    this.calciteInternalListItemUpdateSortMenuItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
@@ -753,7 +760,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderDragHandle(): JsxNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems, addToItems } = this;
 
     return dragHandle ? (
       <div
@@ -764,6 +771,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         role="gridcell"
       >
         <calcite-sort-handle
+          addToItems={addToItems}
           disabled={dragDisabled}
           label={label}
           moveToItems={moveToItems}

@@ -19,10 +19,10 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { SortMenuItem } from "../sort-handle/interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -141,11 +141,18 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Sets the item to display a border.
+   * Defines the "Add to" items.
    *
    * @private
    */
-  @property() moveToItems: MoveTo[] = [];
+  @property() addToItems: SortMenuItem[] = [];
+
+  /**
+   * Defines the "Move to" items.
+   *
+   * @private
+   */
+  @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * When `true`, expands the component and its contents.
@@ -224,7 +231,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    *
    * @private
    */
-  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -328,7 +335,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeOpen.emit();
-    this.calciteInternalBlockUpdateMoveToItems.emit();
+    this.calciteInternalBlockUpdateSortMenuItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
@@ -477,6 +484,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       menuFlipPlacements,
       menuPlacement,
       moveToItems,
+      addToItems,
       setPosition,
       setSize,
       dragDisabled,
@@ -502,6 +510,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       <div class={CSS.headerContainer}>
         {this.dragHandle ? (
           <calcite-sort-handle
+            addToItems={addToItems}
             disabled={dragDisabled}
             label={heading || label}
             moveToItems={moveToItems}

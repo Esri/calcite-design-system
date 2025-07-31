@@ -14,7 +14,12 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
+import {
+  MoveEventDetail,
+  SortMenuItem,
+  ReorderEventDetail,
+  AddEventDetail,
+} from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode } from "../../utils/dom";
@@ -69,14 +74,14 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   @state() assistiveText: string;
 
-  @state() moveToItems: MoveTo[] = [];
+  @state() sortHandleMenuItems: SortMenuItem[] = [];
 
   // #endregion
 
   // #region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
-  @property() canPull: (detail: BlockDragDetail) => boolean;
+  @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
   @property() canPut: (detail: BlockDragDetail) => boolean;
@@ -158,7 +163,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteInternalBlockUpdateMoveToItems", this.handleUpdateMoveToItems);
+    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen("calciteInternalBlockUpdateSortMenuItems", this.handleUpdateSortMenuItems);
   }
 
   override connectedCallback(): void {
@@ -193,15 +199,12 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems(): void {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems } = this;
+    const { dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
-        item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
-        );
         item.dragHandle = dragEnabled;
       }
     });
@@ -220,7 +223,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         ).filter((blockGroup) => !blockGroup.disabled && blockGroup.dragEnabled)
       : [];
 
-    this.moveToItems = blockGroups.map((element) => ({
+    this.sortHandleMenuItems = blockGroups.map((element) => ({
       element,
       label: element.label ?? element.id,
       id: guid(),
@@ -232,7 +235,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     event.stopPropagation();
   }
 
-  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
+  private async handleUpdateSortMenuItems(event: CustomEvent): Promise<void> {
     event.stopPropagation();
 
     const fromEl = this.el;
@@ -243,8 +246,20 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     await item.componentOnReady();
     this.updateBlockItems();
 
-    item.moveToItems = item.moveToItems.filter((moveToItem) =>
-      this.validateMove({
+    item.moveToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+      this.validateSortMenuItem({
+        type: "move",
+        fromEl,
+        toEl: moveToItem.element as BlockGroup["el"],
+        dragEl: item,
+        newIndex: 0,
+        oldIndex: fromElItems.indexOf(item),
+      }),
+    );
+
+    item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+      this.validateSortMenuItem({
+        type: "add",
         fromEl,
         toEl: moveToItem.element as BlockGroup["el"],
         dragEl: item,
@@ -261,6 +276,15 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
     event.preventDefault();
     this.handleReorder(event);
+  }
+
+  private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    this.handleAdd(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
@@ -322,48 +346,68 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     updateBlockChildren(event.target as HTMLSlotElement);
   }
 
-  private validateMove({
+  private validateSortMenuItem({
     fromEl,
     toEl,
     dragEl,
     newIndex,
     oldIndex,
+    type,
   }: {
     fromEl?: BlockGroup["el"];
     toEl?: BlockGroup["el"];
     dragEl: Block["el"];
     newIndex: number;
     oldIndex: number;
+    type: "move" | "add";
   }): boolean {
-    if (!fromEl || !toEl) {
+    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
       return false;
     }
 
-    if (
+    const canPull =
       fromEl.canPull?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
-    }
+      }) ?? true;
 
-    if (
+    const canPut =
       toEl.canPut?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
+      }) ?? true;
+
+    return type === "add" ? canPull === "clone" : canPull === true && canPut;
+  }
+
+  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+    const { addTo } = event.detail;
+
+    const dragEl = event.target as Block["el"];
+    const fromEl = dragEl?.parentElement as BlockGroup["el"];
+    const toEl = addTo.element as BlockGroup["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+      return;
     }
 
-    return true;
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    const newEl = dragEl.cloneNode();
+    toEl.prepend(newEl);
+    this.updateBlockItemsDebounced();
+    this.connectObserver();
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -376,7 +420,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 

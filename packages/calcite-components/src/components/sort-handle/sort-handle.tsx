@@ -18,7 +18,13 @@ import type { Dropdown } from "../dropdown/dropdown";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
-import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
+import {
+  MoveEventDetail,
+  SortMenuItem,
+  Reorder,
+  ReorderEventDetail,
+  AddEventDetail,
+} from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
 declare global {
@@ -51,6 +57,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   @state() get isSetDisabled(): boolean {
     const { setPosition, setSize, moveToItems } = this;
 
+    // todo: refactor
     return this.hasSetInfo
       ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
       : false;
@@ -79,8 +86,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /** Defines the "Add to" items. */
+  @property() addToItems: SortMenuItem[] = [];
+
   /** Defines the "Move to" items. */
-  @property() moveToItems: MoveTo[] = [];
+  @property() moveToItems: SortMenuItem[] = [];
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -146,6 +156,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   /** Fires when a move item has been selected. */
   calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
+
+  /** Fires when an add item has been selected. */
+  calciteSortHandleAdd = createEvent<AddEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
@@ -248,6 +261,12 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     this.calciteSortHandleMove.emit({ moveTo });
   }
 
+  private handleAddTo(event: Event): void {
+    const id = (event.target as HTMLElement).dataset.id;
+    const addTo = this.addToItems.find((item) => item.id === id);
+    this.calciteSortHandleAdd.emit({ addTo });
+  }
+
   // #endregion
 
   // #region Rendering
@@ -289,12 +308,26 @@ export class SortHandle extends LitElement implements InteractiveComponent {
           />
           {this.renderGroup()}
           {this.renderMoveToGroup()}
+          {this.renderAddToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
     );
   }
 
-  private renderMoveToItem(moveToItem: MoveTo): JsxNode {
+  private renderAddToItem(addToItem: SortMenuItem): JsxNode {
+    return (
+      <calcite-dropdown-item
+        data-id={addToItem.id}
+        key={addToItem.id}
+        label={addToItem.label}
+        oncalciteDropdownItemSelect={this.handleAddTo}
+      >
+        {addToItem.label}
+      </calcite-dropdown-item>
+    );
+  }
+
+  private renderMoveToItem(moveToItem: SortMenuItem): JsxNode {
     return (
       <calcite-dropdown-item
         data-id={moveToItem.id}
@@ -320,6 +353,22 @@ export class SortHandle extends LitElement implements InteractiveComponent {
         {this.renderUp()}
         {this.renderDown()}
         {this.renderBottom()}
+      </calcite-dropdown-group>
+    ) : null;
+  }
+
+  private renderAddToGroup(): JsxNode {
+    const { messages, addToItems, scale } = this;
+
+    return addToItems.length ? (
+      <calcite-dropdown-group
+        groupTitle={messages.addTo}
+        id={IDS.add}
+        key="add-to-items"
+        scale={scale}
+        selectionMode="none"
+      >
+        {addToItems.map((addToItem) => this.renderAddToItem(addToItem))}
       </calcite-dropdown-group>
     ) : null;
   }

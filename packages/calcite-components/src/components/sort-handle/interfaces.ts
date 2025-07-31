@@ -1,6 +1,6 @@
 export type Reorder = "up" | "down" | "top" | "bottom";
 
-export interface MoveTo {
+export interface SortMenuItem {
   element: HTMLElement;
   id: string;
   label: string;
@@ -11,5 +11,9 @@ export interface ReorderEventDetail {
 }
 
 export interface MoveEventDetail {
-  moveTo: MoveTo;
+  moveTo: SortMenuItem;
+}
+
+export interface AddEventDetail {
+  addTo: SortMenuItem;
 }

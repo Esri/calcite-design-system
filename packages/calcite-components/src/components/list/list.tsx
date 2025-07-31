@@ -27,7 +27,12 @@ import {
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
+import {
+  MoveEventDetail,
+  SortMenuItem,
+  ReorderEventDetail,
+  AddEventDetail,
+} from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -126,7 +131,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   @state() hasFilterNoResults = false;
 
-  @state() moveToItems: MoveTo[] = [];
+  @state() sortHandleMenuItems: SortMenuItem[] = [];
 
   @state() get hasActiveFilter(): boolean {
     return (
@@ -151,7 +156,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
-  @property() canPull: (detail: ListDragDetail) => boolean;
+  @property() canPull: (detail: ListDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: ListDragDetail) => boolean;
@@ -349,7 +354,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteInternalListItemUpdateMoveToItems", this.handleUpdateMoveToItems);
+    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen("calciteInternalListItemUpdateSortMenuItems", this.handleUpdateSortMenuItems);
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
     this.listen(
       "calciteInternalListItemSelectMultiple",
@@ -428,7 +434,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       dragEnabled,
       el,
       filterEl,
-      moveToItems,
       displayMode,
       scale,
     } = this;
@@ -441,10 +446,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       item.selectionMode = selectionMode;
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
-        item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
-        );
-
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
       }
@@ -541,7 +542,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.handleReorder(event);
   }
 
-  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
+  private async handleUpdateSortMenuItems(event: CustomEvent): Promise<void> {
     event.stopPropagation();
 
     const fromEl = this.el;
@@ -552,8 +553,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     await item.componentOnReady();
     this.updateListItems();
 
-    item.moveToItems = item.moveToItems.filter((moveToItem) =>
-      this.validateMove({
+    item.moveToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+      this.validateSortMenuItem({
+        type: "move",
         fromEl,
         toEl: moveToItem.element as List["el"],
         dragEl: item,
@@ -561,6 +563,26 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex: fromElItems.indexOf(item),
       }),
     );
+
+    item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+      this.validateSortMenuItem({
+        type: "add",
+        fromEl,
+        toEl: moveToItem.element as List["el"],
+        dragEl: item,
+        newIndex: 0,
+        oldIndex: fromElItems.indexOf(item),
+      }),
+    );
+  }
+
+  private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
+    if (this.parentListEl || event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    this.handleAdd(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
@@ -884,7 +906,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         ).filter((list) => !list.disabled && list.dragEnabled)
       : [];
 
-    this.moveToItems = lists.map((element) => ({
+    this.sortHandleMenuItems = lists.map((element) => ({
       element,
       label: element.label ?? element.id,
       id: guid(),
@@ -975,48 +997,69 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     }
   }
 
-  private validateMove({
+  private validateSortMenuItem({
     fromEl,
     toEl,
     dragEl,
     newIndex,
     oldIndex,
+    type,
   }: {
     fromEl?: List["el"];
     toEl?: List["el"];
     dragEl: ListItem["el"];
     newIndex: number;
     oldIndex: number;
+    type: "move" | "add";
   }): boolean {
-    if (!fromEl || !toEl) {
+    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
       return false;
     }
 
-    if (
+    const canPull =
       fromEl.canPull?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
-    }
+      }) ?? true;
 
-    if (
+    const canPut =
       toEl.canPut?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
+      }) ?? true;
+
+    return type === "add" ? canPull === "clone" : canPull === true && canPut;
+  }
+
+  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+    const { addTo } = event.detail;
+
+    const dragEl = event.target as ListItem["el"];
+    const fromEl = dragEl?.parentElement as List["el"];
+    const toEl = addTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+      return;
     }
 
-    return true;
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    const newEl = dragEl.cloneNode();
+    toEl.prepend(newEl);
+    expandedAncestors(dragEl);
+    this.updateListItemsDebounced();
+    this.connectObserver();
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -1029,7 +1072,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 
