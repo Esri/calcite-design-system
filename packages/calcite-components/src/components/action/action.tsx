@@ -309,6 +309,8 @@ export class Action extends LitElement implements InteractiveComponent {
           ariaExpanded={this.aria?.ariaExpanded}
           ariaHasPopup={this.aria?.ariaHasPopup}
           ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+          ariaLabelledByElements={this.aria?.ariaLabelledByElements}
+          ariaOwnsElements={this.aria?.ariaOwnsElements}
           ariaPressed={this.aria?.ariaPressed}
           class={buttonClasses}
           id={buttonId}
@@ -329,6 +331,8 @@ export class Action extends LitElement implements InteractiveComponent {
         ariaExpanded={this.aria?.ariaExpanded}
         ariaHasPopup={this.aria?.ariaHasPopup}
         ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+        ariaLabelledByElements={this.aria?.ariaLabelledByElements}
+        ariaOwnsElements={this.aria?.ariaOwnsElements}
         ariaPressed={this.aria?.ariaPressed}
         class={buttonClasses}
         disabled={disabled}
