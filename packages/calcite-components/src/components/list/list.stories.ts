@@ -151,6 +151,43 @@ export const simple = (args: ListStoryArgs): string => html`
   </calcite-list>
 `;
 
+export const swapThreshold = (): string =>
+  html` <template id="list-template">
+      <style>
+        .h-24 {
+          height: 6rem;
+        }
+        .h-16 {
+          height: 4rem;
+        }
+      </style>
+      <calcite-list
+        label="Drag issue"
+        display-mode="nested"
+        drag-enabled
+        selection-appearance="border"
+        selection-mode="single"
+      >
+        <calcite-list-item>
+          <div slot="content" class="h-16">some shorter content</div>
+        </calcite-list-item>
+        <calcite-list-item>
+          <div slot="content" class="h-24">some taller content</div>
+        </calcite-list-item>
+      </calcite-list>
+    </template>
+
+    <div id="shadow-host"></div>
+
+    <script>
+      const host = document.querySelector("#shadow-host");
+      const shadow = host.attachShadow({ mode: "open" });
+
+      const template = document.querySelector("#list-template");
+      const clone = template.content.cloneNode(true);
+      shadow.appendChild(clone);
+    </script>`;
+
 export const scales = (): string => html`
   <!-- scales -->
   <div class="parent">
