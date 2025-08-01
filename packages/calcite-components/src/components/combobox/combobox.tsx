@@ -1805,7 +1805,8 @@ export class Combobox
       [FloatingCSS.animationActive]: open,
     };
 
-    const label = this.filterText ? messages.add.replace("{text}", `${this.filterText}`) : "";
+    const label =
+      this.filterText && messages.add ? messages.add.replace("{text}", `${this.filterText}`) : "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>

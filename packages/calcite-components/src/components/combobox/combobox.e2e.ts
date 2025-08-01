@@ -3365,12 +3365,8 @@ describe("calcite-combobox", () => {
             shadowSelector: `.${CSS.noMatches}`,
             targetProp: "backgroundColor",
           },
-          "--calcite-close-icon-color": {
-            shadowSelector: `.${CSS.noMatches}`,
-            targetProp: "color",
-          },
           "--calcite-combobox-input-text-color": {
-            shadowSelector: `.${CSS.noMatches} >>> strong`,
+            shadowSelector: `.${CSS.noMatches} >>> mark`,
             targetProp: "color",
           },
         },
