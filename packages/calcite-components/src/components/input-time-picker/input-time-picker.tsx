@@ -40,6 +40,7 @@ import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
+import { useValue } from "../../controllers/useValue";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -98,6 +99,8 @@ export class InputTimePicker
   private secondEl: HTMLSpanElement;
 
   private time = useTime(this);
+
+  private valueController = useValue(this);
 
   //#endregion
 
@@ -261,11 +264,14 @@ export class InputTimePicker
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   calciteInputTimePickerBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` is modified by the user. */
+  /** Fires when the component's current `value` is committed by the user. */
   calciteInputTimePickerChange = createEvent();
 
   /** Fires when the component is closed and animation is complete. */
   calciteInputTimePickerClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's `value` is modified by the user. */
+  calciteInputTimePickerInput = createEvent();
 
   /** Fires when the component is open and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
@@ -306,17 +312,6 @@ export class InputTimePicker
         this.open = false;
       }
     }
-
-    if (changes.has("value")) {
-      if (this.hasUpdated) {
-        if (!this.time.userChangedValue) {
-          this.previousEmittedValue = this.value;
-        }
-        this.time.setValue(this.value);
-      } else {
-        this.previousEmittedValue = this.value;
-      }
-    }
   }
 
   override updated(): void {
@@ -333,22 +328,11 @@ export class InputTimePicker
   //#region Private Methods
 
   private blurHandler(): void {
-    this.changeEventHandler();
+    this.commitValue();
   }
 
-  /**
-   * Emits a change event and resets to previous value if the event's default behavior is prevented.
-   */
-  private changeEventHandler(): void {
-    const { previousEmittedValue, value } = this;
-    if (previousEmittedValue !== value) {
-      const changeEvent = this.calciteInputTimePickerChange.emit();
-      if (changeEvent.defaultPrevented) {
-        this.time.setValue(this.previousEmittedValue);
-      } else {
-        this.previousEmittedValue = value;
-      }
-    }
+  private commitValue(): void {
+    this.valueController.commitValue({ changeEventEmitter: this.calciteInputTimePickerChange });
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -363,7 +347,7 @@ export class InputTimePicker
       if (submitForm(this)) {
         event.preventDefault();
       }
-      this.changeEventHandler();
+      this.commitValue();
     } else if (this.open && this.focusTrapDisabled && key === "Escape") {
       this.open = false;
       event.preventDefault();
@@ -517,7 +501,10 @@ export class InputTimePicker
 
     const newValue = event.detail;
     if (newValue !== this.value) {
-      this.value = newValue;
+      this.valueController.inputValue({
+        inputEventEmitter: this.calciteInputTimePickerInput,
+        value: newValue,
+      });
     }
   }
 

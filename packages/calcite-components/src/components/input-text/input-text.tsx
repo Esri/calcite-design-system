@@ -420,8 +420,8 @@ export class InputText
 
   private clearInputTextValue(): void {
     // TODO: Handle nativeEvent Default Prevention
-    const { calciteInputTextChange: changeEvent, valueController } = this;
-    valueController.commitValue({ changeEvent, value: "" });
+    const { calciteInputTextChange, valueController } = this;
+    valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value: "" });
   }
 
   private emitChangeIfUserModified(): void {
@@ -436,8 +436,8 @@ export class InputText
       element: this.childEl,
       value: this.value,
     });
-    const { calciteInputTextChange: changeEvent, value, valueController } = this;
-    valueController.commitValue({ changeEvent, value });
+    const { calciteInputTextChange, value, valueController } = this;
+    valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value });
   }
 
   private clickHandler(event: MouseEvent): void {
@@ -468,9 +468,9 @@ export class InputText
     if (this.disabled || this.readOnly) {
       return;
     }
-    const { calciteInputTextInput: inputEvent, valueController } = this;
+    const { calciteInputTextInput, valueController } = this;
     const value = (nativeEvent.target as HTMLInputElement).value;
-    valueController.inputValue({ inputEvent, value });
+    valueController.inputValue({ inputEventEmitter: calciteInputTextInput, value });
   }
 
   private inputTextKeyDownHandler(event: KeyboardEvent): void {
@@ -478,8 +478,8 @@ export class InputText
       return;
     }
     if (event.key === "Enter") {
-      const { calciteInputTextChange: changeEvent, value, valueController } = this;
-      valueController.commitValue({ changeEvent, value });
+      const { calciteInputTextChange, value, valueController } = this;
+      valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value });
     }
   }
 

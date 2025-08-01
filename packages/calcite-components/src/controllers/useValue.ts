@@ -4,9 +4,17 @@ import type { PropertyValues } from "lit";
 
 interface UseValue {
   /**
-   * The component's previously emitted value.
+   * The component's last emitted value.
    */
-  previousEmittedValue: string;
+  lastEmittedValue: string;
+  /**
+   * The component's previously set value.
+   */
+  previousValue: string;
+  /**
+   * Whether the last value change was performed by the keyboard or mouse user.
+   */
+  userChangedValue: boolean;
 }
 
 interface UseValueComponent {
@@ -20,18 +28,18 @@ interface CommitValueOptions {
   /**
    * The component's custom change event.
    */
-  changeEvent: EventEmitter;
+  changeEventEmitter: EventEmitter;
   /**
    * The new value to set on the component.
    */
-  value: string;
+  value?: string;
 }
 
 interface InputValueOptions {
   /**
    * The component's custom input event.
    */
-  inputEvent: EventEmitter;
+  inputEventEmitter: EventEmitter;
   /**
    * The new value to set on the component.
    */
@@ -44,32 +52,26 @@ interface InputValueOptions {
 class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Properties
 
-  previousEmittedValue: string = "";
+  lastEmittedValue = "";
 
-  previousValue: string = "";
+  previousValue = "";
+
+  userChangedValue = false;
 
   //#endregion
 
   //#region Component Lifecycle
 
   hostConnected(): void {
-    this.previousEmittedValue = this.component.value;
+    this.lastEmittedValue = this.component.value;
     this.previousValue = this.component.value;
   }
 
   hostUpdate(changes: PropertyValues): void {
     if (changes.has("value")) {
-      console.log(
-        "hostUpdate",
-        `changes.get("value"):`,
-        changes.get("value"),
-        "this.component.value:",
-        this.component.value,
-        "previousEmittedValue:",
-        this.previousEmittedValue,
-        "previousValue:",
-        this.previousValue,
-      );
+      if (!this.userChangedValue) {
+        this.handleDirectValueChange(this.component.value);
+      }
     }
   }
 
@@ -81,40 +83,56 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * Commits the component's current value from user input.
    * Emits the component's custom change event if the component's current value differs from the previously emitted value.
    *
-   * @param changeEvent.changeEvent
    * @param changeEvent
+   * @param changeEvent.changeEventEmitter
    * @param value
    * @param changeEvent.value
    */
-  commitValue({ changeEvent, value }: CommitValueOptions): void {
-    this.previousValue = this.component.value;
-    this.component.value = value;
-    if (value !== this.previousEmittedValue) {
-      changeEvent.emit();
-      this.previousEmittedValue = value;
-      // TODO: handle default event prevention
+  commitValue({ changeEventEmitter, value }: CommitValueOptions): void {
+    this.userChangedValue = true;
+    if (value) {
+      this.previousValue = this.component.value;
+      this.component.value = value;
     }
+    if (this.component.value !== this.lastEmittedValue) {
+      const changeEvent = changeEventEmitter.emit();
+      if (changeEvent.defaultPrevented) {
+        this.userChangedValue = false;
+        this.component.value = this.lastEmittedValue;
+      } else {
+        this.lastEmittedValue = this.component.value;
+      }
+    }
+  }
+
+  /**
+   * Sets internal properties as a result of a direct value assignment instead of a user keyboard or mouse event.
+   * @internal
+   */
+  handleDirectValueChange(value: string): void {
+    this.previousValue = value;
+    this.lastEmittedValue = value;
+    this.userChangedValue = false;
   }
 
   /**
    * Sets the component's value from user input and emits the component's custom input event.
    *
-   * @param inputEvent.inputEvent
-   * @param inputEvent
+   * @param inputEventEmitter.inputEventEmitter
+   * @param inputEventEmitter
    * @param value
-   * @param inputEvent.value
+   * @param inputEventEmitter.value
    */
-  inputValue({ inputEvent, value }: InputValueOptions): void {
+  inputValue({ inputEventEmitter, value }: InputValueOptions): void {
     this.previousValue = this.component.value;
+    this.userChangedValue = true;
     this.component.value = value;
-    inputEvent.emit();
-    // TODO: handle default event prevention
-  }
-
-  setValue(value: string): void {
-    this.previousValue = value;
-    this.previousEmittedValue = value;
-    this.component.value = value;
+    const inputEvent = inputEventEmitter.emit();
+    // TODO: get default prevention to work here (currently not working)
+    if (inputEvent.defaultPrevented) {
+      this.userChangedValue = false;
+      this.component.value = this.previousValue;
+    }
   }
 
   //#endregion
