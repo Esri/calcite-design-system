@@ -294,19 +294,10 @@ describe("calcite-block-section", () => {
           "--calcite-block-section-border-color": {
             targetProp: "borderBlockEndColor",
           },
-          "--calcite-block-section-background-color": [
-            {
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggle}`,
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggleContainer}`,
-              targetProp: "backgroundColor",
-            },
-          ],
+          "--calcite-block-section-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
           "--calcite-block-section-header-text-color": [
             {
               targetProp: "color",

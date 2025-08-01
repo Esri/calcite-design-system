@@ -260,7 +260,7 @@ export class BlockSection extends LitElement {
               class={CSS.switch}
               inert
               label={toggleLabel}
-              scale="s"
+              scale={this.scale}
             />
           </div>
         </div>
