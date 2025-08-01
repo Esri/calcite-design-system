@@ -143,11 +143,7 @@ export class Combobox
         }
       });
 
-      if (this.filteredItems.length === 0 && this.filterText) {
-        this.noMatches = this.allowCustomValues ? "add" : "none";
-      } else {
-        this.noMatches = null;
-      }
+      this.noMatchesFound = this.filteredItems.length === 0 && !!this.filterText;
 
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
@@ -318,7 +314,7 @@ export class Combobox
     return filteredItems;
   }
 
-  @state() noMatches: "none" | "add" | null = null;
+  @state() noMatchesFound: boolean;
 
   //#endregion
 
@@ -1832,21 +1828,23 @@ export class Combobox
                 />
               )}
             <slot />
-            {this.noMatches === "add" && this.filterText && (
-              <li
-                aria-label={label}
-                class={CSS.noMatches}
-                onClick={this.customChipAddHandler}
-                role="option"
-                tabIndex={0}
-              >
-                {highlightText({
-                  text: label,
-                  pattern: new RegExp(`(${escapeRegExp(this.filterText)})`, "i"),
-                })}
-              </li>
-            )}
-            {this.noMatches === "none" && <li class={CSS.noMatches}>{messages.noMatches}</li>}
+            {this.noMatchesFound &&
+              (this.allowCustomValues ? (
+                <li
+                  aria-label={label}
+                  class={CSS.noMatches}
+                  onClick={this.customChipAddHandler}
+                  role="option"
+                  tabIndex={0}
+                >
+                  {highlightText({
+                    text: label,
+                    pattern: new RegExp(`(${escapeRegExp(this.filterText)})`, "i"),
+                  })}
+                </li>
+              ) : (
+                <li class={CSS.noMatches}>{messages.noMatches}</li>
+              ))}
           </ul>
         </div>
       </div>

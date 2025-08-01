@@ -13,6 +13,15 @@
  * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-close-size
+// --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-spacing-unit-l
+// --calcite-internal-combobox-spacing-unit-s
+
 :host {
   @apply relative block;
 }
@@ -254,7 +263,7 @@ calcite-chip {
   padding-block: var(--calcite-internal-combobox-spacing-unit-s);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 
-  color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
   cursor: pointer;
 }
