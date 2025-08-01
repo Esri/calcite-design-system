@@ -265,13 +265,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.panelEl.value ?? this.el;
-    });
+    }, options);
   }
 
   /**

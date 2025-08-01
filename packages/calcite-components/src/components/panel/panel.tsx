@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
@@ -205,12 +206,18 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.panelScrollEl?.scrollTo(options);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.containerEl;
-    });
+    }, options);
   }
 
   //#endregion
@@ -219,6 +226,12 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -234,6 +247,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
+      } else {
+        this.calcitePanelExpand.emit();
+      }
+    }
   }
 
   override updated(): void {

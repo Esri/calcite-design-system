@@ -106,7 +106,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -209,23 +209,23 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   //#region Public Methods
 
-  /** Sets focus on the component's first tabbable element. */
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   //#endregion
 
   //#region Events
-
-  /**
-   *
-   * @private
-   */
-  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -235,6 +235,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   /** Fires when the component is closed and animation is complete. */
   calciteBlockClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
@@ -257,6 +263,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -285,6 +297,14 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockExpand.emit();
+      } else {
+        this.calciteBlockCollapse.emit();
+      }
     }
 
     if (changes.has("scale") && this.hasUpdated) {

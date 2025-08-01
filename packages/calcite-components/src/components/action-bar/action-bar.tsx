@@ -130,7 +130,7 @@ export class ActionBar extends LitElement {
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
@@ -172,17 +172,29 @@ export class ActionBar extends LitElement {
     this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   //#endregion
 
   //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionBarCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionBarExpand = createEvent({ cancelable: false });
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
@@ -213,10 +225,6 @@ export class ActionBar extends LitElement {
       this.overflowActions();
     }
 
-    if (changes.has("expanded") && this.hasUpdated) {
-      this.expandedHandler();
-    }
-
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
     }
@@ -226,6 +234,15 @@ export class ActionBar extends LitElement {
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
       this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      this.expandedHandler();
+      if (this.expanded) {
+        this.calciteActionBarExpand.emit();
+      } else {
+        this.calciteActionBarCollapse.emit();
+      }
     }
   }
 

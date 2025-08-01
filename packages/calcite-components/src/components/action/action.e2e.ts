@@ -1,6 +1,17 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed, reflects } from "../../tests/commonTests";
+import {
+  accessible,
+  disabled,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  defaults,
+  themed,
+  reflects,
+  focusable,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -109,6 +120,10 @@ describe("calcite-action", () => {
 
   describe("disabled", () => {
     disabled("calcite-action");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-action");
   });
 
   describe("slots", () => {

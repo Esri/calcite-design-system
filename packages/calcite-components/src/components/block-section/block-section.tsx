@@ -9,6 +9,7 @@ import {
   JsxNode,
   state,
 } from "@arcgis/lumina";
+import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Scale, Status } from "../interfaces";
@@ -57,7 +58,7 @@ export class BlockSection extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
@@ -116,20 +117,46 @@ export class BlockSection extends LitElement {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first tabbable element. */
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   //#endregion
 
   //#region Events
 
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockSectionCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockSectionExpand = createEvent({ cancelable: false });
+
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockSectionExpand.emit();
+      } else {
+        this.calciteBlockSectionCollapse.emit();
+      }
+    }
+  }
 
   //#endregion
 
