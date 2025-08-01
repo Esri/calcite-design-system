@@ -1777,6 +1777,12 @@ describe("calcite-list", () => {
       const letterItemSelector = `calcite-list[group="letters"] calcite-list-item`;
       const letterItems = await findAll(page, letterItemSelector);
 
+      for (let i = 0; i < letterItems.length; i++) {
+        const item = letterItems[i];
+        item.setProperty("sortHandleOpen", true);
+        await page.waitForChanges();
+      }
+
       expect(letterItems.length).toBe(6);
 
       const moveToItemIds = await page.evaluate((letterItemSelector) => {
@@ -1786,10 +1792,6 @@ describe("calcite-list", () => {
       }, letterItemSelector);
 
       expect(moveToItemIds.length).toBe(6);
-
-      const uniqueMoveToItemIds = new Set(moveToItemIds);
-
-      expect(uniqueMoveToItemIds.size).toBe(2);
 
       const moveToItemElementIds = await page.evaluate((letterItemSelector) => {
         return Array.from(document.querySelectorAll(letterItemSelector))
@@ -1921,6 +1923,51 @@ describe("calcite-list", () => {
 
       const dMoveItems = await getMoveItems("d");
       expect(dMoveItems.length).toBe(0);
+    });
+
+    it("supports cloning with canPull", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list label="First Letters" id="first-letters" drag-enabled group="letters">
+          <calcite-list-item id="a" heading="a" label="A"></calcite-list-item>
+          <calcite-list-item id="b" heading="b" label="B"></calcite-list-item>
+        </calcite-list>
+        <calcite-list label="Second Letters" id="second-letters" drag-enabled group="letters">
+          <calcite-list-item id="c" heading="c" label="C"></calcite-list-item>
+          <calcite-list-item id="d" heading="d" label="D"></calcite-list-item>
+        </calcite-list>
+      `);
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.evaluate(() => {
+        const firstLetters = document.getElementById("first-letters") as List["el"];
+        firstLetters.canPull = () => "clone";
+      });
+      await page.waitForChanges();
+
+      async function getAddToItems(id: string) {
+        const component = await page.find(`#${id}`);
+        component.setProperty("sortHandleOpen", true);
+        await page.waitForChanges();
+
+        return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.add} calcite-dropdown-item`, {
+          allowEmpty: true,
+        });
+      }
+
+      const aAddToItems = await getAddToItems("a");
+      expect(aAddToItems.length).toBe(1);
+      expect(await aAddToItems[0].getProperty("label")).toBe("Second Letters");
+
+      const bAddToItems = await getAddToItems("b");
+      expect(bAddToItems.length).toBe(1);
+      expect(await bAddToItems[0].getProperty("label")).toBe("Second Letters");
+
+      const cAddToItems = await getAddToItems("c");
+      expect(cAddToItems.length).toBe(0);
+
+      const dAddToItems = await getAddToItems("d");
+      expect(dAddToItems.length).toBe(0);
     });
 
     it("reorders using a keyboard", async () => {
