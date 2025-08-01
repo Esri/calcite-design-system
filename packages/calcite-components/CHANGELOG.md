@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.52...@esri/calcite-components@3.3.0-next.53) (2025-08-01)
+
+### Bug Fixes
+
+- **list:** prevent drag flickering while sorting ([#12631](https://github.com/Esri/calcite-design-system/issues/12631)) ([6629bd1](https://github.com/Esri/calcite-design-system/commit/6629bd1389159c1096985f8ac180e501b9567f9e)), closes [#12583](https://github.com/Esri/calcite-design-system/issues/12583)
+
 ## [3.3.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.51...@esri/calcite-components@3.3.0-next.52) (2025-07-31)
 
 ### Features
