@@ -61,7 +61,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
-  @property() color: string | null;
+  @property() color: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
