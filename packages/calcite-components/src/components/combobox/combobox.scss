@@ -13,6 +13,15 @@
  * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-close-size
+// --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-spacing-unit-l
+// --calcite-internal-combobox-spacing-unit-s
+
 :host {
   @apply relative block;
 }
@@ -250,6 +259,20 @@ calcite-chip {
   z-index: var(--calcite-z-index-sticky);
 }
 
+.no-matches {
+  padding-block: var(--calcite-internal-combobox-spacing-unit-s);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
+
+  color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
+  background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  cursor: pointer;
+}
+
+.no-matches-placeholder {
+  color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
+  cursor: default;
+}
+
 @include disabled();
 @include x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
@@ -259,6 +282,7 @@ calcite-chip {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include text-highlight-item();
 
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
