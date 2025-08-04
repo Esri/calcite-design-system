@@ -100,7 +100,7 @@
     "@esri/eslint-plugin-calcite-components": "2.0.3-next.5",
     "@vitest/browser": "3.2.4",
     "playwright": "1.54.1",
-    "sass-embedded": "1.79.3",
+    "sass-embedded": "1.89.2",
     "vitest": "3.2.4"
   },
   "volta": {
