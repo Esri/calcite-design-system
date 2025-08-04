@@ -270,6 +270,7 @@ calcite-chip {
 
 .no-matches-placeholder {
   color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
+  cursor: default;
 }
 
 @include disabled();
