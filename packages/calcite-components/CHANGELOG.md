@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.53...@esri/calcite-components@3.3.0-next.54) (2025-08-04)
+
+### Bug Fixes
+
+- **list:** fix visual artifacts when you initiate a drag operation with the drag handle menu open ([#12611](https://github.com/Esri/calcite-design-system/issues/12611)) ([937032f](https://github.com/Esri/calcite-design-system/commit/937032fc6ad274e6e9abd1563b4c33d4147bccbb)), closes [#12204](https://github.com/Esri/calcite-design-system/issues/12204)
+
+## [3.3.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.52...@esri/calcite-components@3.3.0-next.53) (2025-08-01)
+
+### Bug Fixes
+
+- **list:** prevent drag flickering while sorting ([#12631](https://github.com/Esri/calcite-design-system/issues/12631)) ([6629bd1](https://github.com/Esri/calcite-design-system/commit/6629bd1389159c1096985f8ac180e501b9567f9e)), closes [#12583](https://github.com/Esri/calcite-design-system/issues/12583)
+
+## [3.3.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.51...@esri/calcite-components@3.3.0-next.52) (2025-07-31)
+
+### Features
+
+- emit `expanded`/`collapsed` end-state events for expandable components ([#12580](https://github.com/Esri/calcite-design-system/issues/12580)) ([df04cf3](https://github.com/Esri/calcite-design-system/commit/df04cf34652f63c582b693d6e94f616d0910bb85)), closes [#12565](https://github.com/Esri/calcite-design-system/issues/12565)
+
 ## [3.3.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.50...@esri/calcite-components@3.3.0-next.51) (2025-07-30)
 
 ### Bug Fixes

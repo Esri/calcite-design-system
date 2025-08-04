@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.0-next.53...@esri/calcite-components-react@3.3.0-next.54) (2025-08-04)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [3.3.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.0-next.52...@esri/calcite-components-react@3.3.0-next.53) (2025-08-01)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [3.3.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.0-next.51...@esri/calcite-components-react@3.3.0-next.52) (2025-07-31)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
 ## [3.3.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.0-next.50...@esri/calcite-components-react@3.3.0-next.51) (2025-07-30)
 
 **Note:** Version bump only for package @esri/calcite-components-react
