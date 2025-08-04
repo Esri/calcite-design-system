@@ -29,7 +29,6 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -38,6 +37,7 @@ import { BigDecimal } from "../../utils/number";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -65,8 +65,6 @@ export class Slider
   // #endregion
 
   // #region Private Properties
-
-  private activeProp: ActiveSliderProperty = "value";
 
   defaultValue: Slider["value"];
 
@@ -116,6 +114,21 @@ export class Slider
           this.maxValueDragRange = this.maxValue - value;
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
+      } else if (
+        isRange(this.value) &&
+        isRange(this.previousEmittedValue) &&
+        this.dragProp === "maxValue"
+      ) {
+        const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
+        if (
+          previousEmittedMinValue === previousEmittedMaxValue &&
+          value < previousEmittedMinValue
+        ) {
+          this.dragProp = "minValue";
+          this.minHandle.focus();
+        } else {
+          this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
+        }
       } else {
         this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
@@ -161,11 +174,17 @@ export class Slider
     this.dragEnd(event);
   };
 
+  private previousEmittedValue;
+
   private trackEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
   // #region State Properties
+
+  @state() activeProp: ActiveSliderProperty = "value";
 
   @state() private maxValueDragRange: number = null;
 
@@ -322,13 +341,18 @@ export class Slider
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const handle = this.minHandle ? this.minHandle : this.maxHandle;
-    handle?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.minHandle || this.maxHandle;
+    }, options);
   }
 
   // #endregion
@@ -368,6 +392,7 @@ export class Slider
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
+    this.previousEmittedValue = this.value;
   }
 
   load(): void {
@@ -422,6 +447,7 @@ export class Slider
   // #endregion
 
   // #region Private Methods
+
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
@@ -639,6 +665,7 @@ export class Slider
 
   private emitChange(): void {
     this.calciteSliderChange.emit();
+    this.previousEmittedValue = this.value;
   }
 
   private removeDragListeners() {

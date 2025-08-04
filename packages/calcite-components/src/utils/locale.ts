@@ -170,7 +170,7 @@ export function getDateFormatSupportedLocale(locale: string): string {
     case "it-CH":
       return "de-CH";
     case "bs":
-      return "bs-Cyrl";
+      return "sr-Latn-CS";
     default:
       return locale;
   }

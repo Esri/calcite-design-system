@@ -1,7 +1,6 @@
 import dedent from "dedent";
 import { writeFile } from "node:fs/promises";
 import { exec } from "node:child_process";
-import { dirname, isAbsolute, join } from "node:path";
 import { promisify } from "node:util";
 import { getProjectLicenses } from "generate-license-file";
 
@@ -16,7 +15,7 @@ import { getProjectLicenses } from "generate-license-file";
 
     const coveredByEsriLicense = [
       "@arcgis/lumina/controllers",
-      "@arcgis/components-utils",
+      "@arcgis/toolkit",
       "@arcgis/lumina",
       "@esri/calcite-components",
       "@esri/calcite-components-react",

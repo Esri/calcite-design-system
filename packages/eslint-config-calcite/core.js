@@ -37,23 +37,7 @@ export default tseslint.config(
       "@typescript-eslint/method-signature-style": ["error", "property"],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
-      "@typescript-eslint/explicit-module-boundary-types": [
-        "error",
-        {
-          allowArgumentsExplicitlyTypedAsAny: true,
-          allowedNames: [
-            "connectedCallback",
-            "disconnectedCallback",
-            "componentWillRender",
-            "componentDidRender",
-            "componentWillLoad",
-            "componentDidLoad",
-            "componentWillUpdate",
-            "componentDidUpdate",
-            "render",
-          ],
-        },
-      ],
+      "@typescript-eslint/explicit-module-boundary-types": "off", // enabled in override config object below, see https://typescript-eslint.io/rules/explicit-module-boundary-types/#configuring-in-a-mixed-jsts-codebase
 
       "import/no-dynamic-require": [
         "error",
@@ -134,6 +118,29 @@ export default tseslint.config(
           checkFilenames: false,
         },
       ],
+    }
+  },
+
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": [
+        "error",
+        {
+          allowArgumentsExplicitlyTypedAsAny: true,
+          allowedNames: [
+            "connectedCallback",
+            "disconnectedCallback",
+            "componentWillRender",
+            "componentDidRender",
+            "componentWillLoad",
+            "componentDidLoad",
+            "componentWillUpdate",
+            "componentDidUpdate",
+            "render",
+          ],
+        },
+      ]
     },
   },
 );

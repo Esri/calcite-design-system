@@ -101,6 +101,7 @@ export function connectSortableComponent(component: SortableComponent): void {
 
   component.sortable = Sortable.create(component.el, {
     dataIdAttr,
+    swapThreshold: 0.5,
     ...CSS,
     ...(!!draggable && { draggable }),
     ...(!!group && {

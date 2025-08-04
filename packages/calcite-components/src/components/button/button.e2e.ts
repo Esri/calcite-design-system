@@ -1,7 +1,17 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -170,6 +180,10 @@ describe("calcite-button", () => {
 
   describe("disabled", () => {
     disabled("calcite-button");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-button");
   });
 
   it("should have aria-live attribute set to polite by default", async () => {
@@ -642,6 +656,10 @@ describe("calcite-button", () => {
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
         },
       });
     });

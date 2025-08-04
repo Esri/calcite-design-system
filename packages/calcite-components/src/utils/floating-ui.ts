@@ -373,10 +373,12 @@ function getMiddleware({
   return middleware;
 }
 
-export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
-  const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    flipPlacements.includes(placement),
-  ) as EffectivePlacement[];
+function isFlipPlacement(placement: string): placement is FlipPlacement {
+  return flipPlacements.includes(placement as FlipPlacement);
+}
+
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): FlipPlacement[] {
+  const filteredPlacements = placements.filter(isFlipPlacement);
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
