@@ -12,13 +12,13 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
@@ -66,6 +66,8 @@ export class Notice extends LitElement implements OpenCloseComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -107,21 +109,19 @@ export class Notice extends LitElement implements OpenCloseComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const noticeLinkEl = this.el.querySelector("calcite-link");
-
-    if (!this.closeButton.value && !noticeLinkEl) {
-      return;
-    }
-    if (noticeLinkEl) {
-      return noticeLinkEl.setFocus();
-    } else if (this.closeButton.value) {
-      this.closeButton.value.focus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      const noticeLinkEl = this.el.querySelector("calcite-link");
+      return noticeLinkEl || this.closeButton.value;
+    }, options);
   }
 
   //#endregion

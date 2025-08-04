@@ -3,12 +3,7 @@ import Color, { type ColorInstance } from "color";
 import { throttle } from "lodash-es";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import {
-  Direction,
-  focusFirstTabbable,
-  getElementDir,
-  isPrimaryPointerButton,
-} from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
   InteractiveComponent,
@@ -16,7 +11,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
@@ -25,6 +19,7 @@ import type { InputNumber } from "../input-number/input-number";
 import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import {
   alphaCompatible,
   alphaToOpacity,
@@ -254,6 +249,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     };
   };
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -375,17 +372,23 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Events
+  // #region Events
 
   /** Fires when the color value has changed. */
   calciteColorPickerChange = createEvent({ cancelable: false });

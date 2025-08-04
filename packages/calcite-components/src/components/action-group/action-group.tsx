@@ -1,13 +1,22 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+  createEvent,
+} from "@arcgis/lumina";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -42,6 +51,8 @@ export class ActionGroup extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -55,7 +66,7 @@ export class ActionGroup extends LitElement {
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
@@ -96,12 +107,29 @@ export class ActionGroup extends LitElement {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionGroupCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionGroupExpand = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -112,8 +140,18 @@ export class ActionGroup extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.menuOpen = false;
+
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
+        this.menuOpen = false;
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteActionGroupExpand.emit();
+        } else {
+          this.calciteActionGroupCollapse.emit();
+        }
+      }
     }
   }
 

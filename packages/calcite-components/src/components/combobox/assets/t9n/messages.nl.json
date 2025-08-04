@@ -1,8 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Alle",
   "allSelected": "Alle geselecteerde",
-  "selectAll": "Alles selecteren",
   "clear": "Waarde wissen",
+  "noMatches": "No matches",
   "removeTag": "Tag verwijderen",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "geselecteerd"
 }

@@ -142,6 +142,12 @@ export class ShellPanel extends LitElement {
   /** @private */
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
 
+  /** Fires when the component's content area is collapsed. */
+  calciteShellPanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteShellPanelExpand = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -153,6 +159,13 @@ export class ShellPanel extends LitElement {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteShellPanelCollapse.emit();
+      } else {
+        this.calciteShellPanelExpand.emit();
+      }
     }
   }
 

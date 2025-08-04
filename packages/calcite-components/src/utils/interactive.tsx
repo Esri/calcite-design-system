@@ -1,11 +1,8 @@
 // @ts-strict-ignore
 import { TemplateResult } from "lit-html";
-import { h, JsxNode, LuminaJsx } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, LuminaJsx } from "@arcgis/lumina";
 
-export interface InteractiveComponent {
-  /** The host element. */
-  readonly el: InteractiveHTMLElement;
-
+export interface InteractiveComponent extends LitElement {
   /**
    * When true, prevents user interaction.
    *

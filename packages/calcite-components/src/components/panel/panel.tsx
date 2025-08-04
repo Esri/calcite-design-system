@@ -1,17 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -25,6 +21,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -74,6 +71,10 @@ export class Panel extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private _closed = false;
+
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -102,8 +103,6 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   @state() hasStartActions = false;
 
-  @state() isClosed = false;
-
   @state() showHeaderContent = false;
 
   //#endregion
@@ -117,7 +116,16 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @property({ reflect: true }) closed = false;
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    const oldValue = this._closed;
+    if (value !== oldValue) {
+      this.setClosedState(value);
+    }
+  }
 
   /**
    * Specifies the direction of the collapse.
@@ -198,11 +206,18 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.panelScrollEl?.scrollTo(options);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.containerEl;
+    }, options);
   }
 
   //#endregion
@@ -210,7 +225,13 @@ export class Panel extends LitElement implements InteractiveComponent {
   //#region Events
 
   /** Fires when the close button is clicked. */
-  calcitePanelClose = createEvent({ cancelable: false });
+  calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -225,22 +246,15 @@ export class Panel extends LitElement implements InteractiveComponent {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-  }
-
-  async load(): Promise<void> {
-    this.isClosed = this.closed;
+    this.listen("calcitePanelClose", this.panelCloseHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("closed") && this.hasUpdated) {
-      if (this.closed) {
-        this.close();
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
       } else {
-        this.open();
+        this.calcitePanelExpand.emit();
       }
     }
   }
@@ -256,6 +270,18 @@ export class Panel extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Methods
+
+  private async setClosedState(value: boolean): Promise<void> {
+    if (this.beforeClose && value) {
+      try {
+        await this.beforeClose?.();
+      } catch {
+        return;
+      }
+    }
+
+    this._closed = value;
+  }
 
   private resizeHandler(): void {
     const { panelScrollEl } = this;
@@ -282,36 +308,27 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.containerEl = node;
   }
 
+  private closeClickHandler(): void {
+    this.emitCloseEvent();
+  }
+
+  private emitCloseEvent(): void {
+    this.calcitePanelClose.emit();
+  }
+
   private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.handleUserClose();
+      this.emitCloseEvent();
       event.preventDefault();
     }
   }
 
-  private handleUserClose(): void {
-    this.closed = true;
-    this.calcitePanelClose.emit();
-  }
-
-  private open(): void {
-    this.isClosed = false;
-  }
-
-  private async close(): Promise<void> {
-    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
-
-    try {
-      await beforeClose();
-    } catch {
-      // close prevented
-      requestAnimationFrame(() => {
-        this.closed = false;
-      });
+  private panelCloseHandler(event: CustomEvent<void>): void {
+    if (event.defaultPrevented) {
       return;
     }
 
-    this.isClosed = true;
+    this.closed = true;
   }
 
   private collapse(): void {
@@ -501,7 +518,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
-        onClick={this.handleUserClose}
+        onClick={this.closeClickHandler}
         scale={this.scale}
         text={close}
         title={close}
@@ -664,15 +681,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, isClosed } = this;
+    const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article
-        ariaBusy={loading}
-        class={CSS.container}
-        hidden={isClosed}
-        ref={this.setContainerRef}
-      >
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.setContainerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

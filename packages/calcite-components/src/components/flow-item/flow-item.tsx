@@ -7,7 +7,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -15,6 +14,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -62,12 +62,14 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
-  @property() beforeBack: () => Promise<void>;
+  @property() beforeBack?: () => Promise<void>;
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -164,19 +166,16 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /**
    * Sets focus on the component.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns promise.
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const { backButtonEl, containerEl } = this;
-
-    if (backButtonEl) {
-      return backButtonEl.setFocus();
-    } else if (containerEl) {
-      return containerEl.setFocus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.backButtonEl || this.containerEl;
+    }, options);
   }
 
   //#endregion
@@ -188,6 +187,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calciteFlowItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteFlowItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteFlowItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calciteFlowItemScroll = createEvent({ cancelable: false });
@@ -209,6 +214,13 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteFlowItemCollapse.emit();
+      } else {
+        this.calciteFlowItemExpand.emit();
+      }
     }
   }
 

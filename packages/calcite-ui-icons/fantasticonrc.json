@@ -1241,6 +1241,10 @@
     "arrow-curve-tool": 61778,
     "arc-segment": 61779,
     "dimensions-centered": 61780,
-    "person-magnifying-glass": 61781
+    "person-magnifying-glass": 61781,
+    "arrow-right-10": 61782,
+    "arrow-left-10": 61783,
+    "magic-wand": 61784,
+    "catalog": 61785
   }
 }

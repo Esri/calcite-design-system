@@ -3,5 +3,6 @@
   "date": "Datums",
   "dateFormat": "Datuma formāts: {format}",
   "endDate": "Beigu datums",
+  "required": "Required",
   "startDate": "Sākuma datums"
 }

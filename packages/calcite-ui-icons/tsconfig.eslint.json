@@ -1,0 +1,10 @@
+{
+  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext"
+  },
+  "include": ["*.config.mjs", "bin", "lib", "docs/*.js"]
+}
