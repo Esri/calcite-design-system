@@ -63,7 +63,7 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
     ${boolean("loading", args.loading)}
     label="${args.label}"
     group="${args.group}"
-    scale="${args.scale}
+    scale="${args.scale}"
   >
     ${blockHTML}
   </calcite-block-group>

@@ -55,7 +55,7 @@ calcite-switch {
 
 :host([scale="s"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-xs);
+    padding-block: var(--calcite-spacing-xxs);
     gap: var(--calcite-spacing-sm);
     font-size: var(--calcite-font-size-sm);
   }
@@ -79,8 +79,8 @@ calcite-switch {
 :host([scale="l"]) {
   .toggle {
     padding-block: var(--calcite-spacing-sm-plus);
-    gap: var(--calcite-spacing-md-plus);
-    font-size: var(--calcite-font-size-lg);
+    gap: var(--calcite-spacing-lg);
+    font-size: var(--calcite-font-size-md);
   }
   .content {
     padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm-plus));

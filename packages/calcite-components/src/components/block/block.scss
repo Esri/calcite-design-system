@@ -74,15 +74,15 @@
 
   .icon-end-container {
     gap: var(--calcite-spacing-xl);
-    padding-inline-end: var(--calcite-spacing-xl);
+    padding-inline-end: var(--calcite-spacing-lg);
   }
 
   .heading {
-    font-size: var(--calcite-font-size-lg);
+    font-size: var(--calcite-font-size-md);
   }
 
   .description {
-    font-size: var(--calcite-font-size-md);
+    font-size: var(--calcite-font-size);
   }
 
   .content {
@@ -232,7 +232,7 @@ calcite-handle {
 }
 
 .content {
-  @apply animate-in relative min-h-0;
+  @apply animate-in flex-1 relative min-h-0;
 }
 
 .content-start {

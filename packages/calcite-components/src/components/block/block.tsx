@@ -427,7 +427,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     return loading ? (
       <div class={CSS.icon} key="loader">
-        <calcite-loader inline label={messages.loading} />
+        <calcite-loader inline label={messages.loading} scale={this.scale} />
       </div>
     ) : status ? (
       <div class={CSS.icon} key="status-icon">
