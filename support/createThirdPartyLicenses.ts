@@ -15,7 +15,7 @@ import { getProjectLicenses } from "generate-license-file";
 
     const coveredByEsriLicense = [
       "@arcgis/lumina/controllers",
-      "@arcgis/components-utils",
+      "@arcgis/toolkit",
       "@arcgis/lumina",
       "@esri/calcite-components",
       "@esri/calcite-components-react",

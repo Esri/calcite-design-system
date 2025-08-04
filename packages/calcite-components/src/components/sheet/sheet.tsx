@@ -12,8 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -24,6 +23,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -84,6 +84,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   private resizeHandleEl: HTMLDivElement;
 
   transitionEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -222,11 +224,18 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's "close" button - the first focusable item. */
+  /**
+   * Sets focus on the component's "close" button - the first focusable item.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   /**

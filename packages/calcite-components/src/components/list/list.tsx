@@ -2,7 +2,7 @@
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -10,14 +10,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { SelectionMode, InteractionMode, Scale } from "../interfaces";
+import { InteractionMode, Scale, SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import {
+  expandedAncestors,
   isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
-  expandedAncestors,
   updateListItemChildren,
 } from "../list-item/utils";
 import {
@@ -26,7 +26,6 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
@@ -36,10 +35,10 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListElement } from "./interfaces";
-import { ListDragDetail, ListDisplayMode } from "./interfaces";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 
 declare global {
@@ -110,6 +109,8 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -285,17 +286,18 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    if (this.filterEnabled) {
-      return this.filterEl?.setFocus();
-    }
-
-    return this.focusableItems.find((listItem) => listItem.active)?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.filterEnabled
+        ? this.filterEl
+        : this.focusableItems.find((listItem) => listItem.active);
+    }, options);
   }
 
   //#endregion
@@ -1123,7 +1125,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div class={{ [CSS.container]: true, [CSS.containerHeight]: this.listItems.length < 1 && loading }}>
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}

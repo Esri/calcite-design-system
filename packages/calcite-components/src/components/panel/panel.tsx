@@ -1,16 +1,13 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -24,6 +21,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -74,6 +72,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private _closed = false;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -206,11 +206,18 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.panelScrollEl?.scrollTo(options);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.containerEl;
+    }, options);
   }
 
   //#endregion
@@ -219,6 +226,12 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -234,6 +247,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
+      } else {
+        this.calcitePanelExpand.emit();
+      }
+    }
   }
 
   override updated(): void {

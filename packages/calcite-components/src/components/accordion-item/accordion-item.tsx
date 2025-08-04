@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
@@ -8,9 +9,9 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
@@ -28,27 +29,29 @@ declare global {
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
 export class AccordionItem extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private headerEl: HTMLDivElement;
 
-  // #endregion
+  private focusSetter = useSetFocus<this>()(this);
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
   @state() hasActionsStart = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * The containing `accordion` element.
@@ -60,7 +63,7 @@ export class AccordionItem extends LitElement {
   /** Specifies a description for the component. */
   @property() description: string;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies heading text for the component. */
@@ -106,20 +109,33 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.headerEl.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.headerEl;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteAccordionItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteAccordionItemExpand = createEvent({ cancelable: false });
 
   /** @private */
   calciteInternalAccordionItemClose = createEvent({ cancelable: false });
@@ -127,9 +143,9 @@ export class AccordionItem extends LitElement {
   /** @private */
   calciteInternalAccordionItemSelect = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -146,9 +162,19 @@ export class AccordionItem extends LitElement {
     );
   }
 
-  // #endregion
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteAccordionItemExpand.emit();
+      } else {
+        this.calciteAccordionItemCollapse.emit();
+      }
+    }
+  }
 
-  // #region Private Methods
+  //#endregion
+
+  //#region Private Methods
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (event.target === this.el) {
@@ -246,9 +272,9 @@ export class AccordionItem extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderActionsStart(): JsxNode {
     return (
@@ -346,5 +372,5 @@ export class AccordionItem extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

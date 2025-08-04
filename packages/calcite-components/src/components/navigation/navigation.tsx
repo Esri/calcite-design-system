@@ -11,8 +11,8 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
@@ -43,6 +43,8 @@ export class Navigation extends LitElement {
   // #region Private Properties
 
   private navigationActionEl = createRef<Action["el"]>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -80,11 +82,18 @@ export class Navigation extends LitElement {
 
   // #region Public Methods
 
-  /** When `navigationAction` is `true`, sets focus on the component's action element. */
+  /**
+   * When `navigationAction` is `true`, sets focus on the component's action element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    return this.navigationActionEl.value?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.navigationActionEl.value;
+    }, options);
   }
 
   // #endregion

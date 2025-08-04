@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -16,6 +15,7 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
@@ -37,6 +37,8 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private dropdownEl: Dropdown["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -115,11 +117,18 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.dropdownEl?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.dropdownEl;
+    }, options);
   }
 
   // #endregion
