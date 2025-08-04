@@ -52,10 +52,6 @@
     padding-inline-end: var(--calcite-spacing-md);
   }
 
-  .title {
-    gap: var(--calcite-spacing-base);
-  }
-
   .heading {
     font-size: var(--calcite-font-size);
   }
@@ -178,7 +174,7 @@ calcite-handle {
     p-0;
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(--calcite-font-weight-meidum);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
@@ -263,7 +259,6 @@ calcite-action-menu {
 
   .header .title .heading {
     color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
-    font-weight: var(--calcite-font-weight-medium);
   }
 
   .description {
