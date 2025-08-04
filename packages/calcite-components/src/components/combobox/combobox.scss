@@ -268,6 +268,10 @@ calcite-chip {
   cursor: pointer;
 }
 
+.no-matches-placeholder {
+  color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
+}
+
 @include disabled();
 @include x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",

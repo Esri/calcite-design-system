@@ -1843,7 +1843,9 @@ export class Combobox
                   })}
                 </li>
               ) : (
-                <li class={CSS.noMatches}>{messages.noMatches}</li>
+                <li class={{ [CSS.noMatchesPlaceholder]: true, [CSS.noMatches]: true }}>
+                  {messages.noMatches}
+                </li>
               ))}
           </ul>
         </div>

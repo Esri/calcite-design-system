@@ -13,6 +13,7 @@ export const CSS = {
   labelIcon: "label--icon",
   listContainer: "list-container",
   noMatches: "no-matches",
+  noMatchesPlaceholder: "no-matches-placeholder",
   placeholderIcon: "placeholder-icon",
   selectAll: "select-all",
   selectionDisplayFit: "selection-display--fit",
