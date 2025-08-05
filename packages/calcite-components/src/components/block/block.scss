@@ -17,14 +17,10 @@
  */
 
 :host([scale="s"]) {
-  .header {
+  .header,
+  .icon-end-container {
     padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
-  }
-
-  .icon-end-container {
-    gap: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-sm);
   }
 
   .heading {
@@ -42,14 +38,10 @@
 }
 
 :host([scale="m"]) {
-  .header {
+  .header,
+  .icon-end-container {
     padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
-  }
-
-  .icon-end-container {
-    gap: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-spacing-md);
   }
 
   .heading {
@@ -67,14 +59,10 @@
 }
 
 :host([scale="l"]) {
-  .header {
+  .header,
+  .icon-end-container {
     padding: var(--calcite-spacing-lg);
     gap: var(--calcite-spacing-lg);
-  }
-
-  .icon-end-container {
-    gap: var(--calcite-spacing-xl);
-    padding-inline-end: var(--calcite-spacing-lg);
   }
 
   .heading {

@@ -183,7 +183,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       this.updateBlockItemsDebounced();
     }
     if (changes.has("scale") && this.hasUpdated) {
-      this.updateBlockChildrenScale();
+      this.updateBlockAndGroupScale();
     }
   }
 
@@ -338,12 +338,12 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     );
 
     updateBlockChildren(blockChildren);
-    this.updateBlockChildrenScale();
+    this.updateBlockAndGroupScale();
   }
 
-  private updateBlockChildrenScale(): void {
-    this.blockAndGroups.forEach((block) => {
-      block.scale = this.scale;
+  private updateBlockAndGroupScale(): void {
+    this.blockAndGroups.forEach((el: Block["el"] | BlockGroup["el"]) => {
+      el.scale = this.scale;
     });
   }
 
