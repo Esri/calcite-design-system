@@ -72,6 +72,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       if (!this.userChangedValue) {
         this.handleDirectValueChange(this.component.value);
       }
+      this.userChangedValue = false;
     }
   }
 
@@ -112,7 +113,6 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   handleDirectValueChange(value: string): void {
     this.previousValue = value;
     this.lastEmittedValue = value;
-    this.userChangedValue = false;
   }
 
   /**
