@@ -1,4 +1,5 @@
-import { escapeRegExp, forIn } from "lodash-es";
+import { escapeRegExp } from "es-toolkit";
+import { forIn } from "es-toolkit/compat";
 
 export const filter = (data: Array<object>, value: string, filterProps?: string[]): Array<any> => {
   const escapedValue = escapeRegExp(value);

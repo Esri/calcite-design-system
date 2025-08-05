@@ -85,10 +85,10 @@
     "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
     "dayjs": "^1.11.13",
+    "es-toolkit": "1.39.8",
     "focus-trap": "^7.6.2",
     "interactjs": "^1.10.27",
     "lit": "^3.3.0",
-    "lodash-es": "^4.17.21",
     "sortablejs": "^1.15.6",
     "timezone-groups": "^0.10.4",
     "type-fest": "^4.30.1"

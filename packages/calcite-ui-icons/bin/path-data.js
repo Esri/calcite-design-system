@@ -1,4 +1,4 @@
-import camelCase from "lodash-es/camelCase.js";
+import { camelCase } from "es-toolkit";
 import fsExtra from "fs-extra";
 import { glob } from "glob";
 import { parse } from "svgson";

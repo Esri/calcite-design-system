@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -1125,7 +1125,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={{ [CSS.container]: true, [CSS.containerHeight]: this.listItems.length < 1 && loading }}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerHeight]: this.listItems.length < 1 && loading,
+          }}
+        >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}
