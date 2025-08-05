@@ -590,7 +590,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     const hour12 = hourFormat === "12";
     const previousValue = this.component.value;
     if (key === "meridiem") {
-      const oldMeridiem = this.meridiem;
       this.meridiem = value as Meridiem;
       this.localizedMeridiem = localizeTimePart({
         hour12,
@@ -613,7 +612,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
-            this.component.value = "";
             break;
         }
         this.localizedHour = localizeTimePart({
@@ -624,11 +622,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
           value: this.hour,
         });
       }
-      if (oldMeridiem !== this.meridiem) {
-        this.component.requestUpdate();
-      }
     } else if (key === "fractionalSecond") {
-      const oldFractionalSecond = this.fractionalSecond;
       const stepPrecision = decimalPlaces(step);
       if (typeof value === "number") {
         this.fractionalSecond = value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
@@ -642,11 +636,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         numberingSystem,
         hour12,
       });
-      if (oldFractionalSecond !== this.fractionalSecond) {
-        this.component.requestUpdate();
-      }
     } else {
-      const oldValue = this[key];
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalizeWord(key)}`] = localizeTimePart({
         value: this[key],
@@ -655,10 +645,8 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         numberingSystem,
         hour12,
       });
-      if (oldValue !== this[key]) {
-        this.component.requestUpdate();
-      }
     }
+    this.component.requestUpdate();
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
