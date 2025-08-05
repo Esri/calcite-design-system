@@ -69,6 +69,7 @@ export default defineConfig({
           }
           return `@import "${globalCss}";\n${code}`;
         },
+        silenceDeprecations: ["import", "global-builtin"],
       },
     },
     postcss: {
