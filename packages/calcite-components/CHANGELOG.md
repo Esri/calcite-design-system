@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.55...@esri/calcite-components@3.3.0-next.56) (2025-08-05)
+
+### Features
+
+- **swatch, swatch-group:** Add new components ([#12584](https://github.com/Esri/calcite-design-system/issues/12584)) ([0abc287](https://github.com/Esri/calcite-design-system/commit/0abc287d917f5c3e442de9b2301f02d6bc2ae13a)), closes [#10288](https://github.com/Esri/calcite-design-system/issues/10288) [#ff0000](https://github.com/Esri/calcite-design-system/issues/ff0000) [#ff00](https://github.com/Esri/calcite-design-system/issues/ff00)
+
+## [3.3.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.54...@esri/calcite-components@3.3.0-next.55) (2025-08-04)
+
+### Features
+
+- **combobox:** Provide context when filtering and there are no matching results ([#12525](https://github.com/Esri/calcite-design-system/issues/12525)) ([fcedc32](https://github.com/Esri/calcite-design-system/commit/fcedc321a29e2bb673f404b18d47bd97481a73d1)), closes [#10409](https://github.com/Esri/calcite-design-system/issues/10409)
+
 ## [3.3.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.53...@esri/calcite-components@3.3.0-next.54) (2025-08-04)
 
 ### Bug Fixes
