@@ -89,3 +89,17 @@ export const loading = (): string => html`
 export const disabled = (): string => html`
   <calcite-block-group disabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;
+
+export const allScales = (): string =>
+  html` <style>
+      .container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+      }
+    </style>
+    <div class="container">
+      <calcite-block-group scale="s"> ${blockHTML} </calcite-block-group>
+      <calcite-block-group scale="m"> ${blockHTML} </calcite-block-group>
+      <calcite-block-group scale="l"> ${blockHTML} </calcite-block-group>
+    </div>`;

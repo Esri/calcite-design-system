@@ -97,7 +97,7 @@ calcite-switch {
   w-full 
   border-0;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, transparent);
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
   font-weight: var(--calcite-font-weight-regular);
   padding-inline: 0;
   line-height: var(--calcite-font-line-height-relative-snug);

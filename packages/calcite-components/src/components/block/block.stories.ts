@@ -4,6 +4,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { Scale } from "../interfaces";
 import { Block } from "./block";
 
 const { toggleDisplay, scale } = ATTRIBUTES;
@@ -346,3 +347,42 @@ export const iconStartEnd = (): string => html`
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
   </calcite-block>
 `;
+
+const blockEl = (scale: Scale): string => html`
+  <calcite-block
+    heading="Heading"
+    description="description"
+    expanded
+    collapsible
+    scale="${scale}"
+    icon-start="layers"
+    icon-end="layers"
+  >
+    <calcite-action
+      label="Add"
+      icon="plus"
+      text="Add item"
+      text-enabled
+      slot="header-menu-actions"
+      scale="${scale}"
+    ></calcite-action>
+    <calcite-action
+      label="Add"
+      icon="plus"
+      text="Add item"
+      text-enabled
+      slot="actions-end"
+      scale="${scale}"
+    ></calcite-action>
+    <calcite-block-section text="block-section"> </calcite-block-section>
+  </calcite-block>
+`;
+export const allScales = (): string =>
+  html` <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    </style>
+    <div class="container">${blockEl("s")} ${blockEl("m")} ${blockEl("l")}</div>`;
