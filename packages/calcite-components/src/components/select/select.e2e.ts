@@ -422,6 +422,48 @@ describe("calcite-select", () => {
     await assertSelectedOption(page, await page.find("calcite-option[value='']"));
   });
 
+  it("Handles type error when disconnected while loading", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`
+           <button id="flash-select-btn">Flash select</button>  
+           <script>
+              const btn = document.getElementById('flash-select-btn');
+              window._errorCounter = 0;
+
+              window.addEventListener("error", (e) => {
+                if (e.error && e.error.name == "TypeError") {
+                  window._errorCounter++;
+                }
+                e.preventDefault();
+              });
+
+              window.addEventListener("unhandledrejection", (e) => {
+                const reason = e.reason || {};
+                const name = reason.name || '';
+                const message = reason.message || String(reason);
+                if (name == "TypeError" || message.includes("TypeError")) {
+                  window._errorCounter++;
+                }
+                e.preventDefault();
+              });
+
+              btn.addEventListener('click', () => {
+                const select = document.createElement('calcite-select')
+                document.body.append(select);
+                select.remove()
+              })
+           </script>
+        `);
+
+    for (let i = 0; i < 5; i++) {
+      await page.click("#flash-select-btn");
+    }
+
+    const typeErrorCount: number = await page.evaluate(() => (window as any)._errorCounter);
+    expect(typeErrorCount).toBe(0);
+  });
+
   describe("is form-associated", () => {
     formAssociated(
       html`
