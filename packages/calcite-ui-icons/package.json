@@ -70,7 +70,6 @@
     "cli-progress": "^3.12.0",
     "fantasticon": "3.0.0",
     "fs-extra": "11.3.0",
-    "glob": "^11.0.3",
     "svg2img": "1.0.0-beta.2",
     "svgo": "^4.0.0",
     "svgson": "5.3.1",

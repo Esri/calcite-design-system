@@ -1,5 +1,5 @@
 import fsExtra from "fs-extra";
-import { glob } from "glob";
+import { globby } from "globby";
 import { optimize } from "svgo";
 import progress from "cli-progress";
 const { readFile, writeFile } = fsExtra;
@@ -47,7 +47,7 @@ export default (function (files, remove = false) {
     return Promise.resolve(true);
   }
   options.plugins.find(({ name }) => name === "preset-default").overrides.cleanupIDs.remove = remove;
-  return glob(files).then((iconPaths) => {
+  return globby(files).then((iconPaths) => {
     const format = "  \x1b[32m {bar} {percentage}% | {value}/{total} \x1b[0m";
     const bar = new progress.SingleBar({ format }, progress.Presets.shades_classic);
     bar.start(iconPaths.length, 0);
