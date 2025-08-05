@@ -94,8 +94,6 @@ export class InputTimePicker
 
   private popoverEl: Popover["el"];
 
-  private previousEmittedValue: string;
-
   private secondEl: HTMLSpanElement;
 
   private time = useTime(this);

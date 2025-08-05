@@ -12,7 +12,7 @@ interface UseValue {
    */
   previousValue: string;
   /**
-   * Whether the last value change was performed by the keyboard or mouse user.
+   * Whether the last value change was performed by a KeyboardEvent or MouseEvent.
    */
   userChangedValue: boolean;
 }
@@ -26,18 +26,18 @@ interface UseValueComponent {
 
 interface CommitValueOptions {
   /**
-   * The component's custom change event.
+   * The component's custom change event emitter.
    */
   changeEventEmitter: EventEmitter;
   /**
-   * The new value to set on the component.
+   * The new value to set on the component.  If omitted, the controller will commit the component's currently set value.
    */
   value?: string;
 }
 
 interface InputValueOptions {
   /**
-   * The component's custom input event.
+   * The component's custom input event emitter.
    */
   inputEventEmitter: EventEmitter;
   /**
@@ -80,7 +80,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Methods
 
   /**
-   * Commits the component's current value from user input.
+   * Commits the component's current value from user input, or a supplied value.
    * Emits the component's custom change event if the component's current value differs from the previously emitted value.
    *
    * @param changeEvent

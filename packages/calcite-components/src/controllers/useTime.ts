@@ -179,8 +179,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   second: string;
 
-  userChangedValue: boolean = false;
-
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
@@ -518,7 +516,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.meridiemOrder = getMeridiemOrder(locale);
   }
 
-  setValue(value: string, userChangedValue: boolean = false): void {
+  setValue(value: string): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
@@ -576,7 +574,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
-      this.userChangedValue = userChangedValue;
       this.component.value = newValue ?? "";
     } else {
       this.component.requestUpdate();
@@ -669,7 +666,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         this.meridiem = getMeridiem(hour);
         this.localizedMeridiem = getLocalizedMeridiem({ locale, meridiem: this.meridiem });
       }
-      this.userChangedValue = true;
       this.calciteTimeChange.emit(newValue ?? "");
     }
   }
