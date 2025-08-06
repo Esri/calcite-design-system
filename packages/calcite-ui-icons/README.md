@@ -145,42 +145,6 @@ svg:hover {
 }
 ```
 
-## Build PNG icons for mobile and desktop
-
-For convenient use in iOS & desktop application projects, you can convert all icons to PNG.
-
-First, run `npm install`:
-
-```sh
-npm install
-```
-
-Then:
-
-- To create Xcode image sets (for use with iOS, macOS, iPadOS) with a default size:
-
-  ```sh
-  npm run convert-all-ios
-  ```
-
-- To create Xcode image sets with a specified size (e.g. 44x44):
-
-  ```sh
-  npm run convert-all-ios:size 44
-  ```
-
-- To create versions for use on desktop in one size:
-
-  ```sh
-  npm run convert-all-desktop:size 64
-  ```
-
-- To create versions for use on desktop in sizes ranging from 16 to 64, run:
-
-  ```sh
-  npm run convert-all-desktop-multi
-  ```
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
