@@ -56,7 +56,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   }
 
   @state() get hasReorderItems(): boolean {
-    return this.hasSetInfo && this.setPosition > 0 && this.setSize > 1 && !this.sortDisabled;
+    return !this.sortDisabled && this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
   }
 
   @state() get hasNoItems(): boolean {
