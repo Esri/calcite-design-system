@@ -45,18 +45,15 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() get hasSetInfo(): boolean {
-    const { setPosition, setSize } = this;
+    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+  }
 
-    return (
-      typeof setPosition === "number" &&
-      typeof setSize === "number" &&
-      setPosition > 0 &&
-      setSize > 0
-    );
+  @state() get hasValidSetInfo(): boolean {
+    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
   }
 
   @state() get hasReorderItems(): boolean {
-    return !this.sortDisabled && this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
+    return !this.sortDisabled && this.hasValidSetInfo;
   }
 
   @state() get hasNoItems(): boolean {
