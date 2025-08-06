@@ -480,6 +480,27 @@ describe("calcite-block", () => {
     expect(article.getAttribute("aria-label")).toEqual(label);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block heading="Test"></calcite-block>`);
+    const item = await page.find("calcite-block");
+
+    const expandSpy = await page.spyOnEvent("calciteBlockExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("translation support", () => {
     t9n("calcite-block");
   });

@@ -524,6 +524,27 @@ describe("calcite-list-item", () => {
     expect(icon).toBe(null);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item heading="Test"></calcite-list-item>`);
+    const item = await page.find("calcite-list-item");
+
+    const expandSpy = await page.spyOnEvent("calciteListItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteListItemCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("themed", () => {
     describe(`selection-appearance="icon"`, () => {
       themed(

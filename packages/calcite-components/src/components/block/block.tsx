@@ -102,7 +102,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -249,6 +249,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   /** Fires when the component is closed and animation is complete. */
   calciteBlockClose = createEvent({ cancelable: false });
 
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockExpand = createEvent({ cancelable: false });
+
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
 
@@ -270,6 +276,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -298,6 +310,14 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockExpand.emit();
+      } else {
+        this.calciteBlockCollapse.emit();
+      }
     }
   }
 

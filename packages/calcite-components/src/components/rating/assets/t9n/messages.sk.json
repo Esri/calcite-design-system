@@ -1,4 +1,5 @@
 {
   "rating": "Hodnotenie",
+  "required": "Required",
   "stars": "Hviezdičky: {num}"
 }
