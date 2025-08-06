@@ -271,12 +271,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
       placement,
       scale,
       widthScale,
-      hasSetInfo,
       hasNoItems,
     } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || !hasSetInfo || hasNoItems;
+    const isDisabled = disabled || hasNoItems;
 
     return (
       <InteractiveContainer disabled={disabled}>
