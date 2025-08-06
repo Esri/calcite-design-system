@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "הכל",
   "allSelected": "כולם נבחרו",
   "clear": "נקה ערך",
   "noMatches": "No matches",
   "removeTag": "הסר תג",
+  "required": "Required",
   "selectAll": "Select all",
   "selected": "נבחר"
 }

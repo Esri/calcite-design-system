@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Всичко",
   "allSelected": "Всички избрани",
   "clear": "Изчистване на стойност",
   "noMatches": "No matches",
   "removeTag": "Премахване на таг",
+  "required": "Required",
   "selectAll": "Select all",
   "selected": "избрани"
 }

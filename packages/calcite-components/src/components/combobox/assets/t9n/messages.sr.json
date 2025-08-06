@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "Sve",
   "allSelected": "Sve selektovano",
   "clear": "Izbriši vrednosti",
   "noMatches": "No matches",
   "removeTag": "Ukloni oznaku",
+  "required": "Required",
   "selectAll": "Select all",
   "selected": "selektovano"
 }

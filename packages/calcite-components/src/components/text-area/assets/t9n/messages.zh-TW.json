@@ -1,5 +1,6 @@
 {
   "invalid": "無效",
+  "required": "Required",
   "tooLong": "目前字元長度為 {currentLength}，超過了最大字元長度 {maxLength}。",
   "tooShort": "目前字元長度為 {currentLength}，少於最小字元長度 {minLength}。"
 }

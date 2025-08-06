@@ -1125,7 +1125,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerHeight]: this.listItems.length < 1 && loading,
+          }}
+        >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}

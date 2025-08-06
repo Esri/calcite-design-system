@@ -3,5 +3,6 @@
   "date": "Data",
   "dateFormat": "Format dată: {format}",
   "endDate": "Data terminării",
+  "required": "Required",
   "startDate": "Data începerii"
 }

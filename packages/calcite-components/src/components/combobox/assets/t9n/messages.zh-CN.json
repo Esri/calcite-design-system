@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Add: {text}",
   "all": "全部",
   "allSelected": "选择全部",
   "clear": "清除值",
   "noMatches": "No matches",
   "removeTag": "移除标签",
+  "required": "Required",
   "selectAll": "Select all",
   "selected": "选择"
 }
