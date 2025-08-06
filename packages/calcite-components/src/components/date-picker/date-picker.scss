@@ -38,8 +38,7 @@
   border-radius: var(--calcite-date-picker-corner-radius, 0);
 }
 
-:host([scale="s"]),
-:host([scale="s"][range][calendars="1"]) {
+:host([scale="s"]) {
   inline-size: 236px;
   min-inline-size: 216px;
   max-inline-size: 380px;
@@ -51,8 +50,7 @@
   max-inline-size: 772px;
 }
 
-:host([scale="m"]),
-:host([scale="m"][range][calendars="1"]) {
+:host([scale="m"]) {
   inline-size: 298px;
   min-inline-size: 272px;
   max-inline-size: 480px;
@@ -64,8 +62,7 @@
   max-inline-size: 972px;
 }
 
-:host([scale="l"]),
-:host([scale="l"][range][calendars="1"]) {
+:host([scale="l"]) {
   inline-size: 334px;
   min-inline-size: 320px;
   max-inline-size: 600px;

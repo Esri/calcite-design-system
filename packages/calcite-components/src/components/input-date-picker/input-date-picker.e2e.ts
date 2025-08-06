@@ -1844,7 +1844,6 @@ describe("calcite-input-date-picker", () => {
 
       await input.click();
       expect(await calendar.isVisible()).toBe(true);
-
       await navigateToDateInMonth(page, false);
 
       await page.keyboard.press("ArrowUp");
@@ -2184,11 +2183,7 @@ async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start")
   );
 }
 
-async function navigateMonth(
-  page: E2EPage,
-  direction: "previous" | "next",
-  rangeWithTwoCalendars = false,
-): Promise<void> {
+async function navigateMonth(page: E2EPage, direction: "previous" | "next", twoCalendarsRange = false): Promise<void> {
   const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await findAll(
     page,
     `calcite-input-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header}`,
@@ -2196,7 +2191,7 @@ async function navigateMonth(
 
   let prevMonth: E2EElement;
   let nextMonth: E2EElement;
-  if (rangeWithTwoCalendars) {
+  if (twoCalendarsRange) {
     prevMonth = await datePickerMonthHeaderStart.find("calcite-action");
     nextMonth = await datePickerMonthHeaderEnd.find("calcite-action");
   } else {

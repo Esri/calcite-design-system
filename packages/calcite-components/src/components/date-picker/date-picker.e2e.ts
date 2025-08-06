@@ -115,7 +115,6 @@ describe("calcite-date-picker", () => {
       await page.setContent(`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
       const datePicker = await page.find("calcite-date-picker");
       const eventSpy = await page.spyOnEvent("calciteDatePickerRangeChange");
-
       await page.waitForTimeout(animationDurationInMs);
 
       const now = new Date();
@@ -572,7 +571,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-
       expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", "2024-02-10"]);
 
       await page.keyboard.press("ArrowDown");
@@ -595,7 +593,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-
       expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-02-08"]);
     });
   });
@@ -730,7 +727,7 @@ describe("calcite-date-picker", () => {
   });
 
   describe("month & year selection", () => {
-    it("should allow selecting first and last valid month from select menu when calendars is set to one in range", async () => {
+    it("should allow selecting first and last valid month from select menu in range with one calendar", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-date-picker range min="2024-01-21" max="2024-10-21" calendars="1"></calcite-date-picker>`,
