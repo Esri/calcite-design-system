@@ -82,9 +82,3 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
 export function getValueAsDateRange(value: string[]): Date[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
 }
-
-export function stringOrBooleanFromAttribute(value: string | boolean): string | boolean {
-  if (typeof value === "string") {
-    return value === "" ? true : value;
-  }
-}

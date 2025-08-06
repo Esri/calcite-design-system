@@ -242,6 +242,38 @@ export const scales_TestOnly = (): string => html`
         value="2020-12-12"
       ></calcite-input-date-picker>
     </div>
+    <div class="use-case">
+      <calcite-input-date-picker
+        scale="s"
+        open
+        min="2020-12-12"
+        max="2020-12-16"
+        range
+        layout="horizontal"
+        value="2020-12-12"
+        calendars="1"
+      ></calcite-input-date-picker>
+      <calcite-input-date-picker
+        scale="m"
+        open
+        min="2020-12-12"
+        max="2020-12-16"
+        range
+        layout="horizontal"
+        value="2020-12-12"
+        calendars="1"
+      ></calcite-input-date-picker>
+      <calcite-input-date-picker
+        scale="l"
+        open
+        min="2020-12-12"
+        max="2020-12-16"
+        range
+        layout="horizontal"
+        value="2020-12-12"
+        calendars="1"
+      ></calcite-input-date-picker>
+    </div>
   </div>
 `;
 
