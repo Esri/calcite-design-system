@@ -12,10 +12,12 @@ import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } fro
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -40,6 +42,13 @@ export class AccordionItem extends LitElement {
   private headerEl: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   //#endregion
 
@@ -293,8 +302,10 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl, heading, headingLevel } = this;
+    const { iconFlipRtl, heading, headingLevel, messages } = this;
     const dir = getElementDir(this.el);
+    const expandIconTitle = this.expanded ? messages.collapse : messages.expand;
+
     const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
@@ -361,6 +372,7 @@ export class AccordionItem extends LitElement {
                       : ICONS.plus
               }
               scale={getIconScale(this.scale)}
+              title={expandIconTitle}
             />
           </div>
           {this.renderActionsEnd()}

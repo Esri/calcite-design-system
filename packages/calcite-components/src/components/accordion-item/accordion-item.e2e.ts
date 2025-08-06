@@ -219,10 +219,12 @@ describe("calcite-accordion-item", () => {
     expect(headerContent.getAttribute("aria-expanded")).toBe("true");
   });
 
-  it("should emit expanded/collapsed events when toggled", async () => {
+  it.only("should emit expanded/collapsed events when toggled", async () => {
+    const messages = await import("./assets/t9n/messages.json");
     const page = await newE2EPage();
     await page.setContent(html`<calcite-accordion-item heading="Test"></calcite-accordion-item>`);
     const item = await page.find("calcite-accordion-item");
+    const expandIcon = await page.find(`calcite-accordion-item >>> .${CSS.expandIcon}`);
 
     const expandSpy = await page.spyOnEvent("calciteAccordionItemExpand");
     const collapseSpy = await page.spyOnEvent("calciteAccordionItemCollapse");
@@ -232,11 +234,13 @@ describe("calcite-accordion-item", () => {
     expect(await item.getProperty("expanded")).toBe(true);
     expect(expandSpy).toHaveReceivedEventTimes(1);
     expect(collapseSpy).toHaveReceivedEventTimes(0);
+    expect(expandIcon.getAttribute("title")).toBe(messages.collapse);
 
     item.setProperty("expanded", false);
     await page.waitForChanges();
     expect(await item.getProperty("expanded")).toBe(false);
     expect(expandSpy).toHaveReceivedEventTimes(1);
     expect(collapseSpy).toHaveReceivedEventTimes(1);
+    expect(expandIcon.getAttribute("title")).toBe(messages.expand);
   });
 });
