@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -22,14 +22,12 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
-import { isBrowser } from "../../utils/browser";
-import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
+import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
 
@@ -40,21 +38,28 @@ declare global {
 }
 
 export class DatePicker extends LitElement {
-  // #region Static Members
-
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private rangeValueChangedByUser = false;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   /** Active end date. */
   @state() activeEndDate: Date;
@@ -77,9 +82,9 @@ export class DatePicker extends LitElement {
 
   @state() startAsDate: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the component's active date. */
   @property() activeDate: Date;
@@ -104,13 +109,6 @@ export class DatePicker extends LitElement {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   /**
    * When the component resides in a form,
@@ -142,9 +140,9 @@ export class DatePicker extends LitElement {
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @property() valueAsDate: Date | Date[];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Resets active date state.
@@ -157,16 +155,23 @@ export class DatePicker extends LitElement {
     this.rangeValueChangedByUser = false;
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`. */
   calciteDatePickerChange = createEvent({ cancelable: false });
@@ -174,9 +179,9 @@ export class DatePicker extends LitElement {
   /** Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. */
   calciteDatePickerRangeChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -232,9 +237,9 @@ export class DatePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private activeDateWatcher(newValue: Date): void {
     if (!this.range) {
@@ -291,7 +296,7 @@ export class DatePicker extends LitElement {
   }
 
   private async loadLocaleData(): Promise<void> {
-    if (!isBrowser()) {
+    if (isServer) {
       return;
     }
 
@@ -601,9 +606,9 @@ export class DatePicker extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const date = dateFromRange(
@@ -626,7 +631,13 @@ export class DatePicker extends LitElement {
 
     const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
 
-    return <>{this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}</>;
+    return (
+      <>
+        <div ariaHidden={true} class={CSS.container} tabIndex={-1}>
+          {this.renderMonth(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
+        </div>
+      </>
+    );
   }
 
   /**
@@ -646,32 +657,30 @@ export class DatePicker extends LitElement {
     endDate: Date,
   ): JsxNode {
     return (
-      this.localeData && (
-        <calcite-date-picker-month
-          activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
-          endDate={this.range ? endDate : undefined}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
-          hoverRange={this.hoverRange}
-          layout={this.layout}
-          localeData={this.localeData}
-          max={maxDate}
-          messages={this.messages}
-          min={minDate}
-          monthStyle={this.monthStyle}
-          oncalciteInternalDatePickerDayHover={this.monthHoverChange}
-          oncalciteInternalDatePickerDaySelect={this.monthDateChange}
-          oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
-          oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
-          oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
-          range={this.range}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate : date}
-          startDate={this.range ? date : undefined}
-        />
-      )
+      <calcite-date-picker-month
+        activeDate={activeDate}
+        dateTimeFormat={this.dateTimeFormat}
+        endDate={this.range ? endDate : undefined}
+        headingLevel={this.headingLevel || HEADING_LEVEL}
+        hoverRange={this.hoverRange}
+        layout={this.layout}
+        localeData={this.localeData}
+        max={maxDate}
+        messages={this.messages}
+        min={minDate}
+        monthStyle={this.monthStyle}
+        oncalciteInternalDatePickerDayHover={this.monthHoverChange}
+        oncalciteInternalDatePickerDaySelect={this.monthDateChange}
+        oncalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
+        oncalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
+        oncalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
+        range={this.range}
+        scale={this.scale}
+        selectedDate={this.activeRange === "end" ? endDate : date}
+        startDate={this.range ? date : undefined}
+      />
     );
   }
 
-  // #endregion
+  //#endregion
 }

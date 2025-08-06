@@ -7,7 +7,7 @@ import { CSS } from "./resources";
 
 describe("calcite-navigation", () => {
   describe("renders", () => {
-    renders("calcite-navigation", { display: "inline" });
+    renders("calcite-navigation", { display: "block" });
   });
 
   describe("honors hidden attribute", () => {

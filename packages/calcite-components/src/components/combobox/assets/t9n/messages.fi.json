@@ -1,7 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Kaikki",
   "allSelected": "Kaikki valitut",
   "clear": "Tyhjennä arvo",
+  "noMatches": "No matches",
   "removeTag": "Poista tunniste",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "valitut"
 }

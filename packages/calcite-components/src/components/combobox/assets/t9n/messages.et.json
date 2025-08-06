@@ -1,7 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Kõik",
   "allSelected": "Kõik valitud",
   "clear": "Eemalda väärtus",
+  "noMatches": "No matches",
   "removeTag": "Eemaldage märksõna",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "valitud"
 }

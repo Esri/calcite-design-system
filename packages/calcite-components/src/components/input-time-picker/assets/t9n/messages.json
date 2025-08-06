@@ -1,3 +1,19 @@
 {
-  "chooseTime": "Choose time"
+  "chooseTime": "Choose time",
+  "fractionalSecond": "Fractional second",
+  "fractionalSecondDown": "Decrease fractional second",
+  "fractionalSecondUp": "Increase fractional second",
+  "hour": "Hour",
+  "hourDown": "Decrease hour",
+  "hourUp": "Increase hour",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Decrease AM/PM",
+  "meridiemUp": "Increase AM/PM",
+  "minute": "Minute",
+  "minuteDown": "Decrease minute",
+  "minuteUp": "Increase minute",
+  "required": "Required",
+  "second": "Second",
+  "secondDown": "Decrease second",
+  "secondUp": "Increase second"
 }

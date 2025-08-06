@@ -1,4 +1,4 @@
-import { isBrowser } from "../../utils/browser";
+import { isServer } from "lit";
 import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import type { ListItem } from "./list-item";
@@ -44,14 +44,17 @@ export function updateListItemChildren(slotEl: HTMLSlotElement): void {
     .assignedElements({ flatten: true })
     .filter((el): el is ListItem["el"] => el.matches(listItemSelector));
 
+  const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
+
   listItemChildren.forEach((listItem) => {
-    listItem.setPosition = listItemChildren.indexOf(listItem) + 1;
-    listItem.setSize = listItemChildren.length;
+    const index = filteredListItemChildren.indexOf(listItem);
+    listItem.setPosition = index === -1 ? undefined : index + 1;
+    listItem.setSize = index === -1 ? undefined : filteredListItemChildren.length;
   });
 }
 
 export function getDepth(element: HTMLElement, includeGroup = false): number {
-  if (!isBrowser()) {
+  if (isServer) {
     return 0;
   }
 

@@ -1,10 +1,11 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -264,6 +265,8 @@ describe("calcite-tree-item", () => {
   });
 
   describe("when a parent tree-item is expanded and a new item is appended into it", () => {
+    mockConsole();
+
     it("should render the visible, keyboard navigable item", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-panel>
@@ -424,5 +427,90 @@ describe("calcite-tree-item", () => {
     const itemBounds = await item.boundingBox();
 
     expect(itemBounds.height).not.toBe(0);
+  });
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tree-item heading="Test"></calcite-tree-item>`);
+    const item = await page.find("calcite-tree-item");
+
+    const expandSpy = await page.spyOnEvent("calciteTreeItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteTreeItemCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
+  describe("themed", () => {
+    describe(`selection-mode="none"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="none">
+          <calcite-tree-item> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="single"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="single">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-text-color-selected": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.nodeContainer}`,
+            selector: "calcite-tree-item",
+          },
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.bulletPointIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="multiple"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="multiple">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkmarkIcon}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
+    describe(`selection-mode="ancestors"`, () => {
+      themed(
+        html`<calcite-tree selection-mode="ancestors">
+          <calcite-tree-item selected> Child 1 </calcite-tree-item>
+        </calcite-tree>`,
+        {
+          "--calcite-tree-selected-icon-color": {
+            targetProp: "color",
+            shadowSelector: `.${CSS.checkbox}`,
+            selector: "calcite-tree-item",
+          },
+        },
+      );
+    });
   });
 });

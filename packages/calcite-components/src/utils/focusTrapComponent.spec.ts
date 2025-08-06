@@ -1,6 +1,8 @@
 // @ts-strict-ignore
-import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
-import { GlobalTestProps } from "../tests/utils";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { DetachedWindowAPI, Window as HappyDOMWindow } from "happy-dom";
+import { GlobalThis } from "type-fest";
+import { GlobalTestProps } from "../tests/utils/puppeteer";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -112,6 +114,7 @@ describe("focusTrapComponent", () => {
       expect(customFocusTrapStack).toHaveLength(1);
     });
   });
+
   describe("focusTrapDisabledOverride", () => {
     const fakeComponent = {} as FocusTrapComponent;
     let activateSpy: ReturnType<typeof vi.fn>;
@@ -139,6 +142,88 @@ describe("focusTrapComponent", () => {
       activateFocusTrap(fakeComponent);
 
       expect(activateSpy).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe("focusTrapOptions", () => {
+    let happyDOM: DetachedWindowAPI;
+    let fakeComponent: FocusTrapComponent;
+    let insideButton: HTMLButtonElement;
+    let previousFocusedEl: HTMLInputElement;
+    let nextFocusedEl: HTMLInputElement;
+
+    function setUpTest(options: Parameters<typeof connectFocusTrap>[1]): void {
+      fakeComponent = {} as FocusTrapComponent;
+      fakeComponent.el = document.createElement("div");
+      insideButton = document.createElement("button");
+      insideButton.id = "inside-button";
+      fakeComponent.el.append(insideButton);
+      previousFocusedEl = document.createElement("input");
+      nextFocusedEl = document.createElement("input");
+      document.body.append(nextFocusedEl, previousFocusedEl, fakeComponent.el);
+      previousFocusedEl.focus();
+
+      connectFocusTrap(fakeComponent, options);
+    }
+
+    beforeEach(() => {
+      happyDOM = (globalThis as GlobalThis & HappyDOMWindow).happyDOM;
+    });
+
+    describe("setReturnFocus option", () => {
+      it("should use custom setReturnFocus function if provided", async () => {
+        setUpTest({
+          focusTrapOptions: {
+            setReturnFocus: () => nextFocusedEl,
+          },
+        });
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(nextFocusedEl);
+      });
+
+      it("allows disabling return focus behavior", async () => {
+        setUpTest({
+          focusTrapOptions: {
+            setReturnFocus: false,
+          },
+        });
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+      });
+
+      it("should use default setReturnFocus if custom function is not provided", async () => {
+        setUpTest({
+          focusTrapOptions: {
+            setReturnFocus: undefined,
+          },
+        });
+
+        activateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(insideButton);
+
+        deactivateFocusTrap(fakeComponent);
+        await happyDOM.waitUntilComplete();
+
+        expect(document.activeElement).toBe(previousFocusedEl);
+      });
     });
   });
 });

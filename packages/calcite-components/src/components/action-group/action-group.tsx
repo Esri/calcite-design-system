@@ -1,13 +1,22 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+  createEvent,
+} from "@arcgis/lumina";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionMenu } from "../action-menu/action-menu";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -25,26 +34,39 @@ declare global {
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
 export class ActionGroup extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasMenuActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
@@ -71,13 +93,6 @@ export class ActionGroup extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -88,33 +103,62 @@ export class ActionGroup extends LitElement {
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionGroupCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionGroupExpand = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.menuOpen = false;
+
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
+        this.menuOpen = false;
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteActionGroupExpand.emit();
+        } else {
+          this.calciteActionGroupCollapse.emit();
+        }
+      }
     }
   }
-  // #endregion
 
-  // #region Private Methods
+  //#endregion
+
+  //#region Private Methods
+
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
   }
@@ -123,9 +167,9 @@ export class ActionGroup extends LitElement {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderMenu(): JsxNode {
     const {
@@ -176,5 +220,5 @@ export class ActionGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

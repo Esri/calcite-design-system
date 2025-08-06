@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-combobox-divider-color: Specifies the component's divider color.
  * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
  * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
@@ -12,19 +13,26 @@
  * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-close-size
+// --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-spacing-unit-l
+// --calcite-internal-combobox-spacing-unit-s
+
 :host {
   @apply relative block;
 }
 
-@include disabled();
-@include x-button();
-
 :host([scale="s"]) {
   @apply text-n2;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
+  --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 1rem;
 
   .x-button {
     margin-inline: theme("spacing.2");
@@ -33,10 +41,11 @@
 
 :host([scale="m"]) {
   @apply text-n1;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
+  --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 1.5rem;
 
   .x-button {
     margin-inline-end: theme("spacing.3");
@@ -45,20 +54,25 @@
 
 :host([scale="l"]) {
   @apply text-0;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-input-height: theme("spacing.6");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-close-size: 2rem;
 
   .x-button {
     margin-inline-end: theme("spacing.4");
   }
 }
 
+.x-button {
+  align-self: center;
+}
+
 .wrapper {
   @apply focus-base flex border border-solid;
-  padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 
   background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
@@ -96,18 +110,18 @@
 
 .wrapper--single {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
   @apply cursor-pointer flex-nowrap;
 }
 
 .grid-input {
   @apply flex flex-grow flex-wrap items-center relative truncate p-0;
 
-  gap: var(--calcite-combobox-item-spacing-unit-s);
-  margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
+  gap: var(--calcite-internal-combobox-spacing-unit-s);
+  margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
 
-  &.selection-display-fit,
-  &.selection-display-single {
+  &.selection-display--fit,
+  &.selection-display--single {
     @apply flex-nowrap overflow-hidden;
   }
 }
@@ -118,7 +132,7 @@
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
   inline-size: 100%;
-  margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
+  margin-block-end: var(--calcite-internal-combobox-spacing-unit-s);
   min-inline-size: 4.8125rem;
 
   &:focus {
@@ -145,7 +159,7 @@
 
 .input--icon {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
 .placeholder-icon {
@@ -167,7 +181,7 @@
 }
 
 .label--icon {
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
 .icon-end,
@@ -220,7 +234,7 @@ calcite-chip {
 }
 
 .chip {
-  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+  margin-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   max-inline-size: 100%;
 }
 
@@ -232,10 +246,46 @@ calcite-chip {
   @apply block;
 }
 
+.select-all {
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
+  border-block-end-color: var(
+    --calcite-combobox-divider-color,
+    var(--calcite-combobox-item-border-color, var(--calcite-color-border-3))
+  );
+  border-block-end-style: solid;
+  border-block-end-width: var(--calcite-border-width-sm);
+  inset-block-start: 0;
+  position: sticky;
+  z-index: var(--calcite-z-index-sticky);
+}
+
+.no-matches {
+  padding-block: var(--calcite-internal-combobox-spacing-unit-s);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
+
+  color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
+  background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  cursor: pointer;
+}
+
+.no-matches-placeholder {
+  color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
+  cursor: default;
+}
+
+@include disabled();
+@include x-button(
+  $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
+  $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
+  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-3))"
+);
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+@include text-highlight-item();
 
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
-  padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
+  padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
+
+@include input-placeholder-text();

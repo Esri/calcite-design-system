@@ -163,90 +163,17 @@ describe("calcite-chip", () => {
     });
   });
 
-  describe("CSS properties for light/dark mode", () => {
-    const chipSnippet = `
-      <calcite-chip
-        class="layers"
-        icon="layer"
-        appearance="solid"
-        kind="neutral"
-        closable
-      >
-        Layers
-      </calcite-chip>
-    `;
-    let page;
-    let chipCloseButton;
-    let chipCloseButtonFocusStyle;
-    let chipCloseButtonHoverStyle;
+  it("should not render chip when closed set to true", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-chip class="layers" icon="layer" appearance="solid" kind="neutral" closable> Layers </calcite-chip>
+    `);
 
-    describe("when mode attribute is not provided", () => {
-      it("should render chip pseudo classes with default values tied to mode", async () => {
-        page = await newE2EPage({ html: chipSnippet });
-        chipCloseButton = await page.find("calcite-chip >>> button");
-        await chipCloseButton.focus();
-        await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
+    const chipEl = await page.find(`calcite-chip`);
+    chipEl.toggleAttribute("closed", true);
+    await page.waitForChanges();
 
-        await chipCloseButton.hover();
-        await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
-      });
-    });
-
-    describe("when mode attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`,
-        });
-        chipCloseButton = await page.find("calcite-chip >>> button");
-        await chipCloseButton.focus();
-        await page.waitForChanges();
-        chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-
-        await chipCloseButton.hover();
-        await page.waitForChanges();
-        chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-      });
-    });
-
-    it("should allow the CSS custom property to be overridden", async () => {
-      const overrideStyle = "rgba(55, 5, 10, 0.19)";
-      page = await newE2EPage({
-        html: `
-        <style>
-          :root {
-            --calcite-color-transparent-hover: ${overrideStyle};
-          }
-        </style>
-        <div>${chipSnippet}</div>`,
-      });
-      chipCloseButton = await page.find("calcite-chip >>> button");
-      await chipCloseButton.focus();
-      await page.waitForChanges();
-      chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle();
-      expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-
-      await chipCloseButton.hover();
-      await page.waitForChanges();
-      chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle();
-      expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-    });
-
-    it("should not render chip when closed set to true", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
-
-      const chipEl = await page.find(`calcite-chip`);
-      chipEl.toggleAttribute("closed", true);
-      await page.waitForChanges();
-
-      expect(await chipEl.isVisible()).toBe(false);
-    });
+    expect(await chipEl.isVisible()).toBe(false);
   });
 
   describe("translation support", () => {

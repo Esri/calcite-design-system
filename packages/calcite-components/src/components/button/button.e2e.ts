@@ -1,8 +1,18 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -170,6 +180,10 @@ describe("calcite-button", () => {
 
   describe("disabled", () => {
     disabled("calcite-button");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-button");
   });
 
   it("should have aria-live attribute set to polite by default", async () => {
@@ -497,80 +511,6 @@ describe("calcite-button", () => {
     expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
 
-  describe("CSS properties for light/dark mode", () => {
-    const buttonSnippet = `
-      <calcite-button
-        class="layers"
-        icon-start="layer"
-        icon-end="chevron-down"
-        appearance="transparent"
-        kind="brand"
-      >
-        Layers
-      </calcite-button>
-    `;
-    let page;
-    let buttonEl;
-    let buttonHoverStyle;
-
-    it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: buttonSnippet });
-      const buttonStyles = await page.evaluate(() => {
-        buttonEl = document.querySelector("calcite-button");
-        buttonEl.style.setProperty("--calcite-color-transparent-hover", "rgba(34, 23, 200, 0.4)");
-        buttonEl.style.setProperty("--calcite-color-transparent-press", "rgba(1, 20, 44, 0.1");
-        return {
-          hoverFocus: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-hover"),
-          active: window.getComputedStyle(buttonEl).getPropertyValue("--calcite-color-transparent-press"),
-        };
-      });
-      expect(buttonStyles.hoverFocus).toEqual("rgba(34, 23, 200, 0.4)");
-      expect(buttonStyles.active).toEqual("rgba(1, 20, 44, 0.1");
-    });
-
-    describe("when mode attribute is not provided", () => {
-      it("should render button pseudo classes with default values tied to light mode", async () => {
-        page = await newE2EPage({ html: buttonSnippet });
-        buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.hover();
-        await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
-      });
-    });
-
-    describe("when mode attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`,
-        });
-        buttonEl = await page.find("calcite-button >>> button");
-        await buttonEl.hover();
-        await page.waitForChanges();
-        buttonHoverStyle = await buttonEl.getComputedStyle();
-        expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
-      });
-    });
-
-    it("should allow the CSS custom property to be overridden", async () => {
-      const overrideStyle = "rgba(255, 255, 0, 0.9)";
-      page = await newE2EPage({
-        html: `
-        <style>
-          :root {
-            --calcite-color-transparent-hover: ${overrideStyle};
-          }
-        </style>
-        <div>${buttonSnippet}</div>`,
-      });
-      buttonEl = await page.find("calcite-button >>> button");
-      await buttonEl.hover();
-      await page.waitForChanges();
-      buttonHoverStyle = await buttonEl.getComputedStyle();
-      expect(buttonHoverStyle.getPropertyValue("background-color")).toEqual(overrideStyle);
-    });
-  });
-
   it("should remove calcite-loader from dom when `loading` is false", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button loading icon-start='plus'></calcite-button>`);
@@ -716,6 +656,10 @@ describe("calcite-button", () => {
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
         },
       });
     });

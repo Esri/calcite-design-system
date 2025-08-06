@@ -17,11 +17,14 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-block", { display: "flex" });
   });
@@ -66,6 +69,10 @@ describe("calcite-block", () => {
       },
       {
         propertyName: "sortHandleOpen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "sortDisabled",
         defaultValue: false,
       },
     ]);
@@ -250,7 +257,9 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     expect(toggle.getAttribute("title")).toBe(messages.expand);
 
+    const openEventSpy = await element.spyOnEvent("calciteBlockOpen");
     await toggle.click();
+    await openEventSpy.next();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(openSpy).toHaveReceivedEventTimes(1);
@@ -258,7 +267,9 @@ describe("calcite-block", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
     expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
+    const closeEventSpy = await element.spyOnEvent("calciteBlockClose");
     await toggle.click();
+    await closeEventSpy.next();
 
     expect(toggleSpy).toHaveReceivedEventTimes(2);
     expect(closeSpy).toHaveReceivedEventTimes(1);
@@ -333,12 +344,18 @@ describe("calcite-block", () => {
       await control.press("Space");
       await control.press("Enter");
       await control.click();
+
       expect(blockOpenSpy).toHaveReceivedEventTimes(0);
       expect(blockToggleSpy).toHaveReceivedEventTimes(0);
       expect(blockCloseSpy).toHaveReceivedEventTimes(0);
 
+      const openEventSpy = await page.spyOnEvent("calciteBlockOpen");
+      const closeEventSpy = await page.spyOnEvent("calciteBlockClose");
       await block.click();
+      await openEventSpy.next();
       await block.click();
+      await closeEventSpy.next();
+
       expect(blockToggleSpy).toHaveReceivedEventTimes(2);
       expect(blockOpenSpy).toHaveReceivedEventTimes(1);
       expect(blockCloseSpy).toHaveReceivedEventTimes(1);
@@ -463,6 +480,27 @@ describe("calcite-block", () => {
     expect(article.getAttribute("aria-label")).toEqual(label);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block heading="Test"></calcite-block>`);
+    const item = await page.find("calcite-block");
+
+    const expandSpy = await page.spyOnEvent("calciteBlockExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("translation support", () => {
     t9n("calcite-block");
   });
@@ -494,25 +532,43 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: "hover",
           },
-          "--calcite-block-text-color": [
-            { shadowSelector: `.${CSS.description}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.contentStart}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
-            { shadowSelector: `.${CSS.toggleIcon}`, targetProp: "color" },
-          ],
-          "--calcite-block-heading-text-color-press": [
+          "--calcite-block-header-background-color-press": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-block >>> .${CSS.toggle}` },
+          },
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
+          "--calcite-block-heading-text-color-press": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.heading } },
+          },
+          "--calcite-block-description-text-color": {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+          "--calcite-block-icon-color": [
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
             {
               shadowSelector: `.${CSS.toggleIcon}`,
               targetProp: "color",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.heading}`,
-              targetProp: "color",
-              state: { press: { attribute: "class", value: CSS.heading } },
             },
           ],
+          "--calcite-block-icon-color-hover": {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+            state: "hover",
+          },
         },
       );
     });

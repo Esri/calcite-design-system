@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { render } from "lit-html";
 import { createRef } from "lit-html/directives/ref.js";
-import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
@@ -16,7 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
@@ -33,13 +33,13 @@ declare global {
  * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
 export class Table extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private allRows: TableRow["el"][];
 
@@ -57,9 +57,16 @@ export class Table extends LitElement {
 
   private tableHeadSlotEl = createRef<HTMLSlotElement>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() colCount = 0;
 
@@ -69,9 +76,11 @@ export class Table extends LitElement {
 
   @state() selectedCount = 0;
 
-  // #endregion
+  @state() _selectedItems: TableRow["el"][] = [];
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, displays borders in the component. */
   @property({ reflect: true }) bordered = false;
@@ -95,13 +104,6 @@ export class Table extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   /** When `true`, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
 
@@ -123,8 +125,6 @@ export class Table extends LitElement {
     return this._selectedItems;
   }
 
-  @state() _selectedItems: TableRow["el"][] = [];
-
   /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
@@ -145,9 +145,9 @@ export class Table extends LitElement {
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({ cancelable: false });
@@ -158,9 +158,9 @@ export class Table extends LitElement {
   /** Emits when the component's selected rows change. */
   calciteTableSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -196,9 +196,9 @@ export class Table extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleSlotChange(): void {
     this.updateRows();
@@ -211,9 +211,12 @@ export class Table extends LitElement {
   }
 
   private calciteInternalTableRowSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      this.updateSelectedItems(false);
+    if (!event.composedPath().includes(this.el)) {
+      return;
     }
+
+    this.updateSelectedItems(false);
+    event.stopPropagation();
   }
 
   private calciteInternalTableRowFocusEvent(event: CustomEvent<TableRowFocusEvent>): void {
@@ -343,7 +346,7 @@ export class Table extends LitElement {
     });
   }
 
-  private updateSelectedItems(emit?: boolean): void {
+  private async updateSelectedItems(emit?: boolean): Promise<void> {
     const selectedItems = this.bodyRows?.filter((el) => el.selected);
     this._selectedItems = selectedItems;
     this.selectedCount = selectedItems?.length;
@@ -368,8 +371,7 @@ export class Table extends LitElement {
       if (elToMatch?.rowType === "head") {
         el.selected = this.selectedCount !== this.bodyRows?.length;
       } else {
-        el.selected =
-          elToMatch === el ? !el.selected : this.selectionMode === "multiple" ? el.selected : false;
+        el.selected = this.selectionMode === "multiple" || elToMatch === el ? el.selected : false;
       }
     });
     this.updateSelectedItems(true);
@@ -385,9 +387,9 @@ export class Table extends LitElement {
     return numberStringFormatter.localize(value.toString());
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelectionArea(): JsxNode {
     const outOfViewCount = this._selectedItems?.filter((el) => isHidden(el))?.length;
@@ -399,6 +401,10 @@ export class Table extends LitElement {
     return (
       <div class={CSS.selectionArea}>
         <calcite-chip
+          class={{
+            [CSS.selectionCountChip]: true,
+            [CSS.selectionChipActive]: this.selectedCount > 0,
+          }}
           kind={this.selectedCount > 0 ? "brand" : "neutral"}
           label={selectionText}
           scale={this.scale}
@@ -408,7 +414,8 @@ export class Table extends LitElement {
         </calcite-chip>
         {outOfViewCount > 0 && (
           <calcite-chip
-            icon="hide-empty"
+            class={CSS.selectionOutOfViewChip}
+            icon={ICONS.hideEmpty}
             label={outOfView}
             scale={this.scale}
             title={outOfView}
@@ -419,7 +426,8 @@ export class Table extends LitElement {
         )}
         {this.selectedCount > 0 && (
           <calcite-button
-            iconStart="x"
+            class={CSS.dismissButton}
+            iconStart={ICONS.clear}
             kind="neutral"
             onClick={this.handleDeselectAllRows}
             round
@@ -522,5 +530,5 @@ export class Table extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

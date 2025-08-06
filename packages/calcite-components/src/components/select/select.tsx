@@ -9,7 +9,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { focusElement } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -24,7 +23,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -33,6 +31,7 @@ import { IconNameOrString } from "../icon/interfaces";
 import type { Option } from "../option/option";
 import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./select.scss";
 import { CSS, IDS } from "./resources";
 
@@ -77,6 +76,8 @@ export class Select
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
   private selectEl: HTMLSelectElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -163,12 +164,18 @@ export class Select
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.selectEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.selectEl;
+    }, options);
   }
 
   // #endregion
@@ -239,6 +246,7 @@ export class Select
   // #endregion
 
   // #region Private Methods
+
   private handleInternalSelectChange(): void {
     const selected = this.selectEl.selectedOptions[0];
     this.selectFromNativeOption(selected);

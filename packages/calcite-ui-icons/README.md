@@ -19,7 +19,7 @@ Every concept has 3 sizes:
 
 ### Why 3 Sizes?
 
-More info on what happens when you scale vector based icons [here](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons)
+See the [What Happens When You Scale Vector-Based Icons wiki entry](https://github.com/Esri/calcite-design-system/wiki/What-Happens-When-You-Scale-Vector-Based-Icons) for more info on scaling behavior.
 
 ### Outline icons are the standard
 
@@ -113,7 +113,7 @@ This will give you an object containing all the icons in the library at all size
 }
 ```
 
-*Note: path data omitted for brevity.*
+_Note: path data omitted for brevity._
 
 Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be annotated with the `multiPath` flag.
 
@@ -145,42 +145,6 @@ svg:hover {
 }
 ```
 
-## Build PNG icons for mobile and desktop
-
-For convenient use in iOS & desktop application projects, you can convert all icons to PNG.
-
-First, run `npm install`:
-
-```sh
-npm install
-```
-
-Then:
-
-- To create Xcode image sets (for use with iOS, macOS, iPadOS) with a default size:
-
-  ```sh
-  npm run convert-all-ios
-  ```
-
-- To create Xcode image sets with a specified size (e.g. 44x44):
-
-  ```sh
-  npm run convert-all-ios:size 44
-  ```
-
-- To create versions for use on desktop in one size:
-
-  ```sh
-  npm run convert-all-desktop:size 64
-  ```
-
-- To create versions for use on desktop in sizes ranging from 16 to 64, run:
-
-  ```sh
-  npm run convert-all-desktop-multi
-  ```
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
@@ -195,7 +159,7 @@ This material is licensed for use under the Esri Master License Agreement (MLA),
 
 See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
-For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
+For additional information, refer to [Calcite's licensing](https://developers.arcgis.com/calcite-design-system/resources/licensing) and contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
 email: <contracts@esri.com>
 

@@ -81,6 +81,7 @@ export class Accordion extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
+      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
       (changes.has("iconPosition") && (this.hasUpdated || this.iconPosition !== "end")) ||
       (changes.has("iconType") && (this.hasUpdated || this.iconType !== "chevron")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
@@ -106,6 +107,7 @@ export class Accordion extends LitElement {
 
   private updateAccordionItems(): void {
     this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
+      item.appearance = this.appearance;
       item.iconPosition = this.iconPosition;
       item.iconType = this.iconType;
       item.scale = this.scale;

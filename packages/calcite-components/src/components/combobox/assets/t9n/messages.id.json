@@ -1,7 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Semua",
   "allSelected": "Semua dipilih",
   "clear": "Hapus nilai",
+  "noMatches": "No matches",
   "removeTag": "Hapus tag",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "terpilih"
 }

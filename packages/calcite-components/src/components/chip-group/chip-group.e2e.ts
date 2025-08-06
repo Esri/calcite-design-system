@@ -2,9 +2,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, focusable } from "../../tests/commonTests";
 import { CSS as CHIP_CSS } from "../chip/resources";
-import { createSelectedItemsAsserter } from "../../tests/utils";
+import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-chip-group", () => {
   describe("renders", () => {
@@ -23,6 +23,18 @@ describe("calcite-chip-group", () => {
     });
   });
 
+  describe("focusable", () => {
+    focusable(
+      html` <calcite-chip-group label="test-label">
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+      </calcite-chip-group>`,
+      {
+        focusTargetSelector: "calcite-chip:first-of-type",
+      },
+    );
+  });
+
   describe("is accessible in selection mode none (default)", () => {
     accessible(
       html`<calcite-chip-group label="test-label">
@@ -34,14 +46,14 @@ describe("calcite-chip-group", () => {
 
   describe("is accessible in selection mode single", () => {
     accessible(
-      html` <calcite-chip-group label="test-label" selection-mode="single">
+      html`<calcite-chip-group label="test-label" selection-mode="single">
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip label="test-label"></calcite-chip>
       </calcite-chip-group>`,
     );
   });
 
-  describe("is selection mode single persists", () => {
+  describe("is accessible in selection mode single persists", () => {
     accessible(
       html`<calcite-chip-group label="test-label" selection-mode="single-persist">
         <calcite-chip label="test-label"></calcite-chip>

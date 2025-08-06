@@ -1,15 +1,14 @@
-@mixin sortable-helper-classes() {
-  .calcite-sortable--chosen,
-  .calcite-sortable--ghost,
-  .calcite-sortable--drag,
-  .calcite-sortable--fallback {
-    position: relative;
-    overflow: hidden;
-  }
+:host(.calcite-sortable--chosen),
+:host(.calcite-sortable--drag),
+:host(.calcite-sortable--fallback),
+:host(.calcite-sortable--ghost) {
+  position: relative;
+  overflow: hidden;
+}
 
-  .calcite-sortable--ghost::before {
-    content: "";
-    @apply box-border
+:host(.calcite-sortable--ghost)::before {
+  content: "";
+  @apply box-border
       border
       border-dashed
       border-color-brand
@@ -20,9 +19,8 @@
       bottom-0
       end-0
       z-default;
-  }
+}
 
-  .calcite-sortable--drag {
-    @apply shadow-2;
-  }
+:host(.calcite-sortable--drag) {
+  @apply shadow-2;
 }

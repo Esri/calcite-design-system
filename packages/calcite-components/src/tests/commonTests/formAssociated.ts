@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-
 import { KeyInput } from "puppeteer";
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -12,7 +11,7 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { GlobalTestProps } from "../utils";
+import { GlobalTestProps } from "../utils/puppeteer";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 

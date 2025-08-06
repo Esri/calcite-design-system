@@ -18,9 +18,10 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import type { DatePicker } from "../date-picker/date-picker";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./date-picker-day.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -38,6 +39,8 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   // #region Private Properties
 
   private parentDatePickerEl: DatePicker["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -101,11 +104,18 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion
@@ -204,9 +214,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div ariaHidden="true" class="day-wrapper">
-          <span class="day">
-            <span class="text">{formattedDay}</span>
+        <div ariaHidden="true" class={CSS.dayWrapper}>
+          <span class={CSS.day}>
+            <span class={CSS.text}>{formattedDay}</span>
           </span>
         </div>
       </InteractiveContainer>

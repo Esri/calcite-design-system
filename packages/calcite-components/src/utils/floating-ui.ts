@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import {
   arrow,
   autoPlacement,
@@ -20,10 +21,9 @@ import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
-import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (isBrowser()) {
+  if (!isServer) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -373,10 +373,12 @@ function getMiddleware({
   return middleware;
 }
 
-export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
-  const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    flipPlacements.includes(placement),
-  ) as EffectivePlacement[];
+function isFlipPlacement(placement: string): placement is FlipPlacement {
+  return flipPlacements.includes(placement as FlipPlacement);
+}
+
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): FlipPlacement[] {
+  const filteredPlacements = placements.filter(isFlipPlacement);
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
@@ -498,7 +500,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
     return;
   }
 
-  const effectiveAutoUpdate = isBrowser()
+  const effectiveAutoUpdate = !isServer
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
@@ -581,12 +583,6 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
  * @param component - A floating-ui component.
  */
 export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  const { floatingEl, referenceEl } = component;
-
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (trackedState?.state === "active") {
@@ -595,6 +591,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent): void {
 
   autoUpdatingComponentMap.delete(component);
 
+  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
 }

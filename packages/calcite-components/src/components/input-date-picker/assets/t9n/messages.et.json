@@ -1,4 +1,8 @@
 {
   "chooseDate": "Valige kuupäev",
-  "dateFormat": "Kuupäevavorming: {format}"
+  "date": "Kuupäev",
+  "dateFormat": "Kuupäevavorming: {format}",
+  "endDate": "Lõppkuupäev",
+  "required": "Required",
+  "startDate": "Alguskuupäev"
 }

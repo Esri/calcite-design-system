@@ -2,12 +2,13 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
+import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
-import { CSS as TabTitleCSS } from "../tab-title/resources";
+import { CSS as XButtonCSS } from "../functional/XButton";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
+import { CSS } from "./resources";
 import { TabPosition } from "./interfaces";
 import type { Tabs } from "./tabs";
 
@@ -301,9 +302,10 @@ describe("calcite-tabs", () => {
       ),
     );
 
-    const tabChange = page.waitForEvent("calciteTabChange");
+    const tabChangeEventSpy = await page.spyOnEvent("calciteTabChange");
     await page.click("calcite-tab-title");
-    await tabChange;
+    await page.waitForChanges();
+    await tabChangeEventSpy.next();
 
     const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
 
@@ -345,7 +347,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should emit tab change events when closing affects selected tab", async () => {
-      await page.click(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-4 >>> .${XButtonCSS.button}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(1);
@@ -363,7 +365,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should NOT emit tab change events when closing does not affect selected tab", async () => {
-      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-1 >>> .${XButtonCSS.button}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(0);
@@ -397,7 +399,7 @@ describe("calcite-tabs", () => {
 
       const tab2 = await page.find("#tab-title-2");
 
-      await page.click(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`);
+      await page.click(`#tab-title-1 >>> .${XButtonCSS.button}`);
       await tab2.click();
       await page.waitForChanges();
 
@@ -409,11 +411,11 @@ describe("calcite-tabs", () => {
     describe("hiding/displaying X", () => {
       it("should hide x when tabs 2 to 4 closed and display x closable tab added", async () => {
         for (let i = 2; i <= 4; ++i) {
-          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
         }
         let tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -423,16 +425,16 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeDefined();
       });
 
       it("should hide x when tabs 1 to 3 closed and display x when closable tab added", async () => {
         for (let i = 1; i <= 3; ++i) {
-          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.closeButton}`);
+          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
         }
         let tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeNull();
+        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -442,7 +444,43 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.closeButton}`)).toBeDefined();
+        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeDefined();
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tabs", {
+        "--calcite-tab-border-color": {
+          shadowSelector: `.${CSS.section}`,
+          targetProp: "borderBlockStartColor",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html` <calcite-tabs bordered></calcite-tabs>`, {
+        "--calcite-tab-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tab-border-color": [
+          {
+            targetProp: "boxShadow",
+          },
+          {
+            shadowSelector: `.${CSS.section}`,
+            targetProp: "borderColor",
+          },
+        ],
+      });
+
+      describe("bottom position", () => {
+        themed(html` <calcite-tabs bordered position="bottom"></calcite-tabs>`, {
+          "--calcite-tab-border-color": {
+            targetProp: "boxShadow",
+          },
+        });
       });
     });
   });

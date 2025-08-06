@@ -4,9 +4,10 @@ import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { findAll, isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import type { FlowItem } from "../flow-item/flow-item";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
 import type { Flow } from "./flow";
@@ -18,6 +19,8 @@ async function slowPageAnimations(page: E2EPage): Promise<void> {
 }
 
 describe("calcite-flow", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-flow", { display: "flex" });
   });
@@ -509,8 +512,8 @@ describe("calcite-flow", () => {
           // no op
         }
 
-        async setFocus(): Promise<void> {
-          await this.flowItemEl.setFocus();
+        async setFocus(options?: FocusOptions): Promise<void> {
+          await this.flowItemEl.setFocus(options);
         }
       }
 

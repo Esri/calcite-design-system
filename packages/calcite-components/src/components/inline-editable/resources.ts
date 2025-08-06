@@ -7,3 +7,9 @@ export const CSS = {
   enableEditingButton: "enable-editing-button",
   controlsWrapper: "controls-wrapper",
 };
+
+export const ICONS = {
+  check: "check",
+  close: "x",
+  pencil: "pencil",
+};

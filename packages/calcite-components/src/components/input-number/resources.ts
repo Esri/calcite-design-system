@@ -1,6 +1,7 @@
 export const CSS = {
   loader: "loader",
   clearButton: "clear-button",
+  clearable: "clearable",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
   inputIcon: "icon",
@@ -13,6 +14,8 @@ export const CSS = {
   actionWrapper: "action-wrapper",
   resizeIconWrapper: "resize-icon-wrapper",
   numberButtonItem: "number-button-item",
+  hasSuffix: "has-suffix",
+  hasPrefix: "has-prefix",
 };
 
 export const IDS = {
@@ -21,4 +24,15 @@ export const IDS = {
 
 export const SLOTS = {
   action: "action",
+};
+
+export const ICONS = {
+  clear: "x",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+};
+
+export const DIRECTION = {
+  up: "up",
+  down: "down",
 };

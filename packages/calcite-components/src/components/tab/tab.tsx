@@ -4,7 +4,7 @@ import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import type { Tabs } from "../tabs/tabs";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { TabChangeEventDetail } from "./interfaces";
 import { styles } from "./tab.scss";
 
@@ -24,7 +24,7 @@ export class Tab extends LitElement {
 
   // #region Private Properties
 
-  private guid = `calcite-tab-title-${guid()}`;
+  private guid = IDS.tabTitleId(guid());
 
   private parentTabsEl: Tabs["el"];
 
@@ -147,7 +147,7 @@ export class Tab extends LitElement {
 
     return (
       <div
-        class={{ [CSS.container]: true, [`scale-${this.scale}`]: true }}
+        class={{ [CSS.container]: true, [CSS.scale(this.scale)]: true }}
         role="tabpanel"
         tabIndex={this.selected ? 0 : -1}
       >

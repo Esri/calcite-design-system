@@ -28,27 +28,25 @@ describe("calcite-dropdown-item", () => {
     const element = await page.find("calcite-dropdown-item");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemSelect");
 
-    let calciteDropdownItemSelectEvent: Promise<any>;
-
-    calciteDropdownItemSelectEvent = page.waitForEvent("calciteDropdownItemSelect");
+    const calciteDropdownItemSelectEventSpy = await page.spyOnEvent("calciteDropdownItemSelect");
     await element.click();
-    await calciteDropdownItemSelectEvent;
+    await calciteDropdownItemSelectEventSpy.next();
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
-    calciteDropdownItemSelectEvent = page.waitForEvent("calciteDropdownItemSelect");
     await element.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.press("Enter");
-    await calciteDropdownItemSelectEvent;
+    await page.waitForChanges();
+    await calciteDropdownItemSelectEventSpy.next();
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 
-    calciteDropdownItemSelectEvent = page.waitForEvent("calciteDropdownItemSelect");
     await element.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.press("Space");
-    await calciteDropdownItemSelectEvent;
+    await page.waitForChanges();
+    await calciteDropdownItemSelectEventSpy.next();
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
   });
@@ -80,12 +78,6 @@ describe("calcite-dropdown-item", () => {
           selector: "calcite-dropdown-item",
         },
         "--calcite-dropdown-item-text-color-press": [
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.container}`,
-            selector: "calcite-dropdown-item",
-            state: "focus",
-          },
           {
             targetProp: "color",
             shadowSelector: `.${CSS.container}`,

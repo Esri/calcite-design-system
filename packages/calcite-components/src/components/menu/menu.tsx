@@ -1,16 +1,11 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/components-controllers";
-import {
-  focusElement,
-  focusElementInGroup,
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { MenuItem } from "../menu-item/menu-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./menu.scss";
 
@@ -23,23 +18,32 @@ declare global {
 type Layout = "horizontal" | "vertical";
 
 export class Menu extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   attributeWatch = useWatchAttributes(["role"], this.handleGlobalAttributesChanged);
 
   private menuItems: MenuItem["el"][] = [];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * Accessible name for the component.
@@ -54,27 +58,27 @@ export class Menu extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
+  //#endregion
+
+  //#region Public Methods
+
   /**
-   * Made into a prop for testing purposes only.
+   * Sets focus on the component's first focusable element.
    *
-   * @private
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
-  messages = useT9n<typeof T9nStrings>();
-
-  // #endregion
-
-  // #region Public Methods
-
-  /** Sets focus on the component's first focusable element. */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.menuItems[0]);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.menuItems[0];
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -91,9 +95,9 @@ export class Menu extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -108,7 +112,7 @@ export class Menu extends LitElement {
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -116,7 +120,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowUp") {
       if (this.layout === "vertical") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[submenuItems.length - 1].setFocus();
@@ -124,7 +128,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "next", false);
+        focusElementInGroup(this.menuItems, target, "next", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           submenuItems[0].setFocus();
@@ -132,7 +136,7 @@ export class Menu extends LitElement {
       }
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
-        focusElementInGroup(this.menuItems, target, "previous", false);
+        focusElementInGroup(this.menuItems, target, "previous", false, false);
       } else {
         if (event.detail.isSubmenuOpen) {
           this.focusParentElement(event.target as MenuItem["el"]);
@@ -171,9 +175,9 @@ export class Menu extends LitElement {
     return (this.el.role || "menubar") as LuminaJsx.AriaAttributes["role"];
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -183,5 +187,5 @@ export class Menu extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

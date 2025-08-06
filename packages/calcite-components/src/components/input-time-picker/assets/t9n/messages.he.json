@@ -1,3 +1,19 @@
 {
-  "chooseTime": "בחר שעה"
+  "chooseTime": "בחר שעה",
+  "fractionalSecond": "שבר שנייה",
+  "fractionalSecondDown": "הקטן שבר שנייה",
+  "fractionalSecondUp": "הגדל שבר שנייה",
+  "hour": "שעה",
+  "hourDown": "הקטן שעה",
+  "hourUp": "הגדל שעה",
+  "meridiem": "AM/PM",
+  "meridiemDown": "הקטן AM/PM",
+  "meridiemUp": "הגדל AM/PM",
+  "minute": "דקה",
+  "minuteDown": "הקטן דקה",
+  "minuteUp": "הגדל דקה",
+  "required": "Required",
+  "second": "שנייה",
+  "secondDown": "הקטן שנייה",
+  "secondUp": "הגדל שנייה"
 }

@@ -261,6 +261,27 @@ describe("calcite-block-section", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block-section heading="Test"></calcite-block-section>`);
+    const item = await page.find("calcite-block-section");
+
+    const expandSpy = await page.spyOnEvent("calciteBlockSectionExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockSectionCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("theme", () => {
     describe("default", () => {
       themed(
@@ -294,6 +315,7 @@ describe("calcite-block-section", () => {
           "--calcite-block-section-text-color": [
             { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
           ],
           "--calcite-block-section-text-color-hover": [
             {
@@ -313,6 +335,11 @@ describe("calcite-block-section", () => {
             },
             {
               shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
               targetProp: "color",
               state: "hover",
             },

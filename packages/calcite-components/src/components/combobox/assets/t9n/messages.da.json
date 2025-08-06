@@ -1,7 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Alle",
   "allSelected": "Alle valgt",
   "clear": "Ryd værdi",
+  "noMatches": "No matches",
   "removeTag": "Fjern nøgleord",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "valgt"
 }

@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
@@ -36,15 +36,15 @@ const maxItemBreakpoints = {
 };
 
 export class Pagination extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void =>
     this.setMaxItemsToBreakpoint(width);
@@ -53,9 +53,18 @@ export class Pagination extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() isXXSmall: boolean;
 
@@ -65,22 +74,15 @@ export class Pagination extends LitElement {
 
   @state() totalPages: number;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
@@ -97,9 +99,9 @@ export class Pagination extends LitElement {
   /** Specifies the total number of items. */
   @property({ reflect: true }) totalItems = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Set a specified page as active.
@@ -139,23 +141,30 @@ export class Pagination extends LitElement {
     this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the selected page changes. */
   calcitePaginationChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);
@@ -207,15 +216,13 @@ export class Pagination extends LitElement {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleTotalPages(): void {
-    if (this.pageSize < 1) {
-      this.pageSize = 1;
-    }
-    this.totalPages = this.totalItems / this.pageSize;
+    this.pageSize = Math.max(1, this.pageSize);
+    this.totalPages = Math.max(1, this.totalItems / this.pageSize);
   }
 
   private effectiveLocaleChange(): void {
@@ -229,8 +236,14 @@ export class Pagination extends LitElement {
   private handleLastStartItemChange(): void {
     const { totalItems, pageSize, totalPages } = this;
 
+    const isStartNegative = totalItems - pageSize < 0;
+
     this.lastStartItem =
-      (totalItems % pageSize === 0 ? totalItems - pageSize : Math.floor(totalPages) * pageSize) + 1;
+      (totalItems % pageSize === 0
+        ? isStartNegative
+          ? 0
+          : totalItems - pageSize
+        : Math.floor(totalPages) * pageSize) + 1;
   }
 
   private handleIsXXSmall(): void {
@@ -311,9 +324,9 @@ export class Pagination extends LitElement {
     this.emitUpdate();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
@@ -537,5 +550,5 @@ export class Pagination extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -25,13 +25,12 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
-import { isBrowser } from "../../utils/browser";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import { styles } from "./segmented-control.scss";
 
@@ -61,6 +60,8 @@ export class SegmentedControl
   private items: SegmentedControlItem["el"][] = [];
 
   labelEl: Label["el"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -149,12 +150,18 @@ export class SegmentedControl
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.selectedItem || this.items[0])?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.selectedItem || this.items[0];
+    }, options);
   }
 
   // #endregion
@@ -218,6 +225,7 @@ export class SegmentedControl
   // #endregion
 
   // #region Private Methods
+
   private valueHandler(value: string): void {
     const { items } = this;
     items.forEach((item) => (item.checked = item.value === value));
@@ -377,10 +385,10 @@ export class SegmentedControl
     if (match && emit) {
       await this.updateComplete;
       this.calciteSegmentedControlChange.emit();
-    }
 
-    if (isBrowser() && match) {
-      match.focus();
+      if (!isServer) {
+        match.focus();
+      }
     }
   }
 

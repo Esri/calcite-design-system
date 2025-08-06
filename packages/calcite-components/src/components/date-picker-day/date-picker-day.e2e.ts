@@ -1,7 +1,7 @@
 import { E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { disabled } from "../../tests/commonTests";
-import { newProgrammaticE2EPage } from "../../tests/utils";
+import { disabled, focusable } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";
 
 describe("calcite-date-picker-day", () => {
@@ -21,6 +21,22 @@ describe("calcite-date-picker-day", () => {
     });
 
     disabled(() => ({ tag: "calcite-date-picker-day", page }));
+  });
+
+  describe("focusable", () => {
+    focusable(async () => {
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(() => {
+        const dateEl = document.createElement("calcite-date-picker-day");
+        dateEl.active = true;
+        dateEl.dateTimeFormat = new Intl.DateTimeFormat("en"); // options not needed as this is only needed for rendering
+        dateEl.day = 3;
+        document.body.append(dateEl);
+      });
+      await page.waitForChanges();
+
+      return { tag: "calcite-date-picker-day", page };
+    });
   });
 
   describe("accessibility", () => {

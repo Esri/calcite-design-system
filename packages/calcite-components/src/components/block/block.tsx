@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -9,8 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Status } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -22,6 +21,8 @@ import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -41,13 +42,13 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   transitionProp = "margin-top" as const;
 
@@ -55,9 +56,18 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private sortHandleEl: SortHandle["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasContentStart = false;
 
@@ -69,9 +79,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   @state() hasMenuActions = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -92,7 +102,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -131,18 +141,18 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Sets the item to display a border.
    *
    * @private
    */
   @property() moveToItems: MoveTo[] = [];
+
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
 
   /**
    * When `true`, expands the component and its contents.
@@ -153,7 +163,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   get open(): boolean {
     return this.expanded;
   }
-
   set open(value: boolean) {
     logger.deprecated("property", {
       name: "open",
@@ -162,6 +171,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     });
     this.expanded = value;
   }
+
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -195,20 +205,27 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) status: Status;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component's first tabbable element. */
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -218,6 +235,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   /** Fires when the component is closed and animation is complete. */
   calciteBlockClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is open and animation is complete. */
   calciteBlockOpen = createEvent({ cancelable: false });
@@ -241,9 +264,15 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   calciteBlockToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
-  // #region Lifecycle
+  //#endregion
+
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.transitionEl = this.el;
@@ -263,11 +292,19 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockExpand.emit();
+      } else {
+        this.calciteBlockCollapse.emit();
+      }
     }
   }
 
@@ -275,9 +312,10 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   onBeforeOpen(): void {
     this.calciteBlockBeforeOpen.emit();
   }
@@ -311,6 +349,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeOpen.emit();
+    this.calciteInternalBlockUpdateMoveToItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
@@ -355,9 +394,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderScrim(): JsxNode {
     const { loading } = this;
@@ -462,6 +501,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       setPosition,
       setSize,
       dragDisabled,
+      sortDisabled,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
@@ -495,6 +535,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             ref={this.setSortHandleEl}
             setPosition={setPosition}
             setSize={setSize}
+            sortDisabled={sortDisabled}
           />
         ) : null}
         {collapsible ? (
@@ -560,5 +601,5 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     );
   }
 
-  // #endregion
+  //#endregion
 }

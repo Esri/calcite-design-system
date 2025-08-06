@@ -10,20 +10,16 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  setRequestedIcon,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -48,13 +44,13 @@ const manager = new AlertManager();
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 export class Alert extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private autoCloseTimeoutId: number = null;
 
@@ -72,9 +68,18 @@ export class Alert extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasEndActions = false;
 
@@ -82,9 +87,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
 
   @state() numberStringFormatter = new NumberStringFormat();
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * This internal property, managed by the AlertManager, is used
@@ -133,13 +138,6 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
@@ -163,24 +161,29 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's "close" button, the first focusable item.
    *
-   *     `@returns` {Promise<void>}
+   * `@returns` {Promise<void>}
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteAlertBeforeClose = createEvent({ cancelable: false });
@@ -194,9 +197,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteAlertOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     const open = this.open;
@@ -251,12 +254,12 @@ export class Alert extends LitElement implements OpenCloseComponent {
     this.embedded = false;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleActiveChange(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
@@ -385,9 +388,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
     this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
@@ -486,5 +489,5 @@ export class Alert extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

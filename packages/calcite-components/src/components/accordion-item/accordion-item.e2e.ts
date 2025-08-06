@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, themed, focusable } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, themed, focusable, reflects, defaults } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -25,6 +25,32 @@ describe("calcite-accordion-item", () => {
     focusable("calcite-accordion-item");
   });
 
+  describe("defaults", () => {
+    defaults("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-accordion-item", [
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "scale",
+        value: "m ",
+      },
+    ]);
+  });
+
   describe("theme", () => {
     describe("default", () => {
       themed(
@@ -34,6 +60,7 @@ describe("calcite-accordion-item", () => {
           description="Description"
           icon-start="home"
           icon-end="home"
+          appearance="solid"
           >content</calcite-accordion-item
         >`,
         {
@@ -44,6 +71,16 @@ describe("calcite-accordion-item", () => {
           "--calcite-accordion-item-header-background-color": {
             targetProp: "backgroundColor",
             shadowSelector: `.${CSS.header}`,
+          },
+          "--calcite-accordion-item-header-background-color-hover": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: "hover",
+          },
+          "--calcite-accordion-item-header-background-color-press": {
+            targetProp: "backgroundColor",
+            shadowSelector: `.${CSS.header}`,
+            state: { press: `calcite-accordion-item >>> .${CSS.header}` },
           },
           "--calcite-accordion-item-heading-text-color": {
             shadowSelector: `.${CSS.headerContent}`,
@@ -180,5 +217,26 @@ describe("calcite-accordion-item", () => {
     await page.waitForChanges();
 
     expect(headerContent.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-accordion-item heading="Test"></calcite-accordion-item>`);
+    const item = await page.find("calcite-accordion-item");
+
+    const expandSpy = await page.spyOnEvent("calciteAccordionItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteAccordionItemCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 });

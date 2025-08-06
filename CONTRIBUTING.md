@@ -1,19 +1,45 @@
 # Contributing
 
-Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
+Esri welcomes contributions from everyone. Please see Esri's [guidelines for contributing](https://github.com/esri/contributing).
 
-Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
+## Calcite roles and responsibilities
 
-## I want to contribute, what should I work on?
+Calcite provides support to two roles that include different responsibilities: [users](#users) and [contributors](#contributors).
 
-You can help most by:
+### Users
 
-- Reporting issues by [filing a Bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml).
-- Requesting features for existing components by [creating an Enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
-- Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started.
-  - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you.
-- If you want to help develop components take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](./conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/).
+Anyone can be a user; no permissions are needed to search, comment, provide feedback, or [create](#before-filing-an-issue) issues using a personal [GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github). _Of note, kind emojis 🏆, kudos 👍, and thank yous 🙌 fuel and energize Calcite team members_ 😊.
+
+Users can help most by:<a href="#users-help" id="users-help" />
+
+- Adding reactions, feedback, and/or comments to [existing issues](https://github.com/Esri/calcite-design-system/issues) 👍
+- Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue
+- Reporting issues by [filing a bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml) 🐛
+- Requesting features for existing components by [creating an enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml) ⭐
+- Adding ideas for components by [creating a new component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml) 🆕
+
+### Contributors
+
+Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
+
+To become a contributor, you must:
+
+- Be a current Esri employee
+- Be a member of the [Esri](https://github.com/Esri) GitHub organization
+  - For access, reach out to the Esri GitHub administrators email alias
+- Be a member of the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors)
+  - For access, reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco)
+
+Once access is granted to the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors), contributors can [clone the calcite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup your local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
+
+#### I want to contribute, what should I work on?
+
+Contributors can help most by:
+
+- Any of the items listed under the [user role](#users-help)
+- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started
+  - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/calcite-components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -49,8 +75,8 @@ There are four issue lifecycle labels:
 - `0 - new`: Issues that are up for grabs.
 - `1 - assigned`: Issues that someone will work on soon.
 - `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to `main`.
-- `4 - verified`: Issues that have been tested and are ready to close.
+- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
 
@@ -135,7 +161,7 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](.packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/src/index.html`](./packages/calcite-components/src/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components`](packages/calcite-components/src/components`./src/components), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/index.html`](./packages/calcite-components/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components/`](packages/calcite-components/src/components/), and the changes will be reflected in the demos.
 
 ## Linting
 
@@ -166,13 +192,13 @@ npm test
 
 Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/calcite-components run test:watch:stable` or `npm --workspace=packages/calcite-components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](./packages/calcite-components/conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./packages/calcite-components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -184,7 +210,7 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](./packages/calcite-components/conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
@@ -219,7 +245,7 @@ Calcite follows [Conventional Commits](https://www.conventionalcommits.org/en/v1
 Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
 
 - [Commit type](#commit-type)
-- [Scope of change](#scope-of-change), *optional*
+- [Scope of change](#scope-of-change), _optional_
 - [Descriptive commit subject](#descriptive-commit-subject)
 
 Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
@@ -240,7 +266,7 @@ Contributions must adhere to **one** of the following types:
 
 ### Scope of change
 
-*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+_Optional_. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
 
 - `text-area`
 - `dropdown, dropdown-group, dropdown-item`

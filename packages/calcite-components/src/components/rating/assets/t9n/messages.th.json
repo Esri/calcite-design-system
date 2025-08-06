@@ -1,4 +1,5 @@
 {
   "rating": "อันดับ",
+  "required": "Required",
   "stars": "ดาว: {num}"
 }

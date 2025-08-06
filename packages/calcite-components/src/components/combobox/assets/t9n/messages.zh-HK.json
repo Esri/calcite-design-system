@@ -1,7 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "全部",
   "allSelected": "已全選",
   "clear": "清除值",
+  "noMatches": "No matches",
   "removeTag": "移除標記",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "選取"
 }

@@ -1,4 +1,8 @@
 {
   "chooseDate": "Επιλογή ημερομηνίας",
-  "dateFormat": "Μορφότυπο ημερομηνίας: {format}"
+  "date": "Ημερομηνία",
+  "dateFormat": "Μορφότυπο ημερομηνίας: {format}",
+  "endDate": "Ημερομηνία λήξης",
+  "required": "Required",
+  "startDate": "Ημερομηνία έναρξης"
 }

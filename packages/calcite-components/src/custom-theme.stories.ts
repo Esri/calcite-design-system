@@ -24,6 +24,8 @@ import { chips, chipTokens } from "./custom-theme/chips";
 import { comboboxItem, comboboxItemTokens, selectedComboboxItem } from "./custom-theme/combobox-item";
 import { datePicker, datePickerRange, datePickerTokens } from "./custom-theme/date-picker";
 import { dropdown, DropdownGroupTokens, DropdownItemTokens, DropdownTokens } from "./custom-theme/dropdown";
+import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
+import { filter, filterTokens } from "./custom-theme/filter";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
@@ -37,8 +39,22 @@ import {
   inputDatePickerTokens,
 } from "./custom-theme/input-date-picker";
 import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
-import { inputNumber } from "./custom-theme/input-number";
-import { inputText } from "./custom-theme/input-text";
+import {
+  inputNumber,
+  inputNumberClearable,
+  inputNumberReadOnly,
+  inputNumberClearableReadOnly,
+  inputNumberReadOnlyWithPrefixSuffix,
+  inputNumberTokens,
+} from "./custom-theme/input-number";
+import {
+  inputText,
+  inputTextClearable,
+  inputTextLoading,
+  inputTextReadOnly,
+  inputTextTokens,
+  inputTextWithSuffixAndPrefix,
+} from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
@@ -49,18 +65,24 @@ import { popover, popoverTokens } from "./custom-theme/popover";
 import { progress, progressTokens } from "./custom-theme/progress";
 import { segmentedControl, segmentedControlTokens } from "./custom-theme/segmented-control";
 import { select, selectTokens } from "./custom-theme/select";
+import { stepperItem, stepperItemVertical, stepperItemTokens } from "./custom-theme/stepper-item";
+import { radioButton, radioButtonTokens } from "./custom-theme/radio-button";
+import { radioButtonGroup, radioButtonGroupTokens } from "./custom-theme/radio-button-group";
 import { rating, ratingTokens } from "./custom-theme/rating";
 import { slider, sliderTokens } from "./custom-theme/slider";
 import { switchTokens } from "./custom-theme/switch";
 import { tabs, tabsBordered, tabsTokens } from "./custom-theme/tabs";
 import { textArea, textAreaTokens } from "./custom-theme/text-area";
 import { tooltip, tooltipTokens } from "./custom-theme/tooltip";
+import { tree, treeTokens } from "./custom-theme/tree";
 import { avatarIcon, avatarInitials, avatarThumbnail, avatarTokens } from "./custom-theme/avatar";
 import { navigationLogoTokens, navigationLogos } from "./custom-theme/navigation-logo";
 import { navigationUserTokens, navigationUsers } from "./custom-theme/navigation-user";
 import { tileTokens, tile } from "./custom-theme/tile";
+import { timePicker, timePickerTokens } from "./custom-theme/time-picker";
 import { navigationTokens, navigation } from "./custom-theme/navigation";
 import { menuItem, menuItemTokens } from "./custom-theme/menu-item";
+import { stepper, stepperTokens } from "./custom-theme/stepper";
 import {
   comboboxTokens,
   comboboxWithPlaceHolderIcon,
@@ -69,6 +91,10 @@ import {
 } from "./custom-theme/combobox";
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
+import { meter, meterTokens } from "./custom-theme/meter";
+import { table, tableTokens } from "./custom-theme/table";
+import { carousel, carouselTokens } from "./custom-theme/carousel";
+import { dialog, dialogTokens } from "./custom-theme/dialog";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -156,7 +182,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputNumber} ${inputText} ${select} ${singleSelectCombobox}
+        ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
+        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
+        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -165,12 +193,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         <div>${dropdown} ${buttons}</div>
         <div>${flow}</div>
         <div>${checkbox}</div>
-        ${chips} ${pagination} ${slider}
+        ${chips} ${pagination} ${slider} ${meter}
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${tooltip} ${comboboxItem}
-        ${selectedComboboxItem}
+        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
+        ${comboboxItem} ${selectedComboboxItem}
       </div>
       <div class="demo-column">
         ${navigation} ${navigationLogos} ${navigationUsers} ${blockSection} ${block} ${rating} ${panel} ${shellPanel}
@@ -183,12 +211,42 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${datePickerRange}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column">${fab}</div>
+      <div class="demo-column">${fabLoading}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${filter}</div>
+    </div>
+    <div class="demo-row">
       <div class="demo-column open-calendar-spacing-small">${inputDatePicker}</div>
       <div class="demo-column open-calendar-spacing-large">${inputDatePickerRange}</div>
       <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${inputMessage}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${radioButton}</div>
+      <div class="demo-column">${radioButtonGroup}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${tree}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${stepper}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${stepperItemVertical}</div>
+      <div class="demo-column">${stepperItem}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${table}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${carousel}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${dialog}</div>
     </div>
   </div>`;
 
@@ -215,12 +273,16 @@ const componentTokens = {
   ...DropdownTokens,
   ...DropdownItemTokens,
   ...DropdownGroupTokens,
+  ...fabTokens,
+  ...filterTokens,
   ...flowTokens,
   ...handleTokens,
   ...inlineEditableTokens,
+  ...inputNumberTokens,
   ...graphTokens,
   ...inputDatePickerTokens,
   ...inputTokens,
+  ...inputTextTokens,
   ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
@@ -235,16 +297,26 @@ const componentTokens = {
   ...popoverTokens,
   ...progressTokens,
   ...segmentedControlTokens,
+  ...radioButtonTokens,
+  ...radioButtonGroupTokens,
   ...ratingTokens,
   ...selectTokens,
+  ...stepperItemTokens,
   ...sliderTokens,
   ...switchTokens,
   ...tabsTokens,
   ...textAreaTokens,
   ...tileTokens,
+  ...timePickerTokens,
   ...tooltipTokens,
+  ...treeTokens,
   ...menuItemTokens,
   ...shellPanelTokens,
+  ...meterTokens,
+  ...stepperTokens,
+  ...tableTokens,
+  ...carouselTokens,
+  ...dialogTokens,
 };
 
 export default {

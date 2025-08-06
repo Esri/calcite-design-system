@@ -1,3 +1,19 @@
 {
-  "chooseTime": "Trieu una hora"
+  "chooseTime": "Trieu una hora",
+  "fractionalSecond": "Segon fraccional",
+  "fractionalSecondDown": "Disminueix el segon fraccional",
+  "fractionalSecondUp": "Augmenta el segon fraccional",
+  "hour": "Hora",
+  "hourDown": "Disminueix hora",
+  "hourUp": "Augmenta hora",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Disminueix AM/PM",
+  "meridiemUp": "Incrementa AM/PM",
+  "minute": "Minut",
+  "minuteDown": "Disminueix minut",
+  "minuteUp": "Augmenta minut",
+  "required": "Required",
+  "second": "Segon",
+  "secondDown": "Disminueix segon",
+  "secondUp": "Augmenta segon"
 }

@@ -1,4 +1,8 @@
 {
   "chooseDate": "Datum kiezen",
-  "dateFormat": "Datumindeling: {format}"
+  "date": "Datum",
+  "dateFormat": "Datumindeling: {format}",
+  "endDate": "Einddatum",
+  "required": "Required",
+  "startDate": "Begindatum"
 }

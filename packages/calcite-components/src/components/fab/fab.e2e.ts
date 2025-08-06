@@ -1,7 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
-import { findAll } from "../../tests/utils";
+import { accessible, defaults, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
+import { findAll } from "../../tests/utils/puppeteer";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
@@ -28,6 +29,10 @@ describe("calcite-fab", () => {
 
   describe("disabled", () => {
     disabled("calcite-fab");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-fab");
   });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
@@ -145,6 +150,42 @@ describe("calcite-fab", () => {
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-fab></calcite-fab>`, {
+        "--calcite-fab-background-color": {
+          targetProp: "--calcite-button-background-color",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-fab-border-color": {
+          targetProp: "--calcite-button-border-color",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-fab-corner-radius": {
+          targetProp: "--calcite-button-corner-radius",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-fab-text-color": {
+          targetProp: "--calcite-button-text-color",
+          shadowSelector: `.${CSS.button}`,
+        },
+        "--calcite-fab-shadow": {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.button}`,
+        },
+      });
+    });
+
+    describe("loader", () => {
+      themed(html`<calcite-fab loading></calcite-fab>`, {
+        "--calcite-fab-loader-color": {
+          targetProp: "--calcite-button-loader-color",
+          shadowSelector: `.${CSS.button}`,
+        },
       });
     });
   });
