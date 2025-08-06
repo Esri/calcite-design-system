@@ -93,7 +93,7 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) activeRange: "start" | "end";
 
   /** Specifies the number of calendars displayed when `range` is `true`. */
-  @property({ reflect: true }) calendars: "one" | "two" = "two";
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
@@ -338,7 +338,7 @@ export class DatePicker extends LitElement {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
-        (this.calendars === "one" || month !== nextMonth(this.activeStartDate).getMonth());
+        (this.calendars === 1 || month !== nextMonth(this.activeStartDate).getMonth());
 
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {

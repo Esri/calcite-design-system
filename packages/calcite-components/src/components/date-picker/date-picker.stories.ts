@@ -67,7 +67,7 @@ export const range = (): string => html`
 
 export const rangeOneCalendar = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker lang="${defaultLocale}" min="2016-08-09" range scale="m" calendars="one"></calcite-date-picker>
+    <calcite-date-picker lang="${defaultLocale}" min="2016-08-09" range scale="m" calendars="1"></calcite-date-picker>
   </div>
 `;
 
@@ -86,7 +86,7 @@ export const rangeHighlighted_TestOnly = (): string => html`
 
 export const rangeOneCalendarWithValue = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker range calendars="one"></calcite-date-picker>
+    <calcite-date-picker range calendars="1"></calcite-date-picker>
   </div>
   <script>
     (async () => {
@@ -112,7 +112,7 @@ export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
 
 export const rangeOneCalendarValuesNotInSameMonthAndYear = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker range calendars="one"></calcite-date-picker>
+    <calcite-date-picker range calendars="1"></calcite-date-picker>
   </div>
   <script>
     (async () => {

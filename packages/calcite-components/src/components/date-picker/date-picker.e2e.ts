@@ -28,7 +28,7 @@ describe("calcite-date-picker", () => {
       },
       {
         propertyName: "calendars",
-        defaultValue: "two",
+        defaultValue: 2,
       },
       {
         propertyName: "monthStyle",
@@ -112,7 +112,7 @@ describe("calcite-date-picker", () => {
 
     it("emits calciteDatePickerRangeChange event and updates value property when start & end dates are selected from same month in range with one calendar", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-date-picker range calendars="one"></calcite-date-picker>`);
+      await page.setContent(`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
       const datePicker = await page.find("calcite-date-picker");
       const eventSpy = await page.spyOnEvent("calciteDatePickerRangeChange");
 
@@ -462,7 +462,7 @@ describe("calcite-date-picker", () => {
 
     it("should be able to navigate between months and select date using arrow keys & page keys when calendars is to set to one in range", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-date-picker range calendars="one"></calcite-date-picker>`);
+      await page.setContent(html`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
       await page.waitForChanges();
 
       const datePicker = await page.find("calcite-date-picker");
@@ -554,7 +554,7 @@ describe("calcite-date-picker", () => {
 
     it("should be able to navigate between months and select date using arrow keys & page keys in range when value is parsed in range with one calendar", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-date-picker range calendars="one"></calcite-date-picker>`);
+      await page.setContent(html`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
       const datePicker = await page.find("calcite-date-picker");
       datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
 
@@ -733,7 +733,7 @@ describe("calcite-date-picker", () => {
     it("should allow selecting first and last valid month from select menu when calendars is set to one in range", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-date-picker range min="2024-01-21" max="2024-10-21" calendars="one"></calcite-date-picker>`,
+        html`<calcite-date-picker range min="2024-01-21" max="2024-10-21" calendars="1"></calcite-date-picker>`,
       );
 
       await setActiveDate(page, "07-01-2024");

@@ -58,6 +58,10 @@ describe("calcite-input-date-picker", () => {
         propertyName: "validationMessage",
         defaultValue: undefined,
       },
+      {
+        propertyName: "calendars",
+        defaultValue: 2,
+      },
     ]);
   });
 

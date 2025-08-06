@@ -190,7 +190,7 @@ export class InputDatePicker
   //#region Public Properties
 
   /** Specifies the number of calendars displayed when `range` is `true`. */
-  @property({ reflect: true }) calendars: "one" | "two" = "two";
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;

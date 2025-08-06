@@ -39,39 +39,39 @@
 }
 
 :host([scale="s"]),
-:host([scale="s"][range][calendars="one"]) {
+:host([scale="s"][range][calendars="1"]) {
   inline-size: 236px;
   min-inline-size: 216px;
   max-inline-size: 380px;
 }
 
-:host([scale="s"][range][layout="horizontal"][calendars="two"]) {
+:host([scale="s"][range][layout="horizontal"][calendars="2"]) {
   inline-size: 480px;
   min-inline-size: 432px;
   max-inline-size: 772px;
 }
 
 :host([scale="m"]),
-:host([scale="m"][range][calendars="one"]) {
+:host([scale="m"][range][calendars="1"]) {
   inline-size: 298px;
   min-inline-size: 272px;
   max-inline-size: 480px;
 }
 
-:host([scale="m"][layout="horizontal"][range][calendars="two"]) {
+:host([scale="m"][layout="horizontal"][range][calendars="2"]) {
   inline-size: 608px;
   min-inline-size: 544px;
   max-inline-size: 972px;
 }
 
 :host([scale="l"]),
-:host([scale="l"][range][calendars="one"]) {
+:host([scale="l"][range][calendars="1"]) {
   inline-size: 334px;
   min-inline-size: 320px;
   max-inline-size: 600px;
 }
 
-:host([scale="l"][layout="horizontal"][range][calendars="two"]) {
+:host([scale="l"][layout="horizontal"][range][calendars="2"]) {
   inline-size: 684px;
   min-inline-size: 640px;
   max-inline-size: 1212px;

@@ -64,7 +64,7 @@ export class DatePickerMonth extends LitElement {
   @property() activeDate: Date = new Date();
 
   /** Specifies the number of calendars displayed when `range` is `true`. */
-  @property({ reflect: true }) calendars: "one" | "two" = "two";
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
@@ -609,7 +609,7 @@ export class DatePickerMonth extends LitElement {
       <div class={{ [CSS.calendarContainer]: true }} role="grid">
         {this.renderCalendar(adjustedWeekDays, days)}
         {this.range &&
-          this.calendars === "two" &&
+          this.calendars === 2 &&
           this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
       </div>
     );
@@ -693,7 +693,7 @@ export class DatePickerMonth extends LitElement {
           min={this.min}
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
-          position={isEndCalendar ? "end" : this.range && this.calendars === "two" ? "start" : null}
+          position={isEndCalendar ? "end" : this.range && this.calendars === 2 ? "start" : null}
           scale={this.scale}
           selectedDate={this.selectedDate}
         />
