@@ -219,7 +219,7 @@ describe("calcite-accordion-item", () => {
     expect(headerContent.getAttribute("aria-expanded")).toBe("true");
   });
 
-  it.only("should emit expanded/collapsed events when toggled", async () => {
+  it("should emit expanded/collapsed events when toggled", async () => {
     const messages = await import("./assets/t9n/messages.json");
     const page = await newE2EPage();
     await page.setContent(html`<calcite-accordion-item heading="Test"></calcite-accordion-item>`);
