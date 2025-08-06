@@ -87,9 +87,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When `true`, `calcite-block`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
-  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
-  @property({ reflect: true }) sortDisabled = false;
-
   /**
    * The block-group's group identifier.
    *
@@ -108,6 +105,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
 
   // #endregion
 

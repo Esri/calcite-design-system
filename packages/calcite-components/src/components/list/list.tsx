@@ -162,9 +162,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When `true`, `calcite-list-item`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
-  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
-  @property({ reflect: true }) sortDisabled = false;
-
   /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
@@ -281,6 +278,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
 
   //#endregion
 

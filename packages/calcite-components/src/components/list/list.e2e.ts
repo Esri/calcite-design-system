@@ -347,9 +347,9 @@ describe("calcite-list", () => {
       expect(await items[i].getProperty("sortDisabled")).toBe(true);
     }
 
-    const root = await page.find("#root");
+    const list = await page.find("#root");
 
-    root.setProperty("sortDisabled", false);
+    list.setProperty("sortDisabled", false);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
