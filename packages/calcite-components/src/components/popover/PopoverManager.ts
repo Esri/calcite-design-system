@@ -6,7 +6,7 @@ import type { Popover } from "./popover";
 
 const clickTolerance = 5;
 
-export function isDragEvent({
+export function isDrag({
   startX,
   startY,
   endX,
@@ -17,7 +17,7 @@ export function isDragEvent({
   endX: number;
   endY: number;
 }): boolean {
-  const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+  const distance = Math.hypot(endX - startX, endY - startY);
   return distance > clickTolerance;
 }
 
@@ -32,7 +32,7 @@ export default class PopoverManager {
 
   private registeredElementCount = 0;
 
-  private pointerDownPosition?: { startX: number; startY: number };
+  private pointerDownPosition?: { x: number; y: number };
 
   // --------------------------------------------------------------------------
   //
@@ -111,7 +111,7 @@ export default class PopoverManager {
     }
 
     const { clientX, clientY } = event;
-    this.pointerDownPosition = { startX: clientX, startY: clientY };
+    this.pointerDownPosition = { x: clientX, y: clientY };
   };
 
   private clickHandler = (event: PointerEvent): void => {
@@ -119,10 +119,11 @@ export default class PopoverManager {
       isKeyboardTriggeredClick(event) ||
       event.defaultPrevented ||
       (this.pointerDownPosition &&
-        isDragEvent({
+        isDrag({
           endY: event.clientY,
           endX: event.clientX,
-          ...this.pointerDownPosition,
+          startY: this.pointerDownPosition.y,
+          startX: this.pointerDownPosition.x,
         }))
     ) {
       return;
