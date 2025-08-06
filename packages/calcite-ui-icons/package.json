@@ -50,10 +50,6 @@
     "build:sprite-24": "svgstore -o sprite-24.svg icons/*-24*.svg",
     "build:sprite-32": "svgstore -o sprite-32.svg icons/*-32*.svg",
     "clean": "rimraf node_modules js fonts .turbo docs/icons.json --glob 'index.{js,d.ts}' --glob 'sprite-{16,24,32}.svg'",
-    "convert-all-desktop-multi": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s 16 && node bin/convert-mobile.js -o \"../desktop-output\" -s 24 && node bin/convert-mobile.js -o \"../desktop-output\" -s 32 && node bin/convert-mobile.js -o \"../desktop-output\" -s 64",
-    "convert-all-desktop:size": "node bin/convert-mobile.js -o \"../desktop-output\" -i \"16\" -s",
-    "convert-all-ios": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -i \"24\"",
-    "convert-all-ios:size": "node bin/convert-mobile.js -o \"../mobile-output\" -p \"ios\" -s",
     "copy-assets": "cpy \"../../node_modules/calcite-web/dist/js/calcite-web.min.js\" \"../../node_modules/calcite-web/dist/css/calcite-web.min.css\" \"./docs/resources\" --flat",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.html\" >/dev/null",
@@ -70,12 +66,9 @@
     "cli-progress": "^3.12.0",
     "fantasticon": "3.0.0",
     "fs-extra": "11.3.0",
-    "glob": "^11.0.3",
-    "svg2img": "1.0.0-beta.2",
     "svgo": "^4.0.0",
     "svgson": "5.3.1",
-    "svgstore-cli": "2.0.1",
-    "yargs": "^18.0.0"
+    "svgstore-cli": "2.0.1"
   },
   "volta": {
     "extends": "../../package.json"
