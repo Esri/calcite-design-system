@@ -62,7 +62,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   }
 
   @state() get hasReorderItems(): boolean {
-    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 && !this.sortDisabled : false;
+    return this.hasSetInfo && this.setPosition > 0 && this.setSize > 1 && !this.sortDisabled;
   }
 
   @state() get hasNoItems(): boolean {
@@ -101,9 +101,6 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /** When `true`, items are no longer sortable. */
-  @property({ reflect: true }) sortDisabled = false;
-
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
@@ -128,6 +125,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   /** The total number of sortable items. */
   @property() setSize: number;
+
+  /** When `true`, items are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;

@@ -117,9 +117,9 @@ describe("calcite-block-group", () => {
       expect(await items[i].getProperty("dragHandle")).toBe(true);
     }
 
-    const root = await page.find("#root");
+    const blockGroup = await page.find("#root");
 
-    root.setProperty("dragEnabled", false);
+    blockGroup.setProperty("dragEnabled", false);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
@@ -147,9 +147,9 @@ describe("calcite-block-group", () => {
       expect(await items[i].getProperty("sortDisabled")).toBe(true);
     }
 
-    const root = await page.find("#root");
+    const blockGroup = await page.find("#root");
 
-    root.setProperty("sortDisabled", false);
+    blockGroup.setProperty("sortDisabled", false);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
