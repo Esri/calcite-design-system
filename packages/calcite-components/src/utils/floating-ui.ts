@@ -16,7 +16,7 @@ import {
   Strategy,
   VirtualElement,
 } from "@floating-ui/dom";
-import { debounce, DebouncedFunc } from "lodash-es";
+import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
@@ -449,7 +449,7 @@ export async function reposition(
   await positionFunction(component, options);
 }
 
-function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<typeof positionFloatingUI> {
+function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunction<typeof positionFloatingUI> {
   let debounced = componentToDebouncedRepositionMap.get(component);
 
   if (debounced) {
@@ -457,8 +457,7 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
   }
 
   debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
-    leading: true,
-    maxWait: DEBOUNCE.reposition,
+    edges: ["leading", "trailing"],
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -491,7 +490,10 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
-const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
+const componentToDebouncedRepositionMap = new WeakMap<
+  FloatingUIComponent,
+  DebouncedFunction<typeof positionFloatingUI>
+>();
 
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   const { referenceEl, floatingEl } = component;

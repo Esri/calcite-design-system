@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { throttle } from "lodash-es";
+import { throttle } from "es-toolkit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
@@ -130,7 +130,7 @@ export class TextArea
       this.el.style[dimension] = "auto";
     },
     RESIZE_TIMEOUT,
-    { leading: false },
+    { edges: ["trailing"] },
   );
 
   /**

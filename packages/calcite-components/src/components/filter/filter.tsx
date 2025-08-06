@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
