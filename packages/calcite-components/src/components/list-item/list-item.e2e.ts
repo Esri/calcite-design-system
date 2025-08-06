@@ -89,6 +89,10 @@ describe("calcite-list-item", () => {
         propertyName: "sortHandleOpen",
         defaultValue: false,
       },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
     ]);
   });
 
