@@ -67,8 +67,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private ignoreOpenChange = false;
-
   private interaction: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
@@ -188,11 +186,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this._open = open;
-      this.toggleSheet(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      this.setOpenState(value);
     }
   }
 
@@ -284,13 +281,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.setupInteractions();
   }
 
-  load(): void {
-    // when sheet initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      this.openSheet();
-    }
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -319,16 +309,22 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Private Methods
 
-  private toggleSheet(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
+  private async setOpenState(value: boolean): Promise<void> {
+    if (this.beforeClose && !value) {
+      try {
+        await this.beforeClose?.(this.el);
+      } catch {
+        return;
+      }
     }
 
+    this._open = value;
+
     if (value) {
-      this.openSheet();
-    } else {
-      this.closeSheet();
+      await this.componentOnReady();
     }
+
+    this.opened = value;
   }
 
   private getResizeIcon(): string {
@@ -551,35 +547,12 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.transitionEl = el;
   }
 
-  private async openSheet(): Promise<void> {
-    await this.componentOnReady();
-    this.opened = true;
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
     }
 
     this.open = false;
-  }
-
-  private async closeSheet(): Promise<void> {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose(this.el);
-      } catch {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    this.opened = false;
   }
 
   private handleMutationObserver(): void {
