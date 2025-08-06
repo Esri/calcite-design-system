@@ -692,6 +692,28 @@ describe("calcite-panel", () => {
         expect(calcitePanelClose).toHaveReceivedEventTimes(1);
       });
 
+      it("should not close parent panels when close button is pressed", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-panel id="parent" heading="Top panel">
+            Some content
+            <calcite-panel id="child" heading="Child panel" closable>
+              Closing this panel will close the parent panel. This is a regression from next.36.
+            </calcite-panel>
+          </calcite-panel>`,
+        );
+
+        const parentPanel = await page.find("calcite-panel#parent");
+        const childPanel = await page.find("calcite-panel#child");
+
+        const childCloseButton = await childPanel.find(`calcite-panel >>> #${IDS.close}`);
+        await childCloseButton.click();
+        await page.waitForChanges();
+
+        expect(await parentPanel.getProperty("closed")).toBe(false);
+        expect(await childPanel.getProperty("closed")).toBe(true);
+      });
+
       it("should not close when Escape key is prevented and closable is true", async () => {
         const page = await newE2EPage();
         await page.setContent(
