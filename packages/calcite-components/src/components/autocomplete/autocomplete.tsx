@@ -431,7 +431,7 @@ export class Autocomplete
   constructor() {
     super();
     this.listenOn(document, "click", this.documentClickHandler);
-    this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
+    this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
   }
 
   override connectedCallback(): void {
@@ -557,9 +557,8 @@ export class Autocomplete
     this.open = false;
   }
 
-  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
+  private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
-    event.stopPropagation();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -686,6 +685,7 @@ export class Autocomplete
       case "Enter":
         if (open && activeItem) {
           this.value = activeItem.value;
+          activeItem.emitSelectEvent();
           this.emitChange();
           this.open = false;
           event.preventDefault();
