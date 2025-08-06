@@ -51,18 +51,15 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   // #region State Properties
 
   @state() get hasSetInfo(): boolean {
-    const { setPosition, setSize } = this;
+    return typeof this.setPosition === "number" && typeof this.setSize === "number";
+  }
 
-    return (
-      typeof setPosition === "number" &&
-      typeof setSize === "number" &&
-      setPosition > 0 &&
-      setSize > 0
-    );
+  @state() get hasValidSetInfo(): boolean {
+    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
   }
 
   @state() get hasReorderItems(): boolean {
-    return this.hasSetInfo && this.setPosition > 0 && this.setSize > 1 && !this.sortDisabled;
+    return !this.sortDisabled && this.hasValidSetInfo;
   }
 
   @state() get hasNoItems(): boolean {
@@ -289,12 +286,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
       placement,
       scale,
       widthScale,
-      hasSetInfo,
       hasNoItems,
     } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || !hasSetInfo || hasNoItems;
+    const isDisabled = disabled || hasNoItems;
 
     return (
       <InteractiveContainer disabled={disabled}>

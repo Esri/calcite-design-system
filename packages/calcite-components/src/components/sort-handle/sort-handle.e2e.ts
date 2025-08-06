@@ -200,7 +200,7 @@ describe("calcite-sort-handle", () => {
     await skipAnimations(page);
 
     const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
-    expect(await dropdown.getProperty("disabled")).toBe(true);
+    expect(await dropdown.getProperty("disabled")).toBe(false);
 
     const sortHandle = await page.find("calcite-sort-handle");
 
@@ -216,6 +216,7 @@ describe("calcite-sort-handle", () => {
 
     expect(await dropdown.getProperty("disabled")).toBe(false);
 
+    sortHandle.setProperty("moveToItems", []);
     sortHandle.setProperty("setPosition", 0);
     await page.waitForChanges();
 
