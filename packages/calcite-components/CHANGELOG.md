@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.56...@esri/calcite-components@3.3.0-next.57) (2025-08-06)
+
+### Bug Fixes
+
+- **panel:** prevent child panels from closing parent panels ([#12646](https://github.com/Esri/calcite-design-system/issues/12646)) ([5c14367](https://github.com/Esri/calcite-design-system/commit/5c14367840f045d187499f5a19a579913a54f333)), closes [#12645](https://github.com/Esri/calcite-design-system/issues/12645)
+
 ## [3.3.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.55...@esri/calcite-components@3.3.0-next.56) (2025-08-05)
 
 ### Features
