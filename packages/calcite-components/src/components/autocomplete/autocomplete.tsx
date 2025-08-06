@@ -686,7 +686,6 @@ export class Autocomplete
         if (open && activeItem) {
           this.value = activeItem.value;
           activeItem.emitSelectEvent();
-          this.emitChange();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {
