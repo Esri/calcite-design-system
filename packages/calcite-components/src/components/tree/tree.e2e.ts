@@ -635,11 +635,11 @@ describe("calcite-tree", () => {
         </calcite-tree>`,
       );
 
-      const root = await page.find("#root");
+      const list = await page.find("#root");
       const parent = await page.find("#parent");
       const child2 = await page.find("#child2");
 
-      await root.focus();
+      await list.focus();
       await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toEqual("root-item-1");

@@ -152,6 +152,13 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() moveToItems: MoveTo[] = [];
 
   /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
+
+  /**
    * When `true`, expands the component and its contents.
    *
    * @deprecated Use `expanded` prop instead.
@@ -517,6 +524,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       setPosition,
       setSize,
       dragDisabled,
+      sortDisabled,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
@@ -551,6 +559,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             scale={this.scale}
             setPosition={setPosition}
             setSize={setSize}
+            sortDisabled={sortDisabled}
           />
         ) : null}
         {collapsible ? (
