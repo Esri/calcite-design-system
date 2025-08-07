@@ -1,11 +1,11 @@
 import { TemplateResult } from "lit-html";
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 
 interface InternalLabelProps {
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
-  slot?: any;
+  slot?: JsxNode;
   spaceBottom?: boolean;
   spaceInlineEnd?: boolean;
   spaceInlineStart?: boolean;
@@ -49,13 +49,15 @@ export const InternalLabel = ({
     <div class={CSS.text}>
       {labelText}
       {required && (
-        <span class={CSS.requiredIndicator} id="required-indicator">
+        <span
+          aria-hidden="true"
+          class={CSS.requiredIndicator}
+          id="required-indicator"
+          title={tooltipText}
+        >
           *
         </span>
       )}
-      <calcite-tooltip placement="top" reference-element="required-indicator">
-        {tooltipText}
-      </calcite-tooltip>
     </div>
     {slot}
   </div>

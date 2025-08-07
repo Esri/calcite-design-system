@@ -47,7 +47,7 @@
 
   .internal-label-required-indicator {
     color: var(--calcite-color-status-danger);
-    padding-inline: 2px;
+    padding-inline: var(--calcite-spacing-base);
   }
 
   :host([scale="s"]) {
@@ -55,10 +55,10 @@
       margin-block-end: var(--calcite-spacing-xxs);
     }
     .internal-label-space-inline-end {
-      margin-right: theme("spacing.2");
+      margin-inline-end: var(--calcite-spacing-sm);
     }
     .internal-label-space-inline-start {
-      margin-left: theme("spacing.2");
+      margin-inline-start: var(--calcite-spacing-sm);
     }
     .internal-label-text {
       font-size: var(--calcite-font-size--2);
@@ -70,10 +70,10 @@
       margin-block-end: var(--calcite-spacing-xs);
     }
     .internal-label-space-inline-end {
-      margin-right: theme("spacing.2");
+      margin-inline-end: var(--calcite-spacing-sm);
     }
     .internal-label-space-inline-start {
-      margin-left: theme("spacing.2");
+      margin-inline-start: var(--calcite-spacing-sm);
     }
     .internal-label-text {
       font-size: var(--calcite-font-size--1);
@@ -85,10 +85,10 @@
       margin-block-end: var(--calcite-spacing-sm);
     }
     .internal-label-space-inline-end {
-      margin-right: theme("spacing.3");
+      margin-inline-end: var(--calcite-spacing-md);
     }
     .internal-label-space-inline-start {
-      margin-left: theme("spacing.3");
+      margin-inline-start: var(--calcite-spacing-md);
     }
     .internal-label-text {
       font-size: var(--calcite-font-size-0);
