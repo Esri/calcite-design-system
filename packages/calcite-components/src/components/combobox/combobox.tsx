@@ -83,7 +83,7 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-combobox-item`s.
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Combobox
   extends LitElement
@@ -377,7 +377,7 @@ export class Combobox
    */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
@@ -1914,7 +1914,7 @@ export class Combobox
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

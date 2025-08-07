@@ -73,7 +73,7 @@ export const internalLabel = (): string => html`
 
     <calcite-radio-button value="ember-def-m" label-text="Ember"></calcite-radio-button>
 
-    <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+    <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
   </calcite-radio-button-group>
 `;
 

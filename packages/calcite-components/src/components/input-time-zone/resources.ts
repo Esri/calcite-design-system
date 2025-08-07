@@ -3,5 +3,5 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  internalLabelContent: "internal-label-content",
+  labelContent: "label-content",
 };

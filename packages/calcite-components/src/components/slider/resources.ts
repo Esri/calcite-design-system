@@ -40,5 +40,5 @@ export const IDS = {
 export const maxTickElementThreshold = 250;
 
 export const SLOTS = {
-  internalLabelContent: "internal-label-content",
+  labelContent: "label-content",
 };

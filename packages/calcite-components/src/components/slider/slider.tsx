@@ -56,7 +56,7 @@ function isRange(value: number | number[]): value is number[] {
 }
 
 /**
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Slider
   extends LitElement
@@ -270,7 +270,7 @@ export class Slider
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** Use this property to override individual strings used by the component. */
@@ -1166,7 +1166,7 @@ export class Slider
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

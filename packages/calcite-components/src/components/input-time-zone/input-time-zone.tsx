@@ -51,7 +51,7 @@ declare global {
 }
 
 /**
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputTimeZone
   extends LitElement
@@ -113,7 +113,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) form: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
@@ -537,7 +537,7 @@ export class InputTimeZone
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
-          <slot name={SLOTS.internalLabelContent} slot={COMBOBOX_SLOTS.internalLabelContent} />
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

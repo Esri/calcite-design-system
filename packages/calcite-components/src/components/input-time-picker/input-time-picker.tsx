@@ -52,7 +52,7 @@ declare global {
 }
 
 /**
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputTimePicker
   extends LitElement
@@ -134,7 +134,7 @@ export class InputTimePicker
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /**
@@ -583,7 +583,7 @@ export class InputTimePicker
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

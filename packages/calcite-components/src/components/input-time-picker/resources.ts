@@ -32,5 +32,5 @@ export const ICONS = {
 };
 
 export const SLOTS = {
-  internalLabelContent: "internal-label-content",
+  labelContent: "label-content",
 };

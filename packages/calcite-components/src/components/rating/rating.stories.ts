@@ -67,7 +67,7 @@ export const simple = (args: RatingStoryArgs): string => html`
 
 export const internalLabel = (): string => html`
   <calcite-rating scale="m" label-text="Label text" required>
-    <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+    <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
   </calcite-rating>
 `;
 

@@ -74,7 +74,7 @@ declare global {
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
  * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Autocomplete
   extends LitElement
@@ -210,7 +210,7 @@ export class Autocomplete
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -794,7 +794,7 @@ export class Autocomplete
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />
@@ -868,7 +868,7 @@ export class Autocomplete
                   name={SLOTS.contentBottom}
                   onSlotChange={this.handleContentBottomSlotChange}
                 />
-                <slot ariaHidden="true" name={SLOTS.internalLabelContent} />
+                <slot name={SLOTS.labelContent} />
               </div>
             </div>
           </div>

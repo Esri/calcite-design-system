@@ -61,7 +61,7 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
 
 export const internalLabel = (): string => html`
   <calcite-input-time-zone scale="m" label-text="Label text" required
-    ><calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon
+    ><calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon
   ></calcite-input-time-zone>
 `;
 

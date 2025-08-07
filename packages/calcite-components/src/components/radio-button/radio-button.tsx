@@ -92,7 +92,7 @@ export class RadioButton
    */
   @property() label?: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /**

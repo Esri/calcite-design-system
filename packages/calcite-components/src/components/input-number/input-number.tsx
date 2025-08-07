@@ -66,7 +66,7 @@ declare global {
 
 /**
  * @slot action - A slot for positioning a button next to the component.
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputNumber
   extends LitElement
@@ -206,7 +206,7 @@ export class InputNumber
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
@@ -1056,7 +1056,7 @@ export class InputNumber
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

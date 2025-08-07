@@ -49,12 +49,7 @@ export const InternalLabel = ({
     <div class={CSS.text}>
       {labelText}
       {required && (
-        <span
-          aria-hidden="true"
-          class={CSS.requiredIndicator}
-          id="required-indicator"
-          title={tooltipText}
-        >
+        <span aria-hidden="true" class={CSS.requiredIndicator} title={tooltipText}>
           *
         </span>
       )}

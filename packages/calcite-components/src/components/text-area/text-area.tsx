@@ -51,7 +51,7 @@ declare global {
 
 /**
  * @slot - A slot for adding text.
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  * @slot footer-start - A slot for adding content to the start of the component's footer.
  * @slot footer-end - A slot for adding content to the end of the component's footer.
  */
@@ -183,7 +183,7 @@ export class TextArea
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /**
@@ -491,7 +491,7 @@ export class TextArea
               labelText={this.labelText}
               onClick={() => this.onLabelClick()}
               required={this.required}
-              slot={<slot name={SLOTS.internalLabelContent} />}
+              slot={<slot name={SLOTS.labelContent} />}
               spaceBottom
               tooltipText={this.messages.required}
             />

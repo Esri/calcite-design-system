@@ -31,7 +31,7 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
- * @slot internal-label-content - A slot for rendering content next to the component's labelText.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class RadioButtonGroup extends LitElement {
   // #region Static Members
@@ -66,7 +66,7 @@ export class RadioButtonGroup extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** Defines the layout of the component. */
@@ -219,7 +219,7 @@ export class RadioButtonGroup extends LitElement {
           <InternalLabel
             labelText={this.labelText}
             required={this.required}
-            slot={<slot name={SLOTS.internalLabelContent} />}
+            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

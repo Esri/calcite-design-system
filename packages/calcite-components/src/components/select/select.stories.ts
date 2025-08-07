@@ -79,7 +79,7 @@ export const internalLabel = (): string => html`
       <calcite-option value="high">😃</calcite-option>
       <calcite-option value="medium">😶</calcite-option>
       <calcite-option value="low">😭</calcite-option>
-      <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+      <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
     </calcite-select>
   </div>
 `;

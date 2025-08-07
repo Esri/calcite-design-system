@@ -137,7 +137,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
 export const internalLabel = (): string => html`
   <div style="width:350px">
     <calcite-autocomplete scale="m" label-text="Label text" required>
-      <calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon>
+      <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
     </calcite-autocomplete>
   </div>
 `;

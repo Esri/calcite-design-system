@@ -107,7 +107,7 @@ export class Checkbox
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** Label text to be displayed with the component */
+  /** When provided, displays label text on the component. */
   @property() labelText: string;
 
   /** Use this property to override individual strings used by the component. */

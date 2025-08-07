@@ -83,7 +83,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
 
 export const internalLabel = (): string => html`
   <calcite-input-time-picker label-text="Label text" required scale="m" step="0.1" value="10:37:09.5"
-    ><calcite-icon slot="internal-label-content" icon="banana" scale="m"></calcite-icon
+    ><calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon
   ></calcite-input-time-picker>
 `;
 
