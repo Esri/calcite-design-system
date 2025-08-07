@@ -86,7 +86,7 @@ export class InputText
 
   private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      this.valueController.setValue((event.target as HTMLInputElement).value);
+      this.value = (event.target as HTMLInputElement).value;
     }
     this.setFocus();
     event.stopPropagation();
@@ -420,8 +420,10 @@ export class InputText
 
   private clearInputTextValue(): void {
     // TODO: Handle nativeEvent Default Prevention
-    const { calciteInputTextChange, valueController } = this;
-    valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value: "" });
+    this.valueController.inputValue({
+      inputEventEmitter: this.calciteInputTextInput,
+      value: "",
+    });
   }
 
   private emitChangeIfUserModified(): void {
@@ -436,8 +438,7 @@ export class InputText
       element: this.childEl,
       value: this.value,
     });
-    const { calciteInputTextChange, value, valueController } = this;
-    valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value });
+    this.commitValue();
   }
 
   private clickHandler(event: MouseEvent): void {
@@ -455,6 +456,10 @@ export class InputText
     }
 
     this.setFocus();
+  }
+
+  private commitValue() {
+    this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputTextChange });
   }
 
   private inputTextFocusHandler(): void {
@@ -478,8 +483,7 @@ export class InputText
       return;
     }
     if (event.key === "Enter") {
-      const { calciteInputTextChange, value, valueController } = this;
-      valueController.commitValue({ changeEventEmitter: calciteInputTextChange, value });
+      this.commitValue();
     }
   }
 
