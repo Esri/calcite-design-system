@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll } from "../../tests/utils/puppeteer";
+import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Select } from "./select";
 
@@ -422,46 +422,23 @@ describe("calcite-select", () => {
     await assertSelectedOption(page, await page.find("calcite-option[value='']"));
   });
 
-  it("Handles type error when disconnected while loading", async () => {
-    const page = await newE2EPage();
+  it("does not throw when added and removed multiple times and a row", async () => {
+    const runTest = async () => {
+      async function addAndRemoveSelect(page: E2EPage): Promise<void> {
+        await page.evaluate(async () => {
+          const select = document.createElement("calcite-select");
+          document.body.append(select);
+          select.remove();
+        });
+        await page.waitForChanges();
+      }
 
-    await page.setContent(`
-           <button id="flash-select-btn">Flash select</button>  
-           <script>
-              const btn = document.getElementById('flash-select-btn');
-              window._errorCounter = 0;
+      const page = await newProgrammaticE2EPage();
+      await addAndRemoveSelect(page);
+      await addAndRemoveSelect(page);
+    };
 
-              window.addEventListener("error", (e) => {
-                if (e.error && e.error.name == "TypeError") {
-                  window._errorCounter++;
-                }
-                e.preventDefault();
-              });
-
-              window.addEventListener("unhandledrejection", (e) => {
-                const reason = e.reason || {};
-                const name = reason.name || '';
-                const message = reason.message || String(reason);
-                if (name == "TypeError" || message.includes("TypeError")) {
-                  window._errorCounter++;
-                }
-                e.preventDefault();
-              });
-
-              btn.addEventListener('click', () => {
-                const select = document.createElement('calcite-select')
-                document.body.append(select);
-                select.remove()
-              })
-           </script>
-        `);
-
-    for (let i = 0; i < 5; i++) {
-      await page.click("#flash-select-btn");
-    }
-
-    const typeErrorCount: number = await page.evaluate(() => (window as any)._errorCounter);
-    expect(typeErrorCount).toBe(0);
+    await expect(runTest()).resolves.toBeUndefined();
   });
 
   describe("is form-associated", () => {
