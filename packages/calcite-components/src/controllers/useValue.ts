@@ -115,10 +115,13 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   }
 
   /**
-   * Sets internal properties as a result of a direct value assignment instead of a user keyboard or mouse event.
+   * Sets internal properties as a result of a direct value assignment instead of a user keyboard or mouse event.  Sets the component's value to empty string when the incoming value is falsy.
    * @internal
    */
-  handleDirectValueChange(value: string): void {
+  private handleDirectValueChange(value: string): void {
+    if (!value) {
+      this.component.value = "";
+    }
     this.previousValue = value;
     this.lastEmittedValue = value;
   }
