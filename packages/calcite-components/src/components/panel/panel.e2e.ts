@@ -787,6 +787,19 @@ describe("calcite-panel", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
+  it.only("sets iconFlipRtl for calcite-icon", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-panel heading="Map Options" icon="arrow-bold-left" icon-flip-rtl> </calcite-panel>`,
+    );
+    await page.waitForChanges();
+
+    const icon = await page.find(`calcite-panel >>> calcite-icon`);
+
+    expect(await icon.getProperty("icon")).toBe("arrow-bold-left");
+    expect(await icon.getProperty("flipRtl")).toBe(true);
+  });
+
   describe("theme", () => {
     themed(
       html`<calcite-panel

@@ -420,7 +420,12 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
 
     const iconNode = icon ? (
-      <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={icon}
+        scale={getIconScale(scale)}
+      />
     ) : null;
 
     const headingNode = heading ? (
