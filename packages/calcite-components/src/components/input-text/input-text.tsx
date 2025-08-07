@@ -30,7 +30,6 @@ import {
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
@@ -92,18 +91,8 @@ export class InputText
     event.stopPropagation();
   };
 
-  private previousEmittedValue: string;
-
-  private previousValue: string;
-
-  private previousValueOrigin: SetValueOrigin = "initial";
-
   /** the computed icon to render */
   private requestedIcon?: IconNameOrString;
-
-  private userChangedValue = false;
-
-  private _value = "";
 
   private valueController = useValue(this);
 
@@ -271,17 +260,7 @@ export class InputText
   };
 
   /** The component's value. */
-  @property()
-  get value(): string {
-    return this._value;
-  }
-  set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.valueWatcher(value, oldValue);
-    }
-  }
+  @property() value: string = "";
 
   //#endregion
 
@@ -352,8 +331,6 @@ export class InputText
 
   async load(): Promise<void> {
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -387,17 +364,6 @@ export class InputText
     this.requestUpdate();
   }
 
-  private valueWatcher(newValue: string, previousValue: string): void {
-    if (!this.userChangedValue) {
-      this.setValue({
-        origin: "direct",
-        previousValue,
-        value: !newValue ? "" : newValue,
-      });
-    }
-    this.userChangedValue = false;
-  }
-
   private keyDownHandler(event: KeyboardEvent): void {
     if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
@@ -419,18 +385,10 @@ export class InputText
   }
 
   private clearInputTextValue(): void {
-    // TODO: Handle nativeEvent Default Prevention
     this.valueController.inputValue({
       inputEventEmitter: this.calciteInputTextInput,
       value: "",
     });
-  }
-
-  private emitChangeIfUserModified(): void {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
-      this.calciteInputTextChange.emit();
-      this.setPreviousEmittedValue(this.value);
-    }
   }
 
   private inputTextBlurHandler() {
@@ -473,9 +431,10 @@ export class InputText
     if (this.disabled || this.readOnly) {
       return;
     }
-    const { calciteInputTextInput, valueController } = this;
-    const value = (nativeEvent.target as HTMLInputElement).value;
-    valueController.inputValue({ inputEventEmitter: calciteInputTextInput, value });
+    this.valueController.inputValue({
+      inputEventEmitter: this.calciteInputTextInput,
+      value: (nativeEvent.target as HTMLInputElement).value,
+    });
   }
 
   private inputTextKeyDownHandler(event: KeyboardEvent): void {
@@ -493,55 +452,6 @@ export class InputText
 
   private setChildElRef(el) {
     this.childEl = el;
-  }
-
-  private setInputValue(newInputValue: string): void {
-    if (!this.childEl) {
-      return;
-    }
-    this.childEl.value = newInputValue;
-  }
-
-  private setPreviousEmittedValue(value: string): void {
-    this.previousEmittedValue = value;
-  }
-
-  private setPreviousValue(value: string): void {
-    this.previousValue = value;
-  }
-
-  private setValue({
-    committing = false,
-    nativeEvent,
-    origin,
-    previousValue,
-    value,
-  }: {
-    committing?: boolean;
-    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: SetValueOrigin;
-    previousValue?: string;
-    value: string;
-  }): void {
-    this.setPreviousValue(previousValue ?? this.value);
-    this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && value !== this.value;
-    this.value = value;
-
-    if (origin === "direct") {
-      this.setInputValue(value);
-      this.setPreviousEmittedValue(value);
-    }
-
-    if (nativeEvent) {
-      const calciteInputTextInputEvent = this.calciteInputTextInput.emit();
-
-      if (calciteInputTextInputEvent.defaultPrevented) {
-        this.value = this.previousValue;
-      } else if (committing) {
-        this.emitChangeIfUserModified();
-      }
-    }
   }
 
   //#endregion
