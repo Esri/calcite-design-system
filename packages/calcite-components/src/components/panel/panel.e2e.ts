@@ -787,10 +787,10 @@ describe("calcite-panel", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
-  it.only("sets iconFlipRtl for calcite-icon", async () => {
+  it("sets iconFlipRtl for calcite-icon", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html` <calcite-panel heading="Map Options" icon="arrow-bold-left" icon-flip-rtl> </calcite-panel>`,
+      html` <calcite-panel heading="Map Options" icon="arrow-bold-left" icon-flip-rtl></calcite-panel>`,
     );
     await page.waitForChanges();
 
