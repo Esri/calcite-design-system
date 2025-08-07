@@ -348,7 +348,7 @@ export const iconStartEnd = (): string => html`
   </calcite-block>
 `;
 
-const blockEl = (scale: Scale): string => html`
+const blockHTML = (scale: Scale): string => html`
   <calcite-block
     heading="Heading"
     description="description"
@@ -377,6 +377,7 @@ const blockEl = (scale: Scale): string => html`
     <calcite-block-section text="block-section"> </calcite-block-section>
   </calcite-block>
 `;
+
 export const allScales = (): string =>
   html` <style>
       .container {
@@ -385,4 +386,4 @@ export const allScales = (): string =>
         gap: 20px;
       }
     </style>
-    <div class="container">${blockEl("s")} ${blockEl("m")} ${blockEl("l")}</div>`;
+    <div class="container">${blockHTML("s")} ${blockHTML("m")} ${blockHTML("l")}</div>`;

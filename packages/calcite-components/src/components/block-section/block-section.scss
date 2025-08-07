@@ -105,7 +105,7 @@ calcite-switch {
   &:focus {
     @apply focus-normal;
     // required to ensure the focus ring is visible when slotted with other block-section components in block
-    z-index: 1;
+    z-index: var(--calcite-z-index);
   }
   &:hover {
     color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -405,10 +405,8 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
-  private updateBlockSectionChildren(event: Event): void {
-    this.blockSectionChildren = (event.target as HTMLSlotElement)
-      .assignedElements({ flatten: true })
-      .filter((el): el is BlockSection["el"] => el?.matches("calcite-block-section"));
+  private handleDefaultSlotChange(event: Event): void {
+    this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
     this.updateBlockSectionScale();
   }
 
@@ -424,7 +422,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   private renderScrim(): JsxNode {
     const { loading } = this;
-    const defaultSlot = <slot onSlotChange={this.updateBlockSectionChildren} />;
+    const defaultSlot = <slot onSlotChange={this.handleDefaultSlotChange} />;
 
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }

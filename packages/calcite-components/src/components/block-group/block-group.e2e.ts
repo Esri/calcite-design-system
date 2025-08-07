@@ -77,6 +77,10 @@ describe("calcite-block-group", () => {
         propertyName: "sortDisabled",
         value: true,
       },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
     ]);
   });
 

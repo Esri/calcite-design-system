@@ -24,6 +24,10 @@ describe("calcite-block-section", () => {
         propertyName: "expanded",
         value: true,
       },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
     ]);
   });
 
@@ -40,6 +44,10 @@ describe("calcite-block-section", () => {
       {
         propertyName: "toggleDisplay",
         defaultValue: "button",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });

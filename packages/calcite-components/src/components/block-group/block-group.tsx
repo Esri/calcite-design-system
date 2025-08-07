@@ -54,17 +54,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
   });
 
-  private parentBlockGroupEl: BlockGroup["el"];
-
   sortable: Sortable;
+
+  private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
   private cancelable = useCancelable<this>()(this);
 
-  private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
-
   private focusSetter = useSetFocus<this>()(this);
 
-  private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
+  private parentBlockGroupEl: BlockGroup["el"];
+
+  private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
   // #endregion
 
@@ -333,13 +333,15 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
-      (el): el is Block["el"] | BlockGroup["el"] =>
-        el.matches(blockSelector) || el.matches(blockGroupSelector),
-    );
+    const blockChildren: Block["el"][] = [];
 
-    const blockChildren = this.blockAndGroups.filter((block): block is Block["el"] =>
-      block.matches(blockSelector),
+    this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
+      (el): el is Block["el"] | BlockGroup["el"] => {
+        if (el.matches(blockSelector)) {
+          blockChildren.push(el as Block["el"]);
+        }
+        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+      },
     );
 
     updateBlockChildren(blockChildren);
@@ -347,7 +349,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private updateBlockAndGroupScale(): void {
-    this.blockAndGroups.forEach((el: Block["el"] | BlockGroup["el"]) => {
+    this.blockAndGroups.forEach((el) => {
       el.scale = this.scale;
     });
   }
