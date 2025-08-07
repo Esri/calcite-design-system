@@ -1,3 +1,5 @@
+const maxSizeInPx = 2560; // see https://www.chromatic.com/docs/modes/viewports/#frequently-asked-questions
+
 export const MODES = {
   small: {
     viewport: {
@@ -7,18 +9,18 @@ export const MODES = {
   },
   large: {
     viewport: {
-      height: 5000,
-      width: 5000,
+      height: maxSizeInPx,
+      width: maxSizeInPx,
     },
   },
   tall: {
     viewport: {
-      height: 12288,
+      height: maxSizeInPx,
     },
   },
   wide: {
     viewport: {
-      width: 12288,
+      width: maxSizeInPx,
     },
   },
 };
