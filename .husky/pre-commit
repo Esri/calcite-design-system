@@ -48,6 +48,8 @@ update_t9n_manifest() {
       echo "Error: Failed to update T9n manifest."
       exit 1
     }
+
+    git add t9nmanifest.txt
   fi
 }
 
