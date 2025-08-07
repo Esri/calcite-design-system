@@ -10,7 +10,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 ### ⚠ BREAKING CHANGES
 
 - **accordion, combobox, dropdown, list, tree:** Removes `multi` value of `selection-mode`.
-
   - Removed the `multi` value for `selection-mode` property, use `multiple`
     instead.
 
@@ -21,7 +20,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   method, focus is delegated to the first focusable element.
 
 - **alert, notice:** Renamed `color` properties and updated values.
-
   - Renamed the property `color`, use `kind` instead.
   - Updated the accepted values of `kind` to `brand`, `danger`, `info`,
     `success`, and `warning`.
@@ -29,7 +27,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 - **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-design-system/pull/5728)) ([38ca639](https://github.com/Esri/calcite-design-system/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-design-system/issues/5099)
 
 - **button, fab, split-button:** Removed deprecated properties and values.
-
   - `button`: Removed the property `form`, this property is no longer
     needed if the component is placed inside a form.
   - `button`, `fab`, `split-button`: Renamed the property `color`, use
@@ -44,14 +41,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 - **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
 
 - **chip,combobox-item:** Removed deprecated event payload.
-
   - Removed the `event.detail` property on the event `calciteChipDismiss`,
     use `event.target` instead.
   - Removed the `event.detail` property on the event
     `calciteComboboxChipDismiss`, use `event.target` instead.
 
 - **dropdown, dropdown-item:** Removed deprecated properties.
-
   - Removed the property `active` on `calcite-dropdown-item`, use
     `selected` instead.
   - Removed the property `active`, on `calcite-dropdown`, use `open`
@@ -59,7 +54,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 
 - **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
-
   - Removed support for slotting `calcite-panel` components, use the
     `calcite-flow-item` component instead.
   - Removed the event `calciteFlowItemBackClick`, use
@@ -68,13 +62,11 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 - **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
 
 - **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
-
   - `headingLevel` property on the `list` and `list-item-group` are no
     longer necessary.
   - `nonInteractive` property on the `list-item` is no longer necessary.
 
   - **list:**
-
     - Adds `label` property to specify an accessible name for the component.
     - Adds `loading` property to show a busy indicator.
     - Adds `selectionMode` and `selectionAppearance` properties to handle configuration of selection.
@@ -83,7 +75,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     - Deprecates `headingLevel` property.
 
   - **list-item-group:**
-
     - Adds `disabled` property to prevent user interaction.
     - Deprecates `headingLevel` property.
 
@@ -100,7 +91,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 - **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
 
 - **tabs, tab-nav, tab-title, tab:**
-
   - Removed the property `active` from `calcite-tab-title`, use `selected`
     instead.
   - Removed the property `active` from `calcite-tab`, use `selected`
@@ -112,14 +102,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 
 - **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
-
   - Removed the property `active`, use `expanded` instead.
   - Removed the property `itemTitle`, use `heading` instead.
   - Removed the property `itemSubtitle`, use `description` instead.
   - Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
 - **action:**
-
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
   - Removed the property `intlIndicator`, use `messageOverrides.indicator`
@@ -130,19 +118,16 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `appearance`.
 
 - **action-bar:**
-
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
 - **action-group:**
-
   - Removed the property `intlMore` , use `messsageOverrides.more`
     instead.
 
 - **action-menu:**
-
   - Removed the event `calciteActionMenuOpenChange`, use
     `calciteActionMenuOpen` instead.
   - Removed the `event.detail` value from the
@@ -151,14 +136,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     property on the `event.target` instead of `event.detail`.
 
 - **action-pad**:
-
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
 - **alert**:
-
   - Removed the property `intlClose`, use `messageOverrides.close`
     instead.
   - Renamed the property `autoDismiss`, use `autoClose` instead.
@@ -171,7 +154,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `-start` and `-end` are already flipped in right-to-left direction.
 
 - **block**:
-
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
@@ -185,19 +167,16 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `--calcite-block-padding` instead.
 
 - **block-section:**
-
   - Removed the property `intlExpand` , use `messsageOverrides.expand`
     instead.
   - Removed the property `intlCollapse`, use `messageOverrides.collapse`
     instead.
 
 - **button:**
-
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
 
 - **card**:
-
   - Removed the property `intlLoading` , use `messsageOverrides.loading`
     instead.
   - Removed the property `intlSelect` use `messageOverrides.select`
@@ -206,7 +185,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     instead.
 
 - **chip:**
-
   - Renamed the property `color`, use `kind` instead.
   - Updated the accepted values of `kind` to `brand`, `inverse`, and
     `neutral` (default).
@@ -221,15 +199,13 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     property.
 
 - **color-picker-hex-input:**
-
   - Removed, `intlHex` property, aria-label of color-picker-hex-input is
     set to `hex` by default.
   - Removed ,`intlNoColor` property.
 
-  *note: color-picker-hex-input is `internal` component.*
+  _note: color-picker-hex-input is `internal` component._
 
 - **color-picker:**
-
   - Removed the property `intlB` , use `messsageOverrides.b` instead.
   - Removed the property `intlBlue` , use `messsageOverrides.blue`
     instead.
@@ -259,7 +235,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     instead.
 
 - **combobox:**
-
   - Removed the property `intlRemoveTag` , use
     `messsageOverrides.removeTag` instead.
   - Renamed the event `calciteComboboxChipDismiss`, use
@@ -277,11 +252,9 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     component to determine the removed value instead.
 
 - **combobox-item:** Removed deprecated property.
-
   - Removed the property `constant`, use `filterDisable` instead.
 
 - **date-picker:**
-
   - Removed `endAsDate` and `startAsDate` properties, use `valueAsDate`
     instead.
   - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
@@ -299,7 +272,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the `locale` property, use `lang` instead.
 
 - **date-picker-month, date-picker-month-header:**
-
   - Removed the event `calciteDatePickerSelect` on
     `CalciteDatePickerMonthHeader`
   - Removed the event `calciteDatePickerSelect` on
@@ -308,7 +280,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `CalciteDatePickerMonth`
 
 - **dropdown:**
-
   - Removed the `event.detail` property on the event
     `calciteDropdownSelect`, use `event.target` instead. To get the selected `dropdown-item`, use the `calciteDropdownItemSelect` event.
   - Renamed the property `disableCloseOnSelect`, use
@@ -316,14 +287,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the slot `dropdown-trigger`, use `trigger` instead.
 
 - **filter:**
-
   - Removed the property `intlClear`, use `messsageOverrides.clear`
     instead.
   - Removed the property `intlLabel`, use `messageOverrides.label`
     instead.
 
 - **flow-item:**
-
   - Removed the property `intlBack` , use `messsageOverrides.back`
     instead.
   - Removed the property `intlClose`, use `messageOverrides.close`
@@ -332,17 +301,14 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     instead.
 
 - **handle:**
-
   - Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
 
 - **inline-editable:**
-
   - Removed the property`intlEnableEditing`, use `messsageOverrides.enableEditing` instead.
   - Removed the property `intlCancelEditing`, use `messageOverrides.cancelEditing` instead.
   - Removed the property `intlConfirmChanges`, use `messageOverrides.confirmChanges` instead.
 
 - **input:**
-
   - Removed the `nativeEvent` payload property which was being used
     internally.
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
@@ -352,7 +318,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed `calciteInputInput`'s `el`/`value` event payload properties, use the event's `target`/`currentTarget` instead.
 
 - **input-date-picker:**
-
   - Removed `calciteDatePickerRangeChange` event, use
     `calciteInputDatePickerChange` instead.
   - Removed the property `start`, use `value` instead.
@@ -370,12 +335,10 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the `locale` property, use `lang` instead.
 
 - **input-message:**
-
   - Removed `active` property, use the global `hidden` attribute instead.
   - Removed `type` property, "floating" is no longer supported.
 
 - **input-number:**
-
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
   - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
   - Removed `locale` property, use `lang` instead.
@@ -383,14 +346,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     event's `target`/`currentTarget` instead.
 
 - **input-text:**
-
   - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
   - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
   - Removed `calciteInputTextInput` event payload, use the event's
     `target`/`currentTarget` instead.
 
 - **input-time-picker:**
-
   - Removed the `active` property, use `open` instead.
   - Removed the property `locale`, use `lang` instead.
   - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
@@ -407,7 +368,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
 
 - **label:**
-
   - The default display for label is now `flex` instead of
     `inline`. Use `--calcite-label-margin-bottom` CSS variable to disable space when
     in `layout` is `inline`.
@@ -419,13 +379,11 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `--calcite-label-margin-bottom` instead.
 
 - **loader:**
-
   - Removed the property `active`, use global attribute `hidden` instead.
   - Removed the property `noPadding`, use `--calcite-loader-padding` CSS
     property instead.
 
 - **modal:**
-
   - Removed the property `backgroundColor`, use the CSS variable
     `--calcite-modal-content-background` instead.
   - Removed the `--calcite-modal-padding` CSS variable, use the
@@ -451,14 +409,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Renamed the property `disableEscape`, use `escapeDisabled` instead.
 
 - **notice:**
-
   - Removed the property `active`, use `open` instead.
   - Removed the property `dimissible`, use `closable` property instead.
   - Removed the property `intlClose`, use `messsageOverrides.close`
     instead.
 
 - **pagination**:
-
   - Removed the property `textLabelNext` , use `messsageOverrides.next`
     instead.
   - Removed the property `textLabelPrevious` , use
@@ -469,7 +425,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     `calcitePaginationChange`, use `event.target` instead.
 
 - **panel**:
-
   - Removed the property `intlClose` , use `messsageOverrides.close`
     instead.
   - Removed the property `intlOptions`, use `messsageOverrides.options`
@@ -491,14 +446,12 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     component instead.
 
 - **pick-list-item**:
-
   - Removed the property `intlRemove`, use `messsageOverrides.remove`
     instead.
   - Renamed the property `disableDeselect`, use `deselectDisabled`
     instead.
 
 - **popover**:
-
   - Removed the property `intlClose` , use `messsageOverrides.close`
     instead.
   - Renamed the property `disableFlip`, use `flipDisabled` instead.
@@ -512,80 +465,66 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   component is no longer necessary for `calcite-popover`s.
 
 - **radio-group:**
-
   - Removed `minimal` appearance value, use `outline` instead.
   - Removed the `event.detail` property on the event
     `calciteRadioGroupChange`, use `event.target` instead.
 
 - **radio-group-item:**
-
   - Removed the property `icon`, use either `iconStart` or `iconEnd`
     instead.
   - Removed the property `iconPosition`, use either `iconStart` or
     `iconEnd` instead.
 
 - **rating:**
-
   - Removed the `event.detail` property on the event
     `calciteRatingChange`, use `event.target` instead.
   - Removed the property `intlStars` , use `messsageOverrides.stars` instead.
   - Removed the property `intlRating` , use `messsageOverrides.rating` instead.
 
 - **scrim:**
-
   - Removed the property `intlLoading` , use `messsageOverrides.loading` instead.
 
 - **shell:**
-
   - Removed the slot `primary-panel`, use `panel-start` instead.
   - Removed the slot `contextual-panel`, use `panel-end` instead.
 
 - **shell-panel:**
-
   - Removed the property `intlResize`, use `messagesOverrides.resize`
     instead.
   - Removed the `calciteShellPanelToggle` event. Use a `ResizeObserver` on the component to listen for changes to its size. (<https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver>).
 
 - **slider:**
-
   - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
     instead.
 
 - **split-button:**
-
   - Removed the `event.detail` payload from the events
     `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
     Use separate mouse event listeners to get information about `click`
     events.
 
 - **stepper-item:**
-
   - Removed the property `active`, use `selected` instead.
   - Removed the property `itemTitle`, use `heading` instead.
   - Removed the property `itemSubtitle`, use `description` instead.
 
 - **switch:**
-
   - Removed the property `switched`, use `checked` instead.
   - Removed the `event.detail` from `calciteSwitchChange`, use
     `event.target.checked` instead.
 
 - **tab-nav**:
-
   - Removed the `event.detail` property on the event `calciteTabChange`,
     use `event.target` and the `selectedTitle` property instead.
 
 - **tab-title**:
-
   - Removed the `event.detail` property on the event
     `calciteTabsActivate`, use `event.target` instead.
 
 - **tabs:**
-
   - Removed the slot `tab-nav`, use `title-group` instead.
 
 - **time-picker:**
-
   - Removed `target` parameter from `setFocus()`, focus will be delegated
     to the first focusable element instead.
   - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
@@ -603,11 +542,9 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Removed the `locale` property, use `lang` instead.
 
 - **tip:**
-
   - Renamed the property `nonDismissible`, use `closeDisabled` instead.
 
 - **tip-manager:**
-
   - Removed the `calciteTipManagerToggle` event, use
     `calciteTipManagerClose` instead.
 
@@ -615,7 +552,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   component is no longer necessary for `calcite-tooltip`s.
 
 - **tree:**
-
   - Added property `selectedItems`.
   - Removed the `event.detail` property on the event `calciteTreeSelect`,
     use `event.target` instead.
@@ -623,7 +559,6 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     instead.
 
 - **value-list:**
-
   - Removed the property `intlDragHandleActive`, use `messsageOverrides.dragHandleActive` instead.
   - Removed the property `intlDragHandleChange`, use `messsageOverrides.dragHandleChange` instead.
   - Removed the property `intlDragHandleCommit`, use `messsageOverrides.dragHandleCommit` instead.
