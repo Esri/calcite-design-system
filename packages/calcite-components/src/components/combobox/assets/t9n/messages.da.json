@@ -1,8 +1,10 @@
 {
+  "add": "Add: {text}",
   "all": "Alle",
   "allSelected": "Alle valgt",
-  "selectAll": "Markér alle",
   "clear": "Ryd værdi",
+  "noMatches": "No matches",
   "removeTag": "Fjern nøgleord",
+  "selectAll": "Select all",
   "selected": "valgt"
 }
