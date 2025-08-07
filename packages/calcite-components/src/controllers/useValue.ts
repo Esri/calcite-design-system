@@ -26,7 +26,7 @@ interface UseValueComponent {
 
 interface CommitValueOptions {
   /**
-   * The component's custom change event emitter.
+   * The component's change event emitter.
    */
   changeEventEmitter: EventEmitter;
   /**
@@ -37,7 +37,7 @@ interface CommitValueOptions {
 
 interface InputValueOptions {
   /**
-   * The component's custom input event emitter.
+   * The component's input event emitter.
    */
   inputEventEmitter: EventEmitter;
   /**
