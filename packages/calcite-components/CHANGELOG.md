@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.60...@esri/calcite-components@3.3.0-next.61) (2025-08-07)
+
+### Bug Fixes
+
+- **select:** fix error thrown when component is removed before initialization ([#12630](https://github.com/Esri/calcite-design-system/issues/12630)) ([bde1064](https://github.com/Esri/calcite-design-system/commit/bde1064f71fca3db7ba972c2cec93c7d8d65522d)), closes [#12160](https://github.com/Esri/calcite-design-system/issues/12160)
+
 ## [3.3.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.59...@esri/calcite-components@3.3.0-next.60) (2025-08-07)
 
 ### Bug Fixes
