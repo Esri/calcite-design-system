@@ -70,10 +70,10 @@ export class Switch
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** Label text to be displayed at the end of the component */
+  /** When provided, displays label text at the end of the component */
   @property() labelTextEnd: string;
 
-  /** Label text to be displayed at the start of the component */
+  /** When provided, displays label text at the start of the component */
   @property() labelTextStart: string;
 
   /**
