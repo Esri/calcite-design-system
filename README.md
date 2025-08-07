@@ -297,10 +297,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/gpbmike">
-      <img src="https://avatars.githubusercontent.com/u/8754?v=4" width="100;" alt="gpbmike"/>
+    <a href="https://github.com/brandentheintern">
+      <img src="https://avatars.githubusercontent.com/u/158607603?v=4" width="100;" alt="brandentheintern"/>
       <br />
-      <sub><b>Mike Horn</b></sub>
+      <sub><b>Branden Chong</b></sub>
     </a>
   </td>
   <td align="center">
@@ -311,33 +311,26 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/brandentheintern">
-      <img src="https://avatars.githubusercontent.com/u/158607603?v=4" width="100;" alt="brandentheintern"/>
+    <a href="https://github.com/gpbmike">
+      <img src="https://avatars.githubusercontent.com/u/8754?v=4" width="100;" alt="gpbmike"/>
       <br />
-      <sub><b>Branden Chong</b></sub>
+      <sub><b>Mike Horn</b></sub>
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/alexabreu">
-      <img src="https://avatars.githubusercontent.com/u/91140?v=4" width="100;" alt="alexabreu"/>
+    <a href="https://github.com/Apahadi73">
+      <img src="https://avatars.githubusercontent.com/u/36856709?v=4" width="100;" alt="Apahadi73"/>
       <br />
-      <sub><b>Alex Abreu</b></sub>
+      <sub><b>Amir Pahadi</b></sub>
     </a>
   </td>
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/annierm18">
-      <img src="https://avatars.githubusercontent.com/u/25759835?v=4" width="100;" alt="annierm18"/>
+    <a href="https://github.com/tomwayson">
+      <img src="https://avatars.githubusercontent.com/u/662944?v=4" width="100;" alt="tomwayson"/>
       <br />
-      <sub><b>Aine Fitzgerald Coleman</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/rpanichakit9541">
-      <img src="https://avatars.githubusercontent.com/u/44479773?v=4" width="100;" alt="rpanichakit9541"/>
-      <br />
-      <sub><b>Rachapong Panichakit</b></sub>
+      <sub><b>Tom Wayson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -348,19 +341,35 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/tomwayson">
-      <img src="https://avatars.githubusercontent.com/u/662944?v=4" width="100;" alt="tomwayson"/>
+    <a href="https://github.com/rpanichakit9541">
+      <img src="https://avatars.githubusercontent.com/u/44479773?v=4" width="100;" alt="rpanichakit9541"/>
       <br />
-      <sub><b>Tom Wayson</b></sub>
+      <sub><b>Rachapong Panichakit</b></sub>
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/Apahadi73">
-      <img src="https://avatars.githubusercontent.com/u/36856709?v=4" width="100;" alt="Apahadi73"/>
+    <a href="https://github.com/allieorth">
+      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
-      <sub><b>Amir Pahadi</b></sub>
+      <sub><b>Allie Raney</b></sub>
     </a>
   </td>
+  <td align="center">
+    <a href="https://github.com/alexabreu">
+      <img src="https://avatars.githubusercontent.com/u/91140?v=4" width="100;" alt="alexabreu"/>
+      <br />
+      <sub><b>Alex Abreu</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/annierm18">
+      <img src="https://avatars.githubusercontent.com/u/25759835?v=4" width="100;" alt="annierm18"/>
+      <br />
+      <sub><b>Aine Fitzgerald Coleman</b></sub>
+    </a>
+  </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/anveshrmekala">
       <img src="https://avatars.githubusercontent.com/u/107427943?v=4" width="100;" alt="anveshrmekala"/>
@@ -368,8 +377,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>anvesh mekala</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/timmorey">
       <img src="https://avatars.githubusercontent.com/u/2340894?v=4" width="100;" alt="timmorey"/>
@@ -405,6 +412,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nicholas Romano</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/nwhittaker">
       <img src="https://avatars.githubusercontent.com/u/421496?v=4" width="100;" alt="nwhittaker"/>
@@ -412,8 +421,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nathan Whittaker</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/oknoway">
       <img src="https://avatars.githubusercontent.com/u/354970?v=4" width="100;" alt="oknoway"/>
@@ -449,20 +456,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Bjorn Svensson</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/drewdaemon">
       <img src="https://avatars.githubusercontent.com/u/315764?v=4" width="100;" alt="drewdaemon"/>
       <br />
       <sub><b>Drew Tate</b></sub>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td align="center">
-    <a href="https://github.com/allieorth">
-      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
-      <br />
-      <sub><b>Allie Raney</b></sub>
     </a>
   </td>
   <td align="center">
