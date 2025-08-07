@@ -324,7 +324,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
-    if (event.defaultPrevented) {
+    if (event.defaultPrevented || event.target !== this.el) {
       return;
     }
 

@@ -12,7 +12,8 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import {
   FlipPlacement,
   FloatingCSS,
