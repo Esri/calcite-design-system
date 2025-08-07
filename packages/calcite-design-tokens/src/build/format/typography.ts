@@ -2,7 +2,7 @@ import prettierSync from "@prettier/sync";
 import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
-import get from "lodash-es/get.js";
+import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
 import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
 import { state } from "../shared/state.js";
