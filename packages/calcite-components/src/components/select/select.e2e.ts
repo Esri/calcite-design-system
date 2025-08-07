@@ -14,7 +14,7 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll } from "../../tests/utils/puppeteer";
+import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Select } from "./select";
 
@@ -420,6 +420,25 @@ describe("calcite-select", () => {
     `);
 
     await assertSelectedOption(page, await page.find("calcite-option[value='']"));
+  });
+
+  it("does not throw when added and removed multiple times and a row", async () => {
+    const runTest = async () => {
+      async function addAndRemoveSelect(page: E2EPage): Promise<void> {
+        await page.evaluate(async () => {
+          const select = document.createElement("calcite-select");
+          document.body.append(select);
+          select.remove();
+        });
+        await page.waitForChanges();
+      }
+
+      const page = await newProgrammaticE2EPage();
+      await addAndRemoveSelect(page);
+      await addAndRemoveSelect(page);
+    };
+
+    await expect(runTest()).resolves.toBeUndefined();
   });
 
   describe("is form-associated", () => {
