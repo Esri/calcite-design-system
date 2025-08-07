@@ -9872,5 +9872,70 @@
     "alias": ["4.3.0", "generic", "organize", "search", "content", "filter", "folders"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "coded-value-domain": {
+    "alias": ["4.3.0", "gis", "geodatabase", "schema", "compare", "tool"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "feature-dataset": {
+    "alias": ["4.3.0", "gis", "geodatabase", "schema", "compare", "tools"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "domain": {
+    "alias": ["4.3.0", "generic", "mutipoint", "geodatabase", "schema", "tools"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "layer-annotation": {
+    "alias": ["4.3.0", "layers", "text", "visual", "label", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-dimension": {
+    "alias": ["4.3.0", "layers", "elements", "color", "compare", "geodatabase,schema"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-multipatch": {
+    "alias": ["4.3.0", "layers", "collection", "boundary", "object", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-multipoint": {
+    "alias": ["4.3.0", "layers", "data-structures", "connect", "network", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "range-domain": {
+    "alias": ["4.3.0", "gis", "values", "output", "geodatabase", "schema"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "topology": {
+    "alias": ["4.3.0", "generic", "spaces", "shape", "points", "math"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "location-referencing-dataset": {
+    "alias": ["4.3.0", "gis", "linear", "feature", "coordinates", "locations", "points"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "geometric-network": {
+    "alias": ["4.3.0", "gis", "edges", "junctions", "points", "network"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "parcel-dataset": {
+    "alias": ["4.3.0", "generic", "collection", "attributes", "information", "polygons"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "relationship-class": {
+    "alias": ["4.3.0", "gis", "store", "fields", "features", "table", "geodatabase"],
+    "category": "GIS",
+    "release": "4.3.0"
   }
 }
