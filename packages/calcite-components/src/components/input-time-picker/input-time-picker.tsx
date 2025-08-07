@@ -330,7 +330,9 @@ export class InputTimePicker
   }
 
   private commitValue(): void {
-    this.valueController.commitValue({ changeEventEmitter: this.calciteInputTimePickerChange });
+    this.valueController.commitCurrentValue({
+      changeEventEmitter: this.calciteInputTimePickerChange,
+    });
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

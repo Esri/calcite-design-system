@@ -32,7 +32,7 @@ interface CommitValueOptions {
   /**
    * The new value to set on the component.  If omitted, the controller will commit the component's currently set value.
    */
-  value?: string;
+  value: string;
 }
 
 interface InputValueOptions {
@@ -81,8 +81,18 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Methods
 
   /**
-   * Commits the component's current value from user input, or a supplied value.
-   * Emits the component's custom change event if the component's current value differs from the previously emitted value.
+   * Commits the component's current value.
+   *
+   * @param changeEventEmitter.changeEventEmitter
+   * @param changeEventEmitter
+   */
+  commitCurrentValue({ changeEventEmitter }: Pick<CommitValueOptions, "changeEventEmitter">): void {
+    this.commitValue({ changeEventEmitter, value: this.component.value });
+  }
+
+  /**
+   * Commits the passed in value from user input, or a supplied value.
+   * Emits the component's custom change event if the value differs from the previously emitted value.
    *
    * @param changeEvent
    * @param changeEvent.changeEventEmitter
@@ -91,10 +101,8 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    */
   commitValue({ changeEventEmitter, value }: CommitValueOptions): void {
     this.userChangedValue = true;
-    if (value) {
-      this.previousValue = this.component.value;
-      this.component.value = value;
-    }
+    this.previousValue = this.component.value;
+    this.component.value = value;
     if (this.component.value !== this.lastEmittedValue) {
       const changeEvent = changeEventEmitter.emit();
       if (changeEvent.defaultPrevented) {
