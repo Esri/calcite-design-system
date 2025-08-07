@@ -194,26 +194,24 @@ export const validationMessageAllScales_TestOnly = (): string => html`
 
 export const scales_TestOnly = (): string => html`
   <style>
-    .container {
+    .parent {
       display: flex;
       flex-direction: column;
-      width: 1400px;
-      height: 1200px;
       gap: 400px;
     }
-
-    .use-case {
+    .child {
       display: flex;
       gap: 100px;
+      height: 500px;
     }
   </style>
-  <div class="container">
-    <div class="use-case">
+  <div class="parent">
+    <div class="child">
       <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
       <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
       <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
     </div>
-    <div class="use-case">
+    <div class="child">
       <calcite-input-date-picker
         scale="s"
         open
@@ -242,7 +240,7 @@ export const scales_TestOnly = (): string => html`
         value="2020-12-12"
       ></calcite-input-date-picker>
     </div>
-    <div class="use-case">
+    <div class="child">
       <calcite-input-date-picker
         scale="s"
         open
