@@ -91,7 +91,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   }
 
   /**
-   * Commits the passed in value from user input, or a supplied value.
+   * Commits the passed in value in response to user input.
    * Emits the component's custom change event if the value differs from the previously emitted value.
    *
    * @param changeEvent
@@ -124,7 +124,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   }
 
   /**
-   * Sets the component's value from user input and emits the component's custom input event.
+   * Sets the component's value in response to user input and emits the component's input event.
    *
    * @param inputEventEmitter.inputEventEmitter
    * @param inputEventEmitter
