@@ -2,6 +2,7 @@ import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { MODES } from "../../../.storybook/modes";
 import type { TileGroup } from "./tile-group";
 
 const { dir, layout, scale } = ATTRIBUTES;
@@ -42,7 +43,7 @@ export default {
     },
   },
   parameters: {
-    chromatic: { delay: 10000, viewports: [1728] },
+    chromatic: { delay: 10000, modes: { default: MODES.tall }, cropToViewport: true },
   },
 };
 

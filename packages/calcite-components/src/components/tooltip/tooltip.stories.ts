@@ -2,6 +2,7 @@ import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { MODES } from "../../../.storybook/modes";
 import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
@@ -48,7 +49,7 @@ export const smallViewport = (): string => html`
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
 
 export const open_TestOnly = (): string => html`
   <div style="width: 400px;">
