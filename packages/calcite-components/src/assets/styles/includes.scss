@@ -48,6 +48,9 @@
   .internal-label-required-indicator {
     color: var(--calcite-color-status-danger);
     padding-inline: var(--calcite-spacing-base);
+    &:hover {
+      cursor: help;
+    }
   }
 
   :host([scale="s"]) {
