@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -279,6 +279,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -286,15 +289,18 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.filterEnabled
         ? this.filterEl
         : this.focusableItems.find((listItem) => listItem.active);
-    });
+    }, options);
   }
 
   //#endregion
@@ -390,6 +396,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
       changes.has("group") ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
@@ -428,6 +435,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
+      sortDisabled,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -444,6 +452,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
+        item.sortDisabled = sortDisabled;
       }
     });
 
@@ -1122,7 +1131,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerHeight]: this.listItems.length < 1 && loading,
+          }}
+        >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}

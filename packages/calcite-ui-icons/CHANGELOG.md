@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.13...@esri/calcite-ui-icons@4.3.0-next.14) (2025-08-06)
+
+### Features
+
+- add filled envelope icon ([#12654](https://github.com/Esri/calcite-design-system/issues/12654)) ([563f1a3](https://github.com/Esri/calcite-design-system/commit/563f1a3664221015c592c3cb142c64fd8ff5b7ff))
+
+## [4.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.12...@esri/calcite-ui-icons@4.3.0-next.13) (2025-08-06)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.11...@esri/calcite-ui-icons@4.3.0-next.12) (2025-07-28)
+
+### Features
+
+- add catalog and magic wand ([#12596](https://github.com/Esri/calcite-design-system/issues/12596)) ([7a55e1e](https://github.com/Esri/calcite-design-system/commit/7a55e1eb66d75a30c9c14fbcf0d77eb616ba498a))
+
 ## [4.3.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.10...@esri/calcite-ui-icons@4.3.0-next.11) (2025-07-22)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

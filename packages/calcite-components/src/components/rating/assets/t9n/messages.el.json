@@ -1,4 +1,5 @@
 {
   "rating": "Αξιολόγηση",
+  "required": "Required",
   "stars": "Αστέρια: {num}"
 }

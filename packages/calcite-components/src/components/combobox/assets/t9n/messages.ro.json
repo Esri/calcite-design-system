@@ -1,8 +1,11 @@
 {
+  "add": "Add: {text}",
   "all": "Toate",
   "allSelected": "Toate selectate",
-  "selectAll": "Selectare toate",
   "clear": "Golire valoare",
+  "noMatches": "No matches",
   "removeTag": "Eliminare etichetă",
+  "required": "Required",
+  "selectAll": "Select all",
   "selected": "selectat"
 }

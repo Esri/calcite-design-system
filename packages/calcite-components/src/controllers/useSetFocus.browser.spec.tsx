@@ -11,8 +11,8 @@ describe("useSetFocus", () => {
       private focusSetter = useSetFocus()(this);
       private inputRef = createRef<HTMLInputElement>();
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -32,8 +32,8 @@ describe("useSetFocus", () => {
       private focusSetter = useSetFocus()(this);
       private inputRef = createRef<ToElement<Input["el"]>>();
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -52,8 +52,8 @@ describe("useSetFocus", () => {
     class Test extends LitElement {
       private focusSetter = useSetFocus()(this);
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.el);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.el, options);
       }
 
       override render(): JsxNode {
@@ -74,8 +74,8 @@ describe("useSetFocus", () => {
 
       disabled = true;
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.el);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.el, options);
       }
 
       override render(): JsxNode {
@@ -99,8 +99,8 @@ describe("useSetFocus", () => {
       focusSetter = useSetFocus()(this);
       private inputRef = createRef<ToElement<Input["el"]>>();
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -132,8 +132,8 @@ describe("useSetFocus", () => {
       private inputRef = createRef<ToElement<Input["el"]>>();
       private ready = false;
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -153,8 +153,8 @@ describe("useSetFocus", () => {
       focusSetter = useSetFocus()(this);
       private inputRef = createRef<ToElement<Input["el"]>>();
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -188,8 +188,8 @@ describe("useSetFocus", () => {
 
       private inputRef = createRef<ToElement<Input["el"]>>();
 
-      async setFocus(): Promise<void> {
-        return this.focusSetter(() => this.inputRef.value);
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
       }
 
       override render(): JsxNode {
@@ -219,10 +219,10 @@ describe("useSetFocus", () => {
         private focusSetter = useSetFocus()(this);
         private ref = createRef<HTMLDivElement>();
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           return this.focusSetter(() => {
             return { target: this.ref.value!, includeContainer: true };
-          });
+          }, options);
         }
 
         override render(): JsxNode {
@@ -248,10 +248,10 @@ describe("useSetFocus", () => {
         private focusSetter = useSetFocus()(this);
         private ref = createRef<HTMLDivElement>();
 
-        async setFocus(): Promise<void> {
+        async setFocus(options?: FocusOptions): Promise<void> {
           return this.focusSetter(() => {
             return { target: this.ref.value!, strategy: "focusable" };
-          });
+          }, options);
         }
 
         override render(): JsxNode {
@@ -272,5 +272,32 @@ describe("useSetFocus", () => {
         el.shadowRoot.querySelector("#target"),
       );
     });
+  });
+
+  it("supports passing focus options", async () => {
+    class Test extends LitElement {
+      private focusSetter = useSetFocus()(this);
+
+      inputRef = createRef<HTMLInputElement>();
+
+      async setFocus(options?: FocusOptions): Promise<void> {
+        return this.focusSetter(() => this.inputRef.value, options);
+      }
+
+      override render(): JsxNode {
+        return <input ref={this.inputRef} />;
+      }
+    }
+
+    const { el, component } = await mount(Test);
+    const focusSpy = vi.spyOn(component.inputRef.value!, "focus");
+
+    expect(document.activeElement).not.toBe(el);
+
+    const focusOptions: FocusOptions = { preventScroll: true };
+    await el.setFocus(focusOptions);
+    expect(document.activeElement).toBe(el);
+    expect(focusSpy).toHaveBeenCalledWith(focusOptions);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 });

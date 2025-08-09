@@ -512,8 +512,8 @@ describe("calcite-flow", () => {
           // no op
         }
 
-        async setFocus(): Promise<void> {
-          await this.flowItemEl.setFocus();
+        async setFocus(options?: FocusOptions): Promise<void> {
+          await this.flowItemEl.setFocus(options);
         }
       }
 

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -106,6 +106,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   // #endregion
 
   // #region Public Methods
@@ -113,13 +116,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
+  async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       return this.el;
-    });
+    }, options);
   }
 
   // #endregion
@@ -169,7 +175,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
-      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
+      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
       this.updateBlockItemsDebounced();
     }
@@ -190,7 +197,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems(): void {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems } = this;
+    const { dragEnabled, el, moveToItems, sortDisabled } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
 
@@ -200,6 +207,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
           (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
         );
         item.dragHandle = dragEnabled;
+        item.sortDisabled = sortDisabled;
       }
     });
 
