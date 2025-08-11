@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.61...@esri/calcite-components@3.3.0-next.62) (2025-08-11)
+
+### Bug Fixes
+
+- **dialog, flow-item, panel:** fix `iconFlipRtl` not working in RTL contexts ([#12668](https://github.com/Esri/calcite-design-system/issues/12668)) ([04873b4](https://github.com/Esri/calcite-design-system/commit/04873b40970778c1f6583cc6eecb456852f4de94)), closes [#12635](https://github.com/Esri/calcite-design-system/issues/12635)
+
 ## [3.3.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.60...@esri/calcite-components@3.3.0-next.61) (2025-08-07)
 
 ### Bug Fixes
