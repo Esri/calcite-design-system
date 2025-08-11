@@ -48,6 +48,40 @@ update_t9n_manifest() {
       echo "Error: Failed to update T9n manifest."
       exit 1
     }
+
+    git add t9nmanifest.txt
+  fi
+}
+
+sync_en_t9n_bundles() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
+  )"
+
+  files_to_sync=""
+
+  if [ -n "$staged_files" ]; then
+    for file in $staged_files; do
+      dir=$(dirname "$file")
+      en_file="$dir/messages.en.json"
+
+      # only sync if messages.en.json is not staged
+      if ! git diff --cached --name-only --diff-filter=ACM | grep -q "$en_file"; then
+        files_to_sync="$files_to_sync $file"
+      fi
+    done
+
+    if [ -n "$files_to_sync" ]; then
+      npx tsx ./packages/calcite-components/support/syncEnT9nBundles.ts $files_to_sync || {
+        echo "Error: Failed to sync En T9n bundles."
+        exit 1
+      }
+
+      for file in $files_to_sync; do
+        en_file="$(dirname "$file")/messages.en.json"
+        git add "$en_file"
+      done
+    fi
   fi
 }
 
@@ -63,6 +97,7 @@ update_internal_custom_prop_doc() {
   unset staged_scss_files
 }
 
+sync_en_t9n_bundles
 update_t9n_manifest
 update_internal_custom_prop_doc
 lint-staged
