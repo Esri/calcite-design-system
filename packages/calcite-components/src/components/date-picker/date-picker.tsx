@@ -525,7 +525,7 @@ export class DatePicker extends LitElement {
           } else {
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
-              this.setEndDate(null);
+              this.setEndDate(null, false);
               this.activeEndDate = null;
             }
             this.setStartDate(date);
