@@ -69,7 +69,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
-  @property() beforeBack: () => Promise<void>;
+  @property() beforeBack?: () => Promise<void>;
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -188,6 +188,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Fires when the close button is clicked. */
   calciteFlowItemClose = createEvent({ cancelable: false });
 
+  /** Fires when the component's content area is collapsed. */
+  calciteFlowItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteFlowItemExpand = createEvent({ cancelable: false });
+
   /** Fires when the content is scrolled. */
   calciteFlowItemScroll = createEvent({ cancelable: false });
 
@@ -208,6 +214,13 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
+    }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteFlowItemCollapse.emit();
+      } else {
+        this.calciteFlowItemExpand.emit();
+      }
     }
   }
 
