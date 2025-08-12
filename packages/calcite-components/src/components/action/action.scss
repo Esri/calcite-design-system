@@ -141,13 +141,13 @@
 :host([active]) {
   .button {
     background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-3));
-      color: var(
-        --calcite-action-text-color-press,
-        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-      );
     }
 
     &:active {
