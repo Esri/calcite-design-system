@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.15...@esri/calcite-ui-icons@4.3.0-next.16) (2025-08-12)
+
+### Features
+
+- schema report, video, classification, and advance drawing tools icons ([#12679](https://github.com/Esri/calcite-design-system/issues/12679)) ([39740a6](https://github.com/Esri/calcite-design-system/commit/39740a6fbe2c40451dbdb89e37930cc934c0049b))
+
 ## [4.3.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.14...@esri/calcite-ui-icons@4.3.0-next.15) (2025-08-11)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
