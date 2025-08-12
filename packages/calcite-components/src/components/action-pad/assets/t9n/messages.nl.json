@@ -1,6 +1,6 @@
 {
   "expand": "Uitklappen",
   "collapse": "Inklappen",
-  "expandLabel": "Uitvouwen",
-  "collapseLabel": "Samenvouwen"
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }
