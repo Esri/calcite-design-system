@@ -1246,6 +1246,26 @@
     "arrow-left-10": 61783,
     "magic-wand": 61784,
     "catalog": 61785,
-    "envelope-f": 61786
+    "envelope-f": 61786,
+    "video-data-store": 61787,
+    "topology": 61788,
+    "relationship-class": 61789,
+    "range-domain": 61790,
+    "point-along-a-line": 61791,
+    "parcel-dataset": 61792,
+    "midpoint": 61793,
+    "line-intersection": 61794,
+    "line-and-circle-intersection": 61795,
+    "layer-multipoint": 61796,
+    "layer-multipatch": 61797,
+    "layer-dimension": 61798,
+    "layer-annotation": 61799,
+    "intersection": 61800,
+    "geometric-network": 61801,
+    "feature-dataset": 61802,
+    "coded-value-domain": 61803,
+    "circle-intersection": 61804,
+    "autocomplete-polygon": 61805,
+    "assign-classification": 61806
   }
 }
