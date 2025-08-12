@@ -9977,5 +9977,15 @@
     "alias": ["4.3.0", "geometry editing", "feature", "boundary", "shapes", "tool"],
     "category": "Geometry Editing",
     "release": "4.3.0"
+  },
+  "assign-classification": {
+    "alias": ["4.3.0", "generic", "presentation", "top-secret", "protection", "unclassified"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "video-data-store": {
+    "alias": ["4.3.0", "gis", "publish", "enhancements", "manage", "retrieve"],
+    "category": "GIS",
+    "release": "4.3.0"
   }
 }
