@@ -170,7 +170,7 @@
 }
 
 .menu-container {
-  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
   @include floating-ui-container();
 }
 
