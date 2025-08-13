@@ -92,6 +92,7 @@ update_internal_custom_prop_doc() {
 
   if [ -n "$staged_scss_files" ]; then
     npx tsx packages/calcite-components/support/addInternalCustomPropDoc.ts $staged_scss_files
+    git add $staged_scss_files
   fi
 
   unset staged_scss_files
