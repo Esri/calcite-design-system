@@ -53,6 +53,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useValue } from "../../controllers/useValue";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -139,6 +140,12 @@ export class InputNumber
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
+
+  private valueController = useValue(this);
 
   //#endregion
 
@@ -411,12 +418,22 @@ export class InputNumber
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+
+    // TODO: This sets the value, but we need to repurpose the localize logic from setNumberValue here too
+    this.value = this.getValidNumberString(this.value);
+    this.warnAboutInvalidNumberValue(this.value);
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+    }
   }
 
   async load(): Promise<void> {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+
+    // TODO: remove the rest of these lines after we get the connectedCallback logic working
     this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
@@ -472,8 +489,12 @@ export class InputNumber
 
   //#region Private Methods
 
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
+  private commitValue() {
+    this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputNumberChange });
+  }
+
+  private inputValue(value: string) {
+    this.valueController.inputValue({ inputEventEmitter: this.calciteInputNumberInput, value });
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -585,6 +606,8 @@ export class InputNumber
   private inputNumberBlurHandler() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputNumberBlur.emit();
+    this.commitValue();
+    // TODO: Remove this line after getting commitCurrentValue working to emit change event
     this.emitChangeIfUserModified();
   }
 
@@ -632,6 +655,7 @@ export class InputNumber
       ) {
         nativeEvent.preventDefault();
       }
+      this.inputValue(parseNumberString(delocalizedValue));
       this.setNumberValue({
         nativeEvent,
         origin: "user",
@@ -639,6 +663,7 @@ export class InputNumber
       });
       this.childNumberEl.value = this.displayedValue;
     } else {
+      this.inputValue(delocalizedValue);
       this.setNumberValue({
         nativeEvent,
         origin: "user",
@@ -920,10 +945,46 @@ export class InputNumber
     window.clearInterval(this.nudgeNumberValueIntervalId);
   }
 
+  private isValueShortened(incomingValue: string, previousValue: string): boolean {
+    return (
+      previousValue?.length > incomingValue.length || this.value?.length > incomingValue.length
+    );
+  }
+
   private warnAboutInvalidNumberValue(value: string): void {
     if (value && !isValidNumber(value)) {
       console.warn(`The specified value "${value}" cannot be parsed, or is out of range.`);
     }
+  }
+
+  private getValidNumberString(incomingValue: string): string {
+    if (!isValidNumber(incomingValue)) {
+      return "";
+    }
+
+    const { integer, isValueShortened, valueController } = this;
+    const { previousValue } = valueController;
+
+    const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
+
+    const hasTrailingDecimalSeparator =
+      validatedInteger.charAt(validatedInteger.length - 1) === ".";
+
+    const sanitizedValue =
+      hasTrailingDecimalSeparator && isValueShortened(incomingValue, previousValue)
+        ? validatedInteger
+        : sanitizeNumberString(validatedInteger);
+
+    const newValue =
+      incomingValue && !sanitizedValue
+        ? isValidNumber(previousValue)
+          ? previousValue
+          : ""
+        : sanitizedValue;
+
+    // don't sanitize the start of negative/decimal numbers, but
+    // don't set value to an invalid number
+    return ["-", "."].includes(newValue) ? "" : newValue;
   }
 
   //#endregion

@@ -67,6 +67,11 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     this.previousValue = this.component.value;
   }
 
+  hostLoaded(): void {
+    this.lastEmittedValue = this.component.value;
+    this.previousValue = this.component.value;
+  }
+
   hostUpdate(changes: PropertyValues): void {
     if (changes.has("value")) {
       if (!this.userChangedValue) {
