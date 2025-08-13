@@ -305,6 +305,12 @@ input:focus {
   }
 }
 
+:host([alignment="center"]) {
+  & input {
+    text-align: center;
+  }
+}
+
 :host([alignment="end"]) {
   & input {
     text-align: end;

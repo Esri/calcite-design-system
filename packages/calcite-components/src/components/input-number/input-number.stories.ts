@@ -56,7 +56,7 @@ export default {
       control: { type: "select" },
     },
     alignment: {
-      options: alignment.values.filter((option) => option !== "center"),
+      options: alignment.values,
       control: { type: "select" },
     },
     numberButtonType: {

@@ -363,6 +363,12 @@ input[type="text"]::-ms-reveal {
   }
 }
 
+:host([alignment="center"]) {
+  & input {
+    text-align: center;
+  }
+}
+
 :host([alignment="end"]) {
   & input {
     text-align: end;
