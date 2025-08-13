@@ -3,6 +3,6 @@
   "date": "Kuupäev",
   "dateFormat": "Kuupäevavorming: {format}",
   "endDate": "Lõppkuupäev",
-  "required": "Required",
+  "required": "Nõutud",
   "startDate": "Alguskuupäev"
 }

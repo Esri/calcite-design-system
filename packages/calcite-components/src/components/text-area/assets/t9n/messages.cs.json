@@ -1,6 +1,6 @@
 {
   "invalid": "Neplatný",
-  "required": "Required",
+  "required": "Povinné",
   "tooLong": "Aktuální počet znaků je {currentLength}, což překračuje maximální počet znaků {maxLength}.",
   "tooShort": "Aktuální počet znaků je {currentLength}, což je méně než minimální počet {minLength} znaků."
 }
