@@ -2032,6 +2032,117 @@ describe("proximitySelectionDisabled", () => {
     expect(await calendar.isVisible()).toBe(false);
     expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-03", "2099-01-15"]);
   });
+
+  it("should reset range and select a new start date using keyboard from end input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const startInput = await page.find("calcite-input-date-picker >>> calcite-input-text");
+    const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+    expect(await calendar.isVisible()).toBe(false);
+    await startInput.click();
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateToDateInMonth(page, true, true);
+
+    await page.keyboard.press("Enter");
+    expect(await calendar.isVisible()).toBe(true);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-01", ""]);
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(false);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-01", "2099-01-08"]);
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(true);
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(true);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-15", ""]);
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(false);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-15", "2099-01-22"]);
+  });
+
+  it("should reset range and select a new start date using keyboard from start input", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const startInput = await page.find("calcite-input-date-picker >>> calcite-input-text");
+    const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+    expect(await calendar.isVisible()).toBe(false);
+    await startInput.click();
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateToDateInMonth(page, true, true);
+
+    await page.keyboard.press("Enter");
+    expect(await calendar.isVisible()).toBe(true);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-01", ""]);
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(false);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-01", "2099-01-08"]);
+
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    await page.keyboard.up("Shift");
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(true);
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(true);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-15", ""]);
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+    expect(await calendar.isVisible()).toBe(false);
+    expect(await inputDatePicker.getProperty("value")).toEqual(["2099-01-15", "2099-01-22"]);
+  });
 });
 
 async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
