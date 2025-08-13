@@ -141,10 +141,6 @@ export class InputNumber
 
   private focusSetter = useSetFocus<this>()(this);
 
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
-
   private valueController = useValue(this);
 
   //#endregion
@@ -488,6 +484,10 @@ export class InputNumber
   //#endregion
 
   //#region Private Methods
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   private commitValue() {
     this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputNumberChange });
