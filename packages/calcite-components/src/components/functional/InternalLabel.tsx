@@ -2,6 +2,7 @@ import { TemplateResult } from "lit-html";
 import { h, JsxNode } from "@arcgis/lumina";
 
 interface InternalLabelProps {
+  alignItemsCenter?: boolean;
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
@@ -13,6 +14,8 @@ interface InternalLabelProps {
 }
 
 export const CSS = {
+  alignItemsCenter: "internal-label-align-items-center",
+  alignItemsEnd: "internal-label-align-items-end",
   container: "internal-label-container",
   requiredIndicator: "internal-label-required-indicator",
   spaceBottom: "internal-label-space-bottom",
@@ -28,6 +31,7 @@ const onClickHandler = (onClick?: () => void): void => {
 };
 
 export const InternalLabel = ({
+  alignItemsCenter,
   labelText,
   onClick,
   required,
@@ -39,6 +43,8 @@ export const InternalLabel = ({
 }: InternalLabelProps): TemplateResult => (
   <div
     class={{
+      [CSS.alignItemsCenter]: alignItemsCenter,
+      [CSS.alignItemsEnd]: !alignItemsCenter,
       [CSS.container]: true,
       [CSS.spaceBottom]: spaceBottom,
       [CSS.spaceInlineEnd]: spaceInlineEnd,

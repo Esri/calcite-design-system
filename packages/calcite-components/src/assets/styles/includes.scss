@@ -38,10 +38,17 @@
 
 // mixin for the container of label displayed with form-associated components
 @mixin form-internal-label() {
+  .internal-label-align-items-center {
+    align-items: center;
+  }
+
+  .internal-label-align-items-end {
+    align-items: end;
+  }
+
   .internal-label-container {
     display: flex;
     justify-content: space-between;
-    align-items: end;
     color: var(--calcite-color-text-1);
   }
 
