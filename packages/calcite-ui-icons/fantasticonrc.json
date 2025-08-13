@@ -1266,6 +1266,8 @@
     "coded-value-domain": 61803,
     "circle-intersection": 61804,
     "autocomplete-polygon": 61805,
-    "assign-classification": 61806
+    "assign-classification": 61806,
+    "list-check-rtl": 61807,
+    "list-check-all-rtl": 61808
   }
 }

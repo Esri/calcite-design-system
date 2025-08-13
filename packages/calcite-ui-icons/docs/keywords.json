@@ -9987,5 +9987,15 @@
     "alias": ["4.3.0", "gis", "publish", "enhancements", "manage", "retrieve"],
     "category": "GIS",
     "release": "4.3.0"
+  },
+  "list-check-all-rtl": {
+    "alias": ["4.3.0", "lists", "points", "text", "align", "read"],
+    "category": "Lists",
+    "release": "4.3.0"
+  },
+  "list-check-rtl": {
+    "alias": ["4.3.0", "lists", "points", "read", "align", "tasks"],
+    "category": "Lists",
+    "release": "4.3.0"
   }
 }
