@@ -36,8 +36,7 @@
   }
 
   .content {
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-xs));
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding: var(--calcite-block-padding, var(--calcite-spacing-xxs));
   }
 }
 
@@ -61,8 +60,7 @@
   }
 
   .content {
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
+    padding: var(--calcite-block-padding, var(--calcite-spacing-sm));
   }
 }
 
@@ -86,8 +84,7 @@
   }
 
   .content {
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-md-plus));
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-lg));
+    padding: var(--calcite-block-padding, var(--calcite-spacing-md));
   }
 }
 
@@ -269,6 +266,14 @@ calcite-action-menu {
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
   }
+}
+
+:host([expanded][scale="s"]) {
+  margin-block: var(--calcite-spacing-xxs);
+}
+
+:host([expanded][scale="l"]) {
+  margin-block: var(--calcite-spacing-md);
 }
 
 @include base-component();

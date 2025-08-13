@@ -61,7 +61,7 @@ calcite-switch {
   }
 
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xs));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xxs));
   }
 }
 
@@ -78,12 +78,12 @@ calcite-switch {
 
 :host([scale="l"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-sm-plus);
+    padding-block: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-lg);
     font-size: var(--calcite-font-size-md);
   }
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm-plus));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-md));
   }
 }
 
