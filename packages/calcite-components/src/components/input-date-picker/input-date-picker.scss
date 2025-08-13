@@ -47,6 +47,13 @@
  * @prop --calcite-input-date-picker-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside current range of the component's date-picker when hovered.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-date-picker-toggle-spacing
+// --calcite-internal-input-text-input-padding-inline-end
+
 :host {
   @extend %component-spacing;
   @include floating-ui-elem-anim(".menu-container");
@@ -56,7 +63,7 @@
     overflow-visible
     align-top;
 
-  box-shadow: var(--calcite-input-date-picker-shadow, --calcite-shadow-none);
+  box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
@@ -83,7 +90,7 @@
 @include disabled();
 
 .calendar-wrapper {
-  box-shadow: var(--calcite-input-date-picker-shadow, --calcite-shadow-none);
+  box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
   transform: translate3d(0, 0, 0);
 }
 
