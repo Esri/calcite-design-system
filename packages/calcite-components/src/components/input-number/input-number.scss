@@ -300,19 +300,19 @@ input:focus {
 
 // alignment type
 :host([alignment="start"]) {
-  & input {
+  input {
     text-align: start;
   }
 }
 
 :host([alignment="center"]) {
-  & input {
+  input {
     text-align: center;
   }
 }
 
 :host([alignment="end"]) {
-  & input {
+  input {
     text-align: end;
   }
 }
