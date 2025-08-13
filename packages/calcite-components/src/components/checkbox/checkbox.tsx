@@ -287,14 +287,12 @@ export class Checkbox
           <slot />
         </div>
         {this.labelText && (
-          <div>
-            <InternalLabel
-              labelText={this.labelText}
-              required={this.required}
-              spaceInlineStart
-              tooltipText={this.messages.required}
-            />
-          </div>
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            spaceInlineStart
+            tooltipText={this.messages.required}
+          />
         )}
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>
