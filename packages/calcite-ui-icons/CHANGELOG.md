@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.16...@esri/calcite-ui-icons@4.3.0-next.17) (2025-08-13)
+
+### Features
+
+- add rtl of list icons ([#12685](https://github.com/Esri/calcite-design-system/issues/12685)) ([f0d96b5](https://github.com/Esri/calcite-design-system/commit/f0d96b5a6942cbac73cf3f564c2bb9bd1378086b))
+
 ## [4.3.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.15...@esri/calcite-ui-icons@4.3.0-next.16) (2025-08-12)
 
 ### Features
