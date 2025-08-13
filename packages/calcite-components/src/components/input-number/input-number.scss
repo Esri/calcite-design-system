@@ -105,6 +105,7 @@ input {
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
   border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  text-align: var(--calcite-internal-input-number-alignment);
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -300,21 +301,15 @@ input:focus {
 
 // alignment type
 :host([alignment="start"]) {
-  input {
-    text-align: start;
-  }
+  --calcite-internal-input-number-alignment: start;
 }
 
 :host([alignment="center"]) {
-  input {
-    text-align: center;
-  }
+  --calcite-internal-input-number-alignment: center;
 }
 
 :host([alignment="end"]) {
-  input {
-    text-align: end;
-  }
+  --calcite-internal-input-number-alignment: end;
 }
 
 .number-button-wrapper {
