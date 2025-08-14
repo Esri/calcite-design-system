@@ -1,6 +1,6 @@
 {
   "invalid": "Niepoprawny",
-  "required": "Required",
+  "required": "Wymagane",
   "tooLong": "Bieżąca liczba znaków wynosi {currentLength}, co przekracza maksymalną liczbę znaków {maxLength}.",
   "tooShort": "Aktualnie liczba znaków wynosi {currentLength}, więc nie została osiągnięta minimalna liczba znaków ({minLength})."
 }

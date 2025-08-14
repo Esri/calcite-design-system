@@ -3,6 +3,6 @@
   "date": "날짜",
   "dateFormat": "날짜 형식: {format}",
   "endDate": "종료일",
-  "required": "Required",
+  "required": "필수",
   "startDate": "시작일"
 }

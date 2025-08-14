@@ -3,6 +3,6 @@
   "date": "Datum",
   "dateFormat": "Datumindeling: {format}",
   "endDate": "Einddatum",
-  "required": "Required",
+  "required": "Vereist",
   "startDate": "Begindatum"
 }

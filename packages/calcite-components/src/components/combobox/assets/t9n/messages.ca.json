@@ -1,11 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Afegeix: {text}",
   "all": "Tot",
   "allSelected": "Tots els elements seleccionats",
   "clear": "Esborra el valor",
-  "noMatches": "No matches",
+  "noMatches": "No hi ha cap coincidència",
   "removeTag": "Elimina l'etiqueta",
-  "required": "Required",
-  "selectAll": "Select all",
+  "required": "Obligatori",
+  "selectAll": "Selecciona-ho tot",
   "selected": "seleccionat"
 }

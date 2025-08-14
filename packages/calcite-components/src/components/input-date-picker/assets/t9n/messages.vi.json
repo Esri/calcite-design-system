@@ -3,6 +3,6 @@
   "date": "Ngày",
   "dateFormat": "Định dạng Ngày: {format}",
   "endDate": "Ngày Kết thúc",
-  "required": "Required",
+  "required": "Bắt buộc",
   "startDate": "Ngày Bắt đầu"
 }

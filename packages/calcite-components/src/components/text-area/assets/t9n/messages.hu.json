@@ -1,6 +1,6 @@
 {
   "invalid": "Érvénytelen",
-  "required": "Required",
+  "required": "Szükséges",
   "tooLong": "Az aktuális karakterhossz {currentLength}, ami meghaladja a maximális {maxLength} karakterhosszúságot.",
   "tooShort": "Az aktuális karakterhossz {currentLength}, ami kevesebb, mint a(z) {minLength} maximális karakterhosszúsága."
 }

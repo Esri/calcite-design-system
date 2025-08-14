@@ -1,5 +1,5 @@
 {
   "rating": "평점",
-  "required": "Required",
+  "required": "필수",
   "stars": "별: {num}개"
 }

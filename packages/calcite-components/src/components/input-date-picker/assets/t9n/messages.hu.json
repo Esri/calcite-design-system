@@ -3,6 +3,6 @@
   "date": "Dátum",
   "dateFormat": "Dátumformátum: {format}",
   "endDate": "Záró dátum",
-  "required": "Required",
+  "required": "Szükséges",
   "startDate": "Kezdés dátuma"
 }

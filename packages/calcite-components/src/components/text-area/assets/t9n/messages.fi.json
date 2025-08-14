@@ -1,6 +1,6 @@
 {
   "invalid": "Virheellinen",
-  "required": "Required",
+  "required": "Pakollinen",
   "tooLong": "Nykyinen merkkipituus on {currentLength}, joka ylittää {maxLength} merkkien enimmäispituuden.",
   "tooShort": "Nykyinen merkkipituus on {currentLength}, joka on vähemmän kuin merkkien vähimmäispituus {minLength}."
 }

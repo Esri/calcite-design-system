@@ -3,6 +3,6 @@
   "date": "Datum",
   "dateFormat": "Formát data: {format}",
   "endDate": "Datum ukončení",
-  "required": "Required",
+  "required": "Povinné",
   "startDate": "Datum počátku"
 }

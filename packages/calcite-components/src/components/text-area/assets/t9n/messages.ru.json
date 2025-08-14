@@ -1,6 +1,6 @@
 {
   "invalid": "Недопустимый",
-  "required": "Required",
+  "required": "Обязательное",
   "tooLong": "Текущая длина символов - {currentLength}, что превышает максимальную длину символов {maxLength}.",
   "tooShort": "Текущая длина символа равна {currentLength}, что меньше минимальной длины символов {minLength}."
 }

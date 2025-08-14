@@ -1,5 +1,5 @@
 {
   "rating": "評価",
-  "required": "Required",
+  "required": "必須",
   "stars": "星: {num}"
 }
