@@ -1171,7 +1171,7 @@ export class Input
             : null}
           <HiddenFormInputSlot component={this} />
         </div>
-        {this.validationMessage && this.status === "invalid" ? (
+        {this.validationMessage && this.status ? (
           <Validation
             icon={this.validationIcon}
             id={IDS.validationMessage}
