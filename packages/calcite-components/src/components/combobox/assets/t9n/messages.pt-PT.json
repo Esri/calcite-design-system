@@ -1,11 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Adicionar: {text}",
   "all": "Tudo",
   "allSelected": "Tudo selecionado",
   "clear": "Limpar valor",
-  "noMatches": "No matches",
+  "noMatches": "Sem correspondências",
   "removeTag": "Remover etiqueta",
-  "required": "Required",
-  "selectAll": "Select all",
+  "required": "Obrigatório",
+  "selectAll": "Selecionar tudo",
   "selected": "selecionada(s)"
 }
