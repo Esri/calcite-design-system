@@ -98,7 +98,7 @@
 }
 
 .container {
-  @apply flex items-center;
+  @apply relative flex items-center;
   margin: 0;
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-internal-meter-height);

@@ -39,6 +39,7 @@ calcite-link {
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
   padding: var(--calcite-internal-tile-spacing);
+  position: relative;
   user-select: none;
 
   .selection-icon {

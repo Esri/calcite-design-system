@@ -217,7 +217,8 @@ input:focus {
 // positioning wrapper for icon and loader
 
 .element-wrapper {
-  @apply order-3
+  @apply relative
+    order-3
     inline-flex
     flex-1
     items-center;

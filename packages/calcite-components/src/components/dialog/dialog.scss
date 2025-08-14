@@ -197,7 +197,8 @@ calcite-panel {
     opacity-0
     shadow-2-sm
     z-modal
-    rounded;
+    rounded
+    relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
   transition:

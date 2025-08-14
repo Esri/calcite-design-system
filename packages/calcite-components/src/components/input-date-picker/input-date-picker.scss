@@ -41,6 +41,8 @@
 }
 
 .input-wrapper {
+  @apply relative;
+
   .chevron-icon {
     color: var(--calcite-color-text-3);
   }

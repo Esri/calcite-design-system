@@ -115,7 +115,7 @@
 }
 
 .grid-input {
-  @apply flex flex-grow flex-wrap items-center truncate p-0;
+  @apply flex flex-grow flex-wrap items-center relative truncate p-0;
 
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);

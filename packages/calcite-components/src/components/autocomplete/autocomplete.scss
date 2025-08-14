@@ -41,7 +41,8 @@
 }
 
 .input-container {
-  @apply flex
+  @apply relative
+    flex
     flex-auto
     flex-nowrap;
 }

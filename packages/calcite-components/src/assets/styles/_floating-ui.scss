@@ -8,6 +8,7 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-anim {
   .calcite-floating-ui-anim {
+    position: relative;
     transition-duration: var(--calcite-floating-ui-transition);
     /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
     transition-property: inset, left, opacity, display;
@@ -39,6 +40,7 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-elem-anim($selector) {
   #{$selector} {
     .calcite-floating-ui-anim {
+      position: relative;
       transition-duration: var(--calcite-floating-ui-transition);
       /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
       transition-property: inset-block-start, left, opacity, display;

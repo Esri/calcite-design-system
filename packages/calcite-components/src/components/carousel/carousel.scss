@@ -104,7 +104,8 @@
 
 .container {
   @apply focus-base
-   flex
+   relative
+    flex
     flex-col
     overflow-hidden
     text-color-2

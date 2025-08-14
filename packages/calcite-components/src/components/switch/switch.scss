@@ -66,6 +66,7 @@
 
 .track {
   @apply pointer-events-none
+    relative
     box-border
     inline-block
     align-top

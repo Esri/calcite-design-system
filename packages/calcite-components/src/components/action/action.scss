@@ -66,6 +66,7 @@
 }
 
 @mixin action-indicator() {
+  position: relative;
   &::after {
     content: "";
     @apply absolute

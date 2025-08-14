@@ -44,7 +44,8 @@
 }
 
 .container {
-  @apply flex
+  @apply relative
+    flex
     w-full
     min-w-fit
     flex-row

@@ -54,7 +54,7 @@
 }
 
 .container {
-  @apply flex flex-auto flex-col;
+  @apply relative flex flex-auto flex-col;
 }
 
 :host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {

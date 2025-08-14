@@ -83,7 +83,7 @@
 }
 
 .rings {
-  @apply flex overflow-visible opacity-100;
+  @apply relative flex overflow-visible opacity-100;
   inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
 }

@@ -48,7 +48,8 @@
 }
 
 label {
-  @apply my-0
+  @apply relative
+    my-0
     flex w-full
     items-center
     overflow-hidden;

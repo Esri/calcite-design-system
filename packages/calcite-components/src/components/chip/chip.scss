@@ -466,6 +466,7 @@
   color: var(--calcite-chip-select-icon-color, currentColor);
 
   &.select-icon--active {
+    position: relative;
     visibility: visible;
     opacity: var(--calcite-opacity-half, 0.5);
     color: var(

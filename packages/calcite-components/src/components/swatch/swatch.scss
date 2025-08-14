@@ -38,7 +38,7 @@
 }
 
 .container {
-  @apply focus-base justify-center box-border overflow-hidden;
+  @apply relative focus-base justify-center box-border overflow-hidden;
   font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
