@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.67...@esri/calcite-components@3.3.0-next.68) (2025-08-14)
+
+### Features
+
+- **input-number, input-text:** add center alignment ([#12695](https://github.com/Esri/calcite-design-system/issues/12695)) ([4a29e3b](https://github.com/Esri/calcite-design-system/commit/4a29e3b5ac7460901175225ce9952be03be592e0)), closes [#12419](https://github.com/Esri/calcite-design-system/issues/12419)
+
 ## [3.3.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.66...@esri/calcite-components@3.3.0-next.67) (2025-08-14)
 
 ### Features
