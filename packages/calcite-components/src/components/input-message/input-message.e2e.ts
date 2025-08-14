@@ -146,7 +146,7 @@ describe("calcite-input-message", () => {
   });
 
   describe("theme", () => {
-    describe("status", () => {
+    describe("default", () => {
       themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
         "--calcite-input-message-icon-color": {
           shadowSelector: `.${CSS.inputMessageIcon}`,
