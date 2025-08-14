@@ -16,6 +16,81 @@
  * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
  */
 
+:host([scale="s"]) {
+  .header {
+    padding: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-sm);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size-sm);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size-xs);
+  }
+
+  .content {
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-xxs));
+  }
+}
+
+:host([scale="m"]) {
+  .header {
+    padding: var(--calcite-spacing-md);
+    gap: var(--calcite-spacing-md);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-spacing-md);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size-sm);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
+  }
+}
+
+:host([scale="l"]) {
+  .header {
+    padding: var(--calcite-spacing-lg);
+    gap: var(--calcite-spacing-lg);
+  }
+
+  .icon-end-container {
+    gap: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-spacing-lg);
+  }
+
+  .heading {
+    font-size: var(--calcite-font-size-md);
+  }
+
+  .description {
+    font-size: var(--calcite-font-size);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-md));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-lg));
+  }
+}
+
 :host {
   @extend %component-host;
   @extend %component-spacing;
@@ -33,10 +108,6 @@
   @apply justify-start;
 }
 
-.header--has-text {
-  padding: var(--calcite-spacing-md);
-}
-
 .header,
 .toggle {
   grid-area: header;
@@ -46,24 +117,6 @@
   @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto;
   grid-template-areas: "handle header control menu actions-end";
-  grid-column: header-start / actions-end;
-  grid-row: 1 / 2;
-}
-
-.content-start {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.icon,
-.icon--start,
-.icon--end {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.icon {
-  & calcite-loader {
-    margin-inline-end: var(--calcite-spacing-xxxs);
-  }
 }
 
 .icon--start,
@@ -111,28 +164,27 @@ calcite-handle {
 }
 
 .title {
-  @apply m-0;
+  @apply flex flex-col;
 }
 
 .header .title .heading {
-  @apply text-n1
-    word-break
+  @apply word-break
     transition-color
-    font-medium
-    leading-tight
     ease-in-out
     p-0;
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .description {
-  @apply text-n2-wrap
-    word-break
-    mt-0.5
+  @apply word-break
     p-0;
 
   color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
+  font-weight: var(--calcite-font-weight-regular);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .icon {
@@ -161,8 +213,6 @@ calcite-handle {
 
 .icon-end-container {
   @apply flex items-center;
-
-  margin-inline-start: auto;
 }
 
 .toggle-icon {
@@ -170,8 +220,6 @@ calcite-handle {
   self-center
   justify-self-end
   ease-in-out;
-
-  margin-inline-end: var(--calcite-spacing-md);
   color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
 }
 
@@ -185,8 +233,6 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
-  padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
 }
 
 .content-start {
@@ -223,6 +269,14 @@ calcite-action-menu {
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
   }
+}
+
+:host([expanded][scale="s"]) {
+  margin-block: var(--calcite-spacing-xxs);
+}
+
+:host([expanded][scale="l"]) {
+  margin-block: var(--calcite-spacing-md);
 }
 
 @include base-component();

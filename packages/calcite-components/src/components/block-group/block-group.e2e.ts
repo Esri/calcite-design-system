@@ -45,6 +45,10 @@ describe("calcite-block-group", () => {
         defaultValue: false,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
@@ -72,6 +76,10 @@ describe("calcite-block-group", () => {
       {
         propertyName: "sortDisabled",
         value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
     ]);
   });
