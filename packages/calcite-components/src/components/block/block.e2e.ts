@@ -531,6 +531,16 @@ describe("calcite-block", () => {
           "--calcite-block-border-color": {
             targetProp: "borderColor",
           },
+          "--calcite-block-content-space": [
+            {
+              selector: "calcite-block",
+              targetProp: "--calcite-internal-block-padding-block",
+            },
+            {
+              selector: "calcite-block",
+              targetProp: "--calcite-internal-block-padding-inline",
+            },
+          ],
           "--calcite-block-header-background-color": {
             shadowSelector: `.${CSS.toggle}`,
             targetProp: "backgroundColor",
