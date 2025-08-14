@@ -7,6 +7,12 @@
 * @prop --calcite-dropdown-background-color: Specifies the component's background color.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dropdown-width
+
 :host {
   @apply inline-block;
 }
@@ -28,7 +34,7 @@
 }
 
 .calcite-trigger-container {
-  @apply relative flex flex-auto h-full;
+  @apply flex flex-auto h-full;
   @include word-break;
 }
 

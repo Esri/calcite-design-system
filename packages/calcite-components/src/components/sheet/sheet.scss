@@ -20,6 +20,12 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-sheet-resize-handle-offset
+
 :host {
   @apply flex absolute z-overlay inset-0;
   visibility: hidden !important;
@@ -167,7 +173,7 @@
 }
 
 .content {
-  @apply flex relative box-border p-0 z-modal max-h-full max-w-full;
+  @apply flex box-border p-0 z-modal max-h-full max-w-full;
   background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
   max-block-size: 100%;
   visibility: hidden;
@@ -179,7 +185,7 @@
 }
 
 .content-container {
-  @apply flex flex-1 relative max-h-full max-w-full overflow-hidden;
+  @apply flex flex-1 max-h-full max-w-full overflow-hidden;
 }
 
 .container--open .content {

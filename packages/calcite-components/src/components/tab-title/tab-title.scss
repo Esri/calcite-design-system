@@ -16,6 +16,12 @@
  * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when hovered, focused, and active.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tab-shadow-length
+
 :host {
   @apply block outline-none;
   margin-inline-start: theme("margin.0");
@@ -30,7 +36,7 @@
 }
 
 .content {
-  @apply flex items-center justify-center h-full mb-0.5 relative box-border;
+  @apply flex items-center justify-center h-full mb-0.5 box-border;
 }
 
 .scale-s {
@@ -82,8 +88,7 @@
 }
 
 .container {
-  @apply relative
-  box-border
+  @apply box-border
   content-center
   cursor-pointer
   flex
@@ -163,8 +168,7 @@
 }
 
 .calcite-tab-title--icon {
-  @apply relative
-    m-0
+  @apply m-0
     inline-flex
     self-center;
   & svg {

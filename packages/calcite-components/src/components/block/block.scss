@@ -228,11 +228,11 @@ calcite-handle {
 }
 
 .container {
-  @apply flex flex-col h-full relative;
+  @apply flex flex-col h-full;
 }
 
 .content {
-  @apply animate-in flex-1 relative min-h-0;
+  @apply animate-in flex-1 min-h-0;
 }
 
 .content-start {

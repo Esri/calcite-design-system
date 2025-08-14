@@ -37,13 +37,11 @@
  */
 
 :host {
-  @apply relative
-    block;
+  @apply block;
 }
 
 .input-container {
-  @apply relative
-    flex
+  @apply flex
     flex-auto
     flex-nowrap;
 }

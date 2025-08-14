@@ -24,6 +24,20 @@
  * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use `--calcite-accordion-text-color-press`. Specifies the component's text color on press.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-accordion-item-active-icon-rotation
+// --calcite-internal-accordion-item-active-icon-rotation-rtl
+// --calcite-internal-accordion-item-flex-direction
+// --calcite-internal-accordion-item-header-background-color-hover
+// --calcite-internal-accordion-item-header-background-color-press
+// --calcite-internal-accordion-item-icon-rotation
+// --calcite-internal-accordion-item-icon-rotation-rtl
+// --calcite-internal-accordion-item-icon-spacing-end
+// --calcite-internal-accordion-item-icon-spacing-start
+
 %icon-position {
   /* icon rotation variables */
   --calcite-internal-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
@@ -33,8 +47,7 @@
 }
 
 :host {
-  @apply relative
-    flex
+  @apply flex
     flex-col
     no-underline;
 

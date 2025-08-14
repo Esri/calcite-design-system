@@ -10,6 +10,14 @@
  * @prop --calcite-select-icon-color-hover: Specifies the component's icon color when hovered or active.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-select-block-size
+// --calcite-internal-select-font-size
+// --calcite-internal-select-icon-container-padding-inline
+
 :host {
   @extend %component-spacing;
   @apply flex flex-col;
@@ -18,7 +26,7 @@
 }
 
 .wrapper {
-  @apply relative flex items-stretch;
+  @apply flex items-stretch;
   inline-size: var(--select-width);
   block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
   &:focus-within,

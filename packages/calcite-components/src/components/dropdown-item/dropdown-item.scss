@@ -12,8 +12,7 @@
 */
 
 @mixin item-styling {
-  @apply relative
-    flex
+  @apply flex
     flex-grow
     cursor-pointer
     items-center
@@ -23,8 +22,7 @@
 }
 
 :host {
-  @apply relative
-    flex
+  @apply flex
     flex-grow
     focus-base
     items-center;
@@ -46,8 +44,7 @@
 
 // item icon
 .dropdown-item-icon {
-  @apply relative
-    opacity-0
+  @apply opacity-0
     ease-in-out;
   transform: scale(0.9);
 }

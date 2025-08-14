@@ -26,8 +26,7 @@
 }
 
 .content-wrapper {
-  @apply relative
-    flex
+  @apply flex
     h-full
     flex-col
     justify-between
@@ -55,7 +54,7 @@
 }
 
 .container {
-  @apply relative flex flex-auto flex-col;
+  @apply flex flex-auto flex-col;
 }
 
 :host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {

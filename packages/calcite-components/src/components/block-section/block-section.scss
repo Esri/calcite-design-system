@@ -93,8 +93,8 @@ calcite-switch {
   cursor-pointer
   select-none
   items-center
-  font-sans 
-  w-full 
+  font-sans
+  w-full
   border-0;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
@@ -121,7 +121,7 @@ calcite-switch {
 }
 
 .toggle-container {
-  @apply flex items-center relative;
+  @apply flex items-center;
 
   word-break: break-word;
 

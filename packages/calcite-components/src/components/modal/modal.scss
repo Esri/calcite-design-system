@@ -193,7 +193,7 @@ $viewport-medium: 860px;
  * Content area
  */
 .content {
-  @apply relative box-border block h-full overflow-auto p-0;
+  @apply box-border block h-full overflow-auto p-0;
   background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
   max-block-size: 100%;
   padding: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));

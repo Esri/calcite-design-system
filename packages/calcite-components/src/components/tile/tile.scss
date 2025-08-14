@@ -14,6 +14,12 @@
  * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
@@ -33,7 +39,6 @@ calcite-link {
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
   padding: var(--calcite-internal-tile-spacing);
-  position: relative;
   user-select: none;
 
   .selection-icon {

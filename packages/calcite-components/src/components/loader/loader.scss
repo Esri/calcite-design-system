@@ -15,8 +15,19 @@
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-loader-font-size
+// --calcite-internal-loader-size
+// --calcite-internal-loader-size-inline
+// --calcite-internal-loader-value-line-height
+// --calcite-internal-stroke-width
+// --calcite-internal-text-offset
+
 :host {
-  @apply flex relative mx-auto items-center justify-center opacity-100;
+  @apply flex mx-auto items-center justify-center opacity-100;
   flex-direction: column;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
@@ -72,7 +83,7 @@
 }
 
 .rings {
-  @apply relative flex overflow-visible opacity-100;
+  @apply flex overflow-visible opacity-100;
   inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
 }
@@ -103,7 +114,7 @@
 :host([inline]) {
   --calcite-internal-stroke-width: 2;
 
-  @apply relative m-0 stroke-current stroke-2 py-0;
+  @apply m-0 stroke-current stroke-2 py-0;
   block-size: var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline)));
   min-block-size: var(
     --calcite-loader-size,

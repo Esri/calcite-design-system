@@ -14,7 +14,6 @@
 :host a,
 :host button {
   @apply font-inherit
-    relative
     flex
     cursor-pointer
     items-center
@@ -65,8 +64,7 @@ calcite-icon {
 :host {
   button,
   a {
-    @apply relative
-      inline
+    @apply inline
       border-none
       bg-transparent
       p-0;

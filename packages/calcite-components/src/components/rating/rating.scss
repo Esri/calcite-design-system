@@ -13,8 +13,14 @@
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-rating-spacing
+
 :host {
-  @apply relative flex items-center;
+  @apply flex items-center;
   inline-size: fit-content;
 }
 
@@ -54,7 +60,6 @@
 
 .star {
   @apply transition-default;
-  position: relative;
   display: flex;
   flex-direction: column;
   cursor: pointer;

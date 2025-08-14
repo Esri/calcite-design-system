@@ -164,7 +164,6 @@ describe("calcite-scrim", () => {
         await page.setContent(
           html`<style>
               .scrim-container {
-                position: relative;
                 overflow: auto;
                 width: ${scaleSize.width}px;
                 height: ${scaleSize.height}px;
@@ -191,7 +190,6 @@ describe("calcite-scrim", () => {
             .scrim-container {
               display: flex;
               flex: 1;
-              position: relative;
               overflow: auto;
             }
           </style>
@@ -228,7 +226,7 @@ describe("calcite-scrim", () => {
 
   describe("CSS properties for light/dark modes", () => {
     const scrimSnippet = `
-    <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
+    <div style="width: 200px; height: 200px; overflow: auto;">
       <calcite-scrim>
         <p>I'm a panel that is not loading.</p>
         <p>This content can have any zIndex and it will not be placed above</p>

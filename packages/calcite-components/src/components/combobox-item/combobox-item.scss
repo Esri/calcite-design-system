@@ -16,6 +16,14 @@
  * @prop --calcite-combobox-heading-text-color: Specifies the component's `heading` text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-combobox-item-description-font-size
+// --calcite-internal-combobox-item-spacing-unit-l
+// --calcite-internal-combobox-item-spacing-unit-s
+
 @include base-component();
 
 .scale--s {
@@ -66,7 +74,6 @@ ul:focus {
 
 .label {
   @apply focus-base
-  relative
   box-border
   flex
   w-full

@@ -10,10 +10,17 @@
  * @prop --calcite-menu-text-color: Specifies the text color of the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-menu-background-color
+// --calcite-internal-menu-item-icon-color
+// --calcite-internal-menu-text-color
+
 :host {
   @apply flex
   items-center
-  relative
   box-border;
   flex-shrink: 0;
   & .container,
@@ -39,7 +46,6 @@
 .content {
   @apply flex
   items-center
-  relative
   justify-center
   cursor-pointer
   outline-none
@@ -119,7 +125,7 @@
 }
 
 .icon--dropdown {
-  @apply ms-auto me-0 ps-2 relative;
+  @apply ms-auto me-0 ps-2;
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
@@ -158,7 +164,7 @@
 }
 
 calcite-action {
-  @apply relative h-auto;
+  @apply h-auto;
   border-inline-start: 1px solid var(--calcite-color-foreground-1);
   --calcite-action-background-color: var(--calcite-menu-background-color);
   --calcite-action-text-color: var(--calcite-menu-text-color);
@@ -212,7 +218,6 @@ calcite-action {
 }
 
 .dropdown--vertical.dropdown-menu-items {
-  @apply relative;
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
@@ -238,7 +243,7 @@ calcite-action {
 }
 
 .hover-href-icon {
-  @apply ms-auto relative end-1 opacity-0;
+  @apply ms-auto end-1 opacity-0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 

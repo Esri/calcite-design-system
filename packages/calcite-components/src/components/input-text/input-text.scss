@@ -130,7 +130,6 @@ input {
     m-0
     max-h-full
     max-w-full
-    relative
     text-ellipsis
     w-full;
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
@@ -218,8 +217,7 @@ input:focus {
 // positioning wrapper for icon and loader
 
 .element-wrapper {
-  @apply relative
-    order-3
+  @apply order-3
     inline-flex
     flex-1
     items-center;
@@ -370,8 +368,7 @@ input[type="text"]::-ms-reveal {
 }
 
 .wrapper {
-  @apply relative
-    flex
+  @apply flex
     flex-row
     items-center;
 }

@@ -63,7 +63,7 @@
 }
 
 .container {
-  @apply relative block break-normal;
+  @apply block break-normal;
   padding-inline: calc(var(--calcite-slider-handle-size) * 0.5);
   padding-block: calc(var(--calcite-slider-handle-size) * 0.5);
   margin-block: calc(var(--calcite-slider-handle-size) * 0.5);
@@ -106,7 +106,7 @@
 }
 
 .thumb-container {
-  @apply relative max-w-full;
+  @apply max-w-full;
 }
 
 .thumb {
@@ -254,7 +254,7 @@
 }
 
 .track {
-  @apply relative h-0.5 rounded-none;
+  @apply h-0.5 rounded-none;
   background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }

@@ -20,8 +20,22 @@
 
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-text-area-border-block-end-color
+// --calcite-internal-text-area-border-color
+// --calcite-internal-text-area-corner-radius
+// --calcite-internal-text-area-footer-background-color
+// --calcite-internal-text-area-footer-border-color
+// --calcite-internal-text-area-footer-min-height
+// --calcite-internal-text-area-padding-block
+// --calcite-internal-text-area-padding-inline
+// --calcite-internal-text-area-shadow
+
 :host {
-  @apply inline-block relative w-full h-full box-border;
+  @apply inline-block w-full h-full box-border;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
   --calcite-internal-text-area-footer-border-color: var(
     --calcite-text-area-footer-border-color,
@@ -64,7 +78,7 @@
 }
 
 .text-area {
-  @apply relative font-sans block box-border w-full m-0;
+  @apply font-sans block box-border w-full m-0;
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);

@@ -10,6 +10,15 @@
  * @prop --calcite-stepper-bar-error-fill-color: Specifies the fill color of error items in the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-step-bar-gap
+// --calcite-internal-stepper-action-block-size
+// --calcite-internal-stepper-action-inline-size
+// --calcite-internal-stepper-item-spacing-unit-s
+
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
@@ -35,8 +44,7 @@
 }
 
 .container {
-  @apply relative
-    flex
+  @apply flex
     w-full
     min-w-fit
     flex-row
@@ -81,7 +89,7 @@
 }
 
 .action-icon {
-  @apply flex relative grow-0;
+  @apply flex grow-0;
   block-size: var(--calcite-internal-stepper-action-block-size);
   inline-size: var(--calcite-internal-stepper-action-inline-size);
 }
