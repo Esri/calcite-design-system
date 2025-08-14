@@ -36,7 +36,8 @@
   }
 
   .content {
-    padding: var(--calcite-block-padding, var(--calcite-spacing-xxs));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-xxs));
   }
 }
 
@@ -60,7 +61,8 @@
   }
 
   .content {
-    padding: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
   }
 }
 
@@ -84,7 +86,8 @@
   }
 
   .content {
-    padding: var(--calcite-block-padding, var(--calcite-spacing-md));
+    padding-block: var(--calcite-block-padding, var(--calcite-spacing-md));
+    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-lg));
   }
 }
 
