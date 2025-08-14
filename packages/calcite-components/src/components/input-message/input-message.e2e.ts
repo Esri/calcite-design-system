@@ -147,20 +147,33 @@ describe("calcite-input-message", () => {
 
   describe("theme", () => {
     describe("default", () => {
+      themed(html`<calcite-input-message>Message</calcite-input-message>`, {
+        "--calcite-input-message-icon-color": {
+          shadowSelector: `.${CSS.inputMessageIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("invalid", () => {
       themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
         "--calcite-input-message-icon-color": {
           shadowSelector: `.${CSS.inputMessageIcon}`,
           targetProp: "color",
         },
       });
+    });
 
+    describe("valid", () => {
       themed(html`<calcite-input-message icon status="valid">Message</calcite-input-message>`, {
         "--calcite-input-message-icon-color": {
           shadowSelector: `.${CSS.inputMessageIcon}`,
           targetProp: "color",
         },
       });
+    });
 
+    describe("idle", () => {
       themed(html`<calcite-input-message icon status="idle">Message</calcite-input-message>`, {
         "--calcite-input-message-icon-color": {
           shadowSelector: `.${CSS.inputMessageIcon}`,
