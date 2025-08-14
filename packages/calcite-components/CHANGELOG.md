@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.66...@esri/calcite-components@3.3.0-next.67) (2025-08-14)
+
+### Features
+
+- **block, block-section, block-group:** add scale property ([#12382](https://github.com/Esri/calcite-design-system/issues/12382)) ([fd3bbff](https://github.com/Esri/calcite-design-system/commit/fd3bbff554609bb394cc766ba6dab10c9c19e08b)), closes [#9547](https://github.com/Esri/calcite-design-system/issues/9547) [#7146](https://github.com/Esri/calcite-design-system/issues/7146) [#11175](https://github.com/Esri/calcite-design-system/issues/11175)
+
 ## [3.3.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.65...@esri/calcite-components@3.3.0-next.66) (2025-08-14)
 
 ### Bug Fixes
