@@ -27,7 +27,7 @@
   block-size: var(--calcite-internal-day-size);
   outline-color: var(--calcite-color-transparent);
   background-color: var(--calcite-date-picker-day-background-color);
-  color: var(--calcite-date-picker-day-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-date-picker-day-text-color, var(--calcite-color-text-1));
 }
 
 .text {
@@ -58,7 +58,12 @@
 }
 
 :host(:not([current-month])) .day {
-  @apply opacity-disabled;
+  opacity: var(--calcite-opacity-full);
+  color: var(--calcite-color-text-3);
+}
+
+:host(:focus:not([disabled]):not([selected]):not([current-month])) .day {
+  color: var(--calcite-color-text-1);
 }
 
 :host(:hover:not([disabled]):not([selected])) {
@@ -70,8 +75,8 @@
 
 :host(:not([range]):not([selected]).current-day) {
   & .day {
-    color: var(--calcite-date-picker-current-day-text-color, var(--calcite-color-text-1));
-    font-weight: var(--calcite-font-weight-medium);
+    color: var(--calcite-date-picker-current-day-text-color, var(--calcite-color-brand));
+    font-weight: var(--calcite-font-weight-bold);
   }
 }
 
@@ -110,6 +115,12 @@
     color: var(--calcite-date-picker-day-range-text-color, var(--calcite-color-brand));
     background-color: var(--calcite-date-picker-day-range-background-color, var(--calcite-color-foreground-current));
   }
+}
+
+:host([disabled]) .day {
+  color: var(--calcite-color-text-2);
+  text-decoration-line: line-through;
+  opacity: var(--calcite-opacity-disabled);
 }
 
 @media (forced-colors: active) {
