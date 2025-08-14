@@ -131,6 +131,7 @@ export function parseNumberString(numberString?: string): string {
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+const anyLeadingZeros = /^-?(0+)\d/;
 const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
@@ -268,4 +269,27 @@ export function addLocalizedTrailingDecimalZeros(
     }
   }
   return localizedValue;
+}
+
+export function getLocalizedCharAllowList(numberStringFormatter: NumberStringFormat): Set<string> {
+  return new Set([
+    "e",
+    "E",
+    numberStringFormatter.decimal,
+    numberStringFormatter.minusSign,
+    numberStringFormatter.group,
+    ...numberStringFormatter.digits,
+  ]);
+}
+
+export function hasLeadingMinusSign(value: string): boolean {
+  return value?.charAt(0) === "-";
+}
+
+export function hasLeadingZeros(value: string): boolean {
+  return !!value?.match(anyLeadingZeros);
+}
+
+export function hasTrailingDecimal(value: string): boolean {
+  return value?.charAt(value?.length - 1) === ".";
 }
