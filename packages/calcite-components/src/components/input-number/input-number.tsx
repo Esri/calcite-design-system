@@ -144,11 +144,11 @@ export class InputNumber
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private valueController = useValue(this);
-
   get isClearable(): boolean {
     return this.clearable && this.value.length > 0;
   }
+
+  private valueController = useValue(this);
 
   private getValidNumberString = (incomingValue: string): string => {
     if (!isValidNumber(incomingValue)) {
