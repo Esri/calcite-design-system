@@ -3179,8 +3179,8 @@ describe("keyboard navigation", () => {
     });
   });
 
-  describe("pagination", () => {
-    it("starts on specific page and programmatically changes page", async () => {
+  describe("setting current page", () => {
+    it("starts on page in range and programmatically changes page", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-table id="calcite-table" caption="Simple table" page-size="6" bordered current-page="2">
@@ -3285,6 +3285,11 @@ describe("keyboard navigation", () => {
 
       expect(await table.getProperty("currentPage")).toBe(2);
 
+      const numberLink = await page.find(`calcite-table >>> calcite-pagination >>> .${PAGINATION_CSS.page}[value="1"]`);
+      await numberLink.click();
+
+      expect(await table.getProperty("currentPage")).toBe(1);
+
       table.setProperty("currentPage", 21);
       await page.waitForChanges();
 
@@ -3292,6 +3297,90 @@ describe("keyboard navigation", () => {
 
       table.setProperty("currentPage", 0);
       await page.waitForChanges();
+
+      expect(await table.getProperty("currentPage")).toBe(1);
+    });
+
+    it("starts on page out of upper range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-table id="calcite-table" caption="Simple table" page-size="3" bordered current-page="100">
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 1</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 2</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 3</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 4</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+      );
+
+      const table = await page.find("calcite-table");
+
+      expect(await table.getProperty("currentPage")).toBe(2);
+    });
+
+    it("starts on page out of lower range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-table id="calcite-table" caption="Simple table" page-size="3" bordered current-page="0">
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 1</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 2</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 3</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 4</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+      );
+
+      const table = await page.find("calcite-table");
 
       expect(await table.getProperty("currentPage")).toBe(1);
     });
