@@ -3,6 +3,6 @@
   "date": "تاريخ",
   "dateFormat": "تنسيق التاريخ: {format}",
   "endDate": "تاريخ الانتهاء",
-  "required": "Required",
+  "required": "مطلوب",
   "startDate": "تاريخ البداية"
 }
