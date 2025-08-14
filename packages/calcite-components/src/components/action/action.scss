@@ -146,21 +146,21 @@
 
 :host([active]) {
   .button {
-    &,
-    &:hover,
-    &:focus {
-      color: var(
-        --calcite-action-text-color-press,
-        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-      );
+    background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+
+    &:hover {
+      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-3));
+    }
+
+    &:active {
       background-color: var(
         --calcite-action-background-color-press,
         var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
       );
-    }
-
-    &:active {
-      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
     }
   }
 }
