@@ -3,6 +3,6 @@
   "date": "วันที่",
   "dateFormat": "รูปแบบวันที่: {format}",
   "endDate": "วันที่สิ้นสุด",
-  "required": "Required",
+  "required": "ต้องการ",
   "startDate": "วันที่เริ่ม"
 }

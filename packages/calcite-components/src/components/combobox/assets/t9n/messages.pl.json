@@ -1,11 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Dodaj: {text}",
   "all": "Wszystkie",
   "allSelected": "Wszystkie wybrane",
   "clear": "Wyczyść wartość",
-  "noMatches": "No matches",
+  "noMatches": "Brak pasujących wyników",
   "removeTag": "Usuń znacznik",
-  "required": "Required",
-  "selectAll": "Select all",
+  "required": "Wymagane",
+  "selectAll": "Wybierz wszystkie",
   "selected": "wybrane"
 }
