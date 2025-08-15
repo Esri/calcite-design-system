@@ -1965,7 +1965,6 @@ describe("proximitySelectionDisabled", () => {
       html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
     );
     await skipAnimations(page);
-    await page.waitForChanges();
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     const startInput = await page.find("calcite-input-date-picker >>> calcite-input-text");
@@ -2002,7 +2001,6 @@ describe("proximitySelectionDisabled", () => {
       html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
     );
     await skipAnimations(page);
-    await page.waitForChanges();
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     const [startInput, endInput] = await findAll(page, "calcite-input-date-picker >>> calcite-input-text");
@@ -2039,7 +2037,6 @@ describe("proximitySelectionDisabled", () => {
       html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
     );
     await skipAnimations(page);
-    await page.waitForChanges();
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     const startInput = await page.find("calcite-input-date-picker >>> calcite-input-text");
@@ -2092,7 +2089,6 @@ describe("proximitySelectionDisabled", () => {
       html`<calcite-input-date-picker range proximity-selection-disabled min="2099-01-01"></calcite-input-date-picker>`,
     );
     await skipAnimations(page);
-    await page.waitForChanges();
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     const startInput = await page.find("calcite-input-date-picker >>> calcite-input-text");
