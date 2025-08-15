@@ -276,14 +276,18 @@ export class DatePicker extends LitElement {
   }
 
   private onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
+    if (min) {
+      this.minAsDate = dateFromISO(min);
+    }
     if (this.range) {
       this.setActiveStartAndEndDates();
     }
   }
 
   private onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
+    if (max) {
+      this.maxAsDate = dateFromISO(max);
+    }
     if (this.range) {
       this.setActiveStartAndEndDates();
     }

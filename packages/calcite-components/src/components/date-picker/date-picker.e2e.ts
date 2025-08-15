@@ -9,6 +9,7 @@ import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { dateToISO } from "../../utils/date";
 import type { DatePicker } from "./date-picker";
 
 describe("calcite-date-picker", () => {
@@ -246,8 +247,8 @@ describe("calcite-date-picker", () => {
       element.setProperty("max", undefined);
       await page.waitForChanges();
 
-      expect(await element.getProperty("minAsDate")).toBe(undefined);
-      expect(await element.getProperty("maxAsDate")).toBe(undefined);
+      expect(await element.getProperty("minAsDate")).toMatchObject({});
+      expect(await element.getProperty("maxAsDate")).toMatchObject({});
 
       const dateBeyondMax = "2022-11-26";
       await setActiveDate(page, dateBeyondMax);
@@ -278,6 +279,44 @@ describe("calcite-date-picker", () => {
       expect(await monthOptions[2].getProperty("disabled")).toBe(false);
       expect(await monthOptions[3].getProperty("disabled")).toBe(false);
       expect(await monthOptions[4].getProperty("disabled")).toBe(true);
+    });
+
+    it("disables days outside minAsDate and maxAsDate", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("America/Los_Angeles");
+      await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+
+      const currentDay = new Date();
+
+      const maxDay = new Date();
+      maxDay.setDate(maxDay.getDate() + 2);
+
+      const outOfRangeDay = new Date();
+      outOfRangeDay.setDate(currentDay.getDate() + 5);
+
+      await page.evaluate(
+        (min, max) => {
+          const el = document.querySelector("calcite-date-picker");
+          el.minAsDate = new Date(min);
+          el.maxAsDate = new Date(max);
+        },
+        currentDay,
+        maxDay,
+      );
+      await page.waitForTimeout(2000);
+
+      expect(await (await getDayById(page, dateToISO(currentDay).replaceAll("-", ""))).getProperty("active")).toBe(
+        true,
+      );
+      expect(await (await getDayById(page, dateToISO(currentDay).replaceAll("-", ""))).getProperty("disabled")).toBe(
+        true,
+      );
+
+      expect(await (await getDayById(page, dateToISO(maxDay).replaceAll("-", ""))).getProperty("disabled")).toBe(false);
+
+      expect(await (await getDayById(page, dateToISO(outOfRangeDay).replaceAll("-", ""))).getProperty("disabled")).toBe(
+        true,
+      );
     });
   });
 
