@@ -88,7 +88,8 @@
 }
 
 .container {
-  @apply box-border
+  @apply relative
+  box-border
   content-center
   cursor-pointer
   flex

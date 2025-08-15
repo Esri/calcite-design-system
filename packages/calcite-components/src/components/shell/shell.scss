@@ -19,7 +19,8 @@
 }
 
 .main {
-  @apply flex
+  @apply relative
+    flex
     h-full
     w-full
     flex-auto

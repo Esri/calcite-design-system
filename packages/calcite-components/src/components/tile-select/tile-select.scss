@@ -12,6 +12,7 @@ $spacing: $baseline * 0.5;
     block-size: 100%;
     max-inline-size: 300px;
     padding: $spacing;
+    position: relative;
     vertical-align: top;
     @apply transition-default;
 

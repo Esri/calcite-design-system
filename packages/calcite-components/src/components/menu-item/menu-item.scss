@@ -38,6 +38,10 @@
   @apply h-full;
 }
 
+.container {
+  position: relative;
+}
+
 .container,
 .item-content {
   @apply flex flex-row w-full h-full items-stretch;
@@ -46,7 +50,6 @@
 .content {
   @apply flex
   items-center
-  relative
   justify-center
   cursor-pointer
   outline-none

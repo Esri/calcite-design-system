@@ -124,6 +124,10 @@
   @apply focus-base;
 }
 
+.row {
+  @apply relative;
+}
+
 .row:focus,
 .grid-cell:focus {
   @apply focus-inset;
