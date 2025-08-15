@@ -1,13 +1,4 @@
-import { isServer } from "lit-html/is-server.js";
-
-export const isBrowser = (): boolean =>
-  !isServer &&
-  typeof navigator !== "undefined" &&
-  typeof window !== "undefined" &&
-  typeof location !== "undefined" &&
-  typeof document !== "undefined" &&
-  window.location === location &&
-  window.document === document;
+import { isServer } from "lit";
 
 interface NavigatorUAData {
   brands: Array<{ brand: string; version: string }>;
@@ -20,7 +11,7 @@ function getUserAgentData(): NavigatorUAData | undefined {
 }
 
 export function getUserAgentString(): string {
-  if (!isBrowser()) {
+  if (isServer) {
     return "";
   }
 

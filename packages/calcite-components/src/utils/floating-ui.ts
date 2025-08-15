@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isServer } from "lit";
 import {
   arrow,
   autoPlacement,
@@ -15,15 +16,14 @@ import {
   Strategy,
   VirtualElement,
 } from "@floating-ui/dom";
-import { debounce, DebouncedFunc } from "lodash-es";
+import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { getElementDir } from "./dom";
-import { isBrowser } from "./browser";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
-  if (isBrowser()) {
+  if (!isServer) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
@@ -373,10 +373,12 @@ function getMiddleware({
   return middleware;
 }
 
-export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
-  const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    flipPlacements.includes(placement),
-  ) as EffectivePlacement[];
+function isFlipPlacement(placement: string): placement is FlipPlacement {
+  return flipPlacements.includes(placement as FlipPlacement);
+}
+
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): FlipPlacement[] {
+  const filteredPlacements = placements.filter(isFlipPlacement);
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
@@ -447,7 +449,7 @@ export async function reposition(
   await positionFunction(component, options);
 }
 
-function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<typeof positionFloatingUI> {
+function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunction<typeof positionFloatingUI> {
   let debounced = componentToDebouncedRepositionMap.get(component);
 
   if (debounced) {
@@ -455,8 +457,7 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
   }
 
   debounced = debounce(positionFloatingUI, DEBOUNCE.reposition, {
-    leading: true,
-    maxWait: DEBOUNCE.reposition,
+    edges: ["leading", "trailing"],
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -489,7 +490,10 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
-const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
+const componentToDebouncedRepositionMap = new WeakMap<
+  FloatingUIComponent,
+  DebouncedFunction<typeof positionFloatingUI>
+>();
 
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   const { referenceEl, floatingEl } = component;
@@ -498,7 +502,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
     return;
   }
 
-  const effectiveAutoUpdate = isBrowser()
+  const effectiveAutoUpdate = !isServer
     ? autoUpdate
     : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
@@ -581,12 +585,6 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
  * @param component - A floating-ui component.
  */
 export function disconnectFloatingUI(component: FloatingUIComponent): void {
-  const { floatingEl, referenceEl } = component;
-
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   const trackedState = autoUpdatingComponentMap.get(component);
 
   if (trackedState?.state === "active") {
@@ -595,6 +593,7 @@ export function disconnectFloatingUI(component: FloatingUIComponent): void {
 
   autoUpdatingComponentMap.delete(component);
 
+  // eslint-disable-next-line no-restricted-properties -- cancel is allowed outside of component contexts
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
 }

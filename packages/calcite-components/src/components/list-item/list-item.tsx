@@ -10,7 +10,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { MoveTo } from "../sort-handle/interfaces";
@@ -19,6 +18,9 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
+import { logger } from "../../utils/logger";
+import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -41,13 +43,13 @@ const focusMap = new Map<List["el"], number>();
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
-  // #region Static Members
+  //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private actionsEndEl = createRef<HTMLDivElement>();
 
@@ -63,9 +65,18 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private sortHandleEl: SortHandle["el"];
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
@@ -81,13 +92,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   @state() level: number = null;
 
-  @state() openable = false;
+  @state() expandable = false;
 
   @state() parentListEl: List["el"];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
@@ -102,6 +113,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    * @private
    */
   @property() bordered = false;
+
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
 
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
@@ -125,6 +143,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /** When `true`, expands the component and its contents. */
+  @property({ reflect: true }) expanded = false;
+
   /**
    * Hides the component when filtered.
    *
@@ -145,13 +166,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
   @property() metadata: Record<string, unknown>;
 
@@ -169,8 +183,23 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() moveToItems: MoveTo[] = [];
 
-  /** When `true`, the item is open to show child components. */
-  @property({ reflect: true }) open = false;
+  /**
+   * When `true`, the item is open to show child components.
+   *
+   * @deprecated Use `expanded` prop instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      name: "open",
+      removalVersion: 4,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
 
   /**
    * Specifies the size of the component.
@@ -204,14 +233,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
@@ -231,36 +260,43 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    const {
-      containerEl: { value: containerEl },
-      parentListEl,
-    } = this;
-    const focusIndex = focusMap.get(parentListEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      const {
+        containerEl: { value: containerEl },
+        parentListEl,
+      } = this;
+      const focusIndex = focusMap.get(parentListEl);
 
-    if (typeof focusIndex === "number") {
-      const cells = this.getGridCells();
-      if (cells[focusIndex]) {
-        this.focusCell(cells[focusIndex]);
-      } else {
-        containerEl?.focus();
+      if (typeof focusIndex === "number") {
+        const cells = this.getGridCells();
+        if (cells[focusIndex]) {
+          this.focusCell(cells[focusIndex]);
+          return;
+        } else {
+          return { target: containerEl, includeContainer: true, strategy: "focusable" };
+        }
       }
-      return;
-    }
 
-    containerEl?.focus();
+      return { target: containerEl, includeContainer: true, strategy: "focusable" };
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    *
@@ -300,8 +336,20 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
+  /**
+   *
+   * @private
+   */
+  calciteInternalListItemUpdateMoveToItems = createEvent({ cancelable: false });
+
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteListItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteListItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -321,9 +369,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Fires when the open button is clicked. */
   calciteListItemToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -366,10 +414,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       this.handleDisabledChange();
     }
 
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.handleOpenChange();
-    }
-
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.handleSelectedChange();
     }
@@ -379,7 +423,16 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
 
     if (changes.has("displayMode") && this.hasUpdated) {
-      this.handleOpenableChange(this.defaultSlotEl.value);
+      this.handleExpandableChange(this.defaultSlotEl.value);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.handleExpandedChange();
+        this.calciteListItemExpand.emit();
+      } else {
+        this.calciteListItemCollapse.emit();
+      }
     }
   }
 
@@ -387,9 +440,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private activeHandler(active: boolean): void {
     if (!active) {
@@ -405,7 +458,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.emitCalciteInternalListItemChange();
   }
 
-  private handleOpenChange(): void {
+  private handleExpandedChange(): void {
     this.emitCalciteInternalListItemToggle();
   }
 
@@ -424,7 +477,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
-    this.handleOpenableChange(this.defaultSlotEl.value);
+    this.handleExpandableChange(this.defaultSlotEl.value);
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
@@ -439,6 +492,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeOpen.emit();
+    this.calciteInternalListItemUpdateMoveToItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
@@ -515,7 +569,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
   }
 
-  private handleOpenableChange(slotEl: HTMLSlotElement): void {
+  private handleExpandableChange(slotEl: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
@@ -526,20 +580,20 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       list.displayMode = this.displayMode;
     });
 
-    this.openable =
+    this.expandable =
       this.displayMode === "nested" && (children.lists.length > 0 || children.items.length > 0);
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    this.handleOpenableChange(event.target as HTMLSlotElement);
+    this.handleExpandableChange(event.target as HTMLSlotElement);
   }
 
   private handleToggleClick(): void {
     this.toggle();
   }
 
-  private toggle(value = !this.open): void {
-    this.open = value;
+  private toggle(value = !this.expanded): void {
+    this.expanded = value;
     this.calciteListItemToggle.emit();
   }
 
@@ -592,8 +646,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       containerEl: { value: containerEl },
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
-      open,
-      openable,
+      expanded,
+      expandable,
     } = this;
 
     const cells = this.getGridCells();
@@ -610,7 +664,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       event.preventDefault();
       const nextIndex = currentIndex + 1;
       if (currentIndex === -1) {
-        if (!open && openable) {
+        if (!expanded && expandable) {
           this.toggle(true);
           this.focusCell(null);
         } else if (cells[0]) {
@@ -624,7 +678,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
         this.focusCell(null);
-        if (open && openable) {
+        if (expanded && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
@@ -683,9 +737,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     focusedEl?.focus();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
@@ -721,7 +775,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderDragHandle(): JsxNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems, sortDisabled } =
+      this;
 
     return dragHandle ? (
       <div
@@ -744,13 +799,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
+          sortDisabled={sortDisabled}
         />
       </div>
     ) : null;
   }
 
-  private renderOpen(): JsxNode {
-    const { el, open, openable, messages, displayMode, scale } = this;
+  private renderExpanded(): JsxNode {
+    const { el, expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
@@ -758,25 +814,25 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
     const dir = getElementDir(el);
 
-    const icon = openable
-      ? open
+    const icon = expandable
+      ? expanded
         ? ICONS.open
         : dir === "rtl"
-          ? ICONS.closedRTL
-          : ICONS.closedLTR
+          ? ICONS.collapsedRTL
+          : ICONS.collapsedLTR
       : ICONS.blank;
 
     const iconScale = getIconScale(scale);
 
-    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+    const tooltip = expandable ? (expanded ? messages.collapse : messages.expand) : undefined;
 
-    const openClickHandler = openable ? this.handleToggleClick : undefined;
+    const expandedClickHandler = expandable ? this.handleToggleClick : undefined;
 
     return (
       <div
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={openClickHandler}
+        class={CSS.expandedContainer}
+        key="expanded-container"
+        onClick={expandedClickHandler}
         title={tooltip}
       >
         <calcite-icon icon={icon} key={icon} scale={iconScale} />
@@ -897,7 +953,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerOpen]: this.openable && this.open,
+          [CSS.nestedContainerExpanded]: this.expandable && this.expanded,
         }}
       >
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
@@ -958,8 +1014,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   override render(): JsxNode {
     const {
-      openable,
-      open,
+      expandable,
+      expanded,
       level,
       active,
       label,
@@ -991,7 +1047,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       <InteractiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={openable ? open : null}
+            ariaExpanded={expandable ? expanded : null}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
@@ -1013,7 +1069,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           >
             {this.renderDragHandle()}
             {this.renderSelected()}
-            {this.renderOpen()}
+            {this.renderExpanded()}
             <div
               class={{
                 [CSS.contentContainerWrapper]: true,
@@ -1032,5 +1088,5 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     );
   }
 
-  // #endregion
+  //#endregion
 }

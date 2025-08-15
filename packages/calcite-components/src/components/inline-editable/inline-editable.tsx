@@ -8,15 +8,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import type { Label } from "../label/label";
 import type { Button } from "../button/button";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./inline-editable.scss";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
@@ -27,15 +27,15 @@ declare global {
 
 /** @slot - A slot for adding a `calcite-input`. */
 export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private cancelEditingButton = createRef<Button["el"]>();
 
@@ -49,15 +49,20 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   private shouldEmitCancel: boolean;
 
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
-
   private valuePriorToEditing: string;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
@@ -73,7 +78,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   get editingEnabled(): boolean {
     return this._editingEnabled;
   }
-
   set editingEnabled(editingEnabled: boolean) {
     const oldEditingEnabled = this._editingEnabled;
     if (editingEnabled !== oldEditingEnabled) {
@@ -88,31 +92,30 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @property({ reflect: true }) scale: Scale;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.inputElement?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.inputElement;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the component's "cancel editing" button is pressed. */
   calciteInlineEditableEditCancel = createEvent({ cancelable: false });
@@ -123,9 +126,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** @private */
   calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -154,9 +157,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     disconnectLabel(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   private disabledWatcher(disabled: boolean): void {
     if (this.inputElement) {
@@ -281,9 +288,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -301,7 +308,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               appearance="transparent"
               class={CSS.enableEditingButton}
               disabled={this.disabled}
-              iconStart="pencil"
+              iconStart={ICONS.pencil}
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
@@ -320,7 +327,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                   appearance="transparent"
                   class={CSS.cancelEditingButton}
                   disabled={this.disabled}
-                  iconStart="x"
+                  iconStart={ICONS.close}
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
@@ -334,7 +341,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 appearance="solid"
                 class={CSS.confirmChangesButton}
                 disabled={this.disabled}
-                iconStart="check"
+                iconStart={ICONS.check}
                 kind="brand"
                 label={this.messages.confirmChanges}
                 loading={this.loading}
@@ -350,5 +357,5 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     );
   }
 
-  // #endregion
+  //#endregion
 }

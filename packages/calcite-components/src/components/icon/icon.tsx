@@ -1,11 +1,10 @@
 // @ts-strict-ignore
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
-import { PropertyValues } from "lit";
+import { PropertyValues, isServer } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
-import { isBrowser } from "../../utils/browser";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
 import { IconNameOrString } from "./interfaces";
@@ -116,7 +115,7 @@ export class Icon extends LitElement {
   private async loadIconPathData(): Promise<void> {
     const { icon, scale, visible } = this;
 
-    if (!isBrowser() || !icon || !visible) {
+    if (isServer || !icon || !visible) {
       return;
     }
 
@@ -175,7 +174,7 @@ export class Icon extends LitElement {
         ariaHidden="true"
         class={{
           [CSS.flipRtl]: dir === "rtl" && flipRtl,
-          svg: true,
+          [CSS.svg]: true,
         }}
         fill="currentColor"
         height="100%"

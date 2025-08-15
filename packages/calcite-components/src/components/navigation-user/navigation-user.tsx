@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
 
@@ -16,6 +16,12 @@ export class NavigationUser extends LitElement {
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -46,11 +52,18 @@ export class NavigationUser extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion

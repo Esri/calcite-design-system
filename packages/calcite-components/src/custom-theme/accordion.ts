@@ -3,8 +3,11 @@ import { accordionItem } from "./accordion-item";
 import { tree } from "./tree";
 
 export const accordionTokens = {
-  CalciteAccordionBorderColor: "",
-  CalciteAccordionBackgroundColor: "",
+  calciteAccordionBackgroundColor: "",
+  calciteAccordionBorderColor: "",
+  calciteAccordionTextColor: "",
+  calciteAccordionTextColorHover: "",
+  calciteAccordionTextColorPress: "",
 };
 
 export const accordion = html`<style>

@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "2.0.1-next.0",
+  "version": "2.0.3-next.5",
   "description": "ESLint rules for @esri/calcite-components",
   "repository": {
     "type": "git",
@@ -10,14 +10,18 @@
   "license": "SEE LICENSE.md",
   "main": "dist/index.js",
   "files": [
-    "dist/index.js"
+    "dist/index.js",
+    "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
+    "build": "vite build",
     "lint": "concurrently npm:lint:*",
-    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
-    "test": "vitest"
+    "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rimraf node_modules dist .turbo",
+    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",
@@ -26,5 +30,8 @@
   "packageManager": "npm@8.19.4",
   "volta": {
     "extends": "../../package.json"
+  },
+  "devDependencies": {
+    "vitest": "3.2.4"
   }
 }

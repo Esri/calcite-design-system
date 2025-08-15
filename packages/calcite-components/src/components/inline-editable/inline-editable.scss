@@ -12,6 +12,15 @@
  * @prop --calcite-inline-editable-button-text-color: Specifies the button element's text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-button-background-color
+// --calcite-internal-button-border-block-end-color
+// --calcite-internal-button-border-block-start-color
+// --calcite-internal-button-text-color
+
 :host {
   @apply block;
 }
@@ -57,6 +66,20 @@
 
 .controls-wrapper {
   @apply flex;
+}
+
+.cancel-editing-button[appearance="transparent"][kind="neutral"] {
+  --calcite-internal-button-text-color: var(--calcite-color-text-3);
+  --calcite-internal-button-border-block-start-color: var(--calcite-color-border-input);
+  --calcite-internal-button-border-block-end-color: var(--calcite-color-border-input);
+
+  &:hover {
+    --calcite-internal-button-text-color: var(--calcite-color-text-1);
+  }
+}
+
+.enable-editing-button[appearance="transparent"][kind="neutral"] {
+  --calcite-internal-button-background-color: transparent;
 }
 
 calcite-button {

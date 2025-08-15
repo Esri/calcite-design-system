@@ -27,6 +27,7 @@ const resources = {
     planning: {
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
+      needsInfo: "needs more info",
       spike: "spike",
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",
@@ -47,6 +48,7 @@ const resources = {
   teams: {
     admins: "calcite-design-system-admins",
     iconDesigners: "calcite-icon-designers",
+    translationReviewers: "calcite-translation-reviewers",
   },
   packages: {
     icons: "calcite-ui-icons",

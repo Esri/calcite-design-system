@@ -8,7 +8,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -16,6 +15,8 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -43,24 +44,33 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class FlowItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private backButtonEl = createRef<Action["el"]>();
 
   private containerEl = createRef<Panel["el"]>();
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When provided, the method will be called before it is removed from its parent `calcite-flow`. */
-  @property() beforeBack: () => Promise<void>;
+  @property() beforeBack?: () => Promise<void>;
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -96,6 +106,12 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -104,13 +120,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -134,9 +143,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @property() showBackButton = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -158,28 +167,33 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /**
    * Sets focus on the component.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns promise.
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const focusTarget = this.backButtonEl.value || this.containerEl.value;
-
-    if (focusTarget) {
-      return focusTarget.setFocus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.backButtonEl.value || this.containerEl.value;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the back button is clicked. */
   calciteFlowItemBack = createEvent();
 
   /** Fires when the close button is clicked. */
   calciteFlowItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteFlowItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteFlowItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calciteFlowItemScroll = createEvent({ cancelable: false });
@@ -190,9 +204,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -202,15 +216,23 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
     }
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calciteFlowItemCollapse.emit();
+      } else {
+        this.calciteFlowItemExpand.emit();
+      }
+    }
   }
 
   override updated(): void {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.containerEl.value) {
       return;
@@ -246,7 +268,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   // #endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderBackButton(): JsxNode {
     const { el } = this;
@@ -265,7 +287,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         onClick={backButtonClick}
         ref={this.backButtonEl}
         scale="s"
-        slot="header-actions-start"
+        slot={SLOTS.headerActionsStart}
         text={label}
         title={label}
       />
@@ -288,6 +310,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
       messages,
       overlayPositioning,
       beforeClose,
+      icon,
+      iconFlipRtl,
     } = this;
     return (
       <InteractiveContainer disabled={disabled}>
@@ -302,6 +326,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
+          icon={icon}
+          iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}
@@ -332,5 +358,5 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

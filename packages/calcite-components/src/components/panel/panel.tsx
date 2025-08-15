@@ -2,17 +2,13 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -26,6 +22,8 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -53,13 +51,13 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl = createRef<HTMLElement>();
 
@@ -67,9 +65,20 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private _closed = false;
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionBar = false;
 
@@ -95,13 +104,11 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   @state() hasStartActions = false;
 
-  @state() isClosed = false;
-
   @state() showHeaderContent = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
@@ -110,7 +117,16 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @property({ reflect: true }) closed = false;
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    const oldValue = this._closed;
+    if (value !== oldValue) {
+      this.setClosedState(value);
+    }
+  }
 
   /**
    * Specifies the direction of the collapse.
@@ -137,6 +153,12 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
@@ -153,13 +175,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -171,9 +186,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Scrolls the component's content to a specified set of coordinates.
@@ -192,19 +207,32 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.panelScrollEl?.scrollTo(options);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl.value);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.containerEl.value;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the close button is clicked. */
-  calcitePanelClose = createEvent({ cancelable: false });
+  calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -212,29 +240,22 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Fires when the collapse button is clicked. */
   calcitePanelToggle = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-  }
-
-  async load(): Promise<void> {
-    this.isClosed = this.closed;
+    this.listen("calcitePanelClose", this.panelCloseHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("closed") && this.hasUpdated) {
-      if (this.closed) {
-        this.close();
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
       } else {
-        this.open();
+        this.calcitePanelExpand.emit();
       }
     }
   }
@@ -247,9 +268,22 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.resizeObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private async setClosedState(value: boolean): Promise<void> {
+    if (this.beforeClose && value) {
+      try {
+        await this.beforeClose?.();
+      } catch {
+        return;
+      }
+    }
+
+    this._closed = value;
+  }
+
   private resizeHandler(): void {
     const { panelScrollEl } = this;
 
@@ -271,36 +305,27 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
+  private closeClickHandler(): void {
+    this.emitCloseEvent();
+  }
+
+  private emitCloseEvent(): void {
+    this.calcitePanelClose.emit();
+  }
+
   private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.handleUserClose();
+      this.emitCloseEvent();
       event.preventDefault();
     }
   }
 
-  private handleUserClose(): void {
-    this.closed = true;
-    this.calcitePanelClose.emit();
-  }
-
-  private open(): void {
-    this.isClosed = false;
-  }
-
-  private async close(): Promise<void> {
-    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
-
-    try {
-      await beforeClose();
-    } catch {
-      // close prevented
-      requestAnimationFrame(() => {
-        this.closed = false;
-      });
+  private panelCloseHandler(event: CustomEvent<void>): void {
+    if (event.defaultPrevented || event.target !== this.el) {
       return;
     }
 
-    this.isClosed = true;
+    this.closed = true;
   }
 
   private collapse(): void {
@@ -385,12 +410,22 @@ export class Panel extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent } = this;
+    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+
+    const iconNode = icon ? (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={icon}
+        scale={getIconScale(scale)}
+      />
+    ) : null;
+
     const headingNode = heading ? (
       <Heading class={CSS.heading} level={headingLevel}>
         {heading}
@@ -400,9 +435,15 @@ export class Panel extends LitElement implements InteractiveComponent {
     const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
 
     return !hasHeaderContent && (headingNode || descriptionNode) ? (
-      <div class={CSS.headerContent} key="header-content">
-        {headingNode}
-        {descriptionNode}
+      <div
+        class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        key="header-content"
+      >
+        {iconNode}
+        <div class={CSS.headingTextContent}>
+          {headingNode}
+          {descriptionNode}
+        </div>
       </div>
     ) : null;
   }
@@ -480,7 +521,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         ariaLabel={close}
         icon={ICONS.close}
         id={IDS.close}
-        onClick={this.handleUserClose}
+        onClick={this.closeClickHandler}
         scale={this.scale}
         text={close}
         title={close}
@@ -521,6 +562,7 @@ export class Panel extends LitElement implements InteractiveComponent {
         placement={menuPlacement}
       >
         <calcite-action
+          class={CSS.menuAction}
           icon={ICONS.menu}
           scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
@@ -642,10 +684,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, isClosed } = this;
+    const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={isClosed} ref={this.containerEl}>
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerEl}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
@@ -662,5 +704,5 @@ export class Panel extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

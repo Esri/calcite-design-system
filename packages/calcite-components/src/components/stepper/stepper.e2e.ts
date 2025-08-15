@@ -1,13 +1,14 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
-import { findAll, isElementFocused } from "../../tests/utils";
+import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
+import { CSS } from "./resources";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: StepperItem["el"]) {
@@ -126,7 +127,7 @@ describe("calcite-stepper", () => {
     }
   });
 
-  describe.skip("honors hidden attribute", () => {
+  describe("honors hidden attribute", () => {
     hidden("calcite-stepper");
   });
 
@@ -939,19 +940,17 @@ describe("calcite-stepper", () => {
       expect(changeSpy).toHaveReceivedEventTimes(0);
       expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
-      // shouldn't emit change event when disabled element is visible
       await actionEnd.click();
-      expect(changeSpy).toHaveReceivedEventTimes(0);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       await actionEnd.click();
       expect(changeSpy).toHaveReceivedEventTimes(1);
       expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
-      // shouldn't emit change event when disabled element is visible
       await actionStart.click();
-      expect(changeSpy).toHaveReceivedEventTimes(1);
-      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
 
       await actionStart.click();
       expect(changeSpy).toHaveReceivedEventTimes(2);
@@ -983,6 +982,40 @@ describe("calcite-stepper", () => {
 
       const displayedItems = await findAll(page, "calcite-stepper-item:not([hidden]):not([item-hidden])");
       expect(displayedItems.length).toBe(1);
+    });
+  });
+
+  describe("theme", () => {
+    describe("horizontal-single", () => {
+      themed(
+        html`<calcite-stepper layout="horizontal-single" scale="m"
+          ><calcite-stepper-item heading="Item 1" active> </calcite-stepper-item
+          ><calcite-stepper-item heading="Item 2" complete> </calcite-stepper-item
+          ><calcite-stepper-item heading="Item 3" error> </calcite-stepper-item>
+        </calcite-stepper>`,
+        {
+          "--calcite-stepper-bar-gap": {
+            shadowSelector: `.${CSS.stepBarContainer}`,
+            targetProp: "gap",
+          },
+          "--calcite-stepper-bar-inactive-fill-color": {
+            shadowSelector: `.${CSS.stepBarInactive}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-active-fill-color": {
+            shadowSelector: `.${CSS.stepBarActive}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-complete-fill-color": {
+            shadowSelector: `.${CSS.stepBarComplete}`,
+            targetProp: "fill",
+          },
+          "--calcite-stepper-bar-error-fill-color": {
+            shadowSelector: `.${CSS.stepBarError}`,
+            targetProp: "fill",
+          },
+        },
+      );
     });
   });
 });

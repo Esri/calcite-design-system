@@ -1,3 +1,14 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-padding-block
+// --calcite-internal-select-block-size
+// --calcite-internal-select-font-weight
+// --calcite-internal-select-icon-container-padding-inline
+// --calcite-internal-select-line-height
+// --calcite-internal-select-spacing-block
+
 :host {
   @apply block;
 }
@@ -57,8 +68,8 @@
     items-center
     justify-center
     border-none
-    transition-default 
-    w-full 
+    transition-default
+    w-full
     h-full;
   --calcite-internal-action-padding-block: 0;
   --calcite-action-background-color: var(--calcite-date-picker-header-action-background-color);
@@ -117,7 +128,7 @@
   text-center;
   inline-size: #{$calcite-size-44};
   &:hover {
-    @apply duration-100 ease-in-out;
+    @apply ease-in-out;
     transition-property: outline-color;
     outline: 2px solid var(--calcite-color-border-2);
     outline-offset: -2px;

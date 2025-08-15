@@ -13,10 +13,13 @@ import {
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-action-pad", { display: "block" });
   });
@@ -361,6 +364,27 @@ describe("calcite-action-pad", () => {
     for (const childGroup of groups) {
       expect(await childGroup.getProperty("layout")).toBe("vertical");
     }
+  });
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-action-pad heading="Test"></calcite-action-pad>`);
+    const item = await page.find("calcite-action-pad");
+
+    const expandSpy = await page.spyOnEvent("calciteActionPadExpand");
+    const collapseSpy = await page.spyOnEvent("calciteActionPadCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("theme", () => {

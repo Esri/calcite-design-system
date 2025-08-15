@@ -48,7 +48,7 @@ export default {
       control: { type: "select" },
     },
     alignment: {
-      options: alignment.values.filter((option) => option !== "center"),
+      options: alignment.values,
       control: { type: "select" },
     },
     validationIcon: {
@@ -165,5 +165,25 @@ export const validationMessageAllScales_TestOnly = (): string => html`
       validation-icon
       value="test"
     ></calcite-input-text>
+  </div>
+`;
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input-text placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input-text>`;
+
+export const alignmentAllOptions = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input-text alignment="start" placeholder="Placeholder text"></calcite-input-text>
+    <br />
+    <calcite-input-text alignment="center" placeholder="Placeholder text"></calcite-input-text>
+    <br />
+    <calcite-input-text alignment="end" placeholder="Placeholder text"></calcite-input-text>
   </div>
 `;

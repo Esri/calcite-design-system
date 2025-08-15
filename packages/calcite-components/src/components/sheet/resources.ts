@@ -11,5 +11,11 @@ export const CSS = {
   height: "height",
 };
 
-export const sheetResizeStep = 10;
-export const sheetResizeShiftStep = 25;
+export const IDS = {
+  sheetContent: "sheet-content",
+};
+
+export const ICONS = {
+  dragVertical: "drag-resize-vertical",
+  dragHorizontal: "drag-resize-horizontal",
+};

@@ -16,13 +16,20 @@ import {
   themed,
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils";
+import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
+}>;
+
+type TestPanelWindow = GlobalTestProps<{
+  lastEventCancelable: boolean;
+  lastEventDefaultPrevented: boolean;
+  calledTimes: number;
 }>;
 
 const panelTemplate = (scrollable = false) =>
@@ -85,6 +92,8 @@ export const scrollingContentHtml = html`
 export const scrollingHeightStyle = "height: 200px;";
 
 describe("calcite-panel", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-panel", { display: "flex" });
   });
@@ -143,6 +152,14 @@ describe("calcite-panel", () => {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
+      {
+        propertyName: "icon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -167,6 +184,14 @@ describe("calcite-panel", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "icon",
+        value: "x",
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: "true",
       },
     ]);
   });
@@ -341,6 +366,43 @@ describe("calcite-panel", () => {
     expect(calcitePanelClose).toHaveReceivedEventTimes(1);
   });
 
+  it("close event can be cancelled", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate(() => {
+      (window as TestPanelWindow).calledTimes = 0;
+
+      const panel = document.createElement("calcite-panel");
+      panel.heading = "Hello World";
+      panel.closable = true;
+      panel.innerText = "Hello World";
+
+      panel.addEventListener("calcitePanelClose", (event) => {
+        event.preventDefault();
+        // needed to work around event spy limitation - details are captured before event is canceled
+        (window as TestPanelWindow).lastEventCancelable = event.cancelable;
+        (window as TestPanelWindow).lastEventDefaultPrevented = event.defaultPrevented;
+        (window as TestPanelWindow).calledTimes++;
+      });
+
+      document.body.append(panel);
+    });
+    await page.waitForChanges();
+
+    const panel = await page.find("calcite-panel");
+    const closeButton = await page.find(`calcite-panel >>> #${IDS.close}`);
+    await closeButton.click();
+    await page.waitForChanges();
+
+    const calledTimes = await page.evaluate(() => (window as TestPanelWindow).calledTimes);
+    const lastEventCancelable = await page.evaluate(() => (window as TestPanelWindow).lastEventCancelable);
+    const lastEventDefaultPrevented = await page.evaluate(() => (window as TestPanelWindow).lastEventDefaultPrevented);
+
+    expect(calledTimes).toBe(1);
+    expect(lastEventCancelable).toBe(true);
+    expect(lastEventDefaultPrevented).toBe(true);
+    expect(await panel.getProperty("closed")).toBe(false);
+  });
+
   it("toggle event should fire when collapsed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-panel collapsible>Hello World!</calcite-panel>");
@@ -411,7 +473,7 @@ describe("calcite-panel", () => {
     `);
   });
 
-  describe("is focusable", () => {
+  describe("focusable", () => {
     describe("with scrolling content", () => {
       describe("closable", () => {
         focusable(
@@ -630,6 +692,28 @@ describe("calcite-panel", () => {
         expect(calcitePanelClose).toHaveReceivedEventTimes(1);
       });
 
+      it("should not close parent panels when close button is pressed", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-panel id="parent" heading="Top panel">
+            Some content
+            <calcite-panel id="child" heading="Child panel" closable>
+              Closing this panel will close the parent panel. This is a regression from next.36.
+            </calcite-panel>
+          </calcite-panel>`,
+        );
+
+        const parentPanel = await page.find("calcite-panel#parent");
+        const childPanel = await page.find("calcite-panel#child");
+
+        const childCloseButton = await childPanel.find(`calcite-panel >>> #${IDS.close}`);
+        await childCloseButton.click();
+        await page.waitForChanges();
+
+        expect(await parentPanel.getProperty("closed")).toBe(false);
+        expect(await childPanel.getProperty("closed")).toBe(true);
+      });
+
       it("should not close when Escape key is prevented and closable is true", async () => {
         const page = await newE2EPage();
         await page.setContent(
@@ -682,9 +766,36 @@ describe("calcite-panel", () => {
     });
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-panel heading="Test"></calcite-panel>`);
+    const item = await page.find("calcite-panel");
+
+    const expandSpy = await page.spyOnEvent("calcitePanelExpand");
+    const collapseSpy = await page.spyOnEvent("calcitePanelCollapse");
+
+    item.setProperty("collapsed", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(0);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+
+    item.setProperty("collapsed", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("theme", () => {
     themed(
-      html`<calcite-panel heading="Terms and conditions" description="Something great about this" closable collapsible>
+      html`<calcite-panel
+        icon="banana"
+        heading="Terms and conditions"
+        description="Something great about this"
+        closable
+        collapsible
+      >
         <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
         <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
         <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
@@ -721,7 +832,6 @@ describe("calcite-panel", () => {
       </calcite-panel>`,
       {
         "--calcite-panel-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
         "--calcite-panel-heading-text-color": {
@@ -732,9 +842,36 @@ describe("calcite-panel", () => {
           shadowSelector: `.${CSS.description}`,
           targetProp: "color",
         },
+        "--calcite-panel-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "--calcite-icon-color",
+        },
         "--calcite-panel-background-color": {
           shadowSelector: `.${CSS.contentWrapper}`,
           targetProp: "backgroundColor",
+        },
+        "--calcite-panel-header-action-background-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-panel-header-action-background-color-hover": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-panel-header-action-background-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
+        },
+        "--calcite-panel-header-action-text-color": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-panel-header-action-text-color-press": {
+          shadowSelector: `.${CSS.menuAction}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-panel >>> .${CSS.menuAction}` },
         },
         "--calcite-panel-header-background-color": {
           shadowSelector: `.${CSS.header}`,

@@ -10,6 +10,14 @@
  * @prop --calcite-menu-text-color: Specifies the text color of the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-menu-background-color
+// --calcite-internal-menu-item-icon-color
+// --calcite-internal-menu-text-color
+
 :host {
   @apply flex
   items-center
@@ -59,7 +67,7 @@
   color: var(--calcite-menu-text-color, var(--calcite-internal-menu-text-color, var(--calcite-color-text-2)));
 
   &:hover {
-    border-block-end-color: var(--calcite-menu-item-accent-color, var(--calcite-color-border-2));
+    --calcite-internal-menu-background-color: var(--calcite-color-foreground-2);
   }
 
   &:focus {

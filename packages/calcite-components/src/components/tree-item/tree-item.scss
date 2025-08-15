@@ -1,3 +1,22 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tree-text-color: Specifies the component's text color.
+ * @prop --calcite-tree-text-color-selected: Specifies the component's text color when selected.
+ * @prop --calcite-tree-selected-icon-color: Specifies the component's selection icon color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tree-item-children-container-padding
+// --calcite-internal-tree-item-line-left-position
+// --calcite-internal-tree-item-padding-block
+// --calcite-internal-tree-item-spacing-unit
+
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
   --calcite-internal-tree-item-padding-block: 0.25rem;
@@ -23,8 +42,7 @@
 }
 
 :host {
-  @apply text-color-3
-    block
+  @apply block
     max-w-full
     cursor-pointer;
 
@@ -44,6 +62,8 @@
     padding-inline: var(--calcite-internal-tree-item-spacing-unit);
     padding-block: var(--calcite-internal-tree-item-padding-block);
   }
+
+  color: var(--calcite-tree-text-color, var(--calcite-color-text-3));
 }
 
 @include calcite-hydrated-hidden();
@@ -119,7 +139,7 @@
 
 .checkbox {
   line-height: 0;
-  color: var(--calcite-color-border-input);
+  color: var(--calcite-tree-selected-icon-color, var(--calcite-color-border-input));
 }
 
 .checkbox-label {
@@ -162,12 +182,14 @@
 
 :host([selected]) .node-container,
 :host([selected]) .node-container:hover {
-  @apply font-medium text-color-1;
+  @apply font-medium;
+
+  color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
 
   .bullet-point,
   .checkmark {
     @apply opacity-100;
-    color: theme("colors.brand");
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
 }
 
@@ -199,16 +221,16 @@
 :host([selected]) {
   .checkmark,
   .bullet-point {
-    color: var(--calcite-color-brand);
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
   .checkbox {
-    color: var(--calcite-color-brand);
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
 }
 
 :host([has-children][indeterminate]) {
   .checkbox {
-    color: var(--calcite-color-brand);
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
 }
 

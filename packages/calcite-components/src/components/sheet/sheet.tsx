@@ -12,17 +12,19 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, isPixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
-import { CSS, sheetResizeStep, sheetResizeShiftStep } from "./resources";
+import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
@@ -35,13 +37,13 @@ declare global {
 
 /** @slot - A slot for adding custom content. */
 export class Sheet extends LitElement implements OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private contentEl: HTMLDivElement;
 
@@ -51,7 +53,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: false,
+      clickOutsideDeactivates: () => this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -63,9 +65,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     },
   })(this);
 
-  private ignoreOpenChange = false;
-
-  private initialOverflowCSS: string;
+  usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
   private interaction: Interactable;
 
@@ -77,14 +77,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   private _open = false;
 
-  private openEnd = (): void => {
-    this.setFocus();
-    this.el.removeEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
-
   openProp = "opened";
 
   transitionProp = "opacity" as const;
@@ -93,22 +85,43 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  private focusSetter = useSetFocus<this>()(this);
 
-  // #region State Properties
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
 
-  @state() resizeValues: ResizeValues = {
-    inlineSize: 0,
-    blockSize: 0,
-    minInlineSize: 0,
-    minBlockSize: 0,
-    maxInlineSize: 0,
-    maxBlockSize: 0,
+    if (
+      !defaultPrevented &&
+      !this.escapeDisabled &&
+      this.focusTrapDisabled &&
+      this.open &&
+      key === "Escape"
+    ) {
+      event.preventDefault();
+      this.open = false;
+    }
   };
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region State Properties
+
+  @state() resizeValues: ResizeValues = {
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
+  };
+
+  @state() get preventDocumentScroll(): boolean {
+    return !this.embedded;
+  }
+
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * Passes a function to run before the component closes.
@@ -144,6 +157,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -172,12 +186,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this._open = open;
-      this.toggleSheet(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      this.setOpenState(value);
     }
   }
 
@@ -198,7 +210,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
-
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
@@ -209,15 +220,22 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
-  /** Sets focus on the component's "close" button - the first focusable item. */
+  /**
+   * Sets focus on the component's "close" button - the first focusable item.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   /**
@@ -233,9 +251,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteSheetBeforeClose = createEvent({ cancelable: false });
@@ -249,9 +267,9 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Fires when the component is open and animation is complete. */
   calciteSheetOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -263,20 +281,13 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.setupInteractions();
   }
 
-  load(): void {
-    // when sheet initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      this.openSheet();
-    }
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      onToggleOpenCloseComponent(this);
+      toggleOpenClose(this);
     }
 
     if (
@@ -289,49 +300,39 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     this.embedded = false;
     this.cleanupInteractions();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (
-      !defaultPrevented &&
-      !this.escapeDisabled &&
-      this.focusTrapDisabled &&
-      this.open &&
-      key === "Escape"
-    ) {
-      event.preventDefault();
-      this.open = false;
+  private async setOpenState(value: boolean): Promise<void> {
+    if (this.beforeClose && !value) {
+      try {
+        await this.beforeClose?.(this.el);
+      } catch {
+        return;
+      }
     }
-  };
 
-  private toggleSheet(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
-    }
+    this._open = value;
 
     if (value) {
-      this.openSheet();
-    } else {
-      this.closeSheet();
+      await this.componentOnReady();
     }
+
+    this.opened = value;
   }
 
   private getResizeIcon(): string {
     const { position } = this;
 
     return position === "block-start" || position === "block-end"
-      ? "drag-resize-vertical"
-      : "drag-resize-horizontal";
+      ? ICONS.dragVertical
+      : ICONS.dragHorizontal;
   }
 
   private getContentElDOMRect(): DOMRect {
@@ -361,7 +362,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
     const rect = this.getContentElDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
-    const stepValue = shiftKey ? sheetResizeShiftStep : sheetResizeStep;
+    const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
       case "ArrowUp":
@@ -398,6 +399,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
       case "End":
         this.updateSize({
@@ -405,6 +407,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
           type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
         });
+        event.preventDefault();
         break;
     }
   }
@@ -446,7 +449,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.updateSize({ size: null, type: "blockSize" });
   }
 
-  private setupInteractions(): void {
+  private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
     const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
@@ -455,16 +458,18 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       return;
     }
 
+    await this.el.componentOnReady();
+
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentEl);
 
     const values: ResizeValues = {
-      inlineSize: isPixelValue(inlineSize) ? parseInt(inlineSize) : 0,
-      blockSize: isPixelValue(blockSize) ? parseInt(blockSize) : 0,
-      minInlineSize: isPixelValue(minInlineSize) ? parseInt(minInlineSize) : 0,
-      minBlockSize: isPixelValue(minBlockSize) ? parseInt(minBlockSize) : 0,
-      maxInlineSize: isPixelValue(maxInlineSize) ? parseInt(maxInlineSize) : window.innerWidth,
-      maxBlockSize: isPixelValue(maxBlockSize) ? parseInt(maxBlockSize) : window.innerHeight,
+      inlineSize: getStylePixelValue(inlineSize),
+      blockSize: getStylePixelValue(blockSize),
+      minInlineSize: getStylePixelValue(minInlineSize),
+      minBlockSize: getStylePixelValue(minBlockSize),
+      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
 
     this.resizeValues = values;
@@ -508,8 +513,11 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   onOpen(): void {
-    this.calciteSheetOpen.emit();
+    if (this.focusTrapDisabled) {
+      this.setFocus();
+    }
     this.focusTrap.activate();
+    this.calciteSheetOpen.emit();
   }
 
   onBeforeClose(): void {
@@ -547,20 +555,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.transitionEl = el;
   }
 
-  private async openSheet(): Promise<void> {
-    await this.componentOnReady();
-    this.el.addEventListener(
-      "calciteSheetOpen",
-      this.openEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    this.opened = true;
-    if (!this.embedded) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
@@ -569,36 +563,13 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.open = false;
   }
 
-  private async closeSheet(): Promise<void> {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose(this.el);
-      } catch {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    this.opened = false;
-    this.removeOverflowHiddenClass();
-  }
-
-  private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
-  }
-
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { resizable, position, resizeValues } = this;
@@ -630,7 +601,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} ref={this.setContentEl}>
+        <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>
@@ -663,5 +634,5 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

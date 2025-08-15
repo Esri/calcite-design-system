@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
-import { findAll, skipAnimations } from "../../tests/utils";
+import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { formatTimePart } from "../../utils/time";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
@@ -1246,7 +1246,11 @@ async function selectSelectedDay(page: E2EPage): Promise<void> {
 }
 
 async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
-  return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
+  const days = await findAll(
+    page,
+    `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+  );
+  return days.find((d) => !d.classList.contains("noncurrent"));
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {

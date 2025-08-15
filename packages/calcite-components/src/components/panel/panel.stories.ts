@@ -14,6 +14,8 @@ interface PanelStoryArgs
     | "disabled"
     | "closable"
     | "collapsed"
+    | "icon"
+    | "iconFlipRtl"
     | "collapsible"
     | "collapseDirection"
     | "loading"
@@ -34,6 +36,8 @@ export default {
     collapsible: false,
     collapseDirection: collapseDirection.defaultValue,
     heightScale: scale.defaultValue,
+    icon: "",
+    iconFlipRtl: false,
     scale: scale.defaultValue,
     loading: false,
   },
@@ -56,8 +60,6 @@ export default {
     },
   },
 };
-
-const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
 
 const contentHTML = html`
   <p>
@@ -89,7 +91,7 @@ const footerHTML = html`
   <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
-const panelContent = `${headerHTML}
+const panelContent = `
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
@@ -105,6 +107,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
     scale="${args.scale}"
+    icon="${args.icon}"
     ${boolean("loading", args.loading)}
     menu-placement="${args.menuPlacement}"
     heading="Heading"
@@ -135,8 +138,28 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
+export const withIcon = (): string => html`
+  <calcite-panel scale="s" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana"> Hello world! </calcite-panel>
+`;
+
+export const withDescriptionAndIcon = (): string => html`
+  <calcite-panel scale="s" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="m" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+  <calcite-panel scale="l" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-panel collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+  <calcite-panel
+    collapse-direction="down"
+    height-scale="m"
+    dir="rtl"
+    class="calcite-mode-dark"
+    heading="Heading"
+    icon="arrow-bold-left"
+    icon-flip-rtl
+  >
     ${panelContent}
   </calcite-panel>
 `;

@@ -56,7 +56,7 @@ export default {
       control: { type: "select" },
     },
     alignment: {
-      options: alignment.values.filter((option) => option !== "center"),
+      options: alignment.values,
       control: { type: "select" },
     },
     numberButtonType: {
@@ -217,3 +217,23 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
       value="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     ></calcite-input-number>
   `);
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input-number placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input-number>`;
+
+export const alignmentAllOptions = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input-number alignment="start" placeholder="Placeholder text"></calcite-input-number>
+    <br />
+    <calcite-input-number alignment="center" placeholder="Placeholder text"></calcite-input-number>
+    <br />
+    <calcite-input-number alignment="end" placeholder="Placeholder text"></calcite-input-number>
+  </div>
+`;

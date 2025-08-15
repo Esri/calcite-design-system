@@ -5,7 +5,7 @@
  *
  * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
  * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: Specifies the item's icon selection color when hovered. 
+ * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered.
  * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
  * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
@@ -48,7 +48,6 @@
 .dropdown-item-icon {
   @apply relative
     opacity-0
-    duration-150
     ease-in-out;
   transform: scale(0.9);
 }
@@ -101,8 +100,7 @@
 //focus
 :host(:focus) {
   .container {
-    @apply focus-inset text-color-1 no-underline;
-    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+    @apply focus-inset no-underline;
   }
 }
 
@@ -139,8 +137,7 @@
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-icon-color-hover, var(--calcite-color-border-1));
-  @apply opacity-100;
+  color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
 :host([selected]) .dropdown-item-icon {

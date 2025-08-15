@@ -1,5 +1,6 @@
 {
   "invalid": "Inválido",
+  "required": "Necessário",
   "tooLong": "O comprimento atual do caractere é {currentLength}, que exceda o comprimento máximo de caracteres de {maxLength}.",
   "tooShort": "O comprimento atual do caractere é {currentLength}, que é menor que o comprimento mínimo de caracteres de {minLength}."
 }

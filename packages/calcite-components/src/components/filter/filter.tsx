@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -9,11 +9,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
+import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
@@ -25,15 +26,17 @@ declare global {
 }
 
 export class Filter extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
+
+  private cancelable = useCancelable<this>()(this);
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
@@ -45,9 +48,18 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   private _value = "";
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region Public Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -79,13 +91,6 @@ export class Filter extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   /** Specifies placeholder text for the input element. */
   @property() placeholder: string;
 
@@ -97,7 +102,6 @@ export class Filter extends LitElement implements InteractiveComponent {
   get value(): string {
     return this._value;
   }
-
   set value(value: string) {
     const oldValue = this._value;
     if (value !== oldValue) {
@@ -106,9 +110,9 @@ export class Filter extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Performs a filter on the component.
@@ -127,24 +131,34 @@ export class Filter extends LitElement implements InteractiveComponent {
     });
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.textInput.value?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.textInput.value;
+    }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the filter text changes. */
   calciteFilterChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
+
+  override connectedCallback(): void {
+    this.cancelable.add(this.filterDebounced);
+  }
 
   async load(): Promise<void> {
     this.updateFiltered(filter(this.items ?? [], this.value, this.filterProps));
@@ -167,13 +181,10 @@ export class Filter extends LitElement implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
-  override disconnectedCallback(): void {
-    this.filterDebounced.cancel();
-  }
+  //#endregion
 
-  // #endregion
+  //#region Private Methods
 
-  // #region Private Methods
   private valueHandler(value: string): void {
     this.filterDebounced(value);
   }
@@ -213,9 +224,9 @@ export class Filter extends LitElement implements InteractiveComponent {
     callback?.();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, scale } = this;
@@ -244,5 +255,5 @@ export class Filter extends LitElement implements InteractiveComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

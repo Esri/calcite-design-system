@@ -1,4 +1,8 @@
 {
   "chooseDate": "Izvēlieties datumu",
-  "dateFormat": "Datuma formāts: {format}"
+  "date": "Datums",
+  "dateFormat": "Datuma formāts: {format}",
+  "endDate": "Beigu datums",
+  "required": "Obligāts",
+  "startDate": "Sākuma datums"
 }

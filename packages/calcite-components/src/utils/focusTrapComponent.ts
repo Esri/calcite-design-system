@@ -17,6 +17,17 @@ export interface FocusTrapComponent {
   focusTrap: FocusTrap;
 
   /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick`" allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active, and
+   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   */
+  focusTrapOptions?: Partial<FocusTrapOptions>;
+
+  /**
    * Method to update the element(s) that are used within the FocusTrap component.
    *
    * This should be implemented for components that allow user content and/or have conditionally-rendered focusable elements within the trap.
@@ -51,6 +62,22 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   component.focusTrap = createFocusTrap(focusTrapNode, createFocusTrapOptions(el, options?.focusTrapOptions));
 }
 
+const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
+
+/**
+ * Default behavior for returning focus when the FocusTrap is deactivated.
+ *
+ * @param hostEl
+ * @param el
+ */
+function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
+  if (!outsideClickDeactivated.has(hostEl)) {
+    focusElement(el as FocusableElement);
+  }
+
+  return false;
+}
+
 /**
  * Helper to create the FocusTrap options.
  *
@@ -58,21 +85,32 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
  * @param options
  */
 export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapOptions): FocusTrapOptions {
-  const focusTrapNode = options?.fallbackFocus || hostEl;
+  const fallbackFocus = options?.fallbackFocus || hostEl;
+  const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
 
   return {
-    clickOutsideDeactivates: true,
-    fallbackFocus: focusTrapNode,
-    setReturnFocus: (el) => {
-      focusElement(el as FocusableElement);
-      return false;
-    },
+    fallbackFocus,
     ...options,
 
     // the following options are not overridable
     document: hostEl.ownerDocument,
     tabbableOptions,
     trapStack: focusTrapStack,
+    clickOutsideDeactivates: (event) => {
+      if (!outsideClickDeactivated.has(hostEl)) {
+        outsideClickDeactivated.add(hostEl);
+      }
+      return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onPostDeactivate: () => {
+      outsideClickDeactivated.delete(hostEl);
+    },
+    setReturnFocus: (el) => {
+      const returnFocusTarget =
+        typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
+
+      return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
+    },
   };
 }
 

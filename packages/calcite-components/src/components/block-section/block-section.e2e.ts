@@ -20,6 +20,14 @@ describe("calcite-block-section", () => {
         propertyName: "open",
         value: true,
       },
+      {
+        propertyName: "expanded",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
     ]);
   });
 
@@ -30,8 +38,16 @@ describe("calcite-block-section", () => {
         defaultValue: false,
       },
       {
+        propertyName: "expanded",
+        defaultValue: false,
+      },
+      {
         propertyName: "toggleDisplay",
         defaultValue: "button",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });
@@ -43,7 +59,7 @@ describe("calcite-block-section", () => {
   describe("setFocus", () => {
     describe("focuses toggle switch", () => {
       focusable(
-        html`<calcite-block-section text="text" toggle-display="switch" open>
+        html`<calcite-block-section text="text" toggle-display="switch" expanded>
           <div>some content</div>
         </calcite-block-section>`,
         {
@@ -54,7 +70,7 @@ describe("calcite-block-section", () => {
 
     describe("focuses toggle button", () => {
       focusable(
-        html`<calcite-block-section text="text" toggle-display="button" open>
+        html`<calcite-block-section text="text" toggle-display="button" expanded>
           <div>some content</div>
         </calcite-block-section>`,
         {
@@ -67,13 +83,13 @@ describe("calcite-block-section", () => {
   describe("toggle-display = 'switch'", () => {
     describe("accessible", () => {
       accessible(html`
-        <calcite-block-section text="text" toggle-display="switch" open>
+        <calcite-block-section text="text" toggle-display="switch" expanded>
           <div>some content</div>
         </calcite-block-section>
       `);
     });
 
-    describe("accessible: when closed", () => {
+    describe("accessible: when collapsed", () => {
       accessible(html`
         <calcite-block-section text="text" toggle-display="switch">
           <div>some content</div>
@@ -96,7 +112,7 @@ describe("calcite-block-section", () => {
 
     it("renders section text", async () => {
       const page = await newE2EPage({
-        html: `<calcite-block-section text="test text" open toggle-display="switch"></calcite-block-section>`,
+        html: `<calcite-block-section text="test text" expanded toggle-display="switch"></calcite-block-section>`,
       });
       const element = await page.find(`calcite-block-section >>> .${CSS.toggle}`);
       expect(element.textContent).toBe("test text");
@@ -105,11 +121,11 @@ describe("calcite-block-section", () => {
 
   describe("toggle-display = 'button' (default)", () => {
     describe("accessible", () => {
-      describe("accessible: when open", () => {
-        accessible(html`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`);
+      describe("accessible: when expanded", () => {
+        accessible(html`<calcite-block-section text="text" expanded><div>some content</div></calcite-block-section>`);
       });
 
-      describe("accessible: when closed", () => {
+      describe("accessible: when collapsed", () => {
         accessible(html`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`);
       });
     });
@@ -124,6 +140,24 @@ describe("calcite-block-section", () => {
       await page.setContent(html`<calcite-block-section text="text"></calcite-block-section>`);
       await assertToggleBehavior(page);
     });
+  });
+
+  // Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
+  it("should map deprecated 'open' prop to 'expanded' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-block-section></calcite-block-section>`,
+    });
+    const blockSection = await page.find("calcite-block-section");
+
+    expect(await blockSection.getProperty("expanded")).toBe(false);
+
+    blockSection.setProperty("open", true);
+    await page.waitForChanges();
+    expect(await blockSection.getProperty("expanded")).toBe(true);
+
+    blockSection.setProperty("open", false);
+    await page.waitForChanges();
+    expect(await blockSection.getProperty("expanded")).toBe(false);
   });
 
   describe("status = 'invalid'", () => {
@@ -153,17 +187,17 @@ describe("calcite-block-section", () => {
 
     expect(await content.isVisible()).toBe(false);
 
-    element.setProperty("open", true);
+    element.setProperty("expanded", true);
     await page.waitForChanges();
-    element = await page.find("calcite-block-section[open]");
+    element = await page.find("calcite-block-section[expanded]");
     content = await page.find(`calcite-block-section >>> .${CSS.content}`);
 
     expect(element).toBeTruthy();
     expect(await content.isVisible()).toBe(true);
 
-    element.setProperty("open", false);
+    element.setProperty("expanded", false);
     await page.waitForChanges();
-    element = await page.find("calcite-block-section[open]");
+    element = await page.find("calcite-block-section[expanded]");
     content = await page.find(`calcite-block-section >>> .${CSS.content}`);
 
     expect(element).toBeNull();
@@ -181,13 +215,13 @@ describe("calcite-block-section", () => {
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-    expect(await element.getProperty("open")).toBe(true);
+    expect(await element.getProperty("expanded")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await toggle.click();
 
     expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
 
     if ((await element.getProperty("toggleDisplay")) === "switch") {
@@ -196,13 +230,13 @@ describe("calcite-block-section", () => {
       await switchToggle.click();
 
       expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-      expect(await element.getProperty("open")).toBe(true);
+      expect(await element.getProperty("expanded")).toBe(true);
       expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
       await switchToggle.click();
 
       expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-      expect(await element.getProperty("open")).toBe(false);
+      expect(await element.getProperty("expanded")).toBe(false);
       expect(toggle.getAttribute("aria-expanded")).toBe("false");
     }
 
@@ -224,22 +258,43 @@ describe("calcite-block-section", () => {
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-    expect(await element.getProperty("open")).toBe(true);
+    expect(await element.getProperty("expanded")).toBe(true);
     expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     await keyboardToggleEmitter.press("Enter");
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(expectedClickEvents++);
-    expect(await element.getProperty("open")).toBe(false);
+    expect(await element.getProperty("expanded")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block-section heading="Test"></calcite-block-section>`);
+    const item = await page.find("calcite-block-section");
+
+    const expandSpy = await page.spyOnEvent("calciteBlockSectionExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockSectionCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
 
   describe("theme", () => {
     describe("default", () => {
       themed(
         html`
-          <calcite-block-section text="Planes" open icon-end="pen" icon-start="pen" text="a block-section">
+          <calcite-block-section text="Planes" expanded icon-end="pen" icon-start="pen" text="a block-section">
             <p>Block section content</p>
           </calcite-block-section>
         `,
@@ -247,19 +302,10 @@ describe("calcite-block-section", () => {
           "--calcite-block-section-border-color": {
             targetProp: "borderBlockEndColor",
           },
-          "--calcite-block-section-background-color": [
-            {
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggle}`,
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggleContainer}`,
-              targetProp: "backgroundColor",
-            },
-          ],
+          "--calcite-block-section-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
           "--calcite-block-section-header-text-color": [
             {
               targetProp: "color",
@@ -268,6 +314,7 @@ describe("calcite-block-section", () => {
           "--calcite-block-section-text-color": [
             { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
             { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
+            { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
           ],
           "--calcite-block-section-text-color-hover": [
             {
@@ -281,16 +328,20 @@ describe("calcite-block-section", () => {
               state: "hover",
             },
             {
-              shadowSelector: `.${CSS.sectionHeader}`,
-              targetProp: "color",
-              state: "hover",
-            },
-            {
               shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",
               state: "hover",
             },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+              state: "hover",
+            },
           ],
+          "--calcite-block-section-content-space": {
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "paddingBlock",
+          },
         },
       );
     });

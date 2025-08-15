@@ -4,7 +4,6 @@ import { ComboboxChildElement } from "../components/combobox/interfaces";
 import { StepperItem } from "../components/stepper-item/stepper-item";
 import { TableRow } from "../components/table-row/table-row";
 import { logger } from "./logger";
-import { isBrowser } from "./browser";
 
 export function getIconScale(componentScale: Scale): Extract<Scale, "s" | "m"> {
   return componentScale === "l" ? "m" : "s";
@@ -41,7 +40,7 @@ export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | Ta
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
  *
  * @example
- * async setFocus(): Promise<void> {
+ * async focusPart(): Promise<void> {
  *   await componentFocusable(this);
  *   this.internalElement?.focus();
  * }
@@ -51,11 +50,5 @@ export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | Ta
  */
 export async function componentFocusable(component: LitElement): Promise<void> {
   await component.componentOnReady();
-
-  if (!isBrowser()) {
-    return;
-  }
-
-  component.requestUpdate();
-  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  await component.updateComplete;
 }

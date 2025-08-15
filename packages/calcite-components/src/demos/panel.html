@@ -37,22 +37,27 @@
         --calcite-panel-corner-radius: 12px;
         --calcite-panel-heading-text-color: darkgreen;
         --calcite-panel-description-text-color: lightgreen;
+        --calcite-panel-border-color: blue;
         --calcite-panel-background-color: yellow;
         --calcite-panel-header-background-color: orange;
         --calcite-panel-footer-background-color: red;
-
         --calcite-panel-border-color: lime;
-
         --calcite-panel-space: 2rem;
         --calcite-panel-header-content-space: 0;
         --calcite-panel-footer-space: 0;
+        --calcite-panel-content-space: 12px;
+        --calcite-panel-footer-padding: 3rem;
+        --calcite-panel-header-border-block-end: rgb(13, 242, 204);
 
-        --calcite-action-background-color: lime;
-        --calcite-action-background-color-hover: lime;
-        --calcite-action-background-color-pressed: lime;
-        --calcite-action-text-color: blue;
-        --calcite-action-text-color-pressed: blue;
-        --calcite-popover-border-color: blue;
+        --calcite-panel-header-action-background-color: blue;
+        --calcite-panel-header-action-background-color-hover: blue;
+        --calcite-panel-header-action-background-color-press: blue;
+      }
+
+      .themed-panel calcite-action[slot="header-actions-end"] {
+        --calcite-action-background-color: red;
+        --calcite-action-background-color-hover: red;
+        --calcite-action-background-color-press: red;
       }
     </style>
 
@@ -90,6 +95,16 @@
           <calcite-panel height-scale="s" heading="Header!">
             <p slot="footer">Footer!</p>
           </calcite-panel>
+        </div>
+      </div>
+
+      <!-- with icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">with icon</div>
+        <div class="child">
+          <calcite-panel scale="s" icon="banana" heading="Small Bananas!"> Hello world! </calcite-panel>
+          <calcite-panel scale="m" icon="banana" heading="Medium Bananas!"> Hello world! </calcite-panel>
+          <calcite-panel scale="l" icon="banana" heading="Large Bananas!"> Hello world! </calcite-panel>
         </div>
       </div>
 
@@ -267,6 +282,48 @@
         </div>
       </div>
 
+      <!-- closable with event prevented -->
+      <div class="parent">
+        <div class="child right-aligned-text">closable with event prevented</div>
+        <div class="child">
+          <calcite-panel id="closable-prevented" closable heading="Hello World" description="closable with actions">
+            <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+            <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+            <p>
+              Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa
+              curae; leo semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula
+              purus porta ante lacus habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus
+              pellentesque nascetur porta donec non. Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum
+              neque. Magnis nostra nec nulla dictumst taciti consectetur. Non porttitor tempor orci dictumst magna porta
+              vitae.
+            </p>
+            <p>
+              Ipsum nostra tempus etiam augue ullamcorper scelerisque sapien potenti erat nisi gravida. Vehicula sem
+              tristique sed. Nullam, sociis imperdiet ullamcorper? Dapibus fames primis ridiculus vulputate, habitant
+              inceptos! Nunc torquent lorem urna vehicula volutpat donec nec. Orci massa eu nec donec enim fames,
+              faucibus quam aenean. Laoreet tellus tempor quisque ornare lobortis praesent erat senectus natoque
+              consectetur donec imperdiet. Quis sem cum gravida dictumst a pretium purus aptent amet id. Orci habitasse,
+              praesent facilisis condimentum. Nec elit turpis leo.
+            </p>
+            <p>
+              Tempus per volutpat diam tempor mauris parturient vulputate leo id libero quisque. Mattis aliquam dictum
+              venenatis fringilla. Taciti venenatis, ultrices sollicitudin consequat. Sapien fusce est iaculis potenti
+              ut auctor potenti. Nisi malesuada feugiat vulputate vitae porttitor. Nullam nullam nullam accumsan quis
+              magna in. Elementum, nascetur gravida cras scelerisque inceptos aenean inceptos potenti. Lobortis
+              condimentum accumsan posuere curabitur fermentum diam, natoque quisque. Eget placerat sed aptent orci urna
+              fusce magnis. Vel lacus magnis nunc.
+            </p>
+          </calcite-panel>
+          <script>
+            const panel = document.getElementById("closable-prevented");
+            panel.addEventListener("calcitePanelClose", (event) => {
+              event.preventDefault();
+              console.log("Panel close prevented");
+            });
+          </script>
+        </div>
+      </div>
+
       <!-- header with actions -->
       <div class="parent">
         <div class="child right-aligned-text">header with actions</div>
@@ -330,6 +387,7 @@
             <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
             <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
             <div slot="content-top">To continue, you must agree to the terms</div>
+
             <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
               <calcite-checkbox></calcite-checkbox>I agree to the terms
             </calcite-label>
@@ -341,6 +399,7 @@
               tortor, a iaculis elit mi sed lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor,
               porttitor est sed, vestibulum risus. Integer non erat libero.
             </p>
+
             <p>
               Cras sagittis vel neque sed efficitur. Vestibulum mattis diam eget urna condimentum tempus. Donec
               malesuada velit sit amet metus faucibus pharetra. Sed sit amet massa facilisis, porttitor nunc vitae,
@@ -423,6 +482,7 @@
             <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
               <calcite-checkbox></calcite-checkbox>I agree to the terms
             </calcite-label>
+            <p><calcite-action text="banana" text-enabled icon="banana"></calcite-action></p>
             <p>
               Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
               fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros.

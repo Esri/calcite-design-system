@@ -1,12 +1,15 @@
+// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils";
+import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { SLOTS as BLOCK_SLOTS } from "../block/resources";
 import { Block } from "../block/block";
+import { mockConsole } from "../../tests/utils/logging";
+import { IDS } from "../sort-handle/resources";
 import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 
@@ -17,6 +20,8 @@ const blockHTML = html`<calcite-block heading="heading" description="description
 </calcite-block>`;
 
 describe("calcite-block-group", () => {
+  mockConsole();
+
   describe("defaults", () => {
     defaults("calcite-block-group", [
       {
@@ -39,6 +44,14 @@ describe("calcite-block-group", () => {
         propertyName: "loading",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -59,6 +72,14 @@ describe("calcite-block-group", () => {
       {
         propertyName: "loading",
         value: true,
+      },
+      {
+        propertyName: "sortDisabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
     ]);
   });
@@ -104,14 +125,44 @@ describe("calcite-block-group", () => {
       expect(await items[i].getProperty("dragHandle")).toBe(true);
     }
 
-    const root = await page.find("#root");
+    const blockGroup = await page.find("#root");
 
-    root.setProperty("dragEnabled", false);
+    blockGroup.setProperty("dragEnabled", false);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("dragHandle")).toBe(false);
+    }
+  });
+
+  it("should set the sortDisabled property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-block-group id="root" drag-enabled sort-disabled group="my-block-group">
+        <calcite-block id="one" heading="one" label="One"></calcite-block>
+        <calcite-block id="two" heading="two" label="Two"></calcite-block>
+        <calcite-block id="three" heading="three" label="Three"></calcite-block>
+      </calcite-block-group>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    const items = await findAll(page, "calcite-block");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(true);
+    }
+
+    const blockGroup = await page.find("#root");
+
+    blockGroup.setProperty("sortDisabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(false);
     }
   });
 
@@ -346,6 +397,52 @@ describe("calcite-block-group", () => {
       expect(await page.evaluate(() => (window as TestWindow).calledTimes)).toBe(2);
     });
 
+    it("calls canPull and canPut for move items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-block-group label="First Letters" id="first-letters" drag-enabled group="letters">
+          <calcite-block id="a" heading="a" label="A"></calcite-block>
+          <calcite-block id="b" heading="b" label="B"></calcite-block>
+        </calcite-block-group>
+        <calcite-block-group label="Second Letters" id="second-letters" drag-enabled group="letters">
+          <calcite-block id="c" heading="c" label="C"></calcite-block>
+          <calcite-block id="d" heading="d" label="D"></calcite-block>
+        </calcite-block-group>
+      `);
+
+      // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
+      await page.evaluate(() => {
+        const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
+        firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+        firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+      });
+      await page.waitForChanges();
+
+      async function getMoveItems(id: string) {
+        const component = await page.find(`#${id}`);
+        component.setProperty("sortHandleOpen", true);
+        await page.waitForChanges();
+
+        return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
+          allowEmpty: true,
+        });
+      }
+
+      const aMoveItems = await getMoveItems("a");
+      expect(aMoveItems.length).toBe(0);
+
+      const bMoveItems = await getMoveItems("b");
+      expect(bMoveItems.length).toBe(1);
+      expect(await bMoveItems[0].getProperty("label")).toBe("Second Letters");
+
+      const cMoveItems = await getMoveItems("c");
+      expect(cMoveItems.length).toBe(1);
+      expect(await cMoveItems[0].getProperty("label")).toBe("First Letters");
+
+      const dMoveItems = await getMoveItems("d");
+      expect(dMoveItems.length).toBe(0);
+    });
+
     it("reorders using a keyboard", async () => {
       const page = await createSimpleBlockGroup();
 
@@ -371,18 +468,19 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find("calcite-block-group");
         const eventName = `calciteSortHandleReorder`;
-        const event = page.waitForEvent(eventName);
+        const eventSpy = await component.spyOnEvent(eventName);
         await page.$eval(
           `calcite-block[heading="one"]`,
           (item1: Block["el"], reorder, eventName) => {
-            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true }));
+            item1.dispatchEvent(new CustomEvent(eventName, { detail: { reorder }, bubbles: true, cancelable: true }));
           },
           reorder,
           eventName,
         );
-        await event;
         await page.waitForChanges();
+        await eventSpy.next();
         const itemsAfter = await findAll(page, "calcite-block");
         expect(itemsAfter.length).toBe(3);
 
@@ -480,8 +578,10 @@ describe("calcite-block-group", () => {
         newIndex: number,
         oldIndex: number,
       ): Promise<void> {
+        const component = await page.find(`#${componentItemId}`);
         const eventName = `calciteSortHandleMove`;
-        const event = page.waitForEvent(eventName);
+        // eslint-disable-next-line no-restricted-properties -- workaround for spyOnEvent throwing errors due to circular JSON structures when serializing the event payload
+        const event = component.waitForEvent(eventName);
         await page.$eval(
           `#${componentItemId}`,
           (item: Block["el"], moveToId, eventName) => {
@@ -496,6 +596,7 @@ describe("calcite-block-group", () => {
                   },
                 },
                 bubbles: true,
+                cancelable: true,
               }),
             );
           },

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const { execSync } = require("child_process");
-const {
+import { execSync } from "node:child_process";
+import {
   readdirSync,
   mkdirSync,
   rmSync,
@@ -10,15 +10,13 @@ const {
   unlinkSync,
   readFileSync,
   writeFileSync,
-} = require("fs");
-const { join, basename } = require("path");
-const prettier = require("@prettier/sync");
-
-const SCRIPT_DIR = __dirname;
+} from "fs";
+import { join, basename } from "node:path";
+import prettier from "@prettier/sync";
+const SCRIPT_DIR = import.meta.dirname;
 const PACKAGE_ROOT = join(SCRIPT_DIR, "..");
 const fontsDir = join(PACKAGE_ROOT, "fonts/icons");
 const iconsDir = join(PACKAGE_ROOT, "icons");
-
 const sizes = [16, 24, 32];
 const ensureDir = (dir) => mkdirSync(dir, { recursive: true });
 const clearAndPrepareDirs = () => {
@@ -27,13 +25,11 @@ const clearAndPrepareDirs = () => {
   }
   sizes.forEach((size) => ensureDir(join(fontsDir, size.toString())));
 };
-
 const filterIcons = () =>
   readdirSync(iconsDir).filter((file) => {
     const filePath = join(iconsDir, file);
     return file.endsWith(".svg") && !readFileSync(filePath, "utf8").includes("opacity");
   });
-
 const createLinks = (icons) => {
   icons.forEach((icon) => {
     const src = join(iconsDir, icon);
@@ -41,7 +37,6 @@ const createLinks = (icons) => {
     symlinkSync(src, dest);
   });
 };
-
 const organizeIconsBySize = (size) => {
   const sizeDir = join(fontsDir, size.toString());
   readdirSync(fontsDir).forEach((file) => {
@@ -55,18 +50,15 @@ const organizeIconsBySize = (size) => {
     }
   });
 };
-
 const generateFonts = (size) =>
   execSync(`fantasticon fonts/icons/${size}/ -n calcite-ui-icons-${size} --normalize true -t ttf -g json -o fonts/`, {
     stdio: "inherit",
   });
-
 const updateConfig = () => {
   const codepoints = JSON.parse(readFileSync(join(PACKAGE_ROOT, "fonts/calcite-ui-icons-16.json"), "utf8"));
   const config = prettier.format(JSON.stringify({ codepoints }), { parser: "json" });
   writeFileSync(join(PACKAGE_ROOT, "fantasticonrc.json"), config);
 };
-
 const main = () => {
   clearAndPrepareDirs();
   createLinks(filterIcons());
@@ -74,5 +66,4 @@ const main = () => {
   sizes.forEach(generateFonts);
   updateConfig();
 };
-
 main();

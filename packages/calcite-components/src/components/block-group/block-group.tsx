@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -14,13 +14,15 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { componentFocusable } from "../../utils/component";
 import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { focusFirstTabbable, getRootNode } from "../../utils/dom";
+import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { useCancelable } from "../../controllers/useCancelable";
+import { Scale } from "../interfaces";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -49,30 +51,20 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   handleSelector = "calcite-sort-handle";
 
   mutationObserver = createObserver("mutation", () => {
-    this.updateBlockItems();
+    this.updateBlockItemsDebounced();
   });
-
-  private parentBlockGroupEl: BlockGroup["el"];
 
   sortable: Sortable;
 
-  private updateBlockItems = debounce((): void => {
-    this.updateGroupItems();
-    const { dragEnabled, el, moveToItems } = this;
+  private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
-    const items = Array.from(this.el.querySelectorAll(blockSelector));
+  private cancelable = useCancelable<this>()(this);
 
-    items.forEach((item) => {
-      if (item.closest(blockGroupSelector) === el) {
-        item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
-        );
-        item.dragHandle = dragEnabled;
-      }
-    });
+  private focusSetter = useSetFocus<this>()(this);
 
-    this.setUpSorting();
-  }, DEBOUNCE.nextTick);
+  private parentBlockGroupEl: BlockGroup["el"];
+
+  private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
   // #endregion
 
@@ -117,6 +109,12 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   // #endregion
 
   // #region Public Methods
@@ -124,13 +122,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion
@@ -146,6 +147,13 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
+  /**
+   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
+   *
+   * @deprecated No longer necessary.
+   */
+  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
+
   // #endregion
 
   // #region Lifecycle
@@ -159,21 +167,27 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
+    this.listen("calciteInternalBlockUpdateMoveToItems", this.handleUpdateMoveToItems);
   }
 
   override connectedCallback(): void {
     this.connectObserver();
-    this.updateBlockItems();
+    this.updateBlockItemsDebounced();
     this.setUpSorting();
     this.setParentBlockGroup();
+    this.cancelable.add(this.updateBlockItemsDebounced);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
-      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
+      (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
-      this.updateBlockItems();
+      this.updateBlockItemsDebounced();
+    }
+    if (changes.has("scale") && this.hasUpdated) {
+      this.updateBlockAndGroupScale();
     }
   }
 
@@ -189,6 +203,25 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   // #endregion
 
   // #region Private Methods
+
+  private updateBlockItems(): void {
+    this.updateGroupItems();
+    const { dragEnabled, el, moveToItems, sortDisabled } = this;
+
+    const items = Array.from(this.el.querySelectorAll(blockSelector));
+
+    items.forEach((item) => {
+      if (item.closest(blockGroupSelector) === el) {
+        item.moveToItems = moveToItems.filter(
+          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+        );
+        item.dragHandle = dragEnabled;
+        item.sortDisabled = sortDisabled;
+      }
+    });
+
+    this.setUpSorting();
+  }
 
   private updateGroupItems(): void {
     const { el, group } = this;
@@ -213,19 +246,43 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     event.stopPropagation();
   }
 
+  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
+    event.stopPropagation();
+
+    const fromEl = this.el;
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const item = event.target as Block["el"];
+
+    await fromEl.componentOnReady();
+    await item.componentOnReady();
+    this.updateBlockItems();
+
+    item.moveToItems = item.moveToItems.filter((moveToItem) =>
+      this.validateMove({
+        fromEl,
+        toEl: moveToItem.element as BlockGroup["el"],
+        dragEl: item,
+        newIndex: 0,
+        oldIndex: fromElItems.indexOf(item),
+      }),
+    );
+  }
+
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleReorder(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if (this.parentBlockGroupEl) {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
 
+    event.preventDefault();
     this.handleMove(event);
   }
 
@@ -266,7 +323,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   onDragSort(detail: BlockDragDetail): void {
     this.setParentBlockGroup();
-    this.updateBlockItems();
+    this.updateBlockItemsDebounced();
 
     this.calciteBlockGroupOrderChange.emit(detail);
   }
@@ -276,7 +333,69 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    updateBlockChildren(event.target as HTMLSlotElement);
+    const blockChildren: Block["el"][] = [];
+
+    this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
+      (el): el is Block["el"] | BlockGroup["el"] => {
+        if (el.matches(blockSelector)) {
+          blockChildren.push(el as Block["el"]);
+        }
+        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+      },
+    );
+
+    updateBlockChildren(blockChildren);
+    this.updateBlockAndGroupScale();
+  }
+
+  private updateBlockAndGroupScale(): void {
+    this.blockAndGroups.forEach((el) => {
+      el.scale = this.scale;
+    });
+  }
+
+  private validateMove({
+    fromEl,
+    toEl,
+    dragEl,
+    newIndex,
+    oldIndex,
+  }: {
+    fromEl?: BlockGroup["el"];
+    toEl?: BlockGroup["el"];
+    dragEl: Block["el"];
+    newIndex: number;
+    oldIndex: number;
+  }): boolean {
+    if (!fromEl || !toEl) {
+      return false;
+    }
+
+    if (
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      return false;
+    }
+
+    if (
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) === false
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -287,8 +406,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const toEl = moveTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
     const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
 
-    if (!fromEl) {
+    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 
@@ -297,10 +417,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.disconnectObserver();
 
     toEl.prepend(dragEl);
-    const toElItems = Array.from(toEl.children).filter(isBlock);
-    const newIndex = toElItems.indexOf(dragEl);
 
-    this.updateBlockItems();
+    this.updateBlockItemsDebounced();
     this.connectObserver();
 
     this.calciteBlockGroupOrderChange.emit({
@@ -354,7 +472,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
     parentEl.insertBefore(dragEl, referenceEl);
 
-    this.updateBlockItems();
+    this.updateBlockItemsDebounced();
     this.connectObserver();
 
     this.calciteBlockGroupOrderChange.emit({

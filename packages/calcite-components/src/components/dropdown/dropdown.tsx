@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
+import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -22,16 +22,16 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -66,19 +66,11 @@ export class Dropdown
 
   private groups: DropdownGroup["el"][] = [];
 
-  private guid = `calcite-dropdown-${guid()}`;
+  private guid = guid();
 
   private items: DropdownItem["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
-
-  private onOpenEnd = (): void => {
-    this.focusOnFirstActiveOrDefaultItem();
-    this.el.removeEventListener(
-      "calciteDropdownOpen",
-      this.onOpenEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  };
 
   transitionProp = "opacity" as const;
 
@@ -94,6 +86,8 @@ export class Dropdown
 
   /** trigger elements */
   private triggers: HTMLElement[];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -207,11 +201,18 @@ export class Dropdown
     );
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.referenceEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    }, options);
   }
 
   // #endregion
@@ -311,7 +312,7 @@ export class Dropdown
   // #region Private Methods
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;
@@ -503,6 +504,7 @@ export class Dropdown
   }
 
   onBeforeOpen(): void {
+    this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
   }
 
@@ -568,10 +570,6 @@ export class Dropdown
       event.preventDefault();
       this.focusLastDropdownItem = key === "ArrowUp";
       this.open = true;
-      this.el.addEventListener(
-        "calciteDropdownOpen",
-        this.onOpenEnd,
-      ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
     }
   }
 
@@ -618,12 +616,6 @@ export class Dropdown
 
   private toggleDropdown() {
     this.open = !this.open;
-    if (this.open) {
-      this.el.addEventListener(
-        "calciteDropdownOpen",
-        this.onOpenEnd,
-      ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    }
   }
 
   private updateTabIndexOfItems(target: DropdownItem["el"]): void {
@@ -641,14 +633,14 @@ export class Dropdown
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class="calcite-trigger-container"
-          id={`${guid}-menubutton`}
+          class={CSS.triggerContainer}
+          id={IDS.menuButton(guid)}
           onClick={this.toggleDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
           <slot
-            aria-controls={`${guid}-menu`}
+            aria-controls={IDS.menu(guid)}
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.dropdownTrigger}
@@ -666,13 +658,13 @@ export class Dropdown
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={`${guid}-menubutton`}
+            aria-labelledby={IDS.menuButton(guid)}
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={`${guid}-menu`}
+            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

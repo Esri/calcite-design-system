@@ -1,7 +1,11 @@
 {
+  "add": "Thêm: {text}",
   "all": "Tất cả",
   "allSelected": "Tất cả đã được chọn",
   "clear": "Xóa giá trị",
+  "noMatches": "Không có kết quả trùng khớp",
   "removeTag": "Xóa thẻ",
+  "required": "Bắt buộc",
+  "selectAll": "Chọn tất cả",
   "selected": "đã được chọn"
 }

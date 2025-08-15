@@ -5,12 +5,22 @@ import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
+import { defaultExclude } from "vitest/config";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
+const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
+
+const allDirsAndFiles = "**/*";
+const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
+const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
+const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
 
 export default defineConfig({
+  build: { minify: false },
+  cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
+
   ssr: {
     noExternal: nonEsmDependencies,
   },
@@ -25,11 +35,6 @@ export default defineConfig({
           // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
           bundleIn: nonEsmDependencies,
         },
-        ssr: {
-          stencilCompatibility: {
-            enabled: true,
-          },
-        },
         wrappers: [
           {
             type: "react18",
@@ -43,7 +48,7 @@ export default defineConfig({
         hydratedAttribute: "calcite-hydrated",
       },
       puppeteerTesting: {
-        enabled: true,
+        enabled: !runBrowserTests,
         waitForChangesDelay: 100,
         launchOptions: {
           devtools: process.env.DEVTOOLS === "true",
@@ -60,16 +65,11 @@ export default defineConfig({
         additionalData(code: string, id: string) {
           const globalCss = "/src/assets/styles/includes";
           if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
-            return undefined;
+            return "";
           }
           return `@import "${globalCss}";\n${code}`;
         },
-        silenceDeprecations: [
-          // TODO: [MIGRATION] Migrate away from deprecated SASS import syntax. See https://github.com/Esri/calcite-design-system/issues/10583
-          "import",
-          // TODO: [MIGRATION] Migrate away from deprecated SASS global built-ins. See https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=refactor%2C0+-+new%2Cneeds+triage&projects=&template=refactor.yml
-          "global-builtin",
-        ],
+        silenceDeprecations: ["import", "global-builtin"],
       },
     },
     postcss: {
@@ -79,6 +79,7 @@ export default defineConfig({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true,
+          quiet: true,
         }),
       ],
     },
@@ -91,17 +92,15 @@ export default defineConfig({
   },
 
   test: {
-    // workaround for lumina puppeteer testing issue
-    browser: {
-      name: "chromium",
-      enabled: false,
-    },
-    setupFiles: ["src/tests/setupTests.ts"],
-    include: ["**/*.{e2e,spec}.?(c|m)[jt]s?(x)"],
+    browser: { enabled: runBrowserTests, name: "chromium", provider: "playwright", screenshotFailures: false },
+    include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
+    exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
+    passWithNoTests: true,
   },
   /*
    * While useLumina() pre-configures everything for you, you can still
    * provide any Vite, Vitest, ESBuild or Rollup configuration option.
+   * See https://vite.dev/config/
    * See https://vitest.dev/config/
    */
 });

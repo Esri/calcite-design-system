@@ -14,6 +14,12 @@
  * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
@@ -127,6 +133,8 @@ calcite-link {
   .text-content {
     text-align: center;
   }
+  slot[name="content-bottom"]::slotted(*),
+  slot[name="content-top"]::slotted(*),
   slot[name="content-start"]::slotted(*),
   slot[name="content-end"]::slotted(*) {
     align-self: center;

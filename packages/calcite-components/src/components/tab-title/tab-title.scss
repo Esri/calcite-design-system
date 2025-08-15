@@ -3,9 +3,24 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-tab-text-color: Specifies the component's text color.
+ * @prop --calcite-tab-border-color: Specifies the component's border color.
+ * @prop --calcite-tab-background-color: Specifies the component's background color.
+ * @prop --calcite-tab-background-color-hover: When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
+ * @prop --calcite-tab-accent-color-press: Specifies the component's accent color when selected or active.
  * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
  * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
+ * @prop --calcite-tab-close-icon-color: Specifies the component's close element icon color.
+ * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when hovered, focused, and active.
+ * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
+ * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when hovered, focused, and active.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tab-shadow-length
 
 :host {
   @apply block outline-none;
@@ -28,7 +43,7 @@
   .content {
     @apply text-n2h py-1;
   }
-  .close-button {
+  .x-button {
     @apply w-5;
   }
 }
@@ -37,7 +52,7 @@
   .content {
     @apply text-n1h py-2;
   }
-  .close-button {
+  .x-button {
     @apply w-7;
   }
 }
@@ -46,7 +61,7 @@
   .content {
     @apply text-0h py-2.5;
   }
-  .close-button {
+  .x-button {
     @apply w-8;
   }
 }
@@ -82,10 +97,12 @@
   h-full
   justify-between
   px-0
-  text-color-3
   text-n1h
   transition-default
   w-full;
+
+  color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-tab-background-color, transparent);
 }
 
 .selected-indicator {
@@ -100,21 +117,30 @@
   inline-size: 100%;
 }
 
+:host([bordered][selected]) .container::after {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: -1px;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+  content: "";
+}
+
+:host([bordered][selected]) .container.container--bottom::after {
+  inset-block-start: -1px;
+}
+
+:host([bordered][selected]:focus) .container::after {
+  background: transparent;
+}
+
 .container--bottom .selected-indicator {
   inset-block-end: unset;
   inset-block-start: 0;
-}
-
-:host([bordered]) .selected-indicator {
-  inset-block-start: 0;
-  inset-block-end: unset;
-  inset-inline-start: -1px;
-  inset-inline-end: 0;
-  inline-size: calc(100% + var(--calcite-spacing-base));
-}
-
-:host([bordered]) .container:not(.container--bottom) {
-  border-block-end: 1px solid transparent;
 }
 
 :host(:not([bordered])) .container {
@@ -122,10 +148,6 @@
   &:active {
     @apply text-color-1;
   }
-}
-
-:host([bordered]:not([selected]):hover) .container:not(.container--bottom) {
-  border-block-end: 1px solid var(--calcite-color-border-1);
 }
 
 :host([bordered]:not([selected]):hover:not(:focus)) {
@@ -140,86 +162,9 @@
   }
 }
 
-:host([bordered][selected]) .container::after {
-  @apply absolute
-    block
-    w-full
-    h-0.5
-    transition-default;
-  inset-block-end: -1px;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
-  inline-size: 100%;
-  background: var(--calcite-color-foreground-1);
-  content: "";
-}
-
-:host([bordered][selected]) .container.container--bottom::after {
-  inset-block-start: -1px;
-}
-
-:host([bordered][selected]:focus) .container::after {
-  background: transparent;
-}
-
-:host([bordered]) .container--bottom .selected-indicator {
-  inset-block-start: unset;
-  inset-block-end: 0;
-}
-
-:host([selected]) .selected-indicator,
-:host([selected]:hover) .selected-indicator {
-  @apply bg-brand;
-}
-
-:host(:hover) .selected-indicator {
-  background-color: var(--calcite-color-border-3);
-}
-
-:host(:focus) .selected-indicator,
-:host(:active) .selected-indicator {
-  background-color: var(--calcite-color-brand);
-}
-
 :host([selected]:focus) {
   .selected-indicator {
     block-size: 4px;
-  }
-}
-
-@media (forced-colors: active) {
-  .selected-indicator {
-    background-color: highlight;
-  }
-}
-
-:host([closed]) {
-  @apply hidden;
-}
-
-:host([selected]) .container {
-  @apply text-color-1 border-color-transparent;
-}
-
-:host(:focus) .container {
-  @apply focus-inset;
-
-  &:focus-within {
-    @apply focus-base;
-  }
-}
-
-:host(:active),
-:host(:focus),
-:host(:hover) {
-  a {
-    @apply text-color-1 border-color-2 no-underline;
-  }
-}
-
-@include disabled() {
-  .container {
-    @apply pointer-events-none opacity-50;
   }
 }
 
@@ -234,20 +179,37 @@
 }
 
 .content--has-text {
-  @apply p-1;
+  .icon-start {
+    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color));
+  }
 }
 
 .content--has-text .calcite-tab-title--icon.icon-start {
-  margin-inline-end: var(--calcite-spacing-sm);
   color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color));
+  .icon-end {
+    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color));
+  }
 }
 
 .content--has-text .calcite-tab-title--icon.icon-end {
-  margin-inline-start: var(--calcite-spacing-sm);
   color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color));
 }
 
-.close-button {
+.content--has-text {
+  @apply p-1;
+
+  .calcite-tab-title--icon {
+    &.icon-start {
+      margin-inline-end: var(--calcite-spacing-sm);
+    }
+
+    &.icon-end {
+      margin-inline-start: var(--calcite-spacing-sm);
+    }
+  }
+}
+
+.x-button {
   @apply appearance-none
   bg-transparent
   border-none
@@ -259,51 +221,37 @@
   justify-center
   h-full
   self-center
-  text-color-3
   transition-default;
   margin-inline-start: var(--calcite-spacing-sm);
   margin-inline-end: var(--calcite-spacing-px);
   block-size: calc(100% - var(--calcite-spacing-xxs));
+  color: var(--calcite-tab-close-icon-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
 
   &:focus {
     @apply focus-normal;
   }
 
   &:focus,
-  &:hover {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-3);
-  }
-
+  &:hover,
   &:active {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-3);
-  }
-
-  & calcite-icon {
-    color: inherit;
-  }
-}
-
-// compensate for spacing when no hastext and two icons
-:host([icon-start][icon-end]) {
-  .calcite-tab-title--icon:first-child {
-    margin-inline-end: var(--calcite-spacing-sm);
+    color: var(--calcite-tab-close-icon-color-press, var(--calcite-color-text-1));
+    background-color: var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 
 // bordered styles
 :host([bordered]) .container {
+  border-color: transparent;
+  border-inline-width: var(--calcite-spacing-px);
+  border-inline-style: solid;
+
   &:hover,
   &:active {
     @apply text-color-1;
   }
 
-  &:not(.container--bottom) .close-button {
-    block-size: calc(100% - var(--calcite-spacing-px));
-    margin-block-start: -1px;
-  }
-  .close-button {
+  .x-button {
     & calcite-icon {
       margin-block-start: var(--calcite-spacing-px);
     }
@@ -311,46 +259,128 @@
     &:focus,
     &:hover,
     &:active {
-      box-shadow: 0 2px 0 0 var(--calcite-color-foreground-3);
+      box-shadow: 0 2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
     }
   }
 
-  &.container--bottom .close-button {
-    box-shadow: 0 -2px 0 0 transparent;
-    & calcite-icon {
-      margin-block-end: var(--calcite-spacing-px);
+  &.container--bottom {
+    border-block-start-style: solid;
+    border-block-start-width: 1px;
+
+    .selected-indicator {
+      inset-block-start: unset;
+      inset-block-end: 0;
     }
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 -2px 0 0 var(--calcite-color-foreground-3);
+
+    .x-button {
+      box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
+
+      &:focus,
+      &:hover,
+      &:active {
+        box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
+      }
+
+      calcite-icon {
+        margin-block-end: var(--calcite-spacing-px);
+      }
     }
+  }
+
+  &:not(.container--bottom) {
+    border-block-end-style: solid;
+    border-block-end-width: 1px;
+
+    .x-button {
+      block-size: calc(100% - var(--calcite-spacing-px));
+      margin-block-start: -1px;
+    }
+  }
+
+  .selected-indicator {
+    inset-block-start: 0;
+    inset-block-end: unset;
+    inset-inline-start: -1px;
+    inset-inline-end: 0;
+    inline-size: calc(100% + var(--calcite-spacing-base));
+  }
+
+  &:host(:not([selected])) {
+    .container .x-button {
+      box-shadow: 0 2px 0 0 transparent;
+    }
+
+    &:host(:hover) {
+      .container:not(.container--bottom) {
+        border-block-end-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+      }
+
+      &:host(:not(:focus)) {
+        .selected-indicator {
+          box-shadow: inset 0 var(--calcite-internal-tab-shadow-length)
+            var(--calcite-tab-border-color, var(--calcite-color-border-1));
+        }
+        :not(.container--bottom) {
+          --calcite-internal-tab-shadow-length: 1px;
+        }
+        .container--bottom {
+          --calcite-internal-tab-shadow-length: -1px;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    background-color: var(--calcite-tab-background-color-hover, var(--calcite-color-foreground-2));
+    border-block-end-color: var(--calcite-color-border-1);
   }
 }
 
-:host([bordered][selected]) {
-  box-shadow: inset 0 -1px var(--calcite-color-foreground-1);
+:host(:hover) .selected-indicator {
+  background-color: var(--calcite-color-border-3);
 }
 
-:host([bordered]:not([selected])) .container .close-button {
-  box-shadow: 0 2px 0 0 transparent;
+:host([selected]) .selected-indicator,
+:host([selected]:hover) .selected-indicator,
+:host(:focus) .selected-indicator,
+:host(:active) .selected-indicator {
+  background-color: var(--calcite-tab-accent-color-press, var(--calcite-color-brand));
 }
 
-:host([bordered]:hover) {
-  .container {
-    background-color: var(--calcite-color-foreground-2);
-  }
+:host([closed]) {
+  @apply hidden;
 }
 
-:host([bordered]) .container {
-  border-inline: var(--calcite-spacing-px) solid transparent;
+:host([selected]) .container {
+  @apply border-color-transparent;
+  color: var(--calcite-tab-text-color, var(--calcite-color-text-1));
 }
 
 :host([selected][bordered]) .container {
-  border-inline-color: var(--calcite-color-border-1);
+  border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+
+  &::after {
+    background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
+  }
+
   &:hover,
   &:active {
     background: transparent;
+  }
+}
+
+:host(:focus) .container {
+  @apply focus-inset;
+
+  &:focus-within {
+    @apply focus-base;
+  }
+}
+
+// compensate for spacing when no hastext and two icons
+:host([icon-start][icon-end]) {
+  .calcite-tab-title--icon:first-child {
+    margin-inline-end: var(--calcite-spacing-sm);
   }
 }
 
@@ -395,14 +425,6 @@
     outline-color: highlight;
   }
 
-  :host([bordered]) .container {
-    border-block-end-style: solid;
-  }
-
-  :host([bordered]) .container--bottom {
-    border-block-start-style: solid;
-  }
-
   :host([bordered][selected]) .container {
     border-block-end-style: none;
   }
@@ -411,10 +433,19 @@
     border-block-start-style: none;
   }
 
-  .close-button {
+  .x-button {
     /* in high contrast the tab title outline covers the close button outline without a z-index */
     @apply z-default;
+  }
+
+  .selected-indicator {
+    background-color: highlight;
   }
 }
 
 @include base-component();
+@include disabled() {
+  .container {
+    @apply pointer-events-none opacity-50;
+  }
+}

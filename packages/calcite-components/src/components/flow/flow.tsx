@@ -3,9 +3,9 @@ import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./flow.scss";
@@ -35,6 +35,8 @@ export class Flow extends LitElement {
   private items: FlowItemLikeElement[] = [];
 
   private selectedIndex = -1;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
@@ -92,16 +94,16 @@ export class Flow extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns Promise<void>
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const { items } = this;
-    const selectedItem = items[this.selectedIndex];
-
-    return selectedItem?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.items[this.selectedIndex];
+    }, options);
   }
 
   // #endregion

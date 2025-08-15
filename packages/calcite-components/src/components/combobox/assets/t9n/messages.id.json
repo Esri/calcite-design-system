@@ -1,7 +1,11 @@
 {
+  "add": "Tambahkan: {text}",
   "all": "Semua",
   "allSelected": "Semua dipilih",
   "clear": "Hapus nilai",
+  "noMatches": "Tidak ada yang cocok",
   "removeTag": "Hapus tag",
+  "required": "Wajib",
+  "selectAll": "Pilih semua",
   "selected": "terpilih"
 }

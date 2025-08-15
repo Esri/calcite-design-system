@@ -2,9 +2,9 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
-import { getFocusedElementProp } from "../../tests/utils";
+import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
-import { CSS } from "../../../src/components/menu-item/resources";
+import { CSS, SLOTS } from "../../../src/components/menu-item/resources";
 import { Layout } from "./interfaces";
 
 describe("calcite-menu-item", () => {
@@ -92,8 +92,8 @@ describe("calcite-menu-item", () => {
     await page.setContent(html`
       <calcite-menu>
         <calcite-menu-item id="Nature" text="Nature" href="#nature">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item"> </calcite-menu-item>
-          <calcite-menu-item id="Rivers" text="Rivers" slot="submenu-item"> </calcite-menu-item>
+          <calcite-menu-item id="Mountains" text="Mountains" slot="${SLOTS.submenuItem}"> </calcite-menu-item>
+          <calcite-menu-item id="Rivers" text="Rivers" slot="${SLOTS.submenuItem}"> </calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     `);
@@ -124,8 +124,8 @@ describe("calcite-menu-item", () => {
     const menuWithSlottedSubmenuHTML = (layout: Layout): string => html`
       <calcite-menu layout="${layout}">
         <calcite-menu-item text="calcite-navigation" href="#calcite-menu">
-          <calcite-menu-item slot="submenu-item" text="Slots"></calcite-menu-item>
-          <calcite-menu-item slot="submenu-item" text="Css vars"></calcite-menu-item>
+          <calcite-menu-item slot="${SLOTS.submenuItem}" text="Slots"></calcite-menu-item>
+          <calcite-menu-item slot="${SLOTS.submenuItem}" text="Css vars"></calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     `;
@@ -207,18 +207,6 @@ describe("calcite-menu-item", () => {
         ],
       };
 
-      describe("horizontal layout", () => {
-        themed(menuHTML("horizontal"), {
-          ...tokens,
-          "--calcite-menu-item-accent-color": {
-            selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "borderBlockEndColor",
-            state: "hover",
-          },
-        });
-      });
-
       describe("vertical layout", () => {
         themed(menuHTML("vertical"), tokens);
       });
@@ -263,7 +251,7 @@ describe("calcite-menu-item", () => {
           <calcite-menu-item
             href="#calcite-navigation-css-vars"
             icon-start="multiple-variables"
-            slot="submenu-item"
+            slot="${SLOTS.submenuItem}"
             text="Css vars"
           ></calcite-menu-item>
         </calcite-menu-item>

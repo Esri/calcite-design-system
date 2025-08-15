@@ -965,6 +965,41 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
   </calcite-combobox>
 `;
 
+export const selectAllEnabled = (): string => html`
+  <calcite-combobox selection-mode="multiple" placeholder="placeholder" select-all-enabled open scale="l">
+    <calcite-combobox-item value="Trees" text-label="Trees" selected>
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+
+  <calcite-combobox style="margin-top:280px; margin-bottom:350px;" selection-mode="multiple" select-all-enabled open>
+    <calcite-combobox-item value="Trees" text-label="Trees" selected>
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia" selected></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+
+  <calcite-combobox style="margin-top:450px; margin-bottom:30px;" selection-mode="multiple" select-all-enabled open>
+    <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item value="Pine" text-label="Pine" selected>
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Flowers" text-label="Flowers" selected>
+      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
 export const withDescriptionShortLabelAndContentSlots = (): string => html`
   <calcite-combobox-item
     description="the first installment in this thrilling series"
@@ -995,6 +1030,35 @@ export const withDescriptionShortLabelAndContentSlots = (): string => html`
     <calcite-icon icon="number-circle-6" slot="content-end" scale="s"></calcite-icon>
   </calcite-combobox-item>
 `;
+
+export const noMatchesScaledOrAddCustomValue = (): string => html`
+  <div style="display: flex; gap: 48px; padding: 100px;">
+    <div style="display: flex; flex-direction: column; gap: 48px;">
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="s">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="m">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+
+      <calcite-combobox open filter-text="Three" selection-mode="single" scale="l">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+
+    <div>
+      <calcite-combobox open allow-custom-values filter-text="Three" selection-mode="single">
+        <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+  </div>
+`;
+
 withDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };

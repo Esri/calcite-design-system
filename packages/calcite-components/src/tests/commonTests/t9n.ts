@@ -1,10 +1,7 @@
-// @ts-strict-ignore
-
-import { LitElement, PublicLitElement } from "@arcgis/lumina";
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
 import { MessageBundle } from "../../utils/t9n";
-import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils";
+import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
@@ -29,16 +26,17 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
     page = e2ePage;
 
-    type CalciteComponentsWithMessages = LitElement & {
+    type CalciteComponentsWithMessages = IntrinsicElementsWithProp<"messages"> & {
       manager: {
-        component: IntrinsicElementsWithProp<"messages">;
+        component: {
+          messages: MessageBundle;
+        };
       };
     };
 
     component = await page.find(tag);
-    getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (el: CalciteComponentsWithMessages) => el.manager.component.messages);
-    };
+    getCurrentMessages = async (): Promise<MessageBundle> =>
+      page.$eval(tag, (el) => (el as CalciteComponentsWithMessages).manager.component.messages);
   });
 
   it("has defined default messages", async () => await assertDefaultMessages());
@@ -105,17 +103,17 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
   async function assertNoErrorOnRemovalDuringMessageLoad(): Promise<void> {
     async function runTest(): Promise<void> {
-      type CalciteComponentsWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides"> & PublicLitElement;
+      type CalciteComponentsWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 
       const page = await newProgrammaticE2EPage();
-      await page.evaluate(async (tag: ComponentTag) => {
+      await page.evaluate(async (tag) => {
         const component = document.createElement(tag) as CalciteComponentsWithMessageOverrides;
         document.body.append(component);
         await customElements.whenDefined(tag);
         await component.componentOnReady();
         component.messageOverrides = { ...component.messageOverrides };
         component.remove();
-      }, component.tagName.toLowerCase());
+      }, component.tagName.toLowerCase() as ComponentTag);
       await page.waitForChanges();
     }
 

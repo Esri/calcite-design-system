@@ -25,17 +25,17 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -51,13 +51,13 @@ const manager = new PopoverManager();
 
 /** @slot - A slot for adding custom content. */
 export class Popover extends LitElement implements FloatingUIComponent, OpenCloseComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private arrowEl: SVGSVGElement;
 
@@ -92,17 +92,26 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   transitionEl: HTMLDivElement;
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  private focusSetter = useSetFocus<this>()(this);
+
+  //#endregion
+
+  //#region State Properties
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
   @state() referenceEl: ReferenceElement;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
@@ -126,6 +135,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -144,13 +154,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -181,7 +184,13 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   * The `referenceElement` used to position the component according to its `placement` value.
+   *
+   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   *
+   * However, a string `id` of the reference element can also be used.
+   *
+   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    *
    * @required
    */
@@ -197,9 +206,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    */
   @property({ reflect: true }) triggerDisabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -237,12 +246,18 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     );
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.requestUpdate();
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   /** Updates the element(s) that are used within the focus-trap of the component. */
@@ -251,9 +266,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.focusTrap.updateContainerElements();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calcitePopoverBeforeClose = createEvent({ cancelable: false });
@@ -267,9 +282,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   /** Fires when the component is open and animation is complete. */
   calcitePopoverOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -323,9 +338,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
@@ -333,7 +348,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
   }
@@ -473,9 +488,9 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.reposition(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderCloseButton(): JsxNode {
     const { messages, closable } = this;
@@ -556,5 +571,5 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     );
   }
 
-  // #endregion
+  //#endregion
 }

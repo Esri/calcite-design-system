@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
-import { findAll } from "../../tests/utils";
+import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-accordion", () => {
@@ -13,7 +13,9 @@ describe("calcite-accordion", () => {
       Content
       <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" description="A description" id="2" expanded
+      >Accordion Item Content
+    </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
 
@@ -96,6 +98,7 @@ describe("calcite-accordion", () => {
     const accordionItems = await findAll(page, "calcite-accordion-item");
 
     for (const item of accordionItems) {
+      expect(await item.getProperty("appearance")).toBe("solid");
       expect(await item.getProperty("iconPosition")).toBe("start");
       expect(await item.getProperty("iconType")).toBe("plus-minus");
       expect(await item.getProperty("scale")).toBe("l");
@@ -291,14 +294,64 @@ describe("calcite-accordion", () => {
 
   describe("theme", () => {
     themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, {
-      "--calcite-accordion-background-color": {
-        shadowSelector: `.${CSS.accordion}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-accordion-border-color": {
-        shadowSelector: `.${CSS.accordion}`,
-        targetProp: "borderColor",
-      },
+      "--calcite-accordion-background-color": [
+        {
+          shadowSelector: `.${CSS.accordion}`,
+          targetProp: "backgroundColor",
+          selector: "calcite-accordion",
+        },
+        {
+          targetProp: "backgroundColor",
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-border-color": [
+        {
+          shadowSelector: `.${CSS.accordion}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion",
+        },
+        {
+          shadowSelector: `.${ACCORDION_ITEM_CSS.header}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion-item",
+        },
+        {
+          shadowSelector: `.${ACCORDION_ITEM_CSS.content}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-text-color": [
+        {
+          targetProp: "color",
+          selector: "calcite-accordion-item",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.headerContent}`,
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-text-color-hover": [
+        {
+          selector: "calcite-accordion-item[expanded]",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.expandIcon}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-accordion-item[expanded]",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.description}`,
+          targetProp: "color",
+        },
+      ],
+      "--calcite-accordion-item-heading-text-color": [
+        {
+          selector: "calcite-accordion-item",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.heading}`,
+          targetProp: "color",
+        },
+      ],
     });
   });
 });
