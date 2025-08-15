@@ -111,6 +111,12 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           throw new Error("Deep piercing via `selector` is not supported, use `shadowSelector` instead");
         }
 
+        if (token === targetProp) {
+          throw new Error(
+            `"${token}" cannot be used as its own targetProp, please use a different property or mapped sub-component token.`,
+          );
+        }
+
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         const target: TargetInfo = { el, selector, shadowSelector, expectedValue };
