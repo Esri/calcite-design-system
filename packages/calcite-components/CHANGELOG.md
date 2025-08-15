@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.69...@esri/calcite-components@3.3.0-next.70) (2025-08-15)
+
+### Bug Fixes
+
+- **input-date-picker:** update start & end date correctly when `proximity-selection-disabled` is true ([#12681](https://github.com/Esri/calcite-design-system/issues/12681)) ([d77c293](https://github.com/Esri/calcite-design-system/commit/d77c2937ac56353af9b76f2ac6cc97fee41369bf)), closes [#12301](https://github.com/Esri/calcite-design-system/issues/12301)
+
 ## [3.3.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.68...@esri/calcite-components@3.3.0-next.69) (2025-08-15)
 
 ### Features
