@@ -4,17 +4,25 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-block-border-color: Specifies the component's border color.
+ * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
  * @prop --calcite-block-header-background-color: Specifies the component's `heading` background color.
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
  * @prop --calcite-block-header-background-color-press: Specifies the component's `heading` background color when pressed.
  * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-block-heading-text-color-press: When the component is `expanded`, specifies the `heading` text color.
- * @prop --calcite-block-padding: [Deprecated] Specifies the padding of the component's `default` slot.
+ * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the component's text color.
  * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
  * @prop --calcite-block-icon-color: Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
  * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-block-padding-block
+// --calcite-internal-block-padding-inline
 
 :host([scale="s"]) {
   .header {
@@ -35,10 +43,14 @@
     font-size: var(--calcite-font-size-xs);
   }
 
-  .content {
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-sm));
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-xxs));
-  }
+  --calcite-internal-block-padding-block: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-xxs))
+  );
+  --calcite-internal-block-padding-inline: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-sm))
+  );
 }
 
 :host([scale="m"]) {
@@ -60,10 +72,14 @@
     font-size: var(--calcite-font-size-sm);
   }
 
-  .content {
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
-  }
+  --calcite-internal-block-padding-block: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-sm))
+  );
+  --calcite-internal-block-padding-inline: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-md))
+  );
 }
 
 :host([scale="l"]) {
@@ -85,10 +101,14 @@
     font-size: var(--calcite-font-size);
   }
 
-  .content {
-    padding-block: var(--calcite-block-padding, var(--calcite-spacing-md));
-    padding-inline: var(--calcite-block-padding, var(--calcite-spacing-lg));
-  }
+  --calcite-internal-block-padding-block: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-md))
+  );
+  --calcite-internal-block-padding-inline: var(
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-lg))
+  );
 }
 
 :host {
@@ -233,6 +253,8 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
+  padding-block: var(--calcite-internal-block-padding-block);
+  padding-inline: var(--calcite-internal-block-padding-inline);
 }
 
 .content-start {
