@@ -454,12 +454,12 @@ export class DatePicker extends LitElement {
     return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-  private setEndDate(date: Date, emitChangeEvent = true): void {
+  private setEndDate(date: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    if (emitChangeEvent) {
+    if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
@@ -468,12 +468,12 @@ export class DatePicker extends LitElement {
     return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
   }
 
-  private setStartDate(date: Date, emitChangeEvent = true): void {
+  private setStartDate(date: Date, emit = true): void {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
-    if (emitChangeEvent) {
+    if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
