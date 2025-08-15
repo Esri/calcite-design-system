@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Ekle: {text}",
   "all": "Tümü",
   "allSelected": "Tümü seçildi",
   "clear": "Değeri temizle",
-  "noMatches": "No matches",
+  "noMatches": "Eşleşme yok",
   "removeTag": "Etiketi kaldır",
-  "selectAll": "Select all",
+  "required": "Gerekli",
+  "selectAll": "Tümünü seç",
   "selected": "seçili"
 }

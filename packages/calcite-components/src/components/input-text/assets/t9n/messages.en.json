@@ -1,4 +1,5 @@
 {
   "clear": "Clear value",
-  "loading": "Loading"
+  "loading": "Loading",
+  "required": "Required"
 }

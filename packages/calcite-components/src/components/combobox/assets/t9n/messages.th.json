@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "เพิ่ม: {text}",
   "all": "ทั้งหมด",
   "allSelected": "เลือกทั้งหมดแล้ว",
   "clear": "ล้างค่า",
-  "noMatches": "No matches",
+  "noMatches": "ไม่ตรงกัน",
   "removeTag": "ลบแท็ก",
-  "selectAll": "Select all",
+  "required": "ต้องการ",
+  "selectAll": "เลือกทั้งหมด",
   "selected": "เลือก"
 }

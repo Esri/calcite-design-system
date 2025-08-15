@@ -114,6 +114,13 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() bordered = false;
 
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
+
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
@@ -136,7 +143,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the item is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -338,6 +345,12 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
 
+  /** Fires when the component's content area is collapsed. */
+  calciteListItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteListItemExpand = createEvent({ cancelable: false });
+
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
 
@@ -401,10 +414,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       this.handleDisabledChange();
     }
 
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.handleExpandedChange();
-    }
-
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.handleSelectedChange();
     }
@@ -415,6 +424,15 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
     if (changes.has("displayMode") && this.hasUpdated) {
       this.handleExpandableChange(this.defaultSlotEl.value);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.handleExpandedChange();
+        this.calciteListItemExpand.emit();
+      } else {
+        this.calciteListItemCollapse.emit();
+      }
     }
   }
 
@@ -753,7 +771,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderDragHandle(): JsxNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems, sortDisabled } =
+      this;
 
     return dragHandle ? (
       <div
@@ -776,6 +795,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
+          sortDisabled={sortDisabled}
         />
       </div>
     ) : null;

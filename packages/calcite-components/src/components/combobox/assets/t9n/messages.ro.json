@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Adăugați: {text}",
   "all": "Toate",
   "allSelected": "Toate selectate",
   "clear": "Golire valoare",
-  "noMatches": "No matches",
+  "noMatches": "Nu au fost găsite concordanțe",
   "removeTag": "Eliminare etichetă",
-  "selectAll": "Select all",
+  "required": "Obligatoriu",
+  "selectAll": "Selectare globală",
   "selected": "selectat"
 }

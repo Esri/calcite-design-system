@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Toevoegen: {text}",
   "all": "Alle",
   "allSelected": "Alle geselecteerde",
   "clear": "Waarde wissen",
-  "noMatches": "No matches",
+  "noMatches": "Geen overeenkomsten",
   "removeTag": "Tag verwijderen",
-  "selectAll": "Select all",
+  "required": "Vereist",
+  "selectAll": "Alles selecteren",
   "selected": "geselecteerd"
 }

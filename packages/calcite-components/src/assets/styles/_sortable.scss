@@ -1,3 +1,6 @@
+:host(.calcite-sortable--chosen),
+:host(.calcite-sortable--drag),
+:host(.calcite-sortable--fallback),
 :host(.calcite-sortable--ghost) {
   position: relative;
   overflow: hidden;

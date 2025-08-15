@@ -62,7 +62,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
     requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`Translations for "${locale}" not found or invalid, falling back to english`);
+        console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
         return getLocaleData("en");
       });
   }
