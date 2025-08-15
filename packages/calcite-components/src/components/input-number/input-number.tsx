@@ -150,6 +150,41 @@ export class InputNumber
 
   private valueController = useValue(this);
 
+  private getLocalizedNumberString = (incomingValue: string): string => {
+    const { integer, isValueShortened, setNumberFormatOptions, valueController } = this;
+    const { previousValue } = valueController;
+
+    setNumberFormatOptions();
+
+    let newLocalizedValue = numberStringFormatter.localize(incomingValue);
+    const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
+    const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedInteger);
+    const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
+    const valueHasLeadingZeros = hasLeadingZeros(validatedInteger);
+
+    if (valueHasTrailingDecimal) {
+      newLocalizedValue = addLocalizedTrailingDecimalZeros(
+        newLocalizedValue,
+        incomingValue,
+        numberStringFormatter,
+      );
+    }
+
+    if (valueHasTrailingDecimal && isValueShortened(incomingValue, previousValue)) {
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    }
+
+    if (valueHasLeadingZeros) {
+      newLocalizedValue = `${
+        valueHasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
+      }${numberStringFormatter.localize("0").repeat(valueHasLeadingZeros[1].length)}${
+        valueHasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
+      }`;
+    }
+
+    return newLocalizedValue;
+  };
+
   private getValidNumberString = (incomingValue: string): string => {
     if (!isValidNumber(incomingValue)) {
       return "";
@@ -172,9 +207,17 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    // don't sanitize the start of negative/decimal numbers, but
-    // don't set value to an invalid number
     return ["-", "."].includes(newValue) ? "" : newValue;
+  };
+
+  private setNumberFormatOptions = (): void => {
+    const { groupSeparator: useGrouping, messages, numberingSystem } = this;
+    const { _lang: locale } = messages;
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem,
+      useGrouping,
+    };
   };
 
   //#endregion
@@ -523,47 +566,12 @@ export class InputNumber
     this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputNumberChange });
   }
 
-  private getLocalizedNumberString(incomingValue: string): string {
-    const { integer, isValueShortened, setNumberFormatOptions, valueController } = this;
-    const { previousValue } = valueController;
-
-    setNumberFormatOptions();
-
-    let newLocalizedValue = numberStringFormatter.localize(incomingValue);
-    const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
-    const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedInteger);
-    const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
-    const valueHasLeadingZeros = hasLeadingZeros(validatedInteger);
-
-    if (valueHasTrailingDecimal) {
-      newLocalizedValue = addLocalizedTrailingDecimalZeros(
-        newLocalizedValue,
-        incomingValue,
-        numberStringFormatter,
-      );
-    }
-
-    if (valueHasTrailingDecimal && isValueShortened(incomingValue, previousValue)) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
-    }
-
-    if (valueHasLeadingZeros) {
-      newLocalizedValue = `${
-        valueHasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
-      }${numberStringFormatter.localize("0").repeat(valueHasLeadingZeros[1].length)}${
-        valueHasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
-      }`;
-    }
-
-    return newLocalizedValue;
-  }
-
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
   }
 
   private valueWatcher(newValue: string, previousValue: string): void {
-    if (!this.userChangedValue) {
+    if (!this.valueController.userChangedValue) {
       if (newValue === "Infinity" || newValue === "-Infinity") {
         this.displayedValue = newValue;
         this.previousEmittedNumberValue = newValue;
@@ -592,7 +600,8 @@ export class InputNumber
       getValidNumberString,
       setNumberFormatOptions,
     } = this;
-    const value = getValidNumberString(incomingValue);
+
+    const value = getValidNumberString(parseNumberString(incomingValue));
     this.valueController.inputValue({ inputEventEmitter, value });
 
     setNumberFormatOptions();
@@ -758,12 +767,7 @@ export class InputNumber
       });
       this.childNumberEl.value = this.displayedValue;
     } else {
-      // TODO: replace setNumberValue with inputValue
-      this.setNumberValue({
-        nativeEvent,
-        origin: "user",
-        value: delocalizedValue,
-      });
+      this.inputValue(delocalizedValue);
     }
   }
 
@@ -922,16 +926,6 @@ export class InputNumber
 
   private setPreviousNumberValue(value: string): void {
     this.previousValue = this.normalizeValue(value);
-  }
-
-  private setNumberFormatOptions(): void {
-    const { groupSeparator: useGrouping, messages, numberingSystem } = this;
-    const { _lang: locale } = messages;
-    numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem,
-      useGrouping,
-    };
   }
 
   private setNumberValue({

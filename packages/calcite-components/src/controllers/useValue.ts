@@ -148,6 +148,8 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     if (inputEvent.defaultPrevented) {
       this.userChangedValue = false;
       this.component.value = this.previousValue;
+      // TODO: implement a callback here so the component can respond to default event prevention.
+      // For number, the displayed value needs to be relocalized
     }
   }
 
