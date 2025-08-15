@@ -1123,7 +1123,7 @@ describe("calcite-date-picker", () => {
         },
         "--calcite-date-picker-day-text-color": {
           selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[current-month] >>> .day`,
           targetProp: "color",
         },
         "--calcite-date-picker-day-text-color-hover": {
