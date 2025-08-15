@@ -1,3 +1,4 @@
+packages\calcite-components\src\components\accordion-item\assets\t9n
 packages\calcite-components\src\components\action\assets\t9n
 packages\calcite-components\src\components\action-bar\assets\t9n
 packages\calcite-components\src\components\action-group\assets\t9n
