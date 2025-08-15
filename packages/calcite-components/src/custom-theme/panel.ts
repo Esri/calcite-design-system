@@ -21,9 +21,9 @@ export const panelTokens = {
 
 export const panel = html`
   <calcite-panel heading="Panel Heading" description="Panel description" closable collapsible>
-    <calcite-action text="Action 1" text-enabled icon="icon1" slot="header-menu-actions"></calcite-action>
-    <calcite-action text="Action 2" text-enabled icon="icon2" slot="header-menu-actions"></calcite-action>
-    <calcite-action text="Action 3" icon="icon3" slot="header-actions-end"></calcite-action>
+    <calcite-action text="Action 1" text-enabled icon="number-circle-1" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="Action 2" text-enabled icon="number-circle-2" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="Action 3" icon="number-circle-3" slot="header-actions-end"></calcite-action>
     <div slot="content-top">Content at the top</div>
     <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
       <calcite-checkbox></calcite-checkbox>Agree to terms

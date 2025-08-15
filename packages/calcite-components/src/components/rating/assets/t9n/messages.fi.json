@@ -1,5 +1,5 @@
 {
   "rating": "Arviointi",
-  "required": "Required",
+  "required": "Pakollinen",
   "stars": "Tähdet: {num}"
 }
