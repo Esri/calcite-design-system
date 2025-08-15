@@ -454,7 +454,6 @@ export class DatePicker extends LitElement {
     return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-
   private setEndDate(date: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
