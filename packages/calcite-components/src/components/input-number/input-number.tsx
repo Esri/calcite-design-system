@@ -11,6 +11,7 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
+  EventEmitter,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
@@ -35,15 +36,17 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
+  getLocalizedCharAllowList,
   hasLeadingMinusSign,
   hasLeadingZeros,
   hasTrailingDecimal,
+  isInfinity,
   isValidNumber,
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { InputPlacement, NumberNudgeDirection } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import {
@@ -113,27 +116,14 @@ export class InputNumber
 
   private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
+      this.value = this.getValidNumberString((event.target as HTMLInputElement).value);
     }
     this.setFocus();
     event.stopPropagation();
   };
 
-  private previousEmittedNumberValue: string;
-
-  private previousValue: string;
-
-  private previousValueOrigin: SetValueOrigin = "initial";
-
   /** the computed icon to render */
   private requestedIcon?: IconNameOrString;
-
-  private userChangedValue = false;
-
-  private _value = "";
 
   /**
    * Made into a prop for testing purposes only
@@ -157,6 +147,7 @@ export class InputNumber
     setNumberFormatOptions();
 
     let newLocalizedValue = numberStringFormatter.localize(incomingValue);
+    const localizedCharAllowlist = getLocalizedCharAllowList(numberStringFormatter);
     const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
     const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedInteger);
     const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
@@ -182,26 +173,32 @@ export class InputNumber
       }`;
     }
 
+    newLocalizedValue = Array.from(newLocalizedValue)
+      .filter((char) => localizedCharAllowlist.has(char))
+      .join("");
+
     return newLocalizedValue;
   };
 
-  private getValidNumberString = (incomingValue: string): string => {
-    if (!isValidNumber(incomingValue)) {
+  private getValidNumberString = (value: string): string => {
+    if (!isValidNumber(value)) {
       return "";
     }
+
+    value = parseNumberString(value);
 
     const { integer, isValueShortened, valueController } = this;
     const { previousValue } = valueController;
 
-    const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
+    const validatedInteger = integer ? value.replace(/[e.]/g, "") : value;
 
     const sanitizedValue =
-      hasTrailingDecimal(validatedInteger) && isValueShortened(incomingValue, previousValue)
+      hasTrailingDecimal(validatedInteger) && isValueShortened(value, previousValue)
         ? validatedInteger
         : sanitizeNumberString(validatedInteger);
 
     const newValue =
-      incomingValue && !sanitizedValue
+      value && !sanitizedValue
         ? isValidNumber(previousValue)
           ? previousValue
           : ""
@@ -224,7 +221,7 @@ export class InputNumber
 
   //#region State Properties
 
-  @state() displayedValue: string;
+  @state() localizedValue: string;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -412,23 +409,7 @@ export class InputNumber
   };
 
   /** The component's value. */
-  @property()
-  get value(): string {
-    return this._value;
-  }
-  set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.valueWatcher(value, oldValue);
-      if (value && this._value === "") {
-        this.setNumberValue({
-          origin: "reset",
-          value: oldValue,
-        });
-      }
-    }
-  }
+  @property() value: string = "";
 
   //#endregion
 
@@ -462,7 +443,7 @@ export class InputNumber
   calciteInputNumberChange = createEvent({ cancelable: false });
 
   /** Fires each time a new value is typed. */
-  calciteInputNumberInput = createEvent();
+  calciteInputNumberInput: EventEmitter<string> = createEvent();
 
   /** @private */
   calciteInternalInputNumberBlur = createEvent({ cancelable: false });
@@ -492,35 +473,13 @@ export class InputNumber
       this.onHiddenFormInputInput,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
-    // TODO: This sets the value, but we need to repurpose the localize logic from setNumberValue here too
     this.value = this.getValidNumberString(this.value);
-    this.warnAboutInvalidNumberValue(this.value);
-
-    if (this.value === "Infinity" || this.value === "-Infinity") {
-      this.displayedValue = this.value;
-    }
   }
 
   async load(): Promise<void> {
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
-
-    // TODO: remove the rest of these lines after we get the connectedCallback logic working
-    this.setPreviousEmittedNumberValue(this.value);
-    this.setPreviousNumberValue(this.value);
-
-    this.warnAboutInvalidNumberValue(this.value);
-
-    if (this.value === "Infinity" || this.value === "-Infinity") {
-      this.displayedValue = this.value;
-      this.previousEmittedNumberValue = this.value;
-    } else {
-      this.setNumberValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -537,11 +496,11 @@ export class InputNumber
     }
 
     if (changes.has("messages")) {
-      numberStringFormatter.numberFormatOptions = {
-        locale: this.messages._lang,
-        numberingSystem: this.numberingSystem,
-        useGrouping: false,
-      };
+      this.setNumberFormatOptions();
+    }
+
+    if (changes.has("value")) {
+      this.setLocalizedValue(this.value);
     }
   }
 
@@ -570,58 +529,9 @@ export class InputNumber
     this.requestUpdate();
   }
 
-  private valueWatcher(newValue: string, previousValue: string): void {
-    if (!this.valueController.userChangedValue) {
-      if (newValue === "Infinity" || newValue === "-Infinity") {
-        this.displayedValue = newValue;
-        this.previousEmittedNumberValue = newValue;
-        return;
-      }
-
-      this.setNumberValue({
-        origin: "direct",
-        previousValue,
-        value:
-          newValue == null || newValue == ""
-            ? ""
-            : isValidNumber(newValue)
-              ? newValue
-              : this.previousValue || "",
-      });
-      this.warnAboutInvalidNumberValue(newValue);
-    }
-    this.userChangedValue = false;
-  }
-
-  private inputValue(incomingValue: string) {
-    const {
-      calciteInputNumberInput: inputEventEmitter,
-      getLocalizedNumberString,
-      getValidNumberString,
-      setNumberFormatOptions,
-    } = this;
-
-    const value = getValidNumberString(parseNumberString(incomingValue));
-    this.valueController.inputValue({ inputEventEmitter, value });
-
-    setNumberFormatOptions();
-
-    this.displayedValue = getLocalizedNumberString(value);
-
-    // TODO: figure out how to integrate the following logic
-    // const localizedCharAllowlist = getLocalizedCharAllowList(numberStringFormatter);
-
-    // const childInputValue = this.childNumberEl?.value;
-    // // remove invalid characters from child input
-    // if (childInputValue) {
-    //   const sanitizedChildInputValue = Array.from(childInputValue)
-    //     .filter((char) => localizedCharAllowlist.has(char))
-    //     .join("");
-
-    //   if (sanitizedChildInputValue !== childInputValue) {
-    //     this.setInputNumberValue(sanitizedChildInputValue);
-    //   }
-    // }
+  private inputValue(value: string) {
+    const { calciteInputNumberInput: inputEventEmitter, getValidNumberString } = this;
+    this.valueController.inputValue({ inputEventEmitter, value: getValidNumberString(value) });
   }
 
   private isValueShortened(value: string, previousValue: string): boolean {
@@ -634,7 +544,7 @@ export class InputNumber
     }
 
     if (this.isClearable && event.key === "Escape") {
-      this.clearInputValue(event);
+      this.clearInputValue();
       event.preventDefault();
     }
     if (event.key === "Enter") {
@@ -652,11 +562,10 @@ export class InputNumber
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
-    nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
 
-    if (value === "Infinity" || value === "-Infinity") {
+    if (isInfinity(value)) {
       return;
     }
 
@@ -683,36 +592,20 @@ export class InputNumber
         ? `${inputMax}`
         : nudgedValue.toString();
 
-    this.setNumberValue({
-      committing: true,
-      nativeEvent,
-      origin: "user",
+    this.valueController.inputValue({
+      inputEventEmitter: this.calciteInputNumberInput,
       value: finalValue,
     });
   }
 
-  private clearInputValue(nativeEvent: KeyboardEvent | MouseEvent): void {
-    this.setNumberValue({
-      committing: true,
-      nativeEvent,
-      origin: "user",
-      value: "",
-    });
-  }
-
-  private emitChangeIfUserModified(): void {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
-      this.calciteInputNumberChange.emit();
-      this.setPreviousEmittedNumberValue(this.value);
-    }
+  private clearInputValue(): void {
+    this.valueController.inputValue({ inputEventEmitter: this.calciteInputNumberInput, value: "" });
   }
 
   private inputNumberBlurHandler() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
     this.calciteInternalInputNumberBlur.emit();
     this.commitValue();
-    // TODO: Remove this line after getting commitCurrentValue working to emit change event
-    this.emitChangeIfUserModified();
   }
 
   private clickHandler(event: MouseEvent): void {
@@ -741,34 +634,23 @@ export class InputNumber
       return;
     }
 
-    if (this.value === "Infinity" || this.value === "-Infinity") {
+    if (isInfinity(this.value)) {
       return;
     }
 
     const value = (nativeEvent.target as HTMLInputElement).value;
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
+
+    this.setNumberFormatOptions();
+
     const delocalizedValue = numberStringFormatter.delocalize(value);
-    if (nativeEvent.inputType === "insertFromPaste") {
-      if (
-        !isValidNumber(delocalizedValue) ||
-        (this.integer && (delocalizedValue.includes("e") || delocalizedValue.includes(".")))
-      ) {
-        nativeEvent.preventDefault();
-      }
-      // TODO: replace setNumberValue with inputValue
-      this.setNumberValue({
-        nativeEvent,
-        origin: "user",
-        value: parseNumberString(delocalizedValue),
-      });
-      this.childNumberEl.value = this.displayedValue;
-    } else {
-      this.inputValue(delocalizedValue);
+    if (
+      nativeEvent.inputType === "insertFromPaste" &&
+      (!isValidNumber(delocalizedValue) ||
+        (this.integer && (delocalizedValue.includes("e") || delocalizedValue.includes("."))))
+    ) {
+      nativeEvent.preventDefault();
     }
+    this.inputValue(delocalizedValue);
   }
 
   private inputNumberKeyDownHandler(event: KeyboardEvent): void {
@@ -776,10 +658,10 @@ export class InputNumber
       return;
     }
 
-    if (this.value === "Infinity" || this.value === "-Infinity") {
+    if (isInfinity(this.value)) {
       event.preventDefault();
       if (event.key === "Backspace" || event.key === "Delete") {
-        this.clearInputValue(event);
+        this.clearInputValue();
       }
       return;
     }
@@ -811,16 +693,12 @@ export class InputNumber
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
-        this.emitChangeIfUserModified();
+        this.commitValue();
       }
       return;
     }
 
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
+    this.setNumberFormatOptions();
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
       if (!this.value && !this.childNumberEl.value) {
@@ -862,7 +740,7 @@ export class InputNumber
     const inputMin = this.minString ? parseFloat(this.minString) : null;
     const valueNudgeDelayInMs = 150;
 
-    this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+    this.incrementOrDecrementNumberValue(direction, inputMax, inputMin);
 
     if (this.nudgeNumberValueIntervalId) {
       window.clearInterval(this.nudgeNumberValueIntervalId);
@@ -874,7 +752,7 @@ export class InputNumber
         return;
       }
 
-      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
+      this.incrementOrDecrementNumberValue(direction, inputMax, inputMin);
     }, valueNudgeDelayInMs);
   }
 
@@ -909,135 +787,14 @@ export class InputNumber
     this.childNumberEl = el;
   }
 
-  private setInputNumberValue(newInputValue: string): void {
-    if (!this.childNumberEl) {
+  private setLocalizedValue(value: string): void {
+    const { value: currentValue } = this;
+    if (!this.valueController.userChangedValue && isInfinity(currentValue)) {
+      this.localizedValue = currentValue;
       return;
     }
-    this.childNumberEl.value = newInputValue;
-  }
-
-  private setPreviousEmittedNumberValue(value: string): void {
-    this.previousEmittedNumberValue = this.normalizeValue(value);
-  }
-
-  private normalizeValue(value: string): string {
-    return isValidNumber(value) ? value : "";
-  }
-
-  private setPreviousNumberValue(value: string): void {
-    this.previousValue = this.normalizeValue(value);
-  }
-
-  private setNumberValue({
-    committing = false,
-    nativeEvent,
-    origin,
-    previousValue,
-    value,
-  }: {
-    committing?: boolean;
-    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: SetValueOrigin;
-    previousValue?: string;
-    value: string;
-  }): void {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator,
-    };
-
-    const isValueDeleted =
-      this.previousValue?.length > value.length || this.value?.length > value.length;
-
-    const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
-
-    const hasTrailingDecimalSeparator =
-      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
-
-    const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
-    const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
-
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
-
-    const newValue =
-      value && !sanitizedValue
-        ? isValidNumber(this.previousValue)
-          ? this.previousValue
-          : ""
-        : sanitizedValue;
-
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
-
-    if (origin !== "connected" && !hasTrailingDecimalSeparator) {
-      newLocalizedValue = addLocalizedTrailingDecimalZeros(
-        newLocalizedValue,
-        newValue,
-        numberStringFormatter,
-      );
-    }
-
-    // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
-    }
-
-    // adds localized leading zeros
-    if (hasLeadingZeros) {
-      newLocalizedValue = `${
-        hasLeadingMinusSign ? newLocalizedValue.charAt(0) : ""
-      }${numberStringFormatter.localize("0").repeat(hasLeadingZeros[1].length)}${
-        hasLeadingMinusSign ? newLocalizedValue.slice(1) : newLocalizedValue
-      }`;
-    }
-
-    this.displayedValue = newLocalizedValue;
-    this.setPreviousNumberValue(previousValue ?? this.value);
-    this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
-    // don't sanitize the start of negative/decimal numbers, but
-    // don't set value to an invalid number
-    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
-    this.value = validNewValue;
-
-    const localizedCharAllowlist = new Set([
-      "e",
-      "E",
-      numberStringFormatter.decimal,
-      numberStringFormatter.minusSign,
-      numberStringFormatter.group,
-      ...numberStringFormatter.digits,
-    ]);
-
-    const childInputValue = this.childNumberEl?.value;
-    // remove invalid characters from child input
-    if (childInputValue) {
-      const sanitizedChildInputValue = Array.from(childInputValue)
-        .filter((char) => localizedCharAllowlist.has(char))
-        .join("");
-
-      if (sanitizedChildInputValue !== childInputValue) {
-        this.setInputNumberValue(sanitizedChildInputValue);
-      }
-    }
-
-    if (origin === "direct") {
-      this.setInputNumberValue(newLocalizedValue);
-      this.setPreviousEmittedNumberValue(validNewValue);
-    }
-
-    if (nativeEvent) {
-      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
-      if (calciteInputNumberInputEvent.defaultPrevented) {
-        this.value = this.previousValue;
-        this.displayedValue = numberStringFormatter.localize(this.previousValue);
-      } else if (committing) {
-        this.emitChangeIfUserModified();
-      }
-    }
+    this.localizedValue = this.getLocalizedNumberString(value);
+    this.warnAboutInvalidNumberValue(value);
   }
 
   private inputNumberKeyUpHandler(): void {
@@ -1161,7 +918,7 @@ export class InputNumber
         readOnly={this.readOnly}
         ref={this.setChildNumberElRef}
         type="text"
-        value={this.displayedValue}
+        value={this.localizedValue}
       />
     );
 

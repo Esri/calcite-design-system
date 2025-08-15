@@ -718,5 +718,22 @@
         </div>
       </div>
     </demo-dom-swapper>
+    <script>
+      document.addEventListener("input", (event) => {
+        console.log("input", event.target.value);
+      });
+      document.addEventListener("change", (event) => {
+        console.log("change", event.target.value);
+      });
+      document.addEventListener("calciteInputNumberInput", (event) => {
+        console.log("calciteInputNumberInput", event.target.value, "detail", event.detail);
+      });
+      document.addEventListener("calciteInternalInputNumberBlur", (event) => {
+        console.log("calciteInternalInputNumberBlur", event.target.value);
+      });
+      document.addEventListener("calciteInputNumberChange", (event) => {
+        console.log("calciteInputNumberChange", event.target.value);
+      });
+    </script>
   </body>
 </html>

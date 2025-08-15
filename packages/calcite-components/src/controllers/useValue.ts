@@ -39,7 +39,7 @@ interface InputValueOptions {
   /**
    * The component's input event emitter.
    */
-  inputEventEmitter: EventEmitter;
+  inputEventEmitter: EventEmitter<string>;
   /**
    * The new value to set on the component.
    */
@@ -143,13 +143,13 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     this.previousValue = this.component.value;
     this.userChangedValue = true;
     this.component.value = value;
-    const inputEvent = inputEventEmitter.emit();
-    // TODO: get default prevention to work here (currently not working)
+    const inputEvent = inputEventEmitter.emit(value);
     if (inputEvent.defaultPrevented) {
       this.userChangedValue = false;
-      this.component.value = this.previousValue;
-      // TODO: implement a callback here so the component can respond to default event prevention.
-      // For number, the displayed value needs to be relocalized
+      // This check allows direct changes to the value to persist after calling inputEvent.preventDefault()
+      if (value === this.component.value) {
+        this.component.value = this.previousValue;
+      }
     }
   }
 

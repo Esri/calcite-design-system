@@ -101,11 +101,19 @@ export class BigDecimal {
   }
 }
 
+export function isInfinity(value: string): boolean {
+  return value === "Infinity" || value === "-Infinity";
+}
+
 export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
 export function parseNumberString(numberString?: string): string {
+  if (isInfinity(numberString)) {
+    return numberString;
+  }
+
   if (!numberString || !stringContainsNumbers(numberString)) {
     return "";
   }
