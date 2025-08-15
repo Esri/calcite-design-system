@@ -533,12 +533,12 @@ describe("calcite-block", () => {
           },
           "--calcite-block-content-space": [
             {
-              selector: "calcite-block",
-              targetProp: "--calcite-internal-block-padding-block",
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingBlock",
             },
             {
-              selector: "calcite-block",
-              targetProp: "--calcite-internal-block-padding-inline",
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingInline",
             },
           ],
           "--calcite-block-header-background-color": {

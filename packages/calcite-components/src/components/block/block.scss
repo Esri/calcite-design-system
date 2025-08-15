@@ -44,12 +44,12 @@
   }
 
   --calcite-internal-block-padding-block: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-xxs))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-xxs))
   );
   --calcite-internal-block-padding-inline: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-sm))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-sm))
   );
 }
 
@@ -73,12 +73,12 @@
   }
 
   --calcite-internal-block-padding-block: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-sm))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-sm))
   );
   --calcite-internal-block-padding-inline: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-md))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-md))
   );
 }
 
@@ -102,12 +102,12 @@
   }
 
   --calcite-internal-block-padding-block: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-md))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-md))
   );
   --calcite-internal-block-padding-inline: var(
-    --calcite-block-padding,
-    var(--calcite-block-content-space, var(--calcite-spacing-lg))
+    --calcite-block-content-space,
+    var(--calcite-block-padding, var(--calcite-spacing-lg))
   );
 }
 
