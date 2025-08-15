@@ -12,7 +12,8 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -431,7 +432,7 @@ export class Autocomplete
   constructor() {
     super();
     this.listenOn(document, "click", this.documentClickHandler);
-    this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
+    this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
   }
 
   override connectedCallback(): void {
@@ -557,9 +558,8 @@ export class Autocomplete
     this.open = false;
   }
 
-  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
+  private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
-    event.stopPropagation();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -686,7 +686,7 @@ export class Autocomplete
       case "Enter":
         if (open && activeItem) {
           this.value = activeItem.value;
-          this.emitChange();
+          activeItem.emitSelectEvent();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {

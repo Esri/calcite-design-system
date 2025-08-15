@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
-import { throttle } from "lodash-es";
+import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";

@@ -1,11 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Добавить: {text}",
   "all": "Все",
   "allSelected": "Все выбрано",
   "clear": "Очистить значение",
-  "noMatches": "No matches",
+  "noMatches": "Нет совпадений",
   "removeTag": "Удалить тег",
-  "required": "Required",
-  "selectAll": "Select all",
+  "required": "Обязательное",
+  "selectAll": "Выбрать все",
   "selected": "выбрано"
 }

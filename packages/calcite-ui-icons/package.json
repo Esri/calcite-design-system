@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.3.0-next.13",
+  "version": "4.3.0-next.17",
   "type": "module",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
@@ -65,7 +65,7 @@
     "calcite-web": "github:Esri/calcite-web#v1.2.5",
     "cli-progress": "^3.12.0",
     "fantasticon": "3.0.0",
-    "fs-extra": "11.3.0",
+    "fs-extra": "11.3.1",
     "svgo": "^4.0.0",
     "svgson": "5.3.1",
     "svgstore-cli": "2.0.1"

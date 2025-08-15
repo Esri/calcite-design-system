@@ -3,6 +3,6 @@
   "date": "Ημερομηνία",
   "dateFormat": "Μορφότυπο ημερομηνίας: {format}",
   "endDate": "Ημερομηνία λήξης",
-  "required": "Required",
+  "required": "Απαιτείται",
   "startDate": "Ημερομηνία έναρξης"
 }

@@ -3,6 +3,6 @@
   "date": "Datum",
   "dateFormat": "Datumformat: {format}",
   "endDate": "Slutdatum",
-  "required": "Required",
+  "required": "Obligatoriskt",
   "startDate": "Startdatum"
 }

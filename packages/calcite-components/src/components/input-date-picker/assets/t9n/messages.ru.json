@@ -3,6 +3,6 @@
   "date": "Дата",
   "dateFormat": "Формат даты: {format}",
   "endDate": "Дата окончания",
-  "required": "Required",
+  "required": "Обязательное",
   "startDate": "Дата начала"
 }

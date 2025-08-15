@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";

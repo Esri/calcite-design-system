@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
