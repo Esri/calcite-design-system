@@ -17,6 +17,28 @@
   *
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-carousel-autoplay-progress-background-color
+// --calcite-internal-carousel-autoplay-progress-fill-color
+// --calcite-internal-carousel-control-color
+// --calcite-internal-carousel-control-icon-color-hover
+// --calcite-internal-carousel-pagination-background-color
+// --calcite-internal-carousel-pagination-background-color-hover
+// --calcite-internal-carousel-pagination-background-color-press
+// --calcite-internal-carousel-pagination-background-color-selected
+// --calcite-internal-carousel-pagination-icon-color
+// --calcite-internal-carousel-pagination-icon-color-hover
+// --calcite-internal-carousel-pagination-icon-color-selected
+// --calcite-internal-carousel-pagination-overlay-background-color
+// --calcite-internal-carousel-pagination-overlay-background-color-active
+// --calcite-internal-carousel-pagination-overlay-background-color-hover
+// --calcite-internal-carousel-pagination-overlay-background-color-selected
+// --calcite-internal-carousel-pagination-space
+// --calcite-internal-carousel-pagination-space-wide
+
 :host {
   @apply flex w-full;
   --calcite-internal-carousel-pagination-space: 1.5rem;
@@ -176,7 +198,6 @@ calcite-carousel-item:not([selected]) {
 }
 
 .pagination-item.autoplay-control {
-  position: relative;
   color: var(--calcite-internal-carousel-control-color);
   --calcite-progress-fill-color: var(--calcite-internal-carousel-autoplay-progress-fill-color);
   --calcite-progress-background-color: var(--calcite-internal-carousel-autoplay-progress-background-color);

@@ -125,7 +125,6 @@
 textarea,
 input {
   @apply font-inherit
-    relative
     m-0
     box-border
     flex
@@ -545,8 +544,7 @@ input[type="number"] {
 }
 
 .wrapper {
-  @apply relative
-    flex
+  @apply flex
     flex-row
     items-center;
   border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));

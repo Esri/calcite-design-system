@@ -8,8 +8,7 @@
 
 :host {
   @extend %component-host;
-  @apply relative
-    flex
+  @apply flex
     w-full
     flex-auto
     items-stretch
@@ -17,8 +16,7 @@
     bg-transparent;
 
   .frame {
-    @apply relative
-      m-0
+    @apply m-0
       flex
       w-full
       flex-auto

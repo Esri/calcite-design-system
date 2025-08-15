@@ -23,7 +23,7 @@
 // --calcite-internal-combobox-spacing-unit-s
 
 :host {
-  @apply relative block;
+  @apply block;
 }
 
 :host([scale="s"]) {

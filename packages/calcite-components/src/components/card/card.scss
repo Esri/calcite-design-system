@@ -26,8 +26,7 @@
 }
 
 .content-wrapper {
-  @apply relative
-    flex
+  @apply flex
     h-full
     flex-col
     justify-between

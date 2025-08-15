@@ -33,8 +33,7 @@
 }
 
 :host {
-  @apply relative
-    inline-flex
+  @apply inline-flex
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;
@@ -107,7 +106,7 @@
 }
 
 .toggle {
-  @apply focus-base relative;
+  @apply focus-base;
 
   &:active,
   &:focus,

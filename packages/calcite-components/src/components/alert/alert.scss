@@ -10,6 +10,12 @@
  * @prop --calcite-alert-offset-size: Specifies the component's `placement` offset.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-alert-min-height
+
 $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
@@ -151,7 +157,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .footer {
-  @apply flex justify-end pt-px relative self-stretch w-auto;
+  @apply flex justify-end pt-px self-stretch w-auto;
   block-size: inherit;
 }
 

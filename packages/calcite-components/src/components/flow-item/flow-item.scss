@@ -32,7 +32,7 @@
 
 :host {
   @extend %component-host;
-  @apply relative hidden w-full flex-auto overflow-hidden;
+  @apply hidden w-full flex-auto overflow-hidden;
 }
 
 :host([selected]) {

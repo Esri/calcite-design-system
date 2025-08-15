@@ -50,8 +50,6 @@
 }
 
 .container--border {
-  position: relative;
-
   &::before {
     position: absolute;
     inline-size: var(--calcite-border-width-lg);
@@ -412,7 +410,7 @@
 
 .actions-start,
 .actions-end {
-  @apply p-0 relative;
+  @apply p-0;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-sort-handle),

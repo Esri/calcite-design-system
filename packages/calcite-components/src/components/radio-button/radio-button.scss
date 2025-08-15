@@ -11,13 +11,18 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-radio-size
+
 :host {
   @apply block
   cursor-pointer;
 
   .container {
-    @apply relative
-    outline-none;
+    @apply outline-none;
   }
 
   .radio {

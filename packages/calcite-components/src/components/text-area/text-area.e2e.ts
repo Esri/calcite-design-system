@@ -373,7 +373,6 @@ describe("calcite-text-area", () => {
     await page.setContent(`
       <style>
        .resizable-container {
-        position: relative;
         width: 300px;
         height: 200px;
       }

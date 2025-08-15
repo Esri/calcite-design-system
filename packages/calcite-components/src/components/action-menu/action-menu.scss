@@ -19,15 +19,13 @@
 }
 
 .default-trigger {
-  @apply relative
-  h-full
+  @apply h-full
   flex-initial
   self-stretch;
 }
 
 @include slotted("trigger", "calcite-action") {
-  @apply relative
-  h-full
+  @apply h-full
   flex-initial
   self-stretch;
 }

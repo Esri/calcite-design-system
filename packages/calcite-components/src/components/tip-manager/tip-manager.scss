@@ -47,7 +47,6 @@
 
 .container {
   @apply focus-base
-    relative
     overflow-hidden;
   min-block-size: 150px;
   &:focus {

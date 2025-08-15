@@ -1,8 +1,13 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-text-input-padding-inline-end
+
 :host {
   @extend %component-spacing;
   @include floating-ui-elem-anim(".menu-container");
-  @apply relative
-    inline-block
+  @apply inline-block
     w-full
     overflow-visible
     align-top

@@ -1,3 +1,14 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-padding-block
+// --calcite-internal-select-block-size
+// --calcite-internal-select-font-weight
+// --calcite-internal-select-icon-container-padding-inline
+// --calcite-internal-select-line-height
+// --calcite-internal-select-spacing-block
+
 :host {
   @apply block;
 }
@@ -91,7 +102,7 @@
 }
 
 .year-container {
-  @apply relative flex h-full;
+  @apply flex h-full;
 }
 
 .suffix {
@@ -109,7 +120,6 @@
 
 .year {
   @apply font-inherit
-  relative
   focus-base
   border-none
   inline-block
