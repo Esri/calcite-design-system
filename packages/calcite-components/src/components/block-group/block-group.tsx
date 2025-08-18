@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
@@ -22,11 +22,12 @@ import {
 } from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { getRootNode } from "../../utils/dom";
+import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
+import { Scale } from "../interfaces";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -58,15 +59,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
   });
 
-  private parentBlockGroupEl: BlockGroup["el"];
-
   sortable: Sortable;
+
+  private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
   private cancelable = useCancelable<this>()(this);
 
-  private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
-
   private focusSetter = useSetFocus<this>()(this);
+
+  private parentBlockGroupEl: BlockGroup["el"];
+
+  private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
   // #endregion
 
@@ -110,6 +113,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
@@ -185,6 +191,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
       this.updateBlockItemsDebounced();
+    }
+    if (changes.has("scale") && this.hasUpdated) {
+      this.updateBlockAndGroupScale();
     }
   }
 
@@ -348,7 +357,25 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    updateBlockChildren(event.target as HTMLSlotElement);
+    const blockChildren: Block["el"][] = [];
+
+    this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
+      (el): el is Block["el"] | BlockGroup["el"] => {
+        if (el.matches(blockSelector)) {
+          blockChildren.push(el as Block["el"]);
+        }
+        return el.matches(blockSelector) || el.matches(blockGroupSelector);
+      },
+    );
+
+    updateBlockChildren(blockChildren);
+    this.updateBlockAndGroupScale();
+  }
+
+  private updateBlockAndGroupScale(): void {
+    this.blockAndGroups.forEach((el) => {
+      el.scale = this.scale;
+    });
   }
 
   private validateSortMenuItem({

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.16...@esri/calcite-ui-icons@4.3.0-next.17) (2025-08-13)
+
+### Features
+
+- add rtl of list icons ([#12685](https://github.com/Esri/calcite-design-system/issues/12685)) ([f0d96b5](https://github.com/Esri/calcite-design-system/commit/f0d96b5a6942cbac73cf3f564c2bb9bd1378086b))
+
+## [4.3.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.15...@esri/calcite-ui-icons@4.3.0-next.16) (2025-08-12)
+
+### Features
+
+- schema report, video, classification, and advance drawing tools icons ([#12679](https://github.com/Esri/calcite-design-system/issues/12679)) ([39740a6](https://github.com/Esri/calcite-design-system/commit/39740a6fbe2c40451dbdb89e37930cc934c0049b))
+
+## [4.3.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.14...@esri/calcite-ui-icons@4.3.0-next.15) (2025-08-11)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.13...@esri/calcite-ui-icons@4.3.0-next.14) (2025-08-06)
+
+### Features
+
+- add filled envelope icon ([#12654](https://github.com/Esri/calcite-design-system/issues/12654)) ([563f1a3](https://github.com/Esri/calcite-design-system/commit/563f1a3664221015c592c3cb142c64fd8ff5b7ff))
+
 ## [4.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.12...@esri/calcite-ui-icons@4.3.0-next.13) (2025-08-06)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

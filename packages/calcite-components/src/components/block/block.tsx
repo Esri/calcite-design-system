@@ -1,14 +1,15 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { FlipContext, Position, Status } from "../interfaces";
+import { FlipContext, Position, Scale, Status } from "../interfaces";
+import { getIconScale } from "../../utils/component";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
@@ -23,6 +24,7 @@ import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
+import { BlockSection } from "../block-section/block-section";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -53,6 +55,8 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   transitionProp = "margin-top" as const;
 
   transitionEl: HTMLElement;
+
+  private blockSectionChildren: BlockSection["el"][] = [];
 
   private sortHandleEl: SortHandle["el"];
 
@@ -188,6 +192,9 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /**
    * Used to determine what menu options are available in the sort-handle
    *
@@ -319,6 +326,10 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
         this.calciteBlockCollapse.emit();
       }
     }
+
+    if (changes.has("scale") && this.hasUpdated) {
+      this.updateBlockSectionScale();
+    }
   }
 
   override updated(): void {
@@ -407,13 +418,24 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
+  private handleDefaultSlotChange(event: Event): void {
+    this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
+    this.updateBlockSectionScale();
+  }
+
+  private updateBlockSectionScale(): void {
+    this.blockSectionChildren.forEach((el: BlockSection["el"]) => {
+      el.scale = this.scale;
+    });
+  }
+
   //#endregion
 
   //#region Rendering
 
   private renderScrim(): JsxNode {
     const { loading } = this;
-    const defaultSlot = <slot />;
+    const defaultSlot = <slot onSlotChange={this.handleDefaultSlotChange} />;
 
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
@@ -423,7 +445,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
     return loading ? (
       <div class={CSS.icon} key="loader">
-        <calcite-loader inline label={messages.loading} />
+        <calcite-loader inline label={messages.loading} scale={this.scale} />
       </div>
     ) : status ? (
       <div class={CSS.icon} key="status-icon">
@@ -434,7 +456,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             [CSS.invalid]: status == "invalid",
           }}
           icon={ICONS[status]}
-          scale="s"
+          scale={getIconScale(this.scale)}
         />
       </div>
     ) : (
@@ -487,14 +509,13 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       return undefined;
     }
 
-    /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
         class={iconClass}
         flipRtl={flipRtl}
         icon={iconValue}
         key={iconValue}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -548,6 +569,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             oncalciteSortHandleOpen={this.handleSortHandleOpen}
             overlayPositioning="fixed"
             ref={this.setSortHandleEl}
+            scale={this.scale}
             setPosition={setPosition}
             setSize={setSize}
             sortDisabled={sortDisabled}
@@ -566,7 +588,11 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {this.renderIcon("end")}
-              <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
+              <calcite-icon
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale={getIconScale(this.scale)}
+              />
             </div>
           </button>
         ) : this.iconEnd ? (
@@ -586,6 +612,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
           label={messages.options}
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
+          scale={this.scale}
         >
           <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
         </calcite-action-menu>

@@ -24,6 +24,10 @@ describe("calcite-block-section", () => {
         propertyName: "expanded",
         value: true,
       },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
     ]);
   });
 
@@ -40,6 +44,10 @@ describe("calcite-block-section", () => {
       {
         propertyName: "toggleDisplay",
         defaultValue: "button",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });
@@ -294,19 +302,10 @@ describe("calcite-block-section", () => {
           "--calcite-block-section-border-color": {
             targetProp: "borderBlockEndColor",
           },
-          "--calcite-block-section-background-color": [
-            {
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggle}`,
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.toggleContainer}`,
-              targetProp: "backgroundColor",
-            },
-          ],
+          "--calcite-block-section-background-color": {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "backgroundColor",
+          },
           "--calcite-block-section-header-text-color": [
             {
               targetProp: "color",
@@ -329,11 +328,6 @@ describe("calcite-block-section", () => {
               state: "hover",
             },
             {
-              shadowSelector: `.${CSS.sectionHeader}`,
-              targetProp: "color",
-              state: "hover",
-            },
-            {
               shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",
               state: "hover",
@@ -344,6 +338,10 @@ describe("calcite-block-section", () => {
               state: "hover",
             },
           ],
+          "--calcite-block-section-content-space": {
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "paddingBlock",
+          },
         },
       );
     });

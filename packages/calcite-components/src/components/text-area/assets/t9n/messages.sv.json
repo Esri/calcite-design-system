@@ -1,6 +1,6 @@
 {
   "invalid": "Ogiltig",
-  "required": "Required",
+  "required": "Obligatoriskt",
   "tooLong": "Den aktuella teckenlängden är {currentLength}, vilket överskrider den maximala teckenlängden på {maxLength}.",
   "tooShort": "Den aktuella teckenlängden är {currentLength}, vilket är mindre än den minimala teckenlängden på {minLength}."
 }
