@@ -415,13 +415,15 @@ describe("calcite-block-group", () => {
         const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as BlockGroup["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 
       async function getMoveItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.nextTick);
 
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,
