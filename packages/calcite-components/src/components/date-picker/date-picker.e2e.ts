@@ -9,7 +9,6 @@ import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
-import { dateToISO } from "../../utils/date";
 import type { DatePicker } from "./date-picker";
 
 describe("calcite-date-picker", () => {
@@ -236,7 +235,6 @@ describe("calcite-date-picker", () => {
 
     it("unsetting min/max updates minAsDate & maxAsDate", async () => {
       const page = await newE2EPage();
-      await page.emulateTimezone("America/Los_Angeles");
       await page.setContent(
         html`<calcite-date-picker value="2022-11-20" min="2022-11-15" max="2022-11-25"></calcite-date-picker>`,
       );
@@ -247,8 +245,17 @@ describe("calcite-date-picker", () => {
       element.setProperty("max", undefined);
       await page.waitForChanges();
 
-      expect(await element.getProperty("minAsDate")).toMatchObject({});
-      expect(await element.getProperty("maxAsDate")).toMatchObject({});
+      const getActiveDate2 = async (page: E2EPage, prop: string): Promise<string> =>
+        page.$eval(
+          "calcite-date-picker",
+          (picker, prop) => {
+            return picker[prop].toISOString().split("T")[0];
+          },
+          prop,
+        );
+
+      expect(await getActiveDate2(page, "minAsDate")).toBe("2022-11-15");
+      expect(await getActiveDate2(page, "maxAsDate")).toBe("2022-11-25");
 
       const dateBeyondMax = "2022-11-26";
       await setActiveDate(page, dateBeyondMax);
@@ -283,40 +290,39 @@ describe("calcite-date-picker", () => {
 
     it("disables days outside minAsDate and maxAsDate", async () => {
       const page = await newE2EPage();
-      await page.emulateTimezone("America/Los_Angeles");
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 
-      const currentDay = new Date();
+      const previousDayIso = "2025-08-17T07:00:00.000Z";
+      const currentDayIso = "2025-08-18T07:00:00.000Z";
+      const maxDayIso = "2025-08-20T07:00:00.000Z";
+      const outOfRangeDayIso = "2025-08-23T07:00:00.000Z";
 
-      const maxDay = new Date();
-      maxDay.setDate(maxDay.getDate() + 2);
-
-      const outOfRangeDay = new Date();
-      outOfRangeDay.setDate(currentDay.getDate() + 5);
-
-      await page.evaluate(
-        (min, max) => {
-          const el = document.querySelector("calcite-date-picker");
+      await page.$eval(
+        "calcite-date-picker",
+        (el, min, max) => {
           el.minAsDate = new Date(min);
           el.maxAsDate = new Date(max);
         },
-        currentDay,
-        maxDay,
+        currentDayIso,
+        maxDayIso,
       );
-      await page.waitForTimeout(2000);
+      await page.waitForChanges();
 
-      expect(await (await getDayById(page, dateToISO(currentDay).replaceAll("-", ""))).getProperty("active")).toBe(
-        true,
-      );
-      expect(await (await getDayById(page, dateToISO(currentDay).replaceAll("-", ""))).getProperty("disabled")).toBe(
-        true,
-      );
+      const previousDay = await getDayById(page, previousDayIso.split("T")[0].replaceAll("-", ""));
+      expect(await previousDay.getProperty("active")).toBe(false);
+      expect(await previousDay.getProperty("disabled")).toBe(true);
 
-      expect(await (await getDayById(page, dateToISO(maxDay).replaceAll("-", ""))).getProperty("disabled")).toBe(false);
+      const currentDay = await getDayById(page, currentDayIso.split("T")[0].replaceAll("-", ""));
+      expect(await currentDay.getProperty("active")).toBe(true);
+      expect(await currentDay.getProperty("disabled")).toBe(false);
 
-      expect(await (await getDayById(page, dateToISO(outOfRangeDay).replaceAll("-", ""))).getProperty("disabled")).toBe(
-        true,
-      );
+      const maxDay = await getDayById(page, maxDayIso.split("T")[0].replaceAll("-", ""));
+      expect(await maxDay.getProperty("active")).toBe(false);
+      expect(await maxDay.getProperty("disabled")).toBe(false);
+
+      const outOfRangeDay = await getDayById(page, outOfRangeDayIso.split("T")[0].replaceAll("-", ""));
+      expect(await outOfRangeDay.getProperty("active")).toBe(false);
+      expect(await outOfRangeDay.getProperty("disabled")).toBe(true);
     });
   });
 
