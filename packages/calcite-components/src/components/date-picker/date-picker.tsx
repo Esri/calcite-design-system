@@ -22,11 +22,10 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import { componentFocusable } from "../../utils/component";
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
-import { focusFirstTabbable } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
@@ -55,6 +54,8 @@ export class DatePicker extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -154,11 +155,18 @@ export class DatePicker extends LitElement {
     this.rangeValueChangedByUser = false;
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -446,12 +454,12 @@ export class DatePicker extends LitElement {
     return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-  private setEndDate(date: Date): void {
+  private setEndDate(date: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    if (date) {
+    if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
@@ -460,12 +468,14 @@ export class DatePicker extends LitElement {
     return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
   }
 
-  private setStartDate(date: Date): void {
+  private setStartDate(date: Date, emit = true): void {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
-    this.calciteDatePickerRangeChange.emit();
+    if (emit) {
+      this.calciteDatePickerRangeChange.emit();
+    }
   }
 
   /**
@@ -505,8 +515,9 @@ export class DatePicker extends LitElement {
       this.setEndDate(date);
     } else {
       if (this.proximitySelectionDisabled) {
-        this.setStartDate(date);
-        this.setEndDate(null);
+        this.setStartDate(date, false);
+        this.setEndDate(null, false);
+        this.calciteDatePickerRangeChange.emit();
       } else {
         if (this.activeRange) {
           if (this.activeRange == "end") {
@@ -514,7 +525,7 @@ export class DatePicker extends LitElement {
           } else {
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
-              this.setEndDate(null);
+              this.setEndDate(null, false);
               this.activeEndDate = null;
             }
             this.setStartDate(date);

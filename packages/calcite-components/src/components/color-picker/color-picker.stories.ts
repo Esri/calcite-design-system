@@ -7,7 +7,7 @@ const { scale } = ATTRIBUTES;
 
 type ColorPickerStoryArgs = Pick<
   ColorPicker,
-  "channelsDisabled" | "hexDisabled" | "savedDisabled" | "scale" | "clearable" | "value"
+  "channelsDisabled" | "hexDisabled" | "savedDisabled" | "fieldDisabled" | "scale" | "clearable" | "value"
 >;
 
 export default {
@@ -16,6 +16,7 @@ export default {
     channelsDisabled: false,
     hexDisabled: false,
     savedDisabled: false,
+    fieldDisabled: false,
     scale: scale.defaultValue,
     clearable: false,
     value: "#b33f33",
@@ -36,6 +37,7 @@ export const simple = (args: ColorPickerStoryArgs): string => html`
     scale="${args.scale}"
     ${boolean("clearable", args.clearable)}
     value="${args.value}"
+    ${boolean("field-disabled", args.fieldDisabled)}
   ></calcite-color-picker>
 `;
 

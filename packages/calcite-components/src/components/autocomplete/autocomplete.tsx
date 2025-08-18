@@ -12,7 +12,8 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -54,7 +55,7 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
 import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -130,6 +131,8 @@ export class Autocomplete
   private inputValueMatchPattern: RegExp;
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
@@ -385,13 +388,16 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.referenceEl.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.referenceEl;
+    }, options);
   }
 
   //#endregion
@@ -426,7 +432,7 @@ export class Autocomplete
   constructor() {
     super();
     this.listenOn(document, "click", this.documentClickHandler);
-    this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
+    this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
   }
 
   override connectedCallback(): void {
@@ -552,9 +558,8 @@ export class Autocomplete
     this.open = false;
   }
 
-  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
+  private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
-    event.stopPropagation();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -681,7 +686,7 @@ export class Autocomplete
       case "Enter":
         if (open && activeItem) {
           this.value = activeItem.value;
-          this.emitChange();
+          activeItem.emitSelectEvent();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {

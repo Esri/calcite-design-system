@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-tailwind-preset",
-  "version": "1.0.1-next.11",
+  "version": "1.0.1-next.16",
   "description": "Tailwind CSS preset for the Calcite Design System",
   "repository": {
     "type": "git",
@@ -18,12 +18,12 @@
     "build": "vite build",
     "clean": "rimraf dist node_modules .turbo",
     "lint": "concurrently npm:lint:*",
-    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore --ignore-path ../../.gitignore",
+    "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@esri/calcite-design-tokens": "3.2.0-next.7"
+    "@esri/calcite-design-tokens": "3.2.0-next.12"
   },
   "peerDependencies": {
     "@esri/calcite-design-tokens": "^3.0.2-next.8",

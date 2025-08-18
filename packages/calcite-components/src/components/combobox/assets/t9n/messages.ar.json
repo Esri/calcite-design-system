@@ -1,8 +1,11 @@
 {
+  "add": "إضافة: {text}",
   "all": "الكل",
   "allSelected": "تم تحديد الكل",
-  "selectAll": "تحديد الكل",
   "clear": "مسح القيمة",
+  "noMatches": "لا توجد تطابقات",
   "removeTag": "إزالة علامة",
+  "required": "مطلوب",
+  "selectAll": "تحديد الكل",
   "selected": "محدد"
 }

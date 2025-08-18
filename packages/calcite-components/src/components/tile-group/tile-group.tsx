@@ -262,17 +262,17 @@ export class TileGroup
       switch (event.detail.key) {
         case "ArrowDown":
         case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
+          focusElementInGroup(interactiveItems, event.detail.target, "next", true, false);
           break;
         case "ArrowUp":
         case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
+          focusElementInGroup(interactiveItems, event.detail.target, "previous", true, false);
           break;
         case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
+          focusElementInGroup(interactiveItems, event.detail.target, "first", true, false);
           break;
         case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
+          focusElementInGroup(interactiveItems, event.detail.target, "last", true, false);
           break;
       }
     }

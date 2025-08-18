@@ -40,7 +40,7 @@ export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | Ta
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
  *
  * @example
- * async setFocus(): Promise<void> {
+ * async focusPart(): Promise<void> {
  *   await componentFocusable(this);
  *   this.internalElement?.focus();
  * }

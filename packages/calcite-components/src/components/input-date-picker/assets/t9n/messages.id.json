@@ -3,5 +3,6 @@
   "date": "Tanggal",
   "dateFormat": "Format Tanggal: {format}",
   "endDate": "Tanggal Berakhir",
+  "required": "Wajib",
   "startDate": "Tanggal Mulai"
 }

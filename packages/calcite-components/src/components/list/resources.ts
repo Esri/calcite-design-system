@@ -6,6 +6,7 @@ export const CSS = {
   tableContainer: "table-container",
   sticky: "sticky-pos",
   assistiveText: "assistive-text",
+  containerHeight: "container-height",
 };
 
 export type SelectionAppearance = "border" | "icon";

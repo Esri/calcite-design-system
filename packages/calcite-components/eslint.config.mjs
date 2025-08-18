@@ -5,7 +5,7 @@ import vitestPlugin from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
-import luminaPlugin from "@arcgis/eslint-config/plugins/lumina";
+import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
 
 export default tseslint.config(
   {
@@ -23,7 +23,7 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ["tsconfig-eslint.json"],
+        project: ["tsconfig.eslint.json"],
       },
     },
 
