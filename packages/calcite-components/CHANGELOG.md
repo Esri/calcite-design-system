@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.72...@esri/calcite-components@3.3.0-next.73) (2025-08-18)
+
+### Bug Fixes
+
+- **date-picker:** improve color contrast for days ([#12705](https://github.com/Esri/calcite-design-system/issues/12705)) ([2ec5ea2](https://github.com/Esri/calcite-design-system/commit/2ec5ea207c67b957052687417e21632186751091)), closes [#11644](https://github.com/Esri/calcite-design-system/issues/11644)
+
 ## [3.3.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.71...@esri/calcite-components@3.3.0-next.72) (2025-08-18)
 
 ### Bug Fixes
