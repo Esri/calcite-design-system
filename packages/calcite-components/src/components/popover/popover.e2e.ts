@@ -400,65 +400,30 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("should not toggle popovers if selection range is present", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(html`
-      <calcite-popover reference-element="ref">Content</calcite-popover>
-      <button id="ref">Button</button>
-    `);
-
-    const popover = await page.find("calcite-popover");
-
-    expect(await popover.getProperty("open")).toBe(false);
-
-    await page.$eval("button#ref", (el) => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.selectNode(el);
-      selection.addRange(range);
-      el.click();
-    });
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(false);
-  });
-
-  it("should not close active popover if selection range occurs within the popover", async () => {
+  it("should not close active popover if click starts within the popover but ends outside", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
       <calcite-popover reference-element="ref" open><div id="content">Content</div></calcite-popover>
       <button id="ref">Button</button>
+      <div id="outsideNode">Outside node</div>
     `);
 
     const popover = await page.find("calcite-popover");
 
     expect(await popover.getProperty("open")).toBe(true);
 
-    await page.$eval("div#content", (el) => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      const range = document.createRange();
-      range.selectNode(el);
-      selection.addRange(range);
+    await page.evaluate(() => {
+      const content = document.getElementById("content");
+      content.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
+      const outsideNode = document.getElementById("outsideNode");
+      outsideNode.dispatchEvent(new MouseEvent("pointerup", { bubbles: true }));
     });
     await page.waitForChanges();
 
     expect(await popover.getProperty("open")).toBe(true);
 
     const ref = await page.find("#ref");
-
-    await ref.click();
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(true);
-
-    await page.evaluate(() => {
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-    });
 
     await ref.click();
     await page.waitForChanges();

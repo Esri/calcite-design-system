@@ -1,0 +1,141 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-swatch-corner-radius: Specifies the component's corner radius.
+ *
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-swatch-inset
+// --calcite-internal-swatch-size
+
+:host {
+  @apply block;
+  --calcite-internal-swatch-inset: var(--calcite-spacing-xxs);
+}
+
+:host([scale="s"]) {
+  .container {
+    --calcite-internal-swatch-size: var(--calcite-spacing-xl);
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    --calcite-internal-swatch-size: var(--calcite-spacing-xxl);
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    --calcite-internal-swatch-size: var(--calcite-spacing-xxxl);
+  }
+}
+
+.container {
+  @apply relative focus-base justify-center box-border overflow-hidden;
+  font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
+  block-size: var(--calcite-internal-swatch-size, auto);
+  inline-size: var(--calcite-internal-swatch-size, auto);
+  min-inline-size: var(--calcite-internal-swatch-size, auto);
+  border-radius: var(--calcite-swatch-corner-radius, 0);
+
+  &:not(.non-interactive):hover {
+    @apply cursor-pointer;
+  }
+  &:not(.non-interactive):hover {
+    box-shadow: 0 0 0 var(--calcite-border-width-md) var(--calcite-color-border-2);
+  }
+  &.selectable {
+    @apply cursor-pointer;
+  }
+  &:not(.non-interactive):focus {
+    @apply focus-outset;
+  }
+}
+
+.swatch {
+  position: absolute;
+  @apply inline-flex overflow-hidden absolute;
+  z-index: calc(var(--calcite-z-index) + 1);
+  block-size: var(--calcite-internal-swatch-size, auto);
+  inline-size: var(--calcite-internal-swatch-size, auto);
+  min-inline-size: var(--calcite-internal-swatch-size, auto);
+  border-radius: var(--calcite-swatch-corner-radius, 0);
+}
+
+:host([selected]) .swatch {
+  inset: var(--calcite-internal-swatch-inset);
+  block-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
+  inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
+  min-inline-size: calc(var(--calcite-internal-swatch-size, auto) - calc(2 * var(--calcite-internal-swatch-inset)));
+}
+
+:host([selected]) .container {
+  box-shadow:
+    inset 0 0 0 var(--calcite-border-width-md) var(--calcite-color-text-1),
+    inset 0 0 0 var(--calcite-border-width-lg) var(--calcite-color-foreground-1);
+}
+
+:host([selected]) .image-container {
+  inset: var(--calcite-internal-swatch-inset);
+}
+
+.image-container {
+  @apply inline-flex overflow-hidden absolute;
+  z-index: calc(var(--calcite-z-index) + 2);
+  inset: var(--calcite-spacing-px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  border-radius: var(--calcite-swatch-corner-radius, 0);
+}
+
+.internal-svg-container {
+  @apply absolute inset-0 flex items-center justify-center;
+  z-index: calc(var(--calcite-z-index) + 2);
+}
+
+.swatch {
+  @apply overflow-hidden;
+  block-size: inherit;
+  inline-size: inherit;
+}
+
+.swatch--no-color {
+  rect {
+    fill: var(--calcite-color-foreground-1);
+  }
+}
+
+:host([selected]) #swatch-rect {
+  stroke-width: 0;
+}
+
+#swatch-rect {
+  stroke: var(--calcite-color-text-1);
+  stroke-width: var(--calcite-border-width-md);
+  stroke-opacity: 0.3;
+}
+
+.internal-svg-disabled {
+  stroke: #6a6a6a;
+  fill: white;
+}
+
+.internal-svg-empty {
+  stroke: var(--calcite-color-status-danger);
+  stroke-width: 3;
+}
+
+.checker {
+  fill: #cacaca;
+}
+
+@include base-component();
