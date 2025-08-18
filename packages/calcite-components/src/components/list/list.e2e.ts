@@ -1895,6 +1895,9 @@ describe("calcite-list", () => {
         const firstLetters = document.getElementById("first-letters") as List["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as List["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 

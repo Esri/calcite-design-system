@@ -415,6 +415,9 @@ describe("calcite-block-group", () => {
         const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as BlockGroup["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 
