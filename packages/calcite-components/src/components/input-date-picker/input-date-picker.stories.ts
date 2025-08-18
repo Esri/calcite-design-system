@@ -194,24 +194,44 @@ export const validationMessageAllScales_TestOnly = (): string => html`
 
 export const scales_TestOnly = (): string => html`
   <style>
-    .parent {
+    .default {
+      display: flex;
+      flex-direction: row;
+      min-block-size: 500px;
+      gap: 100px;
+      justify-content: space-between;
+    }
+    .range-child {
       display: flex;
       flex-direction: column;
-      gap: 400px;
+      justify-content: space-between;
     }
-    .child {
+    .heading {
       display: flex;
-      gap: 100px;
-      height: 500px;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+    .range {
+      display: flex;
+      flex-direction: row;
+      min-block-size: 1600px;
+      gap: 150px;
+      justify-content: space-around;
     }
   </style>
-  <div class="parent">
-    <div class="child">
-      <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
-      <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
-      <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
-    </div>
-    <div class="child">
+
+  <h2>default</h2>
+  <div class="default">
+    <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
+  </div>
+  <div class="heading">
+    <h2>range</h2>
+    <h2>range & calendars="1"</h2>
+  </div>
+  <div class="range">
+    <div class="range-child">
       <calcite-input-date-picker
         scale="s"
         open
@@ -220,7 +240,10 @@ export const scales_TestOnly = (): string => html`
         range
         layout="horizontal"
         value="2020-12-12"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
+
       <calcite-input-date-picker
         scale="m"
         open
@@ -229,6 +252,8 @@ export const scales_TestOnly = (): string => html`
         range
         layout="horizontal"
         value="2020-12-12"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
       <calcite-input-date-picker
         scale="l"
@@ -238,9 +263,11 @@ export const scales_TestOnly = (): string => html`
         range
         layout="horizontal"
         value="2020-12-12"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
     </div>
-    <div class="child">
+    <div class="range-child">
       <calcite-input-date-picker
         scale="s"
         open
@@ -250,6 +277,8 @@ export const scales_TestOnly = (): string => html`
         layout="horizontal"
         value="2020-12-12"
         calendars="1"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
       <calcite-input-date-picker
         scale="m"
@@ -260,6 +289,8 @@ export const scales_TestOnly = (): string => html`
         layout="horizontal"
         value="2020-12-12"
         calendars="1"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
       <calcite-input-date-picker
         scale="l"
@@ -270,6 +301,8 @@ export const scales_TestOnly = (): string => html`
         layout="horizontal"
         value="2020-12-12"
         calendars="1"
+        overlay-positioning="fixed"
+        placement="bottom-start"
       ></calcite-input-date-picker>
     </div>
   </div>
