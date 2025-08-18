@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.73...@esri/calcite-components@3.3.0-next.74) (2025-08-18)
+
+### Features
+
+- **accordion-item:** add title to expand icon ([#12657](https://github.com/Esri/calcite-design-system/issues/12657)) ([bab1f6b](https://github.com/Esri/calcite-design-system/commit/bab1f6b5d428f79942f66961a5504b752a6caa88)), closes [#12232](https://github.com/Esri/calcite-design-system/issues/12232)
+
 ## [3.3.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.72...@esri/calcite-components@3.3.0-next.73) (2025-08-18)
 
 ### Bug Fixes
