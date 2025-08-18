@@ -173,7 +173,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
-    this.listen("calciteInternalBlockUpdateSortMenuItems", this.handleUpdateSortMenuItems);
   }
 
   override connectedCallback(): void {
@@ -187,6 +186,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      (changes.has("canPull") && this.hasUpdated) ||
+      (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
@@ -212,12 +213,35 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems(): void {
     this.updateGroupItems();
-    const { dragEnabled, el, sortDisabled } = this;
+    const { dragEnabled, el, sortDisabled, sortHandleMenuItems } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
+    const fromEl = el;
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
+        item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
+          this.validateSortMenuItem({
+            type: "move",
+            fromEl,
+            toEl: moveToItem.element as BlockGroup["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
+          }),
+        );
+
+        item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+          this.validateSortMenuItem({
+            type: "add",
+            fromEl,
+            toEl: moveToItem.element as BlockGroup["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
+          }),
+        );
         item.dragHandle = dragEnabled;
         item.sortDisabled = sortDisabled;
       }
@@ -247,40 +271,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   private handleCalciteInternalAssistiveTextChange(event: CustomEvent): void {
     this.assistiveText = event.detail.message;
     event.stopPropagation();
-  }
-
-  private async handleUpdateSortMenuItems(event: CustomEvent): Promise<void> {
-    event.stopPropagation();
-
-    const fromEl = this.el;
-    const fromElItems = Array.from(fromEl.children).filter(isBlock);
-    const item = event.target as Block["el"];
-
-    await fromEl.componentOnReady();
-    await item.componentOnReady();
-    this.updateBlockItems();
-
-    item.moveToItems = this.sortHandleMenuItems.filter((moveToItem) =>
-      this.validateSortMenuItem({
-        type: "move",
-        fromEl,
-        toEl: moveToItem.element as BlockGroup["el"],
-        dragEl: item,
-        newIndex: 0,
-        oldIndex: fromElItems.indexOf(item),
-      }),
-    );
-
-    item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
-      this.validateSortMenuItem({
-        type: "add",
-        fromEl,
-        toEl: moveToItem.element as BlockGroup["el"],
-        dragEl: item,
-        newIndex: 0,
-        oldIndex: fromElItems.indexOf(item),
-      }),
-    );
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {

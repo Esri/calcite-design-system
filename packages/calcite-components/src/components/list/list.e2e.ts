@@ -1777,12 +1777,6 @@ describe("calcite-list", () => {
       const letterItemSelector = `calcite-list[group="letters"] calcite-list-item`;
       const letterItems = await findAll(page, letterItemSelector);
 
-      for (let i = 0; i < letterItems.length; i++) {
-        const item = letterItems[i];
-        item.setProperty("sortHandleOpen", true);
-        await page.waitForChanges();
-      }
-
       expect(letterItems.length).toBe(6);
 
       const moveToItemIds = await page.evaluate((letterItemSelector) => {
@@ -1897,13 +1891,15 @@ describe("calcite-list", () => {
         const firstLetters = document.getElementById("first-letters") as List["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as List["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 
       async function getMoveItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.nextTick);
 
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,
@@ -1946,10 +1942,6 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       async function getAddToItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
-        await page.waitForChanges();
-
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.add} calcite-dropdown-item`, {
           allowEmpty: true,
         });

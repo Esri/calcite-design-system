@@ -20,7 +20,7 @@ import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 export class DemoTheme extends HTMLElement {
   _slot: HTMLSlotElement;
 
-  _el: HTMLElement;
+  _el!: HTMLElement;
 
   static observedAttributes = ["tokens"];
 
