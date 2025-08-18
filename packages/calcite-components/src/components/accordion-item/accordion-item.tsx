@@ -305,9 +305,9 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl, heading, headingLevel, messages } = this;
+    const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
     const dir = getElementDir(this.el);
-    const expandIconTitle = this.expanded ? messages.collapse : messages.expand;
+    const expandIconTitle = expanded ? messages.collapse : messages.expand;
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon
@@ -345,7 +345,7 @@ export class AccordionItem extends LitElement {
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}
-            ariaExpanded={this.expanded}
+            ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
@@ -370,7 +370,7 @@ export class AccordionItem extends LitElement {
                   ? ICONS.chevronDown
                   : this.iconType === "caret"
                     ? ICONS.caretDown
-                    : this.expanded
+                    : expanded
                       ? ICONS.minus
                       : ICONS.plus
               }
