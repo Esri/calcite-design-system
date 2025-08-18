@@ -257,11 +257,6 @@ input:focus {
 
 // ICONS
 
-// type
-:host([icon="check-square-f"]) {
-  isolation: isolate;
-}
-
 // position icons
 
 :host([scale="s"]) .icon {
