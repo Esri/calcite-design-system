@@ -118,6 +118,9 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale;
 
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
   //#endregion
 
   //#region Public Methods
