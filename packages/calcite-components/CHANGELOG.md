@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.71...@esri/calcite-components@3.3.0-next.72) (2025-08-18)
+
+### Bug Fixes
+
+- **list, block-group:** update sort handle move items before dropdown menu is opened ([#12722](https://github.com/Esri/calcite-design-system/issues/12722)) ([22132f3](https://github.com/Esri/calcite-design-system/commit/22132f381b646058bda2b78e4e237fadad275a39)), closes [#11953](https://github.com/Esri/calcite-design-system/issues/11953) [#12487](https://github.com/Esri/calcite-design-system/issues/12487)
+
 ## [3.3.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.70...@esri/calcite-components@3.3.0-next.71) (2025-08-18)
 
 ### Bug Fixes
