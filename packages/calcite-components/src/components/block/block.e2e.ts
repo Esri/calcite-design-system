@@ -71,6 +71,14 @@ describe("calcite-block", () => {
         propertyName: "sortHandleOpen",
         defaultValue: false,
       },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ]);
   });
 
@@ -107,6 +115,10 @@ describe("calcite-block", () => {
       {
         propertyName: "sortHandleOpen",
         value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
     ]);
   });
@@ -519,6 +531,16 @@ describe("calcite-block", () => {
           "--calcite-block-border-color": {
             targetProp: "borderColor",
           },
+          "--calcite-block-content-space": [
+            {
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingBlock",
+            },
+            {
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingInline",
+            },
+          ],
           "--calcite-block-header-background-color": {
             shadowSelector: `.${CSS.toggle}`,
             targetProp: "backgroundColor",

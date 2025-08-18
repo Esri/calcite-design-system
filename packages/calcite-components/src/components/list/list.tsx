@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -279,6 +279,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -393,6 +396,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
       changes.has("group") ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
@@ -431,6 +435,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
+      sortDisabled,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
@@ -447,6 +452,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
+        item.sortDisabled = sortDisabled;
       }
     });
 

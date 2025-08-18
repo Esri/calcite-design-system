@@ -26,10 +26,6 @@
   color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-danger)));
 }
 
-:host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-warning)));
-}
-
 :host([status="valid"]) .calcite-input-message-icon {
   color: var(--calcite-input-message-icon-color, var(--calcite-icon-color, var(--calcite-color-status-success)));
 }
