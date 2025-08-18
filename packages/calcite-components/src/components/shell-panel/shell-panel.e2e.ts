@@ -2,7 +2,7 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils/puppeteer";
+import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
@@ -304,11 +304,12 @@ describe("calcite-shell-panel", () => {
     expect(panelHeight).toEqual(shellHeight);
   });
 
-  it("Should have resize handle when resizable", async () => {
-    const page = await newE2EPage();
+  describe("resizing", () => {
+    it("Should have resize handle when resizable", async () => {
+      const page = await newE2EPage();
 
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start">
@@ -320,33 +321,33 @@ describe("calcite-shell-panel", () => {
       </div>
     `);
 
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    let resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    expect(resizeHandle).toBeNull();
+      let resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      expect(resizeHandle).toBeNull();
 
-    const panel = await page.find("calcite-shell-panel");
-    panel.setProperty("resizable", true);
-    await page.waitForChanges();
+      const panel = await page.find("calcite-shell-panel");
+      panel.setProperty("resizable", true);
+      await page.waitForChanges();
 
-    resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaOrientation")).toBe("horizontal");
-    expect(await resizeHandle.getProperty("role")).toBe("separator");
-    expect(await resizeHandle.getProperty("tabIndex")).toBe(0);
-    expect(await resizeHandle.getProperty("ariaValueMax")).toBe("420");
-    expect(await resizeHandle.getProperty("ariaValueMin")).toBe("240");
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
-    expect((await content.getComputedStyle()).width).toBe("320px");
-  });
+      resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      expect(resizeHandle).toBeDefined();
+      expect(content).toBeDefined();
+      expect(await resizeHandle.getProperty("ariaOrientation")).toBe("horizontal");
+      expect(await resizeHandle.getProperty("role")).toBe("separator");
+      expect(await resizeHandle.getProperty("tabIndex")).toBe(0);
+      expect(await resizeHandle.getProperty("ariaValueMax")).toBe("420");
+      expect(await resizeHandle.getProperty("ariaValueMin")).toBe("240");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
+      expect((await content.getComputedStyle()).width).toBe("320px");
+    });
 
-  it("Should resize via keyboard", async () => {
-    const page = await newE2EPage();
+    it("Should resize via keyboard", async () => {
+      const page = await newE2EPage();
 
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
@@ -358,58 +359,58 @@ describe("calcite-shell-panel", () => {
       </div>
     `);
 
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
-    expect((await content.getComputedStyle()).width).toBe("320px");
+      expect(resizeHandle).toBeDefined();
+      expect(content).toBeDefined();
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
+      expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await resizeHandle.press("ArrowRight");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowRight");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
-    expect((await content.getComputedStyle()).width).toBe("330px");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
+      expect((await content.getComputedStyle()).width).toBe("330px");
 
-    await resizeHandle.press("ArrowUp");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowUp");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
-    expect((await content.getComputedStyle()).width).toBe("330px");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
+      expect((await content.getComputedStyle()).width).toBe("330px");
 
-    await resizeHandle.press("ArrowLeft");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowLeft");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
-    expect((await content.getComputedStyle()).width).toBe("320px");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
+      expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowDown");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
-    expect((await content.getComputedStyle()).width).toBe("320px");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
+      expect((await content.getComputedStyle()).width).toBe("320px");
 
-    await resizeHandle.press("Home");
-    await page.waitForChanges();
+      await resizeHandle.press("Home");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("240");
-    expect((await content.getComputedStyle()).width).toBe("240px");
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("240");
+      expect((await content.getComputedStyle()).width).toBe("240px");
 
-    await resizeHandle.press("End");
-    await page.waitForChanges();
+      await resizeHandle.press("End");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("420");
-    expect((await content.getComputedStyle()).width).toBe("420px");
-  });
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("420");
+      expect((await content.getComputedStyle()).width).toBe("420px");
+    });
 
-  it("Should resize horizontal layout via keyboard", async () => {
-    const page = await newE2EPage();
+    it("Should resize horizontal layout via keyboard", async () => {
+      const page = await newE2EPage();
 
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
@@ -421,61 +422,61 @@ describe("calcite-shell-panel", () => {
       </div>
     `);
 
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).height);
+      const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const initialHeight = parseInt((await content.getComputedStyle()).height);
 
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
+      expect(resizeHandle).toBeDefined();
+      expect(content).toBeDefined();
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowDown");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
 
-    await resizeHandle.press("ArrowUp");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowUp");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await resizeHandle.press("ArrowUp");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowUp");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowDown");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
 
-    await resizeHandle.press("Home");
-    await page.waitForChanges();
+      await resizeHandle.press("Home");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
-    await resizeHandle.press("End");
-    await page.waitForChanges();
+      await resizeHandle.press("End");
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(await resizeHandle.getProperty("ariaValueMax"));
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(
-      await resizeHandle.getProperty("ariaValueMax"),
-    );
-  });
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(await resizeHandle.getProperty("ariaValueMax"));
+      expect((await content.getComputedStyle()).height.replace("px", "")).toBe(
+        await resizeHandle.getProperty("ariaValueMax"),
+      );
+    });
 
-  it("Should resize via mouse", async () => {
-    const page = await newE2EPage();
+    it("Should resize via mouse", async () => {
+      const page = await newE2EPage();
 
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
@@ -487,32 +488,32 @@ describe("calcite-shell-panel", () => {
       </div>
     `);
 
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
 
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
-    expect((await content.getComputedStyle()).width).toBe("320px");
+      expect(resizeHandle).toBeDefined();
+      expect(content).toBeDefined();
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("320");
+      expect((await content.getComputedStyle()).width).toBe("320px");
 
-    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
+      const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
 
-    await page.mouse.move(x, y);
-    await page.mouse.down();
-    await page.mouse.move(x + 10, y);
-    await page.waitForChanges();
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x + 10, y);
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
-    expect((await content.getComputedStyle()).width).toBe("330px");
-  });
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe("330");
+      expect((await content.getComputedStyle()).width).toBe("330px");
+    });
 
-  it("Should resize horizontal layout via mouse", async () => {
-    const page = await newE2EPage();
+    it("Should resize horizontal layout via mouse", async () => {
+      const page = await newE2EPage();
 
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
@@ -524,25 +525,59 @@ describe("calcite-shell-panel", () => {
       </div>
     `);
 
-    await page.waitForChanges();
+      await page.waitForChanges();
 
-    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).height.replace("px", ""));
+      const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const initialHeight = parseInt((await content.getComputedStyle()).height.replace("px", ""));
 
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight}`);
-    const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
+      expect(resizeHandle).toBeDefined();
+      expect(content).toBeDefined();
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
+      expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight}`);
+      const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
 
-    await page.mouse.move(x, y);
-    await page.mouse.down();
-    await page.mouse.move(x, y + 10);
-    await page.waitForChanges();
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x, y + 10);
+      await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + 10}`);
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight + 10}`);
+      expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + 10}`);
+      expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight + 10}`);
+    });
+
+    it("should preserve the last resized dimensions when collapsed and expanded", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-shell>
+          <calcite-shell-panel slot="panel-start" resizable>
+            <calcite-panel> Content test </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      `);
+      const shellPanel = await page.find("calcite-shell-panel");
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+
+      expect((await content.getComputedStyle()).width).toBe("240px");
+
+      const { x, y } = await getElementRect(page, "calcite-shell-panel", `.${CSS.resizeHandle}`);
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x + 10, y);
+      await page.waitForChanges();
+
+      expect((await content.getComputedStyle()).width).toBe("250px");
+
+      shellPanel.setProperty("collapsed", true);
+      await page.waitForChanges();
+
+      expect((await content.getComputedStyle()).width).toBe("250px");
+
+      shellPanel.setProperty("collapsed", false);
+      await page.waitForChanges();
+
+      expect((await content.getComputedStyle()).width).toBe("250px");
+    });
   });
 
   it("click event should pass through host element", async () => {
