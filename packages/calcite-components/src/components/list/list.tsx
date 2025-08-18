@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -279,6 +279,9 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -349,7 +352,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteInternalListItemUpdateMoveToItems", this.handleUpdateMoveToItems);
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
     this.listen(
       "calciteInternalListItemSelectMultiple",
@@ -393,12 +395,15 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
       changes.has("group") ||
+      (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
         (this.hasUpdated || this.selectionAppearance !== "icon")) ||
       (changes.has("displayMode") && this.hasUpdated) ||
       (changes.has("scale") && this.hasUpdated) ||
+      (changes.has("canPull") && this.hasUpdated) ||
+      (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("filterPredicate") && this.hasUpdated)
     ) {
       this.handleListItemChange();
@@ -431,9 +436,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       moveToItems,
       displayMode,
       scale,
+      sortDisabled,
     } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
+    const fromEl = el;
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
 
     items.forEach((item) => {
       item.scale = scale;
@@ -442,11 +450,21 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
         item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+          (moveToItem) =>
+            moveToItem.element !== el &&
+            !item.contains(moveToItem.element) &&
+            this.validateMove({
+              fromEl,
+              toEl: moveToItem.element as List["el"],
+              dragEl: item,
+              newIndex: 0,
+              oldIndex: fromElItems.indexOf(item),
+            }),
         );
 
         item.dragHandle = dragEnabled;
         item.displayMode = displayMode;
+        item.sortDisabled = sortDisabled;
       }
     });
 
@@ -539,28 +557,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
     event.preventDefault();
     this.handleReorder(event);
-  }
-
-  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
-    event.stopPropagation();
-
-    const fromEl = this.el;
-    const fromElItems = Array.from(fromEl.children).filter(isListItem);
-    const item = event.target as ListItem["el"];
-
-    await fromEl.componentOnReady();
-    await item.componentOnReady();
-    this.updateListItems();
-
-    item.moveToItems = item.moveToItems.filter((moveToItem) =>
-      this.validateMove({
-        fromEl,
-        toEl: moveToItem.element as List["el"],
-        dragEl: item,
-        newIndex: 0,
-        oldIndex: fromElItems.indexOf(item),
-      }),
-    );
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
@@ -1125,7 +1121,12 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerHeight]: this.listItems.length < 1 && loading,
+          }}
+        >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
               {this.assistiveText}

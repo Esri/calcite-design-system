@@ -308,6 +308,29 @@ describe("calcite-autocomplete", () => {
     ]);
   });
 
+  it("should emit calciteAutocompleteItemSelect", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("#myAutocomplete");
+    const item = await page.find("calcite-autocomplete-item[value='two']");
+    const itemChangeSpy = await autocomplete.spyOnEvent("calciteAutocompleteItemSelect");
+
+    await autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+    await item.click();
+
+    expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+
+    await autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(itemChangeSpy).toHaveReceivedEventTimes(2);
+  });
+
   describe("translation support", () => {
     t9n("calcite-autocomplete");
   });

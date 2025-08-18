@@ -1,5 +1,6 @@
 {
   "invalid": "잘못됨",
+  "required": "필수",
   "tooLong": "현재 문자 길이({currentLength})가 최대 문자 길이({maxLength})를 초과합니다.",
   "tooShort": "현재 문자 길이({currentLength})가 최소 문자 길이({minLength})보다 짧습니다."
 }

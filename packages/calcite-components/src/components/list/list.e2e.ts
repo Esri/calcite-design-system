@@ -104,6 +104,10 @@ describe("calcite-list", () => {
         propertyName: "displayMode",
         defaultValue: "flat",
       },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -112,6 +116,10 @@ describe("calcite-list", () => {
       {
         propertyName: "displayMode",
         value: "nested",
+      },
+      {
+        propertyName: "sortDisabled",
+        value: true,
       },
     ]);
   });
@@ -317,6 +325,36 @@ describe("calcite-list", () => {
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+    }
+  });
+
+  it("should set the sortDisabled property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list id="root" drag-enabled sort-disabled group="my-block-group">
+        <calcite-list-item id="one" heading="one" label="One"></calcite-list-item>
+        <calcite-list-item id="two" heading="two" label="Two"></calcite-list-item>
+        <calcite-list-item id="three" heading="three" label="Three"></calcite-list-item>
+      </calcite-list>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    const items = await findAll(page, "calcite-list-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(true);
+    }
+
+    const list = await page.find("#root");
+
+    list.setProperty("sortDisabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(false);
     }
   });
 
@@ -1857,13 +1895,15 @@ describe("calcite-list", () => {
         const firstLetters = document.getElementById("first-letters") as List["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as List["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 
       async function getMoveItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.nextTick);
 
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,

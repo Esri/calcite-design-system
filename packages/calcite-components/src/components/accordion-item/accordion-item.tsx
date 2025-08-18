@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import {
   closestElementCrossShadowBoundary,
@@ -11,10 +12,12 @@ import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } fro
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -28,29 +31,36 @@ declare global {
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
 export class AccordionItem extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private headerEl: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() hasActionsEnd = false;
 
   @state() hasActionsStart = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * The containing `accordion` element.
@@ -62,7 +72,7 @@ export class AccordionItem extends LitElement {
   /** Specifies a description for the component. */
   @property() description: string;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies heading text for the component. */
@@ -108,9 +118,12 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale;
 
-  // #endregion
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
-  // #region Public Methods
+  //#endregion
+
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -126,9 +139,15 @@ export class AccordionItem extends LitElement {
     }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteAccordionItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteAccordionItemExpand = createEvent({ cancelable: false });
 
   /** @private */
   calciteInternalAccordionItemClose = createEvent({ cancelable: false });
@@ -136,9 +155,9 @@ export class AccordionItem extends LitElement {
   /** @private */
   calciteInternalAccordionItemSelect = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -155,9 +174,19 @@ export class AccordionItem extends LitElement {
     );
   }
 
-  // #endregion
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteAccordionItemExpand.emit();
+      } else {
+        this.calciteAccordionItemCollapse.emit();
+      }
+    }
+  }
 
-  // #region Private Methods
+  //#endregion
+
+  //#region Private Methods
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (event.target === this.el) {
@@ -255,9 +284,9 @@ export class AccordionItem extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderActionsStart(): JsxNode {
     return (
@@ -276,8 +305,10 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl, heading, headingLevel } = this;
+    const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
     const dir = getElementDir(this.el);
+    const expandIconTitle = expanded ? messages.collapse : messages.expand;
+
     const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
@@ -314,7 +345,7 @@ export class AccordionItem extends LitElement {
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}
-            ariaExpanded={this.expanded}
+            ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
@@ -339,11 +370,12 @@ export class AccordionItem extends LitElement {
                   ? ICONS.chevronDown
                   : this.iconType === "caret"
                     ? ICONS.caretDown
-                    : this.expanded
+                    : expanded
                       ? ICONS.minus
                       : ICONS.plus
               }
               scale={getIconScale(this.scale)}
+              title={expandIconTitle}
             />
           </div>
           {this.renderActionsEnd()}
@@ -355,5 +387,5 @@ export class AccordionItem extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

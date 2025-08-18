@@ -1,6 +1,6 @@
 {
   "expand": "Izvērst",
   "collapse": "Sakļaut",
-  "expandLabel": "Izvērst",
-  "collapseLabel": "Sakļaut"
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

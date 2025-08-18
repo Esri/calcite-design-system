@@ -917,6 +917,11 @@ export class InputDatePicker
     if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
       return;
     }
+
+    if (this.proximitySelectionDisabled && this.valueAsDate[1] === null) {
+      return;
+    }
+
     this.open = false;
     this.focusInput();
   }

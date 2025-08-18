@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Lägg till: {text}",
   "all": "Alla",
   "allSelected": "Alla valda",
   "clear": "Rensa värde",
-  "noMatches": "No matches",
+  "noMatches": "Inga matchningar",
   "removeTag": "Ta bort tagg",
-  "selectAll": "Select all",
+  "required": "Obligatoriskt",
+  "selectAll": "Markera alla",
   "selected": "valt"
 }

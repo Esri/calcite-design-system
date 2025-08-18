@@ -44,6 +44,14 @@ describe("calcite-block-group", () => {
         propertyName: "loading",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -64,6 +72,14 @@ describe("calcite-block-group", () => {
       {
         propertyName: "loading",
         value: true,
+      },
+      {
+        propertyName: "sortDisabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
     ]);
   });
@@ -109,14 +125,44 @@ describe("calcite-block-group", () => {
       expect(await items[i].getProperty("dragHandle")).toBe(true);
     }
 
-    const root = await page.find("#root");
+    const blockGroup = await page.find("#root");
 
-    root.setProperty("dragEnabled", false);
+    blockGroup.setProperty("dragEnabled", false);
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
     for (let i = 0; i < items.length; i++) {
       expect(await items[i].getProperty("dragHandle")).toBe(false);
+    }
+  });
+
+  it("should set the sortDisabled property on items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-block-group id="root" drag-enabled sort-disabled group="my-block-group">
+        <calcite-block id="one" heading="one" label="One"></calcite-block>
+        <calcite-block id="two" heading="two" label="Two"></calcite-block>
+        <calcite-block id="three" heading="three" label="Three"></calcite-block>
+      </calcite-block-group>`,
+    );
+
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    const items = await findAll(page, "calcite-block");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(true);
+    }
+
+    const blockGroup = await page.find("#root");
+
+    blockGroup.setProperty("sortDisabled", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("sortDisabled")).toBe(false);
     }
   });
 
@@ -369,13 +415,15 @@ describe("calcite-block-group", () => {
         const firstLetters = document.getElementById("first-letters") as BlockGroup["el"];
         firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
         firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as BlockGroup["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => true;
       });
       await page.waitForChanges();
 
       async function getMoveItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.nextTick);
 
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,

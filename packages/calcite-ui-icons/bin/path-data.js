@@ -1,6 +1,6 @@
-import camelCase from "lodash-es/camelCase.js";
+import { camelCase } from "es-toolkit";
 import fsExtra from "fs-extra";
-import { glob } from "glob";
+import { globby } from "globby";
 import { parse } from "svgson";
 import path from "node:path";
 import package$0 from "../package.json" with { type: "json" };
@@ -76,7 +76,7 @@ interface CalciteMultiPathEntry {
 }
 export type CalciteIconPath = string | CalciteMultiPathEntry[];
 `;
-  return glob("icons/*.svg")
+  return globby("icons/*.svg")
     .then((filePaths) => Promise.all(filePaths.map(readSVG)))
     .then((files) => files.map(formatSVG))
     .then((files) => {

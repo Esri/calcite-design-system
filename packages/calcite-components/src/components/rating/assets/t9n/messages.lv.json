@@ -1,4 +1,5 @@
 {
   "rating": "Novērtējums",
+  "required": "Obligāts",
   "stars": "Zvaigznes: {num}"
 }

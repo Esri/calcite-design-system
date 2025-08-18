@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "Pridėti: {text}",
   "all": "Viskas",
   "allSelected": "Pasirinkti visi",
   "clear": "Išvalyti reikšmę",
-  "noMatches": "No matches",
+  "noMatches": "Atitikčių nėra",
   "removeTag": "Pašalinti raktažodį",
-  "selectAll": "Select all",
+  "required": "Būtina",
+  "selectAll": "Pasirinkti viską",
   "selected": "pažymėta"
 }

@@ -3,5 +3,6 @@
   "date": "日期",
   "dateFormat": "日期格式: {format}",
   "endDate": "結束日期",
+  "required": "必填資訊",
   "startDate": "開始日期"
 }

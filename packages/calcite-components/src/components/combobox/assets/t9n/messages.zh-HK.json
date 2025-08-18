@@ -1,10 +1,11 @@
 {
-  "add": "Add",
+  "add": "新增: {text}",
   "all": "全部",
   "allSelected": "已全選",
   "clear": "清除值",
-  "noMatches": "No matches",
+  "noMatches": "無符合項",
   "removeTag": "移除標記",
-  "selectAll": "Select all",
+  "required": "必填資訊",
+  "selectAll": "全選",
   "selected": "選取"
 }
