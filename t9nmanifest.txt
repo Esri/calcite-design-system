@@ -1,3 +1,4 @@
+packages\calcite-components\src\components\accordion-item\assets\t9n
 packages\calcite-components\src\components\action\assets\t9n
 packages\calcite-components\src\components\action-bar\assets\t9n
 packages\calcite-components\src\components\action-group\assets\t9n
@@ -9,6 +10,7 @@ packages\calcite-components\src\components\block-section\assets\t9n
 packages\calcite-components\src\components\button\assets\t9n
 packages\calcite-components\src\components\card\assets\t9n
 packages\calcite-components\src\components\carousel\assets\t9n
+packages\calcite-components\src\components\checkbox\assets\t9n
 packages\calcite-components\src\components\chip\assets\t9n
 packages\calcite-components\src\components\color-picker\assets\t9n
 packages\calcite-components\src\components\combobox\assets\t9n
@@ -33,10 +35,14 @@ packages\calcite-components\src\components\notice\assets\t9n
 packages\calcite-components\src\components\pagination\assets\t9n
 packages\calcite-components\src\components\panel\assets\t9n
 packages\calcite-components\src\components\popover\assets\t9n
+packages\calcite-components\src\components\radio-button-group\assets\t9n
 packages\calcite-components\src\components\rating\assets\t9n
 packages\calcite-components\src\components\scrim\assets\t9n
+packages\calcite-components\src\components\segmented-control\assets\t9n
+packages\calcite-components\src\components\select\assets\t9n
 packages\calcite-components\src\components\sheet\assets\t9n
 packages\calcite-components\src\components\shell-panel\assets\t9n
+packages\calcite-components\src\components\slider\assets\t9n
 packages\calcite-components\src\components\sort-handle\assets\t9n
 packages\calcite-components\src\components\stepper\assets\t9n
 packages\calcite-components\src\components\stepper-item\assets\t9n

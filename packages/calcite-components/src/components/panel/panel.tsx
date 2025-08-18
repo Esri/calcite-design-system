@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
@@ -226,6 +227,12 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: true });
 
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
+
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
 
@@ -240,6 +247,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
+      } else {
+        this.calcitePanelExpand.emit();
+      }
+    }
   }
 
   override updated(): void {
@@ -307,7 +324,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
-    if (event.defaultPrevented) {
+    if (event.defaultPrevented || event.target !== this.el) {
       return;
     }
 
@@ -403,7 +420,12 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
 
     const iconNode = icon ? (
-      <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={icon}
+        scale={getIconScale(scale)}
+      />
     ) : null;
 
     const headingNode = heading ? (

@@ -1,10 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Додати: {text}",
   "all": "Все",
   "allSelected": "Всі вибрані",
   "clear": "Очистити значення",
-  "noMatches": "No matches",
+  "noMatches": "Немає збігів",
   "removeTag": "Вилучити тег",
-  "selectAll": "Select all",
+  "required": "Потрібні відомості",
+  "selectAll": "Вибрати всі",
   "selected": "вибрані"
 }

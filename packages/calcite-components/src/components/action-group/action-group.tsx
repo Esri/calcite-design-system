@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, h, method, state, JsxNode, ToEvents } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+  createEvent,
+} from "@arcgis/lumina";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -57,7 +66,7 @@ export class ActionGroup extends LitElement {
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, the component is expanded. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
@@ -114,6 +123,16 @@ export class ActionGroup extends LitElement {
 
   //#endregion
 
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionGroupCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionGroupExpand = createEvent({ cancelable: false });
+
+  //#endregion
+
   //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -121,8 +140,18 @@ export class ActionGroup extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.menuOpen = false;
+
+    if (changes.has("expanded")) {
+      if (this.hasUpdated || this.expanded !== false) {
+        this.menuOpen = false;
+      }
+      if (this.hasUpdated) {
+        if (this.expanded) {
+          this.calciteActionGroupExpand.emit();
+        } else {
+          this.calciteActionGroupCollapse.emit();
+        }
+      }
     }
   }
 

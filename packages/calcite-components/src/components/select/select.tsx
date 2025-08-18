@@ -232,7 +232,7 @@ export class Select
 
     this.populateInternalSelect();
 
-    const selected = this.selectEl.selectedOptions[0];
+    const selected = this.selectEl?.selectedOptions[0];
     this.selectFromNativeOption(selected);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
