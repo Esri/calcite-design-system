@@ -419,9 +419,8 @@ describe("calcite-block-group", () => {
       await page.waitForChanges();
 
       async function getMoveItems(id: string) {
-        const component = await page.find(`#${id}`);
-        component.setProperty("sortHandleOpen", true);
         await page.waitForChanges();
+        await page.waitForTimeout(DEBOUNCE.nextTick);
 
         return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,
