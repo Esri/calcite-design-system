@@ -73,7 +73,7 @@ export const range = (): string => html`
 
 export const rangeOneCalendar = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker lang="${defaultLocale}" min="2016-08-09" range scale="m" calendars="1"></calcite-date-picker>
+    <calcite-date-picker lang="${defaultLocale}" min="2099-08-09" range scale="m" calendars="1"></calcite-date-picker>
   </div>
 `;
 
