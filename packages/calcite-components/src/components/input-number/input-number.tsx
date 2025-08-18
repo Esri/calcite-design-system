@@ -531,7 +531,10 @@ export class InputNumber
 
   private inputValue(value: string) {
     const { calciteInputNumberInput: inputEventEmitter, getValidNumberString } = this;
-    this.valueController.inputValue({ inputEventEmitter, value: getValidNumberString(value) });
+    const validatedValue = getValidNumberString(value);
+    if (validatedValue || !value) {
+      this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
+    }
   }
 
   private isValueShortened(value: string, previousValue: string): boolean {
