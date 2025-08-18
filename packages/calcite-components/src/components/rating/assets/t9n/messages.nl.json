@@ -1,4 +1,5 @@
 {
   "rating": "Beoordeling",
+  "required": "Vereist",
   "stars": "Sterren: {num}"
 }

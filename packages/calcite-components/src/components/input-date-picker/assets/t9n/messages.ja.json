@@ -3,5 +3,6 @@
   "date": "日付",
   "dateFormat": "日付形式: {format}",
   "endDate": "終了日",
+  "required": "必須",
   "startDate": "開始日"
 }

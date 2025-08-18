@@ -3,5 +3,6 @@
   "date": "Fecha",
   "dateFormat": "Formato de fecha: {format}",
   "endDate": "Fecha de fin",
+  "required": "Obligatorio",
   "startDate": "Fecha de inicio"
 }

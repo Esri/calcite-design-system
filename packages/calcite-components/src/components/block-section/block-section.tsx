@@ -1,7 +1,19 @@
 // @ts-strict-ignore
-import { LitElement, property, createEvent, Fragment, h, method, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
+  h,
+  method,
+  JsxNode,
+  state,
+} from "@arcgis/lumina";
+import { PropertyValues } from "lit";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../interfaces";
+import { getIconScale } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
@@ -38,9 +50,15 @@ export class BlockSection extends LitElement {
 
   //#endregion
 
+  // #region State Properties
+
+  @state() defaultSlotHasElements = false;
+
+  //#endregion
+
   //#region Public Properties
 
-  /** When `true`, the component is expanded to show child components. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
@@ -72,6 +90,9 @@ export class BlockSection extends LitElement {
     });
     this.expanded = value;
   }
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Displays a status-related indicator icon.
@@ -114,8 +135,28 @@ export class BlockSection extends LitElement {
 
   //#region Events
 
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockSectionCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockSectionExpand = createEvent({ cancelable: false });
+
   /** Fires when the header has been clicked. */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockSectionExpand.emit();
+      } else {
+        this.calciteBlockSectionCollapse.emit();
+      }
+    }
+  }
 
   //#endregion
 
@@ -134,6 +175,10 @@ export class BlockSection extends LitElement {
     this.calciteBlockSectionToggle.emit();
   }
 
+  private handleDefaultSlot(event: Event): void {
+    this.defaultSlotHasElements = slotChangeHasAssignedElement(event);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -148,7 +193,7 @@ export class BlockSection extends LitElement {
     };
 
     return statusIcon ? (
-      <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s" />
+      <calcite-icon class={statusIconClasses} icon={statusIcon} scale={getIconScale(this.scale)} />
     ) : null;
   }
 
@@ -172,7 +217,7 @@ export class BlockSection extends LitElement {
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
         icon={isIconStart ? iconStart : iconEnd}
         key={isIconStart ? iconStart : iconEnd}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -195,7 +240,6 @@ export class BlockSection extends LitElement {
             ariaExpanded={expanded}
             class={{
               [CSS.toggle]: true,
-              [CSS.toggleSwitch]: true,
             }}
             id={IDS.toggle}
             onClick={this.toggleSection}
@@ -216,7 +260,7 @@ export class BlockSection extends LitElement {
               class={CSS.switch}
               inert
               label={toggleLabel}
-              scale="s"
+              scale={this.scale}
             />
           </div>
         </div>
@@ -230,7 +274,6 @@ export class BlockSection extends LitElement {
             aria-controls={IDS.content}
             ariaExpanded={expanded}
             class={{
-              [CSS.sectionHeader]: true,
               [CSS.toggle]: true,
             }}
             id={IDS.toggle}
@@ -240,7 +283,11 @@ export class BlockSection extends LitElement {
             <span class={CSS.sectionHeaderText}>{text}</span>
             {this.renderIcon("end")}
             {this.renderStatusIcon()}
-            <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
+            <calcite-icon
+              class={CSS.chevronIcon}
+              icon={arrowIcon}
+              scale={getIconScale(this.scale)}
+            />
           </button>
         </div>
       );
@@ -250,11 +297,11 @@ export class BlockSection extends LitElement {
         {headerNode}
         <section
           aria-labelledby={IDS.toggle}
-          class={CSS.content}
+          class={{ [CSS.content]: this.defaultSlotHasElements }}
           hidden={!expanded}
           id={IDS.content}
         >
-          <slot />
+          <slot onSlotChange={this.handleDefaultSlot} />
         </section>
       </>
     );

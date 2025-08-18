@@ -1,10 +1,11 @@
 {
-  "add": "Add: {text}",
+  "add": "Hozzáadás: {text}",
   "all": "Összes",
   "allSelected": "Összes kiválasztva",
   "clear": "Érték törlése",
-  "noMatches": "No matches",
+  "noMatches": "Nincs találat",
   "removeTag": "Címke eltávolítása",
-  "selectAll": "Select all",
+  "required": "Szükséges",
+  "selectAll": "Összes kiválasztása",
   "selected": "kiválasztva"
 }

@@ -26,7 +26,7 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding a `calcite-icon`.
+ * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 export class Action extends LitElement implements InteractiveComponent, FormOwner {
