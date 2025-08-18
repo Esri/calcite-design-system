@@ -1,3 +1,27 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-split-button-background-color: Specifies the component's background color.
+ * @prop --calcite-split-button-border-color: Specifies the component's border color.
+ * @prop --calcite-split-button-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-split-button-icon-color: Specifies the component's `iconStart` and/or `iconEnd` color.
+ * @prop --calcite-split-button-loader-color: Specifies the component's loader color.
+ * @prop --calcite-split-button-text-color: Specifies the component's text color.
+ * @prop --calcite-split-button-shadow: Specifies the component's shadow.
+ * @prop --calcite-split-button-divider-color: Specifies the component's divider color.
+ * @prop --calcite-split-button-dropdown-width: Specifies the width of the component's wrapper.
+ * @prop --calcite-split-button-dropdown-background-color: Specifies the component's background color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-split-button-background
+// --calcite-internal-split-button-divider
+
 :host {
   @apply inline-block;
 }
@@ -15,27 +39,33 @@
 }
 
 :host([kind="brand"]) {
-  --calcite-internal-split-button-background: theme("colors.brand");
-  --calcite-internal-split-button-divider: theme("colors.background.foreground.1");
+  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, var(--calcite-color-brand));
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
 }
 
 :host([kind="danger"]) {
-  --calcite-internal-split-button-background: theme("colors.danger");
-  --calcite-internal-split-button-divider: theme("colors.background.foreground.1");
+  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, var(--calcite-color-danger));
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
 }
 
 :host([kind="neutral"]) {
-  --calcite-internal-split-button-background: theme("colors.background.foreground.3");
-  --calcite-internal-split-button-divider: theme("colors.color.1");
+  --calcite-internal-split-button-background: var(
+    --calcite-split-button-background-color,
+    var(--calcite-color-foreground-3)
+  );
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-text-1));
 }
 
 :host([kind="inverse"]) {
-  --calcite-internal-split-button-background: var(--calcite-color-inverse);
-  --calcite-internal-split-button-divider: theme("colors.background.foreground.1");
+  --calcite-internal-split-button-background: var(
+    --calcite-split-button-background-color,
+    var(--calcite-color-inverse)
+  );
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
 }
 
 :host([appearance="transparent"]) {
-  --calcite-internal-split-button-background: transparent;
+  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, transparent);
   &:host([kind="brand"]) {
     --calcite-internal-split-button-divider: theme("colors.brand");
   }
@@ -84,6 +114,33 @@
   }
 }
 
+calcite-button {
+  --calcite-button-background-color: var(--calcite-internal-split-button-background-color);
+  --calcite-button-border-color: var(--calcite-split-button-border-color);
+  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius);
+  --calcite-button-icon-color: var(--calcite-split-button-icon-color);
+  --calcite-button-loader-color: var(--calcite-split-button-loader-color);
+  --calcite-button-text-color: var(--calcite-split-button-text-color);
+  --calcite-button-shadow: var(--calcite-split-button-shadow);
+}
+
+calcite-button:first-of-type {
+  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius) 0 0
+    var(--calcite-split-button-corner-radius);
+}
+
+calcite-dropdown > calcite-button:first-child {
+  --calcite-button-corner-radius: 0 var(--calcite-split-button-corner-radius) var(--calcite-split-button-corner-radius)
+    0;
+}
+
+calcite-dropdown {
+  --calcite-dropdown-width: var(--calcite-split-button-dropdown-width, var(--calcite-internal-dropdown-width));
+  --calcite-dropdown-background-color: var(
+    --calcite-split-button-dropdown-background-color,
+    var(--calcite-color-foreground-1)
+  );
+}
 .container {
   @apply flex items-stretch;
   > calcite-dropdown > calcite-button {
