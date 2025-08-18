@@ -23,12 +23,6 @@ export const CSS = {
   text: "internal-label-text",
 };
 
-const onClickHandler = (onClick?: () => void): void => {
-  if (onClick) {
-    onClick();
-  }
-};
-
 export const InternalLabel = ({
   alignItemsCenter,
   labelText,
@@ -48,7 +42,7 @@ export const InternalLabel = ({
       [CSS.spaceInlineEnd]: spaceInlineEnd,
       [CSS.spaceInlineStart]: spaceInlineStart,
     }}
-    onClick={() => onClickHandler(onClick)}
+    onClick={onClick}
   >
     <div class={CSS.text}>
       {labelText}

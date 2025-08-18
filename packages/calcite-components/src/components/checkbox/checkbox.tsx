@@ -290,7 +290,7 @@ export class Checkbox
           <InternalLabel
             labelText={this.labelText}
             required={this.required}
-            spaceInlineStart
+            spaceInlineStart={true}
             tooltipText={this.messages.required}
           />
         )}

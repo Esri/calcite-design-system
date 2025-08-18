@@ -193,13 +193,21 @@ export class Switch
           tabIndex={0}
         >
           {this.labelTextStart && (
-            <InternalLabel alignItemsCenter labelText={this.labelTextStart} spaceInlineEnd />
+            <InternalLabel
+              alignItemsCenter={true}
+              labelText={this.labelTextStart}
+              spaceInlineEnd={true}
+            />
           )}
           <div class={CSS.track}>
             <div class={CSS.handle} />
           </div>
           {this.labelTextEnd && (
-            <InternalLabel alignItemsCenter labelText={this.labelTextEnd} spaceInlineStart />
+            <InternalLabel
+              alignItemsCenter={true}
+              labelText={this.labelTextEnd}
+              spaceInlineStart={true}
+            />
           )}
           <HiddenFormInputSlot component={this} />
         </div>

@@ -406,9 +406,9 @@ export class Rating
           {this.labelText && (
             <InternalLabel
               labelText={this.labelText}
-              onClick={() => this.onLabelClick()}
+              onClick={this.onLabelClick}
               required={this.required}
-              spaceBottom
+              spaceBottom={true}
               tooltipText={this.messages.required}
             />
           )}
