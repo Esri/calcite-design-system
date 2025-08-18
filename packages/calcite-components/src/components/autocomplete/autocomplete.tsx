@@ -793,7 +793,6 @@ export class Autocomplete
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />
@@ -867,7 +866,6 @@ export class Autocomplete
                   name={SLOTS.contentBottom}
                   onSlotChange={this.handleContentBottomSlotChange}
                 />
-                <slot name={SLOTS.labelContent} />
               </div>
             </div>
           </div>

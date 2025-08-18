@@ -38,7 +38,3 @@ export const IDS = {
 } as const;
 
 export const maxTickElementThreshold = 250;
-
-export const SLOTS = {
-  labelContent: "label-content",
-};

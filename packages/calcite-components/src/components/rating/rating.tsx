@@ -33,7 +33,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { IDS, CSS, SLOTS } from "./resources";
+import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 
 declare global {
@@ -408,7 +408,6 @@ export class Rating
               labelText={this.labelText}
               onClick={() => this.onLabelClick()}
               required={this.required}
-              slot={<slot name={SLOTS.labelContent} />}
               spaceBottom
               tooltipText={this.messages.required}
             />

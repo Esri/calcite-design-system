@@ -72,7 +72,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./input-date-picker.scss";
-import { CSS, ICONS, IDS, POSITION, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 
@@ -1099,7 +1099,6 @@ export class InputDatePicker
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

@@ -24,7 +24,6 @@ export const IDS = {
 
 export const SLOTS = {
   action: "action",
-  labelContent: "label-content",
 };
 
 export const ICONS = {

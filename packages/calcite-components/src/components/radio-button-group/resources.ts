@@ -5,7 +5,3 @@ export const CSS = {
 export const IDS = {
   validationMessage: "radioButtonGroupValidationMessage",
 };
-
-export const SLOTS = {
-  labelContent: "label-content",
-};

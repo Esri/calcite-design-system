@@ -73,7 +73,6 @@ import {
   isSingleLike,
 } from "./utils";
 import { styles } from "./combobox.scss";
-import { SLOTS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -1914,7 +1913,6 @@ export class Combobox
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

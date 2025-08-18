@@ -25,7 +25,6 @@ export const IDS = {
 export const SLOTS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",
-  labelContent: "label-content",
 };
 
 export const RESIZE_TIMEOUT = 100;

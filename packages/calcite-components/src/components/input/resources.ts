@@ -31,7 +31,6 @@ export const INPUT_TYPE_ICONS = {
 
 export const SLOTS = {
   action: "action",
-  labelContent: "label-content",
 };
 
 export const DIRECTION = {

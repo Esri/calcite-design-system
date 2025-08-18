@@ -8,7 +8,3 @@ export const CSS = {
 export const IDS = {
   validationMessage: "selectValidationMessage",
 };
-
-export const SLOTS = {
-  labelContent: "label-content",
-};

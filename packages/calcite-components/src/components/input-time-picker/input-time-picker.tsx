@@ -43,7 +43,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, ICONS, SLOTS } from "./resources";
+import { CSS, IDS, ICONS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -583,7 +583,6 @@ export class InputTimePicker
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

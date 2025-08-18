@@ -1,12 +1,11 @@
 import { TemplateResult } from "lit-html";
-import { h, JsxNode } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 
 interface InternalLabelProps {
   alignItemsCenter?: boolean;
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
-  slot?: JsxNode;
   spaceBottom?: boolean;
   spaceInlineEnd?: boolean;
   spaceInlineStart?: boolean;
@@ -35,7 +34,6 @@ export const InternalLabel = ({
   labelText,
   onClick,
   required,
-  slot,
   spaceBottom,
   spaceInlineEnd,
   spaceInlineStart,
@@ -60,6 +58,6 @@ export const InternalLabel = ({
         </span>
       )}
     </div>
-    {slot}
+    <slot name="label-content" />
   </div>
 );

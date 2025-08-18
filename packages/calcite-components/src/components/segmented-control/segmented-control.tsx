@@ -33,7 +33,7 @@ import type { SegmentedControlItem } from "../segmented-control-item/segmented-c
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
 
@@ -425,7 +425,6 @@ export class SegmentedControl
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

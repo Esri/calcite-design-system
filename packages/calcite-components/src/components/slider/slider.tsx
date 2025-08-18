@@ -42,7 +42,6 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
-import { SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
@@ -1166,7 +1165,6 @@ export class Slider
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

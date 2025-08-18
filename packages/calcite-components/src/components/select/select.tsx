@@ -36,7 +36,7 @@ import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -428,7 +428,6 @@ export class Select
             labelText={this.labelText}
             onClick={() => this.onLabelClick()}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />

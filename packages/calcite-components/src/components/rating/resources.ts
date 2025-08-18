@@ -18,7 +18,3 @@ export const IDS = {
   validationMessage: "validationMessage",
   host: (id: any) => `${idPrefix}-${id}` as const,
 };
-
-export const SLOTS = {
-  labelContent: "label-content",
-};

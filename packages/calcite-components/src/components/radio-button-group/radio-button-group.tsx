@@ -19,7 +19,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { IconNameOrString } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
 
@@ -219,7 +219,6 @@ export class RadioButtonGroup extends LitElement {
           <InternalLabel
             labelText={this.labelText}
             required={this.required}
-            slot={<slot name={SLOTS.labelContent} />}
             spaceBottom
             tooltipText={this.messages.required}
           />
