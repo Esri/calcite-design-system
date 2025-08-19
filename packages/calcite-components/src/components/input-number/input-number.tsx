@@ -42,7 +42,6 @@ import {
   hasTrailingDecimal,
   isInfinity,
   isValidNumber,
-  parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -153,7 +152,7 @@ export class InputNumber
     const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
     const valueHasLeadingZeros = hasLeadingZeros(validatedInteger);
 
-    if (valueHasTrailingDecimal) {
+    if (!valueHasTrailingDecimal) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
         incomingValue,
@@ -185,8 +184,6 @@ export class InputNumber
       return "";
     }
 
-    value = parseNumberString(value);
-
     const { integer, isValueShortened, valueController } = this;
     const { previousValue } = valueController;
 
@@ -215,6 +212,10 @@ export class InputNumber
       numberingSystem,
       useGrouping,
     };
+  };
+
+  private isValueShortened = (value: string, previousValue: string): boolean => {
+    return previousValue?.length > value.length || this.value?.length > value.length;
   };
 
   //#endregion
@@ -535,10 +536,6 @@ export class InputNumber
     if (validatedValue || !value) {
       this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
     }
-  }
-
-  private isValueShortened(value: string, previousValue: string): boolean {
-    return previousValue?.length > value.length || this.value?.length > value.length;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

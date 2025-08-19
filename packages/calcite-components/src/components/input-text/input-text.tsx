@@ -11,6 +11,7 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
+  EventEmitter,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
@@ -294,7 +295,7 @@ export class InputText
   calciteInputTextChange = createEvent();
 
   /** Fires each time a new value is typed. */
-  calciteInputTextInput = createEvent();
+  calciteInputTextInput: EventEmitter<string> = createEvent();
 
   /** @private */
   calciteInternalInputTextBlur = createEvent<{ element: HTMLInputElement; value: string }>();
