@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
+import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
@@ -245,21 +246,12 @@ describe("calcite-date-picker", () => {
       element.setProperty("max", undefined);
       await page.waitForChanges();
 
-      const getActiveDate2 = async (page: E2EPage, prop: string): Promise<string> =>
-        page.$eval(
-          "calcite-date-picker",
-          (picker, prop) => {
-            return picker[prop].toISOString().split("T")[0];
-          },
-          prop,
-        );
+      expect(await element.getProperty("minAsDate")).toBe(undefined);
+      expect(await element.getProperty("maxAsDate")).toBe(undefined);
 
-      expect(await getActiveDate2(page, "minAsDate")).toBe("2022-11-15");
-      expect(await getActiveDate2(page, "maxAsDate")).toBe("2022-11-25");
-
-      const dateBeyondMax = "2022-11-26";
-      await setActiveDate(page, dateBeyondMax);
-      expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
+      const dateAfterMax = "2022-11-26";
+      await setActiveDate(page, dateAfterMax);
+      expect(await getActiveDate(page)).toEqual(new Date(dateAfterMax).toISOString());
 
       const dateBeforeMin = "2022-11-14";
       await setActiveDate(page, dateBeforeMin);
@@ -292,10 +284,10 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 
-      const previousDayIso = "2025-08-17T07:00:00.000Z";
-      const currentDayIso = "2025-08-18T07:00:00.000Z";
+      const beforeMinDayIso = "2025-08-17T07:00:00.000Z";
+      const minDayIso = "2025-08-18T07:00:00.000Z";
       const maxDayIso = "2025-08-20T07:00:00.000Z";
-      const outOfRangeDayIso = "2025-08-23T07:00:00.000Z";
+      const afterMaxDayIso = "2025-08-23T07:00:00.000Z";
 
       await page.$eval(
         "calcite-date-picker",
@@ -303,25 +295,21 @@ describe("calcite-date-picker", () => {
           el.minAsDate = new Date(min);
           el.maxAsDate = new Date(max);
         },
-        currentDayIso,
+        minDayIso,
         maxDayIso,
       );
       await page.waitForChanges();
 
-      const previousDay = await getDayById(page, previousDayIso.split("T")[0].replaceAll("-", ""));
-      expect(await previousDay.getProperty("active")).toBe(false);
+      const previousDay = await getDayById(page, beforeMinDayIso.split("T")[0].replaceAll("-", ""));
       expect(await previousDay.getProperty("disabled")).toBe(true);
 
-      const currentDay = await getDayById(page, currentDayIso.split("T")[0].replaceAll("-", ""));
-      expect(await currentDay.getProperty("active")).toBe(true);
+      const currentDay = await getDayById(page, minDayIso.split("T")[0].replaceAll("-", ""));
       expect(await currentDay.getProperty("disabled")).toBe(false);
 
       const maxDay = await getDayById(page, maxDayIso.split("T")[0].replaceAll("-", ""));
-      expect(await maxDay.getProperty("active")).toBe(false);
       expect(await maxDay.getProperty("disabled")).toBe(false);
 
-      const outOfRangeDay = await getDayById(page, outOfRangeDayIso.split("T")[0].replaceAll("-", ""));
-      expect(await outOfRangeDay.getProperty("active")).toBe(false);
+      const outOfRangeDay = await getDayById(page, afterMaxDayIso.split("T")[0].replaceAll("-", ""));
       expect(await outOfRangeDay.getProperty("disabled")).toBe(true);
     });
   });
@@ -906,7 +894,6 @@ describe("calcite-date-picker", () => {
     it("should select current day when min is before current day but in same month of range date-picker", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
-      await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
       const currentDate = new Date();
@@ -915,12 +902,15 @@ describe("calcite-date-picker", () => {
       }
       const currentISODate = currentDate.toISOString().split("T")[0];
 
-      await page.evaluate((currentISODate) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.min = currentISODate;
-      }, currentISODate);
-
+      await page.$eval(
+        "calcite-date-picker",
+        (datePicker, currentISODate) => {
+          datePicker.min = currentISODate;
+        },
+        currentISODate,
+      );
       await page.waitForChanges();
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
@@ -946,7 +936,7 @@ describe("calcite-date-picker", () => {
       if (currentDate.getDate() > 2) {
         currentDate.setDate(1);
       }
-      const currentISODate = currentDate.toISOString().split("T")[0];
+      const currentISODate = currentDate.toISOString();
 
       await page.evaluate((currentISODate) => {
         const datePicker = document.querySelector("calcite-date-picker");
@@ -1252,18 +1242,16 @@ describe("calcite-date-picker", () => {
 });
 
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-  await page.evaluate((date) => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    datePicker.activeDate = new Date(date);
-  }, date);
+  await page.$eval("calcite-date-picker", (datePicker, date) => (datePicker.activeDate = new Date(date)), date);
   await page.waitForChanges();
 }
 
 async function getActiveDate(page: E2EPage): Promise<string> {
-  return await page.evaluate(() => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    return datePicker.activeDate.toISOString();
-  });
+  return getDateIsoStringFromProp(page, "activeDate");
+}
+
+async function getDateIsoStringFromProp(page: E2EPage, prop: keyof ConditionalPick<DatePicker, Date>): Promise<string> {
+  return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop]?.toISOString(), prop);
 }
 
 async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {

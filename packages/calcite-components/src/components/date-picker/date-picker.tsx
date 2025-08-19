@@ -207,8 +207,6 @@ export class DatePicker extends LitElement {
 
   async load(): Promise<void> {
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -224,12 +222,35 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    if (changes.has("min")) {
+    let minSource: Extract<keyof DatePicker, "min" | "minAsDate">;
+    let maxSource: Extract<keyof DatePicker, "max" | "maxAsDate">;
+
+    if (changes.has("min") && !changes.has("minAsDate")) {
+      minSource = "min";
+    } else if (changes.has("minAsDate") && !changes.has("min")) {
+      minSource = "minAsDate";
+    }
+
+    if (changes.has("max") && !changes.has("maxAsDate")) {
+      maxSource = "max";
+    } else if (changes.has("maxAsDate") && !changes.has("max")) {
+      maxSource = "maxAsDate";
+    }
+
+    if (minSource === "min") {
       this.onMinChanged(this.min);
     }
 
-    if (changes.has("max")) {
+    if (maxSource === "max") {
       this.onMaxChanged(this.max);
+    }
+
+    if (minSource === "minAsDate") {
+      this.onMinChanged(dateToISO(this.minAsDate));
+    }
+
+    if (maxSource === "maxAsDate") {
+      this.onMaxChanged(dateToISO(this.maxAsDate));
     }
 
     if (changes.has("messages") && this.hasUpdated) {
@@ -276,18 +297,16 @@ export class DatePicker extends LitElement {
   }
 
   private onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = dateFromISO(min);
+
     if (this.range) {
       this.setActiveStartAndEndDates();
     }
   }
 
   private onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = dateFromISO(max);
+
     if (this.range) {
       this.setActiveStartAndEndDates();
     }
