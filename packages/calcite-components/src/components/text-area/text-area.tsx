@@ -499,7 +499,7 @@ export class TextArea
             aria-describedby={this.guid}
             aria-errormessage={IDS.validationMessage}
             ariaInvalid={this.status === "invalid" || this.isCharacterLimitExceeded()}
-            ariaLabel={this.labelText || getLabelText(this)}
+            ariaLabel={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
               [CSS.textArea]: true,

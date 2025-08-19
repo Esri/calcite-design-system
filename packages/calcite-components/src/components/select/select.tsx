@@ -436,7 +436,7 @@ export class Select
           <select
             aria-errormessage={IDS.validationMessage}
             ariaInvalid={this.status === "invalid"}
-            ariaLabel={this.labelText || getLabelText(this)}
+            ariaLabel={getLabelText(this)}
             class={CSS.select}
             disabled={disabled}
             onChange={this.handleInternalSelectChange}

@@ -1751,7 +1751,7 @@ export class Combobox
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           class={{
             [CSS.input]: true,
             [CSS.inputSingle]: true,

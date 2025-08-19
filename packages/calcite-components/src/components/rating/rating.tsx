@@ -22,7 +22,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -437,7 +437,7 @@ export class Rating
                     <input
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
-                      ariaLabel={this.labelText}
+                      ariaLabel={getLabelText(this)}
                       ariaRequired={this.required}
                       checked={checked}
                       class={CSS.visuallyHidden}

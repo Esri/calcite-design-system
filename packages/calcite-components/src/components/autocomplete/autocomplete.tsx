@@ -34,7 +34,7 @@ import {
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import {
   afterConnectDefaultValueSet,
@@ -802,7 +802,7 @@ export class Autocomplete
             alignment={this.alignment}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
-            aria-label={this.labelText}
+            aria-label={getLabelText(this)}
             aria-owns={listId}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}

@@ -1071,7 +1071,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
@@ -1109,7 +1109,7 @@ export class Input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{

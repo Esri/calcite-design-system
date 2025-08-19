@@ -24,7 +24,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
@@ -431,7 +431,7 @@ export class SegmentedControl
         )}
         <div
           aria-errormessage={IDS.validationMessage}
-          aria-label={this.labelText}
+          aria-label={getLabelText(this)}
           ariaInvalid={this.status === "invalid"}
           ariaRequired={this.required}
           class={CSS.itemWrapper}

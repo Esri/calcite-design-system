@@ -603,7 +603,7 @@ export class InputTimePicker
             scale={scale === "l" ? "m" : "s"}
           />
           <div
-            aria-label={this.labelText || getLabelText(this)}
+            aria-label={getLabelText(this)}
             ariaRequired={this.required}
             class={CSS.inputContainer}
             dir="ltr"

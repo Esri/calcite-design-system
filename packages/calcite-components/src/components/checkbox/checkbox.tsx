@@ -269,7 +269,7 @@ export class Checkbox
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           ariaRequired={this.required}
           class={{
             [CSS.toggle]: true,

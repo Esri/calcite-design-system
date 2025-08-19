@@ -47,7 +47,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
@@ -1105,7 +1105,7 @@ export class InputDatePicker
         )}
         <div class={CSS.container}>
           <div
-            aria-label={this.labelText}
+            aria-label={getLabelText(this)}
             ariaRequired={this.required}
             class={CSS.inputContainer}
             role="group"

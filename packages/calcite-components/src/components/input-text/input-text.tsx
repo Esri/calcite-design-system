@@ -590,7 +590,7 @@ export class InputText
       <input
         aria-errormessage={IDS.validationMessage}
         ariaInvalid={this.status === "invalid"}
-        ariaLabel={this.labelText || getLabelText(this)}
+        ariaLabel={getLabelText(this)}
         autocomplete={this.autocomplete}
         autofocus={this.el.autofocus}
         class={{

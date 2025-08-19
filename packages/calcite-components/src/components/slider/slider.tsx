@@ -1172,7 +1172,7 @@ export class Slider
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           ariaRequired={this.required}
           class={{
             [CSS.container]: true,

@@ -488,7 +488,7 @@ export class RadioButton
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelText || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}

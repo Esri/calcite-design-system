@@ -186,7 +186,7 @@ export class Switch
       <InteractiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
-          ariaLabel={this.labelTextStart + " " + this.labelTextEnd || getLabelText(this)}
+          ariaLabel={getLabelText(this)}
           class={CSS.container}
           ref={this.setSwitchEl}
           role="switch"
