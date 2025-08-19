@@ -116,7 +116,7 @@ export class InputText
   //#region Public Properties
 
   /** Specifies the text alignment of the component's value. */
-  @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
+  @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
