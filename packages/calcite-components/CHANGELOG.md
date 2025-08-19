@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.73...@esri/calcite-components@3.3.0-next.74) (2025-08-18)
+
+### Features
+
+- **accordion-item:** add title to expand icon ([#12657](https://github.com/Esri/calcite-design-system/issues/12657)) ([bab1f6b](https://github.com/Esri/calcite-design-system/commit/bab1f6b5d428f79942f66961a5504b752a6caa88)), closes [#12232](https://github.com/Esri/calcite-design-system/issues/12232)
+
+## [3.3.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.72...@esri/calcite-components@3.3.0-next.73) (2025-08-18)
+
+### Bug Fixes
+
+- **date-picker:** improve color contrast for days ([#12705](https://github.com/Esri/calcite-design-system/issues/12705)) ([2ec5ea2](https://github.com/Esri/calcite-design-system/commit/2ec5ea207c67b957052687417e21632186751091)), closes [#11644](https://github.com/Esri/calcite-design-system/issues/11644)
+
+## [3.3.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.71...@esri/calcite-components@3.3.0-next.72) (2025-08-18)
+
+### Bug Fixes
+
+- **list, block-group:** update sort handle move items before dropdown menu is opened ([#12722](https://github.com/Esri/calcite-design-system/issues/12722)) ([22132f3](https://github.com/Esri/calcite-design-system/commit/22132f381b646058bda2b78e4e237fadad275a39)), closes [#11953](https://github.com/Esri/calcite-design-system/issues/11953) [#12487](https://github.com/Esri/calcite-design-system/issues/12487)
+
+## [3.3.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.70...@esri/calcite-components@3.3.0-next.71) (2025-08-18)
+
+### Bug Fixes
+
+- **shell-panel:** restore resized size after expanding ([#12691](https://github.com/Esri/calcite-design-system/issues/12691)) ([6716a2d](https://github.com/Esri/calcite-design-system/commit/6716a2d1c61c8d8842a2cf1b11c4bf7f0e627eaf)), closes [#12116](https://github.com/Esri/calcite-design-system/issues/12116)
+
+## [3.3.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.69...@esri/calcite-components@3.3.0-next.70) (2025-08-15)
+
+### Bug Fixes
+
+- **input-date-picker:** update start & end date correctly when `proximity-selection-disabled` is true ([#12681](https://github.com/Esri/calcite-design-system/issues/12681)) ([d77c293](https://github.com/Esri/calcite-design-system/commit/d77c2937ac56353af9b76f2ac6cc97fee41369bf)), closes [#12301](https://github.com/Esri/calcite-design-system/issues/12301)
+
 ## [3.3.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.68...@esri/calcite-components@3.3.0-next.69) (2025-08-15)
 
 ### Features
