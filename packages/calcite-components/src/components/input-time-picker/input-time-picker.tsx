@@ -8,6 +8,7 @@ import {
   method,
   JsxNode,
   stringOrBoolean,
+  EventEmitter,
 } from "@arcgis/lumina";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
@@ -269,7 +270,7 @@ export class InputTimePicker
   calciteInputTimePickerClose = createEvent({ cancelable: false });
 
   /** Fires when the component's `value` is modified by the user. */
-  calciteInputTimePickerInput = createEvent();
+  calciteInputTimePickerInput: EventEmitter<string> = createEvent();
 
   /** Fires when the component is open and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
