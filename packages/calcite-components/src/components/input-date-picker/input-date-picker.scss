@@ -4,17 +4,23 @@
  * These properties can be overridden using the component's tag as selector.
  * 
  * @prop --calcite-input-date-picker-border-color: Specifies the component's border color.
- * @prop --calcite-input-date-picker-shadow: Specifies the component's shadow.
+ * @prop --calcite-input-date-picker-shadow: Specifies the component's input shadow.
+ * @prop --calcite-input-date-picker-calendar-shadow: the component's calendar shadow.
  * 
  * @prop --calcite-input-date-picker-divider-color: Specifies the component's divider color between two inputs when in range mode.
- * @prop --calcite-input-date-picker-icon-color: Specifies the component's icon color.
- * @prop --calcite-input-date-picker-icon-color-hover: Specifies the component's icon color on hover.
- * 
+
+ * @prop --calcite-input-date-picker-icon-color: Specifies the component's in-field input icon color.
+ * @prop --calcite-input-date-picker-icon-color-hover: Specifies the component's in-field input icon color on hover.
+ * @prop --calcite-input-date-picker-actions-icon-color: Specifies the component's actions icon color.
+ * @prop --calcite-input-date-picker-actions-icon-color-hover: Specifies the component's actions icon color on hover.
+ * @prop --calcite-input-date-picker-calendar-icon-color: Specifies the component's calendar icon color.
+ * @prop --calcite-input-date-picker-calendar-icon-color-hover: Specifies the component's calendar icon color.
+
  * @prop --calcite-input-date-picker-input-background-color: Specifies the component's input background color.
  * @prop --calcite-input-date-picker-input-border-color: Specifies the component's input border color.
  * @prop --calcite-input-date-picker-input-corner-radius: Specifies the component's input corner radius.
- * @prop --calcite-input-date-picker-input-shadow: Specifies the component's input shadow.
- * 
+ *
+
  * @prop --calcite-input-date-picker-input-icon-color: Specifies the component's input icon color.
  * @prop --calcite-input-date-picker-input-icon-color-hover: Specifies the component's input icon color on hover.
  * @prop --calcite-input-date-picker-input-text-color: Specifies the component's input text color.
@@ -32,8 +38,6 @@
  * @prop --calcite-input-date-picker-date-picker-year-text-color: Specifies the text color of year & suffix of the component's date-picker.
  * @prop --calcite-input-date-picker-date-picker-month-select-font-size: Specifies the font size of month select of the component's date-picker.
  * @prop --calcite-input-date-picker-date-picker-month-select-text-color: Specifies the text color of month select of the component's date-picker.
- * @prop --calcite-input-date-picker-date-picker-month-select-icon-color: Specifies the icon color of month select of the component's date-picker.
- * @prop --calcite-input-date-picker-date-picker-month-select-icon-color-hover: Specifies the icon color of month select of the component's date-picker when hovered.
  * @prop --calcite-input-date-picker-date-picker-day-background-color: Specifies the background color of day of the component's date-picker.
  * @prop --calcite-input-date-picker-date-picker-day-background-color-hover: Specifies the background color of day of the component's date-picker when hovered.
  * @prop --calcite-input-date-picker-date-picker-day-text-color: Specifies the text color of day of the component's date-picker.
@@ -90,7 +94,7 @@
 @include disabled();
 
 .calendar-wrapper {
-  box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
+  box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
   transform: translate3d(0, 0, 0);
 }
 
@@ -98,17 +102,17 @@
   @apply relative;
 
   .chevron-icon {
-    color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
   }
 
   &:focus-within,
   &:active,
   &:hover {
     .chevron-icon {
-      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
     }
     ~ .input-wrapper .chevron-icon {
-      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -192,10 +196,10 @@
   background-color: var(--calcite-input-date-picker-input-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
   calcite-icon {
-    color: var(--calcite-input-date-picker-icon-color, var(--calcite-color-text-3));
+    color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
 
     &:hover {
-      color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 }
@@ -220,7 +224,7 @@
   &:hover {
     .vertical-chevron-container {
       calcite-icon {
-        color: var(--calcite-input-date-picker-icon-color-hover, var(--calcite-color-text-1));
+        color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
       }
     }
   }
@@ -230,10 +234,10 @@
   --calcite-input-background-color: var(--calcite-input-date-picker-input-background-color);
   --calcite-input-border-color: var(--calcite-input-date-picker-input-border-color);
   --calcite-input-corner-radius: var(--calcite-input-date-picker-input-corner-radius);
-  --calcite-input-shadow: var(--calcite-input-date-picker-input-shadow);
+  --calcite-input-shadow: var(--calcite-input-date-picker-shadow);
 
-  --calcite-input-icon-color: var(--calcite-input-date-picker-input-icon-color);
-  --calcite-input-icon-color-hover: var(--calcite-input-date-picker-input-icon-color-hover);
+  --calcite-input-icon-color: var(--calcite-input-date-picker-icon-color);
+  --calcite-input-icon-color-hover: var(--calcite-input-date-picker-icon-color-hover);
   --calcite-input-text-color: var(--calcite-input-date-picker-input-text-color);
   --calcite-input-placeholder-text-color: var(--calcite-input-date-picker-input-placeholder-text-color);
 }
@@ -261,10 +265,8 @@ calcite-date-picker {
   --calcite-date-picker-year-text-color: var(--calcite-input-date-picker-date-picker-year-text-color);
   --calcite-date-picker-month-select-font-size: var(--calcite-input-date-picker-date-picker-month-select-font-size);
   --calcite-date-picker-month-select-text-color: var(--calcite-input-date-picker-date-picker-month-select-text-color);
-  --calcite-date-picker-month-select-icon-color: var(--calcite-input-date-picker-date-picker-month-select-icon-color);
-  --calcite-date-picker-month-select-icon-color-hover: var(
-    --calcite-input-date-picker-date-picker-month-select-icon-color-hover
-  );
+  --calcite-date-picker-month-select-icon-color: var(--calcite-input-date-picker-calendar-icon-color);
+  --calcite-date-picker-month-select-icon-color-hover: var(--calcite-input-date-picker-calendar-icon-color-hover);
   --calcite-date-picker-day-background-color: var(--calcite-input-date-picker-date-picker-day-background-color);
   --calcite-date-picker-day-background-color-hover: var(
     --calcite-input-date-picker-date-picker-day-background-color-hover

@@ -1965,11 +1965,14 @@ describe("calcite-input-date-picker", () => {
         "--calcite-input-date-picker-shadow": {
           targetProp: "boxShadow",
         },
-        "--calcite-input-date-picker-icon-color": {
+        "--calcite-input-date-picker-calendar-shadow": {
+          targetProp: "boxShadow",
+        },
+        "--calcite-input-date-picker-actions-icon-color": {
           shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
           targetProp: "color",
         },
-        "--calcite-input-date-picker-icon-color-hover": {
+        "--calcite-input-date-picker-actions-icon-color-hover": {
           shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
           targetProp: "color",
           state: "hover",
@@ -1986,15 +1989,11 @@ describe("calcite-input-date-picker", () => {
           shadowSelector: `.${CSS.input}`,
           targetProp: "--calcite-input-corner-radius",
         },
-        "--calcite-input-date-picker-input-shadow": {
-          shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-shadow",
-        },
-        "--calcite-input-date-picker-input-icon-color": {
+        "--calcite-input-date-picker-icon-color": {
           shadowSelector: `.${CSS.input}`,
           targetProp: "--calcite-input-icon-color",
         },
-        "--calcite-input-date-picker-input-icon-color-hover": {
+        "--calcite-input-date-picker-icon-color-hover": {
           shadowSelector: `.${CSS.input}`,
           targetProp: "--calcite-input-icon-color-hover",
         },
@@ -2058,11 +2057,11 @@ describe("calcite-input-date-picker", () => {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
           targetProp: "--calcite-select-text-color",
         },
-        "--calcite-input-date-picker-date-picker-month-select-icon-color": {
+        "--calcite-input-date-picker-calendar-icon-color": {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
           targetProp: "--calcite-select-icon-color",
         },
-        "--calcite-input-date-picker-date-picker-month-select-icon-color-hover": {
+        "--calcite-input-date-picker-calendar-icon-color-hover": {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
           targetProp: "--calcite-select-icon-color-hover",
           state: "hover",
