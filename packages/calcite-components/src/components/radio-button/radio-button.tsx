@@ -497,9 +497,7 @@ export class RadioButton
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
-          {this.labelText && (
-            <InternalLabel labelText={this.labelText} spaceBottom={true} spaceInlineStart={true} />
-          )}
+          {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

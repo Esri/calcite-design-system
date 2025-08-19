@@ -194,9 +194,10 @@ export class Switch
         >
           {this.labelTextStart && (
             <InternalLabel
-              alignItemsCenter={true}
+              alignmentCenter={true}
               labelText={this.labelTextStart}
-              spaceInlineEnd={true}
+              noSpacingBottom={true}
+              spacingInlineEnd={true}
             />
           )}
           <div class={CSS.track}>
@@ -204,9 +205,10 @@ export class Switch
           </div>
           {this.labelTextEnd && (
             <InternalLabel
-              alignItemsCenter={true}
+              alignmentCenter={true}
               labelText={this.labelTextEnd}
-              spaceInlineStart={true}
+              noSpacingBottom={true}
+              spacingInlineStart={true}
             />
           )}
           <HiddenFormInputSlot component={this} />

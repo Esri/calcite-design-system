@@ -289,8 +289,9 @@ export class Checkbox
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
+            noSpacingBottom={true}
             required={this.required}
-            spaceInlineStart={true}
+            spacingInlineStart={true}
             tooltipText={this.messages.required}
           />
         )}

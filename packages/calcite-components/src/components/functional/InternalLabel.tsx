@@ -2,25 +2,25 @@ import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
 
 interface InternalLabelProps {
-  alignItemsCenter?: boolean;
+  alignmentCenter?: boolean;
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
-  spaceBottom?: boolean;
-  spaceInlineEnd?: boolean;
-  spaceInlineStart?: boolean;
+  noSpacingBottom?: boolean;
+  spacingInlineEnd?: boolean;
+  spacingInlineStart?: boolean;
   tooltipText?: string;
 }
 
 export const CSS = {
-  alignItemsCenter: "internal-label-align-items-center",
-  alignItemsEnd: "internal-label-align-items-end",
-  container: "internal-label-container",
-  requiredIndicator: "internal-label-required-indicator",
-  spaceBottom: "internal-label-space-bottom",
-  spaceInlineEnd: "internal-label-space-inline-end",
-  spaceInlineStart: "internal-label-space-inline-start",
-  text: "internal-label-text",
+  alignmentCenter: "internal-label-alignment--center",
+  alignmentEnd: "internal-label-alignment--end",
+  container: "internal-label--container",
+  requiredIndicator: "internal-label-required--indicator",
+  spacingBottom: "internal-label-spacing--bottom",
+  spacingInlineEnd: "internal-label-spacing-inline--end",
+  spacingInlineStart: "internal-label-spacing-inline--start",
+  text: "internal-label--text",
 };
 
 /**
@@ -28,23 +28,23 @@ export const CSS = {
  */
 
 export const InternalLabel = ({
-  alignItemsCenter,
+  alignmentCenter,
   labelText,
   onClick,
   required,
-  spaceBottom,
-  spaceInlineEnd,
-  spaceInlineStart,
+  noSpacingBottom,
+  spacingInlineEnd,
+  spacingInlineStart,
   tooltipText,
 }: InternalLabelProps): TemplateResult => (
   <div
     class={{
-      [CSS.alignItemsCenter]: alignItemsCenter,
-      [CSS.alignItemsEnd]: !alignItemsCenter,
+      [CSS.alignmentCenter]: alignmentCenter,
+      [CSS.alignmentEnd]: !alignmentCenter,
       [CSS.container]: true,
-      [CSS.spaceBottom]: spaceBottom,
-      [CSS.spaceInlineEnd]: spaceInlineEnd,
-      [CSS.spaceInlineStart]: spaceInlineStart,
+      [CSS.spacingBottom]: !noSpacingBottom,
+      [CSS.spacingInlineEnd]: spacingInlineEnd,
+      [CSS.spacingInlineStart]: spacingInlineStart,
     }}
     onClick={onClick}
   >

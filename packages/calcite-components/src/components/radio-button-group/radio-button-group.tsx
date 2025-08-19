@@ -219,7 +219,6 @@ export class RadioButtonGroup extends LitElement {
           <InternalLabel
             labelText={this.labelText}
             required={this.required}
-            spaceBottom={true}
             tooltipText={this.messages.required}
           />
         )}

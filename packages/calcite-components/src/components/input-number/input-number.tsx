@@ -1056,7 +1056,6 @@ export class InputNumber
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
-            spaceBottom={true}
             tooltipText={this.messages.required}
           />
         )}
