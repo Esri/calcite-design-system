@@ -16,7 +16,7 @@ import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { InputNumber } from "../input-number/input-number";
-import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
+import type { Swatch } from "../swatch/swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -672,7 +672,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private handleSavedColorSelect(event: Event): void {
-    const swatch = event.currentTarget as ColorPickerSwatch["el"];
+    const swatch = event.currentTarget as Swatch["el"];
     this.internalColorSet(Color(swatch.color));
   }
 
@@ -1538,7 +1538,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
             </div>
           )}
           <div class={CSS.previewAndSliders}>
-            <calcite-color-picker-swatch
+            <calcite-swatch
               class={CSS.preview}
               color={selectedColorInHex}
               scale={this.alphaChannel ? "l" : this.scale}
@@ -1663,9 +1663,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <div class={CSS.savedColors}>
+                <calcite-swatch-group scale={scale} selectionMode="single">
                   {savedColors.map((color) => (
-                    <calcite-color-picker-swatch
+                    <calcite-swatch
                       class={CSS.savedColor}
                       color={color}
                       key={color}
@@ -1675,7 +1675,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                       tabIndex={0}
                     />
                   ))}
-                </div>
+                </calcite-swatch-group>
               ) : null}
             </div>
           )}
