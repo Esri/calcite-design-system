@@ -69,12 +69,6 @@ export const simple = (args: TextAreaStoryArgs): string => html`
   </calcite-text-area>
 `;
 
-export const internalLabel = (): string => html`
-  <calcite-text-area placeholder="add notes" scale="m" label-text="Label text" required>
-    <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
-  </calcite-text-area>
-`;
-
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-text-area
     dir="rtl"

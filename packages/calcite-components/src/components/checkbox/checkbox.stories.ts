@@ -42,9 +42,6 @@ export const simple = (args: CheckboxStoryArgs): string => html`
   </calcite-label>
 `;
 
-export const internalLabel = (): string =>
-  html`<calcite-checkbox name="m-unchecked" scale="m" label-text="Label text" required></calcite-checkbox>`;
-
 export const disabled_TestOnly = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
 
 export const darkModeRTL_TestOnly = (): string => html`

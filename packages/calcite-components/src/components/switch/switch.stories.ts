@@ -32,9 +32,6 @@ export const simple = (args: SwitchStoryArgs): string => html`
   ></calcite-switch>
 `;
 
-export const internalLabel = (): string =>
-  html`<calcite-switch label-text-start="Label text start" label-text-end="Label text end"></calcite-switch>`;
-
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-switch class="calcite-mode-dark" name="setting" value="enabled" checked scale="m"></calcite-switch>
 `;

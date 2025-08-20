@@ -97,12 +97,6 @@ export const simple = (args: SliderStoryArgs): string => html`
   ></calcite-slider>
 `;
 
-export const internalLabel = (): string => html`
-  <calcite-slider scale="m" min="10000" max="100000" value="100000" step="1000" label-text="Label text" required>
-    <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
-  </calcite-slider>
-`;
-
 export const range = (): string => html`
   <calcite-slider
     min="0"

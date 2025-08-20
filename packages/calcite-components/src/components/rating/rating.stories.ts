@@ -65,12 +65,6 @@ export const simple = (args: RatingStoryArgs): string => html`
   ></calcite-rating>
 `;
 
-export const internalLabel = (): string => html`
-  <calcite-rating scale="m" label-text="Label text" required>
-    <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
-  </calcite-rating>
-`;
-
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-rating
     class="calcite-mode-dark"
