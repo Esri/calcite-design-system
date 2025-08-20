@@ -868,7 +868,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       currentDate.setMonth(currentDate.getMonth() + 2);
       currentDate.setDate(12);
       const currentISODate = toDateOnlyIso(currentDate);
@@ -896,7 +896,7 @@ describe("calcite-date-picker", () => {
       await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       if (currentDate.getDate() > 2) {
         currentDate.setDate(1);
       }
@@ -920,7 +920,7 @@ describe("calcite-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      const currentDayDate = new Date();
+      const currentDayDate = getLocalDayDate();
       const currentDayISODate = toDateOnlyIso(currentDayDate);
 
       expect(await datePicker.getProperty("value")).toStrictEqual([currentDayISODate, ""]);
@@ -929,21 +929,16 @@ describe("calcite-date-picker", () => {
     it("should select current day when min is before current day but in same month", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
-      await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
-      if (currentDate.getDate() > 2) {
-        currentDate.setDate(1);
+      const minDate = getLocalDayDate();
+      if (minDate.getDate() > 2) {
+        minDate.setDate(1);
       }
-      const currentISODate = toDateOnlyIso(currentDate);
 
-      await page.evaluate((currentISODate) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.min = currentISODate;
-      }, currentISODate);
-
+      datePicker.setProperty("min", toDateOnlyIso(minDate));
       await page.waitForChanges();
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
@@ -955,7 +950,7 @@ describe("calcite-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      const currentDayDate = new Date();
+      const currentDayDate = getLocalDayDate();
       const currentDayISODate = toDateOnlyIso(currentDayDate);
 
       expect(await datePicker.getProperty("value")).toEqual(currentDayISODate);
@@ -967,7 +962,7 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       currentDate.setMonth(currentDate.getMonth() + 2);
       currentDate.setDate(12);
       const currentISODate = toDateOnlyIso(currentDate);
@@ -1239,6 +1234,12 @@ describe("calcite-date-picker", () => {
       themed(rangeDatePickerHTML, componentTokens);
     });
   });
+
+  function getLocalDayDate(): Date {
+    const today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    return today;
+  }
 
   function toDateOnlyIso(date: Date): string {
     return date.toISOString().split("T")[0];
