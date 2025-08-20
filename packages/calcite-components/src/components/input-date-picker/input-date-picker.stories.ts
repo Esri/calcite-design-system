@@ -198,6 +198,7 @@ export const defaultAllScales = (): string => html`
       display: flex;
       gap: 100px;
       block-size: 500px;
+      flex-grow: 1;
     }
   </style>
   <div class="container">
@@ -210,7 +211,7 @@ export const defaultAllScales = (): string => html`
 export const rangeAllScales = (): string => html`
   <style>
     .container {
-      inline-size: 200px;
+      inline-size: 2000px;
       block-size: 500px
       display: flex;
       gap: 100px;
@@ -259,6 +260,7 @@ export const rangeOneCalendarsAllScales = (): string => html`
       display: flex;
       gap: 100px;
       block-size: 500px;
+      flex-grow: 1;
     }
   </style>
   <div class="container">
