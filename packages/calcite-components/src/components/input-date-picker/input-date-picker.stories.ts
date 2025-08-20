@@ -211,7 +211,7 @@ export const defaultAllScales = (): string => html`
 export const rangeAllScales = (): string => html`
   <style>
     .container {
-      inline-size: 2000px;
+      inline-size: 2400px;
       block-size: 500px;
       display: flex;
       gap: 100px;
@@ -249,14 +249,13 @@ export const rangeAllScales = (): string => html`
       layout="horizontal"
       value="2020-12-12"
       overlay-positioning="fixed"
-      placement="bottom-start"
     ></calcite-input-date-picker>
   </div>
 `;
 
 rangeAllScales.parameters = {
   chromatic: {
-    delay: 3000,
+    delay: 5000,
   },
 };
 
