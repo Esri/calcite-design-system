@@ -27,6 +27,7 @@ export const CSS = {
   preview: "preview",
   previewAndSliders: "preview-and-sliders",
   saveColor: "save-color",
+  savedColor: "saved-color",
   savedColorsButtons: "saved-colors-buttons",
   savedColorsSection: "saved-colors-section",
   scope: "scope",
