@@ -140,6 +140,10 @@ export class InputNumber
   private valueController = useValue(this);
 
   private getLocalizedNumberString = (incomingValue: string): string => {
+    if (!incomingValue) {
+      return "";
+    }
+
     const { integer, isValueShortened, setNumberFormatOptions, valueController } = this;
     const { previousValue } = valueController;
 
@@ -172,9 +176,11 @@ export class InputNumber
       }`;
     }
 
-    newLocalizedValue = Array.from(newLocalizedValue)
-      .filter((char) => localizedCharAllowlist.has(char))
-      .join("");
+    if (newLocalizedValue) {
+      newLocalizedValue = Array.from(newLocalizedValue)
+        .filter((char) => localizedCharAllowlist.has(char))
+        .join("");
+    }
 
     return newLocalizedValue;
   };

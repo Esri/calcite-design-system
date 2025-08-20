@@ -1375,6 +1375,11 @@ describe("calcite-input-number", () => {
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
 
+    input.setProperty("value", "");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe("");
+
     input.setProperty("value", null);
     await page.waitForChanges();
 

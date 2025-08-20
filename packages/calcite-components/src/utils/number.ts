@@ -261,7 +261,7 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat,
 ): string {
-  const decimals = value.split(".")[1];
+  const decimals = value?.split(".")[1];
   if (decimals) {
     const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
     if (
