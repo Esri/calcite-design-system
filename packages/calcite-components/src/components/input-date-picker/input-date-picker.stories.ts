@@ -254,6 +254,12 @@ export const rangeAllScales = (): string => html`
   </div>
 `;
 
+rangeAllScales.parameters = {
+  chromatic: {
+    delay: 3000,
+  },
+};
+
 export const rangeOneCalendarsAllScales = (): string => html`
   <style>
     .container {
