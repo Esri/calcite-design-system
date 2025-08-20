@@ -218,6 +218,30 @@ export class InputNumber
     return previousValue?.length > value.length || this.value?.length > value.length;
   };
 
+  private setLocalizedValue = (value: string): void => {
+    const { value: currentValue } = this;
+    if (!this.valueController.userChangedValue && isInfinity(currentValue)) {
+      this.localizedValue = currentValue;
+      return;
+    }
+    this.localizedValue = this.getLocalizedNumberString(value);
+    this.warnAboutInvalidNumberValue(value);
+
+    if (this.childNumberEl) {
+      const childInputValue = this.childNumberEl?.value;
+      const localizedCharAllowList = getLocalizedCharAllowList(numberStringFormatter);
+      if (childInputValue) {
+        const sanitizedChildInputValue = Array.from(childInputValue)
+          .filter((char) => localizedCharAllowList.has(char))
+          .join("");
+
+        if (sanitizedChildInputValue !== childInputValue) {
+          this.childNumberEl.value = sanitizedChildInputValue;
+        }
+      }
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -536,6 +560,7 @@ export class InputNumber
     if (validatedValue || !value) {
       this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
     }
+    this.setLocalizedValue(this.value);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -785,16 +810,6 @@ export class InputNumber
 
   private setChildNumberElRef(el: HTMLInputElement) {
     this.childNumberEl = el;
-  }
-
-  private setLocalizedValue(value: string): void {
-    const { value: currentValue } = this;
-    if (!this.valueController.userChangedValue && isInfinity(currentValue)) {
-      this.localizedValue = currentValue;
-      return;
-    }
-    this.localizedValue = this.getLocalizedNumberString(value);
-    this.warnAboutInvalidNumberValue(value);
   }
 
   private inputNumberKeyUpHandler(): void {
