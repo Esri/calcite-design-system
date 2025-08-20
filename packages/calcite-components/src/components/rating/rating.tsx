@@ -405,6 +405,7 @@ export class Rating
         <span class={CSS.wrapper}>
           {this.labelText && (
             <InternalLabel
+              id={this.starsMap[0]?.id}
               labelText={this.labelText}
               onClick={this.onLabelClick}
               required={this.required}

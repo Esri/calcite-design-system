@@ -33,6 +33,7 @@ export const CSS = {
 const idPrefix = "calcite-slider";
 
 export const IDS = {
+  sliderContainer: "sliderContainer",
   validationMessage: "validationMessage",
   host: (id: any) => `${idPrefix}-${id}`,
 } as const;

@@ -6,5 +6,6 @@ export const CSS = {
 };
 
 export const IDS = {
+  selectContainer: "selectContainer",
   validationMessage: "selectValidationMessage",
 };

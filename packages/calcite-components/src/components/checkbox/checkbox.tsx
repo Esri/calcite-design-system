@@ -22,7 +22,7 @@ import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
@@ -275,6 +275,7 @@ export class Checkbox
             [CSS.toggle]: true,
             [CSS_UTILITY.rtl]: rtl,
           }}
+          id={IDS.checkboxContainer}
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
           ref={this.toggleEl}
@@ -288,6 +289,7 @@ export class Checkbox
         </div>
         {this.labelText && (
           <InternalLabel
+            id={IDS.checkboxContainer}
             labelText={this.labelText}
             noSpacingBottom={true}
             required={this.required}

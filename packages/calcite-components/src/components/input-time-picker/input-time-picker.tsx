@@ -580,6 +580,7 @@ export class InputTimePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
+            id={IDS.inputContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}

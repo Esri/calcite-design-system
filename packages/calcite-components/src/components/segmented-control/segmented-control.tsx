@@ -422,6 +422,7 @@ export class SegmentedControl
       <>
         {this.labelText && (
           <InternalLabel
+            id={IDS.segmentedControlContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
@@ -434,6 +435,7 @@ export class SegmentedControl
           ariaInvalid={this.status === "invalid"}
           ariaRequired={this.required}
           class={CSS.itemWrapper}
+          id={IDS.segmentedControlContainer}
         >
           <InteractiveContainer disabled={this.disabled}>
             <slot onSlotChange={this.handleDefaultSlotChange} />

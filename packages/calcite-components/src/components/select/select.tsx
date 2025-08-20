@@ -425,6 +425,7 @@ export class Select
       <InteractiveContainer disabled={disabled}>
         {this.labelText && (
           <InternalLabel
+            id={IDS.selectContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
@@ -438,6 +439,7 @@ export class Select
             ariaLabel={getLabelText(this)}
             class={CSS.select}
             disabled={disabled}
+            id={IDS.selectContainer}
             onChange={this.handleInternalSelectChange}
             ref={this.storeSelectRef}
             required={this.required}

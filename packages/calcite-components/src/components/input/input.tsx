@@ -1077,6 +1077,7 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           enterKeyHint={enterKeyHint}
+          id={IDS.inputContainer}
           inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
@@ -1119,6 +1120,7 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           enterKeyHint={enterKeyHint}
+          id={IDS.inputContainer}
           inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}
@@ -1149,6 +1151,7 @@ export class Input
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
+            id={IDS.inputContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}

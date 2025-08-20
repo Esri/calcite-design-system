@@ -488,6 +488,7 @@ export class TextArea
         <div class={CSS.wrapper}>
           {this.labelText && (
             <InternalLabel
+              id={IDS.textAreaContainer}
               labelText={this.labelText}
               onClick={this.onLabelClick}
               required={this.required}
@@ -509,6 +510,7 @@ export class TextArea
             }}
             cols={this.columns}
             disabled={this.disabled}
+            id={IDS.textAreaContainer}
             maxLength={this.limitText ? this.maxLength : undefined}
             name={this.name}
             onChange={this.handleChange}

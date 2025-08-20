@@ -19,6 +19,7 @@ export const CSS = {
 };
 
 export const IDS = {
+  inputContainer: "inputContainer",
   validationMessage: "inputNumberValidationMessage",
 };
 

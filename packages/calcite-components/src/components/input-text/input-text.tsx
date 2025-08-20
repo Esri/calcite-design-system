@@ -600,6 +600,7 @@ export class InputText
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
+        id={IDS.inputContainer}
         inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
         minLength={this.minLength}
@@ -624,6 +625,7 @@ export class InputText
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
+            id={IDS.inputContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}

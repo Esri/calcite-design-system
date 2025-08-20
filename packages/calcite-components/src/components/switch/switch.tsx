@@ -17,7 +17,7 @@ import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./switch.scss";
 
 declare global {
@@ -188,6 +188,7 @@ export class Switch
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
           class={CSS.container}
+          id={IDS.switchContainer}
           ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
@@ -195,6 +196,7 @@ export class Switch
           {this.labelTextStart && (
             <InternalLabel
               alignmentCenter={true}
+              id={IDS.switchContainer}
               labelText={this.labelTextStart}
               noSpacingBottom={true}
               spacingInlineEnd={true}
@@ -206,6 +208,7 @@ export class Switch
           {this.labelTextEnd && (
             <InternalLabel
               alignmentCenter={true}
+              id={IDS.switchContainer}
               labelText={this.labelTextEnd}
               noSpacingBottom={true}
               spacingInlineStart={true}

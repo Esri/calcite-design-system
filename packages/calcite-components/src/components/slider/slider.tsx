@@ -1162,6 +1162,7 @@ export class Slider
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
+            id={IDS.sliderContainer}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
@@ -1178,6 +1179,7 @@ export class Slider
             [CSS.containerRange]: valueIsRange,
             [CSS.scale(this.scale)]: true,
           }}
+          id={IDS.sliderContainer}
         >
           {this.renderGraph()}
           <div class={CSS.track} ref={this.storeTrackRef}>

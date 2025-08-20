@@ -1910,6 +1910,7 @@ export class Combobox
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
+            id={`${IDS.input(guid)}`}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
