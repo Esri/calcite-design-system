@@ -208,16 +208,26 @@ export const defaultAllScales = (): string => html`
   </div>
 `;
 
-export const rangeAllScales = (): string => html`
+export const rangeSmallAndLargeScales = (): string => html`
   <style>
     .container {
-      inline-size: 2400px;
+      inline-size: 1500px;
       block-size: 500px;
       display: flex;
       gap: 100px;
     }
   </style>
   <div class="container">
+    <calcite-input-date-picker
+      scale="s"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      overlay-positioning="fixed"
+    ></calcite-input-date-picker>
     <calcite-input-date-picker
       scale="l"
       open
@@ -229,35 +239,8 @@ export const rangeAllScales = (): string => html`
       overlay-positioning="fixed"
       placement="bottom-start"
     ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="m"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="s"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-    ></calcite-input-date-picker>
   </div>
 `;
-
-rangeAllScales.parameters = {
-  chromatic: {
-    delay: 5000,
-  },
-};
 
 export const rangeOneCalendarsAllScales = (): string => html`
   <style>
