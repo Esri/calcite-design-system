@@ -1901,7 +1901,7 @@ describe("calcite-list", () => {
         await page.waitForChanges();
         await page.waitForTimeout(DEBOUNCE.nextTick);
 
-        return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
+        return findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.move} calcite-dropdown-item`, {
           allowEmpty: true,
         });
       }
@@ -1942,7 +1942,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       async function getAddToItems(id: string) {
-        return await findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.add} calcite-dropdown-item`, {
+        return findAll(page, `#${id} >>> calcite-dropdown-group#${IDS.add} calcite-dropdown-item`, {
           allowEmpty: true,
         });
       }
