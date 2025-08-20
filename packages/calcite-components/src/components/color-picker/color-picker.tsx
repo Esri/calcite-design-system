@@ -1541,6 +1541,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
             <calcite-swatch
               class={CSS.preview}
               color={selectedColorInHex}
+              label={selectedColorInHex}
               scale={this.alphaChannel ? "l" : this.scale}
             />
             <div class={CSS.sliders}>
@@ -1663,12 +1664,13 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <calcite-swatch-group scale={scale} selectionMode="none">
+                <calcite-swatch-group label={messages.saved} scale={scale} selectionMode="none">
                   {savedColors.map((color) => (
                     <calcite-swatch
                       class={CSS.savedColor}
                       color={color}
                       key={color}
+                      label={color}
                       onClick={this.handleSavedColorSelect}
                       onKeyDown={this.handleSavedColorKeyDown}
                       scale={scale}
