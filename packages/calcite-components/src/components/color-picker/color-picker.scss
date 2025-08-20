@@ -158,20 +158,4 @@
   display: flex;
 }
 
-.saved-color {
-  @include focus-style-base();
-
-  cursor: pointer;
-
-  &:focus {
-    @include focus-style-outset();
-  }
-
-  &:hover {
-    transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
-    outline: 2px solid var(--calcite-color-border-2);
-    outline-offset: 2px;
-  }
-}
-
 @include base-component();
