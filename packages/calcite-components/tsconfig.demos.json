@@ -1,4 +1,14 @@
 {
   "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "strict": false,
+    "plugins": [
+      {
+        "name": "typescript-strict-plugin"
+      }
+    ]
+  },
   "include": ["src/demos"]
 }

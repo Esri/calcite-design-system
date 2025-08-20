@@ -92,6 +92,9 @@ export class DatePicker extends LitElement {
   /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
   @property({ reflect: true }) activeRange: "start" | "end";
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
+
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
@@ -335,7 +338,8 @@ export class DatePicker extends LitElement {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
-        month !== nextMonth(this.activeStartDate).getMonth();
+        (this.calendars === 1 || month !== nextMonth(this.activeStartDate).getMonth());
+
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
           this.activeEndDate = date;
@@ -454,12 +458,12 @@ export class DatePicker extends LitElement {
     return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-  private setEndDate(date: Date): void {
+  private setEndDate(date: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    if (date) {
+    if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
@@ -468,12 +472,14 @@ export class DatePicker extends LitElement {
     return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
   }
 
-  private setStartDate(date: Date): void {
+  private setStartDate(date: Date, emit = true): void {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
-    this.calciteDatePickerRangeChange.emit();
+    if (emit) {
+      this.calciteDatePickerRangeChange.emit();
+    }
   }
 
   /**
@@ -513,8 +519,9 @@ export class DatePicker extends LitElement {
       this.setEndDate(date);
     } else {
       if (this.proximitySelectionDisabled) {
-        this.setStartDate(date);
-        this.setEndDate(null);
+        this.setStartDate(date, false);
+        this.setEndDate(null, false);
+        this.calciteDatePickerRangeChange.emit();
       } else {
         if (this.activeRange) {
           if (this.activeRange == "end") {
@@ -522,7 +529,7 @@ export class DatePicker extends LitElement {
           } else {
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
-              this.setEndDate(null);
+              this.setEndDate(null, false);
               this.activeEndDate = null;
             }
             this.setStartDate(date);
@@ -659,6 +666,7 @@ export class DatePicker extends LitElement {
     return (
       <calcite-date-picker-month
         activeDate={activeDate}
+        calendars={this.calendars}
         dateTimeFormat={this.dateTimeFormat}
         endDate={this.range ? endDate : undefined}
         headingLevel={this.headingLevel || HEADING_LEVEL}

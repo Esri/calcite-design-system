@@ -16,7 +16,7 @@ class DomSwapper extends HTMLElement {
     this._slot = slot;
   }
 
-  private _headStyles: HTMLStyleElement[];
+  private _headStyles!: HTMLStyleElement[];
 
   private _slot: HTMLSlotElement;
 

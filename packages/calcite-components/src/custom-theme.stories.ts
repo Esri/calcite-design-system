@@ -38,7 +38,12 @@ import {
   inputDatePickerRangeVertical,
   inputDatePickerTokens,
 } from "./custom-theme/input-date-picker";
-import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
+import {
+  inputMessageInvalid,
+  inputMessageValid,
+  inputMessageIdle,
+  inputMessageTokens,
+} from "./custom-theme/input-message";
 import {
   inputNumber,
   inputNumberClearable,
@@ -223,7 +228,14 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${inputMessage}</div>
+      <div class="demo-column open-calendar-spacing-small">${inputDatePicker}</div>
+      <div class="demo-column open-calendar-spacing-large">${inputDatePickerRange}</div>
+      <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${inputMessageInvalid}</div>
+      <div class="demo-column">${inputMessageValid}</div>
+      <div class="demo-column">${inputMessageIdle}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${radioButton}</div>

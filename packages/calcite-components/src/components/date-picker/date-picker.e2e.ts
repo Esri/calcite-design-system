@@ -26,6 +26,14 @@ describe("calcite-date-picker", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "calendars",
+        defaultValue: 2,
+      },
+      {
+        propertyName: "monthStyle",
+        defaultValue: "wide",
+      },
     ]);
   });
 
@@ -102,7 +110,32 @@ describe("calcite-date-picker", () => {
       expect(eventSpy).toHaveReceivedEventTimes(2);
     });
 
-    it("Emits calciteDatePickerRangeChange event and updates value property when start and end dates are selected from end calendar", async () => {
+    it("emits calciteDatePickerRangeChange event and updates value property when start & end dates are selected from same month in range with one calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+      const eventSpy = await page.spyOnEvent("calciteDatePickerRangeChange");
+      await page.waitForTimeout(animationDurationInMs);
+
+      const now = new Date();
+      const currentYear = now.getUTCFullYear();
+      const currentMonth = now.getUTCMonth() + 1;
+      const startDate = `${currentYear}-${formatTimePart(currentMonth)}-01`;
+      const endDate = `${currentYear}-${formatTimePart(currentMonth)}-15`;
+
+      await selectDayInMonthById(startDate.replaceAll("-", ""), page);
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual([startDate, ""]);
+
+      await selectDayInMonthById(endDate.replaceAll("-", ""), page);
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual([startDate, endDate]);
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it("emits calciteDatePickerRangeChange event and updates value property when start and end dates are selected from end calendar", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-date-picker range></calcite-date-picker>");
       const datePicker = await page.find("calcite-date-picker");
@@ -426,6 +459,53 @@ describe("calcite-date-picker", () => {
       expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-02-01"]);
     });
 
+    it("should be able to navigate between months and select date using arrow keys & page keys when calendars is to set to one in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
+      await page.waitForChanges();
+
+      const datePicker = await page.find("calcite-date-picker");
+      await setActiveDate(page, "01-01-2024");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", ""]);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2023-12-25"]);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-01-25"]);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-02-01"]);
+    });
+
     it("should be able to navigate between months and select date using arrow keys and page keys in range when value is parsed", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
@@ -468,6 +548,51 @@ describe("calcite-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-02-08"]);
+    });
+
+    it("should be able to navigate between months and select date using arrow keys & page keys in range when value is parsed in range with one calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range calendars="1"></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+      datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", "2024-02-10"]);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", "2024-01-08"]);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-01-08"]);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
       expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-02-08"]);
     });
   });
@@ -602,6 +727,44 @@ describe("calcite-date-picker", () => {
   });
 
   describe("month & year selection", () => {
+    it("should allow selecting first and last valid month from select menu in range with one calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-date-picker range min="2024-01-21" max="2024-10-21" calendars="1"></calcite-date-picker>`,
+      );
+
+      await setActiveDate(page, "07-01-2024");
+      await page.waitForChanges();
+
+      const monthSelect = await page.find(
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
+      );
+      const yearInput = await page.find("calcite-date-picker >>> calcite-date-picker-month-header >>> input");
+      expect(await yearInput.getProperty("value")).toBe("2024");
+      expect(await monthSelect.getProperty("value")).toBe("July");
+
+      await monthSelect.click();
+      await page.waitForChanges();
+
+      await page.select(
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker} >>> select`,
+        "January",
+      );
+      await page.waitForChanges();
+
+      expect(await monthSelect.getProperty("value")).toBe("January");
+      expect(await yearInput.getProperty("value")).toBe("2024");
+
+      await page.select(
+        `calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.${MONTH_HEADER_CSS.monthPicker} >>> select`,
+        "October",
+      );
+      await page.waitForChanges();
+
+      expect(await monthSelect.getProperty("value")).toBe("October");
+      expect(await yearInput.getProperty("value")).toBe("2024");
+    });
+
     it("should allow selecting last valid month from month select menu in start calendar", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker range max="2024-10-21"></calcite-date-picker>`);
@@ -1123,7 +1286,7 @@ describe("calcite-date-picker", () => {
         },
         "--calcite-date-picker-day-text-color": {
           selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day >>> .day`,
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[current-month] >>> .day`,
           targetProp: "color",
         },
         "--calcite-date-picker-day-text-color-hover": {

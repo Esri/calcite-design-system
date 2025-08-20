@@ -14,9 +14,8 @@ import { getProjectLicenses } from "generate-license-file";
     await execAsync("npm install --no-workspaces");
 
     const coveredByEsriLicense = [
-      "@arcgis/lumina/controllers",
-      "@arcgis/toolkit",
       "@arcgis/lumina",
+      "@arcgis/toolkit",
       "@esri/calcite-components",
       "@esri/calcite-components-react",
       "@esri/calcite-design-tokens",

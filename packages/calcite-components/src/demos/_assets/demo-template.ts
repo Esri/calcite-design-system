@@ -12,12 +12,15 @@ const removeHeader = (): void => {
   window.location.search = url.search;
 };
 
-const toggleDom = ({ currentTarget }): void => {
+const toggleDom = ({ currentTarget }: Event): void => {
   const mover = document.querySelector<DomSwapper>("demo-dom-swapper");
   if (!mover) {
     return;
   }
-  if (currentTarget.checked) {
+  if (
+    // workaround until demo + start builds are merged
+    (currentTarget as HTMLElement & Pick<HTMLInputElement, "checked">).checked
+  ) {
     mover.moveTo("shadow");
   } else {
     mover.moveTo("light");
