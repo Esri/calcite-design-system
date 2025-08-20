@@ -15,7 +15,7 @@ import {
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
-import type { MoveEventDetail } from "./interfaces";
+import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
 
 describe("calcite-sort-handle", () => {
@@ -24,6 +24,22 @@ describe("calcite-sort-handle", () => {
       {
         propertyName: "sortDisabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "setPosition",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "setSize",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "moveToItems",
+        defaultValue: [],
+      },
+      {
+        propertyName: "addToItems",
+        defaultValue: [],
       },
     ]);
   });
@@ -144,6 +160,38 @@ describe("calcite-sort-handle", () => {
     expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
     expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
     expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
+  });
+
+  it("fires calciteSortHandleAdd event", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
+    await skipAnimations(page);
+
+    const addToItems = [
+      { label: "List 2", id: "list2" },
+      { label: "List 3", id: "list3" },
+    ];
+
+    const sortHandle = await page.find("calcite-sort-handle");
+    sortHandle.setProperty("addToItems", addToItems);
+    await page.waitForChanges();
+
+    const calciteSortHandleAddSpy = await page.spyOnEvent<AddEventDetail>("calciteSortHandleAdd");
+
+    const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+    await action.callMethod("setFocus");
+
+    const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    await openEventSpy.next();
+    expect(await sortHandle.getProperty("open")).toBe(true);
+
+    await page.keyboard.press(" ");
+    await page.waitForChanges();
+    expect(calciteSortHandleAddSpy.lastEvent.detail.addTo.id).toBe(addToItems[1].id);
+    expect(calciteSortHandleAddSpy).toHaveReceivedEventTimes(1);
+    expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
   });
 
   it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize < 2", async () => {
