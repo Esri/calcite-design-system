@@ -92,6 +92,9 @@ export class DatePicker extends LitElement {
   /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
   @property({ reflect: true }) activeRange: "start" | "end";
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
+
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
@@ -335,7 +338,8 @@ export class DatePicker extends LitElement {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
-        month !== nextMonth(this.activeStartDate).getMonth();
+        (this.calendars === 1 || month !== nextMonth(this.activeStartDate).getMonth());
+
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
           this.activeEndDate = date;
@@ -662,6 +666,7 @@ export class DatePicker extends LitElement {
     return (
       <calcite-date-picker-month
         activeDate={activeDate}
+        calendars={this.calendars}
         dateTimeFormat={this.dateTimeFormat}
         endDate={this.range ? endDate : undefined}
         headingLevel={this.headingLevel || HEADING_LEVEL}
