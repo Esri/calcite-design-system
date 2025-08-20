@@ -195,10 +195,10 @@ export const validationMessageAllScales_TestOnly = (): string => html`
 export const defaultAllScales = (): string => html`
   <style>
     .container {
+      block-size: 500px;
       display: flex;
       gap: 100px;
-      block-size: 500px;
-      flex-grow: 1;
+      inline-size: 1200px;
     }
   </style>
   <div class="container">
@@ -212,7 +212,7 @@ export const rangeAllScales = (): string => html`
   <style>
     .container {
       inline-size: 2000px;
-      block-size: 500px
+      block-size: 500px;
       display: flex;
       gap: 100px;
     }
@@ -257,10 +257,10 @@ export const rangeAllScales = (): string => html`
 export const rangeOneCalendarsAllScales = (): string => html`
   <style>
     .container {
+      block-size: 500px;
       display: flex;
       gap: 100px;
-      block-size: 500px;
-      flex-grow: 1;
+      inline-size: 1200px;
     }
   </style>
   <div class="container">
