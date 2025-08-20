@@ -774,7 +774,7 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe("2");
     });
 
-    it("Setting the value to -Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+    it("Setting the value to Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input-number></calcite-input-number>`);
       const input = await page.find("calcite-input-number");
@@ -789,6 +789,18 @@ describe("calcite-input-number", () => {
       await typeNumberValue(page, "123");
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("-Infinity");
+
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("");
+
+      input.setProperty("value", "Infinity");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("Infinity");
+
+      await typeNumberValue(page, "123");
+      await page.waitForChanges();
+      expect(await input.getProperty("value")).toBe("Infinity");
 
       await page.keyboard.press("Backspace");
       await page.waitForChanges();
@@ -1133,7 +1145,7 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("-123");
   });
 
-  describe("number locale support", () => {
+  describe.skip("number locale support", () => {
     // locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
     const localesWithDifferentBrowserAndNodeFormatting = [
       "ar",

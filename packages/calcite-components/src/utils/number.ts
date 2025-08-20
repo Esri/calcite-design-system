@@ -101,12 +101,12 @@ export class BigDecimal {
   }
 }
 
-export function isInfinity(value: string): boolean {
-  return value === "Infinity" || value === "-Infinity";
+export function isInfinity(value: string | number): boolean {
+  return value === "Infinity" || value === "-Infinity" || value === Infinity || value === -Infinity;
 }
 
-export function isValidNumber(numberString: string): boolean {
-  return !(!numberString || isNaN(Number(numberString)));
+export function isValidNumber(value: string): boolean {
+  return !(!value || isNaN(Number(value)));
 }
 
 export function parseNumberString(numberString?: string): string {

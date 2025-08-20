@@ -139,8 +139,8 @@ export class InputNumber
 
   private valueController = useValue(this);
 
-  private getLocalizedNumberString = (incomingValue: string): string => {
-    if (!incomingValue) {
+  private getLocalizedNumberString = (value: string): string => {
+    if (!value) {
       return "";
     }
 
@@ -149,9 +149,9 @@ export class InputNumber
 
     setNumberFormatOptions();
 
-    let newLocalizedValue = numberStringFormatter.localize(incomingValue);
+    let newLocalizedValue = numberStringFormatter.localize(value);
     const localizedCharAllowlist = getLocalizedCharAllowList(numberStringFormatter);
-    const validatedInteger = integer ? incomingValue.replace(/[e.]/g, "") : incomingValue;
+    const validatedInteger = integer ? value.replace(/[e.]/g, "") : value;
     const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedInteger);
     const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
     const valueHasLeadingZeros = hasLeadingZeros(validatedInteger);
@@ -159,12 +159,12 @@ export class InputNumber
     if (!valueHasTrailingDecimal) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
         newLocalizedValue,
-        incomingValue,
+        value,
         numberStringFormatter,
       );
     }
 
-    if (valueHasTrailingDecimal && isValueShortened(incomingValue, previousValue)) {
+    if (valueHasTrailingDecimal && isValueShortened(value, previousValue)) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -186,6 +186,10 @@ export class InputNumber
   };
 
   private getValidNumberString = (value: string): string => {
+    if (isInfinity(value)) {
+      return value;
+    }
+
     if (!isValidNumber(value)) {
       return "";
     }
@@ -226,7 +230,7 @@ export class InputNumber
 
   private setLocalizedValue = (value: string): void => {
     const { value: currentValue } = this;
-    if (!this.valueController.userChangedValue && isInfinity(currentValue)) {
+    if (!this.valueController.userChangedValue || isInfinity(currentValue)) {
       this.localizedValue = currentValue;
       return;
     }
