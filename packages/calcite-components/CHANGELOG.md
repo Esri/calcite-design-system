@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.74...@esri/calcite-components@3.3.0-next.75) (2025-08-20)
+
+### Bug Fixes
+
+- **card:** ensure `setFocus` focuses card when it contains nested interactive children ([#12724](https://github.com/Esri/calcite-design-system/issues/12724)) ([94da532](https://github.com/Esri/calcite-design-system/commit/94da532652c609649aaf385ecf6075196545fd79)), closes [#12714](https://github.com/Esri/calcite-design-system/issues/12714)
+
 ## [3.3.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.73...@esri/calcite-components@3.3.0-next.74) (2025-08-18)
 
 ### Features
