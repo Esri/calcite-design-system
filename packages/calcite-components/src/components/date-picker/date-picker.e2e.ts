@@ -284,10 +284,13 @@ describe("calcite-date-picker", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 
-      const beforeMinDayIso = "2025-08-17T07:00:00.000Z";
-      const minDayIso = "2025-08-18T07:00:00.000Z";
-      const maxDayIso = "2025-08-20T07:00:00.000Z";
-      const afterMaxDayIso = "2025-08-23T07:00:00.000Z";
+      const beforeMinDateOnlyIso = "2025-08-17";
+      const minDateOnlyIso = "2025-08-18";
+      const maxDateOnlyIso = "2025-08-20";
+      const afterMaxDateOnlyIso = "2025-08-21";
+      const offsetIso = "T07:00:00.000Z";
+      const minDayIso = `${minDateOnlyIso}${offsetIso}`;
+      const maxDayIso = `${maxDateOnlyIso}${offsetIso}`;
 
       await page.$eval(
         "calcite-date-picker",
@@ -300,16 +303,16 @@ describe("calcite-date-picker", () => {
       );
       await page.waitForChanges();
 
-      const previousDay = await getDayById(page, beforeMinDayIso.split("T")[0].replaceAll("-", ""));
+      const previousDay = await getDayById(page, dateIsoToDayId(beforeMinDateOnlyIso));
       expect(await previousDay.getProperty("disabled")).toBe(true);
 
-      const currentDay = await getDayById(page, minDayIso.split("T")[0].replaceAll("-", ""));
+      const currentDay = await getDayById(page, dateIsoToDayId(minDateOnlyIso));
       expect(await currentDay.getProperty("disabled")).toBe(false);
 
-      const maxDay = await getDayById(page, maxDayIso.split("T")[0].replaceAll("-", ""));
+      const maxDay = await getDayById(page, dateIsoToDayId(maxDateOnlyIso));
       expect(await maxDay.getProperty("disabled")).toBe(false);
 
-      const outOfRangeDay = await getDayById(page, afterMaxDayIso.split("T")[0].replaceAll("-", ""));
+      const outOfRangeDay = await getDayById(page, dateIsoToDayId(afterMaxDateOnlyIso));
       expect(await outOfRangeDay.getProperty("disabled")).toBe(true);
     });
   });
@@ -1283,6 +1286,10 @@ describe("calcite-date-picker", () => {
     );
     await day.click();
     await page.waitForChanges();
+  }
+
+  function dateIsoToDayId(isoDate: string): string {
+    return isoDate.split("T")[0].replaceAll("-", "");
   }
 
   async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
