@@ -1663,7 +1663,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <calcite-swatch-group scale={scale} selectionMode="single">
+                <calcite-swatch-group scale={scale} selectionMode="none">
                   {savedColors.map((color) => (
                     <calcite-swatch
                       class={CSS.savedColor}
