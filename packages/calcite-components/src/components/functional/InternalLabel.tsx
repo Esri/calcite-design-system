@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 
 interface InternalLabelProps {
   alignmentCenter?: boolean;
+  id: string;
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
@@ -29,6 +30,7 @@ export const CSS = {
 
 export const InternalLabel = ({
   alignmentCenter,
+  id,
   labelText,
   onClick,
   required,
@@ -49,7 +51,7 @@ export const InternalLabel = ({
     onClick={onClick}
   >
     <div class={CSS.text}>
-      {labelText}
+      <label htmlFor={id}>{labelText}</label>
       {required && (
         <span aria-hidden="true" class={CSS.requiredIndicator} title={tooltipText}>
           *
