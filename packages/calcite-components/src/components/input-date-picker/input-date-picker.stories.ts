@@ -197,6 +197,7 @@ export const defaultAllScales = (): string => html`
     .container {
       display: flex;
       gap: 100px;
+      block-size: 500px;
     }
   </style>
   <div class="container">
@@ -209,6 +210,8 @@ export const defaultAllScales = (): string => html`
 export const rangeAllScales = (): string => html`
   <style>
     .container {
+      inline-size: 200px;
+      block-size: 500px
       display: flex;
       gap: 100px;
     }
@@ -250,24 +253,12 @@ export const rangeAllScales = (): string => html`
   </div>
 `;
 
-rangeAllScales.parameters = {
-  chromatic: {
-    modes: {
-      specific: {
-        viewport: {
-          width: 2000,
-        },
-      },
-    },
-    cropToViewport: true,
-  },
-};
-
 export const rangeOneCalendarsAllScales = (): string => html`
   <style>
     .container {
       display: flex;
       gap: 100px;
+      block-size: 500px;
     }
   </style>
   <div class="container">
