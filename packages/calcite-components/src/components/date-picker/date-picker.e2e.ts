@@ -936,7 +936,7 @@ describe("calcite-date-picker", () => {
       if (currentDate.getDate() > 2) {
         currentDate.setDate(1);
       }
-      const currentISODate = currentDate.toISOString();
+      const currentISODate = currentDate.toISOString().split("T")[0];
 
       await page.evaluate((currentISODate) => {
         const datePicker = document.querySelector("calcite-date-picker");
@@ -1241,8 +1241,8 @@ describe("calcite-date-picker", () => {
   });
 });
 
-async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-  await page.$eval("calcite-date-picker", (datePicker, date) => (datePicker.activeDate = new Date(date)), date);
+async function setActiveDate(page: E2EPage, isoDate: string): Promise<void> {
+  await page.$eval("calcite-date-picker", (datePicker, date) => (datePicker.activeDate = new Date(date)), isoDate);
   await page.waitForChanges();
 }
 
