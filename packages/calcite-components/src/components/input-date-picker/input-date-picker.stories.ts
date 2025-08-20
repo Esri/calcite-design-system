@@ -219,7 +219,7 @@ export const rangeAllScales = (): string => html`
   </style>
   <div class="container">
     <calcite-input-date-picker
-      scale="s"
+      scale="l"
       open
       min="2020-12-12"
       max="2020-12-16"
@@ -241,7 +241,7 @@ export const rangeAllScales = (): string => html`
       placement="bottom-start"
     ></calcite-input-date-picker>
     <calcite-input-date-picker
-      scale="l"
+      scale="s"
       open
       min="2020-12-12"
       max="2020-12-16"
