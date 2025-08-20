@@ -21,16 +21,15 @@
  * @prop --calcite-input-date-picker-calendar-actions-background-color-hover: Specifies the background color of actions of the calendar when hovered.
  * @prop --calcite-input-date-picker-calendar-actions-background-color-press: Specifies the background color of actions of the calendar when pressed.
  * @prop --calcite-input-date-picker-calendar-selected-background-color: Specifies the background color of selected day and day range of the calendar.
- * @prop --calcite-input-calendar-day-background-color: Specifies the background color of day of the calendar.
+ * @prop --calcite-input-date-picker-calendar-day-background-color: Specifies the background color of day of the calendar.
  * @prop --calcite-input-date-picker-calendar-day-background-color-hover: Specifies the background color of day of the calendar when hovered.
  * @prop --calcite-input-date-picker-calendar-day-outside-range-background-color-hover: Specifies the background color of day's outside current range of the component's date-picker when hovered.
  * 
  * @prop --calcite-input-date-picker-corner-radius: Specifies the component's input corner radius.
- * @prop --calcite-input-date-picker-calendar-corner-radius: Specifies the component's calendar border radius.
+ * @prop --calcite-input-date-picker-calendar-corner-radius: Specifies the component's calendar corner radius.
  *
  * @prop --calcite-input-date-picker-text-color: Specifies the component's input text color.
  * @prop --calcite-input-date-picker-placeholder-text-color: Specifies the component's input placeholder text color.
-calendars when `range="true"`.
  * @prop --calcite-input-date-picker-calendar-actions-text-color: Specifies the text color of the component's calendar actions.
  * @prop --calcite-input-date-picker-calendar-actions-text-color-press: Specifies the text color of the component's calendar actions when pressed.
  * @prop --calcite-input-date-picker-calendar-text-color: Specifies the text color of the component's calendar week, year & suffix.
@@ -38,7 +37,7 @@ calendars when `range="true"`.
  * @prop --calcite-input-date-picker-calendar-month-select-text-color: Specifies the text color of month select of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color: Specifies the text color of day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color-hover: Specifies the text color of day of the component's date-picker when hovered.
- * @prop --calcite-input-date-picker-calendar-current-day-text-color: Specifies the text color of current day of the component's date-picker.
+ * @prop --calcite-input-date-picker-calendar-day-current-text-color: Specifies the text color of current day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color-selected: Specifies the text color of selected day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-range-text-color: Specifies the text color of select day range of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-outside-range-text-color-hover: Specifies the text color of day's outside current range of the component's date-picker when hovered.
@@ -271,7 +270,7 @@ calcite-date-picker {
   --calcite-date-picker-day-text-color: var(--calcite-input-date-picker-calendar-day-text-color);
   --calcite-date-picker-day-text-color-hover: var(--calcite-input-date-picker-calendar-day-text-color-hover);
   --calcite-date-picker-day-text-color-selected: var(--calcite-input-date-picker-calendar-day-text-color-selected);
-  --calcite-date-picker-current-day-text-color: var(--calcite-input-date-picker-calendar-current-day-text-color);
+  --calcite-date-picker-current-day-text-color: var(--calcite-input-date-picker-calendar-day-current-text-color);
   --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-calendar-day-range-text-color);
   --calcite-date-picker-day-range-background-color: var(--calcite-input-date-picker-calendar-selected-background-color);
   --calcite-date-picker-day-outside-range-background-color-hover: var(
