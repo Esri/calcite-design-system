@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.78...@esri/calcite-components@3.3.0-next.79) (2025-08-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** ensure overlay does not obscure input icon ([#12716](https://github.com/Esri/calcite-design-system/issues/12716)) ([345ee95](https://github.com/Esri/calcite-design-system/commit/345ee950f4a2fc75a021e4f585196c2493e843b3)), closes [#10269](https://github.com/Esri/calcite-design-system/issues/10269)
+
 ## [3.3.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.77...@esri/calcite-components@3.3.0-next.78) (2025-08-20)
 
 ### Features
