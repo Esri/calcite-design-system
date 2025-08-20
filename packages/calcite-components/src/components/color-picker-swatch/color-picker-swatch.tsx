@@ -14,6 +14,9 @@ declare global {
   }
 }
 
+/**
+ * @deprecated Use the `calcite-swatch-group` and `calcite-swatch` components instead.
+ */
 export class ColorPickerSwatch extends LitElement {
   // #region Static Members
 
