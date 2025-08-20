@@ -2048,7 +2048,7 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
         await saveColor.click();
 
-        const savedColors = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const savedColors = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         expect(savedColors).toHaveLength(3);
       });
 
@@ -2056,7 +2056,7 @@ describe("calcite-color-picker", () => {
         const page = await newE2EPage();
         await page.setContent(`<calcite-color-picker storage-id=${storageId}></calcite-color-picker>`);
 
-        const savedColors = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const savedColors = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         expect(savedColors).toHaveLength(3);
       });
 
@@ -2076,7 +2076,7 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
         await saveColor.click();
 
-        const saved: E2EElement[] = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const saved: E2EElement[] = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         let expectedSaved = 3;
 
         const removeColor = await page.find(`calcite-color-picker >>> .${CSS.deleteColor}`);
@@ -2086,7 +2086,7 @@ describe("calcite-color-picker", () => {
           await removeColor.click();
 
           expect(
-            await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`, {
+            await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`, {
               allowEmpty: true,
             }),
           ).toHaveLength(--expectedSaved);
@@ -2144,7 +2144,7 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
         await saveColor.click();
 
-        const savedColors = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const savedColors = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         expect(savedColors).toHaveLength(3);
       });
 
@@ -2152,7 +2152,7 @@ describe("calcite-color-picker", () => {
         const page = await newE2EPage();
         await page.setContent(`<calcite-color-picker alpha-channel storage-id=${storageId}></calcite-color-picker>`);
 
-        const savedColors = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const savedColors = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         expect(savedColors).toHaveLength(3);
       });
 
@@ -2172,7 +2172,7 @@ describe("calcite-color-picker", () => {
         await page.waitForChanges();
         await saveColor.click();
 
-        const saved: E2EElement[] = await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`);
+        const saved: E2EElement[] = await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`);
         let expectedSaved = 3;
 
         const removeColor = await page.find(`calcite-color-picker >>> .${CSS.deleteColor}`);
@@ -2182,7 +2182,7 @@ describe("calcite-color-picker", () => {
           await removeColor.click();
 
           expect(
-            await findAll(page, `calcite-color-picker >>> .${CSS.savedColors} calcite-swatch`, {
+            await findAll(page, `calcite-color-picker >>> calcite-swatch-group calcite-swatch`, {
               allowEmpty: true,
             }),
           ).toHaveLength(--expectedSaved);
@@ -2250,7 +2250,7 @@ describe("calcite-color-picker", () => {
       const [hex, channels, saved, field] = await Promise.all([
         page.find(`calcite-color-picker >>> .${CSS.hexOptions}`),
         page.find(`calcite-color-picker >>> .${CSS.colorModeContainer}`),
-        page.find(`calcite-color-picker >>> .${CSS.savedColors}`),
+        page.find(`calcite-color-picker >>> calcite-swatch-group`),
         page.find(`calcite-color-picker >>> .${CSS.colorField}`),
       ]);
 
