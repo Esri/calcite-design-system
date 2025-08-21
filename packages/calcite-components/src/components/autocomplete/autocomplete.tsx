@@ -160,12 +160,10 @@ export class Autocomplete
 
   @state() groups: AutocompleteItemGroup["el"][] = [];
 
-  @state()
   get isOpen(): boolean {
     return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
   }
 
-  @state()
   get enabledItems(): AutocompleteItem["el"][] {
     return this.items.filter((item) => !item.disabled);
   }

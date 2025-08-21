@@ -296,17 +296,14 @@ export class Combobox
 
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
-  @state()
   get allSelected(): boolean {
     return this.selectedItems.length === this.items.length;
   }
 
-  @state()
   get indeterminate(): boolean {
     return this.selectedItems.length > 0 && !this.allSelected;
   }
 
-  @state()
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
     const { selectAllComboboxItemReferenceEl } = this;
 
