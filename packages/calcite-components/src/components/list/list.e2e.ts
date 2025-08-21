@@ -1919,6 +1919,20 @@ describe("calcite-list", () => {
 
       const dMoveItems = await getMoveItems("d");
       expect(dMoveItems.length).toBe(0);
+
+      await page.evaluate(() => {
+        const firstLetters = document.getElementById("first-letters") as List["el"];
+        firstLetters.canPull = ({ dragEl }) => dragEl.id === "b";
+        firstLetters.canPut = ({ dragEl }) => dragEl.id === "c";
+        const secondLetters = document.getElementById("second-letters") as List["el"];
+        secondLetters.canPull = () => true;
+        secondLetters.canPut = () => false;
+      });
+      await page.waitForChanges();
+
+      expect((await getMoveItems("a")).length).toBe(0);
+
+      expect((await getMoveItems("b")).length).toBe(0);
     });
 
     it("supports cloning with canPull", async () => {
