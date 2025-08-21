@@ -115,7 +115,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     maxBlockSize: null,
   };
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded;
   }
 

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -50,19 +50,19 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   // #region State Properties
 
-  @state() get hasSetInfo(): boolean {
+  get hasSetInfo(): boolean {
     return typeof this.setPosition === "number" && typeof this.setSize === "number";
   }
 
-  @state() get hasValidSetInfo(): boolean {
+  get hasValidSetInfo(): boolean {
     return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
   }
 
-  @state() get hasReorderItems(): boolean {
+  get hasReorderItems(): boolean {
     return !this.sortDisabled && this.hasValidSetInfo;
   }
 
-  @state() get hasNoItems(): boolean {
+  get hasNoItems(): boolean {
     return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
   }
 

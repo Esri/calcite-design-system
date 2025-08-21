@@ -133,7 +133,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
-  @state() get hasActiveFilter(): boolean {
+  get hasActiveFilter(): boolean {
     return (
       this.filterEnabled &&
       this.filterText &&
@@ -141,7 +141,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     );
   }
 
-  @state() get showNoResultsContainer(): boolean {
+  get showNoResultsContainer(): boolean {
     return (
       this.filterEnabled &&
       this.filterText &&
