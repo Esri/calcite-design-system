@@ -117,7 +117,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   @state() opened = false;
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded && this.modal;
   }
 
