@@ -116,7 +116,7 @@ export class InputNumber
 
   private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      this.value = this.getValidNumberString((event.target as HTMLInputElement).value);
+      this.setValue((event.target as HTMLInputElement).value);
     }
     this.setFocus();
     event.stopPropagation();
@@ -232,13 +232,9 @@ export class InputNumber
   };
 
   private setLocalizedValue = (value: string): void => {
-    const { value: currentValue } = this;
-    if (!this.valueController.userChangedValue || isInfinity(currentValue)) {
-      this.localizedValue = currentValue;
-      return;
-    }
-    this.localizedValue = this.getLocalizedNumberString(value);
-    this.warnAboutInvalidNumberValue(value);
+    this.localizedValue = isInfinity(this.value)
+      ? this.value
+      : this.getLocalizedNumberString(value);
 
     if (this.childNumberEl) {
       const childInputValue = this.childNumberEl?.value;
@@ -253,6 +249,12 @@ export class InputNumber
         }
       }
     }
+  };
+
+  private setValue = (value: string): void => {
+    this.value = this.getValidNumberString(value);
+    this.setLocalizedValue(this.value);
+    this.warnAboutInvalidNumberValue(value);
   };
 
   //#endregion
@@ -511,7 +513,7 @@ export class InputNumber
       this.onHiddenFormInputInput,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
-    this.value = this.getValidNumberString(this.value);
+    this.setValue(this.value);
   }
 
   async load(): Promise<void> {
