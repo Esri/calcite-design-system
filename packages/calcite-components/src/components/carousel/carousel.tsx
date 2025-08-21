@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   focusElementInGroup,
   getElementDir,
@@ -46,11 +47,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
     this.slideDurationInterval = setInterval(this.timer, this.autoplayDuration / 100);
   };
 
-  private container: HTMLDivElement;
+  private containerEl = createRef<HTMLDivElement>();
 
   private containerId = IDS.host(guid());
 
-  private itemContainer: HTMLDivElement;
+  private itemContainerEl = createRef<HTMLDivElement>();
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.setMaxItemsToBreakpoint(width);
@@ -64,7 +65,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private slideInterval = null;
 
-  private tabList: HTMLDivElement;
+  private tabListEl = createRef<HTMLDivElement>();
 
   private timer = (): void => {
     let time = this.slideDurationRemaining;
@@ -183,9 +184,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.container;
-    }, options);
+    return this.focusSetter(() => this.containerEl.value, options);
   }
 
   /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
@@ -280,12 +279,12 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby" || !this.itemContainer) {
+    if (direction === "standby" || !this.itemContainerEl.value) {
       return;
     }
 
     await whenAnimationDone(
-      this.itemContainer,
+      this.itemContainerEl.value,
       direction === "forward" ? "item-forward" : "item-backward",
     );
     this.direction = "standby";
@@ -493,7 +492,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private containerKeyDownHandler(event: KeyboardEvent): void {
-    if (event.target !== this.container) {
+    if (event.target !== this.containerEl) {
       return;
     }
 
@@ -538,7 +537,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabList.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListEl.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
     );
     const currentEl = event.target as Action["el"];
     switch (event.key) {
@@ -557,30 +556,6 @@ export class Carousel extends LitElement implements InteractiveComponent {
         focusElementInGroup(visiblePaginationEls, currentEl, "last");
         break;
     }
-  }
-
-  private storeTabListRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.tabList = el;
-  }
-
-  private storeContainerRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.container = el;
-  }
-
-  private storeItemContainerRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.itemContainer = el;
   }
 
   //#endregion
@@ -620,7 +595,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           [CSS.containerOverlaid]: this.controlOverlay,
         }}
         onKeyDown={this.tabListKeyDownHandler}
-        ref={this.storeTabListRef}
+        ref={this.tabListEl}
       >
         {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
           this.renderRotationControl()}
@@ -716,7 +691,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           onKeyDown={this.containerKeyDownHandler}
           onMouseEnter={this.handleMouseIn}
           onMouseLeave={this.handleMouseOut}
-          ref={this.storeContainerRef}
+          ref={this.containerEl}
           role="group"
           tabIndex={0}
         >
@@ -727,7 +702,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
               [CSS.itemContainerBackward]: direction === "backward",
             }}
             id={this.containerId}
-            ref={this.storeItemContainerRef}
+            ref={this.itemContainerEl}
           >
             <slot onSlotChange={this.handleSlotChange} />
           </section>

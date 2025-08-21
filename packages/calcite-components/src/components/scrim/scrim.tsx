@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
@@ -25,7 +26,7 @@ export class Scrim extends LitElement {
 
   //#region Private Properties
 
-  private loaderEl: Loader["el"];
+  private loaderRef = createRef<Loader["el"]>();
 
   private resizeObserver = createObserver("resize", () => this.handleResize());
 
@@ -74,15 +75,6 @@ export class Scrim extends LitElement {
     this.hasContent = slotChangeHasContent(event);
   }
 
-  private storeLoaderEl(el: Loader["el"]): void {
-    if (!el) {
-      return;
-    }
-
-    this.loaderEl = el;
-    this.handleResize();
-  }
-
   private getScale(size: number): Scale {
     if (size < BREAKPOINTS.s) {
       return "s";
@@ -94,9 +86,9 @@ export class Scrim extends LitElement {
   }
 
   private handleResize(): void {
-    const { loaderEl, el } = this;
+    const { loaderRef, el } = this;
 
-    if (!loaderEl) {
+    if (!loaderRef) {
       return;
     }
 
@@ -113,11 +105,7 @@ export class Scrim extends LitElement {
     return (
       <div class={CSS.scrim}>
         {loading ? (
-          <calcite-loader
-            label={messages.loading}
-            ref={this.storeLoaderEl}
-            scale={this.loaderScale}
-          />
+          <calcite-loader label={messages.loading} ref={this.loaderRef} scale={this.loaderScale} />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>
           <slot onSlotChange={this.handleDefaultSlotChange} />

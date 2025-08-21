@@ -393,10 +393,8 @@ export class Stepper extends LitElement {
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
-    if (this.containerEl.value) {
-      this.containerEl.value.style.gridTemplateAreas = spacing;
-      this.containerEl.value.style.gridTemplateColumns = spacing;
-    }
+    this.containerEl.value.style.gridTemplateAreas = spacing;
+    this.containerEl.value.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   }
 

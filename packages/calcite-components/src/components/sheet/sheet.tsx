@@ -530,19 +530,11 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.resizeHandleEl = el;
     this.setupInteractions();
   }
 
   private setContentEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.contentEl = el;
     this.contentId = ensureId(el);
   }

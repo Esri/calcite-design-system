@@ -378,6 +378,13 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     this.hasText = this.el.textContent.trim().length > 0;
   }
 
+  private setContainerRef(el: HTMLDivElement): void {
+    const method: Extract<keyof ResizeObserver, "observe" | "unobserve"> = el
+      ? "observe"
+      : "unobserve";
+    this.resizeObserver?.[method](el);
+  }
+
   private setupTextContentObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
@@ -434,15 +441,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
             [CSS.scale(this.scale)]: true,
           }}
           hidden={closed}
-          ref={(el) => {
-            const { resizeObserver } = this;
-
-            if (el) {
-              resizeObserver?.observe(el);
-            } else {
-              resizeObserver?.unobserve(el);
-            }
-          }}
+          ref={this.setContainerRef}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
             {this.iconStart ? iconStartEl : null}

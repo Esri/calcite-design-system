@@ -113,7 +113,7 @@ export class InputDatePicker
 
   private dialogId = IDS.dialog(guid());
 
-  private endInput = createRef<InputText["el"]>();
+  private endInputEl = createRef<InputText["el"]>();
 
   private endWrapper: HTMLDivElement;
 
@@ -155,7 +155,7 @@ export class InputDatePicker
 
   referenceEl: HTMLDivElement;
 
-  private startInput = createRef<InputText["el"]>();
+  private startInputEl = createRef<InputText["el"]>();
 
   private startWrapper: HTMLDivElement;
 
@@ -332,7 +332,8 @@ export class InputDatePicker
   set value(value: string | string[]) {
     const valueChanged = value !== this._value;
     const invalidValueCleared =
-      value === "" && (this.startInput.value?.value !== "" || this.endInput.value?.value !== "");
+      value === "" &&
+      (this.startInputEl.value?.value !== "" || this.endInputEl.value?.value !== "");
 
     if (valueChanged || invalidValueCleared) {
       this._value = value;
@@ -658,15 +659,15 @@ export class InputDatePicker
   }
 
   private onInputWrapperClick(event: MouseEvent) {
-    const { range, endInput, startInput, currentOpenInput } = this;
+    const { range, endInputEl, startInputEl, currentOpenInput } = this;
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
     const path = event.composedPath();
     const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
 
     if (wasToggleClicked) {
-      const targetInput = position === "start" ? startInput : endInput;
-      targetInput.value?.setFocus();
+      const targetInput = position === "start" ? startInputEl : endInputEl;
+      targetInput.value.setFocus();
     }
 
     if (!range || !this.open || currentOpenInput === position) {
@@ -782,9 +783,9 @@ export class InputDatePicker
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
-        this.endInput.value?.setFocus();
+        this.endInputEl.value?.setFocus();
       } else if (this.shouldFocusRangeStart()) {
-        this.startInput.value?.setFocus();
+        this.startInputEl.value?.setFocus();
       }
 
       if (submitForm(this)) {
@@ -866,13 +867,13 @@ export class InputDatePicker
   private shouldFocusRangeStart(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
+    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInputEl);
   }
 
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
+    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInputEl);
   }
 
   private handleDateRangeChange(event: CustomEvent<void>): void {
@@ -891,7 +892,7 @@ export class InputDatePicker
 
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
-      this.startInput.value?.setFocus();
+      this.startInputEl.value.setFocus();
       this.open = false;
       return;
     }
@@ -1056,8 +1057,8 @@ export class InputDatePicker
   }
 
   private focusInput(): void {
-    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
-    focusedInput.value?.setFocus();
+    const focusedInput = this.focusedInput === "start" ? this.startInputEl : this.endInputEl;
+    focusedInput.value.setFocus();
   }
 
   //#endregion
@@ -1110,7 +1111,7 @@ export class InputDatePicker
                 oncalciteInternalInputTextFocus={this.startInputFocus}
                 placeholder={this.localeData?.placeholder}
                 readOnly={readOnly}
-                ref={this.startInput}
+                ref={this.startInputEl}
                 role="combobox"
                 scale={this.scale}
                 status={this.status}
@@ -1195,7 +1196,7 @@ export class InputDatePicker
                   oncalciteInternalInputTextFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.endInput}
+                  ref={this.endInputEl}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}

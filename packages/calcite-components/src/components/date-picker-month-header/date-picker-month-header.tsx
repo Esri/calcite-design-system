@@ -48,11 +48,11 @@ export class DatePickerMonthHeader extends LitElement {
 
   private monthPickerEl = createRef<Select["el"]>();
 
-  private nextMonthAction: Action["el"];
+  private nextMonthActionEl = createRef<Action["el"]>();
 
   private parentDatePickerEl: DatePicker["el"];
 
-  private prevMonthAction: Action["el"];
+  private prevMonthActionEl = createRef<Action["el"]>();
 
   private yearInputEl = createRef<HTMLInputElement>();
 
@@ -295,7 +295,7 @@ export class DatePickerMonthHeader extends LitElement {
       this.calciteInternalDatePickerMonthHeaderSelectChange.emit(inRangeDate);
     }
 
-    if (commit && yearInputEl.value) {
+    if (commit) {
       yearInputEl.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
@@ -351,7 +351,14 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        const target = isDirectionLeft ? this.nextMonthAction : this.prevMonthAction;
+        const target = isDirectionLeft
+          ? this.nextMonthActionEl.value
+          : this.prevMonthActionEl.value;
+
+        if (!target) {
+          return;
+        }
+
         // enabling the action to be focusable when min & max are one month apart.
         target.disabled = false;
         await target.setFocus();
@@ -518,13 +525,7 @@ export class DatePickerMonthHeader extends LitElement {
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
-        ref={(el) => {
-          if (!el) {
-            return;
-          }
-
-          return isDirectionRight ? (this.nextMonthAction = el) : (this.prevMonthAction = el);
-        }}
+        ref={isDirectionRight ? this.nextMonthActionEl : this.prevMonthActionEl}
         role="button"
         scale={this.scale === "l" ? "l" : "m"}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}

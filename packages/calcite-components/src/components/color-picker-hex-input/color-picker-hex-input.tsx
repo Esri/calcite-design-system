@@ -2,6 +2,7 @@
 import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { Scale } from "../interfaces";
 import { Channels, RGB } from "../color-picker/interfaces";
 import {
@@ -41,9 +42,9 @@ export class ColorPickerHexInput extends LitElement {
 
   // #region Private Properties
 
-  private hexInputNode: InputText["el"];
+  private hexInputEl = createRef<InputText["el"]>();
 
-  private opacityInputNode: InputNumber["el"];
+  private opacityInputEl = createRef<InputNumber["el"]>();
 
   private previousNonNullValue: string;
 
@@ -110,9 +111,7 @@ export class ColorPickerHexInput extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.hexInputNode;
-    }, options);
+    return this.focusSetter(() => this.hexInputEl.value, options);
   }
 
   // #endregion
@@ -165,7 +164,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region Private Methods
 
   private onHexInputBlur(): void {
-    const node = this.hexInputNode;
+    const node = this.hexInputEl.value;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
     const { allowEmpty, internalColor } = this;
@@ -195,7 +194,7 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onOpacityInputBlur(): void {
-    const node = this.opacityInputNode;
+    const node = this.opacityInputEl.value;
     const inputValue = node.value;
     const { allowEmpty, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
@@ -214,7 +213,7 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onHexInputChange(): void {
-    const nodeValue = this.hexInputNode.value;
+    const nodeValue = this.hexInputEl.value.value;
     let value = nodeValue;
 
     if (value) {
@@ -230,7 +229,7 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onOpacityInputChange(): void {
-    const node = this.opacityInputNode;
+    const node = this.opacityInputEl.value;
     let value: number | string;
 
     if (!node.value) {
@@ -244,15 +243,13 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onInputFocus(event: Event): void {
-    if (event.type === "calciteInternalInputTextFocus") {
-      this.hexInputNode.selectText();
-    } else {
-      this.opacityInputNode.selectText();
-    }
+    const focusTarget =
+      event.type === "calciteInternalInputTextFocus" ? this.hexInputEl : this.opacityInputEl;
+    focusTarget.value.selectText();
   }
 
   private onHexInputInput(): void {
-    const hexInputValue = `#${this.hexInputNode.value}`;
+    const hexInputValue = `#${this.hexInputEl.value.value}`;
     const oldValue = this.value;
 
     if (
@@ -265,12 +262,12 @@ export class ColorPickerHexInput extends LitElement {
 
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { alphaChannel, hexInputNode, internalColor, value } = this;
+    const { alphaChannel, hexInputEl, internalColor, value } = this;
     const { key } = event;
     const composedPath = event.composedPath();
 
     if ((key === "Tab" && isShorthandHex(value, this.alphaChannel)) || key === "Enter") {
-      if (composedPath.includes(hexInputNode)) {
+      if (composedPath.includes(hexInputEl.value)) {
         this.onHexInputChange();
       } else {
         this.onOpacityInputChange();
@@ -301,7 +298,7 @@ export class ColorPickerHexInput extends LitElement {
           this.nudgeRGBChannels(
             internalColor,
             bump * direction,
-            composedPath.includes(hexInputNode) ? "rgb" : "a",
+            composedPath.includes(hexInputEl.value) ? "rgb" : "a",
           ),
           alphaChannel,
         ),
@@ -326,7 +323,7 @@ export class ColorPickerHexInput extends LitElement {
 
     if (isValidHex(hex, this.alphaChannel) && isLonghandHex(hex, this.alphaChannel)) {
       event.preventDefault();
-      this.hexInputNode.value = hex.slice(1);
+      this.hexInputEl.value.value = hex.slice(1);
       this.internalSetValue(hex, this.value);
     }
   }
@@ -371,22 +368,6 @@ export class ColorPickerHexInput extends LitElement {
     }
 
     this.value = oldValue;
-  }
-
-  private storeHexInputRef(el: InputText["el"]): void {
-    if (!el) {
-      return;
-    }
-
-    this.hexInputNode = el;
-  }
-
-  private storeOpacityInputRef(el: InputNumber["el"]): void {
-    if (!el) {
-      return;
-    }
-
-    this.opacityInputNode = el;
   }
 
   private formatHexForInternalInput(hex: string): string {
@@ -443,7 +424,7 @@ export class ColorPickerHexInput extends LitElement {
           oncalciteInternalInputTextBlur={this.onHexInputBlur}
           oncalciteInternalInputTextFocus={this.onInputFocus}
           prefixText="#"
-          ref={this.storeHexInputRef}
+          ref={this.hexInputEl}
           scale={inputScale}
           value={hexInputValue}
         />
@@ -461,7 +442,7 @@ export class ColorPickerHexInput extends LitElement {
             oncalciteInputNumberInput={this.onOpacityInputInput}
             oncalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             oncalciteInternalInputNumberFocus={this.onInputFocus}
-            ref={this.storeOpacityInputRef}
+            ref={this.opacityInputEl}
             scale={inputScale}
             suffixText="%"
             value={opacityInputValue}

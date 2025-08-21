@@ -3,6 +3,7 @@ import Color, { type ColorInstance } from "color";
 import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
@@ -89,9 +90,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
-  private colorFieldScopeNode: HTMLDivElement;
+  private colorFieldScopeEl = createRef<HTMLDivElement>();
 
-  private hueScopeNode: HTMLDivElement;
+  private hueScopeEl = createRef<HTMLDivElement>();
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -817,7 +818,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeNode,
+      this.colorFieldScopeEl.value,
     );
   }
 
@@ -832,7 +833,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeNode,
+      this.hueScopeEl.value,
     );
   }
 
@@ -870,22 +871,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
     captureValue.call(this, event.offsetX, event.offsetY);
     this.focusScope(scopeNode);
-  }
-
-  private storeColorFieldScope(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.colorFieldScopeNode = el;
-  }
-
-  private storeHueScope(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.hueScopeNode = el;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -1540,7 +1525,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
                 class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
                 onKeyDown={this.handleColorFieldScopeKeyDown}
-                ref={this.storeColorFieldScope}
+                ref={this.colorFieldScopeEl}
                 role="slider"
                 style={{
                   top: `${adjustedColorFieldScopeTop || 0}px`,
@@ -1570,7 +1555,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                   ariaValueNow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.storeHueScope}
+                  ref={this.hueScopeEl}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,

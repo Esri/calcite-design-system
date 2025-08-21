@@ -101,7 +101,7 @@ export class Combobox
 
   private selectAllComboboxItemReferenceEl = createRef<HTMLCalciteComboboxItemElement>();
 
-  private allSelectedIndicatorChipEl: Chip["el"];
+  private allSelectedIndicatorChipEl = createRef<Chip["el"]>();
 
   private chipContainerEl: HTMLDivElement;
 
@@ -232,7 +232,7 @@ export class Combobox
     this.refreshSelectionDisplay();
   });
 
-  private selectedIndicatorChipEl: Chip["el"];
+  private selectedIndicatorChipEl = createRef<Chip["el"]>();
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
@@ -851,7 +851,7 @@ export class Combobox
         }
         break;
       case "ArrowLeft":
-        if (this.activeChipIndex !== -1 || this.textInput.value?.selectionStart === 0) {
+        if (this.activeChipIndex !== -1 || this.textInput.value.selectionStart === 0) {
           this.previousChip();
           event.preventDefault();
         }
@@ -893,7 +893,7 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value?.value && !event.defaultPrevented) {
+        if (!this.textInput.value.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
@@ -1097,16 +1097,16 @@ export class Combobox
       selectionDisplay,
       placeholder,
       selectedIndicatorChipEl,
-      textInput: { value: textInput },
+      textInput,
     } = this;
 
     const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
     const chipContainerElWidth = getElementWidth(chipContainerEl);
-    const { fontSize, fontFamily } = getComputedStyle(textInput);
+    const { fontSize, fontFamily } = getComputedStyle(textInput.value);
     const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
     const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
-    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl);
-    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
+    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl.value);
+    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl.value);
     const largestSelectedIndicatorChipWidth = Math.max(
       allSelectedIndicatorChipElWidth,
       selectedIndicatorChipElWidth,
@@ -1205,22 +1205,6 @@ export class Combobox
 
     this.referenceEl = el;
     connectFloatingUI(this);
-  }
-
-  private setAllSelectedIndicatorChipEl(el: Chip["el"]): void {
-    if (!el) {
-      return;
-    }
-
-    this.allSelectedIndicatorChipEl = el;
-  }
-
-  private setSelectedIndicatorChipEl(el: Chip["el"]): void {
-    if (!el) {
-      return;
-    }
-
-    this.selectedIndicatorChipEl = el;
   }
 
   private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {
@@ -1541,7 +1525,7 @@ export class Combobox
       return;
     }
 
-    this.textInput.value?.focus();
+    this.textInput.value.focus();
   }
 
   private createScreenReaderItem({
@@ -1610,10 +1594,10 @@ export class Combobox
 
   private renderAllSelectedIndicatorChip(): JsxNode {
     const {
+      allSelectedIndicatorChipEl,
       compactSelectionDisplay,
       scale,
       selectedVisibleChipsCount,
-      setAllSelectedIndicatorChipEl,
     } = this;
     const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
 
@@ -1626,7 +1610,7 @@ export class Combobox
         }}
         data-test-id="all-selected-indicator-chip"
         label={label}
-        ref={setAllSelectedIndicatorChipEl}
+        ref={allSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
@@ -1644,7 +1628,7 @@ export class Combobox
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
-      setSelectedIndicatorChipEl,
+      selectedIndicatorChipEl,
     } = this;
     let chipInvisible: boolean;
     let label: string;
@@ -1680,7 +1664,7 @@ export class Combobox
           [CSS.chipInvisible]: chipInvisible,
         }}
         label={label}
-        ref={setSelectedIndicatorChipEl}
+        ref={selectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""

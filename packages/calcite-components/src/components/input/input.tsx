@@ -410,11 +410,8 @@ export class Input
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    if (this.type === "number") {
-      this.childNumberEl.value?.select();
-    } else {
-      this.childEl.value?.select();
-    }
+    const selectTarget = this.type === "number" ? this.childNumberEl : this.childEl;
+    selectTarget.value?.select();
   }
 
   /**
@@ -718,9 +715,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      if (this.childNumberEl.value) {
-        this.childNumberEl.value.value = this.displayedValue;
-      }
+      this.childNumberEl.value.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -779,30 +774,30 @@ export class Input
       useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberEl.value?.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberEl.value.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key)) {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value?.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberEl.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value?.value.split("-").length <= 2) {
+      if (this.value && this.childNumberEl.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -858,10 +853,9 @@ export class Input
   }
 
   private setInputValue(newInputValue: string): void {
-    if (this.type === "number" && this.childNumberEl.value) {
-      this.childNumberEl.value.value = newInputValue;
-    } else if (this.childEl.value) {
-      this.childEl.value.value = newInputValue;
+    const target = this.type === "number" ? this.childNumberEl : this.childEl;
+    if (target.value) {
+      target.value.value = newInputValue;
     }
   }
 

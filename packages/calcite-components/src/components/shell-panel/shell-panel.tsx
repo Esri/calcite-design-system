@@ -171,7 +171,7 @@ export class ShellPanel extends LitElement {
   //#region Private Methods
 
   private getContentElDOMRect(): DOMRect {
-    return this.contentEl.value?.getBoundingClientRect();
+    return this.contentEl.value.getBoundingClientRect();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {

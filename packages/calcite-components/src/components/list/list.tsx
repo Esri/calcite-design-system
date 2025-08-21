@@ -849,10 +849,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   }
 
   private setFilterEl(el: Filter["el"]): void {
-    if (!el) {
-      return;
-    }
-
     this.filterEl = el;
     this.performFilter();
   }
@@ -949,7 +945,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl?.setFocus();
+        this.filterEl.setFocus();
         return;
       }
 

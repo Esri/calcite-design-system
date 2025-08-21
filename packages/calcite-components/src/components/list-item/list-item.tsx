@@ -274,23 +274,18 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      const {
-        containerEl: { value: containerEl },
-        parentListEl,
-      } = this;
+      const { containerEl, parentListEl } = this;
       const focusIndex = focusMap.get(parentListEl);
 
       if (typeof focusIndex === "number") {
-        const cells = this.getGridCells();
-        if (cells[focusIndex]) {
-          this.focusCell(cells[focusIndex]);
+        const cell = this.getGridCells()[focusIndex];
+        if (cell) {
+          this.focusCell(cell);
           return;
-        } else {
-          return { target: containerEl, includeContainer: true, strategy: "focusable" };
         }
       }
 
-      return { target: containerEl, includeContainer: true, strategy: "focusable" };
+      return { target: containerEl.value, includeContainer: true, strategy: "focusable" };
     }, options);
   }
 
@@ -643,7 +638,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const { key } = event;
     const composedPath = event.composedPath();
     const {
-      containerEl: { value: containerEl },
+      containerEl,
       actionsStartEl: { value: actionsStartEl },
       actionsEndEl: { value: actionsEndEl },
       expanded,
@@ -685,7 +680,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);
-        containerEl?.focus();
+        containerEl.value.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }

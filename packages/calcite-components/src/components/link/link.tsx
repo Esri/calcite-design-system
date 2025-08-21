@@ -121,7 +121,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
     // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
-      this.childEl.value?.click();
+      this.childEl.value.click();
     }
   }
 

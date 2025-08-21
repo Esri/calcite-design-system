@@ -637,9 +637,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      if (this.childNumberEl.value) {
-        this.childNumberEl.value.value = this.displayedValue;
-      }
+      this.childNumberEl.value.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -701,30 +699,30 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberEl.value?.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberEl.value.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value?.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberEl.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value?.value) {
+      if (!this.value && !this.childNumberEl.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value?.value.split("-").length <= 2) {
+      if (this.value && this.childNumberEl.value.value.split("-").length <= 2) {
         return;
       }
     }

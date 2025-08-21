@@ -494,7 +494,7 @@ export class Slider
   }
 
   private pointerDownHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event) || !this.trackEl.value) {
+    if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
 

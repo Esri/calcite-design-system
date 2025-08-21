@@ -359,12 +359,11 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.floatingEl = el;
-    requestAnimationFrame(() => this.setUpReferenceElement());
+
+    if (el) {
+      requestAnimationFrame(() => this.setUpReferenceElement());
+    }
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -480,10 +479,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   }
 
   private storeArrowEl(el: SVGSVGElement): void {
-    if (!el) {
-      return;
-    }
-
     this.arrowEl = el;
     this.reposition(true);
   }

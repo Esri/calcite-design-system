@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
@@ -33,17 +34,17 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Private Properties
 
-  private fractionalSecondEl: HTMLSpanElement;
+  private fractionalSecondEl = createRef<HTMLSpanElement>();
 
-  private hourEl: HTMLSpanElement;
+  private hourEl = createRef<HTMLSpanElement>();
 
-  private meridiemEl: HTMLSpanElement;
+  private meridiemEl = createRef<HTMLSpanElement>();
 
-  private minuteEl: HTMLSpanElement;
+  private minuteEl = createRef<HTMLSpanElement>();
 
   private pointerActivated = false;
 
-  private secondEl: HTMLSpanElement;
+  private secondEl = createRef<HTMLSpanElement>();
 
   private stepPrecision: number;
 
@@ -264,26 +265,26 @@ export class TimePicker extends LitElement implements TimeComponent {
   }
 
   private fractionalSecondDownClickHandler(): void {
-    this.activeEl = this.fractionalSecondEl;
-    this.fractionalSecondEl.focus();
+    this.activeEl = this.fractionalSecondEl.value;
+    this.activeEl.focus();
     this.time.nudgeFractionalSecond("down");
   }
 
   private fractionalSecondUpClickHandler(): void {
-    this.activeEl = this.fractionalSecondEl;
-    this.fractionalSecondEl.focus();
+    this.activeEl = this.fractionalSecondEl.value;
+    this.activeEl.focus();
     this.time.nudgeFractionalSecond("up");
   }
 
   private hourDownClickHandler(): void {
-    this.activeEl = this.hourEl;
-    this.hourEl.focus();
+    this.activeEl = this.hourEl.value;
+    this.activeEl.focus();
     this.time.decrementHour();
   }
 
   private hourUpClickHandler(): void {
-    this.activeEl = this.hourEl;
-    this.hourEl.focus();
+    this.activeEl = this.hourEl.value;
+    this.activeEl.focus();
     this.time.incrementHour();
   }
 
@@ -292,79 +293,39 @@ export class TimePicker extends LitElement implements TimeComponent {
   }
 
   private meridiemUpClickHandler(): void {
-    this.activeEl = this.meridiemEl;
-    this.meridiemEl.focus();
+    this.activeEl = this.meridiemEl.value;
+    this.activeEl.focus();
     this.time.toggleMeridiem("up");
   }
 
   private meridiemDownClickHandler(): void {
-    this.activeEl = this.meridiemEl;
-    this.meridiemEl.focus();
+    this.activeEl = this.meridiemEl.value;
+    this.activeEl.focus();
     this.time.toggleMeridiem("down");
   }
 
   private minuteDownClickHandler(): void {
-    this.activeEl = this.minuteEl;
-    this.minuteEl.focus();
+    this.activeEl = this.minuteEl.value;
+    this.activeEl.focus();
     this.time.decrementMinute();
   }
 
   private minuteUpClickHandler(): void {
-    this.activeEl = this.minuteEl;
-    this.minuteEl.focus();
+    this.activeEl = this.minuteEl.value;
+    this.activeEl.focus();
     this.time.incrementMinute();
   }
 
   private secondDownClickHandler(): void {
-    this.activeEl = this.secondEl;
-    this.secondEl.focus();
+    this.activeEl = this.secondEl.value;
+    this.activeEl.focus();
     this.time.decrementSecond();
   }
 
   private secondUpClickHandler(): void {
-    this.activeEl = this.secondEl;
-    this.secondEl.focus();
+    this.activeEl = this.secondEl.value;
+    this.activeEl.focus();
     this.time.incrementSecond();
-  }
-
-  private setHourEl(el: HTMLSpanElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.hourEl = el;
-  }
-
-  private setMeridiemEl(el: HTMLSpanElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.meridiemEl = el;
-  }
-
-  private setMinuteEl(el: HTMLSpanElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.minuteEl = el;
-  }
-
-  private setSecondEl(el: HTMLSpanElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.secondEl = el;
-  }
-
-  private setFractionalSecondEl(el: HTMLSpanElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.fractionalSecondEl = el;
   }
 
   private timeChangeHandler(event: CustomEvent<string>): void {
@@ -460,7 +421,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={handleHourKeyDownEvent}
-            ref={this.setHourEl}
+            ref={this.hourEl}
             role="spinbutton"
             tabIndex={0}
           >
@@ -506,7 +467,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={handleMinuteKeyDownEvent}
-            ref={this.setMinuteEl}
+            ref={this.minuteEl}
             role="spinbutton"
             tabIndex={0}
           >
@@ -556,7 +517,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleSecondKeyDownEvent}
-              ref={this.setSecondEl}
+              ref={this.secondEl}
               role="spinbutton"
               tabIndex={0}
             >
@@ -607,7 +568,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleFractionalSecondKeyDownEvent}
-              ref={this.setFractionalSecondEl}
+              ref={this.fractionalSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
@@ -665,7 +626,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleMeridiemKeyDownEvent}
-              ref={this.setMeridiemEl}
+              ref={this.meridiemEl}
               role="spinbutton"
               tabIndex={0}
             >
