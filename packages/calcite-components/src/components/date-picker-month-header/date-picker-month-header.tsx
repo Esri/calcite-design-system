@@ -305,21 +305,21 @@ export class DatePickerMonthHeader extends LitElement {
     this.setYearSelectMenuWidth();
   }
 
-  private setYearSelectMenuWidth(): void {
+  private async setYearSelectMenuWidth(): Promise<void> {
     const el = this.monthPickerEl.value;
+
     if (!el) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      const computedStyle = getComputedStyle(el);
-      // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
-      const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
-      const localeMonths = this.localeData.months[this.monthStyle];
-      const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
-      const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, shorthandFont));
-      el.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
-    });
+    await this.updateComplete;
+    const computedStyle = getComputedStyle(el);
+    // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
+    const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
+    const localeMonths = this.localeData.months[this.monthStyle];
+    const activeLocaleMonth = localeMonths[this.activeDate.getMonth()];
+    const selectedOptionWidth = Math.ceil(getTextWidth(activeLocaleMonth, shorthandFont));
+    el.style.width = `${selectedOptionWidth + this.yearSelectWidthOffset}px`;
   }
 
   private isMonthInRange(index: number): boolean {
