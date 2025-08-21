@@ -9997,5 +9997,35 @@
     "alias": ["4.3.0", "lists", "points", "read", "align", "tasks"],
     "category": "Lists",
     "release": "4.3.0"
+  },
+  "camera-sensor-layer": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "publish", "video", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "security-camera": {
+    "alias": ["4.3.0", "objects", "safety", "surveillance", "monitor", "technology"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "camera-sensor": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "video", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "video-metadata": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "publishing", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "livestream-video-protocols": {
+    "alias": ["4.3.0", "objects", "technology", "delivery", "standardized", "rules", "data", "internet"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "camera-sensor-map": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "video", "publish", "layers"],
+    "category": "Objects",
+    "release": "4.3.0"
   }
 }
