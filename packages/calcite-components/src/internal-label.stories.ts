@@ -156,7 +156,7 @@ const kitchenSink = () =>
   </div>`;
 
 export default {
-  title: "Internal label",
+  title: "Forms/Internal label",
 };
 
 export const themingInteractive = (): string => {
