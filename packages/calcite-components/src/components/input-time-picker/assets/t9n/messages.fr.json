@@ -12,6 +12,7 @@
   "minute": "Minute",
   "minuteDown": "Diminuer la minute",
   "minuteUp": "Augmenter la minute",
+  "required": "Obligatoire",
   "second": "Seconde",
   "secondDown": "Diminuer la seconde",
   "secondUp": "Augmenter la seconde"

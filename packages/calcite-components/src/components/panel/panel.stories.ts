@@ -61,8 +61,6 @@ export default {
   },
 };
 
-const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
-
 const contentHTML = html`
   <p>
     Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo
@@ -93,7 +91,7 @@ const footerHTML = html`
   <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
-const panelContent = `${headerHTML}
+const panelContent = `
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
@@ -153,7 +151,15 @@ export const withDescriptionAndIcon = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-panel collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+  <calcite-panel
+    collapse-direction="down"
+    height-scale="m"
+    dir="rtl"
+    class="calcite-mode-dark"
+    heading="Heading"
+    icon="arrow-bold-left"
+    icon-flip-rtl
+  >
     ${panelContent}
   </calcite-panel>
 `;

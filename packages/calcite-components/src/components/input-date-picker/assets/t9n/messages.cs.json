@@ -1,7 +1,8 @@
 {
   "chooseDate": "Zvolit datum",
-  "date": "Date",
+  "date": "Datum",
   "dateFormat": "Formát data: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Datum ukončení",
+  "required": "Povinné",
+  "startDate": "Datum počátku"
 }

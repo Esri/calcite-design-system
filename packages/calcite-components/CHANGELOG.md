@@ -3,6 +3,312 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.79...@esri/calcite-components@3.3.0-next.80) (2025-08-21)
+
+### Bug Fixes
+
+- **date-picker:** honor `minAsDate` & `maxAsDate` when set ([#12706](https://github.com/Esri/calcite-design-system/issues/12706)) ([6e8e279](https://github.com/Esri/calcite-design-system/commit/6e8e27962bb6ccfa49039bc30ed8853203b23b19)), closes [#10329](https://github.com/Esri/calcite-design-system/issues/10329)
+
+## [3.3.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.78...@esri/calcite-components@3.3.0-next.79) (2025-08-20)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** ensure overlay does not obscure input icon ([#12716](https://github.com/Esri/calcite-design-system/issues/12716)) ([345ee95](https://github.com/Esri/calcite-design-system/commit/345ee950f4a2fc75a021e4f585196c2493e843b3)), closes [#10269](https://github.com/Esri/calcite-design-system/issues/10269)
+
+## [3.3.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.77...@esri/calcite-components@3.3.0-next.78) (2025-08-20)
+
+### Features
+
+- **date-picker, input-date-picker:** add `calendars` property to support one month view in range ([#12479](https://github.com/Esri/calcite-design-system/issues/12479)) ([75a490f](https://github.com/Esri/calcite-design-system/commit/75a490f52fb7307c4226c56b5450c104fbb79f81)), closes [#11415](https://github.com/Esri/calcite-design-system/issues/11415)
+
+## [3.3.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.76...@esri/calcite-components@3.3.0-next.77) (2025-08-20)
+
+### Features
+
+- **list, block-group, sort-handle:** add support for cloning dragged items ([#12628](https://github.com/Esri/calcite-design-system/issues/12628)) ([f1e4b80](https://github.com/Esri/calcite-design-system/commit/f1e4b803a0a95ac830018e9dfb612bd9d0fe771f)), closes [#11952](https://github.com/Esri/calcite-design-system/issues/11952)
+
+## [3.3.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.75...@esri/calcite-components@3.3.0-next.76) (2025-08-20)
+
+### Features
+
+- **action:** add type property ([#12624](https://github.com/Esri/calcite-design-system/issues/12624)) ([3fdfa07](https://github.com/Esri/calcite-design-system/commit/3fdfa0772191f2b4f9ed8ca3e60ebff50b1086b4)), closes [#12602](https://github.com/Esri/calcite-design-system/issues/12602)
+
+## [3.3.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.74...@esri/calcite-components@3.3.0-next.75) (2025-08-20)
+
+### Bug Fixes
+
+- **card:** ensure `setFocus` focuses card when it contains nested interactive children ([#12724](https://github.com/Esri/calcite-design-system/issues/12724)) ([94da532](https://github.com/Esri/calcite-design-system/commit/94da532652c609649aaf385ecf6075196545fd79)), closes [#12714](https://github.com/Esri/calcite-design-system/issues/12714)
+
+## [3.3.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.73...@esri/calcite-components@3.3.0-next.74) (2025-08-18)
+
+### Features
+
+- **accordion-item:** add title to expand icon ([#12657](https://github.com/Esri/calcite-design-system/issues/12657)) ([bab1f6b](https://github.com/Esri/calcite-design-system/commit/bab1f6b5d428f79942f66961a5504b752a6caa88)), closes [#12232](https://github.com/Esri/calcite-design-system/issues/12232)
+
+## [3.3.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.72...@esri/calcite-components@3.3.0-next.73) (2025-08-18)
+
+### Bug Fixes
+
+- **date-picker:** improve color contrast for days ([#12705](https://github.com/Esri/calcite-design-system/issues/12705)) ([2ec5ea2](https://github.com/Esri/calcite-design-system/commit/2ec5ea207c67b957052687417e21632186751091)), closes [#11644](https://github.com/Esri/calcite-design-system/issues/11644)
+
+## [3.3.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.71...@esri/calcite-components@3.3.0-next.72) (2025-08-18)
+
+### Bug Fixes
+
+- **list, block-group:** update sort handle move items before dropdown menu is opened ([#12722](https://github.com/Esri/calcite-design-system/issues/12722)) ([22132f3](https://github.com/Esri/calcite-design-system/commit/22132f381b646058bda2b78e4e237fadad275a39)), closes [#11953](https://github.com/Esri/calcite-design-system/issues/11953) [#12487](https://github.com/Esri/calcite-design-system/issues/12487)
+
+## [3.3.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.70...@esri/calcite-components@3.3.0-next.71) (2025-08-18)
+
+### Bug Fixes
+
+- **shell-panel:** restore resized size after expanding ([#12691](https://github.com/Esri/calcite-design-system/issues/12691)) ([6716a2d](https://github.com/Esri/calcite-design-system/commit/6716a2d1c61c8d8842a2cf1b11c4bf7f0e627eaf)), closes [#12116](https://github.com/Esri/calcite-design-system/issues/12116)
+
+## [3.3.0-next.70](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.69...@esri/calcite-components@3.3.0-next.70) (2025-08-15)
+
+### Bug Fixes
+
+- **input-date-picker:** update start & end date correctly when `proximity-selection-disabled` is true ([#12681](https://github.com/Esri/calcite-design-system/issues/12681)) ([d77c293](https://github.com/Esri/calcite-design-system/commit/d77c2937ac56353af9b76f2ac6cc97fee41369bf)), closes [#12301](https://github.com/Esri/calcite-design-system/issues/12301)
+
+## [3.3.0-next.69](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.68...@esri/calcite-components@3.3.0-next.69) (2025-08-15)
+
+### Features
+
+- **block:** add --calcite-block-content-space css token ([#12704](https://github.com/Esri/calcite-design-system/issues/12704)) ([ff8da07](https://github.com/Esri/calcite-design-system/commit/ff8da07fff76dc10c6595b23b15b6d007107bb40)), closes [#12088](https://github.com/Esri/calcite-design-system/issues/12088)
+
+## [3.3.0-next.68](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.67...@esri/calcite-components@3.3.0-next.68) (2025-08-14)
+
+### Features
+
+- **input-number, input-text:** add center alignment ([#12695](https://github.com/Esri/calcite-design-system/issues/12695)) ([4a29e3b](https://github.com/Esri/calcite-design-system/commit/4a29e3b5ac7460901175225ce9952be03be592e0)), closes [#12419](https://github.com/Esri/calcite-design-system/issues/12419)
+
+## [3.3.0-next.67](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.66...@esri/calcite-components@3.3.0-next.67) (2025-08-14)
+
+### Features
+
+- **block, block-section, block-group:** add scale property ([#12382](https://github.com/Esri/calcite-design-system/issues/12382)) ([fd3bbff](https://github.com/Esri/calcite-design-system/commit/fd3bbff554609bb394cc766ba6dab10c9c19e08b)), closes [#9547](https://github.com/Esri/calcite-design-system/issues/9547) [#7146](https://github.com/Esri/calcite-design-system/issues/7146) [#11175](https://github.com/Esri/calcite-design-system/issues/11175)
+
+## [3.3.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.65...@esri/calcite-components@3.3.0-next.66) (2025-08-14)
+
+### Bug Fixes
+
+- **action:** fix applied tokens when active ([#12686](https://github.com/Esri/calcite-design-system/issues/12686)) ([4c8f0aa](https://github.com/Esri/calcite-design-system/commit/4c8f0aaf47c084ce4ccaffedac4963b7a9fc6861))
+
+## [3.3.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.64...@esri/calcite-components@3.3.0-next.65) (2025-08-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.63...@esri/calcite-components@3.3.0-next.64) (2025-08-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.62...@esri/calcite-components@3.3.0-next.63) (2025-08-12)
+
+### Features
+
+- **autocomplete-item:** add `calciteAutocompleteItemSelect` event ([#12655](https://github.com/Esri/calcite-design-system/issues/12655)) ([8473a45](https://github.com/Esri/calcite-design-system/commit/8473a45fdac48aa5ea1a98d4bbabd3862b85ae77)), closes [#12644](https://github.com/Esri/calcite-design-system/issues/12644)
+
+## [3.3.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.61...@esri/calcite-components@3.3.0-next.62) (2025-08-11)
+
+### Bug Fixes
+
+- **dialog, flow-item, panel:** fix `iconFlipRtl` not working in RTL contexts ([#12668](https://github.com/Esri/calcite-design-system/issues/12668)) ([04873b4](https://github.com/Esri/calcite-design-system/commit/04873b40970778c1f6583cc6eecb456852f4de94)), closes [#12635](https://github.com/Esri/calcite-design-system/issues/12635)
+
+## [3.3.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.60...@esri/calcite-components@3.3.0-next.61) (2025-08-07)
+
+### Bug Fixes
+
+- **select:** fix error thrown when component is removed before initialization ([#12630](https://github.com/Esri/calcite-design-system/issues/12630)) ([bde1064](https://github.com/Esri/calcite-design-system/commit/bde1064f71fca3db7ba972c2cec93c7d8d65522d)), closes [#12160](https://github.com/Esri/calcite-design-system/issues/12160)
+
+## [3.3.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.59...@esri/calcite-components@3.3.0-next.60) (2025-08-07)
+
+### Bug Fixes
+
+- **popover, tooltip:** open when there is selected text on the page ([#12597](https://github.com/Esri/calcite-design-system/issues/12597)) ([9ef7e81](https://github.com/Esri/calcite-design-system/commit/9ef7e81e54b2130f18a7f8b3533decb18ece88f5))
+
+## [3.3.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.58...@esri/calcite-components@3.3.0-next.59) (2025-08-06)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.57...@esri/calcite-components@3.3.0-next.58) (2025-08-06)
+
+### Features
+
+- **list, block-group, sort-handle:** add sortDisabled property to prevent reordering ([#12615](https://github.com/Esri/calcite-design-system/issues/12615)) ([6809ddb](https://github.com/Esri/calcite-design-system/commit/6809ddb5eccdc4c14baee3098fc174eb2ff2344b)), closes [#11953](https://github.com/Esri/calcite-design-system/issues/11953)
+
+## [3.3.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.56...@esri/calcite-components@3.3.0-next.57) (2025-08-06)
+
+### Bug Fixes
+
+- **panel:** prevent child panels from closing parent panels ([#12646](https://github.com/Esri/calcite-design-system/issues/12646)) ([5c14367](https://github.com/Esri/calcite-design-system/commit/5c14367840f045d187499f5a19a579913a54f333)), closes [#12645](https://github.com/Esri/calcite-design-system/issues/12645)
+
+## [3.3.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.55...@esri/calcite-components@3.3.0-next.56) (2025-08-05)
+
+### Features
+
+- **swatch, swatch-group:** Add new components ([#12584](https://github.com/Esri/calcite-design-system/issues/12584)) ([0abc287](https://github.com/Esri/calcite-design-system/commit/0abc287d917f5c3e442de9b2301f02d6bc2ae13a)), closes [#10288](https://github.com/Esri/calcite-design-system/issues/10288) [#ff0000](https://github.com/Esri/calcite-design-system/issues/ff0000) [#ff00](https://github.com/Esri/calcite-design-system/issues/ff00)
+
+## [3.3.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.54...@esri/calcite-components@3.3.0-next.55) (2025-08-04)
+
+### Features
+
+- **combobox:** Provide context when filtering and there are no matching results ([#12525](https://github.com/Esri/calcite-design-system/issues/12525)) ([fcedc32](https://github.com/Esri/calcite-design-system/commit/fcedc321a29e2bb673f404b18d47bd97481a73d1)), closes [#10409](https://github.com/Esri/calcite-design-system/issues/10409)
+
+## [3.3.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.53...@esri/calcite-components@3.3.0-next.54) (2025-08-04)
+
+### Bug Fixes
+
+- **list:** fix visual artifacts when you initiate a drag operation with the drag handle menu open ([#12611](https://github.com/Esri/calcite-design-system/issues/12611)) ([937032f](https://github.com/Esri/calcite-design-system/commit/937032fc6ad274e6e9abd1563b4c33d4147bccbb)), closes [#12204](https://github.com/Esri/calcite-design-system/issues/12204)
+
+## [3.3.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.52...@esri/calcite-components@3.3.0-next.53) (2025-08-01)
+
+### Bug Fixes
+
+- **list:** prevent drag flickering while sorting ([#12631](https://github.com/Esri/calcite-design-system/issues/12631)) ([6629bd1](https://github.com/Esri/calcite-design-system/commit/6629bd1389159c1096985f8ac180e501b9567f9e)), closes [#12583](https://github.com/Esri/calcite-design-system/issues/12583)
+
+## [3.3.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.51...@esri/calcite-components@3.3.0-next.52) (2025-07-31)
+
+### Features
+
+- emit `expanded`/`collapsed` end-state events for expandable components ([#12580](https://github.com/Esri/calcite-design-system/issues/12580)) ([df04cf3](https://github.com/Esri/calcite-design-system/commit/df04cf34652f63c582b693d6e94f616d0910bb85)), closes [#12565](https://github.com/Esri/calcite-design-system/issues/12565)
+
+## [3.3.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.50...@esri/calcite-components@3.3.0-next.51) (2025-07-30)
+
+### Bug Fixes
+
+- **list:** added scrim for empty list ([#12595](https://github.com/Esri/calcite-design-system/issues/12595)) ([f795c09](https://github.com/Esri/calcite-design-system/commit/f795c09e8181a5ace8c4359289a07617c2f0a019)), closes [#10120](https://github.com/Esri/calcite-design-system/issues/10120)
+
+## [3.3.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.49...@esri/calcite-components@3.3.0-next.50) (2025-07-29)
+
+### Features
+
+- **button:** Add css property for shadow ([#12603](https://github.com/Esri/calcite-design-system/issues/12603)) ([ccf7b28](https://github.com/Esri/calcite-design-system/commit/ccf7b2822b91b0013523d853f2681efd110bd5b2)), closes [#12062](https://github.com/Esri/calcite-design-system/issues/12062)
+
+## [3.3.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.48...@esri/calcite-components@3.3.0-next.49) (2025-07-28)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.47...@esri/calcite-components@3.3.0-next.48) (2025-07-25)
+
+### Features
+
+- **dialog:** Add component tokens ([#12553](https://github.com/Esri/calcite-design-system/issues/12553)) ([97ae7b0](https://github.com/Esri/calcite-design-system/commit/97ae7b00bf1f8e8ee427a70e794f36755f9c3bf1)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.3.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.46...@esri/calcite-components@3.3.0-next.47) (2025-07-24)
+
+### Bug Fixes
+
+- **pagination:** restore original default value for totalItems ([#12569](https://github.com/Esri/calcite-design-system/issues/12569)) ([b33a5e5](https://github.com/Esri/calcite-design-system/commit/b33a5e5bea35a74487ee6cae33ceb9e5922f54f6)), closes [#12557](https://github.com/Esri/calcite-design-system/issues/12557) [/github.com/Esri/calcite-design-system/pull/12557#discussion_r2223935339](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/12557/issues/discussion_r2223935339)
+
+## [3.3.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.45...@esri/calcite-components@3.3.0-next.46) (2025-07-24)
+
+### Bug Fixes
+
+- map `bs` locale to `sr-Latn-CS` ([#12566](https://github.com/Esri/calcite-design-system/issues/12566)) ([64eedae](https://github.com/Esri/calcite-design-system/commit/64eedaebf72d032b7032f1fa23300807ce5d699d)), closes [#12274](https://github.com/Esri/calcite-design-system/issues/12274)
+
+## [3.3.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.44...@esri/calcite-components@3.3.0-next.45) (2025-07-23)
+
+### Features
+
+- add focus options support ([#12555](https://github.com/Esri/calcite-design-system/issues/12555)) ([3111a34](https://github.com/Esri/calcite-design-system/commit/3111a343b71db9cf394aebc089cdef2009dbaa79))
+
+## [3.3.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.43...@esri/calcite-components@3.3.0-next.44) (2025-07-23)
+
+### Features
+
+- **label:** add new layout "block" ([#12552](https://github.com/Esri/calcite-design-system/issues/12552)) ([47f0252](https://github.com/Esri/calcite-design-system/commit/47f0252529bd9fe76bf5daa98c5a9a4966ba791e)), closes [#9184](https://github.com/Esri/calcite-design-system/issues/9184)
+
+## [3.3.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.42...@esri/calcite-components@3.3.0-next.43) (2025-07-22)
+
+### Bug Fixes
+
+- **pagination:** prevent invalid start-item and set default to 1 ([#12557](https://github.com/Esri/calcite-design-system/issues/12557)) ([e86b142](https://github.com/Esri/calcite-design-system/commit/e86b142ea0138827daf133f76952cf92d29c7d58))
+
+## [3.3.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.41...@esri/calcite-components@3.3.0-next.42) (2025-07-22)
+
+### Bug Fixes
+
+- **slider:** allow range handle dragging in either direction when both handles share the same position ([#12527](https://github.com/Esri/calcite-design-system/issues/12527)) ([f3ae795](https://github.com/Esri/calcite-design-system/commit/f3ae7954590dfc4eec6f111f3f89431d240740e1)), closes [#10351](https://github.com/Esri/calcite-design-system/issues/10351)
+
+## [3.3.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.40...@esri/calcite-components@3.3.0-next.41) (2025-07-22)
+
+### Features
+
+- **popover:** add token for specifying the max width ([#12516](https://github.com/Esri/calcite-design-system/issues/12516)) ([e58b1a6](https://github.com/Esri/calcite-design-system/commit/e58b1a67a6332647db8a2f0b7c52ff581e6f3c76)), closes [#12319](https://github.com/Esri/calcite-design-system/issues/12319)
+
+### Bug Fixes
+
+- **popover, tooltip:** do not close when a click was initiated inside the component ([#12543](https://github.com/Esri/calcite-design-system/issues/12543)) ([10a9e2a](https://github.com/Esri/calcite-design-system/commit/10a9e2a31695d7f5d8faec20046addcf2d2ea3e0)), closes [#9506](https://github.com/Esri/calcite-design-system/issues/9506)
+
+## [3.3.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.39...@esri/calcite-components@3.3.0-next.40) (2025-07-22)
+
+### Bug Fixes
+
+- **list, block-group:** update menu item labels and call `canPut` / `canPull` to filter items before opening a sort handle menu ([#12487](https://github.com/Esri/calcite-design-system/issues/12487)) ([bce91df](https://github.com/Esri/calcite-design-system/commit/bce91dffedee8c581842867f54e23e5847e265a7)), closes [#12361](https://github.com/Esri/calcite-design-system/issues/12361) [#12273](https://github.com/Esri/calcite-design-system/issues/12273)
+
+## [3.3.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.38...@esri/calcite-components@3.3.0-next.39) (2025-07-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.37...@esri/calcite-components@3.3.0-next.38) (2025-07-17)
+
+### Bug Fixes
+
+- **action-menu:** ensure children are ready before setting a11y attributes ([#12533](https://github.com/Esri/calcite-design-system/issues/12533)) ([8cc4821](https://github.com/Esri/calcite-design-system/commit/8cc4821a59bd3d6a4cda7695716c36efab6d2552)), closes [#12532](https://github.com/Esri/calcite-design-system/issues/12532)
+- **radio-button:** fix navigation with disabled buttons ([#12514](https://github.com/Esri/calcite-design-system/issues/12514)) ([97f36f7](https://github.com/Esri/calcite-design-system/commit/97f36f7f9a2c1f940c0f94d94f56060217dc8822)), closes [#10844](https://github.com/Esri/calcite-design-system/issues/10844)
+
+## [3.3.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.36...@esri/calcite-components@3.3.0-next.37) (2025-07-16)
+
+### Bug Fixes
+
+- **dialog:** ensure beforeClose is called once and fix animation on dialog ([#12152](https://github.com/Esri/calcite-design-system/issues/12152)) ([14c86d1](https://github.com/Esri/calcite-design-system/commit/14c86d100562c2399aea7181652fc6a22c474f89)), closes [#10666](https://github.com/Esri/calcite-design-system/issues/10666) [#11917](https://github.com/Esri/calcite-design-system/issues/11917)
+
+## [3.3.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.35...@esri/calcite-components@3.3.0-next.36) (2025-07-15)
+
+### Features
+
+- **dialog, modal, popover, sheet:** add `setReturnFocus` to `focusTrapOptions` ([#12513](https://github.com/Esri/calcite-design-system/issues/12513)) ([2bb4dfc](https://github.com/Esri/calcite-design-system/commit/2bb4dfc74a41ad1bc5ee53ee4f1f2dfecd93828b)), closes [#9369](https://github.com/Esri/calcite-design-system/issues/9369)
+
+## [3.3.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.34...@esri/calcite-components@3.3.0-next.35) (2025-07-15)
+
+### Bug Fixes
+
+- **slider:** remove fill color when dragged handle is released and no longer has focus ([#12511](https://github.com/Esri/calcite-design-system/issues/12511)) ([f798c98](https://github.com/Esri/calcite-design-system/commit/f798c989598c4a9408d5bde9878ca9ed0a367cb1)), closes [#12132](https://github.com/Esri/calcite-design-system/issues/12132)
+
+## [3.3.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.33...@esri/calcite-components@3.3.0-next.34) (2025-07-14)
+
+### Features
+
+- **time-picker:** apply rounded corners inside popover ([#12502](https://github.com/Esri/calcite-design-system/issues/12502)) ([6fcf7b4](https://github.com/Esri/calcite-design-system/commit/6fcf7b4fb4c523710f64d59f0f488e0c364ebcd5)), closes [#9533](https://github.com/Esri/calcite-design-system/issues/9533)
+
+## [3.3.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.32...@esri/calcite-components@3.3.0-next.33) (2025-07-12)
+
+### Features
+
+- **color-picker:** support hiding color-field ([#12484](https://github.com/Esri/calcite-design-system/issues/12484)) ([108925c](https://github.com/Esri/calcite-design-system/commit/108925c781ef13e18fb3fc82940c6aa73318cae4)), closes [#10031](https://github.com/Esri/calcite-design-system/issues/10031)
+
+## [3.3.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.31...@esri/calcite-components@3.3.0-next.32) (2025-07-10)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.30...@esri/calcite-components@3.3.0-next.31) (2025-07-10)
+
+### Features
+
+- **carousel:** Add component tokens ([#12474](https://github.com/Esri/calcite-design-system/issues/12474)) ([a6a81e5](https://github.com/Esri/calcite-design-system/commit/a6a81e54c0982661a6ad5da168284693b3497a75)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.3.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.29...@esri/calcite-components@3.3.0-next.30) (2025-07-09)
+
+### Features
+
+- **time-picker:** apply consistent styling for floating elements ([#12467](https://github.com/Esri/calcite-design-system/issues/12467)) ([cb745e9](https://github.com/Esri/calcite-design-system/commit/cb745e93383c3b2f49f63517d8d0020e1aea9ef6)), closes [#9533](https://github.com/Esri/calcite-design-system/issues/9533)
+
+## [3.3.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.28...@esri/calcite-components@3.3.0-next.29) (2025-07-07)
+
+### Bug Fixes
+
+- **autocomplete:** announce result to screen readers using aria-live attribute ([#12443](https://github.com/Esri/calcite-design-system/issues/12443)) ([89e138d](https://github.com/Esri/calcite-design-system/commit/89e138dd2c50b2d2d4b747a73b108a379f6b11f9)), closes [#12433](https://github.com/Esri/calcite-design-system/issues/12433)
+- **title:** apply alignment on slotted content ([#12451](https://github.com/Esri/calcite-design-system/issues/12451)) ([7d5cc5b](https://github.com/Esri/calcite-design-system/commit/7d5cc5bee5e84a2f27660ac9ec7f317eb6cb058a)), closes [#10525](https://github.com/Esri/calcite-design-system/issues/10525)
+
 ## [3.3.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.27...@esri/calcite-components@3.3.0-next.28) (2025-07-03)
 
 ### Features

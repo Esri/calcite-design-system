@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
@@ -14,7 +15,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import { getElementWidth, getTextWidth } from "../../utils/dom";
+import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -44,7 +45,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
@@ -57,7 +57,9 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
 import type { ComboboxItem as HTMLCalciteComboboxItemElement } from "../combobox-item/combobox-item";
+import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
@@ -142,6 +144,8 @@ export class Combobox
         }
       });
 
+      this.noMatchesFound = this.filteredItems.length === 0 && !!this.filterText;
+
       this.filterTextMatchPattern =
         this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
@@ -150,7 +154,7 @@ export class Combobox
       });
 
       if (setOpenToEmptyState) {
-        this.open = this.filterText.trim().length > 0 && this.keyboardNavItems.length > 0;
+        this.open = this.filterText.trim().length > 0;
       }
 
       if (emit) {
@@ -245,6 +249,31 @@ export class Combobox
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
+
+  private customChipAddHandler = (): void => {
+    this.addCustomChip(this.filterText, true);
+  };
+
   //#endregion
 
   //#region State Properties
@@ -285,6 +314,8 @@ export class Combobox
 
     return filteredItems;
   }
+
+  @state() noMatchesFound: boolean;
 
   //#endregion
 
@@ -505,14 +536,20 @@ export class Combobox
     );
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.textInput.value?.focus();
-    this.activeChipIndex = -1;
-    this.activeItemIndex = -1;
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      this.activeChipIndex = -1;
+      this.activeItemIndex = -1;
+      return this.textInput.value;
+    }, options);
   }
 
   //#endregion
@@ -630,25 +667,6 @@ export class Combobox
 
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
-  }
-
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
-
-  private get showingInlineIcon(): boolean {
-    const { placeholderIcon, selectionMode, selectedItems, open } = this;
-    const selectedItem = selectedItems[0];
-    const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    return !open && selectedItem
-      ? !!selectedIcon && singleSelectionMode
-      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
   }
 
   private filterTextChange(value: string): void {
@@ -1430,7 +1448,7 @@ export class Combobox
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
       this.activeChipIndex = -1;
-      this.setFocus();
+      focusElement(this.textInput.value);
     } else {
       this.activeChipIndex = newIndex;
       this.focusChip();
@@ -1781,12 +1799,14 @@ export class Combobox
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { setFloatingEl, setContainerEl, open, scale } = this;
+    const { messages, setFloatingEl, setContainerEl, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open,
     };
+
+    const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
@@ -1799,16 +1819,35 @@ export class Combobox
                   class={CSS.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
-                  label={this.messages.selectAll}
+                  label={messages.selectAll}
                   ref={this.selectAllComboboxItemReferenceEl}
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={this.messages.selectAll}
+                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}
             <slot />
+            {this.noMatchesFound &&
+              (this.allowCustomValues ? (
+                <li
+                  aria-label={label}
+                  class={CSS.noMatches}
+                  onClick={this.customChipAddHandler}
+                  role="option"
+                  tabIndex={0}
+                >
+                  {highlightText({
+                    text: label,
+                    pattern: new RegExp(`(${escapeRegExp(this.filterText)})`, "i"),
+                  })}
+                </li>
+              ) : (
+                <li class={{ [CSS.noMatchesPlaceholder]: true, [CSS.noMatches]: true }}>
+                  {messages.noMatches}
+                </li>
+              ))}
           </ul>
         </div>
       </div>

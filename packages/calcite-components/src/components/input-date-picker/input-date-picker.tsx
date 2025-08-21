@@ -20,7 +20,6 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { focusFirstTabbable } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -49,7 +48,7 @@ import {
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
   getSupportedLocale,
@@ -70,6 +69,7 @@ import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -173,6 +173,8 @@ export class InputDatePicker
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -186,6 +188,9 @@ export class InputDatePicker
   //#endregion
 
   //#region Public Properties
+
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -368,11 +373,18 @@ export class InputDatePicker
     );
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -905,6 +917,11 @@ export class InputDatePicker
     if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
       return;
     }
+
+    if (this.proximitySelectionDisabled && this.valueAsDate[1] === null) {
+      return;
+    }
+
     this.open = false;
     this.focusInput();
   }
@@ -1141,6 +1158,7 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
+                  calendars={this.calendars}
                   headingLevel={this.headingLevel}
                   layout={this.layout}
                   max={this.max}

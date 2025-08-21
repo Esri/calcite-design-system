@@ -1,8 +1,11 @@
 {
+  "add": "Dodaj: {text}",
   "all": "Sve",
   "allSelected": "Sve selektovano",
-  "selectAll": "Izaberi sve",
   "clear": "Izbriši vrednosti",
+  "noMatches": "Nema podudaranja",
   "removeTag": "Ukloni oznaku",
+  "required": "Obavezno",
+  "selectAll": "Izaberi sve",
   "selected": "selektovano"
 }

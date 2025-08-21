@@ -1,7 +1,8 @@
 {
   "chooseDate": "Datum auswählen",
-  "date": "Date",
+  "date": "Datum",
   "dateFormat": "Datumsformat: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Enddatum",
+  "required": "Erforderlich",
+  "startDate": "Startdatum"
 }

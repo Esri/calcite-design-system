@@ -12,8 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { ensureId, focusFirstTabbable, getElementDir, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -24,6 +23,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -67,8 +67,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private ignoreOpenChange = false;
-
   private interaction: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
@@ -86,6 +84,8 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   private resizeHandleEl: HTMLDivElement;
 
   transitionEl: HTMLDivElement;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -157,6 +157,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -185,11 +186,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   get open(): boolean {
     return this._open;
   }
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this._open = open;
-      this.toggleSheet(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      this.setOpenState(value);
     }
   }
 
@@ -224,11 +224,18 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's "close" button - the first focusable item. */
+  /**
+   * Sets focus on the component's "close" button - the first focusable item.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   /**
@@ -274,13 +281,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.setupInteractions();
   }
 
-  load(): void {
-    // when sheet initially renders, if active was set we need to open as watcher doesn't fire
-    if (this.open) {
-      this.openSheet();
-    }
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -309,16 +309,22 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Private Methods
 
-  private toggleSheet(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
+  private async setOpenState(value: boolean): Promise<void> {
+    if (this.beforeClose && !value) {
+      try {
+        await this.beforeClose?.(this.el);
+      } catch {
+        return;
+      }
     }
 
+    this._open = value;
+
     if (value) {
-      this.openSheet();
-    } else {
-      this.closeSheet();
+      await this.componentOnReady();
     }
+
+    this.opened = value;
   }
 
   private getResizeIcon(): string {
@@ -541,35 +547,12 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.transitionEl = el;
   }
 
-  private async openSheet(): Promise<void> {
-    await this.componentOnReady();
-    this.opened = true;
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
     }
 
     this.open = false;
-  }
-
-  private async closeSheet(): Promise<void> {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose(this.el);
-      } catch {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    this.opened = false;
   }
 
   private handleMutationObserver(): void {

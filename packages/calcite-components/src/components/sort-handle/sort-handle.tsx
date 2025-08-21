@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode, state } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -16,9 +15,16 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
-import { MoveEventDetail, MoveTo, Reorder, ReorderEventDetail } from "./interfaces";
+import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
+import {
+  MoveEventDetail,
+  SortMenuItem,
+  Reorder,
+  ReorderEventDetail,
+  AddEventDetail,
+} from "./interfaces";
 import { styles } from "./sort-handle.scss";
 
 declare global {
@@ -38,6 +44,8 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   private dropdownEl: Dropdown["el"];
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -46,12 +54,16 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return typeof this.setPosition === "number" && typeof this.setSize === "number";
   }
 
-  @state() get isSetDisabled(): boolean {
-    const { setPosition, setSize, moveToItems } = this;
+  @state() get hasValidSetInfo(): boolean {
+    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
+  }
 
-    return this.hasSetInfo
-      ? setPosition < 1 || setSize < 1 || (setSize < 2 && moveToItems.length < 1)
-      : false;
+  @state() get hasReorderItems(): boolean {
+    return !this.sortDisabled && this.hasValidSetInfo;
+  }
+
+  @state() get hasNoItems(): boolean {
+    return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
   }
 
   // #endregion
@@ -77,8 +89,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /** Defines the "Add to" items. */
+  @property() addToItems: SortMenuItem[] = [];
+
   /** Defines the "Move to" items. */
-  @property() moveToItems: MoveTo[] = [];
+  @property() moveToItems: SortMenuItem[] = [];
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -108,6 +123,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** The total number of sortable items. */
   @property() setSize: number;
 
+  /** When `true`, items are no longer sortable. */
+  @property({ reflect: true }) sortDisabled = false;
+
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;
 
@@ -115,11 +133,18 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.dropdownEl?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.dropdownEl;
+    }, options);
   }
 
   // #endregion
@@ -137,6 +162,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   /** Fires when a move item has been selected. */
   calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
+
+  /** Fires when an add item has been selected. */
+  calciteSortHandleAdd = createEvent<AddEventDetail>({ cancelable: true });
 
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
@@ -187,9 +215,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   }
 
   private getLabel(): string {
-    const { label, messages, setPosition, setSize } = this;
+    const { label, messages, setPosition, setSize, hasSetInfo } = this;
 
-    if (!this.hasSetInfo) {
+    if (!hasSetInfo) {
       return label ?? "";
     }
 
@@ -239,16 +267,30 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     this.calciteSortHandleMove.emit({ moveTo });
   }
 
+  private handleAddTo(event: Event): void {
+    const id = (event.target as HTMLElement).dataset.id;
+    const addTo = this.addToItems.find((item) => item.id === id);
+    this.calciteSortHandleAdd.emit({ addTo });
+  }
+
   // #endregion
 
   // #region Rendering
 
   override render(): JsxNode {
-    const { disabled, flipPlacements, open, overlayPositioning, placement, scale, widthScale } =
-      this;
+    const {
+      disabled,
+      flipPlacements,
+      open,
+      overlayPositioning,
+      placement,
+      scale,
+      widthScale,
+      hasNoItems,
+    } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || this.isSetDisabled;
+    const isDisabled = disabled || hasNoItems;
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -278,14 +320,28 @@ export class SortHandle extends LitElement implements InteractiveComponent {
             text={text}
             title={text}
           />
-          {this.renderGroup()}
+          {this.renderReorderGroup()}
           {this.renderMoveToGroup()}
+          {this.renderAddToGroup()}
         </calcite-dropdown>
       </InteractiveContainer>
     );
   }
 
-  private renderMoveToItem(moveToItem: MoveTo): JsxNode {
+  private renderAddToItem(addToItem: SortMenuItem): JsxNode {
+    return (
+      <calcite-dropdown-item
+        data-id={addToItem.id}
+        key={addToItem.id}
+        label={addToItem.label}
+        oncalciteDropdownItemSelect={this.handleAddTo}
+      >
+        {addToItem.label}
+      </calcite-dropdown-item>
+    );
+  }
+
+  private renderMoveToItem(moveToItem: SortMenuItem): JsxNode {
     return (
       <calcite-dropdown-item
         data-id={moveToItem.id}
@@ -298,10 +354,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     );
   }
 
-  private renderGroup(): JsxNode {
-    return this.hasSetInfo ? (
+  private renderReorderGroup(): JsxNode {
+    return this.hasReorderItems ? (
       <calcite-dropdown-group
         groupTitle={this.messages.reorder}
+        id={IDS.reorder}
         key="reorder"
         scale={this.scale}
         selectionMode="none"
@@ -314,12 +371,29 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
+  private renderAddToGroup(): JsxNode {
+    const { messages, addToItems, scale } = this;
+
+    return addToItems.length ? (
+      <calcite-dropdown-group
+        groupTitle={messages.addTo}
+        id={IDS.add}
+        key="add-to-items"
+        scale={scale}
+        selectionMode="none"
+      >
+        {addToItems.map((addToItem) => this.renderAddToItem(addToItem))}
+      </calcite-dropdown-group>
+    ) : null;
+  }
+
   private renderMoveToGroup(): JsxNode {
     const { messages, moveToItems, scale } = this;
 
     return moveToItems.length ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
+        id={IDS.move}
         key="move-to-items"
         scale={scale}
         selectionMode="none"

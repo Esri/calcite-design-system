@@ -7,13 +7,14 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -25,10 +26,10 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding a `calcite-icon`.
+ * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent {
+export class Action extends LitElement implements InteractiveComponent, FormOwner {
   //#region Static Members
 
   static override styles = styles;
@@ -36,6 +37,8 @@ export class Action extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Properties
+
+  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -53,6 +56,8 @@ export class Action extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -89,6 +94,13 @@ export class Action extends LitElement implements InteractiveComponent {
    * @private
    */
   @property({ reflect: true }) dragHandle = false;
+
+  /**
+   * The `id` of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
@@ -128,15 +140,29 @@ export class Action extends LitElement implements InteractiveComponent {
   /** Indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
+  /**
+   * Specifies the default behavior of the component.
+   *
+   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   */
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
+
   //#endregion
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.buttonEl.value?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.buttonEl.value;
+    }, options);
   }
 
   //#endregion
@@ -144,6 +170,7 @@ export class Action extends LitElement implements InteractiveComponent {
   //#region Lifecycle
 
   override connectedCallback(): void {
+    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -152,12 +179,23 @@ export class Action extends LitElement implements InteractiveComponent {
   }
 
   override disconnectedCallback(): void {
+    this.formEl = null;
     this.mutationObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private handleClick(): void {
+    const { type } = this;
+
+    if (type === "submit") {
+      submitForm(this);
+    } else if (type === "reset") {
+      resetForm(this);
+    }
+  }
 
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = (event.target as HTMLSlotElement)
@@ -307,6 +345,7 @@ export class Action extends LitElement implements InteractiveComponent {
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
+        onClick={this.handleClick}
         ref={this.buttonEl}
       >
         {buttonContent}

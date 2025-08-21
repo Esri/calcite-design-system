@@ -1,7 +1,8 @@
 {
   "chooseDate": "Chọn ngày",
-  "date": "Date",
+  "date": "Ngày",
   "dateFormat": "Định dạng Ngày: {format}",
-  "endDate": "End Date",
-  "startDate": "Start Date"
+  "endDate": "Ngày Kết thúc",
+  "required": "Bắt buộc",
+  "startDate": "Ngày Bắt đầu"
 }

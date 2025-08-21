@@ -33,6 +33,9 @@ export interface SortableComponent {
   /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
 
+  /** When `true`, sorting is disabled. */
+  sortDisabled?: boolean;
+
   /** Specifies which items inside the element should be draggable. */
   dragSelector?: string;
 
@@ -46,7 +49,7 @@ export interface SortableComponent {
   sortable: Sortable;
 
   /** Whether the element can move from the list. */
-  canPull: (detail: DragDetail) => boolean;
+  canPull: (detail: DragDetail) => boolean | "clone";
 
   /** Whether the element can be added from another list. */
   canPut: (detail: DragDetail) => boolean;
@@ -97,13 +100,15 @@ export function connectSortableComponent(component: SortableComponent): void {
   sortableComponentSet.add(component);
 
   const dataIdAttr = "id";
-  const { group, handleSelector: handle, dragSelector: draggable } = component;
+  const { group, handleSelector: handle, dragSelector: draggable, sortDisabled } = component;
 
   component.sortable = Sortable.create(component.el, {
     dataIdAttr,
+    swapThreshold: 0.5,
     ...CSS,
     ...(!!draggable && { draggable }),
     ...(!!group && {
+      sort: !sortDisabled,
       group: {
         name: group,
         ...(!!component.canPull && {

@@ -1,4 +1,5 @@
 {
   "clear": "値の削除",
-  "loading": "読み込んでいます"
+  "loading": "読み込んでいます",
+  "required": "必須"
 }

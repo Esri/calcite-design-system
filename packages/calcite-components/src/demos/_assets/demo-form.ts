@@ -9,15 +9,15 @@ class DemoForm extends HTMLElement {
     this.removeEventListener("formdata", this.onFormData);
   }
 
-  onFormSubmit(event) {
+  onFormSubmit(event: SubmitEvent) {
     event.preventDefault();
     if (event.target) {
-      new FormData(event.target);
+      new FormData(event.target as HTMLFormElement);
     }
   }
 
-  onFormData(event) {
-    const data = {};
+  onFormData(event: FormDataEvent) {
+    const data: Record<string, FormDataEntryValue> = {};
     for (const pair of event.formData.entries()) {
       data[pair[0]] = pair[1];
     }

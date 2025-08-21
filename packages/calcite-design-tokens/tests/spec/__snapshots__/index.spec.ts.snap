@@ -921,8 +921,8 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-3: #141414;
-  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
-  --calcite-color-foreground-highlight: #2b465f;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-surface-highlight: #2b465f;
   --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -1137,8 +1137,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-highlight: #d6efff;
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-surface-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -1185,8 +1185,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent: rgba(0, 0, 0, 0);
-    --calcite-color-foreground-highlight: #d6efff;
-    --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
+    --calcite-color-surface-highlight: #d6efff;
+    --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
     --calcite-color-foreground-3: #ebebeb;
     --calcite-color-foreground-2: #f2f2f2;
     --calcite-color-foreground-1: #ffffff;
@@ -1234,8 +1234,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
-    --calcite-color-foreground-highlight: #2b465f;
-    --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
+    --calcite-color-surface-highlight: #2b465f;
+    --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
     --calcite-color-foreground-3: #141414;
     --calcite-color-foreground-2: #212121;
     --calcite-color-foreground-1: #2b2b2b;
@@ -1282,8 +1282,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-highlight: #d6efff;
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-surface-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -1329,8 +1329,8 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-highlight: #2b465f;
-  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-surface-highlight: #2b465f;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -1352,8 +1352,8 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-3: #ebebeb;
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
-  --calcite-color-foreground-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-surface-highlight: #d6efff;
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -18287,13 +18287,13 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "item": "foreground",
         "subitem": "current",
         "value": "#d6efff",
-        "description": "deprecated, use --calcite-color-foreground-highlight instead",
+        "description": "deprecated, use --calcite-color-surface-highlight instead",
         "filePath": "src/tokens/semantic/color/light.json",
         "isSource": false,
         "key": "{semantic.color.foreground.current}",
         "name": "calcite-semantic-color-foreground-current",
         "path": ["semantic", "color", "foreground", "current"],
-        "comment": "deprecated, use --calcite-color-foreground-highlight instead",
+        "comment": "deprecated, use --calcite-color-surface-highlight instead",
         "names": {
           "scss": "$calcite-color-foreground-current",
           "css": "var(--calcite-color-foreground-current)",
@@ -18307,29 +18307,29 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
-      "description": "deprecated, use --calcite-color-foreground-highlight instead",
+      "description": "deprecated, use --calcite-color-surface-highlight instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground Current",
       "path": ["semantic", "color", "foreground", "current"],
-      "comment": "deprecated, use --calcite-color-foreground-highlight instead"
+      "comment": "deprecated, use --calcite-color-surface-highlight instead"
     },
     {
-      "key": "{semantic.color.foreground.highlight}",
+      "key": "{semantic.color.surface.highlight}",
       "value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
         "group": "foreground",
         "type": "color",
-        "item": "foreground",
+        "item": "surface",
         "subitem": "highlight",
         "names": {
-          "scss": "$calcite-color-foreground-highlight",
-          "css": "var(--calcite-color-foreground-highlight)",
-          "js": "semantic.color.foreground.highlight",
-          "docs": "semantic.color.foreground.highlight",
-          "es6": "calciteColorForegroundHighlight"
+          "scss": "$calcite-color-surface-highlight",
+          "css": "var(--calcite-color-surface-highlight)",
+          "js": "semantic.color.surface.highlight",
+          "docs": "semantic.color.surface.highlight",
+          "es6": "calciteColorSurfaceHighlight"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18339,8 +18339,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Foreground Highlight",
-      "path": ["semantic", "color", "foreground", "highlight"]
+      "name": "Color Surface Highlight",
+      "path": ["semantic", "color", "surface", "highlight"]
     },
     {
       "key": "{semantic.color.transparent.default.default}",
@@ -22521,7 +22521,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "4px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -22558,7 +22558,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "6px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -22595,7 +22595,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "8px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -22632,7 +22632,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "12px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -22669,7 +22669,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "14px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -22706,7 +22706,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "16px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -22743,7 +22743,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "20px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -22780,7 +22780,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "32px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -22817,7 +22817,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "none",
@@ -22844,7 +22844,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "px",
@@ -22871,7 +22871,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "base",
@@ -22898,7 +22898,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -22925,7 +22925,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -22952,7 +22952,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -22979,7 +22979,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.625rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm+",
@@ -23006,7 +23006,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md",
@@ -23033,7 +23033,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md+",
@@ -23060,7 +23060,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "lg",
@@ -23087,7 +23087,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xl",
@@ -23114,7 +23114,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxl",
@@ -23141,7 +23141,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "value": "2rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxxl",
@@ -28302,7 +28302,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "4px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -28339,7 +28339,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "6px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -28376,7 +28376,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "8px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -28413,7 +28413,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "12px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -28450,7 +28450,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "14px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -28487,7 +28487,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "16px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -28524,7 +28524,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "20px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -28561,7 +28561,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "32px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -28598,7 +28598,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "none",
@@ -28625,7 +28625,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "px",
@@ -28652,7 +28652,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "2px",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "base",
@@ -28679,7 +28679,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxs",
@@ -28706,7 +28706,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.375rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xs",
@@ -28733,7 +28733,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm",
@@ -28760,7 +28760,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.625rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "sm+",
@@ -28787,7 +28787,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md",
@@ -28814,7 +28814,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "md+",
@@ -28841,7 +28841,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "lg",
@@ -28868,7 +28868,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1.25rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xl",
@@ -28895,7 +28895,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxl",
@@ -28922,7 +28922,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "value": "2rem",
       "type": "dimension",
       "attributes": {
-        "category": "space",
+        "category": "spacing",
         "type": "spacing",
         "item": "default",
         "subitem": "xxxl",
@@ -30523,8 +30523,8 @@ export const calciteColorForeground3 = { light: "#ebebeb", dark: "#141414" };
 export const calciteColorForegroundCurrent = {
   light: "#d6efff",
   dark: "#2b465f",
-}; // deprecated, use --calcite-color-foreground-highlight instead
-export const calciteColorForegroundHighlight = {
+}; // deprecated, use --calcite-color-surface-highlight instead
+export const calciteColorSurfaceHighlight = {
   light: "#d6efff",
   dark: "#2b465f",
 };
@@ -31040,9 +31040,9 @@ export const calciteColorBackgroundNone: string;
 export const calciteColorForeground1: { light: string; dark: string };
 export const calciteColorForeground2: { light: string; dark: string };
 export const calciteColorForeground3: { light: string; dark: string };
-/** deprecated, use --calcite-color-foreground-highlight instead */
+/** deprecated, use --calcite-color-surface-highlight instead */
 export const calciteColorForegroundCurrent: { light: string; dark: string };
-export const calciteColorForegroundHighlight: { light: string; dark: string };
+export const calciteColorSurfaceHighlight: { light: string; dark: string };
 export const calciteColorTransparent: { light: string; dark: string };
 export const calciteColorTransparentHover: { light: string; dark: string };
 export const calciteColorTransparentPress: { light: string; dark: string };
@@ -55401,14 +55401,14 @@ export default {
             subitem: "current",
             value: "#d6efff",
             description:
-              "deprecated, use --calcite-color-foreground-highlight instead",
+              "deprecated, use --calcite-color-surface-highlight instead",
             filePath: "src/tokens/semantic/color/light.json",
             isSource: false,
             key: "{semantic.color.foreground.current}",
             name: "calcite-semantic-color-foreground-current",
             path: ["semantic", "color", "foreground", "current"],
             comment:
-              "deprecated, use --calcite-color-foreground-highlight instead",
+              "deprecated, use --calcite-color-surface-highlight instead",
             names: {
               scss: "$calcite-color-foreground-current",
               css: "var(--calcite-color-foreground-current)",
@@ -55423,7 +55423,7 @@ export default {
             },
           },
           description:
-            "deprecated, use --calcite-color-foreground-highlight instead",
+            "deprecated, use --calcite-color-surface-highlight instead",
           filePath: "src/tokens/semantic/color/light.json",
           isSource: false,
           original: {
@@ -55434,16 +55434,17 @@ export default {
               group: "foreground",
             },
             description:
-              "deprecated, use --calcite-color-foreground-highlight instead",
+              "deprecated, use --calcite-color-surface-highlight instead",
             key: "{semantic.color.foreground.current}",
           },
           name: "Color Foreground Current",
           path: ["semantic", "color", "foreground", "current"],
-          comment:
-            "deprecated, use --calcite-color-foreground-highlight instead",
+          comment: "deprecated, use --calcite-color-surface-highlight instead",
         },
+      },
+      surface: {
         highlight: {
-          key: "{semantic.color.foreground.highlight}",
+          key: "{semantic.color.surface.highlight}",
           value: {
             light: "#d6efff",
             dark: "#2b465f",
@@ -55453,14 +55454,14 @@ export default {
             category: "color",
             group: "foreground",
             type: "color",
-            item: "foreground",
+            item: "surface",
             subitem: "highlight",
             names: {
-              scss: "$calcite-color-foreground-highlight",
-              css: "var(--calcite-color-foreground-highlight)",
-              js: "semantic.color.foreground.highlight",
-              docs: "semantic.color.foreground.highlight",
-              es6: "calciteColorForegroundHighlight",
+              scss: "$calcite-color-surface-highlight",
+              css: "var(--calcite-color-surface-highlight)",
+              js: "semantic.color.surface.highlight",
+              docs: "semantic.color.surface.highlight",
+              es6: "calciteColorSurfaceHighlight",
             },
             "calcite-schema": {
               system: "calcite",
@@ -55477,10 +55478,10 @@ export default {
               category: "color",
               group: "foreground",
             },
-            key: "{semantic.color.foreground.highlight}",
+            key: "{semantic.color.surface.highlight}",
           },
-          name: "Color Foreground Highlight",
-          path: ["semantic", "color", "foreground", "highlight"],
+          name: "Color Surface Highlight",
+          path: ["semantic", "color", "surface", "highlight"],
         },
       },
       transparent: {
@@ -61179,7 +61180,7 @@ export default {
           value: "4px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxs",
@@ -61211,7 +61212,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxs}",
@@ -61225,7 +61226,7 @@ export default {
           value: "6px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xs",
@@ -61257,7 +61258,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xs}",
@@ -61271,7 +61272,7 @@ export default {
           value: "8px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "sm",
@@ -61303,7 +61304,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.sm}",
@@ -61317,7 +61318,7 @@ export default {
           value: "12px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "md",
@@ -61349,7 +61350,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.md}",
@@ -61363,7 +61364,7 @@ export default {
           value: "14px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "lg",
@@ -61395,7 +61396,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.lg}",
@@ -61409,7 +61410,7 @@ export default {
           value: "16px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xl",
@@ -61441,7 +61442,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xl}",
@@ -61455,7 +61456,7 @@ export default {
           value: "20px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxl",
@@ -61487,7 +61488,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxl}",
@@ -61501,7 +61502,7 @@ export default {
           value: "32px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxxl",
@@ -61533,7 +61534,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxxl}",
@@ -61549,7 +61550,7 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "none",
@@ -61572,7 +61573,7 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.none}",
           },
@@ -61584,7 +61585,7 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "px",
@@ -61607,7 +61608,7 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.px}",
           },
@@ -61619,7 +61620,7 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "base",
@@ -61642,7 +61643,7 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.base}",
           },
@@ -61654,7 +61655,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -61677,7 +61678,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -61689,7 +61690,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -61712,7 +61713,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -61724,7 +61725,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -61747,7 +61748,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm}",
           },
@@ -61759,7 +61760,7 @@ export default {
           value: "0.625rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm+",
@@ -61782,7 +61783,7 @@ export default {
             value: "{core.size.default.10}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm+}",
           },
@@ -61794,7 +61795,7 @@ export default {
           value: "0.75rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md",
@@ -61817,7 +61818,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md}",
           },
@@ -61829,7 +61830,7 @@ export default {
           value: "0.875rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md+",
@@ -61852,7 +61853,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md+}",
           },
@@ -61864,7 +61865,7 @@ export default {
           value: "1rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "lg",
@@ -61887,7 +61888,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.lg}",
           },
@@ -61899,7 +61900,7 @@ export default {
           value: "1.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xl",
@@ -61922,7 +61923,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xl}",
           },
@@ -61934,7 +61935,7 @@ export default {
           value: "1.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxl",
@@ -61957,7 +61958,7 @@ export default {
             value: "{core.size.default.24}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxl}",
           },
@@ -61969,7 +61970,7 @@ export default {
           value: "2rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxxl",
@@ -61992,7 +61993,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxxl}",
           },
@@ -65669,6 +65670,8 @@ declare const tokens: {
         "2": DesignToken;
         "3": DesignToken;
         current: DesignToken;
+      };
+      surface: {
         highlight: DesignToken;
       };
       transparent: {
@@ -69415,7 +69418,7 @@ export default {
           value: "4px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxs",
@@ -69447,7 +69450,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxs}",
@@ -69461,7 +69464,7 @@ export default {
           value: "6px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xs",
@@ -69493,7 +69496,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xs}",
@@ -69507,7 +69510,7 @@ export default {
           value: "8px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "sm",
@@ -69539,7 +69542,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.sm}",
@@ -69553,7 +69556,7 @@ export default {
           value: "12px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "md",
@@ -69585,7 +69588,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.md}",
@@ -69599,7 +69602,7 @@ export default {
           value: "14px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "lg",
@@ -69631,7 +69634,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.lg}",
@@ -69645,7 +69648,7 @@ export default {
           value: "16px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xl",
@@ -69677,7 +69680,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xl}",
@@ -69691,7 +69694,7 @@ export default {
           value: "20px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxl",
@@ -69723,7 +69726,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxl}",
@@ -69737,7 +69740,7 @@ export default {
           value: "32px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "dimension",
             item: "fixed",
             subitem: "xxxl",
@@ -69769,7 +69772,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             description: "deprecated",
             key: "{semantic.spacing.fixed.xxxl}",
@@ -69785,7 +69788,7 @@ export default {
           value: "0",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "none",
@@ -69808,7 +69811,7 @@ export default {
             value: "{core.size.default.none}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.none}",
           },
@@ -69820,7 +69823,7 @@ export default {
           value: "1px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "px",
@@ -69843,7 +69846,7 @@ export default {
             value: "{core.size.default.1}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.px}",
           },
@@ -69855,7 +69858,7 @@ export default {
           value: "2px",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "base",
@@ -69878,7 +69881,7 @@ export default {
             value: "{core.size.default.2}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.base}",
           },
@@ -69890,7 +69893,7 @@ export default {
           value: "0.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxs",
@@ -69913,7 +69916,7 @@ export default {
             value: "{core.size.default.4}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxs}",
           },
@@ -69925,7 +69928,7 @@ export default {
           value: "0.375rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xs",
@@ -69948,7 +69951,7 @@ export default {
             value: "{core.size.default.6}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xs}",
           },
@@ -69960,7 +69963,7 @@ export default {
           value: "0.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm",
@@ -69983,7 +69986,7 @@ export default {
             value: "{core.size.default.8}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm}",
           },
@@ -69995,7 +69998,7 @@ export default {
           value: "0.625rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "sm+",
@@ -70018,7 +70021,7 @@ export default {
             value: "{core.size.default.10}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.sm+}",
           },
@@ -70030,7 +70033,7 @@ export default {
           value: "0.75rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md",
@@ -70053,7 +70056,7 @@ export default {
             value: "{core.size.default.12}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md}",
           },
@@ -70065,7 +70068,7 @@ export default {
           value: "0.875rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "md+",
@@ -70088,7 +70091,7 @@ export default {
             value: "{core.size.default.14}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.md+}",
           },
@@ -70100,7 +70103,7 @@ export default {
           value: "1rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "lg",
@@ -70123,7 +70126,7 @@ export default {
             value: "{core.size.default.16}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.lg}",
           },
@@ -70135,7 +70138,7 @@ export default {
           value: "1.25rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xl",
@@ -70158,7 +70161,7 @@ export default {
             value: "{core.size.default.20}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xl}",
           },
@@ -70170,7 +70173,7 @@ export default {
           value: "1.5rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxl",
@@ -70193,7 +70196,7 @@ export default {
             value: "{core.size.default.24}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxl}",
           },
@@ -70205,7 +70208,7 @@ export default {
           value: "2rem",
           type: "dimension",
           attributes: {
-            category: "space",
+            category: "spacing",
             type: "spacing",
             item: "default",
             subitem: "xxxl",
@@ -70228,7 +70231,7 @@ export default {
             value: "{core.size.default.32}",
             type: "dimension",
             attributes: {
-              category: "space",
+              category: "spacing",
             },
             key: "{semantic.spacing.default.xxxl}",
           },
@@ -71394,8 +71397,8 @@ $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #2b2b2b;
 $calcite-color-foreground-2: #212121;
 $calcite-color-foreground-3: #141414;
-$calcite-color-foreground-current: #2b465f; // deprecated, use --calcite-color-foreground-highlight instead
-$calcite-color-foreground-highlight: #2b465f;
+$calcite-color-foreground-current: #2b465f; // deprecated, use --calcite-color-surface-highlight instead
+$calcite-color-surface-highlight: #2b465f;
 $calcite-color-transparent: rgba(255, 255, 255, 0);
 $calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -71607,8 +71610,8 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-highlight: #d6efff;
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-surface-highlight: #d6efff;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-2: #f2f2f2;
   --calcite-color-foreground-1: #ffffff;
@@ -71654,8 +71657,8 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-highlight: #2b465f;
-  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-foreground-highlight instead */
+  --calcite-color-surface-highlight: #2b465f;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #141414;
   --calcite-color-foreground-2: #212121;
   --calcite-color-foreground-1: #2b2b2b;
@@ -71675,8 +71678,8 @@ $calcite-color-background-none: rgba(255, 255, 255, 0);
 $calcite-color-foreground-1: #ffffff;
 $calcite-color-foreground-2: #f2f2f2;
 $calcite-color-foreground-3: #ebebeb;
-$calcite-color-foreground-current: #d6efff; // deprecated, use --calcite-color-foreground-highlight instead
-$calcite-color-foreground-highlight: #d6efff;
+$calcite-color-foreground-current: #d6efff; // deprecated, use --calcite-color-surface-highlight instead
+$calcite-color-surface-highlight: #d6efff;
 $calcite-color-transparent: rgba(0, 0, 0, 0);
 $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);

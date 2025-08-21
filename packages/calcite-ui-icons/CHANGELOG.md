@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.16...@esri/calcite-ui-icons@4.3.0-next.17) (2025-08-13)
+
+### Features
+
+- add rtl of list icons ([#12685](https://github.com/Esri/calcite-design-system/issues/12685)) ([f0d96b5](https://github.com/Esri/calcite-design-system/commit/f0d96b5a6942cbac73cf3f564c2bb9bd1378086b))
+
+## [4.3.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.15...@esri/calcite-ui-icons@4.3.0-next.16) (2025-08-12)
+
+### Features
+
+- schema report, video, classification, and advance drawing tools icons ([#12679](https://github.com/Esri/calcite-design-system/issues/12679)) ([39740a6](https://github.com/Esri/calcite-design-system/commit/39740a6fbe2c40451dbdb89e37930cc934c0049b))
+
+## [4.3.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.14...@esri/calcite-ui-icons@4.3.0-next.15) (2025-08-11)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.13...@esri/calcite-ui-icons@4.3.0-next.14) (2025-08-06)
+
+### Features
+
+- add filled envelope icon ([#12654](https://github.com/Esri/calcite-design-system/issues/12654)) ([563f1a3](https://github.com/Esri/calcite-design-system/commit/563f1a3664221015c592c3cb142c64fd8ff5b7ff))
+
+## [4.3.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.12...@esri/calcite-ui-icons@4.3.0-next.13) (2025-08-06)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.11...@esri/calcite-ui-icons@4.3.0-next.12) (2025-07-28)
+
+### Features
+
+- add catalog and magic wand ([#12596](https://github.com/Esri/calcite-design-system/issues/12596)) ([7a55e1e](https://github.com/Esri/calcite-design-system/commit/7a55e1eb66d75a30c9c14fbcf0d77eb616ba498a))
+
+## [4.3.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.10...@esri/calcite-ui-icons@4.3.0-next.11) (2025-07-22)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.9...@esri/calcite-ui-icons@4.3.0-next.10) (2025-07-17)
+
+### Features
+
+- add arrow left 10 and arrow right 10 ([#12541](https://github.com/Esri/calcite-design-system/issues/12541)) ([301416e](https://github.com/Esri/calcite-design-system/commit/301416e0f96958265edc9b26808a958edd84ccdc))
+
+## [4.3.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.8...@esri/calcite-ui-icons@4.3.0-next.9) (2025-07-17)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.3.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.7...@esri/calcite-ui-icons@4.3.0-next.8) (2025-07-14)
+
+### Features
+
+- add person magnifying glass ([#12509](https://github.com/Esri/calcite-design-system/issues/12509)) ([42dc729](https://github.com/Esri/calcite-design-system/commit/42dc7297395095e9a92cc898bb52113d6ea4cb6c))
+
+## [4.3.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.6...@esri/calcite-ui-icons@4.3.0-next.7) (2025-07-10)
+
+### Features
+
+- add dimensions centered ([#12483](https://github.com/Esri/calcite-design-system/issues/12483)) ([5b4b3b5](https://github.com/Esri/calcite-design-system/commit/5b4b3b518389f716ef613f0a2c75ca58f80c6091))
+
 ## [4.3.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.5...@esri/calcite-ui-icons@4.3.0-next.6) (2025-07-03)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

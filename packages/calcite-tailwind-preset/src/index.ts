@@ -1,12 +1,13 @@
 import type { Config } from "tailwindcss";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
+import { PluginUtils } from "tailwindcss/types/config";
 import { invert } from "./utils";
 
 // we omit content to work around https://github.com/tailwindlabs/tailwindcss/issues/11725 (fixed in v4, but not v3)
 const config: Omit<Config, "content"> = {
   theme: {
-    borderColor: ({ theme }) => ({
+    borderColor: ({ theme }: PluginUtils) => ({
       color: {
         1: "var(--calcite-color-border-1)",
         2: "var(--calcite-color-border-2)",
@@ -114,7 +115,7 @@ const config: Omit<Config, "content"> = {
       l: "1024px",
       xl: "1440px",
     },
-    backgroundColor: ({ theme }) => ({
+    backgroundColor: ({ theme }: PluginUtils) => ({
       ...theme("colors.background"),
       transparent: theme("colors.transparent"),
       brand: theme("colors.brand"),
