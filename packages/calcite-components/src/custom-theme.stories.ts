@@ -228,11 +228,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column open-calendar-spacing-small">${inputDatePicker}</div>
-      <div class="demo-column open-calendar-spacing-large">${inputDatePickerRange}</div>
-      <div class="demo-column open-calendar-spacing-top">${inputDatePickerRangeVertical}</div>
-    </div>
-    <div class="demo-row">
       <div class="demo-column">${inputMessageInvalid}</div>
       <div class="demo-column">${inputMessageValid}</div>
       <div class="demo-column">${inputMessageIdle}</div>
