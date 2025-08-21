@@ -1,14 +1,14 @@
 // @ts-strict-ignore
-import { PropertyValues, isServer } from "lit";
+import { isServer, PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   Fragment,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
 } from "@arcgis/lumina";
 import {
   dateFromISO,
@@ -27,7 +27,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
+import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
 
@@ -191,34 +191,11 @@ export class DatePicker extends LitElement {
     this.listen("keydown", this.keyDownHandler);
   }
 
-  override connectedCallback(): void {
-    if (Array.isArray(this.value)) {
-      this.valueAsDate = getValueAsDateRange(this.value);
-    } else if (this.value) {
-      this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
-    }
-    this.setActiveStartAndEndDates();
-  }
-
   async load(): Promise<void> {
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("activeDate")) {
-      this.activeDateWatcher(this.activeDate);
-    }
-
     if (changes.has("value")) {
       this.valueHandler(this.value);
     }
@@ -227,12 +204,43 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    if (changes.has("min")) {
-      this.onMinChanged(this.min);
+    let minSource: Extract<keyof DatePicker, "min" | "minAsDate">;
+    let maxSource: Extract<keyof DatePicker, "max" | "maxAsDate">;
+
+    if (changes.has("min") && !changes.has("minAsDate")) {
+      minSource = "min";
+    } else if (changes.has("minAsDate") && !changes.has("min")) {
+      minSource = "minAsDate";
     }
 
-    if (changes.has("max")) {
-      this.onMaxChanged(this.max);
+    if (changes.has("max") && !changes.has("maxAsDate")) {
+      maxSource = "max";
+    } else if (changes.has("maxAsDate") && !changes.has("max")) {
+      maxSource = "maxAsDate";
+    }
+
+    if (minSource === "min") {
+      this.minAsDate = dateFromISO(this.min);
+    } else if (minSource === "minAsDate") {
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
+    }
+
+    if (maxSource === "max") {
+      this.maxAsDate = dateFromISO(this.max);
+    } else if (maxSource === "maxAsDate") {
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
+    }
+
+    if (
+      (changes.has("range") && this.range) ||
+      changes.has("maxAsDate") ||
+      changes.has("minAsDate")
+    ) {
+      this.setActiveStartAndEndDates();
+    }
+
+    if (changes.has("activeDate")) {
+      this.activeDateWatcher(this.activeDate);
     }
 
     if (changes.has("messages") && this.hasUpdated) {
@@ -275,20 +283,6 @@ export class DatePicker extends LitElement {
       this.setActiveStartAndEndDates();
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
-    }
-  }
-
-  private onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
-    if (this.range) {
-      this.setActiveStartAndEndDates();
-    }
-  }
-
-  private onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
-    if (this.range) {
-      this.setActiveStartAndEndDates();
     }
   }
 
