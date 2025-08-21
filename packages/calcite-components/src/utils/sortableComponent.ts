@@ -49,7 +49,7 @@ export interface SortableComponent {
   sortable: Sortable;
 
   /** Whether the element can move from the list. */
-  canPull: (detail: DragDetail) => boolean;
+  canPull: (detail: DragDetail) => boolean | "clone";
 
   /** Whether the element can be added from another list. */
   canPut: (detail: DragDetail) => boolean;
