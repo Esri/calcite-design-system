@@ -1,3 +1,9 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-color-picker-min-width
+
 :host {
   @apply text-n2h inline-block font-normal;
 
@@ -10,11 +16,6 @@
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
   --calcite-color-picker-spacing: 8px;
-
-  .saved-colors {
-    @apply gap-1;
-    grid-template-columns: repeat(auto-fill, 20px);
-  }
 }
 
 :host([scale="m"]) {
@@ -32,10 +33,6 @@
     &:first-of-type {
       padding-block-start: var(--calcite-color-picker-spacing);
     }
-  }
-
-  .saved-colors {
-    grid-template-columns: repeat(auto-fill, 32px);
   }
 
   .control-section {
@@ -157,30 +154,8 @@
   }
 }
 
-.saved-colors {
-  @apply grid gap-2;
-  padding-block-start: var(--calcite-color-picker-spacing);
-  grid-template-columns: repeat(auto-fill, 24px);
-}
-
 .saved-colors-buttons {
   display: flex;
-}
-
-.saved-color {
-  @include focus-style-base();
-
-  cursor: pointer;
-
-  &:focus {
-    @include focus-style-outset();
-  }
-
-  &:hover {
-    transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
-    outline: 2px solid var(--calcite-color-border-2);
-    outline-offset: 2px;
-  }
 }
 
 @include base-component();
