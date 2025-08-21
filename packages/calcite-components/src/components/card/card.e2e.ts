@@ -20,7 +20,17 @@ describe("calcite-card", () => {
   });
 
   describe("focusable", () => {
-    focusable("calcite-card");
+    describe("default", () => {
+      focusable("calcite-card");
+    });
+
+    describe("with interactive children", () => {
+      focusable(html`
+        <calcite-card id="parent">
+          <div tabindex="0">focusable child</div>
+        </calcite-card>
+      `);
+    });
   });
 
   describe("accessible", () => {

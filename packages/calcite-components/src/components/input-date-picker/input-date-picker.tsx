@@ -193,6 +193,9 @@ export class InputDatePicker
 
   //#region Public Properties
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -1176,6 +1179,7 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
+                  calendars={this.calendars}
                   headingLevel={this.headingLevel}
                   layout={this.layout}
                   max={this.max}

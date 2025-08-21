@@ -96,11 +96,11 @@
   border-color: var(--calcite-date-picker-range-calendar-divider-color, var(--calcite-color-border-1));
 }
 
-:host([range][layout="horizontal"]) .calendar--start {
+:host([range][layout="horizontal"][calendars="2"]) .calendar--start {
   border-inline-end-width: var(--calcite-border-width-sm);
 }
 
-:host([range][layout="vertical"]) .calendar--start {
+:host([range][layout="vertical"][calendars="2"]) .calendar--start {
   border-block-end-width: var(--calcite-border-width-sm);
 }
 
