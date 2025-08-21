@@ -1032,7 +1032,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
         oldIndex,
       }) ?? true;
 
-    return type === "add" ? canPull === "clone" : canPull === true && canPut;
+    return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
   }
 
   private handleAdd(event: CustomEvent<AddEventDetail>): void {
