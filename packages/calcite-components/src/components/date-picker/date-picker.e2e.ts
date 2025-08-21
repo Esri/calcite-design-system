@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
+import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
@@ -268,7 +269,6 @@ describe("calcite-date-picker", () => {
 
     it("unsetting min/max updates minAsDate & maxAsDate", async () => {
       const page = await newE2EPage();
-      await page.emulateTimezone("America/Los_Angeles");
       await page.setContent(
         html`<calcite-date-picker value="2022-11-20" min="2022-11-15" max="2022-11-25"></calcite-date-picker>`,
       );
@@ -282,9 +282,9 @@ describe("calcite-date-picker", () => {
       expect(await element.getProperty("minAsDate")).toBe(undefined);
       expect(await element.getProperty("maxAsDate")).toBe(undefined);
 
-      const dateBeyondMax = "2022-11-26";
-      await setActiveDate(page, dateBeyondMax);
-      expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
+      const dateAfterMax = "2022-11-26";
+      await setActiveDate(page, dateAfterMax);
+      expect(await getActiveDate(page)).toEqual(new Date(dateAfterMax).toISOString());
 
       const dateBeforeMin = "2022-11-14";
       await setActiveDate(page, dateBeforeMin);
@@ -311,6 +311,42 @@ describe("calcite-date-picker", () => {
       expect(await monthOptions[2].getProperty("disabled")).toBe(false);
       expect(await monthOptions[3].getProperty("disabled")).toBe(false);
       expect(await monthOptions[4].getProperty("disabled")).toBe(true);
+    });
+
+    it("disables days outside minAsDate and maxAsDate", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+
+      const beforeMinDateOnlyIso = "2025-08-17";
+      const minDateOnlyIso = "2025-08-18";
+      const maxDateOnlyIso = "2025-08-20";
+      const afterMaxDateOnlyIso = "2025-08-21";
+      const offsetIso = "T07:00:00.000Z";
+      const minDayIso = `${minDateOnlyIso}${offsetIso}`;
+      const maxDayIso = `${maxDateOnlyIso}${offsetIso}`;
+
+      await page.$eval(
+        "calcite-date-picker",
+        (el, min, max) => {
+          el.minAsDate = new Date(min);
+          el.maxAsDate = new Date(max);
+        },
+        minDayIso,
+        maxDayIso,
+      );
+      await page.waitForChanges();
+
+      const previousDay = await getDayById(page, dateIsoToDayId(beforeMinDateOnlyIso));
+      expect(await previousDay.getProperty("disabled")).toBe(true);
+
+      const currentDay = await getDayById(page, dateIsoToDayId(minDateOnlyIso));
+      expect(await currentDay.getProperty("disabled")).toBe(false);
+
+      const maxDay = await getDayById(page, dateIsoToDayId(maxDateOnlyIso));
+      expect(await maxDay.getProperty("disabled")).toBe(false);
+
+      const outOfRangeDay = await getDayById(page, dateIsoToDayId(afterMaxDateOnlyIso));
+      expect(await outOfRangeDay.getProperty("disabled")).toBe(true);
     });
   });
 
@@ -998,10 +1034,10 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       currentDate.setMonth(currentDate.getMonth() + 2);
       currentDate.setDate(12);
-      const currentISODate = currentDate.toISOString().split("T")[0];
+      const currentISODate = toDateOnlyIso(currentDate);
 
       await page.evaluate((currentISODate) => {
         const datePicker = document.querySelector("calcite-date-picker");
@@ -1024,21 +1060,23 @@ describe("calcite-date-picker", () => {
     it("should select current day when min is before current day but in same month of range date-picker", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
-      await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       if (currentDate.getDate() > 2) {
         currentDate.setDate(1);
       }
-      const currentISODate = currentDate.toISOString().split("T")[0];
+      const currentISODate = toDateOnlyIso(currentDate);
 
-      await page.evaluate((currentISODate) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.min = currentISODate;
-      }, currentISODate);
-
+      await page.$eval(
+        "calcite-date-picker",
+        (datePicker, currentISODate) => {
+          datePicker.min = currentISODate;
+        },
+        currentISODate,
+      );
       await page.waitForChanges();
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
@@ -1048,8 +1086,8 @@ describe("calcite-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      const currentDayDate = new Date();
-      const currentDayISODate = currentDayDate.toISOString().split("T")[0];
+      const currentDayDate = getLocalDayDate();
+      const currentDayISODate = toDateOnlyIso(currentDayDate);
 
       expect(await datePicker.getProperty("value")).toStrictEqual([currentDayISODate, ""]);
     });
@@ -1057,21 +1095,16 @@ describe("calcite-date-picker", () => {
     it("should select current day when min is before current day but in same month", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
-      await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
-      if (currentDate.getDate() > 2) {
-        currentDate.setDate(1);
+      const minDate = getLocalDayDate();
+      if (minDate.getDate() > 2) {
+        minDate.setDate(1);
       }
-      const currentISODate = currentDate.toISOString().split("T")[0];
 
-      await page.evaluate((currentISODate) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.min = currentISODate;
-      }, currentISODate);
-
+      datePicker.setProperty("min", toDateOnlyIso(minDate));
       await page.waitForChanges();
+
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
@@ -1083,8 +1116,8 @@ describe("calcite-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      const currentDayDate = new Date();
-      const currentDayISODate = currentDayDate.toISOString().split("T")[0];
+      const currentDayDate = getLocalDayDate();
+      const currentDayISODate = toDateOnlyIso(currentDayDate);
 
       expect(await datePicker.getProperty("value")).toEqual(currentDayISODate);
     });
@@ -1095,10 +1128,10 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       const datePicker = await page.find("calcite-date-picker");
 
-      const currentDate = new Date();
+      const currentDate = getLocalDayDate();
       currentDate.setMonth(currentDate.getMonth() + 2);
       currentDate.setDate(12);
-      const currentISODate = currentDate.toISOString().split("T")[0];
+      const currentISODate = toDateOnlyIso(currentDate);
 
       await page.evaluate((currentISODate) => {
         const datePicker = document.querySelector("calcite-date-picker");
@@ -1367,63 +1400,81 @@ describe("calcite-date-picker", () => {
       themed(rangeDatePickerHTML, componentTokens);
     });
   });
-});
 
-async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-  await page.evaluate((date) => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    datePicker.activeDate = new Date(date);
-  }, date);
-  await page.waitForChanges();
-}
-
-async function getActiveDate(page: E2EPage): Promise<string> {
-  return await page.evaluate(() => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    return datePicker.activeDate.toISOString();
-  });
-}
-
-async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
-  const day = await page.find(
-    `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[current-month][id="${id}"]`,
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function selectFirstAvailableDay(page: E2EPage): Promise<void> {
-  const day = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day:not([selected])",
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function selectSelectedDay(page: E2EPage): Promise<void> {
-  const day = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]",
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
-  const days = await findAll(
-    page,
-    `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
-  );
-  return days.find((d) => !d.classList.contains("noncurrent"));
-}
-
-async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
-  const [startMonth, endMonth] = await findAll(
-    page,
-    `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
-  );
-
-  if (position === "start") {
-    return (await startMonth.find("calcite-option[selected]")).textContent;
+  function getLocalDayDate(): Date {
+    const today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    return today;
   }
-  return (await endMonth.find("calcite-option[selected]")).textContent;
-}
+
+  function toDateOnlyIso(date: Date): string {
+    return date.toISOString().split("T")[0];
+  }
+
+  async function setActiveDate(page: E2EPage, isoDate: string): Promise<void> {
+    await page.$eval("calcite-date-picker", (datePicker, date) => (datePicker.activeDate = new Date(date)), isoDate);
+    await page.waitForChanges();
+  }
+
+  async function getActiveDate(page: E2EPage): Promise<string> {
+    return getDateIsoStringFromProp(page, "activeDate");
+  }
+
+  async function getDateIsoStringFromProp(
+    page: E2EPage,
+    prop: keyof ConditionalPick<DatePicker, Date>,
+  ): Promise<string> {
+    return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop]?.toISOString(), prop);
+  }
+
+  async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
+    const day = await page.find(
+      `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[current-month][id="${id}"]`,
+    );
+    await day.click();
+    await page.waitForChanges();
+  }
+
+  async function selectFirstAvailableDay(page: E2EPage): Promise<void> {
+    const day = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day:not([selected])",
+    );
+    await day.click();
+    await page.waitForChanges();
+  }
+
+  async function selectSelectedDay(page: E2EPage): Promise<void> {
+    const day = await page.find(
+      "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]",
+    );
+    await day.click();
+    await page.waitForChanges();
+  }
+
+  function dateIsoToDayId(isoDate: string): string {
+    return isoDate.split("T")[0].replaceAll("-", "");
+  }
+
+  async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
+    const days = await findAll(
+      page,
+      `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+    );
+    return days.find((d) => !d.classList.contains("noncurrent"));
+  }
+
+  async function getActiveMonth(
+    page: E2EPage,
+    position: Extract<"start" | "end", Position> = "start",
+  ): Promise<string> {
+    const [startMonth, endMonth] = await findAll(
+      page,
+      `calcite-date-picker >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.header} >>> calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
+    );
+
+    if (position === "start") {
+      return (await startMonth.find("calcite-option[selected]")).textContent;
+    }
+    return (await endMonth.find("calcite-option[selected]")).textContent;
+  }
+});
