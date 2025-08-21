@@ -42,6 +42,7 @@ import {
   hasTrailingDecimal,
   isInfinity,
   isValidNumber,
+  parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -189,6 +190,8 @@ export class InputNumber
     if (isInfinity(value)) {
       return value;
     }
+
+    value = parseNumberString(value);
 
     if (!isValidNumber(value)) {
       return "";
@@ -567,7 +570,7 @@ export class InputNumber
   private inputValue(value: string) {
     const { calciteInputNumberInput: inputEventEmitter, getValidNumberString } = this;
     const validatedValue = getValidNumberString(value);
-    if (validatedValue || !value) {
+    if (validatedValue || !value || (value && !validatedValue)) {
       this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
     }
     this.setLocalizedValue(this.value);
