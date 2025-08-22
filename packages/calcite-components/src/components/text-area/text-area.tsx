@@ -311,9 +311,7 @@ export class TextArea
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.textAreaEl;
-    }, options);
+    return this.focusSetter(() => this.textAreaEl, options);
   }
 
   //#endregion
