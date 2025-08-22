@@ -369,9 +369,7 @@ export class InputNumber
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.childNumberEl.value;
-    }, options);
+    return this.focusSetter(() => this.childNumberEl.value, options);
   }
 
   //#endregion

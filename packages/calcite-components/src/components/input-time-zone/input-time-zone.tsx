@@ -241,9 +241,7 @@ export class InputTimeZone
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.comboboxEl.value;
-    }, options);
+    return this.focusSetter(() => this.comboboxEl.value, options);
   }
 
   //#endregion

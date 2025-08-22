@@ -101,9 +101,7 @@ export class Flow extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.items[this.selectedIndex];
-    }, options);
+    return this.focusSetter(() => this.items[this.selectedIndex], options);
   }
 
   // #endregion

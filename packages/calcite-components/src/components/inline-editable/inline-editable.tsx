@@ -108,9 +108,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.inputEl;
-    }, options);
+    return this.focusSetter(() => this.inputEl, options);
   }
 
   //#endregion

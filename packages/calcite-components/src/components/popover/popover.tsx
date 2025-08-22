@@ -255,9 +255,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   /** Updates the element(s) that are used within the focus-trap of the component. */

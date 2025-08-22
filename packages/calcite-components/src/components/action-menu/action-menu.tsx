@@ -189,9 +189,7 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.menuButtonEl;
-    }, options);
+    return this.focusSetter(() => this.menuButtonEl, options);
   }
 
   //#endregion

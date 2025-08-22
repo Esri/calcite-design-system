@@ -210,9 +210,7 @@ export class Dropdown
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.referenceEl;
-    }, options);
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   // #endregion

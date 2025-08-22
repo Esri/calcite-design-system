@@ -123,9 +123,7 @@ export class AccordionItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.headerEl.value;
-    }, options);
+    return this.focusSetter(() => this.headerEl.value, options);
   }
 
   //#endregion

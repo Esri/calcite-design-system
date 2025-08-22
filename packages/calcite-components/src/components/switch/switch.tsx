@@ -96,9 +96,7 @@ export class Switch
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.switchEl.value;
-    }, options);
+    return this.focusSetter(() => this.switchEl.value, options);
   }
 
   // #endregion

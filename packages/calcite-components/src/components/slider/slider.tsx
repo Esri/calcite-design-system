@@ -351,9 +351,7 @@ export class Slider
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.minHandle || this.maxHandle;
-    }, options);
+    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
   }
 
   // #endregion
