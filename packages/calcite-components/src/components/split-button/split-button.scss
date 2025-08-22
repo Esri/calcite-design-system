@@ -19,8 +19,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-split-button-background
-// --calcite-internal-split-button-divider
+// --calcite-internal-split-button-background-color
+// --calcite-internal-split-button-divider-color
 
 :host {
   @apply inline-block;
@@ -39,44 +39,71 @@
 }
 
 :host([kind="brand"]) {
-  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, var(--calcite-color-brand));
-  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+  --calcite-internal-split-button-background-color: var(
+    --calcite-split-button-background-color,
+    var(--calcite-color-brand)
+  );
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-split-button-divider-color,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([kind="danger"]) {
-  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, var(--calcite-color-danger));
-  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+  --calcite-internal-split-button-background-color: var(
+    --calcite-split-button-background-color,
+    var(--calcite-color-danger)
+  );
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-split-button-divider-color,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([kind="neutral"]) {
-  --calcite-internal-split-button-background: var(
+  --calcite-internal-split-button-background-color: var(
     --calcite-split-button-background-color,
     var(--calcite-color-foreground-3)
   );
-  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-text-1));
+  --calcite-internal-split-button-divider-color: var(--calcite-split-button-divider-color, var(--calcite-color-text-1));
 }
 
 :host([kind="inverse"]) {
-  --calcite-internal-split-button-background: var(
+  --calcite-internal-split-button-background-color: var(
     --calcite-split-button-background-color,
     var(--calcite-color-inverse)
   );
-  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+  --calcite-internal-split-button-divider-color: var(
+    --calcite-split-button-divider-color,
+    var(--calcite-color-foreground-1)
+  );
 }
 
 :host([appearance="transparent"]) {
-  --calcite-internal-split-button-background: var(--calcite-split-button-background-color, transparent);
+  --calcite-internal-split-button-background-color: var(--calcite-split-button-background-color, transparent);
   &:host([kind="brand"]) {
-    --calcite-internal-split-button-divider: theme("colors.brand");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-brand)
+    );
   }
   &:host([kind="danger"]) {
-    --calcite-internal-split-button-divider: theme("colors.danger");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-danger)
+    );
   }
   &:host([kind="neutral"]) {
-    --calcite-internal-split-button-divider: theme("colors.color.1");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-text-3)
+    );
   }
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider: theme("colors.background.foreground.1");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-foreground-1)
+    );
   }
 }
 
@@ -85,7 +112,7 @@
   &:host([kind="danger"]),
   &:host([kind="neutral"]),
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-background: transparent;
+    --calcite-internal-split-button-background-color: var(--calcite-split-button-background-color, transparent);
   }
 }
 
@@ -94,28 +121,90 @@
   &:host([kind="danger"]),
   &:host([kind="neutral"]),
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-background: var(--calcite-color-background);
+    --calcite-internal-split-button-background-color: var(
+      --calcite-split-button-background-color,
+      var(--calcite-color-background)
+    );
   }
 }
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   &:host([kind="brand"]) {
-    --calcite-internal-split-button-divider: theme("colors.brand");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-brand)
+    );
   }
   &:host([kind="danger"]) {
-    --calcite-internal-split-button-divider: theme("colors.danger");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-danger)
+    );
   }
   &:host([kind="neutral"]) {
-    --calcite-internal-split-button-divider: theme("borderColor.color.1");
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-text-1)
+    );
   }
   &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider: var(--calcite-color-inverse);
+    --calcite-internal-split-button-divider-color: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-inverse)
+    );
+  }
+}
+
+.container {
+  @apply flex items-stretch;
+  > calcite-dropdown > calcite-button {
+    @apply h-full align-top;
+  }
+}
+
+.divider-container {
+  @apply transition-default flex w-px items-stretch;
+  background-color: var(--calcite-internal-split-button-background-color);
+}
+
+.divider {
+  @apply my-1 inline-block w-px;
+  background-color: var(--calcite-internal-split-button-divider-color);
+}
+
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
+  .divider-container {
+    border-block: 1px solid var(--calcite-internal-split-button-divider-color);
+  }
+  &:hover .divider-container {
+    background-color: var(--calcite-internal-split-button-divider-color);
+  }
+}
+
+:host([appearance="outline-fill"]:hover),
+:host([appearance="outline"]:hover) {
+  .divider-container {
+    background-color: var(--calcite-internal-split-button-divider-color);
+  }
+}
+
+:host([appearance="outline-fill"]:focus-within),
+:host([appearance="outline"]:focus-within) {
+  &:host([kind="brand"]) {
+    --calcite-internal-split-button-divider-color: theme("colors.brand-press");
+  }
+  &:host([kind="danger"]) {
+    --calcite-internal-split-button-divider-color: theme("colors.danger-press");
+  }
+  .divider-container {
+    background-color: var(--calcite-internal-split-button-divider-color);
   }
 }
 
 calcite-button {
-  --calcite-button-background-color: var(--calcite-internal-split-button-background-color);
+  --calcite-button-background-color: var(--calcite-internal-split-button-background-color-color);
   --calcite-button-border-color: var(--calcite-split-button-border-color);
   --calcite-button-corner-radius: var(--calcite-split-button-corner-radius);
   --calcite-button-icon-color: var(--calcite-split-button-icon-color);
@@ -140,52 +229,6 @@ calcite-dropdown {
     --calcite-split-button-dropdown-background-color,
     var(--calcite-color-foreground-1)
   );
-}
-.container {
-  @apply flex items-stretch;
-  > calcite-dropdown > calcite-button {
-    @apply h-full align-top;
-  }
-}
-
-.divider-container {
-  @apply transition-default flex w-px items-stretch;
-  background-color: var(--calcite-internal-split-button-background);
-}
-
-.divider {
-  @apply my-1 inline-block w-px;
-  background-color: var(--calcite-internal-split-button-divider);
-}
-
-:host([appearance="outline-fill"]),
-:host([appearance="outline"]) {
-  .divider-container {
-    border-block: 1px solid var(--calcite-internal-split-button-divider);
-  }
-  &:hover .divider-container {
-    background-color: var(--calcite-internal-split-button-divider);
-  }
-}
-
-:host([appearance="outline-fill"]:hover),
-:host([appearance="outline"]:hover) {
-  .divider-container {
-    background-color: var(--calcite-internal-split-button-divider);
-  }
-}
-
-:host([appearance="outline-fill"]:focus-within),
-:host([appearance="outline"]:focus-within) {
-  &:host([kind="brand"]) {
-    --calcite-internal-split-button-divider: theme("colors.brand-press");
-  }
-  &:host([kind="danger"]) {
-    --calcite-internal-split-button-divider: theme("colors.danger-press");
-  }
-  .divider-container {
-    background-color: var(--calcite-internal-split-button-divider);
-  }
 }
 
 @include disabled() {
