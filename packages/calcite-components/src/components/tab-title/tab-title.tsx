@@ -18,7 +18,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
@@ -52,6 +52,8 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   //#region Private Properties
 
   private closeButtonRef = createRef<HTMLButtonElement>();
+
+  private containerEl: HTMLDivElement;
 
   private guid = IDS.host(guid());
 
@@ -379,10 +381,8 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   }
 
   private setContainerRef(el: HTMLDivElement): void {
-    const method: Extract<keyof ResizeObserver, "observe" | "unobserve"> = el
-      ? "observe"
-      : "unobserve";
-    this.resizeObserver?.[method](el);
+    updateRefObserver(this.resizeObserver, this.containerEl, el);
+    this.containerEl = el;
   }
 
   private setupTextContentObserver(): void {

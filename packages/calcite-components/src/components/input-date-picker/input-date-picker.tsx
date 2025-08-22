@@ -1,6 +1,6 @@
 // @ts-strict-ignore
-import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { isServer, PropertyValues } from "lit";
+import { createRef, Ref } from "lit-html/directives/ref.js";
 import {
   createEvent,
   h,
@@ -57,7 +57,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -727,9 +727,8 @@ export class InputDatePicker
 
   private commitValue(): void {
     const { focusedInput, value } = this;
-    const focusedInputName = `${focusedInput}Input`;
-    const focusedInputValue = this[focusedInputName].value;
-    const date = dateFromLocalizedString(focusedInputValue, this.localeData);
+    const focusedInputRef = this.getInputRef(focusedInput);
+    const date = dateFromLocalizedString(focusedInputRef.value.value, this.localeData);
     const dateAsISO = dateToISO(date);
     const valueIsArray = Array.isArray(value);
     if (this.range) {
@@ -938,12 +937,16 @@ export class InputDatePicker
     this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
 
+  private getInputRef(input: "start" | "end" = "start"): Ref<InputText["el"]> {
+    return input === "start" ? this.startInputRef : this.endInputRef;
+  }
+
   private setInputValue(newValue: string, input: "start" | "end" = "start"): void {
-    const inputEl = this[`${input}InputEl`];
-    if (!inputEl.value.value) {
+    const inputRef = this.getInputRef(input);
+    if (!inputRef.value) {
       return;
     }
-    inputEl.value.value = newValue;
+    inputRef.value.value = newValue;
   }
 
   private setRangeValue(valueAsDate: Date[]): void {

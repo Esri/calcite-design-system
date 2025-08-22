@@ -36,7 +36,6 @@ interface Day {
   date: Date;
   day: number;
   dayInWeek?: number;
-  ref?: boolean;
 }
 
 export class DatePickerMonth extends LitElement {
@@ -49,19 +48,6 @@ export class DatePickerMonth extends LitElement {
   //#region Private Properties
 
   private activeFocus: boolean;
-
-  private storeDayRef = (el: DatePickerDay["el"]): void => {
-    if (!el) {
-      return;
-    }
-
-    const { ref, active } = el["data-test-day-info"] as Day;
-
-    // when moving via keyboard, focus must be updated on active date
-    if (ref && active && this.activeFocus) {
-      el.setFocus();
-    }
-  };
 
   //#endregion
 
@@ -206,6 +192,17 @@ export class DatePickerMonth extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private storeDayRef(el: DatePickerDay["el"]): void {
+    if (!el) {
+      return;
+    }
+
+    // when moving via keyboard, focus must be updated on active date
+    if (el.active && this.activeFocus) {
+      el.setFocus();
+    }
+  }
 
   private updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {
@@ -544,7 +541,6 @@ export class DatePickerMonth extends LitElement {
           day,
           dayInWeek: getDayInWeek(),
           date,
-          ref: true,
         };
       }),
       ...nextMonthDays.map((day) => {
@@ -647,8 +643,10 @@ export class DatePickerMonth extends LitElement {
    * @param key
    * @param active.currentDay
    */
-  private renderDateDay(dayInfo: Day, key: number): JsxNode {
-    const { active, currentMonth, currentDay, date, day, dayInWeek } = dayInfo;
+  private renderDateDay(
+    { active, currentMonth, currentDay, date, day, dayInWeek }: Day,
+    key: number,
+  ): JsxNode {
     const isDateInRange = inRange(date, this.min, this.max);
 
     return (
@@ -662,7 +660,6 @@ export class DatePickerMonth extends LitElement {
             [CSS.noncurrent]: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
-          data-day-info={dayInfo}
           dateTimeFormat={this.dateTimeFormat}
           day={day}
           disabled={!isDateInRange}
@@ -673,7 +670,7 @@ export class DatePickerMonth extends LitElement {
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
-          ref={this.storeDayRef}
+          ref={this.storeDayRef.bind(this)}
           scale={this.scale}
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}
