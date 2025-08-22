@@ -86,11 +86,7 @@ export class Scrim extends LitElement {
   }
 
   private handleResize(): void {
-    const { loaderRef, el } = this;
-
-    if (!loaderRef) {
-      return;
-    }
+    const { el } = this;
 
     this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
   }
@@ -100,12 +96,12 @@ export class Scrim extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { hasContent, loading, messages } = this;
+    const { hasContent, loading, loaderScale, messages } = this;
 
     return (
       <div class={CSS.scrim}>
-        {loading ? (
-          <calcite-loader label={messages.loading} ref={this.loaderRef} scale={this.loaderScale} />
+        {loading && loaderScale ? (
+          <calcite-loader label={messages.loading} ref={this.loaderRef} scale={loaderScale} />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>
           <slot onSlotChange={this.handleDefaultSlotChange} />

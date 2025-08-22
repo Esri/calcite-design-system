@@ -492,7 +492,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private containerKeyDownHandler(event: KeyboardEvent): void {
-    if (event.target !== this.containerRef) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 

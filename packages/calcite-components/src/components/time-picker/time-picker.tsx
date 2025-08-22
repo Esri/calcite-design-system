@@ -174,13 +174,13 @@ export class TimePicker extends LitElement implements TimeComponent {
 
     const { hourFormat } = this.time;
     switch (this.activeEl) {
-      case this.hourRef:
+      case this.hourRef.value:
         if (key === "ArrowRight") {
           this.focusPart("minute");
           event.preventDefault();
         }
         break;
-      case this.minuteRef:
+      case this.minuteRef.value:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("hour");
@@ -197,7 +197,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.secondRef:
+      case this.secondRef.value:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("minute");
@@ -213,7 +213,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.fractionalSecondRef:
+      case this.fractionalSecondRef.value:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("second");
@@ -227,7 +227,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.meridiemRef:
+      case this.meridiemRef.value:
         switch (key) {
           case "ArrowLeft":
             if (this.showFractionalSecond) {
@@ -251,8 +251,17 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   private async focusPart(target: TimePart): Promise<void> {
     await componentFocusable(this);
-
-    this[`${target || "hour"}El`]?.focus();
+    const ref =
+      target === "hour"
+        ? this.hourRef
+        : target === "minute"
+          ? this.minuteRef
+          : target === "second"
+            ? this.secondRef
+            : target === "fractionalSecond"
+              ? this.fractionalSecondRef
+              : this.meridiemRef;
+    ref.value?.focus();
   }
 
   private focusHandler(event: FocusEvent): void {
@@ -414,7 +423,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             class={{
               [CSS.input]: true,
               [CSS.hour]: true,
-              [CSS.inputFocus]: activeEl && activeEl === this.hourRef,
+              [CSS.inputFocus]: activeEl && activeEl === this.hourRef.value,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
@@ -460,7 +469,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             class={{
               [CSS.input]: true,
               [CSS.minute]: true,
-              [CSS.inputFocus]: activeEl && activeEl === this.minuteRef,
+              [CSS.inputFocus]: activeEl && activeEl === this.minuteRef.value,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
@@ -510,7 +519,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.second]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.secondRef,
+                [CSS.inputFocus]: activeEl && activeEl === this.secondRef.value,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
@@ -561,7 +570,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.fractionalSecondRef,
+                [CSS.inputFocus]: activeEl && activeEl === this.fractionalSecondRef.value,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
@@ -619,7 +628,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.meridiemRef,
+                [CSS.inputFocus]: activeEl && activeEl === this.meridiemRef.value,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
