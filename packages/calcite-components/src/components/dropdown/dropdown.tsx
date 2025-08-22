@@ -641,7 +641,7 @@ export class Dropdown
             aria-controls={IDS.menu(guid)}
             ariaExpanded={open}
             ariaHasPopup="menu"
-            name={SLOTS.dropdownTrigger}
+            name={SLOTS.trigger}
             onSlotChange={this.updateTriggers}
           />
         </div>

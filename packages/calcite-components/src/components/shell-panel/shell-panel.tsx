@@ -283,8 +283,6 @@ export class ShellPanel extends LitElement {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
   }
 
   private async setupInteractions(): Promise<void> {

@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -135,9 +135,10 @@ export class Card extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl.value;
-    }, options);
+    return this.focusSetter(
+      () => ({ target: this.containerEl.value, includeContainer: true }),
+      options,
+    );
   }
 
   //#endregion

@@ -192,56 +192,102 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const scales_TestOnly = (): string => html`
+export const defaultAllScales = (): string => html`
   <style>
     .container {
+      block-size: 500px;
       display: flex;
-      flex-direction: column;
-      width: 1400px;
-      height: 1200px;
-      gap: 400px;
+      gap: 100px;
+      inline-size: 1200px;
     }
+  </style>
+  <div class="container">
+    <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
+    <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
+  </div>
+`;
 
-    .use-case {
+export const rangeSmallAndLargeScales = (): string => html`
+  <style>
+    .container {
+      inline-size: 1500px;
+      block-size: 500px;
       display: flex;
       gap: 100px;
     }
   </style>
   <div class="container">
-    <div class="use-case">
-      <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
-      <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
-      <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
-    </div>
-    <div class="use-case">
-      <calcite-input-date-picker
-        scale="s"
-        open
-        min="2020-12-12"
-        max="2020-12-16"
-        range
-        layout="horizontal"
-        value="2020-12-12"
-      ></calcite-input-date-picker>
-      <calcite-input-date-picker
-        scale="m"
-        open
-        min="2020-12-12"
-        max="2020-12-16"
-        range
-        layout="horizontal"
-        value="2020-12-12"
-      ></calcite-input-date-picker>
-      <calcite-input-date-picker
-        scale="l"
-        open
-        min="2020-12-12"
-        max="2020-12-16"
-        range
-        layout="horizontal"
-        value="2020-12-12"
-      ></calcite-input-date-picker>
-    </div>
+    <calcite-input-date-picker
+      scale="s"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      overlay-positioning="fixed"
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker
+      scale="l"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      overlay-positioning="fixed"
+      placement="bottom-start"
+    ></calcite-input-date-picker>
+  </div>
+`;
+
+export const rangeOneCalendarsAllScales = (): string => html`
+  <style>
+    .container {
+      block-size: 500px;
+      display: flex;
+      gap: 100px;
+      inline-size: 1200px;
+    }
+  </style>
+  <div class="container">
+    <calcite-input-date-picker
+      scale="s"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      calendars="1"
+      overlay-positioning="fixed"
+      placement="bottom-start"
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker
+      scale="m"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      calendars="1"
+      overlay-positioning="fixed"
+      placement="bottom-start"
+    ></calcite-input-date-picker>
+    <calcite-input-date-picker
+      scale="l"
+      open
+      min="2020-12-12"
+      max="2020-12-16"
+      range
+      layout="horizontal"
+      value="2020-12-12"
+      calendars="1"
+      overlay-positioning="fixed"
+      placement="bottom-start"
+    ></calcite-input-date-picker>
   </div>
 `;
 

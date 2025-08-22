@@ -237,3 +237,15 @@ export const alignmentAllOptions = (): string => html`
     <calcite-input-number alignment="end" placeholder="Placeholder text"></calcite-input-number>
   </div>
 `;
+
+export const overlayDoesNotObscureIcon = (): string =>
+  html` <style>
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        opacity: 0.75;
+      }
+    </style>
+    <calcite-input-number icon="check-square-f"></calcite-input-number>
+    <div class="overlay"></div>`;
