@@ -119,9 +119,7 @@ export class TableHeader extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl.value;
-    }, options);
+    return this.focusSetter(() => this.containerEl.value, options);
   }
 
   //#endregion

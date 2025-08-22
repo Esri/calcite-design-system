@@ -173,9 +173,7 @@ export class Select
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.selectEl;
-    }, options);
+    return this.focusSetter(() => this.selectEl, options);
   }
 
   // #endregion

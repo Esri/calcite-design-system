@@ -108,9 +108,7 @@ export class TileSelect extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.input;
-    }, options);
+    return this.focusSetter(() => this.input, options);
   }
 
   // #endregion
