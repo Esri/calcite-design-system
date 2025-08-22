@@ -14,11 +14,9 @@ describe("observers", () => {
   describe("updateRefObserver", () => {
     it("helps update observers used in ref callbacks", () => {
       // any observer will do for this test
-      const observer = createObserver("resize", vi.fn());
+      const observer = createObserver("resize", vi.fn())!;
 
-      // @ts-expect-error -- method isn't being extracted from the observer correctly
       const observeSpy = vi.spyOn(observer, "observe");
-      // @ts-expect-error -- method isn't being extracted from the observer correctly
       const unobserveSpy = vi.spyOn(observer, "unobserve");
 
       updateRefObserver(undefined, undefined, undefined);
