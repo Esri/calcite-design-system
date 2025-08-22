@@ -22,7 +22,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
@@ -486,8 +486,17 @@ export class Dropdown
   }
 
   private setMaxScrollerHeight(): void {
-    const maxScrollerHeight = this.getMaxScrollerHeight();
-    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const { maxItems, items, scrollerEl } = this;
+
+    if (!scrollerEl) {
+      return;
+    }
+
+    const maxScrollerHeight =
+      items.length >= maxItems && maxItems > 0
+        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        : 0;
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
 
@@ -495,6 +504,8 @@ export class Dropdown
     if (!el) {
       return;
     }
+
+    updateRefObserver(this.resizeObserver, this.scrollerEl, el);
 
     this.resizeObserver?.observe(el);
     this.scrollerEl = el;
@@ -520,12 +531,9 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -568,14 +576,6 @@ export class Dropdown
 
   private updateSelectedItems(): void {
     this.selectedItems = this.items.filter((item) => item.selected);
-  }
-
-  private getMaxScrollerHeight(): number {
-    const { maxItems, items } = this;
-
-    return items.length >= maxItems && maxItems > 0
-      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
-      : 0;
   }
 
   private getYDistance(parent: HTMLElement, child: HTMLElement): number {

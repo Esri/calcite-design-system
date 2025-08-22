@@ -20,7 +20,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -280,11 +280,8 @@ export class Button
   }
 
   private setChildEl(el: HTMLElement): void {
+    updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   //#endregion

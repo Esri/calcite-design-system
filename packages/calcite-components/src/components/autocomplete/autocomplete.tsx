@@ -54,7 +54,7 @@ import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
 import { Validation } from "../functional/Validation";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -647,12 +647,8 @@ export class Autocomplete
   }
 
   private setReferenceEl(el: Input["el"]): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
-
     connectFloatingUI(this);
   }
 

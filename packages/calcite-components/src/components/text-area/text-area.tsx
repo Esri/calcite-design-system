@@ -22,7 +22,7 @@ import {
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -408,11 +408,8 @@ export class TextArea
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
+    updateRefObserver(this.resizeObserver, this.textAreaEl, el);
     this.textAreaEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setTextAreaHeight(): void {

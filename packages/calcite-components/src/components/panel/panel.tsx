@@ -9,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import {
@@ -390,12 +390,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private setPanelScrollEl(el: HTMLElement): void {
+    updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
-    this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private handleAlertsSlotChange(event: Event): void {

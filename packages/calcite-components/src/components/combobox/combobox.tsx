@@ -45,7 +45,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
@@ -1173,12 +1173,9 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.listContainerEl, el);
     this.listContainerEl = el;
     this.transitionEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
