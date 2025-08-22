@@ -22,7 +22,7 @@
     "publish:rc": "./support/release.sh publish rc",
     "version:hotfix": "./support/release.sh version hotfix",
     "publish:hotfix": "./support/release.sh publish hotfix",
-    "prepare": "husky",
+    "prepare": "concurrently --raw \"husky\" \"tsx ./support/check-volta.ts\"",
     "start": "turbo run start --log-order=stream",
     "start:components": "turbo run start --log-order=stream --filter=@esri/calcite-components",
     "test": "turbo run test --log-order=stream",
@@ -126,8 +126,8 @@
     "patch-package": "8.0.0"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "21.3.11",
-    "@nx/nx-linux-x64-gnu": "21.3.11",
-    "@nx/nx-win32-x64-msvc": "21.3.11"
+    "@nx/nx-darwin-arm64": "21.4.0",
+    "@nx/nx-linux-x64-gnu": "21.4.0",
+    "@nx/nx-win32-x64-msvc": "21.4.0"
   }
 }

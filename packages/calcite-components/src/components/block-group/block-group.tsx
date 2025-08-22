@@ -405,7 +405,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         oldIndex,
       }) ?? true;
 
-    return type === "add" ? canPull === "clone" : canPull === true && canPut;
+    return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
   }
 
   private handleAdd(event: CustomEvent<AddEventDetail>): void {
@@ -418,7 +418,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 

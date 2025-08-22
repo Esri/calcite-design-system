@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.81...@esri/calcite-components@3.3.0-next.82) (2025-08-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.80...@esri/calcite-components@3.3.0-next.81) (2025-08-21)
+
+### Bug Fixes
+
+- **list, block-group:** fix canPull when cloning and "Add to" menu on block-group ([#12741](https://github.com/Esri/calcite-design-system/issues/12741)) ([2a03374](https://github.com/Esri/calcite-design-system/commit/2a03374cafa63e107df6d381706534b600f3eb31)), closes [#11952](https://github.com/Esri/calcite-design-system/issues/11952)
+
 ## [3.3.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.79...@esri/calcite-components@3.3.0-next.80) (2025-08-21)
 
 ### Bug Fixes
