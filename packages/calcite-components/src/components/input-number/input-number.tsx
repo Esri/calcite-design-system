@@ -37,6 +37,7 @@ import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
   getLocalizedCharAllowList,
+  hasExponentialTrailingMinusSign,
   hasLeadingMinusSign,
   hasLeadingZeros,
   hasTrailingDecimal,
@@ -572,7 +573,10 @@ export class InputNumber
   private inputValue(value: string) {
     const { calciteInputNumberInput: inputEventEmitter, getValidNumberString } = this;
     const validatedValue = getValidNumberString(value);
-    if (validatedValue || !value || (value && !validatedValue)) {
+    if (
+      (validatedValue || !value || (value && !validatedValue)) &&
+      !hasExponentialTrailingMinusSign(value)
+    ) {
       this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
     }
     this.setLocalizedValue(this.value);

@@ -301,3 +301,7 @@ export function hasLeadingZeros(value: string): boolean {
 export function hasTrailingDecimal(value: string): boolean {
   return value?.charAt(value?.length - 1) === ".";
 }
+
+export function hasExponentialTrailingMinusSign(value: string): boolean {
+  return !!value.match(/(e-)$/);
+}
