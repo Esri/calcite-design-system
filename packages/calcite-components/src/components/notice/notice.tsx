@@ -50,7 +50,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   //#region Private Properties
 
   /** The close button element. */
-  private closeButton = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
 
   transitionProp = "opacity" as const;
 
@@ -120,7 +120,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       const noticeLinkEl = this.el.querySelector("calcite-link");
-      return noticeLinkEl || this.closeButton.value;
+      return noticeLinkEl || this.closeButtonRef.value;
     }, options);
   }
 
@@ -211,7 +211,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
         ariaLabel={this.messages.close}
         class={CSS.close}
         onClick={this.close}
-        ref={this.closeButton}
+        ref={this.closeButtonRef}
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>

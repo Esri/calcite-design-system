@@ -57,7 +57,7 @@ export class Checkbox
     this.toggle();
   };
 
-  private toggleEl = createRef<HTMLDivElement>();
+  private toggleRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -153,7 +153,7 @@ export class Checkbox
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      return this.toggleEl.value;
+      return this.toggleRef.value;
     }, options);
   }
 
@@ -260,7 +260,7 @@ export class Checkbox
           }}
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={this.toggleEl}
+          ref={this.toggleRef}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >

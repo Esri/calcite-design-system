@@ -49,13 +49,13 @@ export class Table extends LitElement {
 
   private headRows: TableRow["el"][];
 
-  private paginationEl = createRef<Pagination["el"]>();
+  private paginationRef = createRef<Pagination["el"]>();
 
-  private tableBodySlotEl = createRef<HTMLSlotElement>();
+  private tableBodySlotRef = createRef<HTMLSlotElement>();
 
-  private tableFootSlotEl = createRef<HTMLSlotElement>();
+  private tableFootSlotRef = createRef<HTMLSlotElement>();
 
-  private tableHeadSlotEl = createRef<HTMLSlotElement>();
+  private tableHeadSlotRef = createRef<HTMLSlotElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -279,9 +279,9 @@ export class Table extends LitElement {
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotEl.value) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotEl.value) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotEl.value) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value) || [];
+    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value) || [];
+    const footRows = this.getSlottedRows(this.tableFootSlotRef.value) || [];
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows?.forEach((row) => {
@@ -330,7 +330,7 @@ export class Table extends LitElement {
   }
 
   private handlePaginationChange(): void {
-    const requestedItem = this.paginationEl.value?.startItem;
+    const requestedItem = this.paginationRef.value?.startItem;
     this.pageStartRow = requestedItem || 1;
     this.calciteTablePageChange.emit();
     this.updateRows();
@@ -452,7 +452,7 @@ export class Table extends LitElement {
           numberingSystem={this.numberingSystem}
           oncalcitePaginationChange={this.handlePaginationChange}
           pageSize={this.pageSize}
-          ref={this.paginationEl}
+          ref={this.paginationRef}
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
@@ -464,7 +464,7 @@ export class Table extends LitElement {
   renderTHead(): JsxNode {
     return (
       <thead>
-        <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotEl} />
+        <slot name={SLOTS.tableHeader} ref={this.tableHeadSlotRef} />
       </thead>
     );
   }
@@ -472,7 +472,7 @@ export class Table extends LitElement {
   renderTBody(): JsxNode {
     return (
       <tbody>
-        <slot ref={this.tableBodySlotEl} />
+        <slot ref={this.tableBodySlotRef} />
       </tbody>
     );
   }
@@ -480,7 +480,7 @@ export class Table extends LitElement {
   renderTFoot(): JsxNode {
     return (
       <tfoot>
-        <slot name={SLOTS.tableFooter} ref={this.tableFootSlotEl} />
+        <slot name={SLOTS.tableFooter} ref={this.tableFootSlotRef} />
       </tfoot>
     );
   }

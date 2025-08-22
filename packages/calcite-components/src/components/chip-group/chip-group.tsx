@@ -34,7 +34,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
 
   private items: Chip["el"][] = [];
 
-  private slotRefEl = createRef<HTMLSlotElement>();
+  private slotRef = createRef<HTMLSlotElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -192,7 +192,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
   }
 
   private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRefEl.value
+    const itemsFromSlot = this.slotRef.value
       ?.assignedElements({ flatten: true })
       .filter((el): el is Chip["el"] => el?.matches("calcite-chip"));
 
@@ -257,7 +257,7 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class="container" role={role}>
-          <slot onSlotChange={this.updateItems} ref={this.slotRefEl} />
+          <slot onSlotChange={this.updateItems} ref={this.slotRef} />
         </div>
       </InteractiveContainer>
     );

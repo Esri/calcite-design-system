@@ -42,7 +42,7 @@ export class Meter extends LitElement implements FormComponent {
 
   formEl: HTMLFormElement;
 
-  private highLabelEl = createRef<HTMLDivElement>();
+  private highLabelRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -50,17 +50,17 @@ export class Meter extends LitElement implements FormComponent {
 
   private labelFlipProximity = 0.15;
 
-  private lowLabelEl = createRef<HTMLDivElement>();
+  private lowLabelRef = createRef<HTMLDivElement>();
 
-  private maxLabelEl = createRef<HTMLDivElement>();
+  private maxLabelRef = createRef<HTMLDivElement>();
 
   private maxPercent = 100;
 
   messages = useT9n<Record<string, never>>({ name: null });
 
-  private meterContainerEl = createRef<HTMLDivElement>();
+  private meterContainerRef = createRef<HTMLDivElement>();
 
-  private minLabelEl = createRef<HTMLDivElement>();
+  private minLabelRef = createRef<HTMLDivElement>();
 
   private minPercent = 0;
 
@@ -71,7 +71,7 @@ export class Meter extends LitElement implements FormComponent {
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
-  private valueLabelEl = createRef<HTMLDivElement>();
+  private valueLabelRef = createRef<HTMLDivElement>();
 
   // #endregion
 
@@ -226,7 +226,7 @@ export class Meter extends LitElement implements FormComponent {
   }
 
   private updateLabels(): void {
-    if (this.valueLabelEl.value) {
+    if (this.valueLabelRef.value) {
       this.determineValueLabelPosition();
     }
     if (this.rangeLabels) {
@@ -305,10 +305,10 @@ export class Meter extends LitElement implements FormComponent {
 
   private determineVisibleLabels(): void {
     const {
-      minLabelEl: { value: minLabelEl },
-      lowLabelEl: { value: lowLabelEl },
-      highLabelEl: { value: highLabelEl },
-      maxLabelEl: { value: maxLabelEl },
+      minLabelRef: { value: minLabelEl },
+      lowLabelRef: { value: lowLabelEl },
+      highLabelRef: { value: highLabelEl },
+      maxLabelRef: { value: maxLabelEl },
     } = this;
     const highMaxOverlap = this.intersects(highLabelEl, maxLabelEl);
     const lowHighOverlap = this.intersects(lowLabelEl, highLabelEl);
@@ -345,8 +345,8 @@ export class Meter extends LitElement implements FormComponent {
 
   private determineValueLabelPosition(): void {
     const {
-      valueLabelEl: { value: valueLabelEl },
-      meterContainerEl: { value: meterContainerEl },
+      valueLabelRef: { value: valueLabelEl },
+      meterContainerRef: { value: meterContainerEl },
       currentPercent,
     } = this;
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
@@ -393,7 +393,7 @@ export class Meter extends LitElement implements FormComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelValue]: true }}
         key="low-label-line"
-        ref={this.valueLabelEl}
+        ref={this.valueLabelRef}
       >
         {label}
         {unitLabel && valueLabelType !== "percent" && (
@@ -414,7 +414,7 @@ export class Meter extends LitElement implements FormComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="min-label-line"
-        ref={this.minLabelEl}
+        ref={this.minLabelRef}
         style={style}
       >
         {labelMin}
@@ -438,7 +438,7 @@ export class Meter extends LitElement implements FormComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="low-label-line"
-        ref={this.lowLabelEl}
+        ref={this.lowLabelRef}
         style={style}
       >
         {label}
@@ -458,7 +458,7 @@ export class Meter extends LitElement implements FormComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="high-label-line"
-        ref={this.highLabelEl}
+        ref={this.highLabelRef}
         style={style}
       >
         {label}
@@ -477,7 +477,7 @@ export class Meter extends LitElement implements FormComponent {
       <div
         class={{ [CSS.label]: true, [CSS.labelRange]: true }}
         key="max-label-line"
-        ref={this.maxLabelEl}
+        ref={this.maxLabelRef}
         style={style}
       >
         {labelMax}
@@ -526,7 +526,7 @@ export class Meter extends LitElement implements FormComponent {
           [CSS.valueVisible]: valueLabel,
           [appearance]: appearance !== "outline-fill",
         }}
-        ref={this.meterContainerEl}
+        ref={this.meterContainerRef}
         role="meter"
       >
         {this.renderMeterFill()}

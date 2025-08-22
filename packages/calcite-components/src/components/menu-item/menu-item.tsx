@@ -38,9 +38,9 @@ export class MenuItem extends LitElement {
 
   //#region Private Properties
 
-  private anchorEl = createRef<HTMLAnchorElement>();
+  private anchorRef = createRef<HTMLAnchorElement>();
 
-  private dropdownActionEl = createRef<Action["el"]>();
+  private dropdownActionRef = createRef<Action["el"]>();
 
   private isFocused: boolean;
 
@@ -136,7 +136,7 @@ export class MenuItem extends LitElement {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      return this.anchorEl.value;
+      return this.anchorRef.value;
     }, options);
   }
 
@@ -192,7 +192,7 @@ export class MenuItem extends LitElement {
 
   private clickHandler(event: MouseEvent): void {
     if (
-      (this.href && event.target === this.dropdownActionEl.value) ||
+      (this.href && event.target === this.dropdownActionRef.value) ||
       (!this.href && this.hasSubmenu)
     ) {
       this.open = !this.open;
@@ -221,7 +221,7 @@ export class MenuItem extends LitElement {
   private async keyDownHandler(event: KeyboardEvent): Promise<void> {
     const { hasSubmenu, href, layout, open, submenuItems } = this;
     const key = event.key;
-    const targetIsDropdown = event.target === this.dropdownActionEl.value;
+    const targetIsDropdown = event.target === this.dropdownActionRef.value;
 
     if (event.defaultPrevented) {
       return;
@@ -277,7 +277,7 @@ export class MenuItem extends LitElement {
   }
 
   private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
-    if (event.target !== this.dropdownActionEl.value) {
+    if (event.target !== this.dropdownActionRef.value) {
       this.calciteMenuItemSelect.emit();
     }
   }
@@ -354,7 +354,7 @@ export class MenuItem extends LitElement {
         key={CSS.dropdownAction}
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        ref={this.dropdownActionEl}
+        ref={this.dropdownActionRef}
         text={this.messages.open}
       />
     );
@@ -426,7 +426,7 @@ export class MenuItem extends LitElement {
             href={this.href}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            ref={this.anchorEl}
+            ref={this.anchorRef}
             rel={this.rel}
             role="menuitem"
             tabIndex={this.isTopLevelItem ? 0 : -1}

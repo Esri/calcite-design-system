@@ -88,7 +88,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   transitionProp = "opacity" as const;
 
-  private panelEl = createRef<Panel["el"]>();
+  private panelRef = createRef<Panel["el"]>();
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
@@ -259,7 +259,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    await this.panelEl.value?.scrollContentTo(options);
+    await this.panelRef.value?.scrollContentTo(options);
   }
 
   /**
@@ -273,7 +273,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      return this.panelEl.value ?? this.el;
+      return this.panelRef.value ?? this.el;
     }, options);
   }
 
@@ -710,7 +710,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
-    if (event.target !== this.panelEl.value) {
+    if (event.target !== this.panelRef.value) {
       return;
     }
 
@@ -719,7 +719,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
-    if (event.target !== this.panelEl.value) {
+    if (event.target !== this.panelRef.value) {
       return;
     }
 
@@ -797,7 +797,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
                 oncalcitePanelClose={this.handleInternalPanelCloseClick}
                 oncalcitePanelScroll={this.handleInternalPanelScroll}
                 overlayPositioning={this.overlayPositioning}
-                ref={this.panelEl}
+                ref={this.panelRef}
                 scale={this.scale}
               >
                 <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
