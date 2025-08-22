@@ -646,6 +646,10 @@ export class Combobox
     this.refreshSelectionDisplay();
   }
 
+  async load(): Promise<void> {
+    this.handleSelectionModeWarning();
+  }
+
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
@@ -1542,6 +1546,12 @@ export class Combobox
     );
   }
 
+  private handleSelectionModeWarning(): void {
+    if (this.selectionMode === "single-persist" && this.clearDisabled) {
+      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+    }
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1896,7 +1906,10 @@ export class Combobox
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
-    const isClearable = !this.clearDisabled && this.value?.length > 0;
+    const isClearable =
+      !this.clearDisabled &&
+      !this.selectionMode.includes("single-persist") &&
+      this.value?.length > 0;
 
     return (
       <InteractiveContainer disabled={this.disabled}>
