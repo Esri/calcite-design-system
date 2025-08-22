@@ -477,10 +477,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
-    if (!el) {
-      return;
-    }
-
     this.sortHandleEl = el;
     this.sortHandleOpenHandler();
   }

@@ -284,10 +284,7 @@ export class DatePickerMonthHeader extends LitElement {
     commit?: boolean;
     offset?: number;
   }): void {
-    const {
-      yearInputEl: { value: yearInputEl },
-      activeDate,
-    } = this;
+    const { yearInputEl, activeDate } = this;
     const inRangeDate = this.getInRangeDate({ localizedYear, offset });
 
     // if you've supplied a year and it's in range, update active date
@@ -296,7 +293,7 @@ export class DatePickerMonthHeader extends LitElement {
     }
 
     if (commit) {
-      yearInputEl.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
+      yearInputEl.value.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 

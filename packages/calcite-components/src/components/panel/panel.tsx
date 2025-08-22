@@ -392,8 +392,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   private setPanelScrollEl(el: HTMLElement): void {
     this.panelScrollEl = el;
     this.resizeObserver?.disconnect();
-    this.resizeObserver?.observe(el);
-    this.resizeHandler();
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private handleAlertsSlotChange(event: Event): void {

@@ -181,7 +181,7 @@ export class Link extends LitElement implements InteractiveComponent {
           }
           href={childElType === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.childEl as any /* FIXME: use proper type */}
+          ref={this.childEl as unknown}
           rel={childElType === "a" && this.rel}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}

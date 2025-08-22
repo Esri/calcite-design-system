@@ -341,10 +341,6 @@ export class ActionMenu extends LitElement {
   }
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
-    if (!el) {
-      return;
-    }
-
     this.defaultMenuButtonEl = el;
     this.connectMenuButtonEl();
   }

@@ -299,7 +299,7 @@ export class TextArea
   @method()
   async selectText(): Promise<void> {
     await this.componentOnReady();
-    this.textAreaEl.select();
+    this.textAreaEl?.select();
   }
 
   /**
@@ -408,11 +408,11 @@ export class TextArea
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
-    if (!el) {
-      return;
-    }
     this.textAreaEl = el;
-    this.resizeObserver?.observe(el);
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private setTextAreaHeight(): void {

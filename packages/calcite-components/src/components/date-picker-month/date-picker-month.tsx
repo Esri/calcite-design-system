@@ -55,7 +55,7 @@ export class DatePickerMonth extends LitElement {
       return;
     }
 
-    const { ref, active } = el["data-test-day-info"];
+    const { ref, active } = el["data-test-day-info"] as Day;
 
     // when moving via keyboard, focus must be updated on active date
     if (ref && active && this.activeFocus) {

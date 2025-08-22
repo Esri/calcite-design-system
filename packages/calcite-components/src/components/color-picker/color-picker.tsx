@@ -104,7 +104,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private opacityScopeNode: HTMLDivElement;
+  private opacityScopeNode = createRef<HTMLDivElement>();
 
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
@@ -840,7 +840,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeNode,
+      this.opacityScopeNode.value,
     );
   }
 
@@ -1086,12 +1086,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     context.scale(devicePixelRatio, devicePixelRatio);
   }
 
-  private initColorField(el?: HTMLCanvasElement): void {
-    if (!el) {
+  private initColorField(canvas?: HTMLCanvasElement): void {
+    if (!canvas) {
       return;
     }
 
-    this.colorFieldRenderingContext = el.getContext("2d");
+    this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
   }
@@ -1408,14 +1408,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
-  private storeOpacityScope(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.opacityScopeNode = el;
-  }
-
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
@@ -1577,7 +1569,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     ariaValueNow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.storeOpacityScope}
+                    ref={this.opacityScopeNode}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,

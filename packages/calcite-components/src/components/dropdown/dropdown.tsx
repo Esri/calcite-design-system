@@ -520,20 +520,15 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.referenceEl = el;
     connectFloatingUI(this);
-    this.resizeObserver?.observe(el);
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.floatingEl = el;
     connectFloatingUI(this);
   }

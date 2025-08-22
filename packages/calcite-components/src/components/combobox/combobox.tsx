@@ -1084,7 +1084,7 @@ export class Combobox
       return;
     }
 
-    if (!this.textInput.value) {
+    if (!this.textInput.value || !this.chipContainerEl) {
       return;
     }
 
@@ -1153,10 +1153,6 @@ export class Combobox
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.floatingEl = el;
     connectFloatingUI(this);
   }
@@ -1177,29 +1173,22 @@ export class Combobox
   }
 
   private setContainerEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
     this.listContainerEl = el;
     this.transitionEl = el;
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
     this.chipContainerEl = el;
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     this.referenceEl = el;
     connectFloatingUI(this);
   }
@@ -1469,8 +1458,9 @@ export class Combobox
       scrollToSelected && this.selectedItems?.length
         ? this.selectedItems[0]
         : this.keyboardNavItems[this.activeItemIndex];
+    const listContainer = this.listContainerEl;
 
-    if (!item) {
+    if (!item || !listContainer) {
       return;
     }
 
@@ -1479,7 +1469,6 @@ export class Combobox
     const stickyElement = this.selectAllComboboxItemReferenceEl.value;
     const stickyHeight = stickyElement?.offsetHeight || 0;
 
-    const listContainer = this.listContainerEl;
     const itemRect = item.getBoundingClientRect();
     const containerRect = listContainer.getBoundingClientRect();
 

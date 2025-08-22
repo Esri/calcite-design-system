@@ -358,10 +358,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
-    if (!el) {
-      return;
-    }
-
     this.sortHandleEl = el;
     this.sortHandleOpenHandler();
   }

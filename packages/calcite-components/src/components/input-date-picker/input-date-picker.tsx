@@ -939,8 +939,8 @@ export class InputDatePicker
   }
 
   private setInputValue(newValue: string, input: "start" | "end" = "start"): void {
-    const inputEl = this[`${input}Input`];
-    if (!inputEl.value) {
+    const inputEl = this[`${input}InputEl`];
+    if (!inputEl.value.value) {
       return;
     }
     inputEl.value.value = newValue;
