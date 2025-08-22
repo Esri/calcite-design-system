@@ -10028,11 +10028,6 @@
     "category": "Objects",
     "release": "4.3.0"
   },
-  "shopping-cart": {
-    "alias": ["4.3.0", "objects", "items", "full", "store", "buggy", "trolley", "basket", "caddy"],
-    "category": "Objects",
-    "release": "4.3.0"
-  },
   "shopping-cart-plus": {
     "alias": ["4.3.0", "objects", "items", "store", "buggy", "trolley", "basket", "add", "video"],
     "category": "Objects",
