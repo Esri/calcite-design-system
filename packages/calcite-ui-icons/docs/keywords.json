@@ -10032,5 +10032,10 @@
     "alias": ["4.3.0", "objects", "items", "store", "buggy", "trolley", "basket", "add", "video"],
     "category": "Objects",
     "release": "4.3.0"
+  },
+  "carousel-frames": {
+    "alias": ["4.3.0", "windows", "storytelling", "frames", "story-maps"],
+    "category": "Windows",
+    "release": "4.3.0"
   }
 }
