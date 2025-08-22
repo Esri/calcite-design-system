@@ -47,11 +47,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
     this.slideDurationInterval = setInterval(this.timer, this.autoplayDuration / 100);
   };
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private containerId = IDS.host(guid());
 
-  private itemContainerEl = createRef<HTMLDivElement>();
+  private itemContainerRef = createRef<HTMLDivElement>();
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.setMaxItemsToBreakpoint(width);
@@ -65,7 +65,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private slideInterval = null;
 
-  private tabListEl = createRef<HTMLDivElement>();
+  private tabListRef = createRef<HTMLDivElement>();
 
   private timer = (): void => {
     let time = this.slideDurationRemaining;
@@ -184,7 +184,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.containerEl.value, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
@@ -279,12 +279,12 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby" || !this.itemContainerEl.value) {
+    if (direction === "standby" || !this.itemContainerRef.value) {
       return;
     }
 
     await whenAnimationDone(
-      this.itemContainerEl.value,
+      this.itemContainerRef.value,
       direction === "forward" ? "item-forward" : "item-backward",
     );
     this.direction = "standby";
@@ -492,7 +492,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private containerKeyDownHandler(event: KeyboardEvent): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerRef) {
       return;
     }
 
@@ -537,7 +537,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabListEl.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
     );
     const currentEl = event.target as Action["el"];
     switch (event.key) {
@@ -595,7 +595,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           [CSS.containerOverlaid]: this.controlOverlay,
         }}
         onKeyDown={this.tabListKeyDownHandler}
-        ref={this.tabListEl}
+        ref={this.tabListRef}
       >
         {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
           this.renderRotationControl()}
@@ -691,7 +691,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           onKeyDown={this.containerKeyDownHandler}
           onMouseEnter={this.handleMouseIn}
           onMouseLeave={this.handleMouseOut}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role="group"
           tabIndex={0}
         >
@@ -702,7 +702,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
               [CSS.itemContainerBackward]: direction === "backward",
             }}
             id={this.containerId}
-            ref={this.itemContainerEl}
+            ref={this.itemContainerRef}
           >
             <slot onSlotChange={this.handleSlotChange} />
           </section>

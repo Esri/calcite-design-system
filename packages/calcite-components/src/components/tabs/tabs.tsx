@@ -29,7 +29,7 @@ export class Tabs extends LitElement {
 
   // #region Private Properties
 
-  private slotEl = createRef<HTMLSlotElement>();
+  private slotRef = createRef<HTMLSlotElement>();
 
   // #endregion
 
@@ -122,13 +122,13 @@ export class Tabs extends LitElement {
   private async updateAriaSettings(): Promise<void> {
     await this.componentOnReady();
 
-    if (!this.slotEl.value) {
+    if (!this.slotRef.value) {
       return;
     }
 
     let tabIds;
     let titleIds;
-    const tabs = getSlotAssignedElements<Tab["el"]>(this.slotEl.value, "calcite-tab");
+    const tabs = getSlotAssignedElements<Tab["el"]>(this.slotRef.value, "calcite-tab");
 
     // determine if we are using `tab` based or `index` based tab identifiers.
     if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
@@ -197,7 +197,7 @@ export class Tabs extends LitElement {
       <>
         <slot name={SLOTS.titleGroup} />
         <section class={CSS.section}>
-          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotEl} />
+          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
         </section>
       </>
     );

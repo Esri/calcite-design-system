@@ -40,7 +40,7 @@ export class RadioButton
 
   // #region Private Properties
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultChecked: boolean;
 
@@ -134,7 +134,7 @@ export class RadioButton
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.containerEl.value, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   // #endregion
@@ -483,7 +483,7 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role="radio"
           tabIndex={tabIndex}
         >

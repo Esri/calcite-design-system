@@ -39,8 +39,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  /** the rendered child element */
-  private childEl: Ref<HTMLAnchorElement> | Ref<HTMLSpanElement> = createRef<
+  private childRef: Ref<HTMLAnchorElement> | Ref<HTMLSpanElement> = createRef<
     HTMLAnchorElement | HTMLSpanElement
   >();
 
@@ -92,7 +91,7 @@ export class Link extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.childEl.value, options);
+    return this.focusSetter(() => this.childRef.value, options);
   }
 
   // #endregion
@@ -119,7 +118,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
     // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
-      this.childEl.value.click();
+      this.childRef.value.click();
     }
   }
 
@@ -181,7 +180,7 @@ export class Link extends LitElement implements InteractiveComponent {
           }
           href={childElType === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.childEl as unknown}
+          ref={this.childRef as unknown}
           rel={childElType === "a" && this.rel}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}

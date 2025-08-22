@@ -46,7 +46,7 @@ export class Switch
 
   labelEl: Label["el"];
 
-  private switchEl = createRef<HTMLDivElement>();
+  private switchRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -96,7 +96,7 @@ export class Switch
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.switchEl.value, options);
+    return this.focusSetter(() => this.switchRef.value, options);
   }
 
   // #endregion
@@ -176,7 +176,7 @@ export class Switch
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
           class={CSS.container}
-          ref={this.switchEl}
+          ref={this.switchRef}
           role="switch"
           tabIndex={0}
         >

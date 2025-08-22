@@ -37,7 +37,7 @@ export class Stepper extends LitElement {
 
   //#region Private Properties
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private enabledItems: StepperItem["el"][] = [];
 
@@ -393,8 +393,8 @@ export class Stepper extends LitElement {
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
-    this.containerEl.value.style.gridTemplateAreas = spacing;
-    this.containerEl.value.style.gridTemplateColumns = spacing;
+    this.containerRef.value.style.gridTemplateAreas = spacing;
+    this.containerRef.value.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   }
 
@@ -410,7 +410,7 @@ export class Stepper extends LitElement {
     return (
       <div
         class={{ container: true, [CSS.singleView]: this.layout === "horizontal-single" }}
-        ref={this.containerEl}
+        ref={this.containerRef}
       >
         {this.layout === "horizontal-single" && (
           <div class={{ [CSS.stepBarContainer]: true }}>

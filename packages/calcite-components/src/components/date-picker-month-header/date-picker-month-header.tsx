@@ -46,15 +46,15 @@ export class DatePickerMonthHeader extends LitElement {
 
   // #region Private Properties
 
-  private monthPickerEl = createRef<Select["el"]>();
+  private monthPickerRef = createRef<Select["el"]>();
 
-  private nextMonthActionEl = createRef<Action["el"]>();
+  private nextMonthActionRef = createRef<Action["el"]>();
 
   private parentDatePickerEl: DatePicker["el"];
 
-  private prevMonthActionEl = createRef<Action["el"]>();
+  private prevMonthActionRef = createRef<Action["el"]>();
 
-  private yearInputEl = createRef<HTMLInputElement>();
+  private yearInputRef = createRef<HTMLInputElement>();
 
   private yearSelectWidthOffset: number;
 
@@ -284,7 +284,7 @@ export class DatePickerMonthHeader extends LitElement {
     commit?: boolean;
     offset?: number;
   }): void {
-    const { yearInputEl, activeDate } = this;
+    const { yearInputRef, activeDate } = this;
     const inRangeDate = this.getInRangeDate({ localizedYear, offset });
 
     // if you've supplied a year and it's in range, update active date
@@ -293,7 +293,7 @@ export class DatePickerMonthHeader extends LitElement {
     }
 
     if (commit) {
-      yearInputEl.value.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
+      yearInputRef.value.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 
@@ -303,7 +303,7 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private setYearSelectMenuWidth(): void {
-    const el = this.monthPickerEl.value;
+    const el = this.monthPickerRef.value;
     if (!el) {
       return;
     }
@@ -349,8 +349,8 @@ export class DatePickerMonthHeader extends LitElement {
     if (isTargetLastValidMonth) {
       if (!this.position) {
         const target = isDirectionLeft
-          ? this.nextMonthActionEl.value
-          : this.prevMonthActionEl.value;
+          ? this.nextMonthActionRef.value
+          : this.prevMonthActionRef.value;
 
         if (!target) {
           return;
@@ -360,7 +360,7 @@ export class DatePickerMonthHeader extends LitElement {
         target.disabled = false;
         await target.setFocus();
       } else {
-        this.yearInputEl.value?.focus();
+        this.yearInputRef.value?.focus();
       }
     }
   }
@@ -459,7 +459,7 @@ export class DatePickerMonthHeader extends LitElement {
         class={CSS.monthPicker}
         label={this.messages.monthMenu}
         oncalciteSelectChange={this.handleMonthChange}
-        ref={this.monthPickerEl}
+        ref={this.monthPickerRef}
         width="auto"
       >
         {monthData.map((month: string, index: number) => {
@@ -492,7 +492,7 @@ export class DatePickerMonthHeader extends LitElement {
           onInput={this.onYearInput}
           onKeyDown={this.onYearKey}
           pattern="\d*"
-          ref={this.yearInputEl}
+          ref={this.yearInputRef}
           type="text"
           value={localizedYear}
         />
@@ -522,7 +522,7 @@ export class DatePickerMonthHeader extends LitElement {
         iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
-        ref={isDirectionRight ? this.nextMonthActionEl : this.prevMonthActionEl}
+        ref={isDirectionRight ? this.nextMonthActionRef : this.prevMonthActionRef}
         role="button"
         scale={this.scale === "l" ? "l" : "m"}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}

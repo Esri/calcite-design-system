@@ -51,17 +51,17 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   //#region Private Properties
 
-  private actionsEndEl = createRef<HTMLDivElement>();
+  private actionsEndRef = createRef<HTMLDivElement>();
 
-  private actionsStartEl = createRef<HTMLDivElement>();
+  private actionsStartRef = createRef<HTMLDivElement>();
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
-  private contentEl = createRef<HTMLDivElement>();
+  private contentRef = createRef<HTMLDivElement>();
 
-  private defaultSlotEl = createRef<HTMLSlotElement>();
+  private defaultSlotRef = createRef<HTMLSlotElement>();
 
-  private handleGridEl = createRef<HTMLDivElement>();
+  private handleGridRef = createRef<HTMLDivElement>();
 
   private sortHandleEl: SortHandle["el"];
 
@@ -281,7 +281,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      const { containerEl, parentListEl } = this;
+      const { containerRef, parentListEl } = this;
       const focusIndex = focusMap.get(parentListEl);
 
       if (typeof focusIndex === "number") {
@@ -292,7 +292,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }
       }
 
-      return { target: containerEl.value, includeContainer: true, strategy: "focusable" };
+      return { target: containerRef.value, includeContainer: true, strategy: "focusable" };
     }, options);
   }
 
@@ -419,7 +419,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
 
     if (changes.has("displayMode") && this.hasUpdated) {
-      this.handleExpandableChange(this.defaultSlotEl.value);
+      this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -473,7 +473,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
-    this.handleExpandableChange(this.defaultSlotEl.value);
+    this.handleExpandableChange(this.defaultSlotRef.value);
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
@@ -619,10 +619,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private getGridCells(): HTMLDivElement[] {
     return [
-      this.handleGridEl.value,
-      this.actionsStartEl.value,
-      this.contentEl.value,
-      this.actionsEndEl.value,
+      this.handleGridRef.value,
+      this.actionsStartRef.value,
+      this.contentRef.value,
+      this.actionsEndRef.value,
     ].filter((el) => el && !el.hidden);
   }
 
@@ -634,9 +634,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const { key } = event;
     const composedPath = event.composedPath();
     const {
-      containerEl,
-      actionsStartEl: { value: actionsStartEl },
-      actionsEndEl: { value: actionsEndEl },
+      containerRef,
+      actionsStartRef: { value: actionsStartEl },
+      actionsEndRef: { value: actionsEndEl },
       expanded,
       expandable,
     } = this;
@@ -676,7 +676,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);
-        containerEl.value.focus();
+        containerRef.value.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }
@@ -782,7 +782,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         ariaLabel={label}
         class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
-        ref={this.handleGridEl}
+        ref={this.handleGridRef}
         role="gridcell"
       >
         <calcite-sort-handle
@@ -848,7 +848,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        ref={this.actionsStartEl}
+        ref={this.actionsStartRef}
         role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
@@ -864,7 +864,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
-        ref={this.actionsEndEl}
+        ref={this.actionsEndRef}
         role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
@@ -956,7 +956,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           [CSS.nestedContainerExpanded]: this.expandable && this.expanded,
         }}
       >
-        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
       </div>
     );
   }
@@ -1004,7 +1004,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }}
         key="content-container"
         onClick={this.handleItemClick}
-        ref={this.contentEl}
+        ref={this.contentRef}
         role="gridcell"
       >
         {content}
@@ -1063,7 +1063,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
             onFocus={this.focusCellNull}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
-            ref={this.containerEl}
+            ref={this.containerRef}
             role="row"
             tabIndex={active ? 0 : -1}
           >

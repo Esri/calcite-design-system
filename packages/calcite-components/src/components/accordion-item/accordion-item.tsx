@@ -40,7 +40,7 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  private headerEl = createRef<HTMLDivElement>();
+  private headerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -135,7 +135,7 @@ export class AccordionItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.headerEl.value, options);
+    return this.focusSetter(() => this.headerRef.value, options);
   }
 
   //#endregion
@@ -344,7 +344,7 @@ export class AccordionItem extends LitElement {
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
-            ref={this.headerEl}
+            ref={this.headerRef}
             role="button"
             tabIndex="0"
           >

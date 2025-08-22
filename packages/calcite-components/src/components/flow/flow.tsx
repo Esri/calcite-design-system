@@ -26,7 +26,7 @@ export class Flow extends LitElement {
 
   // #region Private Properties
 
-  private frameEl = createRef<HTMLDivElement>();
+  private frameRef = createRef<HTMLDivElement>();
 
   private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateItemsAndProps(),
@@ -141,12 +141,12 @@ export class Flow extends LitElement {
   // #region Private Methods
 
   private async handleFlowDirectionChange(flowDirection: FlowDirection): Promise<void> {
-    if (flowDirection === "standby" || !this.frameEl.value) {
+    if (flowDirection === "standby" || !this.frameRef.value) {
       return;
     }
 
     await whenAnimationDone(
-      this.frameEl.value,
+      this.frameRef.value,
       flowDirection === "retreating" ? "calcite-frame-retreat" : "calcite-frame-advance",
     );
 
@@ -262,7 +262,7 @@ export class Flow extends LitElement {
     };
 
     return (
-      <div class={frameDirectionClasses} ref={this.frameEl}>
+      <div class={frameDirectionClasses} ref={this.frameRef}>
         <slot />
       </div>
     );

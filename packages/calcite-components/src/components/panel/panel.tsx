@@ -59,7 +59,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl = createRef<HTMLElement>();
+  private containerRef = createRef<HTMLElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -216,7 +216,7 @@ export class Panel extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.containerEl.value, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -679,7 +679,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerEl}>
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

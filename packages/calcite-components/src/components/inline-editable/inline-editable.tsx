@@ -37,11 +37,11 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   //#region Private Properties
 
-  private cancelEditingButtonEl = createRef<Button["el"]>();
+  private cancelEditingButtonRef = createRef<Button["el"]>();
 
   private _editingEnabled = false;
 
-  private enableEditingButtonEl = createRef<Button["el"]>();
+  private enableEditingButtonRef = createRef<Button["el"]>();
 
   private inputEl: Input["el"];
 
@@ -222,7 +222,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
       this.inputEl.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButtonEl.value?.setFocus();
+    this.enableEditingButtonRef.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
@@ -241,9 +241,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     if (event.key === "Tab" && this.shouldShowControls) {
       if (!event.shiftKey && event.target === this.inputEl) {
         event.preventDefault();
-        this.cancelEditingButtonEl.value.setFocus();
+        this.cancelEditingButtonRef.value.setFocus();
       }
-      if (!!event.shiftKey && event.target === this.cancelEditingButtonEl.value) {
+      if (!!event.shiftKey && event.target === this.cancelEditingButtonRef.value) {
         event.preventDefault();
         this.inputEl?.setFocus();
       }
@@ -258,7 +258,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   private enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      (event.target !== this.enableEditingButtonEl.value && event.target !== this.inputEl)
+      (event.target !== this.enableEditingButtonRef.value && event.target !== this.inputEl)
     ) {
       return;
     }
@@ -277,7 +277,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
         this.loading = true;
         await this.afterConfirm();
         this.disableEditing();
-        this.enableEditingButtonEl.value?.setFocus();
+        this.enableEditingButtonRef.value?.setFocus();
       }
     } catch {
       // we handle error in finally block
@@ -310,7 +310,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
-              ref={this.enableEditingButtonEl}
+              ref={this.enableEditingButtonRef}
               scale={this.scale}
               style={{
                 opacity: this.editingEnabled ? "0" : "1",
@@ -329,7 +329,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
-                  ref={this.cancelEditingButtonEl}
+                  ref={this.cancelEditingButtonRef}
                   scale={this.scale}
                   title={this.messages.cancelEditing}
                   type="button"

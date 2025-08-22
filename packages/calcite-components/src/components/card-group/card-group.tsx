@@ -32,7 +32,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
 
   private items: Card["el"][] = [];
 
-  private slotRefEl = createRef<HTMLSlotElement>();
+  private slotRef = createRef<HTMLSlotElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -151,7 +151,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
   }
 
   private updateItemsOnSelectionModeChange(): void {
-    this.updateSlottedItems(this.slotRefEl.value);
+    this.updateSlottedItems(this.slotRef.value);
     this.updateSelectedItems();
   }
 
@@ -215,7 +215,7 @@ export class CardGroup extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
-          <slot onSlotChange={this.updateItemsOnSlotChange} ref={this.slotRefEl} />
+          <slot onSlotChange={this.updateItemsOnSlotChange} ref={this.slotRef} />
         </div>
       </InteractiveContainer>
     );

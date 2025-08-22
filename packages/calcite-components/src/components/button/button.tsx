@@ -63,8 +63,7 @@ export class Button
   /** the rendered child element */
   private childEl?: HTMLElement;
 
-  /** keep track of the rendered contentEl */
-  private contentEl = createRef<HTMLSpanElement>();
+  private contentRef = createRef<HTMLSpanElement>();
 
   formEl: HTMLFormElement;
 
@@ -271,7 +270,7 @@ export class Button
 
   private setTooltipText(): void {
     const {
-      contentEl: { value: contentEl },
+      contentRef: { value: contentEl },
     } = this;
     if (contentEl) {
       this.tooltipText =
@@ -324,7 +323,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content} ref={this.contentEl}>
+      <span class={CSS.content} ref={this.contentRef}>
         <slot />
       </span>
     );

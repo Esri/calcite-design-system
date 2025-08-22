@@ -52,9 +52,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private backButtonEl = createRef<Action["el"]>();
+  private backButtonRef = createRef<Action["el"]>();
 
-  private containerEl = createRef<Panel["el"]>();
+  private containerRef = createRef<Panel["el"]>();
 
   /**
    * Made into a prop for testing purposes only
@@ -161,7 +161,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    await this.containerEl.value?.scrollContentTo(options);
+    await this.containerRef.value?.scrollContentTo(options);
   }
 
   /**
@@ -174,7 +174,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.backButtonEl.value || this.containerEl.value, options);
+    return this.focusSetter(() => this.backButtonRef.value || this.containerRef.value, options);
   }
 
   //#endregion
@@ -232,7 +232,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   //#region Private Methods
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl.value) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -241,7 +241,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelClose(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl.value) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -251,7 +251,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl.value) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -283,7 +283,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.backButtonEl}
+        ref={this.backButtonRef}
         scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
@@ -333,7 +333,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}
           overlayPositioning={overlayPositioning}
-          ref={this.containerEl}
+          ref={this.containerRef}
           scale={this.scale}
         >
           {this.renderBackButton()}

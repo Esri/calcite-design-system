@@ -89,7 +89,7 @@ export class Slider
   private dragProp: ActiveSliderProperty;
 
   private dragUpdate = (event: PointerEvent): void => {
-    if (this.disabled || !this.trackEl.value) {
+    if (this.disabled || !this.trackRef.value) {
       return;
     }
 
@@ -177,7 +177,7 @@ export class Slider
 
   private previousEmittedValue;
 
-  private trackEl = createRef<HTMLDivElement>();
+  private trackRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -758,7 +758,7 @@ export class Slider
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.value.getBoundingClientRect() || { left: 0, width: 0 };
+    const { left, width } = this.trackRef.value.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -1150,7 +1150,7 @@ export class Slider
           }}
         >
           {this.renderGraph()}
-          <div class={CSS.track} ref={this.trackEl}>
+          <div class={CSS.track} ref={this.trackRef}>
             <div
               class={CSS.trackRange}
               onPointerDown={this.onTrackPointerDown}

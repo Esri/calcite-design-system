@@ -78,7 +78,7 @@ export class Input
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
@@ -86,13 +86,13 @@ export class Input
   );
 
   /** keep track of the rendered child type */
-  private childEl = createRef<HTMLInputElement | HTMLTextAreaElement>();
+  private childRef = createRef<HTMLInputElement | HTMLTextAreaElement>();
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
   /** number text input element for locale */
-  private childNumberEl = createRef<HTMLInputElement>();
+  private childNumberRef = createRef<HTMLInputElement>();
 
   defaultValue: Input["value"];
 
@@ -100,7 +100,7 @@ export class Input
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -410,7 +410,7 @@ export class Input
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    const selectTarget = this.type === "number" ? this.childNumberEl : this.childEl;
+    const selectTarget = this.type === "number" ? this.childNumberRef : this.childRef;
     selectTarget.value?.select();
   }
 
@@ -424,7 +424,7 @@ export class Input
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(
-      () => (this.type === "number" ? this.childNumberEl.value : this.childEl.value),
+      () => (this.type === "number" ? this.childNumberRef.value : this.childRef.value),
       options,
     );
   }
@@ -653,8 +653,8 @@ export class Input
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -672,7 +672,7 @@ export class Input
     }
 
     if (this.type === "file") {
-      this.files = (this.childEl.value as HTMLInputElement).files;
+      this.files = (this.childRef.value as HTMLInputElement).files;
     }
 
     this.setValue({
@@ -716,7 +716,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value.value = this.displayedValue;
+      this.childNumberRef.value.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -775,30 +775,30 @@ export class Input
       useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberEl.value.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key)) {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.value.split("-").length <= 2) {
+      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -854,7 +854,7 @@ export class Input
   }
 
   private setInputValue(newInputValue: string): void {
-    const target = this.type === "number" ? this.childNumberEl : this.childEl;
+    const target = this.type === "number" ? this.childNumberRef : this.childRef;
     if (target.value) {
       target.value.value = newInputValue;
     }
@@ -1077,7 +1077,7 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.childNumberEl}
+          ref={this.childNumberRef}
           type="text"
           value={this.displayedValue}
         />
@@ -1119,7 +1119,7 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.childEl as any /* FIXME: use proper type */}
+          ref={this.childRef as any /* FIXME: use proper type */}
           required={this.required ? true : null}
           spellcheck={this.el.spellcheck}
           step={this.step}
@@ -1138,7 +1138,7 @@ export class Input
             [CSS.hasSuffix]: this.suffixText,
             [CSS.hasPrefix]: this.prefixText,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
@@ -1151,7 +1151,7 @@ export class Input
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly

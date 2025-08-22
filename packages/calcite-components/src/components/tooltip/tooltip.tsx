@@ -50,7 +50,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   // #region Private Properties
 
-  private arrowEl = createRef<SVGSVGElement>();
+  private arrowRef = createRef<SVGSVGElement>();
 
   floatingEl: HTMLDivElement;
 
@@ -135,7 +135,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowEl,
+      arrowRef,
       floatingEl,
     } = this;
 
@@ -148,7 +148,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
         placement,
         offsetDistance,
         offsetSkidding,
-        arrowEl: arrowEl.value,
+        arrowEl: arrowRef.value,
         type: "tooltip",
       },
       delayed,
@@ -333,7 +333,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
           }}
           ref={this.setTransitionEl}
         >
-          <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowEl} />
+          <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowRef} />
           <div class={CSS.container}>
             <slot />
           </div>

@@ -90,9 +90,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
-  private colorFieldScopeEl = createRef<HTMLDivElement>();
+  private colorFieldScopeRef = createRef<HTMLDivElement>();
 
-  private hueScopeEl = createRef<HTMLDivElement>();
+  private hueScopeRef = createRef<HTMLDivElement>();
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -104,7 +104,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private opacityScopeNode = createRef<HTMLDivElement>();
+  private opacityScopeRef = createRef<HTMLDivElement>();
 
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
@@ -816,7 +816,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeEl.value,
+      this.colorFieldScopeRef.value,
     );
   }
 
@@ -831,7 +831,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeEl.value,
+      this.hueScopeRef.value,
     );
   }
 
@@ -840,7 +840,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeNode.value,
+      this.opacityScopeRef.value,
     );
   }
 
@@ -1515,7 +1515,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
                 class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
                 onKeyDown={this.handleColorFieldScopeKeyDown}
-                ref={this.colorFieldScopeEl}
+                ref={this.colorFieldScopeRef}
                 role="slider"
                 style={{
                   top: `${adjustedColorFieldScopeTop || 0}px`,
@@ -1546,7 +1546,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                   ariaValueNow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.hueScopeEl}
+                  ref={this.hueScopeRef}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,
@@ -1569,7 +1569,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     ariaValueNow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.opacityScopeNode}
+                    ref={this.opacityScopeRef}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,

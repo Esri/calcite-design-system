@@ -64,7 +64,7 @@ export class InputTimeZone
 
   //#region Private Properties
 
-  private comboboxEl = createRef<Combobox["el"]>();
+  private comboboxRef = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -241,7 +241,7 @@ export class InputTimeZone
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.comboboxEl.value, options);
+    return this.focusSetter(() => this.comboboxRef.value, options);
   }
 
   //#endregion
@@ -335,8 +335,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl.value) {
-      this.comboboxEl.value.open = this.open;
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
     }
   }
 
@@ -381,7 +381,7 @@ export class InputTimeZone
       return;
     }
 
-    this.comboboxEl.value.selectedItems[0].textLabel = this.getItemLabel(
+    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
       this.selectedTimeZoneItem,
       open,
     );
@@ -518,7 +518,7 @@ export class InputTimeZone
           }
           placeholderIcon="search"
           readOnly={this.readOnly}
-          ref={this.comboboxEl}
+          ref={this.comboboxRef}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}

@@ -76,7 +76,7 @@ export class TextArea
 
   defaultValue: TextArea["value"];
 
-  private footerEl = createRef<HTMLElement>();
+  private footerRef = createRef<HTMLElement>();
 
   private validationMessageEl: HTMLDivElement;
 
@@ -102,7 +102,7 @@ export class TextArea
       validationMessageHeight,
     } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerEl.value.style.width = `${textAreaWidth}px`;
+      this.footerRef.value.style.width = `${textAreaWidth}px`;
     }
 
     if (this.resize === "none") {
@@ -431,8 +431,8 @@ export class TextArea
       ? this.textAreaEl.getBoundingClientRect()
       : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl.value
-      ? this.footerEl.value.getBoundingClientRect()
+    const { height: footerHeight, width: footerWidth } = this.footerRef.value
+      ? this.footerRef.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     const { height: validationMessageHeight } = this.validationMessageEl
@@ -513,7 +513,7 @@ export class TextArea
               [CSS.readOnly]: this.readOnly,
               [CSS.hide]: !hasFooter,
             }}
-            ref={this.footerEl}
+            ref={this.footerRef}
           >
             <div
               class={{

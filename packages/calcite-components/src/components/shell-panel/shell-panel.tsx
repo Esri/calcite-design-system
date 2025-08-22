@@ -47,7 +47,7 @@ export class ShellPanel extends LitElement {
 
   private actionBars: ActionBar["el"][] = [];
 
-  private contentEl = createRef<HTMLDivElement>();
+  private contentRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -171,7 +171,7 @@ export class ShellPanel extends LitElement {
   //#region Private Methods
 
   private getContentElDOMRect(): DOMRect {
-    return this.contentEl.value.getBoundingClientRect();
+    return this.contentRef.value.getBoundingClientRect();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -180,7 +180,7 @@ export class ShellPanel extends LitElement {
       position,
       layout,
       resizable,
-      contentEl,
+      contentRef,
       el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
@@ -190,7 +190,7 @@ export class ShellPanel extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentRef || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
@@ -257,9 +257,9 @@ export class ShellPanel extends LitElement {
     type: "inlineSize" | "blockSize";
     size: number | null;
   }): void {
-    const { contentEl, resizeValues } = this;
+    const { contentRef, resizeValues } = this;
 
-    if (!contentEl.value) {
+    if (!contentRef.value) {
       return;
     }
 
@@ -278,7 +278,7 @@ export class ShellPanel extends LitElement {
       [type]: rounded,
     };
 
-    contentEl.value.style[type] = size !== null ? `${rounded}px` : null;
+    contentRef.value.style[type] = size !== null ? `${rounded}px` : null;
   }
 
   private cleanupInteractions(): void {
@@ -288,16 +288,16 @@ export class ShellPanel extends LitElement {
   private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
-    const { el, contentEl, resizable, position, collapsed, resizeHandleEl, layout } = this;
+    const { el, contentRef, resizable, position, collapsed, resizeHandleEl, layout } = this;
 
-    if (!contentEl.value || collapsed || !resizable || !resizeHandleEl) {
+    if (!contentRef.value || collapsed || !resizable || !resizeHandleEl) {
       return;
     }
 
     await this.el.componentOnReady();
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentEl.value);
+      window.getComputedStyle(contentRef.value);
 
     const values: ResizeValues = {
       inlineSize: getStylePixelValue(inlineSize),
@@ -312,7 +312,7 @@ export class ShellPanel extends LitElement {
 
     const rtl = getElementDir(el) === "rtl";
 
-    this.interaction = interact(contentEl.value, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
         top: position === "end" && layout === "horizontal" ? resizeHandleEl : false,
         right:
@@ -454,7 +454,7 @@ export class ShellPanel extends LitElement {
           }}
           hidden={collapsed}
           key="content"
-          ref={this.contentEl}
+          ref={this.contentRef}
         >
           {this.renderHeader()}
           <div class={CSS.contentBody}>

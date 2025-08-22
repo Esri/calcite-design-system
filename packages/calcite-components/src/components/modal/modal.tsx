@@ -80,7 +80,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   private ignoreOpenChange = false;
 
-  private modalContent = createRef<HTMLDivElement>();
+  private modalContentRef = createRef<HTMLDivElement>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
@@ -239,12 +239,12 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @method()
   async scrollContent(top = 0, left = 0): Promise<void> {
-    if (this.modalContent.value) {
-      if (this.modalContent.value.scrollTo) {
-        this.modalContent.value.scrollTo({ top, left, behavior: "smooth" });
+    if (this.modalContentRef.value) {
+      if (this.modalContentRef.value.scrollTo) {
+        this.modalContentRef.value.scrollTo({ top, left, behavior: "smooth" });
       } else {
-        this.modalContent.value.scrollTop = top;
-        this.modalContent.value.scrollLeft = left;
+        this.modalContentRef.value.scrollTop = top;
+        this.modalContentRef.value.scrollLeft = left;
       }
     }
   }
@@ -513,7 +513,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
               [CSS.content]: true,
               [CSS.contentNoFooter]: !this.hasFooter,
             }}
-            ref={this.modalContent}
+            ref={this.modalContentRef}
           >
             <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
           </div>

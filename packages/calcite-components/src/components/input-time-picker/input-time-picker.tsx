@@ -74,7 +74,7 @@ export class InputTimePicker
 
   private activeEl: HTMLSpanElement;
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultValue: InputTimePicker["value"];
 
@@ -573,7 +573,7 @@ export class InputTimePicker
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role="combobox"
         >
           <calcite-icon
@@ -694,7 +694,7 @@ export class InputTimePicker
           placement={this.placement}
           pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.containerEl.value}
+          referenceElement={this.containerRef.value}
           triggerDisabled={true}
         >
           <calcite-time-picker

@@ -81,7 +81,7 @@ export class InputNumber
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode"],
@@ -89,7 +89,7 @@ export class InputNumber
   );
 
   /** number text input element for locale */
-  private childNumberEl = createRef<HTMLInputElement>();
+  private childNumberRef = createRef<HTMLInputElement>();
 
   defaultValue: InputNumber["value"];
 
@@ -97,7 +97,7 @@ export class InputNumber
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -357,7 +357,7 @@ export class InputNumber
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childNumberEl.value?.select();
+    this.childNumberRef.value?.select();
   }
 
   /**
@@ -369,7 +369,7 @@ export class InputNumber
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.childNumberEl.value, options);
+    return this.focusSetter(() => this.childNumberRef.value, options);
   }
 
   //#endregion
@@ -594,8 +594,8 @@ export class InputNumber
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -635,7 +635,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value.value = this.displayedValue;
+      this.childNumberRef.value.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -697,30 +697,30 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberEl.value.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.value.split("-").length <= 2) {
+      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -783,10 +783,10 @@ export class InputNumber
   }
 
   private setInputNumberValue(newInputValue: string): void {
-    if (!this.childNumberEl.value) {
+    if (!this.childNumberRef.value) {
       return;
     }
-    this.childNumberEl.value.value = newInputValue;
+    this.childNumberRef.value.value = newInputValue;
   }
 
   private setPreviousEmittedNumberValue(value: string): void {
@@ -885,7 +885,7 @@ export class InputNumber
       ...numberStringFormatter.digits,
     ]);
 
-    const childInputValue = this.childNumberEl.value?.value;
+    const childInputValue = this.childNumberRef.value?.value;
     // remove invalid characters from child input
     if (childInputValue) {
       const sanitizedChildInputValue = Array.from(childInputValue)
@@ -1032,7 +1032,7 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.childNumberEl}
+        ref={this.childNumberRef}
         type="text"
         value={this.displayedValue}
       />
@@ -1048,7 +1048,7 @@ export class InputNumber
             [CSS.hasPrefix]: this.prefixText,
             [CSS.clearable]: this.isClearable,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
@@ -1060,7 +1060,7 @@ export class InputNumber
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}

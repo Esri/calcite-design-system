@@ -34,17 +34,17 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Private Properties
 
-  private fractionalSecondEl = createRef<HTMLSpanElement>();
+  private fractionalSecondRef = createRef<HTMLSpanElement>();
 
-  private hourEl = createRef<HTMLSpanElement>();
+  private hourRef = createRef<HTMLSpanElement>();
 
-  private meridiemEl = createRef<HTMLSpanElement>();
+  private meridiemRef = createRef<HTMLSpanElement>();
 
-  private minuteEl = createRef<HTMLSpanElement>();
+  private minuteRef = createRef<HTMLSpanElement>();
 
   private pointerActivated = false;
 
-  private secondEl = createRef<HTMLSpanElement>();
+  private secondRef = createRef<HTMLSpanElement>();
 
   private stepPrecision: number;
 
@@ -174,13 +174,13 @@ export class TimePicker extends LitElement implements TimeComponent {
 
     const { hourFormat } = this.time;
     switch (this.activeEl) {
-      case this.hourEl:
+      case this.hourRef:
         if (key === "ArrowRight") {
           this.focusPart("minute");
           event.preventDefault();
         }
         break;
-      case this.minuteEl:
+      case this.minuteRef:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("hour");
@@ -197,7 +197,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.secondEl:
+      case this.secondRef:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("minute");
@@ -213,7 +213,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.fractionalSecondEl:
+      case this.fractionalSecondRef:
         switch (key) {
           case "ArrowLeft":
             this.focusPart("second");
@@ -227,7 +227,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             break;
         }
         break;
-      case this.meridiemEl:
+      case this.meridiemRef:
         switch (key) {
           case "ArrowLeft":
             if (this.showFractionalSecond) {
@@ -263,25 +263,25 @@ export class TimePicker extends LitElement implements TimeComponent {
   }
 
   private fractionalSecondDownClickHandler(): void {
-    this.activeEl = this.fractionalSecondEl.value;
+    this.activeEl = this.fractionalSecondRef.value;
     this.activeEl.focus();
     this.time.nudgeFractionalSecond("down");
   }
 
   private fractionalSecondUpClickHandler(): void {
-    this.activeEl = this.fractionalSecondEl.value;
+    this.activeEl = this.fractionalSecondRef.value;
     this.activeEl.focus();
     this.time.nudgeFractionalSecond("up");
   }
 
   private hourDownClickHandler(): void {
-    this.activeEl = this.hourEl.value;
+    this.activeEl = this.hourRef.value;
     this.activeEl.focus();
     this.time.decrementHour();
   }
 
   private hourUpClickHandler(): void {
-    this.activeEl = this.hourEl.value;
+    this.activeEl = this.hourRef.value;
     this.activeEl.focus();
     this.time.incrementHour();
   }
@@ -291,37 +291,37 @@ export class TimePicker extends LitElement implements TimeComponent {
   }
 
   private meridiemUpClickHandler(): void {
-    this.activeEl = this.meridiemEl.value;
+    this.activeEl = this.meridiemRef.value;
     this.activeEl.focus();
     this.time.toggleMeridiem("up");
   }
 
   private meridiemDownClickHandler(): void {
-    this.activeEl = this.meridiemEl.value;
+    this.activeEl = this.meridiemRef.value;
     this.activeEl.focus();
     this.time.toggleMeridiem("down");
   }
 
   private minuteDownClickHandler(): void {
-    this.activeEl = this.minuteEl.value;
+    this.activeEl = this.minuteRef.value;
     this.activeEl.focus();
     this.time.decrementMinute();
   }
 
   private minuteUpClickHandler(): void {
-    this.activeEl = this.minuteEl.value;
+    this.activeEl = this.minuteRef.value;
     this.activeEl.focus();
     this.time.incrementMinute();
   }
 
   private secondDownClickHandler(): void {
-    this.activeEl = this.secondEl.value;
+    this.activeEl = this.secondRef.value;
     this.activeEl.focus();
     this.time.decrementSecond();
   }
 
   private secondUpClickHandler(): void {
-    this.activeEl = this.secondEl.value;
+    this.activeEl = this.secondRef.value;
     this.activeEl.focus();
     this.time.incrementSecond();
   }
@@ -414,12 +414,12 @@ export class TimePicker extends LitElement implements TimeComponent {
             class={{
               [CSS.input]: true,
               [CSS.hour]: true,
-              [CSS.inputFocus]: activeEl && activeEl === this.hourEl,
+              [CSS.inputFocus]: activeEl && activeEl === this.hourRef,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={handleHourKeyDownEvent}
-            ref={this.hourEl}
+            ref={this.hourRef}
             role="spinbutton"
             tabIndex={0}
           >
@@ -460,12 +460,12 @@ export class TimePicker extends LitElement implements TimeComponent {
             class={{
               [CSS.input]: true,
               [CSS.minute]: true,
-              [CSS.inputFocus]: activeEl && activeEl === this.minuteEl,
+              [CSS.inputFocus]: activeEl && activeEl === this.minuteRef,
             }}
             onClick={this.inputClickHandler}
             onFocus={this.focusHandler}
             onKeyDown={handleMinuteKeyDownEvent}
-            ref={this.minuteEl}
+            ref={this.minuteRef}
             role="spinbutton"
             tabIndex={0}
           >
@@ -510,12 +510,12 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.second]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.secondEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.secondRef,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleSecondKeyDownEvent}
-              ref={this.secondEl}
+              ref={this.secondRef}
               role="spinbutton"
               tabIndex={0}
             >
@@ -561,12 +561,12 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.fractionalSecond]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.fractionalSecondEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.fractionalSecondRef,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleFractionalSecondKeyDownEvent}
-              ref={this.fractionalSecondEl}
+              ref={this.fractionalSecondRef}
               role="spinbutton"
               tabIndex={0}
             >
@@ -619,12 +619,12 @@ export class TimePicker extends LitElement implements TimeComponent {
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.inputFocus]: activeEl && activeEl === this.meridiemEl,
+                [CSS.inputFocus]: activeEl && activeEl === this.meridiemRef,
               }}
               onClick={this.inputClickHandler}
               onFocus={this.focusHandler}
               onKeyDown={handleMeridiemKeyDownEvent}
-              ref={this.meridiemEl}
+              ref={this.meridiemRef}
               role="spinbutton"
               tabIndex={0}
             >

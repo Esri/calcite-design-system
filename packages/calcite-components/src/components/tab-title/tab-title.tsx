@@ -51,7 +51,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
 
   private guid = IDS.host(guid());
 
@@ -338,7 +338,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonEl.value)) {
+        if (!event.composedPath().includes(this.closeButtonRef.value)) {
           this.activateTab();
           event.preventDefault();
         }
@@ -465,7 +465,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
         key="close-button"
         label={messages.close}
         onClick={this.closeClickHandler}
-        ref={this.closeButtonEl}
+        ref={this.closeButtonRef}
         round={false}
         scale={this.scale}
         title={messages.close}
