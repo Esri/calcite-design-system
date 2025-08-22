@@ -23,15 +23,6 @@
  * @prop --calcite-stepper-bar-selected-fill-color: Specifies the component's fill color when selected.
 */
 
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-stepper-action-inline-size
-// --calcite-internal-stepper-item-spacing-unit-l
-// --calcite-internal-stepper-item-spacing-unit-m
-// --calcite-internal-stepper-item-spacing-unit-s
-
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
