@@ -94,6 +94,7 @@ import { meter, meterTokens } from "./custom-theme/meter";
 import { table, tableTokens } from "./custom-theme/table";
 import { carousel, carouselTokens } from "./custom-theme/carousel";
 import { dialog, dialogTokens } from "./custom-theme/dialog";
+import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -234,6 +235,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${dialog}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${splitButton}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -302,6 +306,7 @@ const componentTokens = {
   ...tableTokens,
   ...carouselTokens,
   ...dialogTokens,
+  ...splitButtonTokens,
 };
 
 export default {
