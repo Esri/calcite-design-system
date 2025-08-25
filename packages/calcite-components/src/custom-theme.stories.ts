@@ -168,13 +168,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       .demo-row > .demo-column {
         flex: 0 0 auto;
       }
-      .open-calendar-spacing-small {
-        margin-top: 22rem;
-      }
-      .open-calendar-spacing-large {
-        margin-top: 22rem;
-        margin-right: 19rem;
-      }
     </style>
     <div class="demo">
       <div class="demo-column">
@@ -220,8 +213,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${filter}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column open-calendar-spacing-small">${inputDatePicker}</div>
-      <div class="demo-column open-calendar-spacing-large">${inputDatePickerRange}</div>
+      <div class="demo-column">${inputDatePicker}</div>
+      <div class="demo-column">${inputDatePickerRange}</div>
       <div class="demo-column">${inputDatePickerRangeVertical}</div>
     </div>
     <div class="demo-row">
