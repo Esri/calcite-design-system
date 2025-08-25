@@ -33,6 +33,12 @@ import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
 import {
+  inputDatePicker,
+  inputDatePickerRange,
+  inputDatePickerRangeVertical,
+  inputDatePickerTokens,
+} from "./custom-theme/input-date-picker";
+import {
   inputMessageInvalid,
   inputMessageValid,
   inputMessageIdle,
@@ -208,6 +214,11 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${filter}</div>
     </div>
     <div class="demo-row">
+      <div class="demo-column">${inputDatePicker}</div>
+      <div class="demo-column">${inputDatePickerRange}</div>
+      <div class="demo-column">${inputDatePickerRangeVertical}</div>
+    </div>
+    <div class="demo-row">
       <div class="demo-column">${inputMessageInvalid}</div>
       <div class="demo-column">${inputMessageValid}</div>
       <div class="demo-column">${inputMessageIdle}</div>
@@ -270,6 +281,7 @@ const componentTokens = {
   ...inlineEditableTokens,
   ...inputNumberTokens,
   ...graphTokens,
+  ...inputDatePickerTokens,
   ...inputTokens,
   ...inputTextTokens,
   ...inputMessageTokens,
