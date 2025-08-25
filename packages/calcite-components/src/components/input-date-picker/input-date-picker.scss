@@ -33,7 +33,6 @@
  * @prop --calcite-input-date-picker-calendar-actions-text-color: Specifies the text color of the component's calendar actions.
  * @prop --calcite-input-date-picker-calendar-actions-text-color-press: Specifies the text color of the component's calendar actions when pressed.
  * @prop --calcite-input-date-picker-calendar-text-color: Specifies the text color of the component's calendar week, year & suffix.
- * @prop --calcite-input-date-picker-calendar-month-select-font-size: Specifies the font size of month select of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-month-select-text-color: Specifies the text color of month select of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color: Specifies the text color of day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color-hover: Specifies the text color of day of the component's date-picker when hovered.
@@ -256,7 +255,6 @@ calcite-date-picker {
     --calcite-input-date-picker-calendar-actions-text-color-press
   );
   --calcite-date-picker-year-text-color: var(--calcite-input-date-picker-calendar-text-color);
-  --calcite-date-picker-month-select-font-size: var(--calcite-input-date-picker-calendar-month-select-font-size);
   --calcite-date-picker-month-select-text-color: var(--calcite-input-date-picker-calendar-month-select-text-color);
   --calcite-date-picker-month-select-icon-color: var(--calcite-input-date-picker-calendar-icon-color);
   --calcite-date-picker-month-select-icon-color-hover: var(--calcite-input-date-picker-calendar-icon-color-hover);

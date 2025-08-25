@@ -2243,10 +2243,6 @@ describe("calcite-input-date-picker", () => {
           targetProp: "--calcite-action-text-color-press",
           state: { press: { attribute: "class", value: `${MONTH_HEADER_CSS.chevron}` } },
         },
-        "--calcite-input-date-picker-calendar-month-select-font-size": {
-          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
-          targetProp: "--calcite-select-font-size",
-        },
         "--calcite-input-date-picker-calendar-month-select-text-color": {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
           targetProp: "--calcite-select-text-color",
