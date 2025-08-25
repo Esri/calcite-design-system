@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.18...@esri/calcite-ui-icons@4.3.0-next.19) (2025-08-22)
+
+### Features
+
+- add shopping-cart-f, shopping cart plus, carousel frames ([#12758](https://github.com/Esri/calcite-design-system/issues/12758)) ([de4c9fd](https://github.com/Esri/calcite-design-system/commit/de4c9fda80e8934206d3b69ac8ce22a9832bb3e3))
+
 ## [4.3.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.17...@esri/calcite-ui-icons@4.3.0-next.18) (2025-08-21)
 
 ### Features
