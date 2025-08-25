@@ -21,8 +21,7 @@ import {
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
-import { CHECKER_DIMENSIONS } from "../color-picker-swatch/resources";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
 
 declare global {

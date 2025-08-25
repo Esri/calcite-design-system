@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
- * @prop --calcite-loader-size: When `inline` is not set, specifies the component's width and height.
+ * @prop --calcite-loader-size: Specifies the component's width and height.
  * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
  * @prop --calcite-loader-spacing: Specifies the the component's padding.
  * @prop --calcite-loader-progress-color-inline: When `inline`, specifies the component's progress ring color.
@@ -14,6 +14,17 @@
  * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-loader-font-size
+// --calcite-internal-loader-size
+// --calcite-internal-loader-size-inline
+// --calcite-internal-loader-value-line-height
+// --calcite-internal-stroke-width
+// --calcite-internal-text-offset
 
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;

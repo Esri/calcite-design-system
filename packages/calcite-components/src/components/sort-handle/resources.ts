@@ -23,6 +23,7 @@ export const SLOTS = {
 };
 
 export const IDS = {
+  add: "add",
   move: "move",
   reorder: "reorder",
 };
