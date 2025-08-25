@@ -63,6 +63,9 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   //#region Public Properties
 
+  /**
+   * Use this property to override or extend ARIA properties and attributes on the component's button.
+   */
   @property() aria?: LuminaJsx.AriaAttributes;
 
   /** When `true`, the component is highlighted. */
