@@ -10037,5 +10037,10 @@
     "alias": ["4.3.0", "windows", "storytelling", "frames", "story-maps"],
     "category": "Windows",
     "release": "4.3.0"
+  },
+  "select-row": {
+    "alias": ["4.3.0", "generic", "interactive", "table", "record", "feature"],
+    "category": "Generic",
+    "release": "4.3.0"
   }
 }
