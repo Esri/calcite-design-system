@@ -158,4 +158,8 @@
   display: flex;
 }
 
+.swatch-group {
+  margin-block-start: var(--calcite-spacing-md);
+}
+
 @include base-component();
