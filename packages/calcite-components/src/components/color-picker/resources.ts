@@ -35,6 +35,7 @@ export const CSS = {
   slider: "slider",
   sliders: "sliders",
   splitSection: "section--split",
+  swatchGroup: "swatch-group",
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
