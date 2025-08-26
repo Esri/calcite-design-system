@@ -1664,7 +1664,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <calcite-swatch-group label={messages.saved} scale={scale} selectionMode="none">
+                <calcite-swatch-group
+                  class={CSS.swatchGroup}
+                  label={messages.saved}
+                  scale={scale}
+                  selectionMode="none"
+                >
                   {savedColors.map((color) => (
                     <calcite-swatch
                       class={CSS.savedColor}
