@@ -217,7 +217,6 @@ export class RadioButtonGroup extends LitElement {
       <>
         {this.labelText && (
           <InternalLabel
-            id={IDS.radioButtonGroupContainer}
             labelText={this.labelText}
             required={this.required}
             tooltipText={this.messages.required}
@@ -228,7 +227,6 @@ export class RadioButtonGroup extends LitElement {
           ariaInvalid={this.status === "invalid"}
           ariaRequired={this.required}
           class={CSS.itemWrapper}
-          id={IDS.radioButtonGroupContainer}
         >
           <slot />
         </div>

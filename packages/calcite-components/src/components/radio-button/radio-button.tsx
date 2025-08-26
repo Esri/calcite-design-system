@@ -19,7 +19,7 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, IDS } from "./resources";
+import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
 declare global {
@@ -490,7 +490,6 @@ export class RadioButton
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
           class={CSS.container}
-          id={IDS.radioButtonContainer}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
           ref={this.setContainerEl}
@@ -498,13 +497,7 @@ export class RadioButton
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
-          {this.labelText && (
-            <InternalLabel
-              id={IDS.radioButtonContainer}
-              labelText={this.labelText}
-              spacingInlineStart={true}
-            />
-          )}
+          {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

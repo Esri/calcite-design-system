@@ -1104,7 +1104,6 @@ export class InputDatePicker
       <InteractiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
-            id={this.dialogId}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}

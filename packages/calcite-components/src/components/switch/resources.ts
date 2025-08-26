@@ -3,7 +3,3 @@ export const CSS = {
   track: "track",
   handle: "handle",
 };
-
-export const IDS = {
-  switchContainer: "switchContainer",
-};

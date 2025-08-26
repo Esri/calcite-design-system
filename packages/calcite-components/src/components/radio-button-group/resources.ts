@@ -3,6 +3,5 @@ export const CSS = {
 };
 
 export const IDS = {
-  radioButtonGroupContainer: "radioButtonGroupContainer",
   validationMessage: "radioButtonGroupValidationMessage",
 };

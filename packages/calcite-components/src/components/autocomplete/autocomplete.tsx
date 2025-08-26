@@ -788,7 +788,6 @@ export class Autocomplete
       <InteractiveContainer disabled={disabled}>
         {this.labelText && (
           <InternalLabel
-            id={inputId}
             labelText={this.labelText}
             onClick={this.onLabelClick}
             required={this.required}
