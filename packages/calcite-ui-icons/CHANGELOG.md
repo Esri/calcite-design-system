@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.19...@esri/calcite-ui-icons@4.3.0-next.20) (2025-08-26)
+
+### Features
+
+- add select row icon ([#12768](https://github.com/Esri/calcite-design-system/issues/12768)) ([f5c57cc](https://github.com/Esri/calcite-design-system/commit/f5c57cc85c41331e150ca27440c0fdccb4e75f22))
+
 ## [4.3.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.18...@esri/calcite-ui-icons@4.3.0-next.19) (2025-08-22)
 
 ### Features
