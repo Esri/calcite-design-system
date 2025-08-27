@@ -288,8 +288,8 @@ export class Checkbox
         </div>
         {this.labelText && (
           <InternalLabel
+            bottomSpacingDisabled={true}
             labelText={this.labelText}
-            noSpacingBottom={true}
             required={this.required}
             spacingInlineStart={true}
             tooltipText={this.messages.required}

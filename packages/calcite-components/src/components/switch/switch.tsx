@@ -194,9 +194,9 @@ export class Switch
         >
           {this.labelTextStart && (
             <InternalLabel
-              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              centerAlign={true}
               labelText={this.labelTextStart}
-              noSpacingBottom={true}
               spacingInlineEnd={true}
             />
           )}
@@ -205,9 +205,9 @@ export class Switch
           </div>
           {this.labelTextEnd && (
             <InternalLabel
-              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              centerAlign={true}
               labelText={this.labelTextEnd}
-              noSpacingBottom={true}
               spacingInlineStart={true}
             />
           )}
