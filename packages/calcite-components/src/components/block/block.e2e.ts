@@ -555,11 +555,7 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: { press: `calcite-block >>> .${CSS.toggle}` },
           },
-          "--calcite-block-text-color": {
-            shadowSelector: `.${CSS.contentStart}`,
-            targetProp: "color",
-          },
-          "--calcite-block-heading-text-color-press": {
+          "--calcite-block-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
             state: { press: { attribute: "class", value: CSS.heading } },
@@ -590,10 +586,38 @@ describe("calcite-block", () => {
         },
       );
     });
+
     describe("collapsed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
         "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });
+    });
+
+    describe("deprecated", () => {
+      themed(
+        html`<calcite-block
+          heading="heading"
+          description="description"
+          expanded
+          collapsible
+          icon-end="pen"
+          icon-start="pen"
+        >
+          <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <div>content</div>
+        </calcite-block>`,
+        {
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
+          "--calcite-block-heading-text-color-press": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.heading } },
+          },
+        },
+      );
     });
   });
 });
