@@ -387,3 +387,22 @@ export const allScales = (): string =>
       }
     </style>
     <div class="container">${blockHTML("s")} ${blockHTML("m")} ${blockHTML("l")}</div>`;
+
+export const nonCollapsible = (): string =>
+  html` <calcite-block
+    icon-end="3d-building"
+    heading="Layer effects"
+    description="Adjust blur, highlight, and more"
+    icon-start="effects"
+    loading
+    drag-handle
+  >
+    <div slot="content-start">
+      <calcite-action icon="information"></calcite-action>
+    </div>
+    <calcite-action icon="layers" slot="actions-end"></calcite-action>
+    <div slot="header-menu-actions">
+      <calcite-action text="Information" icon="information" text-enabled></calcite-action>
+    </div>
+    <p>Block content</p>
+  </calcite-block>`;

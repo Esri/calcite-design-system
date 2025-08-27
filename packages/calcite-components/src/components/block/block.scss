@@ -135,8 +135,8 @@
 
 .header-container {
   @apply grid items-stretch;
-  grid-template: auto / auto 1fr auto auto;
-  grid-template-areas: "handle header control menu actions-end";
+  grid-template: auto / auto 1fr auto auto auto auto;
+  grid-template-areas: "handle header icon-end control menu actions-end";
 }
 
 .icon--start,
@@ -175,11 +175,10 @@
 }
 
 calcite-loader[inline] {
-  grid-area: control;
   @apply self-center;
 }
 
-calcite-handle {
+calcite-sort-handle {
   grid-area: handle;
 }
 
@@ -233,6 +232,7 @@ calcite-handle {
 
 .icon-end-container {
   @apply flex items-center;
+  grid-area: icon-end;
 }
 
 .toggle-icon {

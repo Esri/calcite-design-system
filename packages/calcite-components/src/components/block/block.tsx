@@ -530,6 +530,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       setSize,
       dragDisabled,
       sortDisabled,
+      iconEnd,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
@@ -588,14 +589,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
               />
             </div>
           </button>
-        ) : this.iconEnd ? (
-          <div>
-            {headerContent}
-            <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
-          </div>
         ) : (
           headerContent
         )}
+        {iconEnd && !collapsible ? (
+          <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
+        ) : null}
         <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
           <slot name={SLOTS.control} onSlotChange={this.controlSlotChangeHandler} />
         </div>
