@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -231,6 +232,10 @@ describe("calcite-input-number", () => {
     focusable(`calcite-input-number`, {
       shadowFocusTargetSelector: "input",
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-input-number`);
   });
 
   describe.skip("increment/decrement functionality", () => {

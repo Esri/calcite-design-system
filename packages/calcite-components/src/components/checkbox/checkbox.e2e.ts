@@ -7,6 +7,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   HYDRATED_ATTR,
   labelable,
   t9n,
@@ -183,6 +184,10 @@ describe("calcite-checkbox", () => {
     focusable("calcite-checkbox", {
       shadowFocusTargetSelector: ".toggle",
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-checkbox`);
   });
 
   describe("WCAG AA recommended minimum 24px click area", () => {

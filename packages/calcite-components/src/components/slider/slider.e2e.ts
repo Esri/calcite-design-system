@@ -7,6 +7,7 @@ import {
   disabled,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -107,6 +108,10 @@ describe("calcite-slider", () => {
 
   describe("disabled", () => {
     disabled("calcite-slider");
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-slider`);
   });
 
   it("sets aria attributes properly for single value", async () => {

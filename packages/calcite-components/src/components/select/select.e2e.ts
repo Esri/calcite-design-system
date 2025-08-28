@@ -8,6 +8,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -42,6 +43,10 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-select`);
   });
 
   describe("defaults", () => {

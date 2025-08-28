@@ -8,6 +8,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -472,6 +473,10 @@ describe("calcite-segmented-control", () => {
         },
       );
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-segmented-control`);
   });
 
   describe("is form-associated", () => {
