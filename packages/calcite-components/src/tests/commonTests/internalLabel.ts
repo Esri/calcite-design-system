@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { expect, it } from "vitest";
+import { CSS } from "../../components/functional/InternalLabel";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
@@ -23,9 +24,9 @@ export function internalLabel(componentTestSetup: ComponentTestSetup): void {
     const element = await page.find(tag);
     element.setProperty("labelText", "Test Label");
     await page.waitForChanges();
-    const labelContainer = await page.find(`${tag} >>> .internal-label--container`);
+    const labelContainer = await page.find(`${tag} >>> .${CSS.container}`);
     expect(labelContainer).not.toBeNull();
-    const labelText = await page.find(`${tag} >>> .internal-label--text`);
+    const labelText = await page.find(`${tag} >>> .${CSS.text}`);
     expect(labelText).not.toBeNull();
     expect(labelText.textContent).toContain("Test Label");
   });
@@ -38,7 +39,7 @@ export function internalLabel(componentTestSetup: ComponentTestSetup): void {
     const element = await page.find(tag);
     element.setProperty("labelTextStart", "Test Label Start");
     await page.waitForChanges();
-    const labelTextStart = await page.find(`${tag} >>> .internal-label--container`);
+    const labelTextStart = await page.find(`${tag} >>> .${CSS.container}`);
     expect(labelTextStart).not.toBeNull();
     expect(labelTextStart.textContent).toContain("Test Label Start");
   });
@@ -51,7 +52,7 @@ export function internalLabel(componentTestSetup: ComponentTestSetup): void {
     const element = await page.find(tag);
     element.setProperty("labelTextEnd", "Test Label End");
     await page.waitForChanges();
-    const labelTextEnd = await page.find(`${tag} >>> .internal-label--container`);
+    const labelTextEnd = await page.find(`${tag} >>> .${CSS.container}`);
     expect(labelTextEnd).not.toBeNull();
     expect(labelTextEnd.textContent).toContain("Test Label End");
   });
@@ -65,7 +66,7 @@ export function internalLabel(componentTestSetup: ComponentTestSetup): void {
     element.setProperty("labelText", "Required Label");
     element.setProperty("required", true);
     await page.waitForChanges();
-    const requiredIndicator = await page.find(`${tag} >>> .internal-label-required--indicator`);
+    const requiredIndicator = await page.find(`${tag} >>> .${CSS.requiredIndicator}`);
     expect(requiredIndicator).not.toBeNull();
     expect(requiredIndicator.textContent).toBe("*");
   });
@@ -79,7 +80,7 @@ export function internalLabel(componentTestSetup: ComponentTestSetup): void {
     element.setProperty("labelText", "Tooltip Label");
     element.setProperty("required", true);
     await page.waitForChanges();
-    const requiredIndicator = await page.find(`${tag} >>> .internal-label-required--indicator`);
+    const requiredIndicator = await page.find(`${tag} >>> .${CSS.requiredIndicator}`);
     expect(requiredIndicator).not.toBeNull();
     expect(requiredIndicator.getAttribute("title")).toBe("Required");
   });
