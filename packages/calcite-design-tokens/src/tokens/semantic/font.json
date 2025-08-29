@@ -233,22 +233,22 @@
           "default": {
             "value": "{core.size.relative.normal}",
             "type": "lineHeights",
+            "description": "normal",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            },
-            "description": "1"
+            }
           },
           "base": {
             "value": "{core.size.relative.100}",
             "type": "lineHeights",
+            "description": "1",
             "attributes": {
               "category": "font",
               "group": "line-height",
               "kind": "relative"
-            },
-            "description": "1"
+            }
           },
           "tight": {
             "value": "{core.size.relative.125}",
