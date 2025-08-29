@@ -5,10 +5,13 @@
  *
  * @prop --calcite-list-background-color: Specifies the component's background color.
  * @prop --calcite-list-color: Specifies the component's color.
- */
+ * @prop --calcite-list-item-group-heading-truncate: Specifies whether the heading text should truncate with an ellipsis.
+ **/
 
 :host {
   @apply flex flex-col;
+  --calcite-list-item-group-heading-truncate: "wrap";
+  // $--calcite-list-item-group-heading-truncate: var(--calcite-list-item-group-heading-truncate);
 }
 
 :host([filter-hidden]) {
@@ -74,6 +77,7 @@
 
 .heading {
   @apply p-0;
+  @include text-truncate("truncate");
 }
 
 @include base-component();

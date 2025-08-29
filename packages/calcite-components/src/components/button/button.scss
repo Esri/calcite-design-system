@@ -100,6 +100,9 @@
       box-shadow var(--calcite-animation-timing) ease-in-out,
       outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 
+    overflow: inherit;
+    text-overflow: inherit;
+
     &:hover {
       @apply no-underline;
     }
@@ -109,7 +112,10 @@
     }
 
     span {
-      @apply truncate;
+      // @apply truncate;
+      overflow: inherit;
+      text-overflow: inherit;
+      // white-space: wrap;
     }
 
     calcite-loader {

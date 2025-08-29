@@ -71,6 +71,9 @@
 
   .interaction-container {
     display: contents;
+    overflow: inherit;
+    text-overflow: inherit;
+    // white-space: inherit;
   }
 }
 
@@ -252,3 +255,19 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   }
 }
 // End Placeholder styles
+
+// text truncation styles
+
+@mixin text-truncate($truncate: "truncate") {
+  @if #{$truncate} == "truncate" {
+    @apply overflow-hidden whitespace-nowrap text-ellipsis;
+  } @else if#{$truncate} == "clip" {
+    @apply overflow-hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  } @else if #{$truncate} == "wrap" {
+    white-space: wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+}
