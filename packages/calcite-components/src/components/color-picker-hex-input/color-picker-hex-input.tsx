@@ -60,13 +60,13 @@ export class ColorPickerHexInput extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /** When present, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
   /**
-   * When `true`, an empty color (`undefined`) will be allowed as a `value`.
+   * When present, an empty color (`undefined`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property() allowEmpty = false;
 
