@@ -146,7 +146,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   @state() titleEl: HTMLElement;
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded;
   }
 
