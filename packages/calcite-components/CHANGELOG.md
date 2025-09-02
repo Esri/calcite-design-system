@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.90...@esri/calcite-components@3.3.0-next.91) (2025-09-02)
+
+### Bug Fixes
+
+- **panel:** alert slot should not take up any height ([#12802](https://github.com/Esri/calcite-design-system/issues/12802)) ([5633754](https://github.com/Esri/calcite-design-system/commit/5633754626c051ccea6e24f53c35d1236618dafa)), closes [#12785](https://github.com/Esri/calcite-design-system/issues/12785)
+
+## [3.3.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.89...@esri/calcite-components@3.3.0-next.90) (2025-09-02)
+
+### Bug Fixes
+
+- **block:** allow customizing heading text color when expanded & deprecate tokens ([#12777](https://github.com/Esri/calcite-design-system/issues/12777)) ([3cde155](https://github.com/Esri/calcite-design-system/commit/3cde155c97e41d29372ef86d4283ab0bd6ed3b31)), closes [#12633](https://github.com/Esri/calcite-design-system/issues/12633)
+
+## [3.3.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.88...@esri/calcite-components@3.3.0-next.89) (2025-09-02)
+
+### Bug Fixes
+
+- **list, block-group:** emit calciteListOrderChange on destination when adding or moving from the menu ([#12799](https://github.com/Esri/calcite-design-system/issues/12799)) ([cb1056a](https://github.com/Esri/calcite-design-system/commit/cb1056a1fc7930d2f216b065d09fa5fcf39bbcbf)), closes [#12490](https://github.com/Esri/calcite-design-system/issues/12490)
+
+## [3.3.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.87...@esri/calcite-components@3.3.0-next.88) (2025-08-29)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [3.3.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.86...@esri/calcite-components@3.3.0-next.87) (2025-08-27)
 
 ### Bug Fixes

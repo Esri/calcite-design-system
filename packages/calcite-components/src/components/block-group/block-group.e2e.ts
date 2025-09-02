@@ -591,8 +591,7 @@ describe("calcite-block-group", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.nextTick);
 
-      let component1Moves = 0;
-      let component2Moves = 0;
+      let componentMoves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("#component1", (blockGroup: BlockGroup["el"]) => {
@@ -689,8 +688,10 @@ describe("calcite-block-group", () => {
           };
         });
 
-        expect(results.component1CalledTimes).toBe(moveFromId === component1Id ? ++component1Moves : component1Moves);
-        expect(results.component2CalledTimes).toBe(moveFromId === component2Id ? ++component2Moves : component2Moves);
+        ++componentMoves;
+
+        expect(results.component1CalledTimes).toBe(componentMoves);
+        expect(results.component2CalledTimes).toBe(componentMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
         expect(results.fromEl).toBe(moveFromId);
