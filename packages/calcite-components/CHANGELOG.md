@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.89...@esri/calcite-components@3.3.0-next.90) (2025-09-02)
+
+### Bug Fixes
+
+- **block:** allow customizing heading text color when expanded & deprecate tokens ([#12777](https://github.com/Esri/calcite-design-system/issues/12777)) ([3cde155](https://github.com/Esri/calcite-design-system/commit/3cde155c97e41d29372ef86d4283ab0bd6ed3b31)), closes [#12633](https://github.com/Esri/calcite-design-system/issues/12633)
+
 ## [3.3.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.88...@esri/calcite-components@3.3.0-next.89) (2025-09-02)
 
 ### Bug Fixes
