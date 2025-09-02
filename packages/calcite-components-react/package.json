@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components-react",
-  "version": "3.3.0-next.88",
+  "version": "3.3.0-next.91",
   "description": "A set of React components that wrap calcite components",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@arcgis/lumina": "^4.34.0-next.100",
-    "@esri/calcite-components": "3.3.0-next.88",
+    "@esri/calcite-components": "3.3.0-next.91",
     "@lit/react": "^1.0.8",
     "lit": "^3.3.0"
   },
