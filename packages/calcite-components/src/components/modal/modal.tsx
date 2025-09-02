@@ -157,10 +157,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: (el: Modal["el"]) => Promise<void>;
 
-  /** When `true`, disables the component's close button. */
+  /** When present, disables the component's close button. */
   @property({ reflect: true }) closeButtonDisabled = false;
 
-  /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
+  /** When present, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
 
   /**
@@ -171,10 +171,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property() embedded = false;
 
-  /** When `true`, disables the default close on escape behavior. */
+  /** When present, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -188,7 +188,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
+  /** When present, sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component, which will apply to top border. */
@@ -200,7 +200,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -220,7 +220,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When present, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Specifies the size of the component. */
