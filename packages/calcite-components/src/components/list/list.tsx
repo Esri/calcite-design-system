@@ -308,6 +308,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     }, options);
   }
 
+  /**
+   * Emits the `calciteListOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: ListDragDetail): void {
+    this.calciteListOrderChange.emit(detail);
+  }
+
   //#endregion
 
   //#region Events
@@ -1058,6 +1068,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     expandedAncestors(dragEl);
     this.updateListItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -1083,13 +1104,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.updateListItemsDebounced();
     this.connectObserver();
 
-    this.calciteListOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
