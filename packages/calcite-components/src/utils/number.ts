@@ -109,16 +109,17 @@ export function isValidNumber(value: string): boolean {
   return !(!value || isNaN(Number(value)));
 }
 
-export function parseNumberString(numberString?: string): string {
-  if (isInfinity(numberString)) {
-    return numberString;
+export function parseNumberString(value?: string): string {
+  if (isInfinity(value)) {
+    return value;
   }
 
-  if (!numberString || !stringContainsNumbers(numberString)) {
+  if (!value || !stringContainsNumbers(value)) {
     return "";
   }
 
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
+  const decimals = !usesExponentialNotation(value) && value?.split(".")[1];
+  let sanitizedValue = sanitizeExponentialNumberString(value, (nonExpoNumString: string): string => {
     let containsDecimal = false;
     const result = nonExpoNumString
       .split("")
@@ -135,11 +136,17 @@ export function parseNumberString(numberString?: string): string {
       .join("");
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
+  if (decimals) {
+    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    sanitizedValue = sanitizedValue.padEnd(sanitizedValue.length + trailingDecimalZeros.length, "0");
+  }
+  return sanitizedValue;
 }
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
 const anyLeadingZeros = /^-?(0+)\d/;
+const containsE = /[eE]/;
 const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
@@ -288,6 +295,10 @@ export function getLocalizedCharAllowList(numberStringFormatter: NumberStringFor
     numberStringFormatter.group,
     ...numberStringFormatter.digits,
   ]);
+}
+
+function usesExponentialNotation(value: string): boolean {
+  return containsE.test(value);
 }
 
 export function hasLeadingMinusSign(value: string): boolean {
