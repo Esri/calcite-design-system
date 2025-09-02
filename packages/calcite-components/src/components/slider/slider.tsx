@@ -286,7 +286,7 @@ export class Slider
   @property({ reflect: true }) precise = false;
 
   /**
-   * When present, and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
