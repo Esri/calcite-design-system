@@ -2,8 +2,8 @@ import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
 
 interface InternalLabelProps {
+  alignmentCenter?: boolean;
   bottomSpacingDisabled?: boolean;
-  centerAlign?: boolean;
   labelText?: string;
   onClick?: () => void;
   required?: boolean;
@@ -13,8 +13,8 @@ interface InternalLabelProps {
 }
 
 export const CSS = {
+  alignmentCenter: "internal-label-alignment--center",
   alignmentEnd: "internal-label-alignment--end",
-  centerAlign: "internal-label-alignment--center",
   container: "internal-label--container",
   requiredIndicator: "internal-label-required--indicator",
   spacingBottom: "internal-label-spacing--bottom",
@@ -28,8 +28,8 @@ export const CSS = {
  */
 
 export const InternalLabel = ({
+  alignmentCenter,
   bottomSpacingDisabled,
-  centerAlign,
   labelText,
   onClick,
   required,
@@ -39,8 +39,8 @@ export const InternalLabel = ({
 }: InternalLabelProps): TemplateResult => (
   <div
     class={{
-      [CSS.alignmentEnd]: !centerAlign,
-      [CSS.centerAlign]: centerAlign,
+      [CSS.alignmentCenter]: alignmentCenter,
+      [CSS.alignmentEnd]: !alignmentCenter,
       [CSS.container]: true,
       [CSS.spacingBottom]: !bottomSpacingDisabled,
       [CSS.spacingInlineEnd]: spacingInlineEnd,

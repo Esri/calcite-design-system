@@ -65,7 +65,7 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a button next to the component.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputNumber
