@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.90...@esri/calcite-components@3.3.0-next.91) (2025-09-02)
+
+### Bug Fixes
+
+- **panel:** alert slot should not take up any height ([#12802](https://github.com/Esri/calcite-design-system/issues/12802)) ([5633754](https://github.com/Esri/calcite-design-system/commit/5633754626c051ccea6e24f53c35d1236618dafa)), closes [#12785](https://github.com/Esri/calcite-design-system/issues/12785)
+
 ## [3.3.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.89...@esri/calcite-components@3.3.0-next.90) (2025-09-02)
 
 ### Bug Fixes
