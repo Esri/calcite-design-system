@@ -2089,8 +2089,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      let list1Moves = 0;
-      let list2Moves = 0;
+      let listMoves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("#list1", (list: List["el"]) => {
@@ -2186,8 +2185,10 @@ describe("calcite-list", () => {
           };
         });
 
-        expect(results.list1CalledTimes).toBe(moveFromListId === list1Id ? ++list1Moves : list1Moves);
-        expect(results.list2CalledTimes).toBe(moveFromListId === list2Id ? ++list2Moves : list2Moves);
+        ++listMoves;
+
+        expect(results.list1CalledTimes).toBe(listMoves);
+        expect(results.list2CalledTimes).toBe(listMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
         expect(results.fromEl).toBe(moveFromListId);

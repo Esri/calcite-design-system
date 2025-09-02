@@ -139,6 +139,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     }, options);
   }
 
+  /**
+   * Emits the `calciteBlockGroupOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: BlockDragDetail): void {
+    this.calciteBlockGroupOrderChange.emit(detail);
+  }
+
   // #endregion
 
   // #region Events
@@ -430,6 +440,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     toEl.prepend(newEl);
     this.updateBlockItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -455,13 +476,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
     this.connectObserver();
 
-    this.calciteBlockGroupOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
