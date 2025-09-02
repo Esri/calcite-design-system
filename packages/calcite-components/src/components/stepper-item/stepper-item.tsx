@@ -106,7 +106,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When `true`, the item will be hidden
+   * When `true`, the item will be hidden.
    *
    * @private
    *  */
