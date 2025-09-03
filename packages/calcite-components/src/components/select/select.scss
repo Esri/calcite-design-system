@@ -110,7 +110,10 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-radius: 0 var(--calcite-select-corner-radius) var(--calcite-select-corner-radius) 0;
+  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
   border-inline-width: 0 var(--calcite-select-internal-icon-border-inline-end-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
