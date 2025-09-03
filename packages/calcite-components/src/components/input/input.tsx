@@ -990,6 +990,7 @@ export class Input
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
         tabIndex={-1}
+        title={this.messages.clear}
         type="button"
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
