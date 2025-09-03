@@ -75,7 +75,7 @@ export class Navigation extends LitElement {
   /** When `navigationAction` is `true`, specifies the label of the `calcite-action`. */
   @property() label: string;
 
-  /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
+  /** When present, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;
 
   // #endregion
