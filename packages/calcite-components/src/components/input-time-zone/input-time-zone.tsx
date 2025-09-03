@@ -29,8 +29,9 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
+import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -49,6 +50,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimeZone
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
@@ -108,6 +112,9 @@ export class InputTimeZone
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
@@ -503,6 +510,7 @@ export class InputTimeZone
           clearDisabled={!this.clearable}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
+          labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
           oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
@@ -521,6 +529,7 @@ export class InputTimeZone
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.setComboboxRef}
+          required={this.required}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
@@ -528,6 +537,7 @@ export class InputTimeZone
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

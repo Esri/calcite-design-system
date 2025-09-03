@@ -19,9 +19,12 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
+import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -58,6 +61,13 @@ export class Checkbox
   };
 
   private toggleEl = createRef<HTMLDivElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -96,6 +106,12 @@ export class Checkbox
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the name of the component.
@@ -254,6 +270,7 @@ export class Checkbox
         <div
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
+          ariaRequired={this.required}
           class={{
             [CSS.toggle]: true,
             [CSS_UTILITY.rtl]: rtl,
@@ -269,6 +286,15 @@ export class Checkbox
           </svg>
           <slot />
         </div>
+        {this.labelText && (
+          <InternalLabel
+            bottomSpacingDisabled={true}
+            labelText={this.labelText}
+            required={this.required}
+            spacingInlineStart={true}
+            tooltipText={this.messages.required}
+          />
+        )}
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>
     );

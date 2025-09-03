@@ -415,4 +415,3 @@ export const emptyHeader = (): string => html`
     </calcite-label>
   </calcite-block>
 `;
-
