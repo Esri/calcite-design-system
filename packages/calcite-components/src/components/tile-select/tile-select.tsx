@@ -53,13 +53,13 @@ export class TileSelect extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
   /** A description for the component, which displays below the heading. */
   @property({ reflect: true }) description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
@@ -68,13 +68,13 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @property({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
-  /** When `true`, displays an interactive input based on the `type` property. */
+  /** When present, displays an interactive input based on the `type` property. */
   @property({ reflect: true }) inputEnabled = false;
 
   /** Specifies the name of the component on form submission. */

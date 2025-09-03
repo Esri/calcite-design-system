@@ -97,13 +97,13 @@ export class InputTimeZone
   //#region Public Properties
 
   /**
-   * When `true`, an empty value (`null`) will be allowed as a `value`.
+   * When present, an empty value (`null`) will be allowed as a `value`.
    *
-   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -153,7 +153,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -165,7 +165,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -178,7 +178,7 @@ export class InputTimeZone
   @property() referenceDate: Date | string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private

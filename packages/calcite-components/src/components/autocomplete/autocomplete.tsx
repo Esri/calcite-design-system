@@ -183,7 +183,7 @@ export class Autocomplete
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -196,10 +196,10 @@ export class Autocomplete
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** The component's input value. */
@@ -211,7 +211,7 @@ export class Autocomplete
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -242,7 +242,7 @@ export class Autocomplete
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -281,14 +281,14 @@ export class Autocomplete
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When present, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;

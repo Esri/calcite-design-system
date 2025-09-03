@@ -26,8 +26,11 @@
 
 :host([scale="s"]) {
   .header {
-    padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-sm);
   }
 
   .icon-end-container {
@@ -55,8 +58,11 @@
 
 :host([scale="m"]) {
   .header {
-    padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-md);
   }
 
   .icon-end-container {
@@ -84,8 +90,11 @@
 
 :host([scale="l"]) {
   .header {
-    padding: var(--calcite-spacing-lg);
     gap: var(--calcite-spacing-lg);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-lg);
   }
 
   .icon-end-container {
@@ -135,8 +144,8 @@
 
 .header-container {
   @apply grid items-stretch;
-  grid-template: auto / auto 1fr auto auto;
-  grid-template-areas: "handle header control menu actions-end";
+  grid-template: auto / auto 1fr auto auto auto auto;
+  grid-template-areas: "handle header icon-end control menu actions-end";
 }
 
 .icon--start,
@@ -175,11 +184,10 @@
 }
 
 calcite-loader[inline] {
-  grid-area: control;
   @apply self-center;
 }
 
-calcite-handle {
+calcite-sort-handle {
   grid-area: handle;
 }
 
@@ -233,6 +241,7 @@ calcite-handle {
 
 .icon-end-container {
   @apply flex items-center;
+  grid-area: icon-end;
 }
 
 .toggle-icon {

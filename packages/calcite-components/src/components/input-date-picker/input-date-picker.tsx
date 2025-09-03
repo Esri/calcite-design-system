@@ -196,13 +196,13 @@ export class InputDatePicker
   /** Specifies the number of calendars displayed when `range` is `true`. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -258,7 +258,7 @@ export class InputDatePicker
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, displays the `calcite-date-picker` component. */
+  /** When present, displays the `calcite-date-picker` component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -278,23 +278,23 @@ export class InputDatePicker
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /**
-   * When `true`, disables the default behavior on the third click of narrowing or extending the range.
+   * When present, disables the default behavior on the third click of narrowing or extending the range.
    * Instead starts a new range.
    */
   @property() proximitySelectionDisabled = false;
 
-  /** When `true`, activates a range for the component. */
+  /** When present, activates a range for the component. */
   @property({ reflect: true }) range = false;
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When present, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;

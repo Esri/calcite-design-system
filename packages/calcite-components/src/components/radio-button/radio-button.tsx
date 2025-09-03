@@ -58,10 +58,10 @@ export class RadioButton
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -103,7 +103,7 @@ export class RadioButton
   @property({ reflect: true }) name: string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
