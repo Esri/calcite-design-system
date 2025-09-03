@@ -387,3 +387,12 @@ export const allScales = (): string =>
       }
     </style>
     <div class="container">${blockHTML("s")} ${blockHTML("m")} ${blockHTML("l")}</div>`;
+
+export const emptyHeader = (): string => html`
+  <calcite-block expanded calcite-hydrated>
+    <calcite-label layout="inline-space-between">
+      <div>Favorite vegetable</div>
+      <calcite-icon icon="information" />
+    </calcite-label>
+  </calcite-block>
+`;
