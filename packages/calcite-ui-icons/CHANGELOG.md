@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.21...@esri/calcite-ui-icons@4.3.0-next.22) (2025-09-03)
+
+### Features
+
+- add internal label across form components ([#12499](https://github.com/Esri/calcite-design-system/issues/12499)) ([52f37a5](https://github.com/Esri/calcite-design-system/commit/52f37a53fd611eff5e24adca12ce0ff532317d13)), closes [#8572](https://github.com/Esri/calcite-design-system/issues/8572)
+
 ## [4.3.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.20...@esri/calcite-ui-icons@4.3.0-next.21) (2025-08-29)
 
 ### Bug Fixes
