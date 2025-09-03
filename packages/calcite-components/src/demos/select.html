@@ -33,6 +33,15 @@
       .demo-side-by-side {
         display: flex;
       }
+      .themed {
+        --calcite-select-text-color: var(--calcite-color-text-1);
+        --calcite-select-border-color: blue;
+        --calcite-select-icon-color: red;
+        --calcite-select-icon-color-hover: green;
+        --calcite-select-background-color: pink;
+        --calcite-select-corner-radius: 24px;
+        --calcite-select-shadow: var(--calcite-shadow-md);
+      }
     </style>
     <script src="./_assets/head.ts"></script>
   </head>
@@ -47,6 +56,33 @@
         <div class="child">Small</div>
         <div class="child">Medium</div>
         <div class="child">Large</div>
+      </div>
+      <!-- Basic -->
+      <div class="parent themed">
+        <div class="child right-aligned-text">Themed</div>
+        <div class="child">
+          <calcite-select label="calcite select" scale="s">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="m">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select label="calcite select" scale="l">
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
       </div>
 
       <!-- Basic -->
