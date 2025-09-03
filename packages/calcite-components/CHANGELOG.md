@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.92...@esri/calcite-components@3.3.0-next.93) (2025-09-03)
+
+### Bug Fixes
+
+- **block:** no longer renders an empty header ([#12801](https://github.com/Esri/calcite-design-system/issues/12801)) ([aadce6d](https://github.com/Esri/calcite-design-system/commit/aadce6dd665efc4851729531c500cf0736a18bcc)), closes [#12797](https://github.com/Esri/calcite-design-system/issues/12797)
+
 ## [3.3.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.91...@esri/calcite-components@3.3.0-next.92) (2025-09-03)
 
 ### Features
