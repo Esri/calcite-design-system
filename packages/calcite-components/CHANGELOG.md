@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.95](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.94...@esri/calcite-components@3.3.0-next.95) (2025-09-03)
+
+### Features
+
+- add internal label across form components ([#12499](https://github.com/Esri/calcite-design-system/issues/12499)) ([52f37a5](https://github.com/Esri/calcite-design-system/commit/52f37a53fd611eff5e24adca12ce0ff532317d13)), closes [#8572](https://github.com/Esri/calcite-design-system/issues/8572)
+
 ## [3.3.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.93...@esri/calcite-components@3.3.0-next.94) (2025-09-03)
 
 ### Bug Fixes
