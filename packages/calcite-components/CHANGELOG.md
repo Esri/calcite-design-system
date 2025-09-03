@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.94](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.93...@esri/calcite-components@3.3.0-next.94) (2025-09-03)
+
+### Bug Fixes
+
+- **block:** icon-end aligns with header container when collapsible is false ([#12784](https://github.com/Esri/calcite-design-system/issues/12784)) ([0f3b533](https://github.com/Esri/calcite-design-system/commit/0f3b5333edb4e3b4c3b4e05ae81e41ac7b7e200d)), closes [#12473](https://github.com/Esri/calcite-design-system/issues/12473)
+
 ## [3.3.0-next.93](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.92...@esri/calcite-components@3.3.0-next.93) (2025-09-03)
 
 ### Bug Fixes
