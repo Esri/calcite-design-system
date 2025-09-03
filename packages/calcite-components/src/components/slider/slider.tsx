@@ -279,7 +279,7 @@ export class Slider
   @property() minValue: number;
 
   /**
-   * When present, the slider will display values from high to low.
+   * When present, the component will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
