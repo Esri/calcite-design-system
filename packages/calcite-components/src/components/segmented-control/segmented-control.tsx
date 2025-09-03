@@ -24,14 +24,17 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
+import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
 
 declare global {
@@ -40,7 +43,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-segmented-control-item`s. */
+/**
+ * @slot - A slot for adding `calcite-segmented-control-item`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class SegmentedControl
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -60,6 +66,13 @@ export class SegmentedControl
   private items: SegmentedControlItem["el"][] = [];
 
   labelEl: Label["el"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -85,6 +98,12 @@ export class SegmentedControl
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the name of the component.
@@ -401,9 +420,19 @@ export class SegmentedControl
     this.el.role = "radiogroup";
     return (
       <>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
+          aria-label={getLabelText(this)}
           ariaInvalid={this.status === "invalid"}
+          ariaRequired={this.required}
           class={CSS.itemWrapper}
         >
           <InteractiveContainer disabled={this.disabled}>

@@ -112,6 +112,7 @@ calcite-chip {
   @apply sr-only;
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

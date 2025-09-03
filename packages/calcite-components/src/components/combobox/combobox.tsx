@@ -51,6 +51,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -79,7 +80,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-combobox-item`s. */
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Combobox
   extends LitElement
   implements
@@ -368,6 +372,9 @@ export class Combobox
    * @required
    */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
@@ -1757,6 +1764,7 @@ export class Combobox
           placeholder={placeholder}
           readOnly={this.readOnly}
           ref={this.textInput}
+          required={this.required}
           role="combobox"
           tabIndex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
@@ -1897,6 +1905,14 @@ export class Combobox
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           ariaLive="polite"
           class={{

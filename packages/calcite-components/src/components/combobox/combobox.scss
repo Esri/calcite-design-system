@@ -292,4 +292,5 @@ calcite-chip {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
+@include form-internal-label();
 @include input-placeholder-text();

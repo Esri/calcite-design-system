@@ -29,6 +29,7 @@ import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { getElementDir } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
@@ -50,6 +51,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
@@ -129,6 +133,9 @@ export class InputTimePicker
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /**
    * When the component resides in a form,
@@ -571,6 +578,14 @@ export class InputTimePicker
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
@@ -588,6 +603,7 @@ export class InputTimePicker
           />
           <div
             aria-label={getLabelText(this)}
+            ariaRequired={this.required}
             class={CSS.inputContainer}
             dir="ltr"
             id={IDS.inputContainer}

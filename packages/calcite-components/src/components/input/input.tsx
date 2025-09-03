@@ -42,6 +42,7 @@ import {
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -60,7 +61,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a `calcite-button` next to the component. */
+/**
+ * @slot action - A slot for positioning a `calcite-button` next to the component.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Input
   extends LitElement
   implements
@@ -213,6 +217,9 @@ export class Input
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -1087,6 +1094,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
+          required={this.required}
           type="text"
           value={this.displayedValue}
         />
@@ -1140,6 +1148,15 @@ export class Input
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
+
         <div
           class={{
             [CSS.inputWrapper]: true,

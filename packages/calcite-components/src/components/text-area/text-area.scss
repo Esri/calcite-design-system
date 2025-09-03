@@ -232,6 +232,7 @@
   }
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include disabled();

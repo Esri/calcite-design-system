@@ -146,6 +146,7 @@
   }
 }
 
+@include form-internal-label();
 @include disabled();
 @include hidden-form-input();
 @include base-component();

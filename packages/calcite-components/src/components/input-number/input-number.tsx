@@ -42,6 +42,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   NumericInputComponent,
@@ -63,7 +64,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a button next to the component. */
+/**
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputNumber
   extends LitElement
   implements
@@ -201,6 +205,9 @@ export class InputNumber
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** When present, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
@@ -1036,6 +1043,7 @@ export class InputNumber
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.setChildNumberElRef}
+        required={this.required}
         type="text"
         value={this.displayedValue}
       />
@@ -1043,6 +1051,14 @@ export class InputNumber
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           class={{
             [CSS.inputWrapper]: true,

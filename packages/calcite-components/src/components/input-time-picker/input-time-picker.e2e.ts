@@ -11,6 +11,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -111,6 +112,10 @@ describe("calcite-input-time-picker", () => {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
       });
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-input-time-picker`);
   });
 
   describe("disabled", () => {

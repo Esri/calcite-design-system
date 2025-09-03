@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
@@ -41,6 +42,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -52,6 +54,9 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Slider
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -162,7 +167,12 @@ export class Slider
 
   private maxHandle: HTMLDivElement;
 
-  messages = useT9n<Record<string, never>>({ name: null });
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private minHandle: HTMLDivElement;
 
@@ -258,6 +268,12 @@ export class Slider
 
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple selections, the component's lower value. */
   @property() minValue: number;
@@ -1144,10 +1160,19 @@ export class Slider
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
+          ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,

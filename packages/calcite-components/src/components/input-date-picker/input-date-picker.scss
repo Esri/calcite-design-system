@@ -286,4 +286,5 @@ calcite-date-picker {
   @apply sr-only;
 }
 
+@include form-internal-label();
 @include base-component();
