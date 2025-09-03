@@ -198,7 +198,7 @@ export class Slider
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -215,10 +215,10 @@ export class Slider
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, indicates a histogram is present. */
+  /** When present, indicates a histogram is present. */
   @property({ reflect: true }) hasHistogram = false;
 
   /**
@@ -238,10 +238,10 @@ export class Slider
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays label handles with their numeric value. */
+  /** When present, displays label handles with their numeric value. */
   @property({ reflect: true }) labelHandles = false;
 
-  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
+  /** When present and `ticks` is specified, displays label tick marks with their numeric value. */
   @property({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
@@ -282,11 +282,11 @@ export class Slider
   /** Specifies the interval to move with the page up, or page down keys. */
   @property({ reflect: true }) pageStep: number;
 
-  /** When `true`, sets a finer point for handles. */
+  /** When present, sets a finer point for handles. */
   @property({ reflect: true }) precise = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -294,7 +294,7 @@ export class Slider
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
+  /** When present, enables snap selection in coordination with `step` via a mouse. */
   @property({ reflect: true }) snap = false;
 
   /** Specifies the status of the input field, which determines message and icons. */

@@ -128,10 +128,10 @@ export class DatePicker extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
+  /** When present, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /** When present, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
   /** Specifies the size of the component. */
