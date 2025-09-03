@@ -82,7 +82,7 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays borders in the component. */
+  /** When present, displays borders in the component. */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -92,7 +92,7 @@ export class Table extends LitElement {
    */
   @property() caption: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
@@ -104,7 +104,7 @@ export class Table extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the position of the row in numeric form. */
+  /** When present, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -142,7 +142,7 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
-  /** When `true`, displays striped styling in the component. */
+  /** When present, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
   //#endregion

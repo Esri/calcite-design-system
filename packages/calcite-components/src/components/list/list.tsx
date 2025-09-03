@@ -161,13 +161,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: ListDragDetail) => boolean;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, `calcite-list-item`s are sortable via a draggable button. */
+  /** When present, `calcite-list-item`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
-  /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
+  /** When present, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
   /**
@@ -234,7 +234,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -284,7 +284,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
-  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  /** When present, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   //#endregion

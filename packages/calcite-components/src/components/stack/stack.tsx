@@ -37,7 +37,7 @@ export class Stack extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, content interaction is prevented and displayed with lower opacity. */
+  /** When present, content interaction is prevented and displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   // #endregion

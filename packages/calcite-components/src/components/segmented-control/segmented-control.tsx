@@ -73,7 +73,7 @@ export class SegmentedControl
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -94,7 +94,7 @@ export class SegmentedControl
   @property({ reflect: true }) name: string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;

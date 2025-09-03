@@ -59,7 +59,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -91,7 +91,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

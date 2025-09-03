@@ -162,7 +162,7 @@ export class TextArea
   @property({ reflect: true }) columns: number;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When present, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -175,14 +175,14 @@ export class TextArea
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Accessible name for the component. */
   @property() label: string;
 
   /**
-   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
+   * When present, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
@@ -223,14 +223,14 @@ export class TextArea
   @property() placeholder: string;
 
   /**
-   * When `true`, the component's `value` can be read, but cannot be modified.
+   * When present, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required

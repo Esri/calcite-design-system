@@ -32,7 +32,7 @@ export class ColorPickerSwatch extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is active. */
+  /** When present, the component is active. */
   @property({
     reflect: true,
   })

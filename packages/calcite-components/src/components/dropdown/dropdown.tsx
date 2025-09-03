@@ -94,13 +94,13 @@ export class Dropdown
   // #region Public Properties
 
   /**
-   * When `true`, the component will remain open after a selection is made.
+   * When present, the component will remain open after a selection is made.
    *
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -122,7 +122,7 @@ export class Dropdown
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**

@@ -91,7 +91,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, the component is open. */
+  /** When present, the component is open. */
   @property({ reflect: true }) open = false;
 
   /**

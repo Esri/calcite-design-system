@@ -37,7 +37,7 @@ export class Loader extends LitElement {
    */
   @property({ reflect: true }) complete = false;
 
-  /** When `true`, the component displays smaller. */
+  /** When present, the component displays smaller. */
   @property({ reflect: true }) inline = false;
 
   /**

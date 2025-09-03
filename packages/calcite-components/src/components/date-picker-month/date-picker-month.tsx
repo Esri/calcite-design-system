@@ -112,7 +112,7 @@ export class DatePickerMonth extends LitElement {
   /** Specifies the monthStyle used by the component. */
   @property() monthStyle: "abbreviated" | "wide";
 
-  /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
+  /** When present, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */

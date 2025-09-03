@@ -318,13 +318,13 @@ export class Combobox
 
   //#region Public Properties
 
-  /** When `true`, allows entry of custom values, which are not in the original set of items. */
+  /** When present, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
-  /** When `true`, the value-clearing will be disabled. */
+  /** When present, the value-clearing will be disabled. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Text for the component's filter input field. */
@@ -382,7 +382,7 @@ export class Combobox
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -400,14 +400,14 @@ export class Combobox
   /** Specifies the placeholder icon for the input. */
   @property({ reflect: true }) placeholderIcon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -415,7 +415,7 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When present and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**

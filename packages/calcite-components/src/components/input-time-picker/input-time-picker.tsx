@@ -103,10 +103,10 @@ export class InputTimePicker
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -155,7 +155,7 @@ export class InputTimePicker
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, displays the `calcite-time-picker` component. */
+  /** When present, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -171,14 +171,14 @@ export class InputTimePicker
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When present, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
