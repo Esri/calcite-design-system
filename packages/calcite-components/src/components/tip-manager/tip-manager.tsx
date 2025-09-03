@@ -58,7 +58,7 @@ export class TipManager extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, does not display or position the component. */
+  /** When present, does not display or position the component. */
   @property({ reflect: true }) closed = false;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */

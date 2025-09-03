@@ -8,9 +8,11 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -41,6 +43,10 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-select`);
   });
 
   describe("defaults", () => {
@@ -459,6 +465,10 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-select");
   });
 
   describe("theme", () => {

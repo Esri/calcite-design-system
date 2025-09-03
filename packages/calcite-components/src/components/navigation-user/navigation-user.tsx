@@ -27,7 +27,7 @@ export class NavigationUser extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
   /** Specifies the full name of the user. */
@@ -36,7 +36,7 @@ export class NavigationUser extends LitElement {
   /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
   @property() label: string;
 
-  /** When `true`, hides the `fullName` and `username` contents. */
+  /** When present, hides the `fullName` and `username` contents. */
   @property({ reflect: true }) textDisabled = false;
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
