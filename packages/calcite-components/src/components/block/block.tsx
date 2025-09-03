@@ -531,13 +531,26 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       dragDisabled,
       sortDisabled,
       iconEnd,
+      hasContentStart,
+      iconStart,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
+    const headerHasContent = !!(
+      heading ||
+      description ||
+      hasContentStart ||
+      iconStart ||
+      loading ||
+      status
+    );
 
     const headerContent = (
       <header
-        class={{ [CSS.header]: true, [CSS.headerHasText]: !!(heading || description) }}
+        class={{
+          [CSS.header]: true,
+          [CSS.headerHasContent]: headerHasContent,
+        }}
         id={IDS.header}
       >
         {this.renderIcon("start")}

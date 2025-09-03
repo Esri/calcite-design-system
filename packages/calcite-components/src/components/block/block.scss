@@ -9,9 +9,9 @@
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
  * @prop --calcite-block-header-background-color-press: Specifies the component's `heading` background color when pressed.
  * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-block-heading-text-color-press: When the component is `expanded`, specifies the `heading` text color.
+ * @prop --calcite-block-heading-text-color-press: [Deprecated]  use `--calcite-block-heading-text-color` instead - When the component is `expanded`, specifies the `heading` text color.
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
- * @prop --calcite-block-text-color: Specifies the component's text color.
+ * @prop --calcite-block-text-color:[Deprecated] Specifies the component's text color.
  * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
  * @prop --calcite-block-icon-color: Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
  * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
@@ -26,8 +26,11 @@
 
 :host([scale="s"]) {
   .header {
-    padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-sm);
   }
 
   .icon-end-container {
@@ -55,8 +58,11 @@
 
 :host([scale="m"]) {
   .header {
-    padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-md);
   }
 
   .icon-end-container {
@@ -84,8 +90,11 @@
 
 :host([scale="l"]) {
   .header {
-    padding: var(--calcite-spacing-lg);
     gap: var(--calcite-spacing-lg);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-lg);
   }
 
   .icon-end-container {
@@ -260,6 +269,7 @@ calcite-sort-handle {
 .content-start {
   @apply flex items-center;
 
+  // Deprecated
   color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
@@ -280,7 +290,10 @@ calcite-action-menu {
   @apply my-2;
 
   .header .title .heading {
-    color: var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1));
+    color: var(
+      --calcite-block-heading-text-color,
+      var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1))
+    );
   }
 
   .description {

@@ -406,3 +406,13 @@ export const nonCollapsible = (): string =>
     </div>
     <p>Block content</p>
   </calcite-block>`;
+
+export const emptyHeader = (): string => html`
+  <calcite-block expanded calcite-hydrated>
+    <calcite-label layout="inline-space-between">
+      <div>Favorite vegetable</div>
+      <calcite-icon icon="information" />
+    </calcite-label>
+  </calcite-block>
+`;
+
