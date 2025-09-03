@@ -132,7 +132,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present, flow-item is displayed within a parent flow. */
+  /** When present, the component is displayed within a parent flow. */
   @property({ reflect: true }) selected = false;
 
   /**
