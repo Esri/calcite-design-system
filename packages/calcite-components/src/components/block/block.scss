@@ -26,8 +26,11 @@
 
 :host([scale="s"]) {
   .header {
-    padding: var(--calcite-spacing-sm);
     gap: var(--calcite-spacing-sm);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-sm);
   }
 
   .icon-end-container {
@@ -55,8 +58,11 @@
 
 :host([scale="m"]) {
   .header {
-    padding: var(--calcite-spacing-md);
     gap: var(--calcite-spacing-md);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-md);
   }
 
   .icon-end-container {
@@ -84,8 +90,11 @@
 
 :host([scale="l"]) {
   .header {
-    padding: var(--calcite-spacing-lg);
     gap: var(--calcite-spacing-lg);
+  }
+
+  .header--has-content {
+    padding: var(--calcite-spacing-lg);
   }
 
   .icon-end-container {
