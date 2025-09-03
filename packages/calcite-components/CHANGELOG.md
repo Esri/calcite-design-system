@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.92](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.91...@esri/calcite-components@3.3.0-next.92) (2025-09-03)
+
+### Features
+
+- **input:** add title to clear button ([#12807](https://github.com/Esri/calcite-design-system/issues/12807)) ([4c3e2ce](https://github.com/Esri/calcite-design-system/commit/4c3e2cee52bbb61a0726bf0cea4e912279536b9b)), closes [#12231](https://github.com/Esri/calcite-design-system/issues/12231)
+
 ## [3.3.0-next.91](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.90...@esri/calcite-components@3.3.0-next.91) (2025-09-02)
 
 ### Bug Fixes
