@@ -127,11 +127,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  /**
-   * Specifies the direction of the collapse.
-   *
-   * @private
-   */
+  /** When `collapsible` is present, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When present, hides the component's content area. */
