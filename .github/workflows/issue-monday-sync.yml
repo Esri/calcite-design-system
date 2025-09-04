@@ -1,0 +1,89 @@
+name: Monday.com Issue Sync
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, milestoned, demilestoned, assigned, unassigned]
+jobs:
+  determine-action:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Create Task"
+        if: github.event.action == 'opened' ||
+          (github.event.action == 'labeled' && github.event.label.name == 'monday.com sync')
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayCreateTask.js')
+            await action({github, context})
+
+      - name: "Update Label on Task"
+        if: github.event.action == 'labeled'
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayUpdateLabels.js')
+            await action({context})
+
+      - name: "Remove Label from Task"
+        if: |
+          github.event.action == 'unlabeled' && (
+            github.event.label.name == 'design' ||
+            github.event.label.name == 'a11y' ||
+            github.event.label.name == 'figma changes' ||
+            github.event.label.name == 'spike'
+          )
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayRemoveLabel.js')
+            await action({context})
+
+      - name: "Update Milestone"
+        if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayUpdateMilestone.js')
+            await action({github, context})
+
+      - name: "Update Task Title"
+        if: github.event.action == 'edited'
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayUpdateTitle.js')
+            await action({github, context})
+
+      - name: "Update Task Assignee"
+        if: github.event.action == 'assigned' || github.event.action == 'unassigned'
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayUpdateAssignee.js')
+            await action({github, context})
+
+      - name: "Update Task Status"
+        if: github.event.action == 'closed' || github.event.action == 'reopened'
+        uses: actions/github-script@v7
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/mondayUpdateState.js')
+            await action({github, context})
