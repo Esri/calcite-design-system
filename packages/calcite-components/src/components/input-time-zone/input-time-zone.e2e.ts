@@ -29,6 +29,8 @@ import { getCity, toUserFriendlyName } from "./utils";
  */
 
 describe("calcite-input-time-zone", () => {
+  mockConsole();
+
   type TestTimeZoneItem = {
     name: string;
     offset: number;
@@ -129,8 +131,6 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("translation support", () => {
-    mockConsole();
-
     t9n(simpleTestProvider);
   });
 
