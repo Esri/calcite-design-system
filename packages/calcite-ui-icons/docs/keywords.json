@@ -10042,5 +10042,20 @@
     "alias": ["4.3.0", "generic", "interactive", "table", "record", "feature"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "layer-3d": {
+    "alias": [
+      "4.3.0",
+      "layers",
+      "3D-object-layer",
+      "building-layer",
+      "mesh-layer",
+      "point-cloud-layer",
+      "gaussian-splat-layer",
+      "voxel-layer",
+      "point-layer"
+    ],
+    "category": "Layers",
+    "release": "4.3.0"
   }
 }
