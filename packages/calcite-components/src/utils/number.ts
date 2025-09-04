@@ -136,8 +136,12 @@ export function parseNumberString(value?: string): string {
       .join("");
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
-  if (decimals) {
+  if (decimals && hasTrailingDecimalZeros.test(decimals)) {
+    const decimalRemoved = value.includes(".") && !sanitizedValue.includes(".");
     const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    if (decimalRemoved) {
+      sanitizedValue = `${sanitizedValue}.`;
+    }
     sanitizedValue = sanitizedValue.padEnd(sanitizedValue.length + trailingDecimalZeros.length, "0");
   }
   return sanitizedValue;
@@ -310,7 +314,7 @@ export function hasLeadingZeros(value: string): boolean {
 }
 
 export function hasTrailingDecimal(value: string): boolean {
-  return value?.charAt(value?.length - 1) === ".";
+  return decimalOnlyAtEndOfString.test(value);
 }
 
 export function hasExponentialTrailingMinusSign(value: string): boolean {
