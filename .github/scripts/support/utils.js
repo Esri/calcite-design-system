@@ -1,4 +1,8 @@
 // @ts-check
+const {
+  labels: { issueWorkflow },
+} = require("./resources");
+
 module.exports = {
   /**
    * @typedef {object} removeLabelParam
@@ -27,7 +31,6 @@ module.exports = {
       }
     }
   },
-
   /**
    * @typedef {object} createLabelIfMissingParam
    * @property {InstanceType<typeof import('@actions/github/lib/utils').GitHub>} github
@@ -55,5 +58,35 @@ module.exports = {
         description,
       });
     }
+  },
+  /**
+   * Checks if the labels do not include any lifecycle labels
+   * @param {import('@octokit/webhooks-types').Label[] | undefined} labels - The list of labels for the issue
+   * @param {object} options - Options to skip specific labels
+   * @return {boolean} - True if no lifecycle labels are present, false otherwise
+   */
+  notInLifecycle: (labels, { skipMilestone = false } = {}) => {
+    if (!labels?.length) {
+      return true;
+    }
+
+    let lifecycleLabels = Object.values(issueWorkflow);
+    if (skipMilestone) {
+      lifecycleLabels = lifecycleLabels.filter((label) => label !== issueWorkflow.needsMilestone);
+    }
+
+    return labels.every((label) => !lifecycleLabels.includes(label.name));
+  },
+  /**
+   * Checks if the labels do not include the "Ready for Dev" label
+   * @param {import('@octokit/webhooks-types').Label[] | undefined} labels - The list of labels for the issue
+   * @return {boolean} - True if "Ready for Dev" label is not present, false otherwise
+   */
+  notReadyForDev: (labels) => {
+    if (!labels) {
+      return true;
+    }
+
+    return labels.every((label) => label.name !== issueWorkflow.readyForDev);
   },
 };
