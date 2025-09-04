@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.99](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.98...@esri/calcite-components@3.3.0-next.99) (2025-09-04)
+
+### Features
+
+- **panel:** Add `collapseDirection` as public property ([#12813](https://github.com/Esri/calcite-design-system/issues/12813)) ([d603db7](https://github.com/Esri/calcite-design-system/commit/d603db7e88540af5fb83922b40951ef3e638f731)), closes [#10215](https://github.com/Esri/calcite-design-system/issues/10215)
+
 ## [3.3.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.97...@esri/calcite-components@3.3.0-next.98) (2025-09-04)
 
 ### Features
