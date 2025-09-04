@@ -540,7 +540,7 @@ export class InputNumber
       this.setNumberFormatOptions();
     }
 
-    if (changes.has("value")) {
+    if (changes.has("value") && !this.valueController.userChangedValue) {
       this.setLocalizedValue(this.value);
     }
   }

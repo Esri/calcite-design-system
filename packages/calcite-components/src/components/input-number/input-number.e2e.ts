@@ -806,6 +806,18 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("");
     });
+
+    it("setting the value with a typeof number", async () => {
+      await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+      const element = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      element.setProperty("value", 2);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("value")).toBe("2");
+      expect(await input.getProperty("value")).toBe("2");
+    });
   });
 
   describe("emits events when value is modified", () => {
