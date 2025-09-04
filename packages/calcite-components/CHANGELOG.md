@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.98](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.97...@esri/calcite-components@3.3.0-next.98) (2025-09-04)
+
+### Features
+
+- **combobox:** single-persist mode ignores clearDisabled ([#12757](https://github.com/Esri/calcite-design-system/issues/12757)) ([3f98f23](https://github.com/Esri/calcite-design-system/commit/3f98f2381228e5fc1b6e520dbb5614d15550200b)), closes [#10163](https://github.com/Esri/calcite-design-system/issues/10163)
+
 ## [3.3.0-next.97](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.96...@esri/calcite-components@3.3.0-next.97) (2025-09-04)
 
 **Note:** Version bump only for package @esri/calcite-components
