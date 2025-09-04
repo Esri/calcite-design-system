@@ -35,13 +35,13 @@ export class SegmentedControlItem extends LitElement {
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true }) iconEnd: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an icon to display at the start of the component. */

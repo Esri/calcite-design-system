@@ -28,7 +28,6 @@ export const CSS = {
   previewAndSliders: "preview-and-sliders",
   saveColor: "save-color",
   savedColor: "saved-color",
-  savedColors: "saved-colors",
   savedColorsButtons: "saved-colors-buttons",
   savedColorsSection: "saved-colors-section",
   scope: "scope",
@@ -36,6 +35,7 @@ export const CSS = {
   slider: "slider",
   sliders: "sliders",
   splitSection: "section--split",
+  swatchGroup: "swatch-group",
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");

@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useT9n } from "../../controllers/useT9n";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -26,6 +27,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import type { Option } from "../option/option";
@@ -33,6 +35,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./select.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 
 declare global {
@@ -52,7 +55,10 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
   return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
 }
 
-/** @slot - A slot for adding `calcite-option`s. */
+/**
+ * @slot - A slot for adding `calcite-option`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Select
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -77,13 +83,20 @@ export class Select
 
   private selectEl: HTMLSelectElement;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
   private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -100,6 +113,9 @@ export class Select
    */
   @property() label: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /**
    * Specifies the name of the component.
    *
@@ -108,7 +124,7 @@ export class Select
   @property({ reflect: true }) name: string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -159,6 +175,9 @@ export class Select
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   // #endregion
 
@@ -404,6 +423,14 @@ export class Select
 
     return (
       <InteractiveContainer disabled={disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div class={CSS.wrapper}>
           <select
             aria-errormessage={IDS.validationMessage}
@@ -413,6 +440,7 @@ export class Select
             disabled={disabled}
             onChange={this.handleInternalSelectChange}
             ref={this.storeSelectRef}
+            required={this.required}
           >
             <slot />
           </select>

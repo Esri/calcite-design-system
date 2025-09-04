@@ -21,7 +21,7 @@ export class AutocompleteItemGroup extends LitElement {
   //#region Public Properties
 
   /**
-   * When `true`, signifies that the group should not have extra spacing. Used for styling.
+   * When present, signifies that the group should not have extra spacing. Used for styling.
    *
    * @private
    */

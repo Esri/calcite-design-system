@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   openClose,
   reflects,
@@ -148,6 +149,10 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
       </calcite-combobox>
     `);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-combobox`);
   });
 
   describe("honors hidden attribute", () => {

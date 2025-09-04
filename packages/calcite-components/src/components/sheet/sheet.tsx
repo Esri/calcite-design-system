@@ -115,7 +115,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     maxBlockSize: null,
   };
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded;
   }
 
@@ -144,10 +144,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    */
   @property() embedded = false;
 
-  /** When `true`, disables the default close on escape behavior. */
+  /** When present, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -181,7 +181,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -200,13 +200,13 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When present, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
   @property({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
-  /** When `true`, the component is resizable. */
+  /** When present, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
