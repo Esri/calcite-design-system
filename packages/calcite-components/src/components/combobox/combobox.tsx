@@ -1912,7 +1912,7 @@ export class Combobox
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
     const isClearable =
-      !this.clearDisabled && this.selectionMode !== "single-persist" && this.value?.length > 0;
+      !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
 
     return (
       <InteractiveContainer disabled={this.disabled}>
