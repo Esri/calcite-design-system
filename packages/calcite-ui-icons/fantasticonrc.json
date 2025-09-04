@@ -1268,6 +1268,15 @@
     "autocomplete-polygon": 61805,
     "assign-classification": 61806,
     "list-check-rtl": 61807,
-    "list-check-all-rtl": 61808
+    "list-check-all-rtl": 61808,
+    "video-metadata": 61809,
+    "security-camera": 61810,
+    "livestream-video-protocols": 61811,
+    "camera-sensor": 61812,
+    "camera-sensor-map": 61813,
+    "camera-sensor-layer": 61814,
+    "shopping-cart-plus": 61815,
+    "shopping-cart-f": 61816,
+    "carousel-frames": 61817
   }
 }

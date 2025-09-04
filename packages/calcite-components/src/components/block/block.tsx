@@ -20,10 +20,10 @@ import {
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { MoveTo } from "../sort-handle/interfaces";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -87,26 +87,26 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   //#region Public Properties
 
-  /** When `true`, the component is collapsible. */
+  /** When present, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
   /** A description for the component, which displays below the heading. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, and a parent Block Group is `dragEnabled`, the component is not draggable. */
+  /** When present, and a parent Block Group is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
-   * When `true`, the component displays a draggable button.
+   * When present, the component displays a draggable button.
    *
    * @deprecated No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, expands the component and its contents. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -127,7 +127,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true }) iconStart: IconNameOrString;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -145,11 +145,18 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Sets the item to display a border.
+   * Defines the "Add to" items.
    *
    * @private
    */
-  @property() moveToItems: MoveTo[] = [];
+  @property() addToItems: SortMenuItem[] = [];
+
+  /**
+   * Defines the "Move to" items.
+   *
+   * @private
+   */
+  @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * Prevents reordering the component.
@@ -159,7 +166,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() sortDisabled = false;
 
   /**
-   * When `true`, expands the component and its contents.
+   * When present, expands the component and its contents.
    *
    * @deprecated Use `expanded` prop instead.
    */
@@ -202,7 +209,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property() setSize: number = null;
 
-  /** When `true`, displays and positions the sort handle. */
+  /** When present, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
   /**
@@ -233,6 +240,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   //#endregion
 
   //#region Events
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -270,12 +283,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
-
-  /**
-   *
-   * @private
-   */
-  calciteInternalBlockUpdateMoveToItems = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -360,7 +367,6 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeOpen.emit();
-    this.calciteInternalBlockUpdateMoveToItems.emit();
   }
 
   private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
@@ -519,17 +525,32 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       menuFlipPlacements,
       menuPlacement,
       moveToItems,
+      addToItems,
       setPosition,
       setSize,
       dragDisabled,
       sortDisabled,
+      iconEnd,
+      hasContentStart,
+      iconStart,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
+    const headerHasContent = !!(
+      heading ||
+      description ||
+      hasContentStart ||
+      iconStart ||
+      loading ||
+      status
+    );
 
     const headerContent = (
       <header
-        class={{ [CSS.header]: true, [CSS.headerHasText]: !!(heading || description) }}
+        class={{
+          [CSS.header]: true,
+          [CSS.headerHasContent]: headerHasContent,
+        }}
         id={IDS.header}
       >
         {this.renderIcon("start")}
@@ -545,6 +566,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
       <div class={CSS.headerContainer}>
         {this.dragHandle ? (
           <calcite-sort-handle
+            addToItems={addToItems}
             disabled={dragDisabled}
             label={heading || label}
             moveToItems={moveToItems}
@@ -580,14 +602,12 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
               />
             </div>
           </button>
-        ) : this.iconEnd ? (
-          <div>
-            {headerContent}
-            <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
-          </div>
         ) : (
           headerContent
         )}
+        {iconEnd && !collapsible ? (
+          <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
+        ) : null}
         <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
           <slot name={SLOTS.control} onSlotChange={this.controlSlotChangeHandler} />
         </div>

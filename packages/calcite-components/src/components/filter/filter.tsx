@@ -61,7 +61,7 @@ export class Filter extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */

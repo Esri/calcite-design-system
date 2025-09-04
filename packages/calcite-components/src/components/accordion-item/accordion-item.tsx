@@ -12,10 +12,12 @@ import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } fro
 import { IconNameOrString } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { SLOTS, CSS, IDS, ICONS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -41,6 +43,13 @@ export class AccordionItem extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
   //#endregion
 
   //#region State Properties
@@ -63,7 +72,7 @@ export class AccordionItem extends LitElement {
   /** Specifies a description for the component. */
   @property() description: string;
 
-  /** When `true`, expands the component and its contents. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies heading text for the component. */
@@ -108,6 +117,9 @@ export class AccordionItem extends LitElement {
    * @private
    */
   @property({ reflect: true }) scale: Scale;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
 
@@ -293,8 +305,10 @@ export class AccordionItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const { iconFlipRtl, heading, headingLevel } = this;
+    const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
     const dir = getElementDir(this.el);
+    const expandIconTitle = expanded ? messages.collapse : messages.expand;
+
     const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
@@ -331,7 +345,7 @@ export class AccordionItem extends LitElement {
           {this.renderActionsStart()}
           <div
             aria-controls={IDS.section}
-            ariaExpanded={this.expanded}
+            ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
@@ -356,11 +370,12 @@ export class AccordionItem extends LitElement {
                   ? ICONS.chevronDown
                   : this.iconType === "caret"
                     ? ICONS.caretDown
-                    : this.expanded
+                    : expanded
                       ? ICONS.minus
                       : ICONS.plus
               }
               scale={getIconScale(this.scale)}
+              title={expandIconTitle}
             />
           </div>
           {this.renderActionsEnd()}

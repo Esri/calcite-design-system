@@ -74,7 +74,7 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, hides the component's content area. */
+  /** When present, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
   /**
@@ -290,8 +290,6 @@ export class ShellPanel extends LitElement {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
   }
 
   private async setupInteractions(): Promise<void> {

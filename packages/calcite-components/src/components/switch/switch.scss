@@ -63,6 +63,7 @@
 
 .container {
   @apply outline-0;
+  display: flex;
 }
 
 .track {
@@ -123,5 +124,6 @@
   }
 }
 
+@include form-internal-label();
 @include hidden-form-input();
 @include base-component();
