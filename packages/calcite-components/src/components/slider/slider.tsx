@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
@@ -41,6 +42,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -52,6 +54,9 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Slider
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -162,7 +167,12 @@ export class Slider
 
   private maxHandle: HTMLDivElement;
 
-  messages = useT9n<Record<string, never>>({ name: null });
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private minHandle: HTMLDivElement;
 
@@ -198,7 +208,7 @@ export class Slider
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -215,10 +225,10 @@ export class Slider
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, indicates a histogram is present. */
+  /** When present, indicates a histogram is present. */
   @property({ reflect: true }) hasHistogram = false;
 
   /**
@@ -238,10 +248,10 @@ export class Slider
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays label handles with their numeric value. */
+  /** When present, displays label handles with their numeric value. */
   @property({ reflect: true }) labelHandles = false;
 
-  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
+  /** When present and `ticks` is specified, displays label tick marks with their numeric value. */
   @property({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
@@ -259,11 +269,17 @@ export class Slider
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
   /** For multiple selections, the component's lower value. */
   @property() minValue: number;
 
   /**
-   * When `true`, the slider will display values from high to low.
+   * When present, the component will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
@@ -282,11 +298,11 @@ export class Slider
   /** Specifies the interval to move with the page up, or page down keys. */
   @property({ reflect: true }) pageStep: number;
 
-  /** When `true`, sets a finer point for handles. */
+  /** When present, sets a finer point for handles. */
   @property({ reflect: true }) precise = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -294,7 +310,7 @@ export class Slider
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
+  /** When present, enables snap selection in coordination with `step` via a mouse. */
   @property({ reflect: true }) snap = false;
 
   /** Specifies the status of the input field, which determines message and icons. */
@@ -1144,10 +1160,19 @@ export class Slider
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
+          ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,

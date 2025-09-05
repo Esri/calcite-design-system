@@ -51,6 +51,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -79,7 +80,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-combobox-item`s. */
+/**
+ * @slot - A slot for adding `calcite-combobox-item`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Combobox
   extends LitElement
   implements
@@ -318,13 +322,13 @@ export class Combobox
 
   //#region Public Properties
 
-  /** When `true`, allows entry of custom values, which are not in the original set of items. */
+  /** When present, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
-  /** When `true`, the value-clearing will be disabled. */
+  /** When present, the value-clearing will be disabled. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Text for the component's filter input field. */
@@ -369,6 +373,9 @@ export class Combobox
    */
   @property() label: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
@@ -382,7 +389,7 @@ export class Combobox
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -400,14 +407,14 @@ export class Combobox
   /** Specifies the placeholder icon for the input. */
   @property({ reflect: true }) placeholderIcon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -415,7 +422,7 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When present and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
@@ -641,6 +648,10 @@ export class Combobox
 
     updateHostInteraction(this);
     this.refreshSelectionDisplay();
+  }
+
+  async load(): Promise<void> {
+    this.handleSelectionModeWarning();
   }
 
   loaded(): void {
@@ -1539,6 +1550,12 @@ export class Combobox
     );
   }
 
+  private handleSelectionModeWarning(): void {
+    if (this.selectionMode === "single-persist" && this.clearDisabled) {
+      console.warn(`clearDisabled is ignored when selection-mode is set to "single-persist"`);
+    }
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1757,6 +1774,7 @@ export class Combobox
           placeholder={placeholder}
           readOnly={this.readOnly}
           ref={this.textInput}
+          required={this.required}
           role="combobox"
           tabIndex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
@@ -1893,10 +1911,19 @@ export class Combobox
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
-    const isClearable = !this.clearDisabled && this.value?.length > 0;
+    const isClearable =
+      !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           ariaLive="polite"
           class={{

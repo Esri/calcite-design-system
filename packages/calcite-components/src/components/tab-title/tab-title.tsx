@@ -89,13 +89,13 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When present, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** When present, does not display or position the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
@@ -128,7 +128,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
+   * When present, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */

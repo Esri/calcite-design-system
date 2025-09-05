@@ -15,6 +15,7 @@ import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
@@ -53,10 +54,10 @@ export class Switch
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -68,6 +69,12 @@ export class Switch
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text at the end of the component */
+  @property() labelTextEnd: string;
+
+  /** When provided, displays label text at the start of the component */
+  @property() labelTextStart: string;
 
   /**
    * Specifies the name of the component.
@@ -185,9 +192,25 @@ export class Switch
           role="switch"
           tabIndex={0}
         >
+          {this.labelTextStart && (
+            <InternalLabel
+              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              labelText={this.labelTextStart}
+              spacingInlineEnd={true}
+            />
+          )}
           <div class={CSS.track}>
             <div class={CSS.handle} />
           </div>
+          {this.labelTextEnd && (
+            <InternalLabel
+              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              labelText={this.labelTextEnd}
+              spacingInlineStart={true}
+            />
+          )}
           <HiddenFormInputSlot component={this} />
         </div>
       </InteractiveContainer>

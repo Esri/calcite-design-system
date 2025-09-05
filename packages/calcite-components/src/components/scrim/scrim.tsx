@@ -48,7 +48,7 @@ export class Scrim extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */

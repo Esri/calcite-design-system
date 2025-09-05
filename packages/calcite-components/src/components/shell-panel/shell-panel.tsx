@@ -74,7 +74,7 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, hides the component's content area. */
+  /** When present, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
   /**
