@@ -1010,7 +1010,13 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
+  --calcite-font-line-height-fixed-2xl: 32px;
+  --calcite-font-line-height-fixed-3xl: 40px;
+  --calcite-font-line-height-fixed-4xl: 48px;
+  --calcite-font-line-height-fixed-5xl: 64px;
+  --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal; /** normal */
+  --calcite-font-line-height-relative-base: 1; /** 1 */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
   --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
@@ -1439,7 +1445,13 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
+  --calcite-font-line-height-fixed-2xl: 32px;
+  --calcite-font-line-height-fixed-3xl: 40px;
+  --calcite-font-line-height-fixed-4xl: 48px;
+  --calcite-font-line-height-fixed-5xl: 64px;
+  --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal; /** normal */
+  --calcite-font-line-height-relative-base: 1; /** 1 */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
   --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
@@ -21040,6 +21052,156 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "path": ["semantic", "font", "line-height", "fixed", "xl"]
     },
     {
+      "key": "{semantic.font.line-height.fixed.2xl}",
+      "value": "32px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-2xl",
+          "css": "var(--calcite-font-line-height-fixed-2xl)",
+          "js": "semantic.font.line-height.fixed.2xl",
+          "docs": "semantic.font.line-height.fixed.2xl",
+          "es6": "calciteFontLineHeightFixed2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 2xl",
+      "path": ["semantic", "font", "line-height", "fixed", "2xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.3xl}",
+      "value": "40px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-3xl",
+          "css": "var(--calcite-font-line-height-fixed-3xl)",
+          "js": "semantic.font.line-height.fixed.3xl",
+          "docs": "semantic.font.line-height.fixed.3xl",
+          "es6": "calciteFontLineHeightFixed3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 3xl",
+      "path": ["semantic", "font", "line-height", "fixed", "3xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.4xl}",
+      "value": "48px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-4xl",
+          "css": "var(--calcite-font-line-height-fixed-4xl)",
+          "js": "semantic.font.line-height.fixed.4xl",
+          "docs": "semantic.font.line-height.fixed.4xl",
+          "es6": "calciteFontLineHeightFixed4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 4xl",
+      "path": ["semantic", "font", "line-height", "fixed", "4xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.5xl}",
+      "value": "64px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-5xl",
+          "css": "var(--calcite-font-line-height-fixed-5xl)",
+          "js": "semantic.font.line-height.fixed.5xl",
+          "docs": "semantic.font.line-height.fixed.5xl",
+          "es6": "calciteFontLineHeightFixed5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 5xl",
+      "path": ["semantic", "font", "line-height", "fixed", "5xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.6xl}",
+      "value": "80px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-6xl",
+          "css": "var(--calcite-font-line-height-fixed-6xl)",
+          "js": "semantic.font.line-height.fixed.6xl",
+          "docs": "semantic.font.line-height.fixed.6xl",
+          "es6": "calciteFontLineHeightFixed6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 6xl",
+      "path": ["semantic", "font", "line-height", "fixed", "6xl"]
+    },
+    {
       "key": "{semantic.font.line-height.relative.default}",
       "value": "normal",
       "type": "lineHeight",
@@ -21078,6 +21240,46 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "name": "Font Line Height Relative",
       "path": ["semantic", "font", "line-height", "relative", "default"],
       "comment": "normal"
+    },
+    {
+      "key": "{semantic.font.line-height.relative.base}",
+      "value": "1",
+      "type": "lineHeight",
+      "description": "1",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "lineHeight",
+        "item": "line-height",
+        "subitem": "relative",
+        "state": "base",
+        "value": "100%",
+        "description": "1",
+        "filePath": "src/tokens/semantic/font.json",
+        "isSource": true,
+        "key": "{semantic.font.line-height.relative.base}",
+        "name": "calcite-semantic-font-line-height-relative-base",
+        "path": ["semantic", "font", "line-height", "relative", "base"],
+        "comment": "1",
+        "names": {
+          "scss": "$calcite-font-line-height-relative-base",
+          "css": "var(--calcite-font-line-height-relative-base)",
+          "js": "semantic.font.line-height.relative.base",
+          "docs": "semantic.font.line-height.relative.base",
+          "es6": "calciteFontLineHeightRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Relative Base",
+      "path": ["semantic", "font", "line-height", "relative", "base"],
+      "comment": "1"
     },
     {
       "key": "{semantic.font.line-height.relative.tight}",
@@ -26821,6 +27023,156 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "path": ["semantic", "font", "line-height", "fixed", "xl"]
     },
     {
+      "key": "{semantic.font.line-height.fixed.2xl}",
+      "value": "32px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-2xl",
+          "css": "var(--calcite-font-line-height-fixed-2xl)",
+          "js": "semantic.font.line-height.fixed.2xl",
+          "docs": "semantic.font.line-height.fixed.2xl",
+          "es6": "calciteFontLineHeightFixed2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 2xl",
+      "path": ["semantic", "font", "line-height", "fixed", "2xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.3xl}",
+      "value": "40px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-3xl",
+          "css": "var(--calcite-font-line-height-fixed-3xl)",
+          "js": "semantic.font.line-height.fixed.3xl",
+          "docs": "semantic.font.line-height.fixed.3xl",
+          "es6": "calciteFontLineHeightFixed3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 3xl",
+      "path": ["semantic", "font", "line-height", "fixed", "3xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.4xl}",
+      "value": "48px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-4xl",
+          "css": "var(--calcite-font-line-height-fixed-4xl)",
+          "js": "semantic.font.line-height.fixed.4xl",
+          "docs": "semantic.font.line-height.fixed.4xl",
+          "es6": "calciteFontLineHeightFixed4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 4xl",
+      "path": ["semantic", "font", "line-height", "fixed", "4xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.5xl}",
+      "value": "64px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-5xl",
+          "css": "var(--calcite-font-line-height-fixed-5xl)",
+          "js": "semantic.font.line-height.fixed.5xl",
+          "docs": "semantic.font.line-height.fixed.5xl",
+          "es6": "calciteFontLineHeightFixed5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 5xl",
+      "path": ["semantic", "font", "line-height", "fixed", "5xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.fixed.6xl}",
+      "value": "80px",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "fixed",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "fixed",
+        "state": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-fixed-6xl",
+          "css": "var(--calcite-font-line-height-fixed-6xl)",
+          "js": "semantic.font.line-height.fixed.6xl",
+          "docs": "semantic.font.line-height.fixed.6xl",
+          "es6": "calciteFontLineHeightFixed6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Fixed 6xl",
+      "path": ["semantic", "font", "line-height", "fixed", "6xl"]
+    },
+    {
       "key": "{semantic.font.line-height.relative.default}",
       "value": "normal",
       "type": "lineHeight",
@@ -26859,6 +27211,46 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "name": "Font Line Height Relative",
       "path": ["semantic", "font", "line-height", "relative", "default"],
       "comment": "normal"
+    },
+    {
+      "key": "{semantic.font.line-height.relative.base}",
+      "value": "1",
+      "type": "lineHeight",
+      "description": "1",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "lineHeight",
+        "item": "line-height",
+        "subitem": "relative",
+        "state": "base",
+        "value": "100%",
+        "description": "1",
+        "filePath": "src/tokens/semantic/font.json",
+        "isSource": true,
+        "key": "{semantic.font.line-height.relative.base}",
+        "name": "calcite-semantic-font-line-height-relative-base",
+        "path": ["semantic", "font", "line-height", "relative", "base"],
+        "comment": "1",
+        "names": {
+          "scss": "$calcite-font-line-height-relative-base",
+          "css": "var(--calcite-font-line-height-relative-base)",
+          "js": "semantic.font.line-height.relative.base",
+          "docs": "semantic.font.line-height.relative.base",
+          "es6": "calciteFontLineHeightRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Relative Base",
+      "path": ["semantic", "font", "line-height", "relative", "base"],
+      "comment": "1"
     },
     {
       "key": "{semantic.font.line-height.relative.tight}",
@@ -30706,7 +31098,13 @@ export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
 export const calciteFontLineHeightFixedLg = "20px";
 export const calciteFontLineHeightFixedXl = "24px";
+export const calciteFontLineHeightFixed2xl = "32px";
+export const calciteFontLineHeightFixed3xl = "40px";
+export const calciteFontLineHeightFixed4xl = "48px";
+export const calciteFontLineHeightFixed5xl = "64px";
+export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal"; // normal
+export const calciteFontLineHeightRelativeBase = "1"; // 1
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
 export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
@@ -31186,8 +31584,15 @@ export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
 export const calciteFontLineHeightFixedXl: string;
+export const calciteFontLineHeightFixed2xl: string;
+export const calciteFontLineHeightFixed3xl: string;
+export const calciteFontLineHeightFixed4xl: string;
+export const calciteFontLineHeightFixed5xl: string;
+export const calciteFontLineHeightFixed6xl: string;
 /** normal */
 export const calciteFontLineHeightRelative: string;
+/** 1 */
+export const calciteFontLineHeightRelativeBase: string;
 /** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
 /** 1.375 */
@@ -31625,7 +32030,13 @@ export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
 export const calciteFontLineHeightFixedLg = "20px";
 export const calciteFontLineHeightFixedXl = "24px";
+export const calciteFontLineHeightFixed2xl = "32px";
+export const calciteFontLineHeightFixed3xl = "40px";
+export const calciteFontLineHeightFixed4xl = "48px";
+export const calciteFontLineHeightFixed5xl = "64px";
+export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal"; // normal
+export const calciteFontLineHeightRelativeBase = "1"; // 1
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
 export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
@@ -31772,8 +32183,15 @@ export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
 export const calciteFontLineHeightFixedXl: string;
+export const calciteFontLineHeightFixed2xl: string;
+export const calciteFontLineHeightFixed3xl: string;
+export const calciteFontLineHeightFixed4xl: string;
+export const calciteFontLineHeightFixed5xl: string;
+export const calciteFontLineHeightFixed6xl: string;
 /** normal */
 export const calciteFontLineHeightRelative: string;
+/** 1 */
+export const calciteFontLineHeightRelativeBase: string;
 /** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
 /** 1.375 */
@@ -59266,6 +59684,206 @@ export default {
             name: "Font Line Height Fixed Xl",
             path: ["semantic", "font", "line-height", "fixed", "xl"],
           },
+          "2xl": {
+            key: "{semantic.font.line-height.fixed.2xl}",
+            value: "32px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "2xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-2xl",
+                css: "var(--calcite-font-line-height-fixed-2xl)",
+                js: "semantic.font.line-height.fixed.2xl",
+                docs: "semantic.font.line-height.fixed.2xl",
+                es6: "calciteFontLineHeightFixed2xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.32}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.2xl}",
+            },
+            name: "Font Line Height Fixed 2xl",
+            path: ["semantic", "font", "line-height", "fixed", "2xl"],
+          },
+          "3xl": {
+            key: "{semantic.font.line-height.fixed.3xl}",
+            value: "40px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "3xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-3xl",
+                css: "var(--calcite-font-line-height-fixed-3xl)",
+                js: "semantic.font.line-height.fixed.3xl",
+                docs: "semantic.font.line-height.fixed.3xl",
+                es6: "calciteFontLineHeightFixed3xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.40}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.3xl}",
+            },
+            name: "Font Line Height Fixed 3xl",
+            path: ["semantic", "font", "line-height", "fixed", "3xl"],
+          },
+          "4xl": {
+            key: "{semantic.font.line-height.fixed.4xl}",
+            value: "48px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "4xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-4xl",
+                css: "var(--calcite-font-line-height-fixed-4xl)",
+                js: "semantic.font.line-height.fixed.4xl",
+                docs: "semantic.font.line-height.fixed.4xl",
+                es6: "calciteFontLineHeightFixed4xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.48}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.4xl}",
+            },
+            name: "Font Line Height Fixed 4xl",
+            path: ["semantic", "font", "line-height", "fixed", "4xl"],
+          },
+          "5xl": {
+            key: "{semantic.font.line-height.fixed.5xl}",
+            value: "64px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "5xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-5xl",
+                css: "var(--calcite-font-line-height-fixed-5xl)",
+                js: "semantic.font.line-height.fixed.5xl",
+                docs: "semantic.font.line-height.fixed.5xl",
+                es6: "calciteFontLineHeightFixed5xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.64}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.5xl}",
+            },
+            name: "Font Line Height Fixed 5xl",
+            path: ["semantic", "font", "line-height", "fixed", "5xl"],
+          },
+          "6xl": {
+            key: "{semantic.font.line-height.fixed.6xl}",
+            value: "80px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "6xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-6xl",
+                css: "var(--calcite-font-line-height-fixed-6xl)",
+                js: "semantic.font.line-height.fixed.6xl",
+                docs: "semantic.font.line-height.fixed.6xl",
+                es6: "calciteFontLineHeightFixed6xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.80}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.6xl}",
+            },
+            name: "Font Line Height Fixed 6xl",
+            path: ["semantic", "font", "line-height", "fixed", "6xl"],
+          },
         },
         relative: {
           default: {
@@ -59318,6 +59936,57 @@ export default {
             name: "Font Line Height Relative",
             path: ["semantic", "font", "line-height", "relative", "default"],
             comment: "normal",
+          },
+          base: {
+            key: "{semantic.font.line-height.relative.base}",
+            value: "1",
+            type: "lineHeight",
+            description: "1",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "relative",
+              type: "lineHeight",
+              item: "line-height",
+              subitem: "relative",
+              state: "base",
+              value: "100%",
+              description: "1",
+              filePath: "src/tokens/semantic/font.json",
+              isSource: true,
+              key: "{semantic.font.line-height.relative.base}",
+              name: "calcite-semantic-font-line-height-relative-base",
+              path: ["semantic", "font", "line-height", "relative", "base"],
+              comment: "1",
+              names: {
+                scss: "$calcite-font-line-height-relative-base",
+                css: "var(--calcite-font-line-height-relative-base)",
+                js: "semantic.font.line-height.relative.base",
+                docs: "semantic.font.line-height.relative.base",
+                es6: "calciteFontLineHeightRelativeBase",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.relative.100}",
+              type: "lineHeight",
+              description: "1",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "relative",
+              },
+              key: "{semantic.font.line-height.relative.base}",
+            },
+            name: "Font Line Height Relative Base",
+            path: ["semantic", "font", "line-height", "relative", "base"],
+            comment: "1",
           },
           tight: {
             key: "{semantic.font.line-height.relative.tight}",
@@ -65880,9 +66549,15 @@ declare const tokens: {
           base: DesignToken;
           lg: DesignToken;
           xl: DesignToken;
+          "2xl": DesignToken;
+          "3xl": DesignToken;
+          "4xl": DesignToken;
+          "5xl": DesignToken;
+          "6xl": DesignToken;
         };
         relative: {
           default: DesignToken;
+          base: DesignToken;
           tight: DesignToken;
           snug: DesignToken;
           normal: DesignToken;
@@ -67504,6 +68179,206 @@ export default {
             name: "Font Line Height Fixed Xl",
             path: ["semantic", "font", "line-height", "fixed", "xl"],
           },
+          "2xl": {
+            key: "{semantic.font.line-height.fixed.2xl}",
+            value: "32px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "2xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-2xl",
+                css: "var(--calcite-font-line-height-fixed-2xl)",
+                js: "semantic.font.line-height.fixed.2xl",
+                docs: "semantic.font.line-height.fixed.2xl",
+                es6: "calciteFontLineHeightFixed2xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.32}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.2xl}",
+            },
+            name: "Font Line Height Fixed 2xl",
+            path: ["semantic", "font", "line-height", "fixed", "2xl"],
+          },
+          "3xl": {
+            key: "{semantic.font.line-height.fixed.3xl}",
+            value: "40px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "3xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-3xl",
+                css: "var(--calcite-font-line-height-fixed-3xl)",
+                js: "semantic.font.line-height.fixed.3xl",
+                docs: "semantic.font.line-height.fixed.3xl",
+                es6: "calciteFontLineHeightFixed3xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.40}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.3xl}",
+            },
+            name: "Font Line Height Fixed 3xl",
+            path: ["semantic", "font", "line-height", "fixed", "3xl"],
+          },
+          "4xl": {
+            key: "{semantic.font.line-height.fixed.4xl}",
+            value: "48px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "4xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-4xl",
+                css: "var(--calcite-font-line-height-fixed-4xl)",
+                js: "semantic.font.line-height.fixed.4xl",
+                docs: "semantic.font.line-height.fixed.4xl",
+                es6: "calciteFontLineHeightFixed4xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.48}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.4xl}",
+            },
+            name: "Font Line Height Fixed 4xl",
+            path: ["semantic", "font", "line-height", "fixed", "4xl"],
+          },
+          "5xl": {
+            key: "{semantic.font.line-height.fixed.5xl}",
+            value: "64px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "5xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-5xl",
+                css: "var(--calcite-font-line-height-fixed-5xl)",
+                js: "semantic.font.line-height.fixed.5xl",
+                docs: "semantic.font.line-height.fixed.5xl",
+                es6: "calciteFontLineHeightFixed5xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.64}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.5xl}",
+            },
+            name: "Font Line Height Fixed 5xl",
+            path: ["semantic", "font", "line-height", "fixed", "5xl"],
+          },
+          "6xl": {
+            key: "{semantic.font.line-height.fixed.6xl}",
+            value: "80px",
+            type: "lineHeight",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "fixed",
+              type: "font",
+              item: "line-height",
+              subitem: "fixed",
+              state: "6xl",
+              names: {
+                scss: "$calcite-font-line-height-fixed-6xl",
+                css: "var(--calcite-font-line-height-fixed-6xl)",
+                js: "semantic.font.line-height.fixed.6xl",
+                docs: "semantic.font.line-height.fixed.6xl",
+                es6: "calciteFontLineHeightFixed6xl",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.default.80}",
+              type: "lineHeight",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "fixed",
+              },
+              key: "{semantic.font.line-height.fixed.6xl}",
+            },
+            name: "Font Line Height Fixed 6xl",
+            path: ["semantic", "font", "line-height", "fixed", "6xl"],
+          },
         },
         relative: {
           default: {
@@ -67556,6 +68431,57 @@ export default {
             name: "Font Line Height Relative",
             path: ["semantic", "font", "line-height", "relative", "default"],
             comment: "normal",
+          },
+          base: {
+            key: "{semantic.font.line-height.relative.base}",
+            value: "1",
+            type: "lineHeight",
+            description: "1",
+            attributes: {
+              category: "font",
+              group: "line-height",
+              kind: "relative",
+              type: "lineHeight",
+              item: "line-height",
+              subitem: "relative",
+              state: "base",
+              value: "100%",
+              description: "1",
+              filePath: "src/tokens/semantic/font.json",
+              isSource: true,
+              key: "{semantic.font.line-height.relative.base}",
+              name: "calcite-semantic-font-line-height-relative-base",
+              path: ["semantic", "font", "line-height", "relative", "base"],
+              comment: "1",
+              names: {
+                scss: "$calcite-font-line-height-relative-base",
+                css: "var(--calcite-font-line-height-relative-base)",
+                js: "semantic.font.line-height.relative.base",
+                docs: "semantic.font.line-height.relative.base",
+                es6: "calciteFontLineHeightRelativeBase",
+              },
+              "calcite-schema": {
+                system: "calcite",
+                tier: "semantic",
+                type: "lineHeight",
+              },
+            },
+            filePath: "src/tokens/semantic/font.json",
+            isSource: true,
+            original: {
+              value: "{core.size.relative.100}",
+              type: "lineHeight",
+              description: "1",
+              attributes: {
+                category: "font",
+                group: "line-height",
+                kind: "relative",
+              },
+              key: "{semantic.font.line-height.relative.base}",
+            },
+            name: "Font Line Height Relative Base",
+            path: ["semantic", "font", "line-height", "relative", "base"],
+            comment: "1",
           },
           tight: {
             key: "{semantic.font.line-height.relative.tight}",
@@ -70729,9 +71655,15 @@ declare const tokens: {
           base: DesignToken;
           lg: DesignToken;
           xl: DesignToken;
+          "2xl": DesignToken;
+          "3xl": DesignToken;
+          "4xl": DesignToken;
+          "5xl": DesignToken;
+          "6xl": DesignToken;
         };
         relative: {
           default: DesignToken;
+          base: DesignToken;
           tight: DesignToken;
           snug: DesignToken;
           normal: DesignToken;
@@ -71549,7 +72481,13 @@ $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
 $calcite-font-line-height-fixed-lg: 20px;
 $calcite-font-line-height-fixed-xl: 24px;
+$calcite-font-line-height-fixed-2xl: 32px;
+$calcite-font-line-height-fixed-3xl: 40px;
+$calcite-font-line-height-fixed-4xl: 48px;
+$calcite-font-line-height-fixed-5xl: 64px;
+$calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal; // normal
+$calcite-font-line-height-relative-base: 1; // 1
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
 $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
@@ -72158,7 +73096,13 @@ $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
 $calcite-font-line-height-fixed-lg: 20px;
 $calcite-font-line-height-fixed-xl: 24px;
+$calcite-font-line-height-fixed-2xl: 32px;
+$calcite-font-line-height-fixed-3xl: 40px;
+$calcite-font-line-height-fixed-4xl: 48px;
+$calcite-font-line-height-fixed-5xl: 64px;
+$calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal; // normal
+$calcite-font-line-height-relative-base: 1; // 1
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
 $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
