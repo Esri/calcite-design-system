@@ -215,7 +215,9 @@ export class Select
   }
 
   override connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, {
+    const { el } = this;
+
+    this.mutationObserver?.observe(el, {
       subtree: true,
       childList: true,
     });
