@@ -77,8 +77,8 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/lumina": "^4.34.0-next.100",
-    "@arcgis/toolkit": "^4.34.0-next.119",
+    "@arcgis/lumina": "^4.34.0-next.122",
+    "@arcgis/toolkit": "^4.34.0-next.122",
     "@esri/calcite-ui-icons": "4.3.0-next.23",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
@@ -94,7 +94,7 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.34.0-next.100",
+    "@arcgis/lumina-compiler": "^4.34.0-next.122",
     "@esri/calcite-design-tokens": "3.2.0-next.14",
     "@esri/calcite-tailwind-preset": "1.0.1-next.18",
     "@esri/eslint-plugin-calcite-components": "2.0.3-next.5",
