@@ -301,11 +301,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.filterEnabled
-        ? this.filterEl
-        : this.focusableItems.find((listItem) => listItem.active);
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.filterEnabled
+          ? this.filterEl
+          : this.focusableItems.find((listItem) => listItem.active),
+      options,
+    );
   }
 
   /**
@@ -969,7 +971,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl?.setFocus();
+        this.filterEl.setFocus();
         return;
       }
 

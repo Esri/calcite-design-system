@@ -189,9 +189,7 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.menuButtonEl;
-    }, options);
+    return this.focusSetter(() => this.menuButtonEl, options);
   }
 
   //#endregion
@@ -344,10 +342,7 @@ export class ActionMenu extends LitElement {
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
     this.defaultMenuButtonEl = el;
-
-    if (el) {
-      this.connectMenuButtonEl();
-    }
+    this.connectMenuButtonEl();
   }
 
   private setPopoverEl(el: Popover["el"]): void {

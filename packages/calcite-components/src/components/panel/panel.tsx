@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -8,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import {
@@ -58,7 +59,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl: HTMLElement;
+  private containerRef = createRef<HTMLElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -211,9 +212,7 @@ export class Panel extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl;
-    }, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -298,10 +297,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     } else {
       panelScrollEl.removeAttribute("tabindex");
     }
-  }
-
-  private setContainerRef(node: HTMLElement): void {
-    this.containerEl = node;
   }
 
   private closeClickHandler(): void {
@@ -391,13 +386,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private setPanelScrollEl(el: HTMLElement): void {
+    updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
-    this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-      this.resizeHandler();
-    }
   }
 
   private handleAlertsSlotChange(event: Event): void {
@@ -685,7 +675,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.setContainerRef}>
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

@@ -20,7 +20,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
@@ -63,8 +63,7 @@ export class Button
   /** the rendered child element */
   private childEl?: HTMLElement;
 
-  /** keep track of the rendered contentEl */
-  private contentEl = createRef<HTMLSpanElement>();
+  private contentRef = createRef<HTMLSpanElement>();
 
   formEl: HTMLFormElement;
 
@@ -271,7 +270,7 @@ export class Button
 
   private setTooltipText(): void {
     const {
-      contentEl: { value: contentEl },
+      contentRef: { value: contentEl },
     } = this;
     if (contentEl) {
       this.tooltipText =
@@ -279,12 +278,9 @@ export class Button
     }
   }
 
-  private setChildEl(el: HTMLElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
+    updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   //#endregion
@@ -327,7 +323,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content} ref={this.contentEl}>
+      <span class={CSS.content} ref={this.contentRef}>
         <slot />
       </span>
     );

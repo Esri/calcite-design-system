@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   CheckableFormComponent,
   connectForm,
@@ -46,7 +47,7 @@ export class Switch
 
   labelEl: Label["el"];
 
-  private switchEl: HTMLDivElement;
+  private switchRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -102,9 +103,7 @@ export class Switch
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.switchEl;
-    }, options);
+    return this.focusSetter(() => this.switchRef.value, options);
   }
 
   // #endregion
@@ -173,10 +172,6 @@ export class Switch
     this.toggle();
   }
 
-  private setSwitchEl(el: HTMLDivElement): void {
-    this.switchEl = el;
-  }
-
   // #endregion
 
   // #region Rendering
@@ -188,7 +183,7 @@ export class Switch
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
           class={CSS.container}
-          ref={this.setSwitchEl}
+          ref={this.switchRef}
           role="switch"
           tabIndex={0}
         >
