@@ -386,9 +386,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     }, options);
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Events
+  // #region Events
 
   /** Fires when the color value has changed. */
   calciteColorPickerChange = createEvent({ cancelable: false });
@@ -504,6 +504,14 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Methods
+
+  private get baseColorFieldColor(): ColorInstance {
+    return this.color || this.previousColor || DEFAULT_COLOR;
+  }
+
+  private get effectiveSliderWidth(): number {
+    return this.dynamicDimensions.slider.width;
+  }
 
   private observeResize(): void {
     this.resizeObserver?.observe(this.el);
