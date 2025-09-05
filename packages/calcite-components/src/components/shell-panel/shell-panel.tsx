@@ -190,7 +190,7 @@ export class ShellPanel extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentRef || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
