@@ -277,8 +277,8 @@
             "category": "size"
           }
         },
-        "none": {
-          "value": "none",
+        "normal": {
+          "value": "normal",
           "type": "sizing",
           "attributes": {
             "category": "size"

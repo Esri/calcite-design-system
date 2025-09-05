@@ -186,9 +186,9 @@
         },
         "relative": {
           "default": {
-            "value": "{core.size.relative.none}",
+            "value": "{core.size.relative.normal}",
             "type": "lineHeights",
-            "description": "none",
+            "description": "normal",
             "attributes": {
               "category": "font",
               "group": "line-height",
