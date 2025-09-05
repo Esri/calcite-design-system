@@ -251,6 +251,16 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  s;
+
+  private get baseColorFieldColor(): ColorInstance {
+    return this.color || this.previousColor || DEFAULT_COLOR;
+  }
+
+  private get effectiveSliderWidth(): number {
+    return this.dynamicDimensions.slider.width;
+  }
+
   //#endregion
 
   //#region State Properties
@@ -338,7 +348,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, hides the saved colors section. */
+  /** When present, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -386,9 +396,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     }, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the color value has changed. */
   calciteColorPickerChange = createEvent({ cancelable: false });
@@ -504,14 +514,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Private Methods
-
-  private get baseColorFieldColor(): ColorInstance {
-    return this.color || this.previousColor || DEFAULT_COLOR;
-  }
-
-  private get effectiveSliderWidth(): number {
-    return this.dynamicDimensions.slider.width;
-  }
 
   private observeResize(): void {
     this.resizeObserver?.observe(this.el);
