@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
-import { createRef, Ref } from "lit-html/directives/ref.js";
+import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -39,9 +39,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private childRef: Ref<HTMLAnchorElement> | Ref<HTMLSpanElement> = createRef<
-    HTMLAnchorElement | HTMLSpanElement
-  >();
+  private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -180,7 +178,9 @@ export class Link extends LitElement implements InteractiveComponent {
           }
           href={childElType === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.childRef as unknown}
+          ref={
+            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
+          }
           rel={childElType === "a" && this.rel}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}

@@ -1128,7 +1128,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.childRef as any /* FIXME: use proper type */}
+          ref={
+            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
+          }
           required={this.required ? true : null}
           spellcheck={this.el.spellcheck}
           step={this.step}

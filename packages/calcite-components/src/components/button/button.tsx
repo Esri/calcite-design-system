@@ -278,7 +278,7 @@ export class Button
     }
   }
 
-  private setChildEl(el: HTMLElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
     updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
   }
