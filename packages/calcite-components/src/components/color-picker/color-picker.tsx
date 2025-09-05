@@ -339,7 +339,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, hides the saved colors section. */
+  /** When present, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
