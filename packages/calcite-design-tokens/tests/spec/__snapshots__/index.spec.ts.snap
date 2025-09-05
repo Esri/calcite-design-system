@@ -891,6 +891,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-size-relative-162: 162.5%;
   --calcite-size-relative-200: 200%;
   --calcite-size-relative-auto: auto;
+  --calcite-size-relative-normal: normal;
   --calcite-z-index-0: -999999;
   --calcite-z-index-1: 1;
   --calcite-z-index-3: 300;
@@ -1009,7 +1010,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-relative: auto; /** 1 */
+  --calcite-font-line-height-relative: normal; /** normal */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
   --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
@@ -1438,7 +1439,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-base: 16px;
   --calcite-font-line-height-fixed-lg: 20px;
   --calcite-font-line-height-fixed-xl: 24px;
-  --calcite-font-line-height-relative: auto; /** 1 */
+  --calcite-font-line-height-relative: normal; /** normal */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
   --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
@@ -17894,6 +17895,33 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "path": ["core", "size", "relative", "auto"]
     },
     {
+      "key": "{core.size.relative.normal}",
+      "value": "normal",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "relative",
+        "subitem": "normal",
+        "names": {
+          "scss": "$calcite-size-relative-normal",
+          "css": "var(--calcite-size-relative-normal)",
+          "js": "core.size.relative.normal",
+          "docs": "core.size.relative.normal",
+          "es6": "calciteSizeRelativeNormal"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Relative Normal",
+      "path": ["core", "size", "relative", "normal"]
+    },
+    {
       "key": "{core.z-index.0}",
       "value": "-999999",
       "type": "z-index",
@@ -21013,9 +21041,9 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.font.line-height.relative.default}",
-      "value": "auto",
+      "value": "normal",
       "type": "lineHeight",
-      "description": "1",
+      "description": "normal",
       "attributes": {
         "category": "font",
         "group": "line-height",
@@ -21024,14 +21052,14 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "item": "line-height",
         "subitem": "relative",
         "state": "default",
-        "value": "auto",
-        "description": "1",
+        "value": "normal",
+        "description": "normal",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
         "key": "{semantic.font.line-height.relative.default}",
         "name": "calcite-semantic-font-line-height-relative-default",
         "path": ["semantic", "font", "line-height", "relative", "default"],
-        "comment": "1",
+        "comment": "normal",
         "names": {
           "scss": "$calcite-font-line-height-relative",
           "css": "var(--calcite-font-line-height-relative)",
@@ -21049,7 +21077,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative",
       "path": ["semantic", "font", "line-height", "relative", "default"],
-      "comment": "1"
+      "comment": "normal"
     },
     {
       "key": "{semantic.font.line-height.relative.tight}",
@@ -26794,9 +26822,9 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{semantic.font.line-height.relative.default}",
-      "value": "auto",
+      "value": "normal",
       "type": "lineHeight",
-      "description": "1",
+      "description": "normal",
       "attributes": {
         "category": "font",
         "group": "line-height",
@@ -26805,14 +26833,14 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
         "item": "line-height",
         "subitem": "relative",
         "state": "default",
-        "value": "auto",
-        "description": "1",
+        "value": "normal",
+        "description": "normal",
         "filePath": "src/tokens/semantic/font.json",
         "isSource": true,
         "key": "{semantic.font.line-height.relative.default}",
         "name": "calcite-semantic-font-line-height-relative-default",
         "path": ["semantic", "font", "line-height", "relative", "default"],
-        "comment": "1",
+        "comment": "normal",
         "names": {
           "scss": "$calcite-font-line-height-relative",
           "css": "var(--calcite-font-line-height-relative)",
@@ -26830,7 +26858,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative",
       "path": ["semantic", "font", "line-height", "relative", "default"],
-      "comment": "1"
+      "comment": "normal"
     },
     {
       "key": "{semantic.font.line-height.relative.tight}",
@@ -29864,6 +29892,7 @@ export const calciteSizeRelative150 = "150%";
 export const calciteSizeRelative162 = "162.5%";
 export const calciteSizeRelative200 = "200%";
 export const calciteSizeRelativeAuto = "auto";
+export const calciteSizeRelativeNormal = "normal";
 export const calciteZIndex0 = "-999999";
 export const calciteZIndex1 = "1";
 export const calciteZIndex3 = "300";
@@ -30496,6 +30525,7 @@ export const calciteSizeRelative150: string;
 export const calciteSizeRelative162: string;
 export const calciteSizeRelative200: string;
 export const calciteSizeRelativeAuto: string;
+export const calciteSizeRelativeNormal: string;
 export const calciteZIndex0: string;
 export const calciteZIndex1: string;
 export const calciteZIndex3: string;
@@ -30676,7 +30706,7 @@ export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
 export const calciteFontLineHeightFixedLg = "20px";
 export const calciteFontLineHeightFixedXl = "24px";
-export const calciteFontLineHeightRelative = "auto"; // 1
+export const calciteFontLineHeightRelative = "normal"; // normal
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
 export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
@@ -31156,7 +31186,7 @@ export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
 export const calciteFontLineHeightFixedXl: string;
-/** 1 */
+/** normal */
 export const calciteFontLineHeightRelative: string;
 /** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
@@ -31595,7 +31625,7 @@ export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
 export const calciteFontLineHeightFixedLg = "20px";
 export const calciteFontLineHeightFixedXl = "24px";
-export const calciteFontLineHeightRelative = "auto"; // 1
+export const calciteFontLineHeightRelative = "normal"; // normal
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
 export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
@@ -31742,7 +31772,7 @@ export const calciteFontLineHeightFixedSm: string;
 export const calciteFontLineHeightFixedBase: string;
 export const calciteFontLineHeightFixedLg: string;
 export const calciteFontLineHeightFixedXl: string;
-/** 1 */
+/** normal */
 export const calciteFontLineHeightRelative: string;
 /** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
@@ -54116,6 +54146,41 @@ export default {
           name: "Size Relative Auto",
           path: ["core", "size", "relative", "auto"],
         },
+        normal: {
+          key: "{core.size.relative.normal}",
+          value: "normal",
+          type: "dimension",
+          attributes: {
+            category: "size",
+            type: "size",
+            item: "relative",
+            subitem: "normal",
+            names: {
+              scss: "$calcite-size-relative-normal",
+              css: "var(--calcite-size-relative-normal)",
+              js: "core.size.relative.normal",
+              docs: "core.size.relative.normal",
+              es6: "calciteSizeRelativeNormal",
+            },
+            "calcite-schema": {
+              system: "calcite",
+              tier: "core",
+              type: "dimension",
+            },
+          },
+          filePath: "src/tokens/core/size.json",
+          isSource: false,
+          original: {
+            value: "normal",
+            type: "dimension",
+            attributes: {
+              category: "size",
+            },
+            key: "{core.size.relative.normal}",
+          },
+          name: "Size Relative Normal",
+          path: ["core", "size", "relative", "normal"],
+        },
       },
     },
     "z-index": {
@@ -55158,6 +55223,7 @@ declare const tokens: {
         "162": DesignToken;
         "200": DesignToken;
         auto: DesignToken;
+        normal: DesignToken;
       };
     };
     "z-index": {
@@ -59204,9 +59270,9 @@ export default {
         relative: {
           default: {
             key: "{semantic.font.line-height.relative.default}",
-            value: "auto",
+            value: "normal",
             type: "lineHeight",
-            description: "1",
+            description: "normal",
             attributes: {
               category: "font",
               group: "line-height",
@@ -59215,14 +59281,14 @@ export default {
               item: "line-height",
               subitem: "relative",
               state: "default",
-              value: "auto",
-              description: "1",
+              value: "normal",
+              description: "normal",
               filePath: "src/tokens/semantic/font.json",
               isSource: true,
               key: "{semantic.font.line-height.relative.default}",
               name: "calcite-semantic-font-line-height-relative-default",
               path: ["semantic", "font", "line-height", "relative", "default"],
-              comment: "1",
+              comment: "normal",
               names: {
                 scss: "$calcite-font-line-height-relative",
                 css: "var(--calcite-font-line-height-relative)",
@@ -59239,9 +59305,9 @@ export default {
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
             original: {
-              value: "{core.size.relative.auto}",
+              value: "{core.size.relative.normal}",
               type: "lineHeight",
-              description: "1",
+              description: "normal",
               attributes: {
                 category: "font",
                 group: "line-height",
@@ -59251,7 +59317,7 @@ export default {
             },
             name: "Font Line Height Relative",
             path: ["semantic", "font", "line-height", "relative", "default"],
-            comment: "1",
+            comment: "normal",
           },
           tight: {
             key: "{semantic.font.line-height.relative.tight}",
@@ -67442,9 +67508,9 @@ export default {
         relative: {
           default: {
             key: "{semantic.font.line-height.relative.default}",
-            value: "auto",
+            value: "normal",
             type: "lineHeight",
-            description: "1",
+            description: "normal",
             attributes: {
               category: "font",
               group: "line-height",
@@ -67453,14 +67519,14 @@ export default {
               item: "line-height",
               subitem: "relative",
               state: "default",
-              value: "auto",
-              description: "1",
+              value: "normal",
+              description: "normal",
               filePath: "src/tokens/semantic/font.json",
               isSource: true,
               key: "{semantic.font.line-height.relative.default}",
               name: "calcite-semantic-font-line-height-relative-default",
               path: ["semantic", "font", "line-height", "relative", "default"],
-              comment: "1",
+              comment: "normal",
               names: {
                 scss: "$calcite-font-line-height-relative",
                 css: "var(--calcite-font-line-height-relative)",
@@ -67477,9 +67543,9 @@ export default {
             filePath: "src/tokens/semantic/font.json",
             isSource: true,
             original: {
-              value: "{core.size.relative.auto}",
+              value: "{core.size.relative.normal}",
               type: "lineHeight",
-              description: "1",
+              description: "normal",
               attributes: {
                 category: "font",
                 group: "line-height",
@@ -67489,7 +67555,7 @@ export default {
             },
             name: "Font Line Height Relative",
             path: ["semantic", "font", "line-height", "relative", "default"],
-            comment: "1",
+            comment: "normal",
           },
           tight: {
             key: "{semantic.font.line-height.relative.tight}",
@@ -71370,6 +71436,7 @@ $calcite-size-relative-150: 150%;
 $calcite-size-relative-162: 162.5%;
 $calcite-size-relative-200: 200%;
 $calcite-size-relative-auto: auto;
+$calcite-size-relative-normal: normal;
 $calcite-z-index-0: -999999;
 $calcite-z-index-1: 1;
 $calcite-z-index-3: 300;
@@ -71482,7 +71549,7 @@ $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
 $calcite-font-line-height-fixed-lg: 20px;
 $calcite-font-line-height-fixed-xl: 24px;
-$calcite-font-line-height-relative: auto; // 1
+$calcite-font-line-height-relative: normal; // normal
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
 $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
@@ -72091,7 +72158,7 @@ $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
 $calcite-font-line-height-fixed-lg: 20px;
 $calcite-font-line-height-fixed-xl: 24px;
-$calcite-font-line-height-relative: auto; // 1
+$calcite-font-line-height-relative: normal; // normal
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
 $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
