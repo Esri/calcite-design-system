@@ -110,7 +110,7 @@ export class Table extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When `true`, renders `calcite-pagination`. */
+  /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
   @property({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */

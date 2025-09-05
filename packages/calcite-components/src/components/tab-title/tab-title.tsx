@@ -128,7 +128,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
+   * When present, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
