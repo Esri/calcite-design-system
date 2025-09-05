@@ -37,10 +37,12 @@ import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
   getLocalizedCharAllowList,
+  getLocalizedNonDigitCharAllowList,
   hasExponentialTrailingMinusSign,
   hasLeadingMinusSign,
   hasLeadingZeros,
   hasTrailingDecimal,
+  isE,
   isInfinity,
   isValidNumber,
   parseNumberString,
@@ -61,6 +63,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useValue } from "../../controllers/useValue";
+import { allTextSelected } from "../../utils/input";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -144,6 +147,10 @@ export class InputNumber
   private getLocalizedNumberString = (value: string): string => {
     if (!value) {
       return "";
+    }
+
+    if (isE(value)) {
+      return value;
     }
 
     const { integer, isValueShortened, setNumberFormatOptions, valueController } = this;
@@ -579,7 +586,11 @@ export class InputNumber
     ) {
       this.valueController.inputValue({ inputEventEmitter, value: validatedValue });
     }
-    this.setLocalizedValue(this.value);
+    if (getLocalizedNonDigitCharAllowList(numberStringFormatter).has(value)) {
+      this.setLocalizedValue(value);
+    } else {
+      this.setLocalizedValue(this.value);
+    }
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -751,12 +762,18 @@ export class InputNumber
       if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
+      if (allTextSelected(this.childNumberEl)) {
+        return;
+      }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
       if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+        return;
+      }
+      if (allTextSelected(this.childNumberEl)) {
         return;
       }
     }
@@ -766,6 +783,9 @@ export class InputNumber
         return;
       }
       if (this.value && this.childNumberEl.value.split("-").length <= 2) {
+        return;
+      }
+      if (allTextSelected(this.childNumberEl)) {
         return;
       }
     }

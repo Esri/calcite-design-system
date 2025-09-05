@@ -101,6 +101,10 @@ export class BigDecimal {
   }
 }
 
+export function isE(value: string): boolean {
+  return value === "e" || value === "E";
+}
+
 export function isInfinity(value: string | number): boolean {
   return value === "Infinity" || value === "-Infinity" || value === Infinity || value === -Infinity;
 }
@@ -291,13 +295,16 @@ export function addLocalizedTrailingDecimalZeros(
 }
 
 export function getLocalizedCharAllowList(numberStringFormatter: NumberStringFormat): Set<string> {
+  return new Set([...getLocalizedNonDigitCharAllowList(numberStringFormatter), ...numberStringFormatter.digits]);
+}
+
+export function getLocalizedNonDigitCharAllowList(numberStringFormatter: NumberStringFormat): Set<string> {
   return new Set([
     "e",
     "E",
     numberStringFormatter.decimal,
     numberStringFormatter.minusSign,
     numberStringFormatter.group,
-    ...numberStringFormatter.digits,
   ]);
 }
 
