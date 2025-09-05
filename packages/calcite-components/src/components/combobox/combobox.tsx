@@ -1188,10 +1188,8 @@ export class Combobox
   }
 
   private setChipContainerEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.chipContainerEl, el);
     this.chipContainerEl = el;
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
