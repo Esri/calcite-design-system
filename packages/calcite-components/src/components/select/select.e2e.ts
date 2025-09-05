@@ -508,6 +508,18 @@ describe("calcite-select", () => {
           targetProp: "color",
           state: "hover",
         },
+        "--calcite-select-background-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-select-corner-radius": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-select-shadow": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "boxShadow",
+        },
       },
     );
   });
