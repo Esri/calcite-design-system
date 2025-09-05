@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.13...@esri/calcite-design-tokens@3.2.0-next.14) (2025-09-05)
+
+### Features
+
+- **tokens:** add missing line height tokens ([#12798](https://github.com/Esri/calcite-design-system/issues/12798)) ([c3f38c5](https://github.com/Esri/calcite-design-system/commit/c3f38c5b856818ad263f554ca33cfd5903b4663e)), closes [#12783](https://github.com/Esri/calcite-design-system/issues/12783)
+
 ## [3.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.12...@esri/calcite-design-tokens@3.2.0-next.13) (2025-09-05)
 
 ### Bug Fixes
