@@ -106,7 +106,7 @@ export class Button
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -143,7 +143,7 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -159,7 +159,7 @@ export class Button
    */
   @property({ reflect: true }) rel: string;
 
-  /** When `true`, adds a round style to the component. */
+  /** When present, adds a round style to the component. */
   @property({ reflect: true }) round = false;
 
   /** Specifies the size of the component. */

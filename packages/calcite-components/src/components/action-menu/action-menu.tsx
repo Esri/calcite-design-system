@@ -136,7 +136,7 @@ export class ActionMenu extends LitElement {
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** When `true`, expands the component and its contents. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -149,7 +149,7 @@ export class ActionMenu extends LitElement {
    */
   @property() label: string;
 
-  /** When `true`, the component is open. */
+  /** When present, the component is open. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;

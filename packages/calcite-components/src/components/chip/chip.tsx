@@ -69,22 +69,22 @@ export class Chip extends LitElement implements InteractiveComponent {
     Appearance
   > = "solid";
 
-  /** When `true`, a close button is added to the component. */
+  /** When present, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** When present, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
+  /** When present, the component closes when the Delete or Backspace key is pressed while focused. */
   @property({ reflect: true }) closeOnDelete = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
@@ -114,7 +114,7 @@ export class Chip extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

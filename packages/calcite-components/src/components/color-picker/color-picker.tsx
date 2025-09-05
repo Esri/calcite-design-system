@@ -279,24 +279,24 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    *
    * @deprecated Use `clearable` instead
    */
   @property({ reflect: true }) allowEmpty = false;
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /** When present, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /** When present, hides the RGB/HSV channel inputs. */
   @property() channelsDisabled = false;
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
@@ -315,10 +315,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.handleColorChange(color, oldColor);
   }
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, hides the color field. */
+  /** When present, hides the color field. */
   @property({ reflect: true }) fieldDisabled = false;
 
   /**
@@ -330,7 +330,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) format: Format = "auto";
 
-  /** When `true`, hides the hex input. */
+  /** When present, hides the hex input. */
   @property() hexDisabled = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -1652,7 +1652,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <calcite-swatch-group label={messages.saved} scale={scale} selectionMode="none">
+                <calcite-swatch-group
+                  class={CSS.swatchGroup}
+                  label={messages.saved}
+                  scale={scale}
+                  selectionMode="none"
+                >
                   {savedColors.map((color) => (
                     <calcite-swatch
                       class={CSS.savedColor}
