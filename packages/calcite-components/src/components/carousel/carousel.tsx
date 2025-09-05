@@ -127,7 +127,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   /** When present, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed. */
   @property({ reflect: true }) autoplay: AutoplayType = false;
 
-  /** When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item. */
+  /** When `autoplay` is present, specifies in milliseconds the length of time to display each Carousel Item. */
   @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
   /** When present, the component's controls are positioned absolutely on top of slotted Carousel Items. */
