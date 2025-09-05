@@ -276,6 +276,13 @@
           "attributes": {
             "category": "size"
           }
+        },
+        "none": {
+          "value": "none",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
         }
       }
     }
