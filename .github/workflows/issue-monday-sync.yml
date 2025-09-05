@@ -35,6 +35,7 @@ jobs:
       - name: "Remove Label from Task"
         if: |
           github.event.action == 'unlabeled' && (
+            github.event.label.name == 'blocked' ||
             github.event.label.name == 'design' ||
             github.event.label.name == 'a11y' ||
             github.event.label.name == 'figma changes' ||
