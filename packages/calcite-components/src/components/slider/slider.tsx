@@ -94,7 +94,7 @@ export class Slider
   private dragProp: ActiveSliderProperty;
 
   private dragUpdate = (event: PointerEvent): void => {
-    if (this.disabled || !this.trackRef.value) {
+    if (this.disabled) {
       return;
     }
 
