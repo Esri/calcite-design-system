@@ -112,10 +112,7 @@
     }
 
     span {
-      // @apply truncate;
-      overflow: inherit;
-      text-overflow: inherit;
-      // white-space: wrap;
+      overflow: hidden;
     }
 
     calcite-loader {

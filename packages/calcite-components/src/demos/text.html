@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Text</title>
+
+    <style>
+      calcite-button {
+        min-width: 0;
+      }
+
+      .maxWidthWrapper {
+        width: 400px;
+        display: flex;
+      }
+    </style>
+
+    <script src="_assets/head.ts"></script>
+  </head>
+
+  <body>
+    <div class="maxWidthWrapper">
+      <calcite-button> 1</calcite-button>
+      <calcite-button> 2</calcite-button>
+      <calcite-button> 3</calcite-button>
+      <calcite-button> 4</calcite-button>
+      <calcite-button> 5</calcite-button>
+      <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+      <calcite-button
+        ><calcite-text ellipsis
+          >Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-text
+        ></calcite-button
+      >
+    </div>
+    <calcite-button width="half"
+      ><calcite-text wrap
+        >This is a really long text that should be truncated when it exceeds the width of its container.This is a really
+        long text that should be truncated when it exceeds the width of its container.This is a really long text that
+        should be truncated when it exceeds the width of its container.This is a really long text that should be
+        truncated when it exceeds the width of its container.</calcite-text
+      >
+    </calcite-button>
+
+    <div class="maxWidthWrapper">
+      <calcite-chip value="biome-a" label="Biome A"
+        ><calcite-text ellipsis
+          >Biome A Biome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome
+          ABiome ABiome ABiome ABiome ABiome A</calcite-text
+        ></calcite-chip
+      >
+      <calcite-chip value="biome-a" label="Biome A">
+        Biome A Biome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome
+        ABiome ABiome ABiome ABiome A
+      </calcite-chip>
+      <calcite-chip value="biome-b" label="Biome B">Biome B</calcite-chip>
+      <calcite-chip value="biome-d" label="Biome C">Biome C</calcite-chip>
+      <calcite-chip value="biome-d" label="Biome D">Biome D</calcite-chip>
+      <calcite-chip value="biome-e" label="Biome E">Biome E</calcite-chip>
+    </div>
+
+    <calcite-text>
+      This is a really long text that should be truncated when it exceeds the width of its container.
+    </calcite-text>
+
+    <div style="width: 200px; border: 1px dashed black">
+      <calcite-list heading="Park features">
+        <calcite-list-item-group style="background-color: blue" heading="longlonglonglonglonglonglonglong">
+          <calcite-list-item
+            label="Hiking trails"
+            description="Designated routes for hikers to use."
+            value="hiking-trails"
+          >
+            <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+            <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+          </calcite-list-item>
+          <calcite-list-item
+            label="This_label_breaks_correctly_______This_label_breaks_correctly_"
+            description="Large naturally flowing watercourses."
+            value="rivers"
+          >
+            <calcite-action slot="actions-end" icon="layer" text="Rivers layer"> </calcite-action>
+          </calcite-list-item>
+        </calcite-list-item-group>
+      </calcite-list>
+    </div>
+
+    <script>
+      const listItemGroup = document.querySelector("calcite-list-item-group");
+      listItemGroup.textTruncation = { heading: "truncate" };
+    </script>
+  </body>
+</html>
