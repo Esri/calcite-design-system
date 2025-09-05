@@ -7,6 +7,7 @@ import {
   formAssociated,
   hidden,
   HYDRATED_ATTR,
+  internalLabel,
   labelable,
   themed,
 } from "../../tests/commonTests";
@@ -51,6 +52,10 @@ describe("calcite-switch", () => {
 
   describe("focusable", () => {
     focusable("calcite-switch");
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-switch`);
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {

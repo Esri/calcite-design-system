@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   openClose,
   renders,
@@ -91,6 +92,10 @@ describe("calcite-input-date-picker", () => {
     focusable(`calcite-input-date-picker`, {
       shadowFocusTargetSelector: "calcite-input-text",
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-input-date-picker`);
   });
 
   describe("event emitting when the value changes", () => {

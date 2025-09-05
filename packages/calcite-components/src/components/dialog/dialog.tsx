@@ -128,13 +128,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, disables the component's close button. */
+  /** When present, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When `true`, the component is draggable. */
+  /** When present, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
@@ -146,7 +146,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   @property() embedded = false;
 
   /**
-   * When `true`, disables the default close on escape behavior.
+   * When present, disables the default close on escape behavior.
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
@@ -180,25 +180,25 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /** When present, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays a scrim blocking interaction underneath the component. */
+  /** When present, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
-  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  /** When present and `modal` is `false`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -210,7 +210,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
   }
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When present, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /**
@@ -225,7 +225,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the placement of the dialog. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
-  /** When `true`, the component is resizable. */
+  /** When present, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** Specifies the size of the component. */
