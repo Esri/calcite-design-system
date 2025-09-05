@@ -1,6 +1,5 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
 import {
   LitElement,
   property,
@@ -35,7 +34,6 @@ import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import PopoverManager from "./PopoverManager";
@@ -62,8 +60,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   //#region Private Properties
 
   private arrowEl: SVGSVGElement;
-
-  private closeButtonEl = createRef<Action["el"]>();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -259,9 +255,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   /** Updates the element(s) that are used within the focus-trap of the component. */
@@ -499,7 +493,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
           appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
-          ref={this.closeButtonEl}
           scale={this.scale}
           text={messages.close}
         >

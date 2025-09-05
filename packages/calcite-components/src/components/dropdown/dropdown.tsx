@@ -22,8 +22,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { createObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { createObserver, updateRefObserver } from "../../utils/observers";
+import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
@@ -31,7 +31,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -210,9 +210,7 @@ export class Dropdown
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.referenceEl;
-    }, options);
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   // #endregion
@@ -465,13 +463,7 @@ export class Dropdown
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
-    entries.forEach((entry) => {
-      const { target } = entry;
-
-      if (!this.hasUpdated) {
-        return;
-      }
-
+    entries.forEach(({ target }) => {
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -482,23 +474,31 @@ export class Dropdown
 
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
-    const referenceElWidth = referenceEl?.clientWidth;
 
-    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+    if (!scrollerEl || !referenceEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceEl.clientWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
-    const maxScrollerHeight = this.getMaxScrollerHeight();
-    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const { maxItems, items, scrollerEl } = this;
+
+    if (!scrollerEl) {
+      return;
+    }
+
+    const maxScrollerHeight =
+      items.length >= maxItems && maxItems > 0
+        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        : 0;
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
+    updateRefObserver(this.resizeObserver, this.scrollerEl, el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }
@@ -522,11 +522,9 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -569,14 +567,6 @@ export class Dropdown
 
   private updateSelectedItems(): void {
     this.selectedItems = this.items.filter((item) => item.selected);
-  }
-
-  private getMaxScrollerHeight(): number {
-    const { maxItems, items } = this;
-
-    return items.length >= maxItems && maxItems > 0
-      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
-      : 0;
   }
 
   private getYDistance(parent: HTMLElement, child: HTMLElement): number {
