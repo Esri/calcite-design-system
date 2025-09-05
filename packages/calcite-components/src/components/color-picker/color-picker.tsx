@@ -251,16 +251,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  s;
-
-  private get baseColorFieldColor(): ColorInstance {
-    return this.color || this.previousColor || DEFAULT_COLOR;
-  }
-
-  private get effectiveSliderWidth(): number {
-    return this.dynamicDimensions.slider.width;
-  }
-
   //#endregion
 
   //#region State Properties
