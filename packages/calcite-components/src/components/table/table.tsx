@@ -64,6 +64,8 @@ export class Table extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private _currentPage = 1;
+
   //#endregion
 
   //#region State Properties
@@ -96,10 +98,10 @@ export class Table extends LitElement {
    * Sets/gets the current page
    */
   @property({ reflect: true }) get currentPage(): number {
-    return Math.ceil(this.pageStartRow / this.pageSize);
+    return this._currentPage;
   }
   set currentPage(page: number) {
-    this.pageStartRow = (page - 1) * this.pageSize + 1;
+    this._currentPage = page;
   }
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
@@ -201,7 +203,9 @@ export class Table extends LitElement {
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
-      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
+      (changes.has("currentPage") &&
+        (this.hasUpdated || this._currentPage > 1) &&
+        this.pageSize > 0)
     ) {
       this.updateRows();
     }
@@ -341,13 +345,13 @@ export class Table extends LitElement {
   }
 
   private handleCurrentPageRange(): void {
-    const requestedPage = this.currentPage;
+    const requestedPage = this._currentPage;
     const totalRows = this.bodyRows?.length || 0;
     const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
 
     if (totalPages > 0) {
       const page = Math.min(Math.max(requestedPage, 1), totalPages);
-      this.currentPage = page;
+      this._currentPage = page;
       this.pageStartRow = (page - 1) * this.pageSize + 1;
     }
     this.paginateRows();
@@ -356,7 +360,7 @@ export class Table extends LitElement {
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
-    this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
+    this._currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }
