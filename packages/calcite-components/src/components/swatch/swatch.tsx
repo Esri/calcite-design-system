@@ -321,7 +321,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
     return (
       <>
-        <title>{hexa}</title>
         <defs>
           <pattern
             height={CHECKER_DIMENSIONS.size}
@@ -448,6 +447,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
           ref={this.containerEl}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
+          title={this.label}
         >
           {this.renderSwatchImage()}
           {!this.internalColor && !this.hasImage && this.renderEmptyDisplay()}
