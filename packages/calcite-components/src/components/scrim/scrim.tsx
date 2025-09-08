@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
@@ -25,7 +26,7 @@ export class Scrim extends LitElement {
 
   //#region Private Properties
 
-  private loaderEl: Loader["el"];
+  private loaderRef = createRef<Loader["el"]>();
 
   private resizeObserver = createObserver("resize", () => this.handleResize());
 
@@ -48,7 +49,7 @@ export class Scrim extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -74,11 +75,6 @@ export class Scrim extends LitElement {
     this.hasContent = slotChangeHasContent(event);
   }
 
-  private storeLoaderEl(el: Loader["el"]): void {
-    this.loaderEl = el;
-    this.handleResize();
-  }
-
   private getScale(size: number): Scale {
     if (size < BREAKPOINTS.s) {
       return "s";
@@ -90,11 +86,7 @@ export class Scrim extends LitElement {
   }
 
   private handleResize(): void {
-    const { loaderEl, el } = this;
-
-    if (!loaderEl) {
-      return;
-    }
+    const { el } = this;
 
     this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
   }
@@ -104,16 +96,12 @@ export class Scrim extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { hasContent, loading, messages } = this;
+    const { hasContent, loading, loaderScale, messages } = this;
 
     return (
       <div class={CSS.scrim}>
-        {loading ? (
-          <calcite-loader
-            label={messages.loading}
-            ref={this.storeLoaderEl}
-            scale={this.loaderScale}
-          />
+        {loading && loaderScale ? (
+          <calcite-loader label={messages.loading} ref={this.loaderRef} scale={loaderScale} />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>
           <slot onSlotChange={this.handleDefaultSlotChange} />

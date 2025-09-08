@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -38,8 +39,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  /** the rendered child element */
-  private childEl: HTMLAnchorElement | HTMLButtonElement;
+  private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -47,7 +47,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -89,9 +89,7 @@ export class Link extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.childEl;
-    }, options);
+    return this.focusSetter(() => this.childRef.value, options);
   }
 
   // #endregion
@@ -118,7 +116,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
     // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
-      this.childEl.click();
+      this.childRef.value.click();
     }
   }
 
@@ -127,10 +125,6 @@ export class Link extends LitElement implements InteractiveComponent {
       // click was invoked internally, we stop it here
       event.stopPropagation();
     }
-  }
-
-  private storeTagRef(el: Link["childEl"]): void {
-    this.childEl = el;
   }
 
   // #endregion
@@ -184,7 +178,9 @@ export class Link extends LitElement implements InteractiveComponent {
           }
           href={childElType === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.storeTagRef}
+          ref={
+            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
+          }
           rel={childElType === "a" && this.rel}
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}

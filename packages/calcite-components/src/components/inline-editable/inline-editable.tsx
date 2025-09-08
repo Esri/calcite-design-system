@@ -37,15 +37,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   //#region Private Properties
 
-  private cancelEditingButton = createRef<Button["el"]>();
-
-  private confirmEditingButton = createRef<Button["el"]>();
+  private cancelEditingButtonRef = createRef<Button["el"]>();
 
   private _editingEnabled = false;
 
-  private enableEditingButton = createRef<Button["el"]>();
+  private enableEditingButtonRef = createRef<Button["el"]>();
 
-  private inputElement: Input["el"];
+  private inputEl: Input["el"];
 
   labelEl: Label["el"];
 
@@ -69,13 +67,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
 
-  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
+  /** When present and `editingEnabled` is present, displays save and cancel controls on the component. */
   @property({ reflect: true }) controls = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, inline editing is enabled on the component. */
+  /** When present, inline editing is enabled on the component. */
   @property({ reflect: true })
   get editingEnabled(): boolean {
     return this._editingEnabled;
@@ -88,7 +86,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
   }
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -110,9 +108,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.inputElement;
-    }, options);
+    return this.focusSetter(() => this.inputEl, options);
   }
 
   //#endregion
@@ -168,14 +164,14 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   }
 
   private disabledWatcher(disabled: boolean): void {
-    if (this.inputElement) {
-      this.inputElement.disabled = disabled;
+    if (this.inputEl) {
+      this.inputEl.disabled = disabled;
     }
   }
 
   private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
-    if (this.inputElement) {
-      this.inputElement.editingEnabled = newValue;
+    if (this.inputEl) {
+      this.inputEl.editingEnabled = newValue;
     }
     if (!newValue && !!oldValue) {
       this.shouldEmitCancel = true;
@@ -193,7 +189,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
       el.matches("calcite-input"),
     )[0];
 
-    this.inputElement = inputElement;
+    this.inputEl = inputElement;
 
     if (!inputElement) {
       return;
@@ -203,7 +199,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     inputElement.editingEnabled = this.editingEnabled;
     inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-    this.scale = this.scale || this.inputElement?.scale || "m";
+    this.scale = this.scale || this.inputEl?.scale || "m";
   }
 
   onLabelClick(): void {
@@ -211,9 +207,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   }
 
   private enableEditing() {
-    this.valuePriorToEditing = this.inputElement?.value;
+    this.valuePriorToEditing = this.inputEl?.value;
     this.editingEnabled = true;
-    this.inputElement?.setFocus();
+    this.inputEl?.setFocus();
     this.calciteInternalInlineEditableEnableEditingChange.emit();
   }
 
@@ -222,17 +218,17 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   }
 
   private cancelEditing() {
-    if (this.inputElement) {
-      this.inputElement.value = this.valuePriorToEditing;
+    if (this.inputEl) {
+      this.inputEl.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.value?.setFocus();
+    this.enableEditingButtonRef.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
   }
 
-  private async escapeKeyHandler(event: KeyboardEvent) {
+  private escapeKeyHandler(event: KeyboardEvent) {
     if (event.defaultPrevented) {
       return;
     }
@@ -243,13 +239,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
 
     if (event.key === "Tab" && this.shouldShowControls) {
-      if (!event.shiftKey && event.target === this.inputElement) {
+      if (!event.shiftKey && event.target === this.inputEl) {
         event.preventDefault();
-        this.cancelEditingButton.value.setFocus();
+        this.cancelEditingButtonRef.value.setFocus();
       }
-      if (!!event.shiftKey && event.target === this.cancelEditingButton.value) {
+      if (!!event.shiftKey && event.target === this.cancelEditingButtonRef.value) {
         event.preventDefault();
-        this.inputElement?.setFocus();
+        this.inputEl?.setFocus();
       }
     }
   }
@@ -259,10 +255,10 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     this.cancelEditing();
   }
 
-  private async enableEditingHandler(event: MouseEvent) {
+  private enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      (event.target !== this.enableEditingButton.value && event.target !== this.inputElement)
+      (event.target !== this.enableEditingButtonRef.value && event.target !== this.inputEl)
     ) {
       return;
     }
@@ -281,7 +277,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
         this.loading = true;
         await this.afterConfirm();
         this.disableEditing();
-        this.enableEditingButton.value.setFocus();
+        this.enableEditingButtonRef.value?.setFocus();
       }
     } catch {
       // we handle error in finally block
@@ -314,7 +310,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
-              ref={this.enableEditingButton}
+              ref={this.enableEditingButtonRef}
               scale={this.scale}
               style={{
                 opacity: this.editingEnabled ? "0" : "1",
@@ -333,7 +329,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
-                  ref={this.cancelEditingButton}
+                  ref={this.cancelEditingButtonRef}
                   scale={this.scale}
                   title={this.messages.cancelEditing}
                   type="button"
@@ -348,7 +344,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 label={this.messages.confirmChanges}
                 loading={this.loading}
                 onClick={this.confirmChangesHandler}
-                ref={this.confirmEditingButton}
                 scale={this.scale}
                 title={this.messages.confirmChanges}
                 type="button"
