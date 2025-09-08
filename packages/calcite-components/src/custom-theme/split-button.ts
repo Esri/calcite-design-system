@@ -9,6 +9,7 @@ export const splitButtonTokens = {
   calciteSplitButtonTextColor: "",
   calciteSplitButtonShadow: "",
   calciteSplitButtonDividerColor: "",
+  calciteSplitButtonDividerBorderColor: "",
   calciteSplitButtonDropdownWidth: "",
   calciteSplitButtonDropdownBackgroundColor: "",
 };
