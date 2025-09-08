@@ -356,12 +356,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
         {this.renderSwatchRect({
           clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round "${borderRadius}")`,
           fill: hex,
+          id: IDS.swatchSolid,
           ...commonSwatchProps,
         })}
         {alpha < 1
           ? this.renderSwatchRect({
               clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
               fill: hexa,
+              id: IDS.swatchTransparent,
               key: "opacity-fill",
               ...commonSwatchProps,
             })
@@ -379,6 +381,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     stroke,
     strokeWidth,
     width,
+    id,
   }: {
     clipPath?: string;
     fill?: string;
@@ -392,13 +395,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
     strokeWidth?: string;
 
     width: string;
+    id?: string;
   }): JsxNode {
     return (
       <rect
         clip-path={clipPath}
         fill={fill}
         height={height}
-        id={IDS.swatchRect}
+        id={id ? id : IDS.swatchRect}
         key={key}
         rx={rx}
         stroke={stroke}
