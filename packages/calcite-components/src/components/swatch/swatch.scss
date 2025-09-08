@@ -114,11 +114,15 @@
   }
 }
 
-:host([selected]) #swatch-rect {
+:host([selected]) #swatch-rect,
+:host([selected]) #swatch-solid,
+:host([selected]) #swatch-transparent {
   stroke-width: 0;
 }
 
-#swatch-rect {
+#swatch-rect,
+#swatch-solid,
+#swatch-transparent {
   stroke: var(--calcite-color-text-1);
   stroke-width: var(--calcite-border-width-md);
   stroke-opacity: 0.3;
