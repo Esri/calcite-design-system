@@ -59,7 +59,7 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: DragDetail) => boolean;
 
-  /** When true, disabled prevents interaction. This state shows items with lower opacity/grayed. */
+  /** When present, disabled prevents interaction. This state shows items with lower opacity/grayed. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies which items inside the element should be draggable. */
@@ -79,7 +79,7 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** When true, content is waiting to be loaded. This state shows a busy indicator. */
+  /** When present, content is waiting to be loaded. This state shows a busy indicator. */
   @property({ reflect: true }) loading = false;
 
   // #endregion

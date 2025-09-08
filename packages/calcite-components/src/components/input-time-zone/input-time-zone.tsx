@@ -9,6 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -67,7 +68,7 @@ export class InputTimeZone
 
   //#region Private Properties
 
-  private comboboxEl: Combobox["el"];
+  private comboboxRef = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -247,9 +248,7 @@ export class InputTimeZone
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.comboboxEl;
-    }, options);
+    return this.focusSetter(() => this.comboboxRef.value, options);
   }
 
   //#endregion
@@ -343,8 +342,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl) {
-      this.comboboxEl.open = this.open;
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
     }
   }
 
@@ -378,10 +377,6 @@ export class InputTimeZone
     this.setFocus();
   }
 
-  private setComboboxRef(el: Combobox["el"]): void {
-    this.comboboxEl = el;
-  }
-
   /**
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
@@ -393,7 +388,10 @@ export class InputTimeZone
       return;
     }
 
-    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem, open);
+    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+      this.selectedTimeZoneItem,
+      open,
+    );
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -528,7 +526,7 @@ export class InputTimeZone
           }
           placeholderIcon="search"
           readOnly={this.readOnly}
-          ref={this.setComboboxRef}
+          ref={this.comboboxRef}
           required={this.required}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}

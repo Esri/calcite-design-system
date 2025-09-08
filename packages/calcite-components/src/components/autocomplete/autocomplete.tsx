@@ -55,7 +55,7 @@ import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocompl
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -398,9 +398,7 @@ export class Autocomplete
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.referenceEl;
-    }, options);
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   //#endregion
@@ -654,14 +652,8 @@ export class Autocomplete
   }
 
   private setReferenceEl(el: Input["el"]): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
-
     connectFloatingUI(this);
   }
 
