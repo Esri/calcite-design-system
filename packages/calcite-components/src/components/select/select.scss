@@ -8,7 +8,18 @@
  * @prop --calcite-select-border-color: Specifies the component's border color.
  * @prop --calcite-select-icon-color: Specifies the component's icon color.
  * @prop --calcite-select-icon-color-hover: Specifies the component's icon color when hovered or active.
+ * @prop --calcite-select-background-color: Specifies the component's background color.
+ * @prop --calcite-select-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-select-shadow: Specifies the component's shadow.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-select-block-size
+// --calcite-internal-select-font-size
+// --calcite-internal-select-icon-container-padding-inline
 
 :host {
   @extend %component-spacing;
@@ -65,8 +76,7 @@
 }
 
 .select {
-  @apply bg-foreground-1
-    font-inherit
+  @apply font-inherit
     focus-base
     m-0
     box-border
@@ -74,7 +84,6 @@
     cursor-pointer
     appearance-none
     truncate
-    rounded-none
     border-solid;
   font-weight: inherit;
   font-size: var(--calcite-select-font-size, var(--calcite-internal-select-font-size));
@@ -85,6 +94,9 @@
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: 0;
   line-height: var(--calcite-internal-select-line-height, normal);
+  background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-small));
   &:focus {
     @apply focus-inset;
   }
@@ -98,9 +110,12 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
+  border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
+  border-end-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius-none));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
-  border-inline-width: theme("borderWidth.0")
-    var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
+  border-inline-width: 0 var(--calcite-select-internal-icon-border-inline-end-width, var(--calcite-border-width-sm));
   padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
   .icon {
     color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
@@ -123,6 +138,7 @@ select:disabled {
   @apply border-color-transparent;
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

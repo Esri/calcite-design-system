@@ -9872,5 +9872,190 @@
     "alias": ["4.3.0", "generic", "organize", "search", "content", "filter", "folders"],
     "category": "Generic",
     "release": "4.3.0"
+  },
+  "coded-value-domain": {
+    "alias": ["4.3.0", "gis", "geodatabase", "schema", "compare", "tool"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "feature-dataset": {
+    "alias": ["4.3.0", "gis", "geodatabase", "schema", "compare", "tools"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "domain": {
+    "alias": ["4.3.0", "generic", "mutipoint", "geodatabase", "schema", "tools"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "layer-annotation": {
+    "alias": ["4.3.0", "layers", "text", "visual", "label", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-dimension": {
+    "alias": ["4.3.0", "layers", "elements", "color", "compare", "geodatabase,schema"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-multipatch": {
+    "alias": ["4.3.0", "layers", "collection", "boundary", "object", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "layer-multipoint": {
+    "alias": ["4.3.0", "layers", "data-structures", "connect", "network", "geodatabase"],
+    "category": "Layers",
+    "release": "4.3.0"
+  },
+  "range-domain": {
+    "alias": ["4.3.0", "gis", "values", "output", "geodatabase", "schema"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "topology": {
+    "alias": ["4.3.0", "generic", "spaces", "shape", "points", "math"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "location-referencing-dataset": {
+    "alias": ["4.3.0", "gis", "linear", "feature", "coordinates", "locations", "points"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "geometric-network": {
+    "alias": ["4.3.0", "gis", "edges", "junctions", "points", "network"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "parcel-dataset": {
+    "alias": ["4.3.0", "generic", "collection", "attributes", "information", "polygons"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "relationship-class": {
+    "alias": ["4.3.0", "gis", "store", "fields", "features", "table", "geodatabase"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "circle-intersection": {
+    "alias": ["4.3.0", "geometry editing", "calculate", "compare", "distance", "sum", "difference"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "intersection": {
+    "alias": ["4.3.0", "geometry editing", "points", "figures", "overlap", "cross", "line"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "midpoint": {
+    "alias": ["4.3.0", "geometry editing", "point", "divide", "segmemt", "equal"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "line-intersection": {
+    "alias": ["4.3.0", "geometry editing", "lines", "cross", "point", "single", "angles"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "new-complete-part": {
+    "alias": ["4.3.0", "geometry editing", "dimensional", "shape", "component", "channels"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "line-and-circle-intersection": {
+    "alias": ["4.3.0", "geometry editing", "shape", "points", "equation", "substitue"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "point-along-a-line": {
+    "alias": ["4.3.0", "geometry editing", "tool", "layer", "interval", "distance"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "autocomplete-polygon": {
+    "alias": ["4.3.0", "geometry editing", "feature", "boundary", "shapes", "tool"],
+    "category": "Geometry Editing",
+    "release": "4.3.0"
+  },
+  "assign-classification": {
+    "alias": ["4.3.0", "generic", "presentation", "top-secret", "protection", "unclassified"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "video-data-store": {
+    "alias": ["4.3.0", "gis", "publish", "enhancements", "manage", "retrieve"],
+    "category": "GIS",
+    "release": "4.3.0"
+  },
+  "list-check-all-rtl": {
+    "alias": ["4.3.0", "lists", "points", "text", "align", "read"],
+    "category": "Lists",
+    "release": "4.3.0"
+  },
+  "list-check-rtl": {
+    "alias": ["4.3.0", "lists", "points", "read", "align", "tasks"],
+    "category": "Lists",
+    "release": "4.3.0"
+  },
+  "camera-sensor-layer": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "publish", "video", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "security-camera": {
+    "alias": ["4.3.0", "objects", "safety", "surveillance", "monitor", "technology"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "camera-sensor": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "video", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "video-metadata": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "publishing", "feature"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "livestream-video-protocols": {
+    "alias": ["4.3.0", "objects", "technology", "delivery", "standardized", "rules", "data", "internet"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "camera-sensor-map": {
+    "alias": ["4.3.0", "objects", "technology", "workflow", "video", "publish", "layers"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "shopping-cart-plus": {
+    "alias": ["4.3.0", "objects", "items", "store", "buggy", "trolley", "basket", "add", "video"],
+    "category": "Objects",
+    "release": "4.3.0"
+  },
+  "carousel-frames": {
+    "alias": ["4.3.0", "windows", "storytelling", "frames", "story-maps"],
+    "category": "Windows",
+    "release": "4.3.0"
+  },
+  "select-row": {
+    "alias": ["4.3.0", "generic", "interactive", "table", "record", "feature"],
+    "category": "Generic",
+    "release": "4.3.0"
+  },
+  "layer-3d": {
+    "alias": [
+      "4.3.0",
+      "layers",
+      "3D-object-layer",
+      "building-layer",
+      "mesh-layer",
+      "point-cloud-layer",
+      "gaussian-splat-layer",
+      "voxel-layer",
+      "point-layer"
+    ],
+    "category": "Layers",
+    "release": "4.3.0"
   }
 }

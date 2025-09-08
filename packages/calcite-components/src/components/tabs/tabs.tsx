@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { Scale } from "../interfaces";
 import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import type { TabTitle } from "../tab-title/tab-title";
@@ -28,7 +29,7 @@ export class Tabs extends LitElement {
 
   // #region Private Properties
 
-  private slotEl: HTMLSlotElement;
+  private slotRef = createRef<HTMLSlotElement>();
 
   // #endregion
 
@@ -47,7 +48,7 @@ export class Tabs extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component will display with a folder style menu. */
+  /** When present, the component will display with a folder style menu. */
   @property() bordered = false;
 
   /** Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). */
@@ -121,9 +122,13 @@ export class Tabs extends LitElement {
   private async updateAriaSettings(): Promise<void> {
     await this.componentOnReady();
 
+    if (!this.slotRef.value) {
+      return;
+    }
+
     let tabIds;
     let titleIds;
-    const tabs = getSlotAssignedElements<Tab["el"]>(this.slotEl, "calcite-tab");
+    const tabs = getSlotAssignedElements<Tab["el"]>(this.slotRef.value, "calcite-tab");
 
     // determine if we are using `tab` based or `index` based tab identifiers.
     if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
@@ -183,10 +188,6 @@ export class Tabs extends LitElement {
     );
   }
 
-  private setDefaultSlotRef(el): void {
-    this.slotEl = el;
-  }
-
   // #endregion
 
   // #region Rendering
@@ -196,7 +197,7 @@ export class Tabs extends LitElement {
       <>
         <slot name={SLOTS.titleGroup} />
         <section class={CSS.section}>
-          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.setDefaultSlotRef} />
+          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
         </section>
       </>
     );

@@ -26,6 +26,12 @@
  * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-text-alignment
+
 :host {
   @apply block;
 }
@@ -137,6 +143,7 @@ input {
   color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
   border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
+  text-align: var(--calcite-internal-input-text-alignment);
 
   &:placeholder-shown {
     @apply text-ellipsis;
@@ -223,6 +230,7 @@ input:focus {
     inline-flex
     flex-1
     items-center;
+  isolation: isolate;
 }
 
 .icon {
@@ -358,15 +366,15 @@ input[type="text"]::-ms-reveal {
 
 // alignment type
 :host([alignment="start"]) {
-  & input {
-    text-align: start;
-  }
+  --calcite-internal-input-text-alignment: start;
+}
+
+:host([alignment="center"]) {
+  --calcite-internal-input-text-alignment: center;
 }
 
 :host([alignment="end"]) {
-  & input {
-    text-align: end;
-  }
+  --calcite-internal-input-text-alignment: end;
 }
 
 .wrapper {
@@ -413,6 +421,7 @@ input {
   }
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

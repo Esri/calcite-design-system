@@ -13,6 +13,12 @@
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-rating-spacing
+
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
@@ -112,6 +118,7 @@ calcite-chip {
   @apply sr-only;
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

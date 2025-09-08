@@ -56,7 +56,7 @@ export default {
       control: { type: "select" },
     },
     alignment: {
-      options: alignment.values.filter((option) => option !== "center"),
+      options: alignment.values,
       control: { type: "select" },
     },
     numberButtonType: {
@@ -227,3 +227,25 @@ export const fontSizeSetAtRoot = (): string =>
     <calcite-input-number placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" icon="search">
       <calcite-button slot="action"> Search </calcite-button>
     </calcite-input-number>`;
+
+export const alignmentAllOptions = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input-number alignment="start" placeholder="Placeholder text"></calcite-input-number>
+    <br />
+    <calcite-input-number alignment="center" placeholder="Placeholder text"></calcite-input-number>
+    <br />
+    <calcite-input-number alignment="end" placeholder="Placeholder text"></calcite-input-number>
+  </div>
+`;
+
+export const overlayDoesNotObscureIcon = (): string =>
+  html` <style>
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        opacity: 0.75;
+      }
+    </style>
+    <calcite-input-number icon="check-square-f"></calcite-input-number>
+    <div class="overlay"></div>`;
