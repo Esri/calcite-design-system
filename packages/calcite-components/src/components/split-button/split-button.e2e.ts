@@ -376,12 +376,12 @@ describe("calcite-split-button", () => {
           },
         ],
         "--calcite-split-button-divider-color": {
-          shadowSelector: `.${CSS.divider}`,
+          shadowSelector: `.${CSS.dividerContainer}`,
           targetProp: "backgroundColor",
         },
         "--calcite-split-button-divider-border-color": {
-          shadowSelector: `.${CSS.dividerContainer}`,
-          targetProp: "borderColor",
+          shadowSelector: `.${CSS.divider}`,
+          targetProp: "backgroundColor",
         },
         "--calcite-split-button-dropdown-background-color": {
           shadowSelector: `calcite-dropdown`,
