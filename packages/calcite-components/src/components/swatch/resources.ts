@@ -28,4 +28,6 @@ export const IDS = {
   checker: "checker",
   shape: "shape",
   swatchRect: "swatch-rect",
+  swatchSolid: "swatch-solid",
+  swatchTransparent: "swatch-transparent",
 };
