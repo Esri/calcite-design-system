@@ -25,6 +25,7 @@ export const CSS = {
   iconPosition: (iconPosition: Position) => `icon-position--${iconPosition}` as const,
   iconType: (iconType: IconType) => `icon-type--${iconType}` as const,
   item: "item",
+  slotContentEnd: "slot-content-end",
   slotContentStart: "slot-content-start",
 };
 

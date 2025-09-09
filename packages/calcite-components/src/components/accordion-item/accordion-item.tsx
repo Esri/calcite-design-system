@@ -61,6 +61,8 @@ export class AccordionItem extends LitElement {
 
   @state() hasActionsStart = false;
 
+  @state() hasContentEnd = false;
+
   @state() hasContentStart = false;
 
   //#endregion
@@ -251,6 +253,10 @@ export class AccordionItem extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  }
+
   private handleContentStartSlotChange(event: Event): void {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
@@ -303,6 +309,14 @@ export class AccordionItem extends LitElement {
     return (
       <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+      </div>
+    );
+  }
+
+  private renderContentEnd(): JsxNode {
+    return (
+      <div class={CSS.slotContentEnd} hidden={!this.hasContentEnd}>
+        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
       </div>
     );
   }
@@ -374,7 +388,7 @@ export class AccordionItem extends LitElement {
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}
-              <slot name={SLOTS.contentEnd} />
+              {this.renderContentEnd()}
             </div>
             <calcite-icon
               class={CSS.expandIcon}

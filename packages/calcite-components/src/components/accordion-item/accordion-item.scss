@@ -181,6 +181,10 @@
   inline-size: 100%;
 }
 
+.slot-content-end {
+  margin-inline-start: var(--calcite-internal-accordion-icon-margin);
+}
+
 .slot-content-start {
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
 }
