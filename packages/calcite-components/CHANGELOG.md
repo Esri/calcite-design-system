@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.101...@esri/calcite-components@3.3.0-next.102) (2025-09-09)
+
+### Features
+
+- **swatch:** Use label for visual title ([#12841](https://github.com/Esri/calcite-design-system/issues/12841)) ([df9d9a1](https://github.com/Esri/calcite-design-system/commit/df9d9a15c3b068e5794b28e02618a52187f6821d)), closes [#12760](https://github.com/Esri/calcite-design-system/issues/12760)
+
 ## [3.3.0-next.101](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.100...@esri/calcite-components@3.3.0-next.101) (2025-09-05)
 
 ### Features
