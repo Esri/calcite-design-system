@@ -476,10 +476,9 @@ export class TabNav extends LitElement {
         const offsetAdjustment =
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
-            ? -scrollerButtonWidth
-            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + scrollerButtonWidth;
+            ? -(2 * scrollerButtonWidth)
+            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + 2 * scrollerButtonWidth;
         const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
-
         tabTitleContainer.scrollTo({
           left: scrollTo,
           behavior: "smooth",
@@ -575,14 +574,11 @@ export class TabNav extends LitElement {
       <div
         class={{
           [CSS.container]: true,
-          [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
-          [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
           [CSS.scale(this.scale)]: true,
           [CSS.position(this.position)]: true,
           [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
         }}
       >
-        {this.renderScrollButton("start")}
         <div
           class={{
             [CSS.tabTitleSlotWrapper]: true,
@@ -593,32 +589,34 @@ export class TabNav extends LitElement {
         >
           <slot onSlotChange={this.onSlotChange} />
         </div>
-        {this.renderScrollButton("end")}
+
+        <div class={CSS.scrollButtonContainer}>
+          {this.renderScrollButton("start")}
+          {this.renderScrollButton("end")}
+        </div>
       </div>
     );
   }
 
   private renderScrollButton(overflowDirection: "start" | "end"): JsxNode {
-    const { bordered, messages, hasOverflowingStartTabTitle, hasOverflowingEndTabTitle, scale } =
+    const { bordered, messages, scale, hasOverflowingEndTabTitle, hasOverflowingStartTabTitle } =
       this;
     const isEnd = overflowDirection === "end";
 
     return (
       <div
         class={{
-          [CSS.scrollButtonContainer]: true,
-          [CSS.scrollBackwardContainerButton]: !isEnd,
-          [CSS.scrollForwardContainerButton]: isEnd,
+          [CSS.scrollButton]: true,
+          [CSS.scrollBackwardButton]: !isEnd,
+          [CSS.scrollForwardButton]: isEnd,
         }}
-        hidden={(isEnd && !hasOverflowingEndTabTitle) || (!isEnd && !hasOverflowingStartTabTitle)}
+        hidden={!hasOverflowingEndTabTitle && !hasOverflowingStartTabTitle}
         key={overflowDirection}
       >
         <calcite-button
           appearance={bordered ? "outline-fill" : "transparent"}
           ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
-          class={{
-            [CSS.scrollButton]: true,
-          }}
+          disabled={isEnd ? !hasOverflowingEndTabTitle : !hasOverflowingStartTabTitle}
           iconFlipRtl="both"
           iconStart={isEnd ? ICON.chevronRight : ICON.chevronLeft}
           kind="neutral"
