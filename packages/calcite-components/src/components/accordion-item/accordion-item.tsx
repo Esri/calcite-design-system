@@ -61,6 +61,8 @@ export class AccordionItem extends LitElement {
 
   @state() hasActionsStart = false;
 
+  @state() hasContentStart = false;
+
   //#endregion
 
   //#region Public Properties
@@ -249,6 +251,10 @@ export class AccordionItem extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
+  private handleContentStartSlotChange(event: Event): void {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  }
+
   /** handle clicks on item header */
   private itemHeaderClickHandler(): void {
     this.emitRequestedItem();
@@ -297,6 +303,14 @@ export class AccordionItem extends LitElement {
     return (
       <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+      </div>
+    );
+  }
+
+  private renderContentStart(): JsxNode {
+    return (
+      <div class={CSS.slotContentStart} hidden={!this.hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
       </div>
     );
   }
@@ -351,10 +365,7 @@ export class AccordionItem extends LitElement {
             tabIndex="0"
           >
             <div class={CSS.headerContainer}>
-              <div class={CSS.slotContentStart}>
-                <slot name={SLOTS.contentStart} />
-              </div>
-
+              {this.renderContentStart()}
               {iconStartEl}
               <div class={CSS.headerText}>
                 <Heading class={CSS.heading} level={headingLevel}>
