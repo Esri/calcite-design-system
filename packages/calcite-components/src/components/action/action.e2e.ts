@@ -123,6 +123,44 @@ describe("calcite-action", () => {
     ]);
   });
 
+  describe("aria property", () => {
+    it("should set aria properties on internal button element", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-action></calcite-action>`);
+
+      const buttonSelector = `calcite-action >>> .${CSS.button}`;
+      const action = await page.find("calcite-action");
+      const button = await page.find(buttonSelector);
+
+      expect(await button.getProperty("ariaExpanded")).toBe(null);
+      expect(await button.getProperty("ariaHasPopup")).toBe(null);
+      expect(await button.getProperty("ariaPressed")).toBe(null);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaControlsElements ?? [])).length).toBe(0);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaDescribedByElements ?? [])).length).toBe(0);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaLabelledByElements ?? [])).length).toBe(0);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaOwnsElements ?? [])).length).toBe(0);
+
+      action.setProperty("aria", {
+        ariaExpanded: true,
+        ariaHasPopup: true,
+        ariaPressed: true,
+        ariaControlsElements: [document.createElement("div")],
+        ariaDescribedByElements: [document.createElement("div")],
+        ariaLabelledByElements: [document.createElement("div")],
+        ariaOwnsElements: [document.createElement("div")],
+      });
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaExpanded")).toBe("true");
+      expect(await button.getProperty("ariaHasPopup")).toBe("true");
+      expect(await button.getProperty("ariaPressed")).toBe("true");
+      expect((await page.$eval(buttonSelector, (el) => el.ariaControlsElements)).length).toBe(1);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaDescribedByElements)).length).toBe(1);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaLabelledByElements)).length).toBe(1);
+      expect((await page.$eval(buttonSelector, (el) => el.ariaOwnsElements)).length).toBe(1);
+    });
+  });
+
   describe("form integration", () => {
     async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
       const page = await newE2EPage();
