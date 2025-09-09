@@ -2199,6 +2199,49 @@ describe("calcite-list", () => {
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
     });
+
+    it("updates moveToItems label when menu is opened", async () => {
+      const page = await newE2EPage();
+      const group = "my-group";
+      await page.setContent(
+        html`<calcite-list label="Group 1" id="component1" group="${group}" drag-enabled>
+            <calcite-list-item id="one" heading="one" label="One"></calcite-list-item>
+            <calcite-list-item id="two" heading="two" label="Two"></calcite-list-item>
+          </calcite-list>
+          <calcite-list label="Group 2" id="component2" group="${group}" drag-enabled>
+            <calcite-list-item id="three" heading="three" label="Three"></calcite-list-item>
+          </calcite-list>`,
+      );
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      const component1 = await page.find("#component1");
+      const three = await page.find("#three");
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      let moveToItems: string[] = await page.$eval("#three", (item: ListItem["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe("Group 1");
+
+      three.setProperty("sortHandleOpen", false);
+      await page.waitForChanges();
+
+      const newLabel = "New label";
+      component1.setProperty("label", newLabel);
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      moveToItems = await page.$eval("#three", (item: ListItem["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe(newLabel);
+    });
   });
 
   describe.skip("group filtering", () => {

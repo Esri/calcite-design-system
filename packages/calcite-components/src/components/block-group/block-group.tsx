@@ -180,6 +180,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
