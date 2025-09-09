@@ -450,6 +450,35 @@ describe("calcite-tree-item", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
+  describe("selection event", () => {
+    it("emits calciteTreeItemSelect when selected or deselected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree>
+          <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
+        </calcite-tree>
+      `);
+
+      const treeItem = await page.find("#item-1");
+
+      await page.$eval("#item-1", (treeItem: HTMLElement) => {
+        treeItem.addEventListener("calciteTreeItemSelect", (event: CustomEvent) => {
+          (window as any).selectionEvent = event.detail;
+        });
+      });
+
+      await treeItem.click();
+      let selectionEvent = await page.evaluate(() => (window as any).selectionEvent);
+      expect(selectionEvent).toBeDefined();
+      expect(selectionEvent.selected).toBe(true);
+
+      await treeItem.click();
+      selectionEvent = await page.evaluate(() => (window as any).selectionEvent);
+      expect(selectionEvent).toBeDefined();
+      expect(selectionEvent.selected).toBe(false);
+    });
+  });
+
   describe("themed", () => {
     describe(`selection-mode="none"`, () => {
       themed(
