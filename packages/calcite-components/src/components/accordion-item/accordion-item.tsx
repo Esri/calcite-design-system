@@ -30,6 +30,8 @@ declare global {
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
+ * @slot content-end - A slot for adding non-actionable elements after the component's header text.
+ * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  */
 export class AccordionItem extends LitElement {
   //#region Static Members
@@ -349,6 +351,10 @@ export class AccordionItem extends LitElement {
             tabIndex="0"
           >
             <div class={CSS.headerContainer}>
+              <div class={CSS.slotContentStart}>
+                <slot name={SLOTS.contentStart} />
+              </div>
+
               {iconStartEl}
               <div class={CSS.headerText}>
                 <Heading class={CSS.heading} level={headingLevel}>
@@ -357,6 +363,7 @@ export class AccordionItem extends LitElement {
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}
+              <slot name={SLOTS.contentEnd} />
             </div>
             <calcite-icon
               class={CSS.expandIcon}

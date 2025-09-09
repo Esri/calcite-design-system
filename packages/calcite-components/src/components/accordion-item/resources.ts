@@ -3,6 +3,8 @@ import { Appearance, Position, IconType } from "../interfaces";
 export const SLOTS = {
   actionsStart: "actions-start",
   actionsEnd: "actions-end",
+  contentEnd: "content-end",
+  contentStart: "content-start",
 };
 
 export const CSS = {
@@ -23,6 +25,7 @@ export const CSS = {
   iconPosition: (iconPosition: Position) => `icon-position--${iconPosition}` as const,
   iconType: (iconType: IconType) => `icon-type--${iconType}` as const,
   item: "item",
+  slotContentStart: "slot-content-start",
 };
 
 export const IDS = {
