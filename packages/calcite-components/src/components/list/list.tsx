@@ -367,6 +367,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteListItemSortHandleBeforeOpen", this.updateListItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
