@@ -3,6 +3,7 @@ import Color, { type ColorInstance } from "color";
 import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
@@ -89,9 +90,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
-  private colorFieldScopeNode: HTMLDivElement;
+  private colorFieldScopeRef = createRef<HTMLDivElement>();
 
-  private hueScopeNode: HTMLDivElement;
+  private hueScopeRef = createRef<HTMLDivElement>();
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -103,7 +104,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private opacityScopeNode: HTMLDivElement;
+  private opacityScopeRef = createRef<HTMLDivElement>();
 
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
@@ -278,24 +279,24 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    *
    * @deprecated Use `clearable` instead
    */
   @property({ reflect: true }) allowEmpty = false;
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /** When present, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /** When present, hides the RGB/HSV channel inputs. */
   @property() channelsDisabled = false;
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
@@ -314,10 +315,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.handleColorChange(color, oldColor);
   }
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, hides the color field. */
+  /** When present, hides the color field. */
   @property({ reflect: true }) fieldDisabled = false;
 
   /**
@@ -329,7 +330,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) format: Format = "auto";
 
-  /** When `true`, hides the hex input. */
+  /** When present, hides the hex input. */
   @property() hexDisabled = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -338,7 +339,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, hides the saved colors section. */
+  /** When present, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -381,9 +382,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   // #endregion
@@ -817,7 +816,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeNode,
+      this.colorFieldScopeRef.value,
     );
   }
 
@@ -832,7 +831,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeNode,
+      this.hueScopeRef.value,
     );
   }
 
@@ -841,7 +840,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeNode,
+      this.opacityScopeRef.value,
     );
   }
 
@@ -870,14 +869,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
     captureValue.call(this, event.offsetX, event.offsetY);
     this.focusScope(scopeNode);
-  }
-
-  private storeColorFieldScope(node: HTMLDivElement): void {
-    this.colorFieldScopeNode = node;
-  }
-
-  private storeHueScope(node: HTMLDivElement): void {
-    this.hueScopeNode = node;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -1099,6 +1090,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     if (!canvas) {
       return;
     }
+
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
@@ -1416,10 +1408,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
-  private storeOpacityScope(node: HTMLDivElement): void {
-    this.opacityScopeNode = node;
-  }
-
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
@@ -1527,7 +1515,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
                 class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
                 onKeyDown={this.handleColorFieldScopeKeyDown}
-                ref={this.storeColorFieldScope}
+                ref={this.colorFieldScopeRef}
                 role="slider"
                 style={{
                   top: `${adjustedColorFieldScopeTop || 0}px`,
@@ -1558,7 +1546,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                   ariaValueNow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.storeHueScope}
+                  ref={this.hueScopeRef}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,
@@ -1581,7 +1569,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     ariaValueNow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.storeOpacityScope}
+                    ref={this.opacityScopeRef}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,
@@ -1664,7 +1652,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <calcite-swatch-group label={messages.saved} scale={scale} selectionMode="none">
+                <calcite-swatch-group
+                  class={CSS.swatchGroup}
+                  label={messages.saved}
+                  scale={scale}
+                  selectionMode="none"
+                >
                   {savedColors.map((color) => (
                     <calcite-swatch
                       class={CSS.savedColor}

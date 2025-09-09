@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -51,9 +52,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private backButtonEl: Action["el"];
+  private backButtonRef = createRef<Action["el"]>();
 
-  private containerEl: Panel["el"];
+  private containerRef = createRef<Panel["el"]>();
 
   /**
    * Made into a prop for testing purposes only
@@ -74,10 +75,10 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the component's header. */
+  /** When present, displays a close button in the trailing side of the component's header. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** When present, the component will be hidden. */
   @property({ reflect: true }) closed = false;
 
   /**
@@ -87,16 +88,16 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @property() collapseDirection: CollapseDirection = "down";
 
-  /** When `true`, hides the component's content area. */
+  /** When present, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
-  /** When `true`, the component is collapsible. */
+  /** When present, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text. */
@@ -108,13 +109,13 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /** When present, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -132,11 +133,11 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When true, flow-item is displayed within a parent flow. */
+  /** When present, the component is displayed within a parent flow. */
   @property({ reflect: true }) selected = false;
 
   /**
-   * When `true`, displays a back button in the component's header.
+   * When present, displays a back button in the component's header.
    *
    * @internal
    */
@@ -160,7 +161,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    await this.containerEl?.scrollContentTo(options);
+    await this.containerRef.value?.scrollContentTo(options);
   }
 
   /**
@@ -173,9 +174,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.backButtonEl || this.containerEl;
-    }, options);
+    return this.focusSetter(() => this.backButtonRef.value || this.containerRef.value, options);
   }
 
   //#endregion
@@ -233,7 +232,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   //#region Private Methods
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -242,7 +241,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelClose(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -252,7 +251,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {
-    if (event.target !== this.containerEl) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -265,15 +264,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     this.calciteFlowItemBack.emit();
   }
 
-  private setBackRef(node: Action["el"]): void {
-    this.backButtonEl = node;
-  }
-
-  private setContainerRef(node: Panel["el"]): void {
-    this.containerEl = node;
-  }
-
-  //#endregion
+  // #endregion
 
   //#region Rendering
 
@@ -292,7 +283,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.setBackRef}
+        ref={this.backButtonRef}
         scale="s"
         slot={SLOTS.headerActionsStart}
         text={label}
@@ -342,7 +333,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}
           overlayPositioning={overlayPositioning}
-          ref={this.setContainerRef}
+          ref={this.containerRef}
           scale={this.scale}
         >
           {this.renderBackButton()}

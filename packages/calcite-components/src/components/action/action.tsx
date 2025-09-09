@@ -66,13 +66,22 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /**
    * Use this property to override or extend ARIA properties and attributes on the component's button.
    */
-  @property() aria?: LuminaJsx.AriaAttributes;
+  @property() aria?: Pick<
+    LuminaJsx.AriaAttributes,
+    | "ariaControlsElements"
+    | "ariaDescribedByElements"
+    | "ariaExpanded"
+    | "ariaHasPopup"
+    | "ariaLabelledByElements"
+    | "ariaOwnsElements"
+    | "ariaPressed"
+  >;
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
   /**
-   * When `true`, the component appears as if it is focused.
+   * When present, the component appears as if it is focused.
    * @private
    */
   @property({ reflect: true }) activeDescendant = false;
@@ -84,17 +93,17 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When `true`, the side padding of the component is reduced.
+   * When present, the side padding of the component is reduced.
    *
    * @deprecated No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component is draggable.
+   * When present, the component is draggable.
    *
    * @private
    */
@@ -110,16 +119,16 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, displays a visual indicator. */
+  /** When present, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
   /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -142,7 +151,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @property() text: string;
 
-  /** Indicates whether the text is displayed. */
+  /** When present, the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
   /**
@@ -335,12 +344,12 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          ariaBusy={this.aria?.ariaBusy ?? loading}
+          ariaBusy={loading}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.ariaDescribedByElements}
           ariaExpanded={this.aria?.ariaExpanded}
           ariaHasPopup={this.aria?.ariaHasPopup}
-          ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+          ariaLabel={ariaLabel}
           ariaLabelledByElements={this.aria?.ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ariaOwnsElements}
           ariaPressed={this.aria?.ariaPressed}
@@ -357,12 +366,12 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
     return (
       <button
-        ariaBusy={this.aria?.ariaBusy ?? loading}
+        ariaBusy={loading}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.ariaDescribedByElements}
         ariaExpanded={this.aria?.ariaExpanded}
         ariaHasPopup={this.aria?.ariaHasPopup}
-        ariaLabel={this.aria?.ariaLabel ?? ariaLabel}
+        ariaLabel={ariaLabel}
         ariaLabelledByElements={this.aria?.ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ariaOwnsElements}
         ariaPressed={this.aria?.ariaPressed}

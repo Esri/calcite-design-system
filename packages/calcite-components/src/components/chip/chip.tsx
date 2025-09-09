@@ -2,7 +2,7 @@
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -38,9 +38,9 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -69,22 +69,22 @@ export class Chip extends LitElement implements InteractiveComponent {
     Appearance
   > = "solid";
 
-  /** When `true`, a close button is added to the component. */
+  /** When present, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** When present, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
+  /** When present, the component closes when the Delete or Backspace key is pressed while focused. */
   @property({ reflect: true }) closeOnDelete = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
@@ -114,7 +114,7 @@ export class Chip extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -146,9 +146,9 @@ export class Chip extends LitElement implements InteractiveComponent {
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       if (this.interactive) {
-        return this.containerEl.value;
+        return this.containerRef.value;
       } else if (this.closable) {
-        return this.closeButtonEl.value;
+        return this.closeButtonRef.value;
       }
     }, options);
   }
@@ -247,7 +247,7 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   private clickHandler(): void {
     if (!this.interactive && this.closable) {
-      this.closeButtonEl.value.focus();
+      focusElement(this.closeButtonRef.value);
     }
   }
 
@@ -337,7 +337,7 @@ export class Chip extends LitElement implements InteractiveComponent {
         class={CSS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        ref={this.closeButtonEl}
+        ref={this.closeButtonRef}
         tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
@@ -393,7 +393,7 @@ export class Chip extends LitElement implements InteractiveComponent {
                 (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
           }}
           onClick={this.handleEmittingEvent}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
         >

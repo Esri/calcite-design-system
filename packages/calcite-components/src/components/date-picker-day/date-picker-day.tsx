@@ -46,7 +46,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, the component is active. */
+  /** When present, the component is active. */
   @property({ reflect: true }) active = false;
 
   /** Date is in the current month. */
@@ -66,7 +66,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
    */
   @property() day: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Date is the end of date range. */
@@ -75,11 +75,11 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** Date is currently highlighted as part of the range, */
   @property({ reflect: true }) highlighted = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /** When present, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
   /**
-   * When `true`, highlight styling for edge dates is applied.
+   * When present, highlight styling for edge dates is applied.
    *
    * @private
    */
@@ -91,7 +91,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /** Date is the start of date range. */

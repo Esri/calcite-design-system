@@ -10,6 +10,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -49,7 +50,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   // #region Private Properties
 
-  private arrowEl: SVGSVGElement;
+  private arrowRef = createRef<SVGSVGElement>();
 
   floatingEl: HTMLDivElement;
 
@@ -91,7 +92,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, the component is open. */
+  /** When present, the component is open. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -134,7 +135,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowEl,
+      arrowRef,
       floatingEl,
     } = this;
 
@@ -147,7 +148,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
         placement,
         offsetDistance,
         offsetSkidding,
-        arrowEl,
+        arrowEl: arrowRef.value,
         type: "tooltip",
       },
       delayed,
@@ -332,10 +333,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
           }}
           ref={this.setTransitionEl}
         >
-          <FloatingArrow
-            floatingLayout={floatingLayout}
-            ref={(arrowEl) => (this.arrowEl = arrowEl)}
-          />
+          <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowRef} />
           <div class={CSS.container}>
             <slot />
           </div>

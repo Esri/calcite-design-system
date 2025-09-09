@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -36,7 +37,7 @@ export class Stepper extends LitElement {
 
   //#region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   private enabledItems: StepperItem["el"][] = [];
 
@@ -68,7 +69,7 @@ export class Stepper extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When present, displays a status icon in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
@@ -77,7 +78,7 @@ export class Stepper extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
+  /** When present, displays the step number in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -385,10 +386,6 @@ export class Stepper extends LitElement {
     return 0;
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private handleDefaultSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements(event).filter(
       (el): el is StepperItem["el"] =>
@@ -396,8 +393,8 @@ export class Stepper extends LitElement {
     );
     this.items = items;
     const spacing = Array(items.length).fill("1fr").join(" ");
-    this.containerEl.style.gridTemplateAreas = spacing;
-    this.containerEl.style.gridTemplateColumns = spacing;
+    this.containerRef.value.style.gridTemplateAreas = spacing;
+    this.containerRef.value.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
   }
 
@@ -413,7 +410,7 @@ export class Stepper extends LitElement {
     return (
       <div
         class={{ container: true, [CSS.singleView]: this.layout === "horizontal-single" }}
-        ref={this.setContainerEl}
+        ref={this.containerRef}
       >
         {this.layout === "horizontal-single" && (
           <div class={{ [CSS.stepBarContainer]: true }}>
