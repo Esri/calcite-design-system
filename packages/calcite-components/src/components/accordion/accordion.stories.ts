@@ -344,3 +344,28 @@ export const slottedItemsStretched = (): string => html`
     </calcite-accordion-item>
   </calcite-accordion>
 `;
+
+export const withContentStartAndEnd = (): string => html`
+  <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
+    <calcite-accordion-item heading="Heading" description="Description for item">
+      ${accordionItemContent}
+      <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Heading" description="Description for item">
+      ${accordionItemContent}
+      <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Heading" description="Description for item">
+      ${accordionItemContent}
+      <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Heading" description="Description for item">
+      ${accordionItemContent}
+      <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;
