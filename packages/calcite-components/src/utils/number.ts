@@ -148,7 +148,7 @@ export function parseNumberString(value?: string): string {
     }
     sanitizedValue = sanitizedValue.padEnd(sanitizedValue.length + trailingDecimalZeros.length, "0");
   }
-  return sanitizedValue;
+  return value.endsWith(".") ? `${sanitizedValue}.` : sanitizedValue;
 }
 
 // regex for number sanitization

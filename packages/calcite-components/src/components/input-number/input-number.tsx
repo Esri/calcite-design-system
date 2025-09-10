@@ -157,17 +157,16 @@ export class InputNumber
       return value;
     }
 
-    const { integer, isValueShortened, setNumberFormatOptions, valueController } = this;
-    const { previousValue } = valueController;
+    const { integer, setNumberFormatOptions } = this;
 
     setNumberFormatOptions();
 
     let newLocalizedValue = numberStringFormatter.localize(value);
     const localizedCharAllowlist = getLocalizedCharAllowList(numberStringFormatter);
-    const validatedInteger = integer ? value.replace(/[e.]/g, "") : value;
-    const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedInteger);
-    const valueHasTrailingDecimal = hasTrailingDecimal(validatedInteger);
-    const valueHasLeadingZeros = hasLeadingZeros(validatedInteger);
+    const validatedValue = integer ? value.replace(/[e.]/g, "") : value;
+    const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedValue);
+    const valueHasTrailingDecimal = hasTrailingDecimal(validatedValue);
+    const valueHasLeadingZeros = hasLeadingZeros(validatedValue);
 
     if (!valueHasTrailingDecimal) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -177,7 +176,7 @@ export class InputNumber
       );
     }
 
-    if (valueHasTrailingDecimal && isValueShortened(value, previousValue)) {
+    if (valueHasTrailingDecimal) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -209,22 +208,21 @@ export class InputNumber
       return "";
     }
 
-    const { integer, isValueShortened, valueController } = this;
+    const { integer, valueController } = this;
     const { previousValue } = valueController;
 
-    const validatedInteger = integer ? value.replace(/[e.]/g, "") : value;
+    if (integer) {
+      value = value.replace(/[e.]/g, "");
+    }
 
-    const sanitizedValue =
-      hasTrailingDecimal(validatedInteger) && isValueShortened(value, previousValue)
-        ? validatedInteger
-        : sanitizeNumberString(validatedInteger);
+    const validatedValue = hasTrailingDecimal(value) ? value : sanitizeNumberString(value);
 
     const newValue =
-      value && !sanitizedValue
+      value && !validatedValue
         ? isValidNumber(previousValue)
           ? previousValue
           : ""
-        : sanitizedValue;
+        : validatedValue;
 
     return ["-", "."].includes(newValue) ? "" : newValue;
   };
@@ -237,10 +235,6 @@ export class InputNumber
       numberingSystem,
       useGrouping,
     };
-  };
-
-  private isValueShortened = (value: string, previousValue: string): boolean => {
-    return previousValue?.length > value.length || this.value?.length > value.length;
   };
 
   private setLocalizedValue = (value: string): void => {

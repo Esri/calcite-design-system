@@ -105,17 +105,20 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param changeEvent.value
    */
   commitValue({ changeEventEmitter, value }: CommitValueOptions): void {
+    if (this.component.value === value && this.component.value === this.lastEmittedValue) {
+      return;
+    }
+
     this.userChangedValue = true;
     this.previousValue = this.component.value;
     this.component.value = value;
-    if (this.component.value !== this.lastEmittedValue) {
-      const changeEvent = changeEventEmitter.emit();
-      if (changeEvent.defaultPrevented) {
-        this.userChangedValue = false;
-        this.component.value = this.lastEmittedValue;
-      } else {
-        this.lastEmittedValue = this.component.value;
-      }
+
+    const changeEvent = changeEventEmitter.emit();
+    if (changeEvent.defaultPrevented) {
+      this.userChangedValue = false;
+      this.component.value = this.lastEmittedValue;
+    } else {
+      this.lastEmittedValue = this.component.value;
     }
   }
 
@@ -140,17 +143,18 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param inputEventEmitter.value
    */
   inputValue({ inputEventEmitter, value }: InputValueOptions): void {
-    this.previousValue = this.component.value;
-    this.userChangedValue = true;
-    this.component.value = value;
-    if (value !== this.previousValue) {
-      const inputEvent = inputEventEmitter.emit(value);
-      if (inputEvent.defaultPrevented) {
-        this.userChangedValue = false;
-        // This check allows direct changes to the value to persist after calling inputEvent.preventDefault()
-        if (value === this.component.value) {
-          this.component.value = this.previousValue;
-        }
+    if (value !== this.component.value) {
+      this.previousValue = this.component.value;
+      this.userChangedValue = true;
+      this.component.value = value;
+    }
+
+    const inputEvent = inputEventEmitter.emit(value);
+    if (inputEvent.defaultPrevented) {
+      this.userChangedValue = false;
+      // This check allows direct changes to the value to persist after calling inputEvent.preventDefault()
+      if (value === this.component.value) {
+        this.component.value = this.previousValue;
       }
     }
   }
