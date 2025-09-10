@@ -255,7 +255,6 @@ export class TabNav extends LitElement {
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
-  //this needs to be fixed
   private scrollTabTitleIntoView(
     activatedTabTitle: TabTitle["el"],
     behavior: ScrollBehavior = "smooth",
@@ -265,33 +264,16 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      const isLTR = this.effectiveDir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
-      const overflowingStartTabTitle = isLTR
-        ? this.hasOverflowingStartTabTitle
-        : this.hasOverflowingEndTabTitle;
-      const overflowingEndTabTitle = isLTR
-        ? this.hasOverflowingEndTabTitle
-        : this.hasOverflowingStartTabTitle;
 
-      if (
-        tabTitleBounds.left <
-        containerBounds.left + (overflowingStartTabTitle ? this.scrollerButtonWidth : 0)
-      ) {
-        const left =
-          scrollPosition + (tabTitleBounds.left - containerBounds.left) - this.scrollerButtonWidth;
+      if (tabTitleBounds.left < containerBounds.left) {
+        const left = scrollPosition + (tabTitleBounds.left - containerBounds.left);
         tabTitleContainer.scrollTo({ left, behavior });
-      } else if (
-        tabTitleBounds.right >
-        containerBounds.right - (overflowingEndTabTitle ? this.scrollerButtonWidth : 0)
-      ) {
-        const left =
-          scrollPosition +
-          (tabTitleBounds.right - containerBounds.right) +
-          this.scrollerButtonWidth;
+      } else if (tabTitleBounds.right > containerBounds.right) {
+        const left = scrollPosition + (tabTitleBounds.right - containerBounds.right);
         tabTitleContainer.scrollTo({ left, behavior });
       }
     });
