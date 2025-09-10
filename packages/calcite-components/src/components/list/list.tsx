@@ -161,13 +161,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: ListDragDetail) => boolean;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, `calcite-list-item`s are sortable via a draggable button. */
+  /** When present, `calcite-list-item`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
-  /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
+  /** When present, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
   /**
@@ -234,7 +234,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -284,7 +284,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
-  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  /** When present, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   //#endregion
@@ -301,11 +301,23 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.filterEnabled
-        ? this.filterEl
-        : this.focusableItems.find((listItem) => listItem.active);
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.filterEnabled
+          ? this.filterEl
+          : this.focusableItems.find((listItem) => listItem.active),
+      options,
+    );
+  }
+
+  /**
+   * Emits the `calciteListOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: ListDragDetail): void {
+    this.calciteListOrderChange.emit(detail);
   }
 
   //#endregion
@@ -355,6 +367,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteListItemSortHandleBeforeOpen", this.updateListItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
@@ -959,7 +972,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl?.setFocus();
+        this.filterEl.setFocus();
         return;
       }
 
@@ -1058,6 +1071,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     expandedAncestors(dragEl);
     this.updateListItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -1083,13 +1107,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.updateListItemsDebounced();
     this.connectObserver();
 
-    this.calciteListOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

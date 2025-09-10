@@ -33,7 +33,7 @@ export class ShellCenterRow extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the content area displays like a floating panel. */
+  /** When present, the content area displays like a floating panel. */
   @property({ reflect: true }) detached = false;
 
   /** Specifies the maximum height of the component. */

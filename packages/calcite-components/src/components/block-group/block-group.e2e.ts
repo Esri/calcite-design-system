@@ -591,8 +591,7 @@ describe("calcite-block-group", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.nextTick);
 
-      let component1Moves = 0;
-      let component2Moves = 0;
+      let componentMoves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("#component1", (blockGroup: BlockGroup["el"]) => {
@@ -689,8 +688,10 @@ describe("calcite-block-group", () => {
           };
         });
 
-        expect(results.component1CalledTimes).toBe(moveFromId === component1Id ? ++component1Moves : component1Moves);
-        expect(results.component2CalledTimes).toBe(moveFromId === component2Id ? ++component2Moves : component2Moves);
+        ++componentMoves;
+
+        expect(results.component1CalledTimes).toBe(componentMoves);
+        expect(results.component2CalledTimes).toBe(componentMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
         expect(results.fromEl).toBe(moveFromId);
@@ -700,6 +701,49 @@ describe("calcite-block-group", () => {
 
       await assertMove("one", "component1", "component2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "component2", "component1", ["three", "two"], ["one"], 0, 1);
+    });
+
+    it("updates moveToItems label when menu is opened", async () => {
+      const page = await newE2EPage();
+      const group = "my-group";
+      await page.setContent(
+        html`<calcite-block-group label="Group 1" id="component1" group="${group}" drag-enabled>
+            <calcite-block id="one" heading="one" label="One"></calcite-block>
+            <calcite-block id="two" heading="two" label="Two"></calcite-block>
+          </calcite-block-group>
+          <calcite-block-group label="Group 2" id="component2" group="${group}" drag-enabled>
+            <calcite-block id="three" heading="three" label="Three"></calcite-block>
+          </calcite-block-group>`,
+      );
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      const component1 = await page.find("#component1");
+      const three = await page.find("#three");
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      let moveToItems: string[] = await page.$eval("#three", (item: Block["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe("Group 1");
+
+      three.setProperty("sortHandleOpen", false);
+      await page.waitForChanges();
+
+      const newLabel = "New label";
+      component1.setProperty("label", newLabel);
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      moveToItems = await page.$eval("#three", (item: Block["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe(newLabel);
     });
   });
 });

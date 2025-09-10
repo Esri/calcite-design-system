@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
@@ -29,6 +30,8 @@ declare global {
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
+ * @slot content-end - A slot for adding non-actionable elements after the component's header text.
+ * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  */
 export class AccordionItem extends LitElement {
   //#region Static Members
@@ -39,7 +42,7 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  private headerEl: HTMLDivElement;
+  private headerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -58,6 +61,10 @@ export class AccordionItem extends LitElement {
 
   @state() hasActionsStart = false;
 
+  @state() hasContentEnd = false;
+
+  @state() hasContentStart = false;
+
   //#endregion
 
   //#region Public Properties
@@ -72,7 +79,7 @@ export class AccordionItem extends LitElement {
   /** Specifies a description for the component. */
   @property() description: string;
 
-  /** When `true`, expands the component and its contents. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies heading text for the component. */
@@ -134,9 +141,7 @@ export class AccordionItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.headerEl;
-    }, options);
+    return this.focusSetter(() => this.headerRef.value, options);
   }
 
   //#endregion
@@ -248,8 +253,12 @@ export class AccordionItem extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
-  private storeHeaderEl(el: HTMLDivElement): void {
-    this.headerEl = el;
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentStartSlotChange(event: Event): void {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
   }
 
   /** handle clicks on item header */
@@ -304,6 +313,22 @@ export class AccordionItem extends LitElement {
     );
   }
 
+  private renderContentEnd(): JsxNode {
+    return (
+      <div class={CSS.slotContentEnd} hidden={!this.hasContentEnd}>
+        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+      </div>
+    );
+  }
+
+  private renderContentStart(): JsxNode {
+    return (
+      <div class={CSS.slotContentStart} hidden={!this.hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
+      </div>
+    );
+  }
+
   override render(): JsxNode {
     const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
     const dir = getElementDir(this.el);
@@ -349,11 +374,12 @@ export class AccordionItem extends LitElement {
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
-            ref={this.storeHeaderEl}
+            ref={this.headerRef}
             role="button"
             tabIndex="0"
           >
             <div class={CSS.headerContainer}>
+              {this.renderContentStart()}
               {iconStartEl}
               <div class={CSS.headerText}>
                 <Heading class={CSS.heading} level={headingLevel}>
@@ -362,6 +388,7 @@ export class AccordionItem extends LitElement {
                 {description ? <span class={CSS.description}>{description}</span> : null}
               </div>
               {iconEndEl}
+              {this.renderContentEnd()}
             </div>
             <calcite-icon
               class={CSS.expandIcon}

@@ -7,6 +7,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -47,6 +48,10 @@ describe("calcite-rating", () => {
       focusable("calcite-rating", {
         shadowFocusTargetSelector: "label",
       });
+    });
+
+    describe("InternalLabel", () => {
+      internalLabel(`calcite-rating`);
     });
 
     describe("focuses the first star when the label is clicked and no-rating value exists", () => {

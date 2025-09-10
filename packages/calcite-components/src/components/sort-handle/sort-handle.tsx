@@ -70,7 +70,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -95,7 +95,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** Defines the "Move to" items. */
   @property() moveToItems: SortMenuItem[] = [];
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -123,7 +123,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** The total number of sortable items. */
   @property() setSize: number;
 
-  /** When `true`, items are no longer sortable. */
+  /** When present, items are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   /** Specifies the width of the component. */

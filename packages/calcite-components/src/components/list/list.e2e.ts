@@ -2089,8 +2089,7 @@ describe("calcite-list", () => {
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      let list1Moves = 0;
-      let list2Moves = 0;
+      let listMoves = 0;
 
       // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
       await page.$eval("#list1", (list: List["el"]) => {
@@ -2186,8 +2185,10 @@ describe("calcite-list", () => {
           };
         });
 
-        expect(results.list1CalledTimes).toBe(moveFromListId === list1Id ? ++list1Moves : list1Moves);
-        expect(results.list2CalledTimes).toBe(moveFromListId === list2Id ? ++list2Moves : list2Moves);
+        ++listMoves;
+
+        expect(results.list1CalledTimes).toBe(listMoves);
+        expect(results.list2CalledTimes).toBe(listMoves);
         expect(results.newIndex).toBe(newIndex);
         expect(results.oldIndex).toBe(oldIndex);
         expect(results.fromEl).toBe(moveFromListId);
@@ -2197,6 +2198,49 @@ describe("calcite-list", () => {
 
       await assertMove("one", "list1", "list2", ["two"], ["one", "three"], 0, 0);
       await assertMove("three", "list2", "list1", ["three", "two"], ["one"], 0, 1);
+    });
+
+    it("updates moveToItems label when menu is opened", async () => {
+      const page = await newE2EPage();
+      const group = "my-group";
+      await page.setContent(
+        html`<calcite-list label="Group 1" id="component1" group="${group}" drag-enabled>
+            <calcite-list-item id="one" heading="one" label="One"></calcite-list-item>
+            <calcite-list-item id="two" heading="two" label="Two"></calcite-list-item>
+          </calcite-list>
+          <calcite-list label="Group 2" id="component2" group="${group}" drag-enabled>
+            <calcite-list-item id="three" heading="three" label="Three"></calcite-list-item>
+          </calcite-list>`,
+      );
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      const component1 = await page.find("#component1");
+      const three = await page.find("#three");
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      let moveToItems: string[] = await page.$eval("#three", (item: ListItem["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe("Group 1");
+
+      three.setProperty("sortHandleOpen", false);
+      await page.waitForChanges();
+
+      const newLabel = "New label";
+      component1.setProperty("label", newLabel);
+      three.setProperty("sortHandleOpen", true);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE.nextTick);
+
+      moveToItems = await page.$eval("#three", (item: ListItem["el"]) =>
+        item.moveToItems.map((moveToItem) => moveToItem.label),
+      );
+      expect(moveToItems.length).toBe(1);
+      expect(moveToItems[0]).toBe(newLabel);
     });
   });
 
