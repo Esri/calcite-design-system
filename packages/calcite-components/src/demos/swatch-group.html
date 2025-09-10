@@ -276,7 +276,32 @@
         <calcite-swatch-group
           label="demo-group-label"
           selection-mode="multiple"
-          style="--calcite-swatch-corner-radius: 8px"
+          style="--calcite-swatch-corner-radius: 2px"
+        >
+          <calcite-swatch label="example" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch label="example" color="#ff0000" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch label="example" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch label="example" color="rgba(250,210,150,0.2)" value="calcite swatch">
+            <img src="_assets/images/pattern-2.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch label="example" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch label="example" color="rgba(25,25,25,0.1)" value="calcite swatch"></calcite-swatch>
+          <calcite-swatch label="example" disabled color="#ddd" value="calcite swatch">
+            <img src="_assets/images/hatch-3.png" slot="image" />
+          </calcite-swatch>
+          <calcite-swatch label="example" disabled color="#ff00ee" value="calcite swatch"> </calcite-swatch>
+        </calcite-swatch-group>
+      </div>
+      <div class="parent">
+        <div class="child">Themed</div>
+        <calcite-swatch-group
+          label="demo-group-label"
+          selection-mode="multiple"
+          style="--calcite-swatch-corner-radius: 9999px"
         >
           <calcite-swatch label="example" value="calcite swatch"></calcite-swatch>
           <calcite-swatch label="example" color="#ff0000" value="calcite swatch"></calcite-swatch>
