@@ -255,6 +255,7 @@ export class TabNav extends LitElement {
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
+  //this needs to be fixed
   private scrollTabTitleIntoView(
     activatedTabTitle: TabTitle["el"],
     behavior: ScrollBehavior = "smooth",
@@ -472,12 +473,14 @@ export class TabNav extends LitElement {
       });
 
       if (closestToEdge) {
-        const { scrollerButtonWidth } = this;
+        const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
-            ? -(2 * scrollerButtonWidth)
-            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + 2 * scrollerButtonWidth;
+            ? -scrollerButtonContainerWidth
+            : closestToEdge.offsetWidth -
+              tabTitleContainer.clientWidth +
+              scrollerButtonContainerWidth;
         const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
         tabTitleContainer.scrollTo({
           left: scrollTo,

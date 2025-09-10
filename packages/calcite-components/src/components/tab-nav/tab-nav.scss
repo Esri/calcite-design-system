@@ -89,24 +89,24 @@
 }
 
 .container {
-  @apply grid
-    w-full
-    justify-start
-    whitespace-nowrap
-    overflow-hidden;
+  @apply grid;
   grid-template-columns: 1fr auto;
 }
 
 .tab-titles-slot-wrapper {
-  @apply flex
-    w-full
-    justify-start
-    whitespace-nowrap
-    overflow-hidden;
+  @apply flex;
+}
+
+.container,
+.tab-titles-slot-wrapper {
+  @apply w-full
+  justify-start
+  whitespace-nowrap
+  overflow-hidden;
 }
 
 .scroll-button {
-  @apply absolute bottom-0 top-0 flex;
+  @apply absolute bottom-0 top-0;
 
   calcite-button {
     --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
@@ -126,7 +126,7 @@
 }
 
 .scroll-button-container {
-  display: flex;
+  @apply flex;
   inset-block-start: var(--calcite-border-width-md);
   inset-block-end: var(--calcite-border-width-md);
   inset-inline-end: 0;
@@ -144,20 +144,18 @@
 }
 
 :host(:not([bordered])) {
-  .scroll-button--forward {
+  .scroll-button--forward,
+  .scroll-button--backward {
     &::before {
       background-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
       opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
+      inset-block-start: var(--calcite-border-width-md);
+      inset-block-end: var(--calcite-border-width-md);
       position: absolute;
+      inset-inline-start: 0;
     }
-  }
-
-  .scroll-button--forward::before {
-    inset-inline-start: 0;
-    inset-block-start: var(--calcite-border-width-md);
-    inset-block-end: var(--calcite-border-width-md);
   }
 }
 
