@@ -2563,9 +2563,9 @@ export const panelsWithHeightsDefined = (): string =>
       }
 
       #bottom {
-        --calcite-shell-panel-height: 400px;
-        --calcite-shell-panel-max-height: 400px;
-        --calcite-shell-panel-min-height: 400px;
+        --calcite-shell-panel-height: 200px;
+        --calcite-shell-panel-max-height: 200px;
+        --calcite-shell-panel-min-height: 200px;
         border: 1px solid green;
       }
 
@@ -2591,7 +2591,7 @@ panelsWithHeightsDefined.parameters = {
       specific: {
         viewport: {
           width: 1200,
-          height: 400,
+          height: 1200,
         },
       },
     },

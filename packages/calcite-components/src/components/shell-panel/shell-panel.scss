@@ -323,7 +323,8 @@
   self-stretch
   p-0
   relative
-  box-border;
+  box-border
+  flex-auto;
   background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
@@ -342,7 +343,6 @@
 }
 
 :host([layout="horizontal"]) .content {
-  flex: 1 1 auto;
   block-size: var(--calcite-internal-shell-panel-height);
   max-block-size: var(--calcite-internal-shell-panel-max-height);
   min-block-size: var(--calcite-internal-shell-panel-min-height);
