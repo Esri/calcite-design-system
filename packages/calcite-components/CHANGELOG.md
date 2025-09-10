@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.104](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.103...@esri/calcite-components@3.3.0-next.104) (2025-09-10)
+
+### Features
+
+- **accordion-item:** add content-start and content-end slots ([#12849](https://github.com/Esri/calcite-design-system/issues/12849)) ([0300cd3](https://github.com/Esri/calcite-design-system/commit/0300cd307d67b499efaa519e25766509e3724dc1)), closes [#10444](https://github.com/Esri/calcite-design-system/issues/10444)
+
+## [3.3.0-next.103](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.102...@esri/calcite-components@3.3.0-next.103) (2025-09-09)
+
+### Bug Fixes
+
+- **list, block-group:** sort handle menu should respond to new lists or label changes ([#12848](https://github.com/Esri/calcite-design-system/issues/12848)) ([adf3e61](https://github.com/Esri/calcite-design-system/commit/adf3e6175a76cd1d82cda88a5876c0620b2e9470)), closes [#12847](https://github.com/Esri/calcite-design-system/issues/12847)
+
 ## [3.3.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.101...@esri/calcite-components@3.3.0-next.102) (2025-09-09)
 
 ### Features
