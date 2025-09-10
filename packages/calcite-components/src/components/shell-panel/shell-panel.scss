@@ -24,8 +24,10 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-shell-panel-height
 // --calcite-internal-shell-panel-max-height
 // --calcite-internal-shell-panel-max-width
+// --calcite-internal-shell-panel-min-height
 // --calcite-internal-shell-panel-min-width
 // --calcite-internal-shell-panel-resize-handle-offset
 // --calcite-internal-shell-panel-shadow-block-end
@@ -104,11 +106,27 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
+:host([layout="horizontal"]) .content {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height);
+}
+
 :host([layout="horizontal"]) .height-s {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 20vh);
 }
 
+:host([layout="horizontal"]) .height-m {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
+}
+
 :host([layout="horizontal"]) .height-l {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
 }
 
@@ -329,10 +347,10 @@
 }
 
 :host([layout="horizontal"]) .content {
-  flex: 1;
-  block-size: var(--calcite-shell-panel-height);
-  max-block-size: var(--calcite-shell-panel-max-height);
-  min-block-size: var(--calcite-shell-panel-min-height);
+  flex: 1 1 auto;
+  block-size: var(--calcite-internal-shell-panel-height);
+  max-block-size: var(--calcite-internal-shell-panel-max-height);
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 :host([resizable][layout="vertical"][position="start"]) {
