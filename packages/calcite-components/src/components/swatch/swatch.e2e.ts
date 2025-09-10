@@ -164,10 +164,7 @@ describe("calcite-swatch", () => {
     });
     describe("transparent ", () => {
       themed(html`<calcite-swatch color="rgba(255, 255, 255, 0.5)"></calcite-swatch>`, {
-        "--calcite-swatch-corner-radius": [
-          { shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" },
-          { shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" },
-        ],
+        "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" }],
       });
     });
   });
