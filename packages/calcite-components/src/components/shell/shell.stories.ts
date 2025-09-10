@@ -2555,6 +2555,50 @@ panelsWithOverflowingContent.parameters = {
   },
 };
 
+export const panelsWithHeightsDefined = (): string =>
+  html`<style>
+      #start,
+      #end {
+        border: 1px solid red;
+      }
+
+      #bottom {
+        --calcite-shell-panel-height: 400px;
+        --calcite-shell-panel-max-height: 400px;
+        --calcite-shell-panel-min-height: 400px;
+        border: 1px solid green;
+      }
+
+      #viewDiv {
+        height: 100%;
+        width: 100%;
+        background-color: #c3e3cc;
+      }</style
+    ><calcite-shell content-behind>
+      <div id="viewDiv"></div>
+      <calcite-shell-panel id="start" slot="panel-start">Start</calcite-shell-panel>
+      <calcite-shell-panel layout="horizontal" id="bottom" slot="panel-bottom">
+        <calcite-panel id="panel">
+          <div>The panel should fill the entire bottom half of the bounding box.</div>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-shell-panel id="end" slot="panel-end">End</calcite-shell-panel>
+    </calcite-shell>`;
+
+panelsWithHeightsDefined.parameters = {
+  chromatic: {
+    modes: {
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 400,
+        },
+      },
+    },
+    cropToViewport: true,
+  },
+};
+
 export const customPanelWithOverflowingContent = (): string => html` <calcite-shell content-behind>
     <div style="
               width:100%;

@@ -106,18 +106,13 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([layout="horizontal"]) .content {
-  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
-  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height);
-  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height);
-}
-
 :host([layout="horizontal"]) .height-s {
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 20vh);
 }
 
+:host([layout="horizontal"]) .content,
 :host([layout="horizontal"]) .height-m {
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
