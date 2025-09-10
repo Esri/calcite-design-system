@@ -1587,7 +1587,7 @@ describe("calcite-input-number", () => {
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    expect(await calciteInput.getProperty("value")).toBe("-0");
+    expect(await calciteInput.getProperty("value")).toBe("-000");
     expect(await input.getProperty("value")).toBe("-000");
 
     await page.keyboard.press("Home");
@@ -1634,7 +1634,7 @@ describe("calcite-input-number", () => {
     await page.keyboard.press("Delete");
     await page.waitForChanges();
 
-    expect(await calciteInput.getProperty("value")).toBe("0.0001");
+    expect(await calciteInput.getProperty("value")).toBe("0000.0001");
     expect(await input.getProperty("value")).toBe(
       // the localize method converts the string to a number, which removes the leading zeros
       // so we need to manually add them back in the test when confirming the expected value

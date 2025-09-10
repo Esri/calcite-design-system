@@ -202,6 +202,9 @@ export class InputNumber
       return value;
     }
 
+    const valueHasLeadingMinusSign = hasLeadingMinusSign(value);
+    const valueHasLeadingZeros = hasLeadingZeros(value);
+
     value = parseNumberString(value);
 
     if (!isValidNumber(value)) {
@@ -217,12 +220,20 @@ export class InputNumber
 
     const validatedValue = hasTrailingDecimal(value) ? value : sanitizeNumberString(value);
 
-    const newValue =
+    let newValue =
       value && !validatedValue
         ? isValidNumber(previousValue)
           ? previousValue
           : ""
         : validatedValue;
+
+    if (valueHasLeadingZeros) {
+      newValue = `${
+        valueHasLeadingMinusSign ? newValue.charAt(0) : ""
+      }${"0".repeat(valueHasLeadingZeros[1].length)}${
+        valueHasLeadingMinusSign ? newValue.slice(1) : newValue
+      }`;
+    }
 
     return ["-", "."].includes(newValue) ? "" : newValue;
   };

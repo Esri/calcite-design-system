@@ -316,8 +316,8 @@ export function hasLeadingMinusSign(value: string): boolean {
   return value?.charAt(0) === "-";
 }
 
-export function hasLeadingZeros(value: string): boolean {
-  return !!value?.match(anyLeadingZeros);
+export function hasLeadingZeros(value: string): RegExpMatchArray {
+  return value?.match(anyLeadingZeros);
 }
 
 export function hasTrailingDecimal(value: string): boolean {
