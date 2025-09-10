@@ -151,7 +151,23 @@ describe("calcite-swatch", () => {
   describe("themed", () => {
     describe("default", () => {
       themed(html`calcite-swatch`, {
-        "--calcite-swatch-corner-radius": { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
+        "--calcite-swatch-corner-radius": [
+          { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
+          { shadowSelector: `#${IDS.swatchRect}`, targetProp: "rx" },
+        ],
+      });
+    });
+    describe("solid ", () => {
+      themed(html`<calcite-swatch color="#ff8200"></calcite-swatch>`, {
+        "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" }],
+      });
+    });
+    describe("transparent ", () => {
+      themed(html`<calcite-swatch color="rgba(255, 255, 255, 0.5)"></calcite-swatch>`, {
+        "--calcite-swatch-corner-radius": [
+          { shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" },
+          { shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" },
+        ],
       });
     });
   });

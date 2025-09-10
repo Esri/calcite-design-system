@@ -100,6 +100,8 @@ import { meter, meterTokens } from "./custom-theme/meter";
 import { table, tableTokens } from "./custom-theme/table";
 import { carousel, carouselTokens } from "./custom-theme/carousel";
 import { dialog, dialogTokens } from "./custom-theme/dialog";
+import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
+import { swatch } from "./custom-theme/swatch";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -245,6 +247,12 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${dialog}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${swatchGroup}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${swatch}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -314,6 +322,8 @@ const componentTokens = {
   ...tableTokens,
   ...carouselTokens,
   ...dialogTokens,
+  ...swatchGroupTokens,
+  ...swatch,
 };
 
 export default {
