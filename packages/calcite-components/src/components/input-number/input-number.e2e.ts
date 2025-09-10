@@ -1724,12 +1724,13 @@ describe("calcite-input-number", () => {
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
   });
 
-  it("emits change event when value set directly and then cleared in 'de' locale", async () => {
+  it("emits input event when value set directly and then cleared in 'de' locale, and change event after blur", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-input-number lang="de" value="0" clearable></calcite-input-number>
     `);
 
+    const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
     const calciteInputNumberChange = await page.spyOnEvent("calciteInputNumberChange");
     const inputEl = await page.find("calcite-input-number");
     const clearButtonEl = await page.find("calcite-input-number >>> .clear-button");
@@ -1738,11 +1739,20 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("49.173126");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
 
     await clearButtonEl.click();
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await inputEl.getProperty("value")).toBe("");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
     expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
   });
 
