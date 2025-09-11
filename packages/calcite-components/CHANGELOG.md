@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.107](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.106...@esri/calcite-components@3.3.0-next.107) (2025-09-11)
+
+### Bug Fixes
+
+- **dialog:** Fix for corner radius token ([#12859](https://github.com/Esri/calcite-design-system/issues/12859)) ([002fe90](https://github.com/Esri/calcite-design-system/commit/002fe90286d5800d996a9b1eaa0a552c4c964e78)), closes [#12621](https://github.com/Esri/calcite-design-system/issues/12621)
+
 ## [3.3.0-next.106](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.105...@esri/calcite-components@3.3.0-next.106) (2025-09-11)
 
 ### Features
