@@ -967,7 +967,7 @@ describe("calcite-input-number", () => {
     expect(Number(await element.getProperty("value"))).toBe(0.000012);
   });
 
-  it("sanitizes numbers when using exponential format", async () => {
+  it("disallows typing redundant minus signs and the 'e' character while preserving leading zeros on input; removes leading zeros on commit", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
 
@@ -976,8 +976,18 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     await typeNumberValue(page, "------000005eeee00005----eee");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("-5e5");
-    expect(Number(await element.getProperty("value"))).toBe(-500000);
+
+    let value = await element.getProperty("value");
+
+    expect(value).toBe("-000005e5");
+    expect(Number(value)).toBe(-500000);
+
+    await page.keyboard.press("Tab");
+
+    value = await element.getProperty("value");
+
+    expect(value).toBe("-5e5");
+    expect(Number(value)).toBe(-500000);
   });
 
   it("increments correctly with exponential numbers", async () => {
@@ -1093,26 +1103,35 @@ describe("calcite-input-number", () => {
     expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("one");
   });
 
-  it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
+  it("typing zero and then a non-zero number sets and emits the non-zero number on commit", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
     const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+    const calciteInputNumberChange = await page.spyOnEvent("calciteInputNumberChange");
     const calciteInput = await page.find("calcite-input-number");
 
     await calciteInput.callMethod("setFocus");
     await page.waitForChanges();
-
     await page.keyboard.press("0");
     await page.waitForChanges();
 
     expect(await calciteInput.getProperty("value")).toBe("0");
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
 
     await page.keyboard.press("1");
     await page.waitForChanges();
 
+    expect(await calciteInput.getProperty("value")).toBe("01");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
     expect(await calciteInput.getProperty("value")).toBe("1");
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
   });
 
   it("prevent typing invalid characters", async () => {
@@ -1756,25 +1775,36 @@ describe("calcite-input-number", () => {
     expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
   });
 
-  it("sanitize leading zeros from value", async () => {
+  it("removes leading zeros from value only on commit", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input-number></calcite-input-number>
     `);
-
     const element = await page.find("calcite-input-number");
+
     await element.callMethod("setFocus");
     await page.waitForChanges();
     await typeNumberValue(page, "0000000");
     await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe("0000000");
+
+    await page.keyboard.press("Enter");
+
     expect(await element.getProperty("value")).toBe("0");
 
-    await typeNumberValue(page, "1");
+    await typeNumberValue(page, "0000001");
     await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe("00000001");
+
+    await page.keyboard.press("Enter");
+
     expect(await element.getProperty("value")).toBe("1");
 
     await typeNumberValue(page, "0000000");
     await page.waitForChanges();
+
     expect(await element.getProperty("value")).toBe("10000000");
   });
 

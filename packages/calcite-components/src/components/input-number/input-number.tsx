@@ -584,7 +584,11 @@ export class InputNumber
   //#region Private Methods
 
   private commitValue() {
-    this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputNumberChange });
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteInputNumberChange,
+      value: sanitizeNumberString(this.value),
+    });
+    this.setLocalizedValue(this.value);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -661,14 +665,11 @@ export class InputNumber
         ? `${inputMax}`
         : nudgedValue.toString();
 
-    this.valueController.inputValue({
-      inputEventEmitter: this.calciteInputNumberInput,
-      value: finalValue,
-    });
+    this.inputValue(finalValue);
   }
 
   private clearInputValue(): void {
-    this.valueController.inputValue({ inputEventEmitter: this.calciteInputNumberInput, value: "" });
+    this.inputValue("");
   }
 
   private inputNumberBlurHandler() {
