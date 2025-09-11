@@ -25,11 +25,22 @@
  * @prop --calcite-panel-header-border-block-end: [Deprecated] Use `--calcite-panel-border-color` instead. Specifies the component header's block end border.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-panel-default-space
+// --calcite-internal-panel-header-vertical-padding
+
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+slot[name="alerts"]::slotted(calcite-alert) {
+  block-size: 0;
 }
 
 @include disabled();

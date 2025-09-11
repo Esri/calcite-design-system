@@ -22,7 +22,7 @@ import {
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -30,6 +30,7 @@ import {
 } from "../../utils/interactive";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
@@ -50,6 +51,7 @@ declare global {
 
 /**
  * @slot - A slot for adding text.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  * @slot footer-start - A slot for adding content to the start of the component's footer.
  * @slot footer-end - A slot for adding content to the end of the component's footer.
  */
@@ -76,7 +78,7 @@ export class TextArea
 
   defaultValue: TextArea["value"];
 
-  private footerEl = createRef<HTMLElement>();
+  private footerRef = createRef<HTMLElement>();
 
   private validationMessageEl: HTMLDivElement;
 
@@ -102,7 +104,7 @@ export class TextArea
       validationMessageHeight,
     } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerEl.value.style.width = `${textAreaWidth}px`;
+      this.footerRef.value.style.width = `${textAreaWidth}px`;
     }
 
     if (this.resize === "none") {
@@ -162,7 +164,7 @@ export class TextArea
   @property({ reflect: true }) columns: number;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When present, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -175,14 +177,17 @@ export class TextArea
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Accessible name for the component. */
   @property() label: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /**
-   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
+   * When present, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
@@ -223,14 +228,14 @@ export class TextArea
   @property() placeholder: string;
 
   /**
-   * When `true`, the component's `value` can be read, but cannot be modified.
+   * When present, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
@@ -299,7 +304,7 @@ export class TextArea
   @method()
   async selectText(): Promise<void> {
     await this.componentOnReady();
-    this.textAreaEl.select();
+    this.textAreaEl?.select();
   }
 
   /**
@@ -311,9 +316,7 @@ export class TextArea
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.textAreaEl;
-    }, options);
+    return this.focusSetter(() => this.textAreaEl, options);
   }
 
   //#endregion
@@ -408,11 +411,8 @@ export class TextArea
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
-    if (!el) {
-      return;
-    }
+    updateRefObserver(this.resizeObserver, this.textAreaEl, el);
     this.textAreaEl = el;
-    this.resizeObserver?.observe(el);
   }
 
   private setTextAreaHeight(): void {
@@ -436,8 +436,8 @@ export class TextArea
       ? this.textAreaEl.getBoundingClientRect()
       : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl.value
-      ? this.footerEl.value.getBoundingClientRect()
+    const { height: footerHeight, width: footerWidth } = this.footerRef.value
+      ? this.footerRef.value.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     const { height: validationMessageHeight } = this.validationMessageEl
@@ -481,6 +481,14 @@ export class TextArea
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.wrapper}>
+          {this.labelText && (
+            <InternalLabel
+              labelText={this.labelText}
+              onClick={this.onLabelClick}
+              required={this.required}
+              tooltipText={this.messages.required}
+            />
+          )}
           <textarea
             aria-describedby={this.guid}
             aria-errormessage={IDS.validationMessage}
@@ -518,7 +526,7 @@ export class TextArea
               [CSS.readOnly]: this.readOnly,
               [CSS.hide]: !hasFooter,
             }}
-            ref={this.footerEl}
+            ref={this.footerRef}
           >
             <div
               class={{

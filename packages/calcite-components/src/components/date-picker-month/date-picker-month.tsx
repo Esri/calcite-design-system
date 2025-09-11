@@ -36,32 +36,41 @@ interface Day {
   date: Date;
   day: number;
   dayInWeek?: number;
-  ref?: boolean;
 }
 
 export class DatePickerMonth extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private activeFocus: boolean;
 
-  // #endregion
+  private storeDayRef = (el: DatePickerDay["el"]): void => {
+    // when moving via keyboard, focus must be updated on active date
+    if (el?.active && this.activeFocus) {
+      el.setFocus();
+    }
+  };
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() focusedDate: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** The currently active Date. */
   @property() activeDate: Date = new Date();
+
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
@@ -109,7 +118,7 @@ export class DatePickerMonth extends LitElement {
   /** Specifies the monthStyle used by the component. */
   @property() monthStyle: "abbreviated" | "wide";
 
-  /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
+  /** When present, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
@@ -121,9 +130,9 @@ export class DatePickerMonth extends LitElement {
   /** Start date currently active. */
   @property() startDate?: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when user hovers the date.
@@ -159,9 +168,9 @@ export class DatePickerMonth extends LitElement {
   /** @private */
   calciteInternalDatePickerMonthMouseOut = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -187,9 +196,9 @@ export class DatePickerMonth extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {
@@ -528,7 +537,6 @@ export class DatePickerMonth extends LitElement {
           day,
           dayInWeek: getDayInWeek(),
           date,
-          ref: true,
         };
       }),
       ...nextMonthDays.map((day) => {
@@ -566,9 +574,9 @@ export class DatePickerMonth extends LitElement {
     return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const month = this.activeDate.getMonth();
@@ -605,7 +613,9 @@ export class DatePickerMonth extends LitElement {
     return (
       <div class={{ [CSS.calendarContainer]: true }} role="grid">
         {this.renderCalendar(adjustedWeekDays, days)}
-        {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
+        {this.range &&
+          this.calendars === 2 &&
+          this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
       </div>
     );
   }
@@ -625,11 +635,12 @@ export class DatePickerMonth extends LitElement {
    * @param active.day
    * @param active.dayInWeek
    * @param active.ref
+   * @param dayInfo
    * @param key
    * @param active.currentDay
    */
   private renderDateDay(
-    { active, currentMonth, currentDay, date, day, dayInWeek, ref }: Day,
+    { active, currentMonth, currentDay, date, day, dayInWeek }: Day,
     key: number,
   ): JsxNode {
     const isDateInRange = inRange(date, this.min, this.max);
@@ -655,12 +666,7 @@ export class DatePickerMonth extends LitElement {
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
-          ref={(el) => {
-            // when moving via keyboard, focus must be updated on active date
-            if (ref && active && this.activeFocus) {
-              el?.setFocus();
-            }
-          }}
+          ref={this.storeDayRef}
           scale={this.scale}
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}
@@ -688,7 +694,7 @@ export class DatePickerMonth extends LitElement {
           min={this.min}
           monthStyle={this.monthStyle}
           oncalciteInternalDatePickerMonthHeaderSelectChange={this.monthHeaderSelectChange}
-          position={isEndCalendar ? "end" : this.range ? "start" : null}
+          position={isEndCalendar ? "end" : this.range && this.calendars === 2 ? "start" : null}
           scale={this.scale}
           selectedDate={this.selectedDate}
         />
@@ -718,5 +724,5 @@ export class DatePickerMonth extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

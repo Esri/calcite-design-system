@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.22...@esri/calcite-ui-icons@4.3.0-next.23) (2025-09-04)
+
+### Features
+
+- add layer 3d ([#12819](https://github.com/Esri/calcite-design-system/issues/12819)) ([6d56f05](https://github.com/Esri/calcite-design-system/commit/6d56f05aa0e332ed16cf582e3a4aa3cfa732ef6e))
+
+## [4.3.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.21...@esri/calcite-ui-icons@4.3.0-next.22) (2025-09-03)
+
+### Features
+
+- add internal label across form components ([#12499](https://github.com/Esri/calcite-design-system/issues/12499)) ([52f37a5](https://github.com/Esri/calcite-design-system/commit/52f37a53fd611eff5e24adca12ce0ff532317d13)), closes [#8572](https://github.com/Esri/calcite-design-system/issues/8572)
+
+## [4.3.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.20...@esri/calcite-ui-icons@4.3.0-next.21) (2025-08-29)
+
+### Bug Fixes
+
+- select row icon ([#12793](https://github.com/Esri/calcite-design-system/issues/12793)) ([88e7a6b](https://github.com/Esri/calcite-design-system/commit/88e7a6b9a4d4373bb0957c0269763b520269b159))
+
+## [4.3.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.19...@esri/calcite-ui-icons@4.3.0-next.20) (2025-08-26)
+
+### Features
+
+- add select row icon ([#12768](https://github.com/Esri/calcite-design-system/issues/12768)) ([f5c57cc](https://github.com/Esri/calcite-design-system/commit/f5c57cc85c41331e150ca27440c0fdccb4e75f22))
+
+## [4.3.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.18...@esri/calcite-ui-icons@4.3.0-next.19) (2025-08-22)
+
+### Features
+
+- add shopping-cart-f, shopping cart plus, carousel frames ([#12758](https://github.com/Esri/calcite-design-system/issues/12758)) ([de4c9fd](https://github.com/Esri/calcite-design-system/commit/de4c9fda80e8934206d3b69ac8ce22a9832bb3e3))
+
+## [4.3.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.17...@esri/calcite-ui-icons@4.3.0-next.18) (2025-08-21)
+
+### Features
+
+- added camera sensor icons ([#12738](https://github.com/Esri/calcite-design-system/issues/12738)) ([5a31248](https://github.com/Esri/calcite-design-system/commit/5a31248ce39a46abb60e4a5d7f183e68436da410))
+
 ## [4.3.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.16...@esri/calcite-ui-icons@4.3.0-next.17) (2025-08-13)
 
 ### Features

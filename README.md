@@ -121,17 +121,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
-      <br />
-      <sub><b>Katrina Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/arowles">
       <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
       <br />
       <sub><b>Ashley Rowles</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
+      <br />
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -179,17 +179,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/justinhough">
-      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
-      <br />
-      <sub><b>Justin Hough</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/matgalla">
       <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
       <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/justinhough">
+      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
+      <br />
+      <sub><b>Justin Hough</b></sub>
     </a>
   </td>
 </tr>
@@ -209,6 +209,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/jona7150">
+      <img src="https://avatars.githubusercontent.com/u/6035795?v=4" width="100;" alt="jona7150"/>
+      <br />
+      <sub><b>Jonathan Turpin</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/ffaubry">
       <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
       <br />
@@ -223,28 +230,14 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/jona7150">
-      <img src="https://avatars.githubusercontent.com/u/6035795?v=4" width="100;" alt="jona7150"/>
+    <a href="https://github.com/isaacbraun">
+      <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
       <br />
-      <sub><b>Jonathan Turpin</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/vcolavin">
-      <img src="https://avatars.githubusercontent.com/u/5898204?v=4" width="100;" alt="vcolavin"/>
-      <br />
-      <sub><b>Vincent Colavin</b></sub>
+      <sub><b>Isaac Braun</b></sub>
     </a>
   </td>
 </tr>
 <tr>
-  <td align="center">
-    <a href="https://github.com/y0n4">
-      <img src="https://avatars.githubusercontent.com/u/25360903?v=4" width="100;" alt="y0n4"/>
-      <br />
-      <sub><b>Yona N</b></sub>
-    </a>
-  </td>
   <td align="center">
     <a href="https://github.com/bpatterson88">
       <img src="https://avatars.githubusercontent.com/u/15875886?v=4" width="100;" alt="bpatterson88"/>
@@ -253,10 +246,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/isaacbraun">
-      <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
+    <a href="https://github.com/y0n4">
+      <img src="https://avatars.githubusercontent.com/u/25360903?v=4" width="100;" alt="y0n4"/>
       <br />
-      <sub><b>Isaac Braun</b></sub>
+      <sub><b>Yona N</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/vcolavin">
+      <img src="https://avatars.githubusercontent.com/u/5898204?v=4" width="100;" alt="vcolavin"/>
+      <br />
+      <sub><b>Vincent Colavin</b></sub>
     </a>
   </td>
   <td align="center">
@@ -283,17 +283,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/rmstinson">
-      <img src="https://avatars.githubusercontent.com/u/12650705?v=4" width="100;" alt="rmstinson"/>
-      <br />
-      <sub><b>Mike Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/MikeTschudi">
       <img src="https://avatars.githubusercontent.com/u/2125181?v=4" width="100;" alt="MikeTschudi"/>
       <br />
       <sub><b>Mike Tschudi</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/rmstinson">
+      <img src="https://avatars.githubusercontent.com/u/12650705?v=4" width="100;" alt="rmstinson"/>
+      <br />
+      <sub><b>Mike Stinson</b></sub>
     </a>
   </td>
   <td align="center">

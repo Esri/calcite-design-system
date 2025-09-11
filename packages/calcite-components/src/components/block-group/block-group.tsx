@@ -14,7 +14,12 @@ import {
   disconnectSortableComponent,
   SortableComponent,
 } from "../../utils/sortableComponent";
-import { MoveEventDetail, MoveTo, ReorderEventDetail } from "../sort-handle/interfaces";
+import {
+  MoveEventDetail,
+  SortMenuItem,
+  ReorderEventDetail,
+  AddEventDetail,
+} from "../sort-handle/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
@@ -72,22 +77,22 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   @state() assistiveText: string;
 
-  @state() moveToItems: MoveTo[] = [];
+  @state() sortHandleMenuItems: SortMenuItem[] = [];
 
   // #endregion
 
   // #region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
-  @property() canPull: (detail: BlockDragDetail) => boolean;
+  @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
   @property() canPut: (detail: BlockDragDetail) => boolean;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, `calcite-block`s are sortable via a draggable button. */
+  /** When present, `calcite-block`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
@@ -106,13 +111,13 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
    */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  /** When present, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   // #endregion
@@ -132,6 +137,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     return this.focusSetter(() => {
       return this.el;
     }, options);
+  }
+
+  /**
+   * Emits the `calciteBlockGroupOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: BlockDragDetail): void {
+    this.calciteBlockGroupOrderChange.emit(detail);
   }
 
   // #endregion
@@ -165,9 +180,10 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteInternalBlockUpdateMoveToItems", this.handleUpdateMoveToItems);
+    this.listen("calciteSortHandleAdd", this.handleSortAdd);
   }
 
   override connectedCallback(): void {
@@ -181,6 +197,8 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      (changes.has("canPull") && this.hasUpdated) ||
+      (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false))
     ) {
@@ -206,14 +224,34 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItems(): void {
     this.updateGroupItems();
-    const { dragEnabled, el, moveToItems, sortDisabled } = this;
+    const { dragEnabled, el, sortDisabled, sortHandleMenuItems } = this;
 
     const items = Array.from(this.el.querySelectorAll(blockSelector));
+    const fromEl = el;
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
 
     items.forEach((item) => {
       if (item.closest(blockGroupSelector) === el) {
-        item.moveToItems = moveToItems.filter(
-          (moveToItem) => moveToItem.element !== el && !item.contains(moveToItem.element),
+        item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
+          this.validateSortMenuItem({
+            type: "move",
+            fromEl,
+            toEl: moveToItem.element as BlockGroup["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
+          }),
+        );
+
+        item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
+          this.validateSortMenuItem({
+            type: "add",
+            fromEl,
+            toEl: moveToItem.element as BlockGroup["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
+          }),
         );
         item.dragHandle = dragEnabled;
         item.sortDisabled = sortDisabled;
@@ -234,7 +272,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
         ).filter((blockGroup) => !blockGroup.disabled && blockGroup.dragEnabled)
       : [];
 
-    this.moveToItems = blockGroups.map((element) => ({
+    this.sortHandleMenuItems = blockGroups.map((element) => ({
       element,
       label: element.label ?? element.id,
       id: guid(),
@@ -246,28 +284,6 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     event.stopPropagation();
   }
 
-  private async handleUpdateMoveToItems(event: CustomEvent): Promise<void> {
-    event.stopPropagation();
-
-    const fromEl = this.el;
-    const fromElItems = Array.from(fromEl.children).filter(isBlock);
-    const item = event.target as Block["el"];
-
-    await fromEl.componentOnReady();
-    await item.componentOnReady();
-    this.updateBlockItems();
-
-    item.moveToItems = item.moveToItems.filter((moveToItem) =>
-      this.validateMove({
-        fromEl,
-        toEl: moveToItem.element as BlockGroup["el"],
-        dragEl: item,
-        newIndex: 0,
-        oldIndex: fromElItems.indexOf(item),
-      }),
-    );
-  }
-
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
     if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
@@ -275,6 +291,15 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
     event.preventDefault();
     this.handleReorder(event);
+  }
+
+  private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
+    if (this.parentBlockGroupEl || event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    this.handleAdd(event);
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
@@ -354,48 +379,79 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     });
   }
 
-  private validateMove({
+  private validateSortMenuItem({
     fromEl,
     toEl,
     dragEl,
     newIndex,
     oldIndex,
+    type,
   }: {
     fromEl?: BlockGroup["el"];
     toEl?: BlockGroup["el"];
     dragEl: Block["el"];
     newIndex: number;
     oldIndex: number;
+    type: "move" | "add";
   }): boolean {
-    if (!fromEl || !toEl) {
+    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
       return false;
     }
 
-    if (
+    const canPull =
       fromEl.canPull?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
-    }
+      }) ?? true;
 
-    if (
+    const canPut =
       toEl.canPut?.({
         toEl,
         fromEl,
         dragEl,
         newIndex,
         oldIndex,
-      }) === false
-    ) {
-      return false;
+      }) ?? true;
+
+    return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
+  }
+
+  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+    const { addTo } = event.detail;
+
+    const dragEl = event.target as Block["el"];
+    const fromEl = dragEl?.parentElement as BlockGroup["el"];
+    const toEl = addTo.element as BlockGroup["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isBlock);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+      return;
     }
 
-    return true;
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    const newEl = dragEl.cloneNode();
+    toEl.prepend(newEl);
+    this.updateBlockItemsDebounced();
+    this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -408,7 +464,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateMove({ fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
       return;
     }
 
@@ -421,13 +477,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
     this.connectObserver();
 
-    this.calciteBlockGroupOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

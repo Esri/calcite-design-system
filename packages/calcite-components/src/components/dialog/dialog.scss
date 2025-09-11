@@ -161,6 +161,7 @@ calcite-panel {
   --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
+  --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
 }
 
 :host([kind="brand"]) calcite-panel {
@@ -197,14 +198,15 @@ calcite-panel {
     opacity-0
     shadow-2-sm
     z-modal
-    rounded
     relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
+
   transition:
     inset-block var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
+  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
   max-inline-size: var(--calcite-dialog-max-size-x, 100%);
   min-block-size: var(--calcite-dialog-min-size-y, var(--calcite-internal-dialog-min-size-y));
@@ -233,10 +235,8 @@ calcite-panel {
 }
 
 .panel {
-  @apply invisible
-  rounded
-  opacity-0;
-
+  @apply invisible opacity-0;
+  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
@@ -326,6 +326,11 @@ calcite-panel {
 :host([kind]) .panel {
   @apply rounded-t-none;
 }
+
+:host([kind]) .dialog {
+  overflow: hidden;
+}
+
 :host([kind="brand"]) .dialog {
   @apply border-color-brand;
 }

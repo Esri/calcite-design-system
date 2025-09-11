@@ -26,6 +26,12 @@
  * @prop --calcite-input-text-text-color-focus: Specifies the component's text color when focused.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-text-alignment
+
 :host {
   @apply block;
 }
@@ -224,6 +230,7 @@ input:focus {
     inline-flex
     flex-1
     items-center;
+  isolation: isolate;
 }
 
 .icon {
@@ -414,6 +421,7 @@ input {
   }
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
