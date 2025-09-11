@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.109](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.108...@esri/calcite-components@3.3.0-next.109) (2025-09-11)
+
+### Features
+
+- **tooltip:** add css custom property for setting max size ([#12865](https://github.com/Esri/calcite-design-system/issues/12865)) ([c9724e2](https://github.com/Esri/calcite-design-system/commit/c9724e2b1b755a48eb76cc091ca2943e21365396)), closes [#12780](https://github.com/Esri/calcite-design-system/issues/12780)
+
 ## [3.3.0-next.108](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.107...@esri/calcite-components@3.3.0-next.108) (2025-09-11)
 
 ### Bug Fixes
