@@ -1454,6 +1454,10 @@ describe("calcite-tooltip", () => {
             shadowSelector: `.${CSS.positionContainer}`,
             targetProp: "zIndex",
           },
+          "--calcite-tooltip-max-size-x": {
+            shadowSelector: `.${CSS.positionContainer}`,
+            targetProp: "maxInlineSize",
+          },
         },
       );
     });

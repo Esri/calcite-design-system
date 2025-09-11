@@ -6,6 +6,7 @@
  * @prop --calcite-tooltip-background-color: Specifies the component's background color.
  * @prop --calcite-tooltip-border-color: Specifies the component's border color.
  * @prop --calcite-tooltip-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-tooltip-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-tooltip-text-color: Specifies the component's text color.
  * @prop --calcite-tooltip-z-index: Specifies the z-index value for the component.
  */
@@ -17,6 +18,8 @@
 
 .position-container {
   @include floating-ui-container();
+  max-inline-size: var(--calcite-tooltip-max-size-x, 20rem);
+  max-block-size: 20rem;
 }
 
 @include floating-ui-elem-anim(".position-container");
@@ -29,11 +32,10 @@
     overflow-hidden
     py-3
     px-4
-    font-medium;
+    font-medium
+    word-break;
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
   color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
-  max-inline-size: 20rem;
-  max-block-size: 20rem;
   text-align: start;
 }
 

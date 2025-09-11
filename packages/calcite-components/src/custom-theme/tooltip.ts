@@ -4,6 +4,7 @@ export const tooltipTokens = {
   calciteTooltipBackgroundColor: "",
   calciteTooltipBorderColor: "",
   calciteTooltipCornerRadius: "",
+  calciteTooltipMaxSizeX: "",
   calciteTooltipTextColor: "",
   calciteTooltipZIndex: "",
 };
