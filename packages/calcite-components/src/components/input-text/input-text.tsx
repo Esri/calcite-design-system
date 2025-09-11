@@ -67,15 +67,14 @@ export class InputText
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
-  /** keep track of the rendered child */
-  private childEl?: HTMLInputElement;
+  private childRef = createRef<HTMLInputElement>();
 
   defaultValue: InputText["value"];
 
@@ -83,7 +82,7 @@ export class InputText
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -296,7 +295,7 @@ export class InputText
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childEl?.select();
+    this.childRef.value?.select();
   }
 
   /**
@@ -308,9 +307,7 @@ export class InputText
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.childEl;
-    }, options);
+    return this.focusSetter(() => this.childRef.value, options);
   }
 
   //#endregion
@@ -442,7 +439,7 @@ export class InputText
 
   private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
-      element: this.childEl,
+      element: this.childRef.value,
       value: this.value,
     });
 
@@ -457,8 +454,8 @@ export class InputText
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -468,7 +465,7 @@ export class InputText
 
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
-      element: this.childEl,
+      element: this.childRef.value,
       value: this.value,
     });
   }
@@ -497,15 +494,11 @@ export class InputText
     syncHiddenFormInput("text", this, input);
   }
 
-  private setChildElRef(el) {
-    this.childEl = el;
-  }
-
   private setInputValue(newInputValue: string): void {
-    if (!this.childEl) {
+    if (!this.childRef.value) {
       return;
     }
-    this.childEl.value = newInputValue;
+    this.childRef.value.value = newInputValue;
   }
 
   private setPreviousEmittedValue(value: string): void {
@@ -610,7 +603,7 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
+        ref={this.childRef}
         required={this.required ? true : null}
         spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
@@ -635,7 +628,7 @@ export class InputText
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.clearable]: this.isClearable,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
@@ -644,7 +637,7 @@ export class InputText
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.suffixText ? suffixText : null}
