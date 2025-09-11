@@ -1,14 +1,14 @@
 // @ts-strict-ignore
-import { PropertyValues, isServer } from "lit";
+import { isServer, PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   Fragment,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
 } from "@arcgis/lumina";
 import {
   dateFromISO,
@@ -27,7 +27,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL, CSS } from "./resources";
+import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 import { styles } from "./date-picker.scss";
 
@@ -92,6 +92,9 @@ export class DatePicker extends LitElement {
   /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
   @property({ reflect: true }) activeRange: "start" | "end";
 
+  /** Specifies the number of calendars displayed when `range` is `true`. */
+  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
+
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
@@ -125,10 +128,10 @@ export class DatePicker extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
+  /** When present, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /** When present, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
   /** Specifies the size of the component. */
@@ -188,34 +191,11 @@ export class DatePicker extends LitElement {
     this.listen("keydown", this.keyDownHandler);
   }
 
-  override connectedCallback(): void {
-    if (Array.isArray(this.value)) {
-      this.valueAsDate = getValueAsDateRange(this.value);
-    } else if (this.value) {
-      this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
-    }
-    this.setActiveStartAndEndDates();
-  }
-
   async load(): Promise<void> {
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("activeDate")) {
-      this.activeDateWatcher(this.activeDate);
-    }
-
     if (changes.has("value")) {
       this.valueHandler(this.value);
     }
@@ -224,12 +204,43 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    if (changes.has("min")) {
-      this.onMinChanged(this.min);
+    let minSource: Extract<keyof DatePicker, "min" | "minAsDate">;
+    let maxSource: Extract<keyof DatePicker, "max" | "maxAsDate">;
+
+    if (changes.has("min") && !changes.has("minAsDate")) {
+      minSource = "min";
+    } else if (changes.has("minAsDate") && !changes.has("min")) {
+      minSource = "minAsDate";
     }
 
-    if (changes.has("max")) {
-      this.onMaxChanged(this.max);
+    if (changes.has("max") && !changes.has("maxAsDate")) {
+      maxSource = "max";
+    } else if (changes.has("maxAsDate") && !changes.has("max")) {
+      maxSource = "maxAsDate";
+    }
+
+    if (minSource === "min") {
+      this.minAsDate = dateFromISO(this.min);
+    } else if (minSource === "minAsDate") {
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
+    }
+
+    if (maxSource === "max") {
+      this.maxAsDate = dateFromISO(this.max);
+    } else if (maxSource === "maxAsDate") {
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
+    }
+
+    if (
+      (changes.has("range") && this.range) ||
+      changes.has("maxAsDate") ||
+      changes.has("minAsDate")
+    ) {
+      this.setActiveStartAndEndDates();
+    }
+
+    if (changes.has("activeDate")) {
+      this.activeDateWatcher(this.activeDate);
     }
 
     if (changes.has("messages") && this.hasUpdated) {
@@ -272,20 +283,6 @@ export class DatePicker extends LitElement {
       this.setActiveStartAndEndDates();
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
-    }
-  }
-
-  private onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
-    if (this.range) {
-      this.setActiveStartAndEndDates();
-    }
-  }
-
-  private onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
-    if (this.range) {
-      this.setActiveStartAndEndDates();
     }
   }
 
@@ -335,7 +332,8 @@ export class DatePicker extends LitElement {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate.getMonth() &&
-        month !== nextMonth(this.activeStartDate).getMonth();
+        (this.calendars === 1 || month !== nextMonth(this.activeStartDate).getMonth());
+
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
           this.activeEndDate = date;
@@ -662,6 +660,7 @@ export class DatePicker extends LitElement {
     return (
       <calcite-date-picker-month
         activeDate={activeDate}
+        calendars={this.calendars}
         dateTimeFormat={this.dateTimeFormat}
         endDate={this.range ? endDate : undefined}
         headingLevel={this.headingLevel || HEADING_LEVEL}

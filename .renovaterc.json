@@ -23,7 +23,9 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "rangeStrategy": "bump"
+      "rangeStrategy": "bump",
+      "ignoreUnstable": false,
+      "respectLatest": false
     },
     {
       "groupName": "CSpell",

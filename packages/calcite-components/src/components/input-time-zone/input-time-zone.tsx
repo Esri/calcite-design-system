@@ -9,6 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -29,8 +30,9 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
+import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -49,6 +51,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimeZone
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
@@ -63,7 +68,7 @@ export class InputTimeZone
 
   //#region Private Properties
 
-  private comboboxEl: Combobox["el"];
+  private comboboxRef = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -93,13 +98,13 @@ export class InputTimeZone
   //#region Public Properties
 
   /**
-   * When `true`, an empty value (`null`) will be allowed as a `value`.
+   * When present, an empty value (`null`) will be allowed as a `value`.
    *
-   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -108,6 +113,9 @@ export class InputTimeZone
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
@@ -146,7 +154,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -158,7 +166,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -171,7 +179,7 @@ export class InputTimeZone
   @property() referenceDate: Date | string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private
@@ -240,9 +248,7 @@ export class InputTimeZone
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.comboboxEl;
-    }, options);
+    return this.focusSetter(() => this.comboboxRef.value, options);
   }
 
   //#endregion
@@ -336,8 +342,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl) {
-      this.comboboxEl.open = this.open;
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
     }
   }
 
@@ -371,10 +377,6 @@ export class InputTimeZone
     this.setFocus();
   }
 
-  private setComboboxRef(el: Combobox["el"]): void {
-    this.comboboxEl = el;
-  }
-
   /**
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
@@ -386,7 +388,10 @@ export class InputTimeZone
       return;
     }
 
-    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem, open);
+    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+      this.selectedTimeZoneItem,
+      open,
+    );
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -503,6 +508,7 @@ export class InputTimeZone
           clearDisabled={!this.clearable}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
+          labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
           oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
@@ -520,7 +526,8 @@ export class InputTimeZone
           }
           placeholderIcon="search"
           readOnly={this.readOnly}
-          ref={this.setComboboxRef}
+          ref={this.comboboxRef}
+          required={this.required}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
@@ -528,6 +535,7 @@ export class InputTimeZone
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

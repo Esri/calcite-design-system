@@ -66,7 +66,7 @@ export class ActionGroup extends LitElement {
   /** Indicates number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
-  /** When `true`, expands the component and its contents. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Accessible name for the component. */
@@ -83,7 +83,7 @@ export class ActionGroup extends LitElement {
   /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
-  /** When `true`, the `calcite-action-menu` is open. */
+  /** When present, the `calcite-action-menu` is open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Determines where the action menu will be positioned. */

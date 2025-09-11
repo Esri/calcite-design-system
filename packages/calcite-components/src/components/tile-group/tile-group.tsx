@@ -49,7 +49,7 @@ export class TileGroup
   /** Specifies the alignment of each `calcite-tile`'s content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**

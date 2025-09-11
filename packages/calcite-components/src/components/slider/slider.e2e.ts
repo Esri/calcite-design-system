@@ -7,9 +7,11 @@ import {
   disabled,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
@@ -106,6 +108,10 @@ describe("calcite-slider", () => {
 
   describe("disabled", () => {
     disabled("calcite-slider");
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-slider`);
   });
 
   it("sets aria attributes properly for single value", async () => {
@@ -1221,6 +1227,10 @@ describe("calcite-slider", () => {
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-slider");
   });
 
   describe("themed", () => {

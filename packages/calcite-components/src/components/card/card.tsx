@@ -1,13 +1,13 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   ToEvents,
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -86,26 +86,26 @@ export class Card extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the component is selectable.
+   * When present, the component is selectable.
    *
    * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @property({ reflect: true }) selectable = false;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -135,9 +135,10 @@ export class Card extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl.value;
-    }, options);
+    return this.focusSetter(
+      () => ({ target: this.containerEl.value, includeContainer: true }),
+      options,
+    );
   }
 
   //#endregion

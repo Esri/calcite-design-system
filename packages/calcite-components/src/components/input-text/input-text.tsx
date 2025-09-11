@@ -33,6 +33,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 import { IconNameOrString } from "../icon/interfaces";
@@ -50,7 +51,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a button next to the component. */
+/**
+ * @slot action - A slot for positioning a button next to the component.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputText
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
@@ -63,15 +67,14 @@ export class InputText
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
     this.handleGlobalAttributesChanged,
   );
 
-  /** keep track of the rendered child */
-  private childEl?: HTMLInputElement;
+  private childRef = createRef<HTMLInputElement>();
 
   defaultValue: InputText["value"];
 
@@ -79,7 +82,7 @@ export class InputText
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -137,11 +140,11 @@ export class InputText
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. */
+  /** When present, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When present, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -164,13 +167,15 @@ export class InputText
    */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
 
-  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
+  @property() labelText: string;
+
+  /** When present, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -221,14 +226,14 @@ export class InputText
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When present, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -290,7 +295,7 @@ export class InputText
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childEl?.select();
+    this.childRef.value?.select();
   }
 
   /**
@@ -302,9 +307,7 @@ export class InputText
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.childEl;
-    }, options);
+    return this.focusSetter(() => this.childRef.value, options);
   }
 
   //#endregion
@@ -436,7 +439,7 @@ export class InputText
 
   private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
-      element: this.childEl,
+      element: this.childRef.value,
       value: this.value,
     });
 
@@ -451,8 +454,8 @@ export class InputText
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -462,7 +465,7 @@ export class InputText
 
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
-      element: this.childEl,
+      element: this.childRef.value,
       value: this.value,
     });
   }
@@ -491,15 +494,11 @@ export class InputText
     syncHiddenFormInput("text", this, input);
   }
 
-  private setChildElRef(el) {
-    this.childEl = el;
-  }
-
   private setInputValue(newInputValue: string): void {
-    if (!this.childEl) {
+    if (!this.childRef.value) {
       return;
     }
-    this.childEl.value = newInputValue;
+    this.childRef.value.value = newInputValue;
   }
 
   private setPreviousEmittedValue(value: string): void {
@@ -604,7 +603,7 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
+        ref={this.childRef}
         required={this.required ? true : null}
         spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
@@ -615,13 +614,21 @@ export class InputText
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           class={{
             [CSS.inputWrapper]: true,
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.clearable]: this.isClearable,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
@@ -630,7 +637,7 @@ export class InputText
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.suffixText ? suffixText : null}
