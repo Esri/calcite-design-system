@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.108](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.107...@esri/calcite-components@3.3.0-next.108) (2025-09-11)
+
+### Bug Fixes
+
+- **shell-panel:** allow content to extend the full height of the panel ([#12860](https://github.com/Esri/calcite-design-system/issues/12860)) ([bec812a](https://github.com/Esri/calcite-design-system/commit/bec812a1bae8d43c024c96275ec82bc7dd5eb738)), closes [#12626](https://github.com/Esri/calcite-design-system/issues/12626)
+
 ## [3.3.0-next.107](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.106...@esri/calcite-components@3.3.0-next.107) (2025-09-11)
 
 ### Bug Fixes
