@@ -558,6 +558,10 @@ export class InputNumber
     }
 
     if (changes.has("value") && !this.valueController.userChangedValue) {
+      const validatedValue = this.getValidNumberString(this.value);
+      if (this.value !== validatedValue) {
+        this.value = validatedValue;
+      }
       this.setLocalizedValue(this.value);
     }
   }
