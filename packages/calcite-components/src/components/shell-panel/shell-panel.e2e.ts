@@ -275,6 +275,42 @@ describe("calcite-shell-panel", () => {
     expect(`${width2}px`).toEqual(override);
   });
 
+  it("should update height based on the requested CSS variable override", async () => {
+    const override = "678px";
+
+    const page = await newE2EPage();
+
+    await page.setContent(`
+      <calcite-shell-panel layout="horizontal">
+        test
+      </calcite-shell-panel>
+    `);
+
+    await page.waitForChanges();
+
+    const page2 = await newE2EPage();
+    await page2.setContent(`
+      <style>
+        :root {
+          --calcite-shell-panel-min-height: ${override};
+          --calcite-shell-panel-max-height: ${override};
+          --calcite-shell-panel-height: ${override};
+        }
+      </style>
+      <calcite-shell-panel layout="horizontal">
+        test multiplied
+      </calcite-shell-panel>
+    `);
+
+    await page2.waitForChanges();
+
+    const content2 = await page2.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const style2 = await content2.getComputedStyle();
+    const height2 = parseFloat(style2["height"]);
+
+    expect(`${height2}px`).toEqual(override);
+  });
+
   it("calcite-panel should render at the same height as the content__body.", async () => {
     const page = await newE2EPage();
 
@@ -707,6 +743,40 @@ describe("calcite-shell-panel", () => {
           },
         },
       );
+    });
+
+    describe("height", () => {
+      themed(html`<calcite-shell-panel layout="horizontal"></calcite-shell-panel>`, {
+        "--calcite-shell-panel-height": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-shell-panel-max-height": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "maxBlockSize",
+        },
+        "--calcite-shell-panel-min-height": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "minBlockSize",
+        },
+      });
+    });
+
+    describe("width", () => {
+      themed(html`<calcite-shell-panel layout="vertical"></calcite-shell-panel>`, {
+        "--calcite-shell-panel-width": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-shell-panel-max-width": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-shell-panel-min-width": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "minInlineSize",
+        },
+      });
     });
   });
 });
