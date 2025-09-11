@@ -575,7 +575,10 @@ export class TabNav extends LitElement {
           <slot onSlotChange={this.onSlotChange} />
         </div>
 
-        <div class={CSS.scrollButtonContainer}>
+        <div
+          class={CSS.scrollButtonContainer}
+          hidden={!this.hasOverflowingEndTabTitle && !this.hasOverflowingStartTabTitle}
+        >
           {this.renderScrollButton("start")}
           {this.renderScrollButton("end")}
         </div>
@@ -595,7 +598,6 @@ export class TabNav extends LitElement {
           [CSS.scrollBackwardButton]: !isEnd,
           [CSS.scrollForwardButton]: isEnd,
         }}
-        hidden={!hasOverflowingEndTabTitle && !hasOverflowingStartTabTitle}
         key={overflowDirection}
       >
         <calcite-button
