@@ -74,21 +74,20 @@ const config: Omit<Config, "content"> = {
       6: "var(--calcite-font-size-6)", // 48px
       7: "var(--calcite-font-size-7)", // 56px
       8: "var(--calcite-font-size-8)", // 64px
-      // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-design-system/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
-      n3h: ["var(--calcite-font-size--3)", { lineHeight: "var(--calcite-font-line-height-fixed-sm)" }], // 10px (0.625rem)
-      n2h: ["var(--calcite-font-size--2)", { lineHeight: "var(--calcite-font-line-height-fixed-base)" }], // 12px (0.75rem)
-      n1h: ["var(--calcite-font-size--1)", { lineHeight: "var(--calcite-font-line-height-fixed-base)" }], // 14px (0.875rem)
-      "0h": ["var(--calcite-font-size-0)", { lineHeight: "var(--calcite-font-line-height-fixed-lg)" }], // 16px (1rem)
-      "1h": ["var(--calcite-font-size-1)", { lineHeight: "var(--calcite-font-line-height-fixed-xl)" }], // 18px (1.125rem)
-      "2h": ["var(--calcite-font-size-2)", { lineHeight: "var(--calcite-font-line-height-fixed-xxl)" }], // 20px (1.25rem)
-      "3h": ["var(--calcite-font-size-3)", { lineHeight: "var(--calcite-font-line-height-fixed-2xl)" }], // 26px (1.625rem)
-      "4h": ["var(--calcite-font-size-4)", { lineHeight: "var(--calcite-font-line-height-fixed-3xl)" }], // 32px (2rem)
-      "5h": ["var(--calcite-font-size-5)", { lineHeight: "var(--calcite-font-line-height-fixed-4xl)" }], // 40px (2.5rem)
-      "6h": ["var(--calcite-font-size-6)", { lineHeight: "var(--calcite-font-line-height-fixed-5xl)" }], // 48px (3rem)
-      "7h": ["var(--calcite-font-size-7)", { lineHeight: "var(--calcite-font-line-height-fixed-5xl)" }], // 56px (3.5rem)
-      "8h": ["var(--calcite-font-size-8)", { lineHeight: "var(--calcite-font-line-height-fixed-6xl)" }], // 64px (4rem)
+      n3h: ["var(--calcite-font-size--3)", { lineHeight: "var(--calcite-font-line-height-fixed-sm)" }],
+      n2h: ["var(--calcite-font-size--2)", { lineHeight: "var(--calcite-font-line-height-fixed-base)" }],
+      n1h: ["var(--calcite-font-size--1)", { lineHeight: "var(--calcite-font-line-height-fixed-base)" }],
+      "0h": ["var(--calcite-font-size-0)", { lineHeight: "var(--calcite-font-line-height-fixed-lg)" }],
+      "1h": ["var(--calcite-font-size-1)", { lineHeight: "var(--calcite-font-line-height-fixed-xl)" }],
+      "2h": ["var(--calcite-font-size-2)", { lineHeight: "var(--calcite-font-line-height-fixed-xxl)" }],
+      "3h": ["var(--calcite-font-size-3)", { lineHeight: "var(--calcite-font-line-height-fixed-2xl)" }],
+      "4h": ["var(--calcite-font-size-4)", { lineHeight: "var(--calcite-font-line-height-fixed-3xl)" }],
+      "5h": ["var(--calcite-font-size-5)", { lineHeight: "var(--calcite-font-line-height-fixed-4xl)" }],
+      "6h": ["var(--calcite-font-size-6)", { lineHeight: "var(--calcite-font-line-height-fixed-5xl)" }],
+      "7h": ["var(--calcite-font-size-7)", { lineHeight: "var(--calcite-font-line-height-fixed-5xl)" }],
+      "8h": ["var(--calcite-font-size-8)", { lineHeight: "var(--calcite-font-line-height-fixed-6xl)" }],
       "n3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
       "n2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
       "n1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
