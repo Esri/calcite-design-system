@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.107](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.106...@esri/calcite-components@3.3.0-next.107) (2025-09-11)
+
+### Bug Fixes
+
+- **dialog:** Fix for corner radius token ([#12859](https://github.com/Esri/calcite-design-system/issues/12859)) ([002fe90](https://github.com/Esri/calcite-design-system/commit/002fe90286d5800d996a9b1eaa0a552c4c964e78)), closes [#12621](https://github.com/Esri/calcite-design-system/issues/12621)
+
+## [3.3.0-next.106](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.105...@esri/calcite-components@3.3.0-next.106) (2025-09-11)
+
+### Features
+
+- **split-button:** Add component tokens ([#12756](https://github.com/Esri/calcite-design-system/issues/12756)) ([0c6a1bc](https://github.com/Esri/calcite-design-system/commit/0c6a1bc14d135aa94446b831101d92c49482016c)), closes [#7180](https://github.com/Esri/calcite-design-system/issues/7180)
+
+## [3.3.0-next.105](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.104...@esri/calcite-components@3.3.0-next.105) (2025-09-10)
+
+### Bug Fixes
+
+- **swatch:** Ensure corner radius css property is correctly applied ([#12855](https://github.com/Esri/calcite-design-system/issues/12855)) ([0794283](https://github.com/Esri/calcite-design-system/commit/07942831401034fb1b42f48eeb9739923e838d71)), closes [#12762](https://github.com/Esri/calcite-design-system/issues/12762)
+
+## [3.3.0-next.104](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.103...@esri/calcite-components@3.3.0-next.104) (2025-09-10)
+
+### Features
+
+- **accordion-item:** add content-start and content-end slots ([#12849](https://github.com/Esri/calcite-design-system/issues/12849)) ([0300cd3](https://github.com/Esri/calcite-design-system/commit/0300cd307d67b499efaa519e25766509e3724dc1)), closes [#10444](https://github.com/Esri/calcite-design-system/issues/10444)
+
+## [3.3.0-next.103](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.102...@esri/calcite-components@3.3.0-next.103) (2025-09-09)
+
+### Bug Fixes
+
+- **list, block-group:** sort handle menu should respond to new lists or label changes ([#12848](https://github.com/Esri/calcite-design-system/issues/12848)) ([adf3e61](https://github.com/Esri/calcite-design-system/commit/adf3e6175a76cd1d82cda88a5876c0620b2e9470)), closes [#12847](https://github.com/Esri/calcite-design-system/issues/12847)
+
 ## [3.3.0-next.102](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.101...@esri/calcite-components@3.3.0-next.102) (2025-09-09)
 
 ### Features
