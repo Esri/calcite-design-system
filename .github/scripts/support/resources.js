@@ -48,6 +48,7 @@ const resources = {
   teams: {
     admins: "calcite-design-system-admins",
     iconDesigners: "calcite-icon-designers",
+    translationReviewers: "calcite-translation-reviewers",
   },
   packages: {
     icons: "calcite-ui-icons",

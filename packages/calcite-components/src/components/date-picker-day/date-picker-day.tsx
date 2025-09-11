@@ -18,9 +18,10 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
 import type { DatePicker } from "../date-picker/date-picker";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./date-picker-day.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -39,11 +40,13 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
   private parentDatePickerEl: DatePicker["el"];
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, the component is active. */
+  /** When present, the component is active. */
   @property({ reflect: true }) active = false;
 
   /** Date is in the current month. */
@@ -63,7 +66,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
    */
   @property() day: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Date is the end of date range. */
@@ -72,11 +75,11 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** Date is currently highlighted as part of the range, */
   @property({ reflect: true }) highlighted = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /** When present, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
   /**
-   * When `true`, highlight styling for edge dates is applied.
+   * When present, highlight styling for edge dates is applied.
    *
    * @private
    */
@@ -88,7 +91,7 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /** Date is the start of date range. */
@@ -101,11 +104,18 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.el.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion
@@ -204,9 +214,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div ariaHidden="true" class="day-wrapper">
-          <span class="day">
-            <span class="text">{formattedDay}</span>
+        <div ariaHidden="true" class={CSS.dayWrapper}>
+          <span class={CSS.day}>
+            <span class={CSS.text}>{formattedDay}</span>
           </span>
         </div>
       </InteractiveContainer>

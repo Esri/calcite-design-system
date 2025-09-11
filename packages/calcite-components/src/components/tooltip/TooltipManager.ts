@@ -98,7 +98,11 @@ export default class TooltipManager {
     }
   };
 
-  private pointerLeaveHandler = (): void => {
+  private pointerLeaveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.clearHoverTimeout();
     this.closeHoveredTooltip();
   };
@@ -110,7 +114,6 @@ export default class TooltipManager {
     }
 
     const composedPath = event.composedPath();
-    const { activeTooltip } = this;
 
     const tooltip = this.queryTooltip(composedPath);
 
@@ -131,7 +134,7 @@ export default class TooltipManager {
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
-    } else if (activeTooltip?.open) {
+    } else if (this.activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
 
@@ -146,7 +149,7 @@ export default class TooltipManager {
     );
   }
 
-  private clickHandler = (event: Event): void => {
+  private clickHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
     }

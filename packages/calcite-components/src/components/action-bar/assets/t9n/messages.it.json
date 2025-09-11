@@ -1,6 +1,6 @@
 {
   "expand": "Espandi",
   "collapse": "Comprimi",
-  "expandLabel": "Espandi",
-  "collapseLabel": "Comprimi"
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

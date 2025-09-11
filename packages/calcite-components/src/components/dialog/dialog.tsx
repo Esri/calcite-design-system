@@ -4,11 +4,10 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { focusFirstTabbable, getStylePixelValue } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -18,6 +17,8 @@ import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -75,8 +76,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private ignoreOpenChange = false;
-
   private interaction: Interactable;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
@@ -102,6 +101,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -116,7 +117,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   @state() opened = false;
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded && this.modal;
   }
 
@@ -127,13 +128,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, disables the component's close button. */
+  /** When present, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When `true`, the component is draggable. */
+  /** When present, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
@@ -145,7 +146,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   @property() embedded = false;
 
   /**
-   * When `true`, disables the default close on escape behavior.
+   * When present, disables the default close on escape behavior.
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
@@ -160,6 +161,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
@@ -175,35 +177,40 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     Kind
   >;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** Specifies an icon to display. */
+  @property({ reflect: true }) icon: IconNameOrString;
+
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /** When present, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays a scrim blocking interaction underneath the component. */
+  /** When present, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
-  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  /** When present and `modal` is `false`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
   }
-  set open(open: boolean) {
-    const oldOpen = this._open;
-    if (open !== oldOpen) {
-      this._open = open;
-      this.toggleDialog(open);
+  set open(value: boolean) {
+    const oldValue = this._open;
+    if (value !== oldValue) {
+      this.setOpenState(value);
     }
   }
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When present, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /**
@@ -218,7 +225,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the placement of the dialog. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
-  /** When `true`, the component is resizable. */
+  /** When present, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** Specifies the size of the component. */
@@ -258,12 +265,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    return this.panelEl.value?.setFocus() ?? focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.panelEl.value ?? this.el;
+    }, options);
   }
 
   /**
@@ -379,16 +390,22 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.calciteDialogClose.emit();
   }
 
-  private toggleDialog(value: boolean): void {
-    if (this.ignoreOpenChange) {
-      return;
+  private async setOpenState(value: boolean): Promise<void> {
+    if (this.beforeClose && !value) {
+      try {
+        await this.beforeClose?.();
+      } catch {
+        return;
+      }
     }
 
+    this._open = value;
+
     if (value) {
-      this.openDialog();
-    } else {
-      this.closeDialog();
+      await this.componentOnReady();
     }
+
+    this.opened = value;
   }
 
   private handleOpenedChange(value: boolean): void {
@@ -399,7 +416,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
 
     transitionEl.classList.toggle(CSS.openingActive, value);
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -435,8 +452,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     switch (key) {
       case "ArrowUp":
         if (shiftKey && resizable && transitionEl) {
+          const { minBlockSize } = window.getComputedStyle(transitionEl);
+          const minHeight = getStylePixelValue(minBlockSize);
+          const height = this.getTransitionElDOMRect().height;
+
+          if (height <= minHeight) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().height - resizeShiftStep,
+            size: height - resizeShiftStep,
             type: "blockSize",
           });
           resizePosition.bottom -= resizeShiftStep;
@@ -469,8 +494,16 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         break;
       case "ArrowLeft":
         if (shiftKey && resizable && transitionEl) {
+          const { minInlineSize } = window.getComputedStyle(transitionEl);
+          const minWidth = getStylePixelValue(minInlineSize);
+          const width = this.getTransitionElDOMRect().width;
+
+          if (width <= minWidth) {
+            return;
+          }
+
           this.updateSize({
-            size: this.getTransitionElDOMRect().width - resizeShiftStep,
+            size: width - resizeShiftStep,
             type: "inlineSize",
           });
           resizePosition.right -= resizeShiftStep;
@@ -690,6 +723,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
       return;
     }
 
+    event.preventDefault();
     event.stopPropagation();
     this.open = false;
   }
@@ -700,35 +734,12 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
   }
 
-  private async openDialog(): Promise<void> {
-    await this.componentOnReady();
-    this.opened = true;
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
     }
 
     this.open = false;
-  }
-
-  private async closeDialog(): Promise<void> {
-    if (this.beforeClose) {
-      try {
-        await this.beforeClose();
-      } catch {
-        // close prevented
-        requestAnimationFrame(() => {
-          this.ignoreOpenChange = true;
-          this.open = true;
-          this.ignoreOpenChange = false;
-        });
-        return;
-      }
-    }
-
-    this.opened = false;
   }
 
   private handleMutationObserver(): void {
@@ -740,7 +751,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   //#region Rendering
 
   override render(): JsxNode {
-    const { assistiveText, description, heading, opened } = this;
+    const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
         class={{
@@ -772,13 +783,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           <slot name={SLOTS.customContent}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                beforeClose={this.beforeClose}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
-                closed={!opened}
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}
+                icon={icon}
+                iconFlipRtl={iconFlipRtl}
                 loading={this.loading}
                 menuOpen={this.menuOpen}
                 messageOverrides={this.messageOverrides}

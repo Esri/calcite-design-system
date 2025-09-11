@@ -15,7 +15,10 @@ const platforms: {
   files: string[];
   internal?: boolean;
 }[] = [
-  { name: Platform.CSS, files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"] },
+  {
+    name: Platform.CSS,
+    files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
+  },
   { name: Platform.SCSS, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
   { name: Platform.ES6, files: ["breakpoints", "core", "global", "semantic"] },
   { name: Platform.DOCS, files: ["core", "global", "semantic"], internal: true },
@@ -39,7 +42,7 @@ function generateTests(platform: Platform, files: string[], internal = false) {
     files.forEach((file) => {
       const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
 
-      it(`${file}${internalTestAnnotation} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
+      it(`${file} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
 
       if (platform === "es6" || platform === "js") {
         it(`${file} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));

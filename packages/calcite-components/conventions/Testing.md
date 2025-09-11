@@ -4,7 +4,7 @@ Components should have an automated test for any incoming features or bug fixes.
 
 We encourage writing expressive test cases and code that indicates intent. Use comments sparingly when the aforementioned can't be fully achieved. Keep it clean!
 
-Our testing framework includes an API that aligns with Stencil's end-to-end testing approach. For more details, refer to Stencil's [end-to-end testing](https://stenciljs.com/docs/end-to-end-testing) documentation. See one of our test examples [here](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/block/block.e2e.ts).
+Our testing framework includes an API that aligns with Stencil's end-to-end testing approach. For more details, refer to Stencil's [end-to-end testing](https://stenciljs.com/docs/end-to-end-testing) documentation. Refer to [this block E2E test](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/block/block.e2e.ts) for an example.
 
 ## Choosing which tests to write
 

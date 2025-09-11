@@ -1,7 +1,5 @@
 import { makeRuntime } from "@arcgis/lumina";
-import globalScript from "./utils/globalScript";
-
-globalScript();
+import "./utils/globalScript";
 
 export const runtime = makeRuntime();
 

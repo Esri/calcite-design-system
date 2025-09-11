@@ -1,7 +1,11 @@
 {
+  "add": "Afegeix: {text}",
   "all": "Tot",
   "allSelected": "Tots els elements seleccionats",
   "clear": "Esborra el valor",
+  "noMatches": "No hi ha cap coincidència",
   "removeTag": "Elimina l'etiqueta",
+  "required": "Obligatori",
+  "selectAll": "Selecciona-ho tot",
   "selected": "seleccionat"
 }

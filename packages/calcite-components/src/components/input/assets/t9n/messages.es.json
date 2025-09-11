@@ -1,4 +1,5 @@
 {
   "clear": "Borrar valor",
-  "loading": "Cargando"
+  "loading": "Cargando",
+  "required": "Obligatorio"
 }

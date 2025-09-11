@@ -12,3 +12,9 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   selectedIndicator: "selected-indicator",
 };
+
+const idPrefix = "calcite-tab-title";
+
+export const IDS = {
+  host: (id: any) => `${idPrefix}-${id}`,
+} as const;

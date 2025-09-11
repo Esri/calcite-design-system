@@ -17,10 +17,13 @@ import {
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("calcite-action-bar", { display: "inline-flex" });
   });
@@ -372,17 +375,14 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    const calciteActionMenuOpenEvent = page.waitForEvent("calciteActionMenuOpen");
-
+    const calciteActionMenuOpenEventSpy = await page.spyOnEvent("calciteActionMenuOpen");
     await page.$eval("calcite-action-group", (firstActionGroup: ActionGroup["el"]) => {
       firstActionGroup.menuOpen = true;
       const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
     });
-
-    await calciteActionMenuOpenEvent;
-
     await page.waitForChanges();
+    await calciteActionMenuOpenEventSpy.next();
 
     expect(groups).toHaveLength(2);
     expect(await groups[0].getProperty("menuOpen")).toBe(true);
@@ -481,7 +481,7 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
     });
 
-    it.skip("should slot 'menu-actions' on resize of component", async () => {
+    it("should slot 'menu-actions' on resize of component", async () => {
       const page = await newE2EPage({
         html: html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
@@ -610,6 +610,27 @@ describe("calcite-action-bar", () => {
           },
         },
       );
+    });
+
+    it("should emit expanded/collapsed events when toggled", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-action-bar heading="Test"></calcite-action-bar>`);
+      const item = await page.find("calcite-action-bar");
+
+      const expandSpy = await page.spyOnEvent("calciteActionBarExpand");
+      const collapseSpy = await page.spyOnEvent("calciteActionBarCollapse");
+
+      item.setProperty("expanded", true);
+      await page.waitForChanges();
+      expect(await item.getProperty("expanded")).toBe(true);
+      expect(expandSpy).toHaveReceivedEventTimes(1);
+      expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+      item.setProperty("expanded", false);
+      await page.waitForChanges();
+      expect(await item.getProperty("expanded")).toBe(false);
+      expect(expandSpy).toHaveReceivedEventTimes(1);
+      expect(collapseSpy).toHaveReceivedEventTimes(1);
     });
   });
 });

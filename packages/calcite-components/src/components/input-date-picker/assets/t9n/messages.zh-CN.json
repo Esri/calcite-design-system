@@ -1,4 +1,8 @@
 {
   "chooseDate": "选择日期",
-  "dateFormat": "日期格式：{format}"
+  "date": "日期",
+  "dateFormat": "日期格式：{format}",
+  "endDate": "结束日期",
+  "required": "必需项",
+  "startDate": "开始日期"
 }

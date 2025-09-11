@@ -8,13 +8,15 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll } from "../../tests/utils/puppeteer";
+import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Select } from "./select";
 
@@ -41,6 +43,10 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-select`);
   });
 
   describe("defaults", () => {
@@ -422,6 +428,25 @@ describe("calcite-select", () => {
     await assertSelectedOption(page, await page.find("calcite-option[value='']"));
   });
 
+  it("does not throw when added and removed multiple times and a row", async () => {
+    const runTest = async () => {
+      async function addAndRemoveSelect(page: E2EPage): Promise<void> {
+        await page.evaluate(async () => {
+          const select = document.createElement("calcite-select");
+          document.body.append(select);
+          select.remove();
+        });
+        await page.waitForChanges();
+      }
+
+      const page = await newProgrammaticE2EPage();
+      await addAndRemoveSelect(page);
+      await addAndRemoveSelect(page);
+    };
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
+
   describe("is form-associated", () => {
     formAssociated(
       html`
@@ -440,6 +465,10 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-select");
   });
 
   describe("theme", () => {
@@ -478,6 +507,18 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
           state: "hover",
+        },
+        "--calcite-select-background-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-select-corner-radius": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-select-shadow": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "boxShadow",
         },
       },
     );

@@ -98,3 +98,40 @@ function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
     ) as any;
   })();
 }
+
+/**
+ * This utility helps to safely update observers within a ref callback
+ * by unobserving the old target and observing the new target.
+ *
+ * Note: this should be called before the ref is updated
+ *
+ * @param observer
+ * @param oldTarget
+ * @param target
+ * @param options
+ */
+export function updateRefObserver<T extends ObserverType>(
+  observer: ObserverInstanceType<T> | undefined,
+  oldTarget: Element | undefined,
+  target: Element | undefined,
+  options?: ObserverOptions<T>,
+): void {
+  if (!observer) {
+    return;
+  }
+
+  if (oldTarget) {
+    observer.unobserve(oldTarget);
+  }
+
+  if (!target) {
+    return;
+  }
+
+  if (observer instanceof MutationObserver) {
+    observer.observe(target, options as ObserverOptions<"mutation">);
+    return;
+  }
+
+  observer.observe(target);
+}

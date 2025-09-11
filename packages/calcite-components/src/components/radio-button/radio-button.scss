@@ -11,6 +11,12 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-radio-size
+
 :host {
   @apply block
   cursor-pointer;
@@ -18,6 +24,7 @@
   .container {
     @apply relative
     outline-none;
+    display: flex;
   }
 
   .radio {
@@ -35,7 +42,11 @@
 :host(:not([checked])[focused]:not([disabled])) {
   .radio {
     box-shadow: inset 0 0 0 var(--calcite-border-width-md)
-      var(--calcite-radio-button-border-color, var(--calcite-color-brand));
+      var(--calcite-radio-button-border-color, var(--calcite-color-brand-hover));
+
+    &:active {
+      box-shadow: inset 0 0 0 var(--calcite-border-width-md) var(--calcite-color-brand-press);
+    }
   }
 }
 
@@ -132,11 +143,12 @@
       content: "";
       inline-size: var(--calcite-internal-radio-size);
       block-size: var(--calcite-internal-radio-size);
-      background-color: windowText;
+      background-color: CanvasText;
       display: block;
     }
   }
 }
 
+@include form-internal-label();
 @include hidden-form-input();
 @include base-component();

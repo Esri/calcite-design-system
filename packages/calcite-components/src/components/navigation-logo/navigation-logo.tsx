@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { componentFocusable } from "../../utils/component";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconNameOrString } from "../icon/interfaces";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
@@ -21,9 +21,15 @@ export class NavigationLogo extends LitElement {
 
   // #endregion
 
+  // #region Private Properties
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  // #endregion
+
   // #region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
   /** A description for the component, which displays below the `heading`. */
@@ -41,7 +47,7 @@ export class NavigationLogo extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
@@ -68,13 +74,20 @@ export class NavigationLogo extends LitElement {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    if (this.href) {
-      this.el.focus();
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      if (this.href) {
+        return this.el;
+      }
+    }, options);
   }
 
   // #endregion

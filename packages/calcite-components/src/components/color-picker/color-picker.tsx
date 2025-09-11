@@ -1,14 +1,10 @@
 // @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
-import { throttle } from "lodash-es";
+import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import {
-  Direction,
-  focusFirstTabbable,
-  getElementDir,
-  isPrimaryPointerButton,
-} from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
   InteractiveComponent,
@@ -16,14 +12,15 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { clamp, closeToRangeEdge, remap } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { InputNumber } from "../input-number/input-number";
-import type { ColorPickerSwatch } from "../color-picker-swatch/color-picker-swatch";
+import type { Swatch } from "../swatch/swatch";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
 import { createObserver } from "../../utils/observers";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import {
   alphaCompatible,
   alphaToOpacity,
@@ -52,6 +49,7 @@ import {
   RGB_LIMITS,
   SCOPE_SIZE,
   STATIC_DIMENSIONS,
+  ICONS,
 } from "./resources";
 import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -92,9 +90,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
-  private colorFieldScopeNode: HTMLDivElement;
+  private colorFieldScopeRef = createRef<HTMLDivElement>();
 
-  private hueScopeNode: HTMLDivElement;
+  private hueScopeRef = createRef<HTMLDivElement>();
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -106,7 +104,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private opacityScopeNode: HTMLDivElement;
+  private opacityScopeRef = createRef<HTMLDivElement>();
 
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
@@ -139,6 +137,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       skipEqual,
     );
   };
+
+  private cancelable = useCancelable<this>()(this);
 
   private drawColorControls = throttle(
     (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
@@ -250,6 +250,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     };
   };
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -277,24 +279,24 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    *
    * @deprecated Use `clearable` instead
    */
   @property({ reflect: true }) allowEmpty = false;
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /** When present, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /** When present, hides the RGB/HSV channel inputs. */
   @property() channelsDisabled = false;
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   * When present, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
@@ -313,8 +315,11 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.handleColorChange(color, oldColor);
   }
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
+
+  /** When present, hides the color field. */
+  @property({ reflect: true }) fieldDisabled = false;
 
   /**
    * The format of `value`.
@@ -325,7 +330,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) format: Format = "auto";
 
-  /** When `true`, hides the hex input. */
+  /** When present, hides the hex input. */
   @property() hexDisabled = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -334,7 +339,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, hides the saved colors section. */
+  /** When present, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -368,17 +373,21 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   //#region Public Methods
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Events
+  // #region Events
 
   /** Fires when the color value has changed. */
   calciteColorPickerChange = createEvent({ cancelable: false });
@@ -402,6 +411,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   connectedCallback(): void {
     this.observeResize();
+    this.cancelable.add([this.drawColorControls, this.resizeCanvas]);
   }
 
   async load(): Promise<void> {
@@ -661,7 +671,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private handleSavedColorSelect(event: Event): void {
-    const swatch = event.currentTarget as ColorPickerSwatch["el"];
+    const swatch = event.currentTarget as Swatch["el"];
     this.internalColorSet(Color(swatch.color));
   }
 
@@ -806,7 +816,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeNode,
+      this.colorFieldScopeRef.value,
     );
   }
 
@@ -821,7 +831,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeNode,
+      this.hueScopeRef.value,
     );
   }
 
@@ -830,7 +840,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeNode,
+      this.opacityScopeRef.value,
     );
   }
 
@@ -859,14 +869,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
     captureValue.call(this, event.offsetX, event.offsetY);
     this.focusScope(scopeNode);
-  }
-
-  private storeColorFieldScope(node: HTMLDivElement): void {
-    this.colorFieldScopeNode = node;
-  }
-
-  private storeHueScope(node: HTMLDivElement): void {
-    this.hueScopeNode = node;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -1088,6 +1090,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     if (!canvas) {
       return;
     }
+
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
@@ -1405,10 +1408,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
-  private storeOpacityScope(node: HTMLDivElement): void {
-    this.opacityScopeNode = node;
-  }
-
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
@@ -1438,13 +1437,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private toChannels(color: ColorInstance): Channels {
     const { channelMode } = this;
-
-    const channels = color[channelMode]()
-      .array()
-      .map((value, index) => {
-        const isAlpha = index === 3;
-        return isAlpha ? value : Math.floor(value);
-      });
+    const channels = color[channelMode]().round().array();
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1
@@ -1470,6 +1463,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       staticDimensions: {
         thumb: { radius: thumbRadius },
       },
+      fieldDisabled,
       hexDisabled,
       hueScopeLeft,
       messages,
@@ -1507,32 +1501,35 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
-          <div class={CSS.controlAndScope}>
-            <canvas
-              class={CSS.colorField}
-              onPointerDown={this.handleColorFieldPointerDown}
-              ref={this.initColorField}
-            />
-            <div
-              ariaLabel={vertical ? messages.value : messages.saturation}
-              ariaValueMax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
-              ariaValueMin="0"
-              ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-              class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
-              onKeyDown={this.handleColorFieldScopeKeyDown}
-              ref={this.storeColorFieldScope}
-              role="slider"
-              style={{
-                top: `${adjustedColorFieldScopeTop || 0}px`,
-                left: `${adjustedColorFieldScopeLeft || 0}px`,
-              }}
-              tabIndex="0"
-            />
-          </div>
+          {fieldDisabled ? null : (
+            <div class={CSS.controlAndScope}>
+              <canvas
+                class={CSS.colorField}
+                onPointerDown={this.handleColorFieldPointerDown}
+                ref={this.initColorField}
+              />
+              <div
+                ariaLabel={vertical ? messages.value : messages.saturation}
+                ariaValueMax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
+                ariaValueMin="0"
+                ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
+                class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
+                onKeyDown={this.handleColorFieldScopeKeyDown}
+                ref={this.colorFieldScopeRef}
+                role="slider"
+                style={{
+                  top: `${adjustedColorFieldScopeTop || 0}px`,
+                  left: `${adjustedColorFieldScopeLeft || 0}px`,
+                }}
+                tabIndex="0"
+              />
+            </div>
+          )}
           <div class={CSS.previewAndSliders}>
-            <calcite-color-picker-swatch
+            <calcite-swatch
               class={CSS.preview}
               color={selectedColorInHex}
+              label={selectedColorInHex}
               scale={this.alphaChannel ? "l" : this.scale}
             />
             <div class={CSS.sliders}>
@@ -1549,7 +1546,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                   ariaValueNow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.storeHueScope}
+                  ref={this.hueScopeRef}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,
@@ -1572,7 +1569,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     ariaValueNow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.storeOpacityScope}
+                    ref={this.opacityScopeRef}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,
@@ -1634,7 +1631,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.deleteColor}
                     disabled={noColor}
-                    iconStart="minus"
+                    iconStart={ICONS.minus}
                     kind="neutral"
                     label={messages.deleteColor}
                     onClick={this.deleteColor}
@@ -1645,7 +1642,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     appearance="transparent"
                     class={CSS.saveColor}
                     disabled={noColor}
-                    iconStart="plus"
+                    iconStart={ICONS.plus}
                     kind="neutral"
                     label={messages.saveColor}
                     onClick={this.saveColor}
@@ -1655,19 +1652,25 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 </div>
               </div>
               {savedColors.length > 0 ? (
-                <div class={CSS.savedColors}>
+                <calcite-swatch-group
+                  class={CSS.swatchGroup}
+                  label={messages.saved}
+                  scale={scale}
+                  selectionMode="none"
+                >
                   {savedColors.map((color) => (
-                    <calcite-color-picker-swatch
+                    <calcite-swatch
                       class={CSS.savedColor}
                       color={color}
                       key={color}
+                      label={color}
                       onClick={this.handleSavedColorSelect}
                       onKeyDown={this.handleSavedColorKeyDown}
                       scale={scale}
                       tabIndex={0}
                     />
                   ))}
-                </div>
+                </calcite-swatch-group>
               ) : null}
             </div>
           )}

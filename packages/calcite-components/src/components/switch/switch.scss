@@ -63,6 +63,7 @@
 
 .container {
   @apply outline-0;
+  display: flex;
 }
 
 .track {
@@ -91,7 +92,6 @@
     absolute
     block
     transition-all
-    duration-150
     ease-in-out;
   inset-block-start: var(--calcite-spacing-base);
   inset-inline: var(--calcite-spacing-base) auto;
@@ -124,5 +124,6 @@
   }
 }
 
+@include form-internal-label();
 @include hidden-form-input();
 @include base-component();

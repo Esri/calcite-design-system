@@ -1,21 +1,18 @@
 // @ts-strict-ignore
-import { debounce } from "lodash-es";
+import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -49,6 +46,8 @@ export class ActionBar extends LitElement {
   private actionGroups: ActionGroup["el"][];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
+
+  private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
@@ -104,6 +103,8 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -122,14 +123,14 @@ export class ActionBar extends LitElement {
   @property() actionsEndGroupLabel: string;
 
   /**
-   * When `true`, the component is in a floating state.
+   * When present, the component is in a floating state.
    */
   @property({ reflect: true }) floating = false;
 
-  /** When `true`, the expand-toggling behavior is disabled. */
+  /** When present, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When `true`, the component is expanded. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
@@ -139,7 +140,7 @@ export class ActionBar extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  /** When present, disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /**
@@ -171,17 +172,29 @@ export class ActionBar extends LitElement {
     this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
 
   //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionBarCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionBarExpand = createEvent({ cancelable: false });
 
   /** Fires when the `expanded` property is toggled. */
   calciteActionBarToggle = createEvent({ cancelable: false });
@@ -200,6 +213,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.cancelable.add(this.resize);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -211,10 +225,6 @@ export class ActionBar extends LitElement {
       this.overflowActions();
     }
 
-    if (changes.has("expanded") && this.hasUpdated) {
-      this.expandedHandler();
-    }
-
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
     }
@@ -224,6 +234,15 @@ export class ActionBar extends LitElement {
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
       this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      this.expandedHandler();
+      if (this.expanded) {
+        this.calciteActionBarExpand.emit();
+      } else {
+        this.calciteActionBarCollapse.emit();
+      }
     }
   }
 

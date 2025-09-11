@@ -14,6 +14,7 @@ import { Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { StatusIconDefaults } from "./interfaces";
 import { styles } from "./input-message.scss";
+import { CSS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -41,7 +42,7 @@ export class InputMessage extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
@@ -91,7 +92,7 @@ export class InputMessage extends LitElement {
     if (iconName) {
       return (
         <calcite-icon
-          class="calcite-input-message-icon"
+          class={CSS.inputMessageIcon}
           flipRtl={this.iconFlipRtl}
           icon={iconName}
           scale="s"

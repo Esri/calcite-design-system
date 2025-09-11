@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -24,14 +25,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { focusFirstTabbable, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import { IconNameOrString } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,10 +40,11 @@ import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
 import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
-import { TimeComponent, TimeController } from "../../controllers/time/time";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { TimeComponent, useTime } from "../../controllers/useTime";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, ICONS } from "./resources";
 
 declare global {
   interface DeclareElements {
@@ -50,6 +52,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
@@ -73,9 +78,11 @@ export class InputTimePicker
 
   private activeEl: HTMLSpanElement;
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultValue: InputTimePicker["value"];
+
+  private focusSetter = useSetFocus<this>()(this);
 
   formEl: HTMLFormElement;
 
@@ -95,16 +102,16 @@ export class InputTimePicker
 
   private secondEl: HTMLSpanElement;
 
-  private time = new TimeController(this);
+  private time = useTime(this);
 
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -124,6 +131,12 @@ export class InputTimePicker
    * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
+
+  /** Accessible name for the component. */
+  @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /**
    * When the component resides in a form,
@@ -150,7 +163,7 @@ export class InputTimePicker
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When `true`, displays the `calcite-time-picker` component. */
+  /** When present, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -166,14 +179,14 @@ export class InputTimePicker
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When present, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -232,11 +245,16 @@ export class InputTimePicker
     this.popoverEl?.reposition(delayed);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -298,9 +316,9 @@ export class InputTimePicker
     if (changes.has("value")) {
       if (this.hasUpdated) {
         if (!this.time.userChangedValue) {
-          this.time.setValue(this.value);
           this.previousEmittedValue = this.value;
         }
+        this.time.setValue(this.value);
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -464,10 +482,6 @@ export class InputTimePicker
     this.openHandler();
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private async setFocusPart(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
   }
@@ -496,7 +510,9 @@ export class InputTimePicker
     syncHiddenFormInput("time", this, input);
   }
 
-  private timeChangeHandler(event): void {
+  private timeChangeHandler(event: CustomEvent<string>): void {
+    event.stopPropagation();
+
     if (this.disabled) {
       return;
     }
@@ -513,7 +529,6 @@ export class InputTimePicker
 
   private timePickerChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
-    this.time.setValue((event.target as TimePicker["el"]).value, true);
   }
 
   private toggleIconClickHandler() {
@@ -558,17 +573,37 @@ export class InputTimePicker
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
-          aria-label={getLabelText(this)}
+          aria-controls={IDS.inputContainer}
+          aria-labelledby={IDS.inputContainer}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
-          ref={this.setContainerEl}
+          ref={this.containerRef}
           role="combobox"
         >
-          <calcite-icon class={CSS.clockIcon} icon="clock" scale={scale === "l" ? "m" : "s"} />
-          <div class={CSS.inputContainer} dir="ltr">
+          <calcite-icon
+            class={CSS.clockIcon}
+            icon={ICONS.clock}
+            scale={scale === "l" ? "m" : "s"}
+          />
+          <div
+            aria-label={getLabelText(this)}
+            ariaRequired={this.required}
+            class={CSS.inputContainer}
+            dir="ltr"
+            id={IDS.inputContainer}
+            role="group"
+          >
             {showMeridiem && meridiemStart && this.renderMeridiem("start")}
             <span
               aria-label={this.messages.hour}
@@ -666,14 +701,16 @@ export class InputTimePicker
           focusTrapOptions={{ initialFocus: false }}
           label={messages.chooseTime}
           lang={this.messages._lang}
+          offsetDistance={0}
           oncalcitePopoverBeforeClose={this.popoverBeforeCloseHandler}
           oncalcitePopoverBeforeOpen={this.popoverBeforeOpenHandler}
           oncalcitePopoverClose={this.popoverCloseHandler}
           oncalcitePopoverOpen={this.popoverOpenHandler}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
+          pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.containerEl}
+          referenceElement={this.containerRef.value}
           triggerDisabled={true}
         >
           <calcite-time-picker
@@ -685,6 +722,7 @@ export class InputTimePicker
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
+            time={this.time}
             value={this.value}
           />
         </calcite-popover>
@@ -734,7 +772,7 @@ export class InputTimePicker
     return (
       <span class={CSS.toggleIcon} onClick={this.toggleIconClickHandler}>
         <calcite-icon
-          icon={open ? "chevron-up" : "chevron-down"}
+          icon={open ? ICONS.chevronUp : ICONS.chevronDown}
           scale={getIconScale(this.scale)}
         />
       </span>

@@ -7,6 +7,7 @@
  * @prop --calcite-flow-item-header-border-block-end: [Deprecated] Use `--calcite-flow-border-color` instead. Specifies the component header's block end border.
  * @prop --calcite-flow-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-flow-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-flow-icon-color: Specifies the color of the component's icon.
  * @prop --calcite-flow-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-flow-border-color: Specifies the component's border color.
  * @prop --calcite-flow-background-color: Specifies the component's background color.
@@ -63,6 +64,7 @@ calcite-panel {
   --calcite-panel-header-background-color: var(--calcite-flow-header-background-color);
   --calcite-panel-header-content-space: var(--calcite-flow-header-content-space);
   --calcite-panel-heading-text-color: var(--calcite-flow-heading-text-color);
+  --calcite-panel-icon-color: var(--calcite-flow-icon-color);
   --calcite-panel-space: var(--calcite-flow-space);
 }
 

@@ -7,15 +7,16 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale } from "../interfaces";
+import { Alignment, Appearance, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -25,10 +26,10 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding a `calcite-icon`.
+ * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent {
+export class Action extends LitElement implements InteractiveComponent, FormOwner {
   //#region Static Members
 
   static override styles = styles;
@@ -37,13 +38,15 @@ export class Action extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private guid = `calcite-action-${guid()}`;
+  formEl: HTMLFormElement;
+
+  private guid = guid();
 
   private buttonEl = createRef<HTMLButtonElement>();
 
-  private buttonId = `${this.guid}-button`;
+  private buttonId = IDS.button(this.guid);
 
-  private indicatorId = `${this.guid}-indicator`;
+  private indicatorId = IDS.indicator(this.guid);
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
@@ -54,12 +57,20 @@ export class Action extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active = false;
+
+  /**
+   * When present, the component appears as if it is focused.
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
@@ -68,35 +79,42 @@ export class Action extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When `true`, the side padding of the component is reduced.
+   * When present, the side padding of the component is reduced.
    *
    * @deprecated No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component is draggable.
+   * When present, the component is draggable.
    *
    * @private
    */
   @property({ reflect: true }) dragHandle = false;
 
+  /**
+   * The `id` of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @property({ reflect: true }) form: string;
+
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, displays a visual indicator. */
+  /** When present, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
   /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -106,24 +124,45 @@ export class Action extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * When `full`, the component's width spans all its parent's available space
+   *
+   * @private
+   */
+  @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+
+  /**
    * Specifies text that accompanies the icon.
    *
    * @required
    */
   @property() text: string;
 
-  /** Indicates whether the text is displayed. */
+  /** When present, the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
+
+  /**
+   * Specifies the default behavior of the component.
+   *
+   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   */
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   //#endregion
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.buttonEl.value?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.buttonEl.value;
+    }, options);
   }
 
   //#endregion
@@ -131,6 +170,7 @@ export class Action extends LitElement implements InteractiveComponent {
   //#region Lifecycle
 
   override connectedCallback(): void {
+    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -139,12 +179,23 @@ export class Action extends LitElement implements InteractiveComponent {
   }
 
   override disconnectedCallback(): void {
+    this.formEl = null;
     this.mutationObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private handleClick(): void {
+    const { type } = this;
+
+    if (type === "submit") {
+      submitForm(this);
+    } else if (type === "reset") {
+      resetForm(this);
+    }
+  }
 
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = (event.target as HTMLSlotElement)
@@ -294,9 +345,8 @@ export class Action extends LitElement implements InteractiveComponent {
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
+        onClick={this.handleClick}
         ref={this.buttonEl}
-        // tabIndex is required for the button to be focusable on click in safari.
-        tabIndex={disabled ? null : 0}
       >
         {buttonContent}
       </button>

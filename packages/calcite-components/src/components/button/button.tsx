@@ -20,14 +20,14 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -63,8 +63,7 @@ export class Button
   /** the rendered child element */
   private childEl?: HTMLElement;
 
-  /** keep track of the rendered contentEl */
-  private contentEl = createRef<HTMLSpanElement>();
+  private contentRef = createRef<HTMLSpanElement>();
 
   formEl: HTMLFormElement;
 
@@ -74,6 +73,8 @@ export class Button
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
+
+  private focusSetter = useSetFocus<this>()(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -105,7 +106,7 @@ export class Button
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -142,7 +143,7 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed and interaction is disabled. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -158,7 +159,7 @@ export class Button
    */
   @property({ reflect: true }) rel: string;
 
-  /** When `true`, adds a round style to the component. */
+  /** When present, adds a round style to the component. */
   @property({ reflect: true }) round = false;
 
   /** Specifies the size of the component. */
@@ -179,7 +180,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @property({ reflect: true }) type = "button";
+  @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
@@ -188,12 +189,16 @@ export class Button
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.childEl?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.childEl, options);
   }
 
   //#endregion
@@ -265,7 +270,7 @@ export class Button
 
   private setTooltipText(): void {
     const {
-      contentEl: { value: contentEl },
+      contentRef: { value: contentEl },
     } = this;
     if (contentEl) {
       this.tooltipText =
@@ -273,12 +278,9 @@ export class Button
     }
   }
 
-  private setChildEl(el: HTMLElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
+    updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   //#endregion
@@ -321,7 +323,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content} ref={this.contentEl}>
+      <span class={CSS.content} ref={this.contentRef}>
         <slot />
       </span>
     );
@@ -360,11 +362,7 @@ export class Button
           tabIndex={this.disabled ? -1 : null}
           target={childElType === "a" && this.target}
           title={this.tooltipText}
-          type={
-            childElType === "button"
-              ? (this.type as LuminaJsx.HTMLElementTags["button"]["type"])
-              : null
-          }
+          type={childElType === "button" ? this.type : null}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}

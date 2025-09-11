@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { describe, expect, it, beforeEach } from "vitest";
+import { mockConsole } from "../tests/utils/logging";
 import {
   dateTimeFormatCache,
   defaultLocale,
@@ -186,6 +187,8 @@ describe("getDateTimeFormat()", () => {
 });
 
 describe("getSupportedLocale", () => {
+  mockConsole();
+
   function assertAllContexts(locale: string, expectedLocale: string): void {
     expect(getSupportedLocale(locale)).toBe(expectedLocale);
   }
@@ -196,7 +199,10 @@ describe("getSupportedLocale", () => {
 
   it("falls back to `en` if the language tag or language + region tag isn't supported", () => {
     assertAllContexts("zz", "en");
+    expect(console.warn).toHaveBeenCalledTimes(1);
+
     assertAllContexts("zz-ZZ", "en");
+    expect(console.warn).toHaveBeenCalledTimes(2);
   });
 
   it("falls back to the language tag if the language + region tag isn't supported", () => {
@@ -242,8 +248,8 @@ describe("getDateFormatSupportedLocale", () => {
       assertLocaleMapping("it-CH", "de-CH");
     });
 
-    it("maps `bs` to `bs-Cyrl`", () => {
-      assertLocaleMapping("bs", "bs-Cyrl");
+    it("maps `bs` to `sr-Latn-CS`", () => {
+      assertLocaleMapping("bs", "sr-Latn-CS");
     });
 
     it("maps `en` to `en`", () => {

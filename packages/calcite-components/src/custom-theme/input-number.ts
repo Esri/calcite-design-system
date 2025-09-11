@@ -12,6 +12,7 @@ export const inputNumberTokens = {
   calciteInputNumberBackgroundColor: "",
   calciteInputNumberBorderColor: "",
   calciteInputNumberCornerRadius: "",
+  calciteInputNumberIconColor: "",
   calciteInputNumberHeight: "",
   calciteInputNumberPlaceholderTextColor: "",
   calciteInputNumberTextColor: "",

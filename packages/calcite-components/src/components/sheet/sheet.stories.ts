@@ -68,6 +68,11 @@ simpleDarkMode.parameters = { themes: modesDarkDefault };
 export const resizable = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
+export const resizableRTL = (): string =>
+  html`<calcite-sheet dir="rtl" resizable label="libero nunc" open position="inline-start"
+    >${panelHTML}</calcite-sheet
+  >`;
+
 export const resizableWithDropdown = (): string =>
   html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start">
     <calcite-panel heading="Map" id="panel-start">

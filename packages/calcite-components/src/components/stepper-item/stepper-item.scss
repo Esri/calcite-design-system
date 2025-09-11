@@ -23,6 +23,15 @@
  * @prop --calcite-stepper-bar-selected-fill-color: Specifies the component's fill color when selected.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-stepper-action-inline-size
+// --calcite-internal-stepper-item-spacing-unit-l
+// --calcite-internal-stepper-item-spacing-unit-m
+// --calcite-internal-stepper-item-spacing-unit-s
+
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
@@ -126,14 +135,17 @@
 // stepper item icon
 :host .stepper-item-icon {
   margin-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
-  @apply opacity-disabled
-    mt-px
+  @apply mt-px
     inline-flex
     h-3
     flex-shrink-0
     self-start;
 
-  color: var(--calcite-stepper-item-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
+}
+
+:host([complete]) .stepper-item-icon {
+  @apply opacity-disabled;
 }
 
 // stepper item title
@@ -263,8 +275,7 @@
 }
 :host([layout="vertical"][selected]) .container {
   border-color: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
-
-  & .stepper-item-content:not(:empty) {
+  & .stepper-item-content.has-slotted-content {
     margin-block-end: var(--calcite-internal-stepper-item-spacing-unit-l);
   }
 }
@@ -294,12 +305,12 @@
     border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3));
 
     &:focus {
-      @apply focus-outset duration-0;
+      @apply focus-outset;
     }
   }
 
   .stepper-item-content {
-    @apply cursor-auto duration-150 ease-in-out;
+    @apply cursor-auto ease-in-out;
     padding-block: 0;
     padding-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
     text-align: start;

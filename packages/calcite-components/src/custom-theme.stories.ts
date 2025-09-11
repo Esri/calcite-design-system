@@ -32,7 +32,18 @@ import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
 import { input, inputTokens } from "./custom-theme/input";
-import { inputMessage, inputMessageTokens } from "./custom-theme/input-message";
+import {
+  inputDatePicker,
+  inputDatePickerRange,
+  inputDatePickerRangeVertical,
+  inputDatePickerTokens,
+} from "./custom-theme/input-date-picker";
+import {
+  inputMessageInvalid,
+  inputMessageValid,
+  inputMessageIdle,
+  inputMessageTokens,
+} from "./custom-theme/input-message";
 import {
   inputNumber,
   inputNumberClearable,
@@ -41,7 +52,14 @@ import {
   inputNumberReadOnlyWithPrefixSuffix,
   inputNumberTokens,
 } from "./custom-theme/input-number";
-import { inputText } from "./custom-theme/input-text";
+import {
+  inputText,
+  inputTextClearable,
+  inputTextLoading,
+  inputTextReadOnly,
+  inputTextTokens,
+  inputTextWithSuffixAndPrefix,
+} from "./custom-theme/input-text";
 import { label, labelTokens } from "./custom-theme/label";
 import { link, linkTokens } from "./custom-theme/link";
 import { list, listTokens } from "./custom-theme/list";
@@ -79,6 +97,12 @@ import {
 import { panel, panelTokens } from "./custom-theme/panel";
 import { shellPanel, shellPanelTokens } from "./custom-theme/shell-panel";
 import { meter, meterTokens } from "./custom-theme/meter";
+import { table, tableTokens } from "./custom-theme/table";
+import { carousel, carouselTokens } from "./custom-theme/carousel";
+import { dialog, dialogTokens } from "./custom-theme/dialog";
+import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
+import { swatch, swatchTokens } from "./custom-theme/swatch";
+import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -156,8 +180,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
-        ${inlineEditable} ${input} ${inputText} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
-        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly}
+        ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
+        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
+        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -191,7 +216,14 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${filter}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${inputMessage}</div>
+      <div class="demo-column">${inputDatePicker}</div>
+      <div class="demo-column">${inputDatePickerRange}</div>
+      <div class="demo-column">${inputDatePickerRangeVertical}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${inputMessageInvalid}</div>
+      <div class="demo-column">${inputMessageValid}</div>
+      <div class="demo-column">${inputMessageIdle}</div>
     </div>
     <div class="demo-row">
       <div class="demo-column">${radioButton}</div>
@@ -206,6 +238,24 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${stepperItemVertical}</div>
       <div class="demo-column">${stepperItem}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${table}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${carousel}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${dialog}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${swatchGroup}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${swatch}</div>
+    </div>
+    <div class="demo-row">
+      <div class="demo-column">${splitButton}</div>
     </div>
   </div>`;
 
@@ -239,7 +289,9 @@ const componentTokens = {
   ...inlineEditableTokens,
   ...inputNumberTokens,
   ...graphTokens,
+  ...inputDatePickerTokens,
   ...inputTokens,
+  ...inputTextTokens,
   ...inputMessageTokens,
   ...labelTokens,
   ...linkTokens,
@@ -271,6 +323,12 @@ const componentTokens = {
   ...shellPanelTokens,
   ...meterTokens,
   ...stepperTokens,
+  ...tableTokens,
+  ...carouselTokens,
+  ...dialogTokens,
+  ...swatchGroupTokens,
+  ...swatchTokens,
+  ...splitButtonTokens,
 };
 
 export default {

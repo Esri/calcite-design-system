@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   focusElementInGroup,
   getElementDir,
@@ -13,14 +14,14 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
-import { centerItemsByBreakpoint, CSS, DURATION, ICONS } from "./resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
 import { styles } from "./carousel.scss";
@@ -46,11 +47,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
     this.slideDurationInterval = setInterval(this.timer, this.autoplayDuration / 100);
   };
 
-  private container: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
-  private containerId = `calcite-carousel-container-${guid()}`;
+  private containerId = IDS.host(guid());
 
-  private itemContainer: HTMLDivElement;
+  private itemContainerRef = createRef<HTMLDivElement>();
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
     this.setMaxItemsToBreakpoint(width);
@@ -64,7 +65,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private slideInterval = null;
 
-  private tabList: HTMLDivElement;
+  private tabListRef = createRef<HTMLDivElement>();
 
   private timer = (): void => {
     let time = this.slideDurationRemaining;
@@ -90,6 +91,8 @@ export class Carousel extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -122,16 +125,16 @@ export class Carousel extends LitElement implements InteractiveComponent {
   /** Specifies how and if the "previous" and "next" arrows are displayed. */
   @property({ reflect: true }) arrowType: ArrowType = "inline";
 
-  /** When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed. */
+  /** When present, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed. */
   @property({ reflect: true }) autoplay: AutoplayType = false;
 
-  /** When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item. */
+  /** When `autoplay` is present, specifies in milliseconds the length of time to display each Carousel Item. */
   @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
-  /** Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items. */
+  /** When present, the component's controls are positioned absolutely on top of slotted Carousel Items. */
   @property({ reflect: true }) controlOverlay = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -172,11 +175,16 @@ export class Carousel extends LitElement implements InteractiveComponent {
     this.handlePlay(true);
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.container?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
@@ -271,12 +279,12 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby") {
+    if (direction === "standby" || !this.itemContainerRef.value) {
       return;
     }
 
     await whenAnimationDone(
-      this.itemContainer,
+      this.itemContainerRef.value,
       direction === "forward" ? "item-forward" : "item-backward",
     );
     this.direction = "standby";
@@ -484,7 +492,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   }
 
   private containerKeyDownHandler(event: KeyboardEvent): void {
-    if (event.target !== this.container) {
+    if (event.target !== this.containerRef.value) {
       return;
     }
 
@@ -529,7 +537,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabList.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
     );
     const currentEl = event.target as Action["el"];
     switch (event.key) {
@@ -548,18 +556,6 @@ export class Carousel extends LitElement implements InteractiveComponent {
         focusElementInGroup(visiblePaginationEls, currentEl, "last");
         break;
     }
-  }
-
-  private storeTabListRef(el: HTMLDivElement): void {
-    this.tabList = el;
-  }
-
-  private storeContainerRef(el: HTMLDivElement): void {
-    this.container = el;
-  }
-
-  private storeItemContainerRef(el: HTMLDivElement): void {
-    this.itemContainer = el;
   }
 
   //#endregion
@@ -599,7 +595,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           [CSS.containerOverlaid]: this.controlOverlay,
         }}
         onKeyDown={this.tabListKeyDownHandler}
-        ref={this.storeTabListRef}
+        ref={this.tabListRef}
       >
         {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
           this.renderRotationControl()}
@@ -695,7 +691,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
           onKeyDown={this.containerKeyDownHandler}
           onMouseEnter={this.handleMouseIn}
           onMouseLeave={this.handleMouseOut}
-          ref={this.storeContainerRef}
+          ref={this.containerRef}
           role="group"
           tabIndex={0}
         >
@@ -706,7 +702,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
               [CSS.itemContainerBackward]: direction === "backward",
             }}
             id={this.containerId}
-            ref={this.storeItemContainerRef}
+            ref={this.itemContainerRef}
           >
             <slot onSlotChange={this.handleSlotChange} />
           </section>

@@ -185,31 +185,24 @@ describe("calcite-tab-nav", () => {
     it("scrolling tabs via buttons", async () => {
       await assertScrollButtonVisibility(false, true);
 
-      let scrollEnd = scrollContainer.waitForEvent("scrollend");
+      const scrollEndEventSpy = await scrollContainer.spyOnEvent("scrollend");
       await scrollForwardButton.click();
-      await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, true);
 
-      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollForwardButton.click();
-      await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, false);
 
-      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollBackButton.click();
-      await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, true);
 
-      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollBackButton.click();
-      await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(false, true);
     });
@@ -241,33 +234,34 @@ describe("calcite-tab-nav", () => {
     });
 
     it("scrolls into view clipped start or end tab-title when selected", async () => {
+      const scrollEndEventSpy = await scrollContainer.spyOnEvent("scrollend");
       const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
       await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
       await page.waitForChanges();
 
       await page.mouse.wheel({ deltaY: 1 });
       await page.waitForChanges();
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, true);
 
-      let scrollEnd = scrollContainer.waitForEvent("scrollend");
       const firstTab = await page.find("calcite-tab-title:first-child");
       await firstTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
       await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(false, true);
 
       await page.mouse.wheel({ deltaY: 180 });
       await page.waitForChanges();
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, true);
 
-      scrollEnd = scrollContainer.waitForEvent("scrollend");
       const lastTab = await page.find("calcite-tab-title:last-child");
       await lastTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
       await page.waitForChanges();
-      await scrollEnd;
+      await scrollEndEventSpy.next();
 
       await assertScrollButtonVisibility(true, false);
     });

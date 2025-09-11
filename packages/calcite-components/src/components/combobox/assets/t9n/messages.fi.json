@@ -1,7 +1,11 @@
 {
+  "add": "Lisää: {text}",
   "all": "Kaikki",
   "allSelected": "Kaikki valitut",
   "clear": "Tyhjennä arvo",
+  "noMatches": "Ei vastaavuuksia",
   "removeTag": "Poista tunniste",
+  "required": "Pakollinen",
+  "selectAll": "Valitse kaikki",
   "selected": "valitut"
 }

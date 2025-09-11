@@ -1,8 +1,9 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -15,9 +16,10 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -39,7 +41,7 @@ export class RadioButton
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultChecked: boolean;
 
@@ -51,14 +53,16 @@ export class RadioButton
 
   private rootNode: HTMLElement;
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -89,6 +93,9 @@ export class RadioButton
    */
   @property() label?: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /**
    * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
    *
@@ -97,7 +104,7 @@ export class RadioButton
   @property({ reflect: true }) name: string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -122,14 +129,16 @@ export class RadioButton
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    if (!this.disabled) {
-      focusElement(this.containerEl);
-    }
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   // #endregion
@@ -323,10 +332,6 @@ export class RadioButton
     }
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private uncheckAllRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     radioButtons.forEach((radioButton) => {
@@ -412,8 +417,6 @@ export class RadioButton
     ).filter((radioButton) => radioButton.name === this.name);
     let currentIndex = 0;
 
-    const radioButtonsLength = radioButtons.length;
-
     radioButtons.some((item, index) => {
       if (item.checked) {
         currentIndex = index;
@@ -427,17 +430,35 @@ export class RadioButton
         event.preventDefault();
         this.selectItem(
           radioButtons,
-          getRoundRobinIndex(Math.max(currentIndex - 1, -1), radioButtonsLength),
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "left"),
         );
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        this.selectItem(radioButtons, getRoundRobinIndex(currentIndex + 1, radioButtonsLength));
+        this.selectItem(
+          radioButtons,
+          this.getNextNonDisabledIndex(radioButtons, currentIndex, "right"),
+        );
         return;
       default:
         return;
     }
+  }
+
+  private getNextNonDisabledIndex(
+    radioButtons: RadioButton["el"][],
+    startIndex: number,
+    dir: "left" | "right",
+  ): number {
+    const totalButtons = radioButtons.length;
+    const offset = dir === "left" ? -1 : 1;
+    let selectIndex = getRoundRobinIndex(startIndex + offset, totalButtons);
+    while (radioButtons[selectIndex].disabled) {
+      selectIndex = getRoundRobinIndex(selectIndex + offset, totalButtons);
+    }
+
+    return selectIndex;
   }
 
   private onContainerBlur(): void {
@@ -466,11 +487,12 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
+          ref={this.containerRef}
           role="radio"
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
+          {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

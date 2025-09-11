@@ -30,6 +30,21 @@
   *
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-meter-background-color
+// --calcite-internal-meter-border-color
+// --calcite-internal-meter-corner-radius
+// --calcite-internal-meter-fill-color
+// --calcite-internal-meter-font-size
+// --calcite-internal-meter-height
+// --calcite-internal-meter-range-text-color
+// --calcite-internal-meter-shadow
+// --calcite-internal-meter-space
+// --calcite-internal-meter-value-text-color
+
 @include base-component();
 @include disabled();
 
@@ -132,7 +147,7 @@
 }
 
 .fill {
-  @apply block absolute duration-150 ease-in-out z-default;
+  @apply block absolute ease-in-out z-default;
   inset-inline-start: var(--calcite-internal-meter-space);
   inset-block: var(--calcite-internal-meter-space);
   border-radius: var(--calcite-internal-meter-corner-radius);

@@ -47,13 +47,26 @@ export const positions = (): string => html`
   </div>
 `;
 
-export const withItems = (): string => html`
+export const withMoveToItems = (): string => html`
   <div style="height:600px; width:600px;">
     <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
   </div>
   <script>
     const sortHandle = document.querySelector("calcite-sort-handle");
     sortHandle.moveToItems = [
+      { element: document.createElement("div"), id: "1", label: "Group 1" },
+      { element: document.createElement("div"), id: "2", label: "Group 2" },
+    ];
+  </script>
+`;
+
+export const withAddToItems = (): string => html`
+  <div style="height:600px; width:600px;">
+    <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
+  </div>
+  <script>
+    const sortHandle = document.querySelector("calcite-sort-handle");
+    sortHandle.addToItems = [
       { element: document.createElement("div"), id: "1", label: "Group 1" },
       { element: document.createElement("div"), id: "2", label: "Group 2" },
     ];

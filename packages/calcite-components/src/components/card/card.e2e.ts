@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, t9n, themed } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n, themed, focusable } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -17,6 +17,20 @@ describe("calcite-card", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-card");
+  });
+
+  describe("focusable", () => {
+    describe("default", () => {
+      focusable("calcite-card");
+    });
+
+    describe("with interactive children", () => {
+      focusable(html`
+        <calcite-card id="parent">
+          <div tabindex="0">focusable child</div>
+        </calcite-card>
+      `);
+    });
   });
 
   describe("accessible", () => {

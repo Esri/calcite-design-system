@@ -1,6 +1,18 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed, reflects } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils/puppeteer";
+import {
+  accessible,
+  disabled,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  defaults,
+  themed,
+  reflects,
+  focusable,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -38,6 +50,18 @@ describe("calcite-action", () => {
       {
         propertyName: "textEnabled",
         defaultValue: false,
+      },
+      {
+        propertyName: "width",
+        defaultValue: "auto",
+      },
+      {
+        propertyName: "form",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "type",
+        defaultValue: "button",
       },
     ]);
   });
@@ -88,7 +112,50 @@ describe("calcite-action", () => {
         propertyName: "textEnabled",
         value: true,
       },
+      {
+        propertyName: "width",
+        value: "full",
+      },
+      {
+        propertyName: "type",
+        value: "button",
+      },
     ]);
+  });
+
+  describe("form integration", () => {
+    async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <form>
+          <calcite-action type="${type}"></calcite-action>
+        </form>
+      `);
+
+      type TestWindow = GlobalTestProps<{
+        called: boolean;
+      }>;
+
+      await page.$eval(
+        "form",
+        (form: HTMLFormElement, type: string) => {
+          form.addEventListener(type, (event) => {
+            event.preventDefault();
+            (window as TestWindow).called = true;
+          });
+        },
+        type,
+      );
+
+      const action = await page.find("calcite-action");
+      await action.click();
+      const called = await page.evaluate(() => (window as TestWindow).called);
+
+      expect(called).toBe(true);
+    }
+
+    it("submits", async () => assertOnFormButtonType("submit"));
+    it("resets", async () => assertOnFormButtonType("reset"));
   });
 
   describe("renders", () => {
@@ -101,6 +168,10 @@ describe("calcite-action", () => {
 
   describe("disabled", () => {
     disabled("calcite-action");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-action");
   });
 
   describe("slots", () => {

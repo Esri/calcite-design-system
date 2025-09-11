@@ -1,9 +1,10 @@
 // @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
-import { LitElement, LuminaJsx, ToElement } from "@arcgis/lumina";
+import { LitElement, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "../commonTests/interfaces";
+import { waitForAnimationFrame as waitForRaf } from "./timing";
 
 /** Util to help type global props for testing. */
 export type GlobalTestProps<T> = T & Window & typeof globalThis;
@@ -14,9 +15,9 @@ type FilterPropsByPropertyName<T, PropName extends string> = {
 
 /** Helper to extract a type by filtering the type by the property name. */
 export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  LuminaJsx.IntrinsicElements,
+  DeclareElements,
   T
->[keyof FilterPropsByPropertyName<LuminaJsx.IntrinsicElements, T>];
+>[keyof FilterPropsByPropertyName<DeclareElements, T>];
 
 type DragAndDropSelector = string | SelectorOptions;
 
@@ -281,7 +282,16 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
   });
 }
 
-export { waitForAnimationFrame } from "./timing";
+/**
+ * Helper function to wait for the next animation frame within the Puppeteer browser context.
+ *
+ * If you need to run this without Puppeteer dependencies, you can use the `waitForAnimationFrame` function from the `timing` module.
+ *
+ * @param page
+ */
+export async function waitForAnimationFrame(page: E2EPage): Promise<void> {
+  await page.evaluate(waitForRaf);
+}
 
 /**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
@@ -355,17 +365,17 @@ type GetFocusedElementProp = {
  * @param {string} prop - the property to get from the focused element (note: must be serializable)
  * @param {GetFocusedElementProp} options – additional configuration options
  */
-export async function getFocusedElementProp(
+export async function getFocusedElementProp<T extends HTMLElement = HTMLElement, K extends keyof T = keyof T>(
   page: E2EPage,
-  prop: keyof HTMLElement,
+  prop: K,
   options?: GetFocusedElementProp,
 ): Promise<ReturnType<E2EPage["evaluate"]>> {
   return await page.evaluate(
-    (by: string, shadow: boolean) => {
+    (by, shadow) => {
       const { activeElement } = document;
-      const target = shadow ? activeElement?.shadowRoot?.activeElement : activeElement;
+      const target = (shadow ? activeElement?.shadowRoot?.activeElement : activeElement) as T;
 
-      return target?.[by];
+      return target?.[by as K];
     },
     prop,
     options?.shadow,

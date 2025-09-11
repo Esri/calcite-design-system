@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup, focusFirstTabbable } from "../../utils/dom";
+import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -22,16 +22,16 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentFocusable } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { createObserver, updateRefObserver } from "../../utils/observers";
+import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -66,7 +66,7 @@ export class Dropdown
 
   private groups: DropdownGroup["el"][] = [];
 
-  private guid = `calcite-dropdown-${guid()}`;
+  private guid = guid();
 
   private items: DropdownItem["el"][] = [];
 
@@ -87,18 +87,20 @@ export class Dropdown
   /** trigger elements */
   private triggers: HTMLElement[];
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region Public Properties
 
   /**
-   * When `true`, the component will remain open after a selection is made.
+   * When present, the component will remain open after a selection is made.
    *
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -120,7 +122,7 @@ export class Dropdown
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -199,11 +201,16 @@ export class Dropdown
     );
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.referenceEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   // #endregion
@@ -303,7 +310,7 @@ export class Dropdown
   // #region Private Methods
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (this.disabled) {
       return;
@@ -456,13 +463,7 @@ export class Dropdown
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
-    entries.forEach((entry) => {
-      const { target } = entry;
-
-      if (!this.hasUpdated) {
-        return;
-      }
-
+    entries.forEach(({ target }) => {
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -473,33 +474,41 @@ export class Dropdown
 
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
-    const referenceElWidth = referenceEl?.clientWidth;
 
-    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+    if (!scrollerEl || !referenceEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceEl.clientWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
-    const maxScrollerHeight = this.getMaxScrollerHeight();
-    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const { maxItems, items, scrollerEl } = this;
+
+    if (!scrollerEl) {
+      return;
+    }
+
+    const maxScrollerHeight =
+      items.length >= maxItems && maxItems > 0
+        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        : 0;
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
+    updateRefObserver(this.resizeObserver, this.scrollerEl, el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }
 
   onBeforeOpen(): void {
+    this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
   }
 
-  async onOpen(): Promise<void> {
-    this.focusOnFirstActiveOrDefaultItem();
+  onOpen(): void {
     this.calciteDropdownOpen.emit();
   }
 
@@ -513,11 +522,9 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -560,14 +567,6 @@ export class Dropdown
 
   private updateSelectedItems(): void {
     this.selectedItems = this.items.filter((item) => item.selected);
-  }
-
-  private getMaxScrollerHeight(): number {
-    const { maxItems, items } = this;
-
-    return items.length >= maxItems && maxItems > 0
-      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
-      : 0;
   }
 
   private getYDistance(parent: HTMLElement, child: HTMLElement): number {
@@ -618,17 +617,17 @@ export class Dropdown
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div
-          class="calcite-trigger-container"
-          id={`${guid}-menubutton`}
+          class={CSS.triggerContainer}
+          id={IDS.menuButton(guid)}
           onClick={this.toggleDropdown}
           onKeyDown={this.keyDownHandler}
           ref={this.setReferenceEl}
         >
           <slot
-            aria-controls={`${guid}-menu`}
+            aria-controls={IDS.menu(guid)}
             ariaExpanded={open}
             ariaHasPopup="menu"
-            name={SLOTS.dropdownTrigger}
+            name={SLOTS.trigger}
             onSlotChange={this.updateTriggers}
           />
         </div>
@@ -643,13 +642,13 @@ export class Dropdown
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={`${guid}-menubutton`}
+            aria-labelledby={IDS.menuButton(guid)}
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={`${guid}-menu`}
+            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

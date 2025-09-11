@@ -17,3 +17,16 @@ export const CSS = {
   nested: "nested",
   textContainer: "text-container",
 };
+
+export const SLOTS = {
+  submenuItem: "submenu-item",
+};
+
+export const ICONS = {
+  arrowLeft: "arrow-left",
+  arrowRight: "arrow-right",
+  chevronLeft: "chevron-left",
+  chevronRight: "chevron-right",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+} as const;

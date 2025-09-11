@@ -28,3 +28,10 @@ jobs:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addPriorityLabel.js')
             await action({github, context, core})
+
+      - name: Add Regression Label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addRegressionLabel.js')
+            await action({github, context, core})

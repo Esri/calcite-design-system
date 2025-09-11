@@ -20,6 +20,22 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-shell-panel-height
+// --calcite-internal-shell-panel-max-height
+// --calcite-internal-shell-panel-max-width
+// --calcite-internal-shell-panel-min-height
+// --calcite-internal-shell-panel-min-width
+// --calcite-internal-shell-panel-resize-handle-offset
+// --calcite-internal-shell-panel-shadow-block-end
+// --calcite-internal-shell-panel-shadow-block-start
+// --calcite-internal-shell-panel-shadow-inline-end
+// --calcite-internal-shell-panel-shadow-inline-start
+// --calcite-internal-shell-panel-width
+
 :host {
   @apply relative
     pointer-events-none
@@ -90,23 +106,22 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([layout="horizontal"]) .height-s {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 20vh)
-  );
-}
-
 :host([layout="horizontal"]) .content {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
 }
 
+:host([layout="horizontal"]) .height-s {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 20vh);
+}
+
 :host([layout="horizontal"]) .height-l {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 40vh)
-  );
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
 }
 
 .container {
@@ -187,8 +202,7 @@
 :host([position="start"][layout="vertical"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    right: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inset-inline-end: var(--calcite-internal-shell-panel-resize-handle-offset);
     block-size: 100%;
   }
 
@@ -208,8 +222,7 @@
 :host([position="end"][layout="vertical"]) {
   .resize-handle {
     inline-size: var(--calcite-size-fixed-xxl);
-    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
-    left: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inset-inline-start: var(--calcite-internal-shell-panel-resize-handle-offset);
     block-size: 100%;
   }
 
@@ -241,8 +254,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-bottom-right-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-bottom-left-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 
@@ -261,8 +274,8 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-top-left-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-top-right-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
 }
 
@@ -309,7 +322,8 @@
   self-stretch
   p-0
   relative
-  box-border;
+  box-border
+  flex-auto;
   background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
@@ -446,10 +460,6 @@
   ::slotted(calcite-flow) {
     @apply border-none;
   }
-}
-
-.content[hidden] {
-  @apply hidden;
 }
 
 slot[name="action-bar"]::slotted(calcite-action-bar),

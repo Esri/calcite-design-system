@@ -8,13 +8,12 @@
  * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
  * @prop --calcite-block-section-text-color: Specifies the component's text color.
  * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
+ * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
  */
 
 :host {
-  @apply text-n1 box-border block;
-
+  @apply box-border block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
 
 calcite-switch {
@@ -54,35 +53,59 @@ calcite-switch {
   @apply border-b-0;
 }
 
-.toggle {
-  @apply font-sans w-full border-0;
+:host([scale="s"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-xxs);
+    gap: var(--calcite-spacing-sm);
+    font-size: var(--calcite-font-size-sm);
+  }
 
-  gap: var(--calcite-spacing-md);
-  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, transparent);
-
-  font-weight: var(--calcite-font-weight-normal);
-
-  &:hover {
-    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xxs));
   }
 }
 
-.toggle--switch,
-.section-header {
-  @apply text-n1
-    focus-base
-    mx-0
-    my-1
-    flex
-    cursor-pointer
-    select-none
-    items-center
-    px-0
-    py-2;
+:host([scale="m"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-md);
+    font-size: var(--calcite-font-size);
+  }
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm));
+  }
+}
+
+:host([scale="l"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-md);
+    gap: var(--calcite-spacing-lg);
+    font-size: var(--calcite-font-size-md);
+  }
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-md));
+  }
+}
+
+.toggle {
+  @apply focus-base
+  flex
+  cursor-pointer
+  select-none
+  items-center
+  font-sans 
+  w-full 
+  border-0;
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  font-weight: var(--calcite-font-weight-regular);
+  padding-inline: 0;
+  line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @apply focus-outset;
+    @apply focus-normal;
+    // required to ensure the focus ring is visible when slotted with other block-section components in block
+    z-index: var(--calcite-z-index);
   }
   &:hover {
     color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
@@ -101,7 +124,6 @@ calcite-switch {
   @apply flex items-center relative;
 
   word-break: break-word;
-  background-color: var(--calcite-block-section-background-color, transparent);
 
   .toggle--switch__content {
     @apply flex flex-auto items-center;

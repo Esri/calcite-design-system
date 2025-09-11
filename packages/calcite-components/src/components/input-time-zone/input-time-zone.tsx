@@ -9,6 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -17,7 +18,6 @@ import {
 } from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { componentFocusable } from "../../utils/component";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -30,7 +30,9 @@ import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
-import { CSS } from "./resources";
+import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -49,6 +51,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimeZone
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
@@ -63,7 +68,7 @@ export class InputTimeZone
 
   //#region Private Properties
 
-  private comboboxEl: Combobox["el"];
+  private comboboxRef = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -86,18 +91,20 @@ export class InputTimeZone
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region Public Properties
 
   /**
-   * When `true`, an empty value (`null`) will be allowed as a `value`.
+   * When present, an empty value (`null`) will be allowed as a `value`.
    *
-   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When not present, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -106,6 +113,9 @@ export class InputTimeZone
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
@@ -144,7 +154,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -156,7 +166,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -169,7 +179,7 @@ export class InputTimeZone
   @property() referenceDate: Date | string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private
@@ -229,11 +239,16 @@ export class InputTimeZone
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    await this.comboboxEl.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.comboboxRef.value, options);
   }
 
   //#endregion
@@ -304,7 +319,6 @@ export class InputTimeZone
   }
 
   loaded(): void {
-    this.overrideSelectedLabelForRegion(this.open);
     this.openChanged();
   }
 
@@ -328,8 +342,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl) {
-      this.comboboxEl.open = this.open;
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
     }
   }
 
@@ -357,19 +371,10 @@ export class InputTimeZone
 
     this._value = normalized;
     this.selectedTimeZoneItem = timeZoneItem;
-
-    if (normalized !== value) {
-      await this.updateComplete;
-      this.overrideSelectedLabelForRegion(this.open);
-    }
   }
 
   onLabelClick(): void {
     this.setFocus();
-  }
-
-  private setComboboxRef(el: Combobox["el"]): void {
-    this.comboboxEl = el;
   }
 
   /**
@@ -383,12 +388,10 @@ export class InputTimeZone
       return;
     }
 
-    const { label, metadata } = this.selectedTimeZoneItem;
-
-    this.comboboxEl.selectedItems[0].textLabel =
-      !metadata.country || open
-        ? label
-        : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+      this.selectedTimeZoneItem,
+      open,
+    );
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -486,6 +489,14 @@ export class InputTimeZone
     return value ? this.normalizer(value) : value;
   }
 
+  private getItemLabel(item: TimeZoneItem, open: boolean = this.open): string {
+    const selected = this.selectedTimeZoneItem === item;
+    const { label, metadata } = item;
+    return !metadata.country || open || !selected
+      ? label
+      : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -497,6 +508,7 @@ export class InputTimeZone
           clearDisabled={!this.clearable}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
+          labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
           oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
@@ -514,7 +526,8 @@ export class InputTimeZone
           }
           placeholderIcon="search"
           readOnly={this.readOnly}
-          ref={this.setComboboxRef}
+          ref={this.comboboxRef}
+          required={this.required}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
@@ -522,6 +535,7 @@ export class InputTimeZone
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>
@@ -556,7 +570,7 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-
+          const textLabel = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
@@ -564,7 +578,7 @@ export class InputTimeZone
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={label}
+              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
