@@ -74,6 +74,7 @@ const config: Omit<Config, "content"> = {
       6: "var(--calcite-font-size-6)", // 48px
       7: "var(--calcite-font-size-7)", // 56px
       8: "var(--calcite-font-size-8)", // 64px
+      // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-design-system/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
       n3h: ["var(--calcite-font-size--3)", { lineHeight: "var(--calcite-font-line-height-fixed-sm)" }],
