@@ -82,7 +82,7 @@ const config: Omit<Config, "content"> = {
       n1h: ["var(--calcite-font-size--1)", { lineHeight: "var(--calcite-font-line-height-fixed-base)" }],
       "0h": ["var(--calcite-font-size-0)", { lineHeight: "var(--calcite-font-line-height-fixed-lg)" }],
       "1h": ["var(--calcite-font-size-1)", { lineHeight: "var(--calcite-font-line-height-fixed-xl)" }],
-      "2h": ["var(--calcite-font-size-2)", { lineHeight: "var(--calcite-font-line-height-fixed-xxl)" }],
+      "2h": ["var(--calcite-font-size-2)", { lineHeight: "var(--calcite-font-line-height-fixed-xl)" }],
       "3h": ["var(--calcite-font-size-3)", { lineHeight: "var(--calcite-font-line-height-fixed-2xl)" }],
       "4h": ["var(--calcite-font-size-4)", { lineHeight: "var(--calcite-font-line-height-fixed-3xl)" }],
       "5h": ["var(--calcite-font-size-5)", { lineHeight: "var(--calcite-font-line-height-fixed-4xl)" }],
