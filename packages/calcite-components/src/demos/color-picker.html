@@ -29,6 +29,33 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-color-picker-background-color: teal;
+        --calcite-color-picker-border-color: red;
+        --calcite-color-picker-corner-radius: 8px;
+        --calcite-color-picker-loader-color: red;
+        --calcite-color-picker-text-color: pink;
+        --calcite-color-picker-shadow: var(--calcite-shadow-sm);
+        --calcite-color-picker-input-background-color: red;
+        --calcite-color-picker-input-border-color: pink;
+        --calcite-color-picker-input-text-color: yellow;
+        --calcite-color-picker-input-placeholder-text-color: red;
+        --calcite-color-picker-tab-border-color: red;
+        --calcite-color-picker-tab-text-color: yellow;
+        --calcite-color-picker-tab-text-color-hover: pink;
+        --calcite-color-picker-tab-border-color: red;
+        --calcite-color-picker-tab-accent-color: pink;
+        --calcite-color-picker-tab-accent-color-press: pink;
+        --calcite-color-picker-swatch-corner-radius: 8px;
+        --calcite-color-picker-input-prefix-background-color: green;
+        --calcite-color-picker-input-prefix-text-color: yellow;
+        --calcite-color-picker-input-suffix-background-color: green;
+        --calcite-color-picker-input-suffix-text-color: yellow;
+        --calcite-color-picker-action-text-color-press: red;
+        --calcite-color-picker-action-text-color-hover: pink;
+        --calcite-color-picker-action-text-color: yellow;
+      }
     </style>
     <script src="_assets/head.ts"></script>
   </head>
@@ -44,7 +71,21 @@
         <div class="child">Medium</div>
         <div class="child">Large</div>
       </div>
+      <!-- Default -->
+      <div class="parent themed">
+        <div class="child right-aligned-text">Default</div>
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="s"></calcite-color-picker>
+        </div>
 
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="m"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="l"></calcite-color-picker>
+        </div>
+      </div>
       <!-- Default -->
       <div class="parent">
         <div class="child right-aligned-text">Default</div>
