@@ -40,7 +40,7 @@ import {
   getLocalizedNonDigitCharAllowList,
   hasExponentialTrailingMinusSign,
   hasLeadingMinusSign,
-  hasLeadingZeros,
+  getLeadingZeros,
   hasTrailingDecimal,
   isE,
   isInfinity,
@@ -166,7 +166,7 @@ export class InputNumber
     const validatedValue = integer ? value.replace(/[e.]/g, "") : value;
     const valueHasLeadingMinusSign = hasLeadingMinusSign(validatedValue);
     const valueHasTrailingDecimal = hasTrailingDecimal(validatedValue);
-    const valueHasLeadingZeros = hasLeadingZeros(validatedValue);
+    const valueHasLeadingZeros = getLeadingZeros(validatedValue);
 
     if (!valueHasTrailingDecimal) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -202,8 +202,10 @@ export class InputNumber
       return value;
     }
 
+    value = String(value);
+
     const valueHasLeadingMinusSign = hasLeadingMinusSign(value);
-    const valueHasLeadingZeros = hasLeadingZeros(value);
+    const leadingZeros = getLeadingZeros(value);
 
     value = parseNumberString(value);
 
@@ -227,10 +229,10 @@ export class InputNumber
           : ""
         : validatedValue;
 
-    if (valueHasLeadingZeros) {
+    if (leadingZeros) {
       newValue = `${
         valueHasLeadingMinusSign ? newValue.charAt(0) : ""
-      }${"0".repeat(valueHasLeadingZeros[1].length)}${
+      }${"0".repeat(leadingZeros[1].length)}${
         valueHasLeadingMinusSign ? newValue.slice(1) : newValue
       }`;
     }
