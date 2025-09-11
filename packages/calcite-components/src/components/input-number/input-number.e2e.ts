@@ -1442,28 +1442,172 @@ describe("calcite-input-number", () => {
   describe("disallowed values", () => {
     mockConsole();
 
-    it(`disallows setting text value`, async () => {
+    describe("with initial text value", () => {
+      let page: E2EPage;
       const nonNumberValue = "i am a text value";
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
-      const calciteInput = await page.find("calcite-input-number");
-      const input = await page.find("calcite-input-number >>> input");
-
-      expect(await calciteInput.getProperty("value")).toBe("");
-      expect(await input.getProperty("value")).toBe("");
-
       const numberValue = "1234";
-      calciteInput.setProperty("value", numberValue);
-      await page.waitForChanges();
 
-      expect(await calciteInput.getProperty("value")).toBe(numberValue);
-      expect(await input.getProperty("value")).toBe(numberValue);
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
+      });
 
-      calciteInput.setProperty("value", nonNumberValue);
-      await page.waitForChanges();
+      it("initial text value is reset to empty string", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
 
-      expect(await calciteInput.getProperty("value")).toBe(numberValue);
-      expect(await input.getProperty("value")).toBe(numberValue);
+      it("allows directly setting a valid number", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+      });
+
+      it("disallows directly setting a text value", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", "i am a different text value");
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
+
+      it("resets to previous valid number value when attempting to directly set a text value", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        calciteInput.setProperty("value", nonNumberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+      });
+
+      it("user-initiated value clearing persists after a previously valid number value was directly set", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        calciteInput.setProperty("value", nonNumberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        await calciteInput.callMethod("setFocus");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
+    });
+
+    describe("with no initial value", () => {
+      let page: E2EPage;
+      const nonNumberValue = "i am a text value";
+      const numberValue = "1234";
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+      });
+
+      it("initial text value is reset to empty string", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
+
+      it("allows directly setting a valid number", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+      });
+
+      it("disallows directly setting a text value", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", "i am a different text value");
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
+
+      it("resets to previous valid number value when attempting to directly set a text value", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        calciteInput.setProperty("value", nonNumberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+      });
+
+      it("user-initiated value clearing persists after a previously valid number value was directly set", async () => {
+        const calciteInput = await page.find("calcite-input-number");
+        const input = await page.find("calcite-input-number >>> input");
+
+        calciteInput.setProperty("value", numberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        calciteInput.setProperty("value", nonNumberValue);
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe(numberValue);
+        expect(await input.getProperty("value")).toBe(numberValue);
+
+        await calciteInput.callMethod("setFocus");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.keyboard.press("Backspace");
+        await page.waitForChanges();
+
+        expect(await calciteInput.getProperty("value")).toBe("");
+        expect(await input.getProperty("value")).toBe("");
+      });
     });
 
     it(`disallows pasting just text characters with no initial value`, async () => {
