@@ -2561,11 +2561,6 @@ describe("calcite-color-picker", () => {
           shadowSelector: `.${CSS.container} >>> calcite-swatch`,
           targetProp: "--calcite-swatch-corner-radius",
         },
-        "--calcite-color-picker-action-text-color-hover": {
-          shadowSelector: `.${CSS.container} >>> calcite-button`,
-          targetProp: "--calcite-button-text-color-hover",
-          state: "hover",
-        },
         "--calcite-color-picker-action-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-button`,
           targetProp: "--calcite-button-text-color",
