@@ -34,7 +34,6 @@ module.exports = function Monday(issue) {
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
 
-  /** Map Monday Column IDs */
   const columnIds = {
     title: "name",
     issueNumber: "numeric_mknk2xhh",
