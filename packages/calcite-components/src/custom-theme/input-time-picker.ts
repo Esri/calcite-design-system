@@ -8,6 +8,7 @@ export const inputTimePickerTokens = {
   calciteInputTimePickerIconColorHover: "",
   calciteInputTimePickerShadow: "",
   calciteInputTimePickerInputBackgroundColor: "",
+  calciteInputTimePickerInputBorderColor: "",
   calciteInputTimePickerInputTextColor: "",
   calciteInputTimePickerInputShadow: "",
   calciteInputTimePickerInputCornerRadius: "",
