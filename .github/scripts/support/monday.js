@@ -437,13 +437,12 @@ module.exports = function Monday(issue) {
    * Creates and runs a query to update columns in a Monday.com item
    * @private
    * @param {string} id - The ID of the Monday.com item to update
-   * @returns {Promise<string | undefined>} - The ID of the updated Monday.com item
+   * @returns {Promise<{ error: string | null }>} - An object indicating success or failure
    */
   async function updateMultipleColumns(id = "") {
     const mondayId = id || (await getId());
     if (!mondayId) {
-      console.log("No Monday ID found, cannot update columns.");
-      return;
+      return { error: "No Monday ID found, cannot update columns." };
     }
 
     const query = `mutation { 
@@ -458,10 +457,9 @@ module.exports = function Monday(issue) {
 
     const response = await runQuery(query);
     if (!response?.data?.change_multiple_column_values?.id) {
-      throw new Error(`Failed to update columns for item ID ${mondayId}: ${JSON.stringify(response)}`);
+      return { error: `Failed to update columns for item ID ${mondayId}. Response: ${JSON.stringify(response)}` };
     }
-
-    return response.data.change_multiple_column_values.id;
+    return { error: null };
   }
 
   /**
@@ -546,8 +544,10 @@ module.exports = function Monday(issue) {
       return;
     }
 
-    const id = await updateMultipleColumns();
-    console.log(id ? `Changes committed to Monday ID: ${id}.` : "Failed to commit changes.");
+    const { error } = await updateMultipleColumns();
+    if (error) {
+      throw new Error(`Error committing updates: ${error}`);
+    }
     columnUpdates = {};
   }
 
@@ -592,11 +592,11 @@ module.exports = function Monday(issue) {
 
     if (syncId) {
       console.log(`Sync ID ${syncId} provided, updating existing item instead of creating new.`);
-      const updatedId = await updateMultipleColumns(syncId);
-      if (!updatedId) {
-        throw new Error(`Failed to update existing item with ID ${syncId}`);
+      const { error } = await updateMultipleColumns(syncId);
+      if (error) {
+        throw new Error(`Syncing existing item ${syncId}: ${error}`);
       }
-      return updatedId;
+      return syncId;
     }
 
     const query = `mutation { 
