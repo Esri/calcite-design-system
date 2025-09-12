@@ -1277,7 +1277,7 @@
               "group": "low-saturation"
             }
           },
-          "l-vv-1000": {
+          "l-vv-100": {
             "value": "#13111a",
             "type": "color",
             "attributes": {
