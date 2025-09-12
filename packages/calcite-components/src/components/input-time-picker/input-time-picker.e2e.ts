@@ -1818,11 +1818,11 @@ describe("calcite-input-time-picker", () => {
         shadowSelector: "calcite-time-picker",
         targetProp: "--calcite-time-picker-icon-color",
       },
-      "--calcite-time-picker-action-background-color-hover": {
+      "--calcite-input-time-picker-action-background-color-hover": {
         shadowSelector: "calcite-time-picker",
         targetProp: "--calcite-time-picker-button-background-color-hover",
       },
-      "--calcite-time-picker-action-background-color-press": {
+      "--calcite-input-time-picker-action-background-color-press": {
         shadowSelector: "calcite-time-picker",
         targetProp: "--calcite-time-picker-button-background-color-press",
       },
