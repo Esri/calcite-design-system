@@ -13,8 +13,8 @@
  * @prop --calcite-color-picker-input-text-color: Specifies the component's input text color.
  * @prop --calcite-color-picker-input-prefix-background-color:  When `hexDisabled` is not `true`, specifies the component's input prefix background color.
  * @prop --calcite-color-picker-input-prefix-text-color:  Specifies the component's input prefix text color, when present.
- * @prop --calcite-color-picker-input-suffix-background-color:  Specifies the component's input suffix background color, when present.
- * @prop --calcite-color-picker-input-suffix-text-color:  Specifies the component's input suffix text color, when present.
+ * @prop --calcite-color-picker-input-suffix-background-color:  When `alphaChannel` is `true`, specifies the component's input suffix background color.
+ * @prop --calcite-color-picker-input-suffix-text-color:  When `alphaChannel` is `true`, specifies the component's input suffix text color.
  * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
  * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color.
  * @prop --calcite-color-picker-tab-accent-color-press: Specifies the component's tab accent color when selected or active.
