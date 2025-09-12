@@ -503,7 +503,7 @@ module.exports = function Monday(issue) {
       throw new Error(`Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`);
     }
 
-    const id = items[0].id;
+    const [{ id }] = items;
     console.log(`Found existing Monday task for Issue #${issueNumber}: ${id}.`);
     return id;
   }
