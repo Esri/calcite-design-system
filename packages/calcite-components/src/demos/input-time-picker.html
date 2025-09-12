@@ -31,12 +31,44 @@
         flex-direction: column;
         gap: 1em;
       }
+      .themed {
+        --calcite-input-time-picker-border-color: red;
+        --calcite-input-time-picker-background-color: pink;
+        --calcite-input-time-picker-icon-color: yellow;
+        --calcite-input-time-picker-icon-color-hover: yellow;
+        --calcite-input-time-picker-shadow: var(--calcite-shadow-md);
+        --calcite-input-time-picker-corner-radius: 12px;
+
+        --calcite-input-time-picker-input-background-color: red;
+        --calcite-input-time-picker-input-text-color: green;
+        --calcite-input-time-picker-input-shadow: var(--calcite-shadow-md);
+        --calcite-input-time-picker-input-corner-radius: 999px;
+
+        --calcite-input-time-picker-digit-text-color: white;
+        --calcite-input-time-picker-digit-icon-color: teal;
+        --calcite-input-time-picker-digit-border-color-hover: yellow;
+        --calcite-input-time-picker-digit-border-color-press: green;
+
+        --calcite-input-time-picker-action-background-color-hover: pink;
+        --calcite-input-time-picker-action-background-color-press: red;
+      }
     </style>
   </head>
   <body>
     <demo-dom-swapper>
       <div id="main-container">
         <main>
+          <h3>Themed</h3>
+          <div class="grid themed">
+            <calcite-input-time-picker
+              open
+              label-text="Label text"
+              required
+              scale="m"
+              step="0.1"
+              value="10:37:09.5"
+            ></calcite-input-time-picker>
+          </div>
           <h3>Internal label</h3>
           <div class="grid">
             <calcite-input-time-picker label-text="Label text" required scale="m" step="0.1" value="10:37:09.5"

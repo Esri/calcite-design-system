@@ -16,6 +16,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
@@ -1801,6 +1802,19 @@ describe("calcite-input-time-picker", () => {
 
       expect(await inputTimePicker.getProperty("value")).toBe("13:01:01.001");
       expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+  });
+  describe("theming", () => {
+    themed(html`<calcite-input-time-picker open></calcite-input-time-picker>`, {
+      "--calcite-input-time-picker-background-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-background-color",
+      },
+
+      "--calcite-input-time-picker-border-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-border-color",
+      },
     });
   });
 });

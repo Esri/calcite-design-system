@@ -103,6 +103,7 @@ import { dialog, dialogTokens } from "./custom-theme/dialog";
 import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
 import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
+import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -257,6 +258,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${splitButton}</div>
     </div>
+    <div class="demo-row">
+      <div class="demo-column">${inputTimePicker}</div>
+    </div>
   </div>`;
 
 const componentTokens = {
@@ -329,6 +333,7 @@ const componentTokens = {
   ...swatchGroupTokens,
   ...swatchTokens,
   ...splitButtonTokens,
+  ...inputTimePickerTokens,
 };
 
 export default {
