@@ -418,16 +418,6 @@
             "scope": "component"
           }
         }
-      },
-      "test": {
-        "default": {
-          "value": "{core.color.test.blk-000}",
-          "type": "color",
-          "attributes": {
-            "category": "color",
-            "group": "background"
-          }
-        }
       }
     }
   }
