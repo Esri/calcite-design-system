@@ -264,7 +264,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${colorPicker}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${inputTimePicker}</Picker}</div>
+      <div class="demo-column">${inputTimePicker}</div>
     </div>
   </div>`;
 
