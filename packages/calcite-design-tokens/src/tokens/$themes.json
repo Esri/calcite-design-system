@@ -54,7 +54,8 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/light": "enabled"
+      "semantic/color/light": "enabled",
+      "core/opacity": "source"
     },
     "$figmaVariableReferences": {
       "semantic.color.background.default": "31df91ab0f18647f37bb456ea09c883c1e1204c1",
@@ -167,7 +168,8 @@
     },
     "selectedTokenSets": {
       "core/color": "source",
-      "semantic/color/dark": "enabled"
+      "semantic/color/dark": "enabled",
+      "core/opacity": "source"
     },
     "$figmaVariableReferences": {
       "semantic.color.background.default": "31df91ab0f18647f37bb456ea09c883c1e1204c1",
@@ -1242,7 +1244,6 @@
       "semantic/size": "enabled",
       "semantic/space": "enabled"
     },
-    "group": "size",
     "$figmaVariableReferences": {
       "semantic.container-size.height.xxs": "fb4a60dc8c070c1e5747174f4e4be41478abb65e",
       "semantic.container-size.height.xs": "fe838e5d6b6be9f88f5d3756030b6ff452de5e5e",
@@ -1303,7 +1304,8 @@
       "semantic.spacing.default.xxxl": "183de29b3f55b4c2deca2f8290257d94a0e579e6"
     },
     "$figmaCollectionId": "VariableCollectionId:15699:31778",
-    "$figmaModeId": "15699:0"
+    "$figmaModeId": "15699:0",
+    "group": "size"
   },
   {
     "id": "4f2ff40135954a29484f308bf4d63fb72ac0b2ff",
@@ -1313,7 +1315,6 @@
       "core/size": "source",
       "semantic/border": "enabled"
     },
-    "group": "border",
     "$figmaVariableReferences": {
       "semantic.border.width.none": "0883f097ac79cc3023982d31b15a9a71ead258ce",
       "semantic.border.width.sm": "12375a04a21569ee1becb7195fb69a0d02566665",
@@ -1321,7 +1322,8 @@
       "semantic.border.width.lg": "b2071f1f41d75363354d65d9ef8c2dedf4aca9da"
     },
     "$figmaCollectionId": "VariableCollectionId:15699:31779",
-    "$figmaModeId": "15699:1"
+    "$figmaModeId": "15699:1",
+    "group": "border"
   },
   {
     "id": "989f4ebad3a73cd71a773e197b045e05e83909a8",
@@ -1331,7 +1333,6 @@
       "core/opacity": "source",
       "semantic/opacity": "enabled"
     },
-    "group": "opacity",
     "$figmaVariableReferences": {
       "semantic.opacity.light": "36e9205db3fae398f84417f9edecb4949c08d58d",
       "semantic.opacity.half": "553e0c714dba5ce96f44638787ac60bd3e778484",
@@ -1340,7 +1341,8 @@
       "semantic.opacity.disabled": "f633eae2ee4203a1ba83f9aeafb38c4cabeb6b98"
     },
     "$figmaCollectionId": "VariableCollectionId:15699:31780",
-    "$figmaModeId": "15699:2"
+    "$figmaModeId": "15699:2",
+    "group": "opacity"
   },
   {
     "id": "e7b4691458b102b171ddbfea42c054eed44a32be",
