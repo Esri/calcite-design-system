@@ -1404,18 +1404,91 @@ describe("calcite-input-number", () => {
     expect(await element.getProperty("value")).toBe("-1.0001");
   });
 
-  it(`Using the select method selects all text`, async () => {
-    const value = "-98.76";
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number value="123.45"></calcite-input-number>`);
-    const element = await page.find("calcite-input-number");
-    // overwrite initial value by selecting and typing
-    await element.callMethod("selectText");
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, value);
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe(value);
+  describe("input selection behavior", async () => {
+    let page: E2EPage;
+    let component: E2EElement;
+    let input: E2EElement;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-input-number value="123.45"></calcite-input-number>`);
+      component = await page.find("calcite-input-number");
+      input = await page.find("calcite-input-number >>> input");
+    });
+
+    it(`Using the select method selects all text`, async () => {
+      const value = "-98.76";
+      await component.callMethod("selectText");
+      await component.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, value);
+      await page.waitForChanges();
+      expect(await component.getProperty("value")).toBe(value);
+    });
+
+    it("allows typing a minus sign while all text is selected in the input", async () => {
+      await component.callMethod("selectText");
+      await component.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, "-");
+      await page.waitForChanges();
+
+      expect(await component.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("-");
+
+      await typeNumberValue(page, "2");
+
+      expect(await component.getProperty("value")).toBe("-2");
+      expect(await input.getProperty("value")).toBe("-2");
+    });
+
+    it("allows typing a decimal while all text is selected in the input", async () => {
+      await component.callMethod("selectText");
+      await component.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, ".");
+      await page.waitForChanges();
+
+      expect(await component.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe(".");
+
+      await typeNumberValue(page, "2");
+
+      expect(await component.getProperty("value")).toBe("0.2");
+      expect(await input.getProperty("value")).toBe("0.2");
+    });
+
+    it(`allows typing "e" while all text is selected in the input`, async () => {
+      await component.callMethod("selectText");
+      await component.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, "e");
+      await page.waitForChanges();
+
+      expect(await component.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("e");
+
+      await typeNumberValue(page, "2");
+
+      expect(await component.getProperty("value")).toBe("1e2");
+      expect(await input.getProperty("value")).toBe("1e2");
+    });
+
+    it(`allows typing "E" while all text is selected in the input`, async () => {
+      await component.callMethod("selectText");
+      await component.callMethod("setFocus");
+      await page.waitForChanges();
+      await typeNumberValue(page, "E");
+      await page.waitForChanges();
+
+      expect(await component.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("E");
+
+      await typeNumberValue(page, "2");
+
+      expect(await component.getProperty("value")).toBe("1e2");
+      expect(await input.getProperty("value")).toBe("1e2");
+    });
   });
 
   it(`allows clearing value`, async () => {
