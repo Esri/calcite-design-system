@@ -491,11 +491,10 @@ module.exports = function Monday(issue) {
       throw new Error(`No response for Github Issue #${issueNumber}`);
     }
 
-    const items = response?.data?.items_page_by_column_values?.items;
+    const items = response?.data?.items_page_by_column_values?.items ?? [];
 
-    // If no item found for the issue, return undefined as we can't proceed
-    // but do not throw an error as this is a valid state.
-    if (!items?.length) {
+    // No item found, do not throw an error as this is a valid state.
+    if (items.length === 0) {
       console.log(`No Monday task found for Github Issue #${issueNumber}.`);
       return;
     }
@@ -571,7 +570,7 @@ module.exports = function Monday(issue) {
       labels.forEach((label) => addLabel(label.name));
     }
     // If no lifecycle label: set default status
-    if (notInLifecycle(labels)) {
+    if (notInLifecycle({ labels })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
@@ -581,7 +580,7 @@ module.exports = function Monday(issue) {
 
       // Set to "assigned" if no lifecycle labels were applied
       // Overrides the default "needs triage" label
-      if (notInLifecycle(labels)) {
+      if (notInLifecycle({ labels })) {
         addLabel(issueWorkflow.assigned);
       }
     }
@@ -657,7 +656,7 @@ module.exports = function Monday(issue) {
       clearLabel(milestone.stalled);
 
       // Assigned and NO lifecycle label - OUTSIDE OF "needs milestone"
-      if (assignee && notInLifecycle(labels, { skipMilestone: true })) {
+      if (assignee && notInLifecycle({ labels, skip: [issueWorkflow.needsMilestone] })) {
         addLabel(issueWorkflow.assigned);
       }
       // If unassigned and NOT "Ready for Dev"

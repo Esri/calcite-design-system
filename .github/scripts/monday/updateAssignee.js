@@ -3,7 +3,7 @@ const { notInLifecycle } = require("../support/utils");
 const Monday = require("../support/monday");
 const {
   labels: {
-    issueWorkflow: { new: newLabel, assigned: assignedLabel },
+    issueWorkflow: { new: newLabel, assigned: assignedLabel, needsMilestone },
   },
 } = require("../support/resources");
 
@@ -29,7 +29,7 @@ module.exports = async ({ context }) => {
   if (
     action === "unassigned" &&
     currentAssignees.length === 0 &&
-    notInLifecycle(labels) &&
+    notInLifecycle({ labels }) &&
     !monday.inMilestoneStatus()
   ) {
     monday.addLabel(newLabel);
@@ -37,7 +37,7 @@ module.exports = async ({ context }) => {
   }
   // If assigned action, not in lifecycle or milestone status besides "needs milestone":
   // set status to "Assigned", update assignees
-  else if (action === "assigned" && notInLifecycle(labels, { skipMilestone: true }) && !monday.inMilestoneStatus()) {
+  else if (action === "assigned" && notInLifecycle({ labels, skip: [needsMilestone] }) && !monday.inMilestoneStatus()) {
     monday.addLabel(assignedLabel);
     monday.addAllAssignees();
     console.info("Update assignees, set status to assigned.");

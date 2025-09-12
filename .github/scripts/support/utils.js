@@ -61,18 +61,19 @@ module.exports = {
   },
   /**
    * Checks if the labels do not include any lifecycle labels
-   * @param {import('@octokit/webhooks-types').Label[] | undefined} labels - The list of labels for the issue
-   * @param {object} options - Options to skip specific labels
-   * @return {boolean} - True if no lifecycle labels are present, false otherwise
+   * @param {object} params
+   * @param {import('@octokit/webhooks-types').Label[] | undefined} params.labels - The array of labels for the issue
+   * @param {string[]} [params.skip] - The array of lifecycle labels to skip in the check
+   * @return {boolean} `true` if no lifecycle labels are present, `false` otherwise
    */
-  notInLifecycle: (labels, { skipMilestone = false } = {}) => {
+  notInLifecycle: ({ labels, skip = []}) => {
     if (!labels?.length) {
       return true;
     }
 
     let lifecycleLabels = Object.values(issueWorkflow);
-    if (skipMilestone) {
-      lifecycleLabels = lifecycleLabels.filter((label) => label !== issueWorkflow.needsMilestone);
+    if (skip.length) {
+      lifecycleLabels = lifecycleLabels.filter((label) => !skip.includes(label));
     }
 
     return labels.every((label) => !lifecycleLabels.includes(label.name));
@@ -80,7 +81,7 @@ module.exports = {
   /**
    * Checks if the labels do not include the "Ready for Dev" label
    * @param {import('@octokit/webhooks-types').Label[] | undefined} labels - The list of labels for the issue
-   * @return {boolean} - True if "Ready for Dev" label is not present, false otherwise
+   * @return {boolean} `true` if "Ready for Dev" label is not present, `false` otherwise
    */
   notReadyForDev: (labels) => {
     if (!labels) {
