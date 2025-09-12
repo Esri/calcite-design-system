@@ -2534,11 +2534,11 @@ describe("calcite-color-picker", () => {
           targetProp: "--calcite-input-number-text-color",
         },
         "--calcite-color-picker-input-prefix-background-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          shadowSelector: `.${CSS.container} >>> calcite-input-text`,
           targetProp: "--calcite-input-prefix-background-color",
         },
         "--calcite-color-picker-input-prefix-text-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          shadowSelector: `.${CSS.container} >>> calcite-input-text`,
           targetProp: "--calcite-input-prefix-text-color",
         },
         "--calcite-color-picker-input-suffix-background-color": {
@@ -2557,21 +2557,14 @@ describe("calcite-color-picker", () => {
           shadowSelector: `.${CSS.container} >>> calcite-tabs`,
           targetProp: "--calcite-tab-text-color",
         },
-        "--calcite-color-picker-tab-accent-color-press": {
-          shadowSelector: `.${CSS.container} >>> calcite-tabs`,
-          targetProp: "--calcite-tab-accent-color-press",
-        },
         "--calcite-color-picker-swatch-corner-radius": {
           shadowSelector: `.${CSS.container} >>> calcite-swatch`,
           targetProp: "--calcite-swatch-corner-radius",
         },
-        "--calcite-color-picker-action-text-color-press": {
-          shadowSelector: `.${CSS.container} >>> calcite-button`,
-          targetProp: "--calcite-button-text-color-press",
-        },
         "--calcite-color-picker-action-text-color-hover": {
           shadowSelector: `.${CSS.container} >>> calcite-button`,
           targetProp: "--calcite-button-text-color-hover",
+          state: "hover",
         },
         "--calcite-color-picker-action-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-button`,
