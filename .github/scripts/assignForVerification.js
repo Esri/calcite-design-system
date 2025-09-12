@@ -14,7 +14,7 @@ module.exports = async ({ github, context }) => {
     issue: { number },
   } = payload;
 
-  const { ISSUE_VERIFIERS, CALCITE_DESIGNERS } = process.env;
+  const { ISSUE_VERIFIERS } = process.env;
 
   if (label?.name === issueWorkflow.installed) {
     const issueProps = {
@@ -23,20 +23,9 @@ module.exports = async ({ github, context }) => {
       issue_number: number,
     };
 
-    const { data: issue } = await github.rest.issues.get(issueProps);
-
     await removeLabel({ github, context, label: issueWorkflow.inDevelopment });
 
     const assignees = ISSUE_VERIFIERS?.split(",").map((v) => v.trim());
-
-    // assign designers if figma updates are required
-    if (
-      assignees &&
-      CALCITE_DESIGNERS &&
-      issue.labels.map((label) => (typeof label === "string" ? label : label.name)).includes(handoff.figmaChanges)
-    ) {
-      assignees.push(...CALCITE_DESIGNERS.split(",").map((v) => v.trim()));
-    }
 
     await github.rest.issues.update({
       ...issueProps,

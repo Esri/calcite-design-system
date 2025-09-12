@@ -20,6 +20,22 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-shell-panel-height
+// --calcite-internal-shell-panel-max-height
+// --calcite-internal-shell-panel-max-width
+// --calcite-internal-shell-panel-min-height
+// --calcite-internal-shell-panel-min-width
+// --calcite-internal-shell-panel-resize-handle-offset
+// --calcite-internal-shell-panel-shadow-block-end
+// --calcite-internal-shell-panel-shadow-block-start
+// --calcite-internal-shell-panel-shadow-inline-end
+// --calcite-internal-shell-panel-shadow-inline-start
+// --calcite-internal-shell-panel-width
+
 :host {
   @apply relative
     pointer-events-none
@@ -90,23 +106,22 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([layout="horizontal"]) .height-s {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 20vh)
-  );
-}
-
 :host([layout="horizontal"]) .content {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
 }
 
+:host([layout="horizontal"]) .height-s {
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 20vh);
+}
+
 :host([layout="horizontal"]) .height-l {
-  --calcite-internal-shell-panel-max-height: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 40vh)
-  );
+  --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
 }
 
 .container {
@@ -307,7 +322,8 @@
   self-stretch
   p-0
   relative
-  box-border;
+  box-border
+  flex-auto;
   background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
   transition:
     max-block-size var(--calcite-animation-timing),
