@@ -1856,7 +1856,7 @@ describe("calcite-input-time-picker", () => {
       },
       "--calcite-input-time-picker-border-color": {
         shadowSelector: "calcite-time-picker",
-        targetProp: "borderColor",
+        targetProp: "--calcite-time-picker-border-color",
       },
     });
   });
