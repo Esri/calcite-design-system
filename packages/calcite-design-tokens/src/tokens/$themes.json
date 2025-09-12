@@ -1166,6 +1166,7 @@
       "core.color.dark.blue.d-bb-410": "50c369e7cc6adc7513190c2b4bec3489c3e765af",
       "core.color.dark.blue.d-bb-420": "2119657da5e0ae429b6afcbb687a253c8393b5f2",
       "core.color.dark.blue.d-bb-430": "ead85329bd5442e836422e3c0d03a4f23e5c804f",
+      "core.color.test.blk-000": "9af9d2e2de6bfc0cff4a74dff6bff6d7af3bebae",
       "core.container-size.0": "7d4df999fdcb6cefcc1f502bb87b3b1ab4e5b9b0",
       "core.container-size.154": "70f0d451bdfde12410301a04c69cc17348f15fb4",
       "core.container-size.320": "abb5758cbcfcb994a1133ed9280cccfd2a8a99a6",
@@ -1226,8 +1227,8 @@
       "core.size.default.256": "1a16a68e6ebd067c324c604b1ef111b099c8d78a",
       "core.size.default.288": "f1a149984313ee55fbc918e05f113207038c842c",
       "core.size.default.none": "c8e11bf3ee1557bb080c9940085047697481b53b",
-      "core.size.relative.auto": "2b1d197a65d1a152574620612ff6ff49e16b09f4",
-      "core.size.relative.normal": "cc3f00b8ce3439d9650929ed914a604238d05136"
+      "core.size.relative.auto": "bb032ae18e7ff7076a15652e3277c99feaee68b4",
+      "core.size.relative.normal": "49f46df1203e49438cf5b5ab45cb82612681397c"
     },
     "$figmaCollectionId": "VariableCollectionId:1814:613",
     "$figmaModeId": "1814:1",

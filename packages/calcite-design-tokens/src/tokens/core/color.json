@@ -3822,6 +3822,16 @@
             }
           }
         }
+      },
+      "test": {
+        "blk-000": {
+          "value": "#f00",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "neutral"
+          }
+        }
       }
     }
   }
