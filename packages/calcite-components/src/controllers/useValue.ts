@@ -109,9 +109,10 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       return;
     }
 
-    this.userChangedValue = true;
     this.previousValue = this.component.value;
+    this.userChangedValue = true;
     this.component.value = value;
+    this.userChangedValue = false;
 
     const changeEvent = changeEventEmitter.emit();
     if (changeEvent.defaultPrevented) {
@@ -147,6 +148,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       this.previousValue = this.component.value;
       this.userChangedValue = true;
       this.component.value = value;
+      this.userChangedValue = false;
     }
 
     const inputEvent = inputEventEmitter.emit(value);
