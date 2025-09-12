@@ -24,7 +24,6 @@ const resources = {
       assigned: "1 - assigned",
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
-      // inDesign: "1 - in design",
       readyForDev: "ready for dev",
       inDevelopment: "2 - in development",
       installed: "3 - installed",
@@ -56,6 +55,10 @@ const resources = {
       two: "estimate - 2",
       three: "estimate - 3",
       five: "estimate - 5",
+      eight: "estimate - 8",
+      thirteen: "estimate - 13",
+      twentyOne: "estimate - 21",
+      thirtyFour: "estimate - 34",
     },
     designEstimate: {
       small: "estimate - design - sm",

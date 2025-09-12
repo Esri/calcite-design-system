@@ -1,10 +1,10 @@
 // @ts-check
-const Monday = require("./support/monday.js");
+const Monday = require("../support/monday");
 const {
   labels: {
     issueType: { design },
   },
-} = require("./support/resources");
+} = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
@@ -15,18 +15,16 @@ module.exports = async ({ context }) => {
   const monday = Monday(issue);
 
   if (action === "reopened") {
-    monday.setColumnValue(monday.columns.open, "Open");
+    monday.setColumnValue(monday.columnIds.open, "Open");
   } else {
-    monday.setColumnValue(monday.columns.open, "Closed");
-    // If closed but not completed, set status to "Closed"
+    monday.setColumnValue(monday.columnIds.open, "Closed");
     if (issue.state_reason !== "completed") {
-      monday.setColumnValue(monday.columns.status, "Closed");
+      monday.setColumnValue(monday.columnIds.status, "Closed");
     }
-    // If not a design issue, set status to "Done"
-    else if (issue.labels && issue.labels.every((label) => label.name !== design)) {
-      monday.setColumnValue(monday.columns.status, "Done");
+    else if (issue.labels?.every((label) => label.name !== design)) {
+      monday.setColumnValue(monday.columnIds.status, "Done");
     }
   }
 
-  await monday.commitChanges();
+  await monday.commit();
 };

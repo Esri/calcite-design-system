@@ -1,10 +1,10 @@
 // @ts-check
-const Monday = require("./support/monday.js");
+const Monday = require("../support/monday");
 const {
   labels: {
     planning: { spike, spikeComplete },
   },
-} = require("./support/resources");
+} = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
@@ -15,8 +15,6 @@ module.exports = async ({ context }) => {
     process.exit(0);
   }
 
-  const monday = Monday(issue);
-
   const isSpike = labelName === spike;
   if (isSpike && issue.labels) {
     const isSpikeComplete = issue.labels.some((label) => label.name === spikeComplete);
@@ -26,6 +24,7 @@ module.exports = async ({ context }) => {
     }
   }
 
+  const monday = Monday(issue);
   monday.clearLabel(labelName);
-  await monday.commitChanges();
+  await monday.commit();
 };

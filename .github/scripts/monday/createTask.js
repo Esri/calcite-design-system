@@ -1,5 +1,5 @@
 // @ts-check
-const Monday = require("./support/monday.js");
+const Monday = require("../support/monday");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
@@ -23,7 +23,6 @@ module.exports = async ({ github, context }) => {
   const id = await monday.createTask(syncId);
 
   if (id !== queryId) {
-    // Add the Monday.com item ID to the issue body
     const updatedBody = monday.addSyncLine(id);
     try {
       await github.rest.issues.update({
