@@ -1,7 +1,17 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import {
   findAll,
   getElementRect,
@@ -2486,5 +2496,88 @@ describe("calcite-color-picker", () => {
     }
 
     await expect(doTest()).resolves.toBeUndefined();
+  });
+
+  describe("themed", () => {
+    describe("default", () => {
+      themed(html`<calcite-color-picker alpha-channel></calcite-color-picker>`, {
+        "--calcite-color-picker-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-color-picker-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-color-picker-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-color-picker-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-color-picker-text-color": {
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "color",
+        },
+        "--calcite-color-picker-input-background-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-number-background-color",
+        },
+        "--calcite-color-picker-input-border-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-number-border-color",
+        },
+        "--calcite-color-picker-input-text-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-number-text-color",
+        },
+        "--calcite-color-picker-input-prefix-background-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-prefix-background-color",
+        },
+        "--calcite-color-picker-input-prefix-text-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-prefix-text-color",
+        },
+        "--calcite-color-picker-input-suffix-background-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-suffix-background-color",
+        },
+        "--calcite-color-picker-input-suffix-text-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+          targetProp: "--calcite-input-suffix-text-color",
+        },
+        "--calcite-color-picker-tab-border-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-tabs`,
+          targetProp: "--calcite-tab-border-color",
+        },
+        "--calcite-color-picker-tab-text-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-tabs`,
+          targetProp: "--calcite-tab-text-color",
+        },
+        "--calcite-color-picker-tab-accent-color-press": {
+          shadowSelector: `.${CSS.container} >>> calcite-tabs`,
+          targetProp: "--calcite-tab-accent-color-press",
+        },
+        "--calcite-color-picker-swatch-corner-radius": {
+          shadowSelector: `.${CSS.container} >>> calcite-swatch`,
+          targetProp: "--calcite-swatch-corner-radius",
+        },
+        "--calcite-color-picker-action-text-color-press": {
+          shadowSelector: `.${CSS.container} >>> calcite-button`,
+          targetProp: "--calcite-button-text-color-press",
+        },
+        "--calcite-color-picker-action-text-color-hover": {
+          shadowSelector: `.${CSS.container} >>> calcite-button`,
+          targetProp: "--calcite-button-text-color-hover",
+        },
+        "--calcite-color-picker-action-text-color": {
+          shadowSelector: `.${CSS.container} >>> calcite-button`,
+          targetProp: "--calcite-button-text-color",
+        },
+      });
+    });
   });
 });

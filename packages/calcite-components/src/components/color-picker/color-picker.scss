@@ -6,10 +6,8 @@
  * @prop --calcite-color-picker-background-color: Specifies the component's background color.
  * @prop --calcite-color-picker-border-color: Specifies the component's border color.
  * @prop --calcite-color-picker-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-color-picker-icon-color: Specifies the component's `iconStart` and/or `iconEnd` color.
- * @prop --calcite-color-picker-loader-color: Specifies the component's loader color.
- * @prop --calcite-color-picker-text-color: Specifies the component's text color.
  * @prop --calcite-color-picker-shadow: Specifies the component's shadow.
+ * @prop --calcite-color-picker-text-color: Specifies the component's text color.
  * @prop --calcite-color-picker-input-background-color: Specifies the component's input background color.
  * @prop --calcite-color-picker-input-border-color: Specifies the component's input border color.
  * @prop --calcite-color-picker-input-text-color: Specifies the component's input text color.
@@ -18,10 +16,7 @@
  * @prop --calcite-color-picker-input-suffix-background-color:  Specifies the component's input suffix background color, when present.
  * @prop --calcite-color-picker-input-suffix-text-color:  Specifies the component's input suffix text color, when present.
  * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
- * @prop --calcite-color-picker-tab-border-color-hover: Specifies the component's tab border color when hovered.
  * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color.
- * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color when hovered.
- * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
  * @prop --calcite-color-picker-tab-accent-color-press: Specifies the component's tab accent color when selected or active.
  * @prop --calcite-color-picker-swatch-corner-radius: Specifies the component's swatch corner radius.
  * @prop --calcite-color-picker-action-text-color-press: Specifies the component's `savedColors` action text color when hovered.
@@ -70,7 +65,6 @@ calcite-tabs {
 }
 
 calcite-tab-title:hover {
-  --calcite-tab-accent-color: var(--calcite-color-picker-tab-accent-color-press);
   // override here for tab title - issue #todo
   --calcite-color-text-1: var(--calcite-color-picker-tab-text-color-hover);
 }
