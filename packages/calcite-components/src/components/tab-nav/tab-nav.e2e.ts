@@ -272,7 +272,7 @@ describe("calcite-tab-nav", () => {
       await assertScrollButtonVisibility(true);
     });
 
-    it("disable scroll button with respect to current scroll position", async () => {
+    it("disables scroll buttons with respect to current scroll position", async () => {
       await assertScrollButtonVisibility(true);
       await assertScrollButtonDisabled(true, false);
 
