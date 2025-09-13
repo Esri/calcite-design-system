@@ -5,23 +5,17 @@ const {
     planning: { spike, spikeComplete },
   },
 } = require("../support/resources");
+const { assertRequired } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
   const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (context.payload);
-  const labelName = label?.name;
-  if (!labelName) {
-    console.log("No label found in the payload.");
-    process.exit(0);
-  }
+  const [labelName] = assertRequired([label?.name]);
 
   const isSpike = labelName === spike;
   if (isSpike && issue.labels) {
     const isSpikeComplete = issue.labels.some((label) => label.name === spikeComplete);
-    if (isSpikeComplete) {
-      console.log("Issue is marked as a spike complete. Skipping label removal.");
-      process.exit(0);
-    }
+    assertRequired([isSpikeComplete], "Issue is marked as a spike complete. Skipping label removal.");
   }
 
   const monday = Monday(issue);

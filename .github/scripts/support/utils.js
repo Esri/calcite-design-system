@@ -66,7 +66,7 @@ module.exports = {
    * @param {string[]} [params.skip] - The array of lifecycle labels to skip in the check
    * @return {boolean} `true` if no lifecycle labels are present, `false` otherwise
    */
-  notInLifecycle: ({ labels, skip = []}) => {
+  notInLifecycle: ({ labels, skip = [] }) => {
     if (!labels?.length) {
       return true;
     }
@@ -89,5 +89,25 @@ module.exports = {
     }
 
     return labels.every((label) => label.name !== issueWorkflow.readyForDev);
+  },
+  /**
+   * Validates that no values in an array are undefined or null. If any are,
+   * logs an error message and exits the process with code 0.
+   *
+   * @template {readonly unknown[]} T - Tuple type of the input array
+   * @param {T} array - Array of values to validate
+   * @param {string} [errorMessage] - Optional custom error message to log
+   * @returns {{ [K in keyof T]: NonNullable<T[K]> }} The validated array with non-nullable types
+   */
+  assertRequired: (array, errorMessage) => {
+    for (const item of array) {
+      if (item === undefined || item === null) {
+        const message = errorMessage || `${String(item)} is required but is not defined, exiting.`;
+        console.error(message);
+        process.exit(0);
+      }
+    }
+
+    return /** @type {{ [K in keyof T]: NonNullable<T[K]> }} */ (array);
   },
 };

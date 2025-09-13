@@ -1,5 +1,5 @@
 // @ts-check
-const { notInLifecycle } = require("../support/utils");
+const { notInLifecycle, assertRequired } = require("../support/utils");
 const Monday = require("../support/monday");
 const {
   labels: {
@@ -9,19 +9,12 @@ const {
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
-  const {
-    issue,
-    assignee: newAssignee,
-    action,
-  } = /** @type {import('@octokit/webhooks-types').IssuesAssignedEvent | import('@octokit/webhooks-types').IssuesUnassignedEvent } */ (
+  const { issue, assignee, action } =
+    /** @type {import('@octokit/webhooks-types').IssuesAssignedEvent | import('@octokit/webhooks-types').IssuesUnassignedEvent } */ (
       context.payload
     );
   const { assignees: currentAssignees, labels } = issue;
-
-  if (!newAssignee) {
-    console.log(`No new assignee found, exiting.`);
-    process.exit(0);
-  }
+  assertRequired([assignee]);
 
   const monday = Monday(issue);
   // If unassigned action, no assignees left, not in lifecycle or milestone status:
