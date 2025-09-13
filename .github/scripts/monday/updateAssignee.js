@@ -15,10 +15,8 @@ module.exports = async ({ context }) => {
     );
   const { assignees: currentAssignees, labels } = issue;
   assertRequired([assignee]);
-
   const monday = Monday(issue);
-  // If unassigned action, no assignees left, not in lifecycle or milestone status:
-  // set status to "Unassigned", no assignee updates
+
   if (
     action === "unassigned" &&
     currentAssignees.length === 0 &&
@@ -28,8 +26,6 @@ module.exports = async ({ context }) => {
     monday.addLabel(newLabel);
     console.info("Set status to unassigned, no assignees updated.");
   }
-  // If assigned action, not in lifecycle or milestone status besides "needs milestone":
-  // set status to "Assigned", update assignees
   else if (action === "assigned" && notInLifecycle({ labels, skip: [needsMilestone] }) && !monday.inMilestoneStatus()) {
     monday.addLabel(assignedLabel);
     monday.addAllAssignees();

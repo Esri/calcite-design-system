@@ -421,13 +421,10 @@ module.exports = function Monday(issue) {
         }),
       });
 
-      const body = await response.json();
-
       if (!response.ok) {
         throw new Error(`HTTP error when calling the Monday API: ${JSON.stringify(body)}`);
       }
-
-      return body;
+      return await response.json();
     } catch (error) {
       throw new Error(`Error calling Monday.com API: ${error}`);
     }
@@ -484,13 +481,11 @@ module.exports = function Monday(issue) {
       }`;
 
     const response = await runQuery(query);
-
     if (!response) {
       throw new Error(`No response for Github Issue #${issueNumber}`);
     }
 
     const items = response?.data?.items_page_by_column_values?.items ?? [];
-
     // No item found, do not throw an error as this is a valid state.
     if (items.length === 0) {
       console.log(`No Monday task found for Github Issue #${issueNumber}.`);
@@ -565,16 +560,14 @@ module.exports = function Monday(issue) {
       },
     };
 
-    // Add labels if present
     if (labels?.length) {
       labels.forEach((label) => addLabel(label.name));
     }
-    // If no lifecycle label: set default status
+
     if (notInLifecycle({ labels })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
-    // Add assignees if present
     if (assignees.length) {
       assignees.forEach((person) => addAssignee(person));
 
@@ -585,7 +578,6 @@ module.exports = function Monday(issue) {
       }
     }
 
-    // Handle milestone if present
     if (issueMilestone) {
       handleMilestone();
     }
@@ -609,12 +601,11 @@ module.exports = function Monday(issue) {
       }
     }`;
 
-    const response = await runQuery(query);
-    if (!response?.data?.create_item?.id) {
+    const { data: { create_item: { id } } } = await runQuery(query);
+    if (!id) {
       throw new Error(`Failed to create item for issue #${issueNumber}`);
     }
-
-    return response.data.create_item.id;
+    return id;
   }
 
   /**
@@ -639,15 +630,13 @@ module.exports = function Monday(issue) {
    * Update columnUpdates based on milestone title
    */
   function handleMilestone() {
-    // If removed, reset date
+    // If removed, reset date and clear stalled label
     if (!issueMilestone) {
       columnUpdates[columnIds.date] = "";
       clearLabel(milestone.stalled);
       return;
     }
     const milestoneTitle = issueMilestone.title;
-
-    // Attempt to extract the date from the milestone title
     const milestoneDateRegex = /\d{4}-\d{2}-\d{2}/;
     const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
@@ -655,11 +644,9 @@ module.exports = function Monday(issue) {
       columnUpdates[columnIds.date] = milestoneDate;
       clearLabel(milestone.stalled);
 
-      // Assigned and NO lifecycle label - OUTSIDE OF "needs milestone"
       if (assignee && notInLifecycle({ labels, skip: [issueWorkflow.needsMilestone] })) {
         addLabel(issueWorkflow.assigned);
       }
-      // If unassigned and NOT "Ready for Dev"
       if (!assignee && notReadyForDev(labels)) {
         addLabel(issueWorkflow.new);
       }
@@ -694,7 +681,6 @@ module.exports = function Monday(issue) {
       return;
     }
 
-    // Skip "needs milestone" if "ready for dev" is applied
     const { needsMilestone, readyForDev } = issueWorkflow;
     if (label === needsMilestone && !notReadyForDev(labels)) {
       console.log(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`);
@@ -726,7 +712,6 @@ module.exports = function Monday(issue) {
       console.log(`Label "${label}" not found in Monday Labels map.`);
       return;
     }
-    // Clear the label by setting it to an empty string
     columnUpdates[labelColumn] = "";
   }
 
