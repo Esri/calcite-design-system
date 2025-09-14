@@ -1421,9 +1421,12 @@
       "core/shadow": "source",
       "semantic/shadow": "enabled",
       "semantic/color/light": "source",
-      "semantic/color/dark": "source"
+      "semantic/color/dark": "source",
+      "core/color": "source",
+      "core/size": "source",
+      "core/opacity": "source"
     },
-    "group": "shadow",
-    "$figmaVariableReferences": {}
+    "$figmaVariableReferences": {},
+    "group": "shadow"
   }
 ]
