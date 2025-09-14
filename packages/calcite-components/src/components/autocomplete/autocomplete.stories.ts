@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { MODES } from "../../../.storybook/modes";
 import { Autocomplete } from "./autocomplete";
 
 const { scale, alignment, status, overlayPositioning } = ATTRIBUTES;
@@ -146,7 +147,7 @@ export const smallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
 
 export const customIcon = (): string => html`
   <div style="width:350px">
