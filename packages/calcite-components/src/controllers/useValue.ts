@@ -4,9 +4,9 @@ import type { PropertyValues } from "lit";
 
 interface UseValue {
   /**
-   * The component's last emitted value.
+   * The component's last committed value.
    */
-  lastEmittedValue: string;
+  lastCommittedValue: string;
   /**
    * The component's previously set value.
    */
@@ -52,7 +52,7 @@ interface InputValueOptions {
 class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Properties
 
-  lastEmittedValue = "";
+  lastCommittedValue = "";
 
   previousValue = "";
 
@@ -63,12 +63,12 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Component Lifecycle
 
   hostConnected(): void {
-    this.lastEmittedValue = this.component.value;
+    this.lastCommittedValue = this.component.value;
     this.previousValue = this.component.value;
   }
 
   hostLoaded(): void {
-    this.lastEmittedValue = this.component.value;
+    this.lastCommittedValue = this.component.value;
     this.previousValue = this.component.value;
   }
 
@@ -105,7 +105,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param changeEvent.value
    */
   commitValue({ changeEventEmitter, value }: CommitValueOptions): void {
-    if (this.component.value === value && this.component.value === this.lastEmittedValue) {
+    if (this.component.value === value && this.component.value === this.lastCommittedValue) {
       return;
     }
 
@@ -117,9 +117,9 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     const changeEvent = changeEventEmitter.emit();
     if (changeEvent.defaultPrevented) {
       this.userChangedValue = false;
-      this.component.value = this.lastEmittedValue;
+      this.component.value = this.lastCommittedValue;
     } else {
-      this.lastEmittedValue = this.component.value;
+      this.lastCommittedValue = this.component.value;
     }
   }
 
@@ -132,7 +132,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       this.component.value = "";
     }
     this.previousValue = value;
-    this.lastEmittedValue = value;
+    this.lastCommittedValue = value;
   }
 
   /**
