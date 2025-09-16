@@ -126,6 +126,7 @@
   stroke: var(--calcite-color-text-1);
   stroke-width: var(--calcite-border-width-md);
   stroke-opacity: 0.3;
+  rx: var(--calcite-swatch-corner-radius);
 }
 
 .internal-svg-disabled {

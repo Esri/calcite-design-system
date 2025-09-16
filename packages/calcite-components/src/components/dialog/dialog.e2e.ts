@@ -1346,6 +1346,10 @@ describe("calcite-dialog", () => {
           shadowSelector: `.${CSS.panel}`,
           targetProp: "--calcite-panel-space",
         },
+        "--calcite-dialog-corner-radius": {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-corner-radius",
+        },
       },
     );
   });
