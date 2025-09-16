@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Scale } from "../interfaces";
 
 export const CSS = {
@@ -16,11 +17,11 @@ export const CSS = {
 };
 
 export const ICONS = {
-  checked: "check-square-f",
-  circle: "circle",
-  indeterminate: "minus-square-f",
-  selectedSingle: "circle-inset-large",
-  unchecked: "square",
+  checked: "check-square-f" as IconName,
+  circle: "circle" as IconName,
+  indeterminate: "minus-square-f" as IconName,
+  selectedSingle: "circle-inset-large" as IconName,
+  unchecked: "square" as IconName,
 };
 
 export const SLOTS = {

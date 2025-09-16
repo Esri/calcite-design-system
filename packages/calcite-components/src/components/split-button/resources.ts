@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   dividerContainer: "divider-container",
@@ -12,8 +14,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  chevronDown: "chevronDown",
-  caretDown: "caretDown",
-  ellipsis: "ellipsis",
-  handleVertical: "handle-vertical",
+  chevronDown: "chevronDown" as IconName,
+  caretDown: "caretDown" as IconName,
+  ellipsis: "ellipsis" as IconName,
+  handleVertical: "handle-vertical" as IconName,
 };

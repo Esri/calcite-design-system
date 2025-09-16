@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   assistiveText: "assistive-text",
   calendarWrapper: "calendar-wrapper",
@@ -33,7 +35,7 @@ export const POSITION = {
 };
 
 export const ICONS = {
-  calendar: "calendar",
-  chevronDown: "chevron-down",
-  chevronUp: "chevron-up",
+  calendar: "calendar" as IconName,
+  chevronDown: "chevron-down" as IconName,
+  chevronUp: "chevron-up" as IconName,
 };

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   clockIcon: "clock-icon",
   container: "container",
@@ -26,7 +28,7 @@ export const IDS = {
 };
 
 export const ICONS = {
-  clock: "clock",
-  chevronUp: "chevron-up",
-  chevronDown: "chevron-down",
+  clock: "clock" as IconName,
+  chevronUp: "chevron-up" as IconName,
+  chevronDown: "chevron-down" as IconName,
 };

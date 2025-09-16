@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -20,8 +22,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  menuExpanded: "chevron-up",
-  menuCollapsed: "chevron-down",
-  valid: "check-circle",
-  invalid: "exclamation-mark-triangle",
-} as const;
+  menuExpanded: "chevron-up" as IconName,
+  menuCollapsed: "chevron-down" as IconName,
+  valid: "check-circle" as IconName,
+  invalid: "exclamation-mark-triangle" as IconName,
+};

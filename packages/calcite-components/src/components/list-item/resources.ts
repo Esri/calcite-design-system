@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionsEnd: "actions-end",
   actionsStart: "actions-start",
@@ -47,15 +49,15 @@ export const SLOTS = {
 export const MAX_COLUMNS = 0;
 
 export const ICONS = {
-  selectedMultiple: "check-square-f",
-  selectedSingle: "circle-inset-large",
-  unselectedMultiple: "square",
-  unselectedSingle: "circle",
-  collapsedLTR: "chevron-right",
-  collapsedRTL: "chevron-left",
-  open: "chevron-down",
-  blank: "blank",
-  close: "x",
-} as const;
+  selectedMultiple: "check-square-f" as IconName,
+  selectedSingle: "circle-inset-large" as IconName,
+  unselectedMultiple: "square" as IconName,
+  unselectedSingle: "circle" as IconName,
+  collapsedLTR: "chevron-right" as IconName,
+  collapsedRTL: "chevron-left" as IconName,
+  open: "chevron-down" as IconName,
+  blank: "blank" as IconName,
+  close: "x" as IconName,
+};
 
 export const activeCellTestAttribute = "data-test-active";

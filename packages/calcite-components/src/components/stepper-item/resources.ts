@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   hasSlottedContent: "has-slotted-content",
@@ -12,8 +14,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  circle: "circle",
-  circleF: "circleF",
-  exclamationMarkCircleF: "exclamationMarkCircleF",
-  checkCircleF: "checkCircleF",
+  circle: "circle" as IconName,
+  circleF: "circleF" as IconName,
+  exclamationMarkCircleF: "exclamationMarkCircleF" as IconName,
+  checkCircleF: "checkCircleF" as IconName,
 };

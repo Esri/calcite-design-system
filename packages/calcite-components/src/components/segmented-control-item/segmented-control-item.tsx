@@ -3,7 +3,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
 
@@ -39,13 +39,13 @@ export class SegmentedControlItem extends LitElement {
   @property({ reflect: true }) checked = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true }) iconEnd: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true }) iconStart: IconName;
 
   /**
    * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
@@ -100,7 +100,7 @@ export class SegmentedControlItem extends LitElement {
 
   // #region Rendering
 
-  private renderIcon(icon: IconNameOrString, solo: boolean = false): JsxNode {
+  private renderIcon(icon: IconName, solo: boolean = false): JsxNode {
     return icon ? (
       <calcite-icon
         class={{

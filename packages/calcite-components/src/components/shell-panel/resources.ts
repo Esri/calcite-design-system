@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   actionBarContainer: "action-bar-container",
@@ -20,6 +22,6 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  dragVertical: "drag-resize-vertical",
-  dragHorizontal: "drag-resize-horizontal",
+  dragVertical: "drag-resize-vertical" as IconName,
+  dragHorizontal: "drag-resize-horizontal" as IconName,
 };

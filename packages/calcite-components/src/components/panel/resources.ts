@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionBarContainer: "action-bar-container",
   backButton: "back-button",
@@ -34,13 +36,13 @@ export const IDS = {
 };
 
 export const ICONS = {
-  close: "x",
-  menu: "ellipsis",
-  backLeft: "chevron-left",
-  backRight: "chevron-right",
-  expand: "chevron-down",
-  collapse: "chevron-up",
-} as const;
+  close: "x" as IconName,
+  menu: "ellipsis" as IconName,
+  backLeft: "chevron-left" as IconName,
+  backRight: "chevron-right" as IconName,
+  expand: "chevron-down" as IconName,
+  collapse: "chevron-up" as IconName,
+};
 
 export const SLOTS = {
   actionBar: "action-bar",

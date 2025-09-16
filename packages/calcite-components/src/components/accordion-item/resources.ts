@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Appearance, Position, IconType } from "../interfaces";
 
 export const SLOTS = {
@@ -35,8 +36,8 @@ export const IDS = {
 };
 
 export const ICONS = {
-  chevronDown: "chevronDown",
-  caretDown: "caretDown",
-  plus: "plus",
-  minus: "minus",
+  chevronDown: "chevronDown" as IconName,
+  caretDown: "caretDown" as IconName,
+  plus: "plus" as IconName,
+  minus: "minus" as IconName,
 };

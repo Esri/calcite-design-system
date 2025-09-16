@@ -29,7 +29,7 @@ import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { Option } from "../option/option";
 import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
@@ -143,9 +143,7 @@ export class Select
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;

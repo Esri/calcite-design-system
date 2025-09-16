@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const DURATION = 6000;
 
 export const CSS = {
@@ -22,13 +24,13 @@ export const CSS = {
 };
 
 export const ICONS = {
-  chevronLeft: "chevron-left",
-  chevronRight: "chevron-right",
-  inactive: "bullet-point",
-  active: "bullet-point-large",
-  pause: "pause-f",
-  play: "play-f",
-} as const;
+  chevronLeft: "chevron-left" as IconName,
+  chevronRight: "chevron-right" as IconName,
+  inactive: "bullet-point" as IconName,
+  active: "bullet-point-large" as IconName,
+  pause: "pause-f" as IconName,
+  play: "play-f" as IconName,
+};
 
 export const centerItemsByBreakpoint = {
   medium: 7,

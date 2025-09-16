@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
 export const ComboboxItemGroupSelector = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`;
@@ -47,8 +49,8 @@ export const IDS = {
 } as const;
 
 export const ICONS = {
-  chevronUp: "chevron-up",
-  chevronDown: "chevron-down",
+  chevronUp: "chevron-up" as IconName,
+  chevronDown: "chevron-down" as IconName,
 };
 
 export const SLOTS = {

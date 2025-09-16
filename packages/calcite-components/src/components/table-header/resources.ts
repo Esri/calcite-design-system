@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   contentCell: "content-cell",
   numberCell: "number-cell",
@@ -15,7 +17,7 @@ export const CSS = {
 };
 
 export const ICONS = {
-  checked: "check-square-f",
-  indeterminate: "minus-square-f",
-  unchecked: "square",
+  checked: "check-square-f" as IconName,
+  indeterminate: "minus-square-f" as IconName,
+  unchecked: "square" as IconName,
 };

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   list: "list",
   listItem: "list-item",
@@ -10,8 +12,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  next: "chevron-right",
-  previous: "chevron-left",
-  first: "chevron-start",
-  last: "chevron-end",
-} as const;
+  next: "chevron-right" as IconName,
+  previous: "chevron-left" as IconName,
+  first: "chevron-start" as IconName,
+  last: "chevron-end" as IconName,
+};

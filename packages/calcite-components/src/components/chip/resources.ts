@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   title: "title",
   close: "close",
@@ -22,8 +24,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  close: "x",
-  checkedSingle: "circle-f",
-  uncheckedMultiple: "square",
-  checkedMultiple: "check-square-f",
-} as const;
+  close: "x" as IconName,
+  checkedSingle: "circle-f" as IconName,
+  uncheckedMultiple: "square" as IconName,
+  checkedMultiple: "check-square-f" as IconName,
+};

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   assistiveText: "assistive-text",
   scrim: "scrim",
@@ -16,6 +18,6 @@ export const IDS = {
 };
 
 export const ICONS = {
-  dragVertical: "drag-resize-vertical",
-  dragHorizontal: "drag-resize-horizontal",
+  dragVertical: "drag-resize-vertical" as IconName,
+  dragHorizontal: "drag-resize-horizontal" as IconName,
 };

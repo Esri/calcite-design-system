@@ -16,7 +16,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -55,7 +55,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   transitionEl: HTMLElement;
 
@@ -82,7 +82,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   @property({ reflect: true }) closable = false;
 
   /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

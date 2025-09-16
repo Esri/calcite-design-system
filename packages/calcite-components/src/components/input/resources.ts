@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   loader: "loader",
   clearButton: "clear-button",
@@ -39,7 +41,7 @@ export const DIRECTION = {
 };
 
 export const ICONS = {
-  chevronUp: "chevron-up",
-  chevronDown: "chevron-down",
-  close: "x",
+  chevronUp: "chevron-up" as IconName,
+  chevronDown: "chevron-down" as IconName,
+  close: "x" as IconName,
 };

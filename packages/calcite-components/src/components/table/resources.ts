@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   bordered: "bordered",
   striped: "striped",
@@ -21,6 +23,6 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  hideEmpty: "hide-empty",
-  clear: "x",
+  hideEmpty: "hide-empty" as IconName,
+  clear: "x" as IconName,
 };

@@ -3,7 +3,7 @@ import { Writable } from "type-fest";
 import { isServer } from "lit";
 import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
-import type { IconNameOrString } from "../components/icon/interfaces";
+import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import type { Input } from "../components/input/input";
 import type { RadioButtonGroup } from "../components/radio-button-group/radio-button-group";
@@ -205,7 +205,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: IconNameOrString | boolean | "";
+  icon: IconName | boolean | "";
 }
 
 function displayValidationMessage(
@@ -286,7 +286,7 @@ function invalidHandler(event: Event) {
       // don't clear if an icon was specified by the user
       if (
         "validationIcon" in formComponent &&
-        (formComponent.validationIcon === "" || formComponent.validationIcon === true)
+        (formComponent.validationIcon === null || formComponent.validationIcon === true)
       ) {
         formComponent.validationIcon = false;
       }

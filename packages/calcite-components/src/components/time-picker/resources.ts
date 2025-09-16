@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Scale } from "../interfaces";
 
 export const CSS = {
@@ -37,6 +38,6 @@ export const CSS = {
 };
 
 export const ICONS = {
-  chevronUp: "chevron-up",
-  chevronDown: "chevron-down",
+  chevronUp: "chevron-up" as IconName,
+  chevronDown: "chevron-down" as IconName,
 };

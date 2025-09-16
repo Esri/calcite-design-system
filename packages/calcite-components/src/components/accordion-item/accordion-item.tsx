@@ -10,7 +10,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
@@ -86,7 +86,7 @@ export class AccordionItem extends LitElement {
   @property() heading: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
@@ -109,7 +109,7 @@ export class AccordionItem extends LitElement {
   @property() iconPosition: Extract<"start" | "end", Position>;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true }) iconStart: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.

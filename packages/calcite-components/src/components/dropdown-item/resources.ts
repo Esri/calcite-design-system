@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   containerNone: "container--none-selection",
@@ -9,6 +11,6 @@ export const CSS = {
 };
 
 export const ICONS = {
-  check: "check",
-  bulletPoint: "bullet-point",
+  check: "check" as IconName,
+  bulletPoint: "bullet-point" as IconName,
 };

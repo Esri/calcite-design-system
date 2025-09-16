@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionIcon: "action-icon",
   actionIconStart: "action-icon--start",
@@ -13,8 +15,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  chevronLeft: "chevron-left",
-  chevronRight: "chevron-right",
+  chevronLeft: "chevron-left" as IconName,
+  chevronRight: "chevron-right" as IconName,
 };
 
 const idPrefix = "calcite-stepper-action";

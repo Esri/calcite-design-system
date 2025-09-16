@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -38,8 +40,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  expanded: "chevron-up",
-  collapsed: "chevron-down",
-  valid: "check-circle",
-  invalid: "exclamation-mark-triangle",
-} as const;
+  expanded: "chevron-up" as IconName,
+  collapsed: "chevron-down" as IconName,
+  valid: "check-circle" as IconName,
+  invalid: "exclamation-mark-triangle" as IconName,
+};

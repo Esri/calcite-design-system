@@ -17,7 +17,7 @@ import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -117,7 +117,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
    * When present, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -481,7 +481,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
     );
   }
 
-  private renderIcon(icon: IconNameOrString): JsxNode {
+  private renderIcon(icon: IconName): JsxNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />

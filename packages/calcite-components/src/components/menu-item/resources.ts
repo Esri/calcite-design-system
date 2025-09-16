@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   content: "content",
@@ -23,10 +25,10 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  arrowLeft: "arrow-left",
-  arrowRight: "arrow-right",
-  chevronLeft: "chevron-left",
-  chevronRight: "chevron-right",
-  chevronUp: "chevron-up",
-  chevronDown: "chevron-down",
-} as const;
+  arrowLeft: "arrow-left" as IconName,
+  arrowRight: "arrow-right" as IconName,
+  chevronLeft: "chevron-left" as IconName,
+  chevronRight: "chevron-right" as IconName,
+  chevronUp: "chevron-up" as IconName,
+  chevronDown: "chevron-down" as IconName,
+};

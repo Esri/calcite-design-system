@@ -64,7 +64,7 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
@@ -307,9 +307,7 @@ export class InputDatePicker
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;

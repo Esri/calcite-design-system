@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   wrapper: "wrapper",
   confirmChangesButton: "confirm-changes-button",
@@ -9,7 +11,7 @@ export const CSS = {
 };
 
 export const ICONS = {
-  check: "check",
-  close: "x",
-  pencil: "pencil",
+  check: "check" as IconName,
+  close: "x" as IconName,
+  pencil: "pencil" as IconName,
 };

@@ -1,11 +1,13 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   backButton: "back-button",
 };
 
 export const ICONS = {
-  backLeft: "chevron-left",
-  backRight: "chevron-right",
-} as const;
+  backLeft: "chevron-left" as IconName,
+  backRight: "chevron-right" as IconName,
+};
 
 export const SLOTS = {
   actionBar: "action-bar",
