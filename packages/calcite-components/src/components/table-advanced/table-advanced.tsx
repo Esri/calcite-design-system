@@ -202,6 +202,26 @@ export class TableAdvanced extends LitElement {
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
         });
+
+    // Log cell, column and row that is being clicked
+    this.tabulator.on("cellClick", (_event, cell) => {
+      const cellData = {
+        rowIndex: cell.getRow().getPosition(),
+        column: cell.getColumn().getField(),
+        value: cell.getValue(),
+      };
+      console.log("Cell clicked:", cellData);
+    });
+
+    // Log cell, column and row when hovering a cell
+    this.tabulator.on("cellMouseOver", (_event, cell) => {
+      const cellData = {
+        rowIndex: cell.getRow().getPosition(),
+        column: cell.getColumn().getField(),
+        value: cell.getValue(),
+      };
+      console.log("Cell hovered:", cellData);
+    });
   }
 
   //#endregion
