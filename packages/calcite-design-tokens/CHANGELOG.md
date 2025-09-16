@@ -15,8 +15,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - Remove breakpoint tokens from semantic output ([#12397](https://github.com/Esri/calcite-design-system/issues/12397)) ([0f22083](https://github.com/Esri/calcite-design-system/commit/0f2208365888d764fa8a13ce774ab203b2ed96d0))
 - **tokens:** Restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([0432a20](https://github.com/Esri/calcite-design-system/commit/0432a201d6a1c4607a2bdc2fcdf7d91d8d109804))
 - **tokens:** Update `--calcite-font-line-height-relative` to resolve as a valid value ([#12828](https://github.com/Esri/calcite-design-system/issues/12828)) ([458f99d](https://github.com/Esri/calcite-design-system/commit/458f99dae63162bc32b3eca34504dfaa471bd002))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([7ff8eb0](https://github.com/Esri/calcite-design-system/commit/7ff8eb015ee5d655c23933dc33f53a46626a7ec2))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([4cc65ed](https://github.com/Esri/calcite-design-system/commit/4cc65edf6e2f46b8c7dde9cc5a58df28c02f339e))
 
 ## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1...@esri/calcite-design-tokens@3.1.0) (2025-05-14)
 

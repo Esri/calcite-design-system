@@ -117,8 +117,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **swatch:** Ensure corner radius css property is correctly applied ([#12855](https://github.com/Esri/calcite-design-system/issues/12855)) ([50405aa](https://github.com/Esri/calcite-design-system/commit/50405aaa9d0b62cfdace6d7f8421a2131a2ea45b))
 - **title:** Apply alignment on slotted content ([#12451](https://github.com/Esri/calcite-design-system/issues/12451)) ([93b470a](https://github.com/Esri/calcite-design-system/commit/93b470a511eb17718bfb935e8cfafbe4ede09288))
 - **tokens:** Restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([0432a20](https://github.com/Esri/calcite-design-system/commit/0432a201d6a1c4607a2bdc2fcdf7d91d8d109804))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([7ff8eb0](https://github.com/Esri/calcite-design-system/commit/7ff8eb015ee5d655c23933dc33f53a46626a7ec2))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([4cc65ed](https://github.com/Esri/calcite-design-system/commit/4cc65edf6e2f46b8c7dde9cc5a58df28c02f339e))
 
 ### Deprecations
 

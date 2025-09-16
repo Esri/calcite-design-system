@@ -30,8 +30,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - Select row icon ([#12793](https://github.com/Esri/calcite-design-system/issues/12793)) ([5b3788d](https://github.com/Esri/calcite-design-system/commit/5b3788d12c995d412b8690a474403321fa0a41b4))
 - Tapestry icons ([#12315](https://github.com/Esri/calcite-design-system/issues/12315)) ([7fbedfc](https://github.com/Esri/calcite-design-system/commit/7fbedfcb566b82b4bb633b42aa6bcd729f765618))
-- Update README.md ([#11765](https://github.com/Esri/calcite-design-system/issues/11765)) ([7ff8eb0](https://github.com/Esri/calcite-design-system/commit/7ff8eb015ee5d655c23933dc33f53a46626a7ec2))
-- Update README.md ([#11767](https://github.com/Esri/calcite-design-system/issues/11767)) ([4cc65ed](https://github.com/Esri/calcite-design-system/commit/4cc65edf6e2f46b8c7dde9cc5a58df28c02f339e))
 
 ## [4.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.1.0...@esri/calcite-ui-icons@4.2.0) (2025-05-14)
 
