@@ -45,6 +45,8 @@ export class Table extends LitElement {
 
   private bodyRows: TableRow["el"][];
 
+  private _currentPage = 0;
+
   private footRows: TableRow["el"][];
 
   private headRows: TableRow["el"][];
@@ -63,8 +65,6 @@ export class Table extends LitElement {
    * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  private _currentPage = 1;
 
   //#endregion
 
@@ -203,9 +203,7 @@ export class Table extends LitElement {
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
-      (changes.has("currentPage") &&
-        (this.hasUpdated || this._currentPage > 1) &&
-        this.pageSize > 0)
+      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
       this.updateRows();
     }
@@ -345,13 +343,15 @@ export class Table extends LitElement {
   }
 
   private handleCurrentPageRange(): void {
-    const requestedPage = this._currentPage;
+    const requestedPage = this.currentPage;
     const totalRows = this.bodyRows?.length || 0;
     const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
 
     if (totalPages > 0) {
       const page = Math.min(Math.max(requestedPage, 1), totalPages);
+      const previousPage = this._currentPage;
       this._currentPage = page;
+      this.requestUpdate("currentPage", previousPage);
       this.pageStartRow = (page - 1) * this.pageSize + 1;
     }
     this.paginateRows();
@@ -360,7 +360,9 @@ export class Table extends LitElement {
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
+    const previousPage = this._currentPage;
     this._currentPage = Math.ceil(this.pageStartRow / this.pageSize);
+    this.requestUpdate("currentPage", previousPage);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }
