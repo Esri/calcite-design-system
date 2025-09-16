@@ -65,6 +65,8 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   /**
    * Use this property to override or extend ARIA properties and attributes on the component's button.
+   *
+   * @internal
    */
   @property() aria?: Partial<
     Pick<
