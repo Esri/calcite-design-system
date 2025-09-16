@@ -45,8 +45,6 @@ export class Table extends LitElement {
 
   private bodyRows: TableRow["el"][];
 
-  private _currentPage = 0;
-
   private footRows: TableRow["el"][];
 
   private headRows: TableRow["el"][];
@@ -97,12 +95,7 @@ export class Table extends LitElement {
   /**
    * Sets/gets the current page
    */
-  @property({ reflect: true }) get currentPage(): number {
-    return this._currentPage;
-  }
-  set currentPage(page: number) {
-    this._currentPage = page;
-  }
+  @property({ reflect: true }) currentPage = 0;
 
   /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
@@ -349,9 +342,7 @@ export class Table extends LitElement {
 
     if (totalPages > 0) {
       const page = Math.min(Math.max(requestedPage, 1), totalPages);
-      const previousPage = this._currentPage;
-      this._currentPage = page;
-      this.requestUpdate("currentPage", previousPage);
+      this.currentPage = page;
       this.pageStartRow = (page - 1) * this.pageSize + 1;
     }
     this.paginateRows();
@@ -360,9 +351,7 @@ export class Table extends LitElement {
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
-    const previousPage = this._currentPage;
-    this._currentPage = Math.ceil(this.pageStartRow / this.pageSize);
-    this.requestUpdate("currentPage", previousPage);
+    this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }
