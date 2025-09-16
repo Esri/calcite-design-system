@@ -2154,9 +2154,6 @@ describe("calcite-input-date-picker", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-input-date-picker></calcite-input-date-picker>`, {
-        "--calcite-input-date-picker-shadow": {
-          targetProp: "boxShadow",
-        },
         "--calcite-input-date-picker-calendar-shadow": {
           targetProp: "boxShadow",
         },
@@ -2169,25 +2166,25 @@ describe("calcite-input-date-picker", () => {
           targetProp: "color",
           state: "hover",
         },
+        "--calcite-input-date-picker-shadow": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-text-shadow",
+        },
         "--calcite-input-date-picker-background-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-background-color",
+          targetProp: "--calcite-input-text-background-color",
         },
         "--calcite-input-date-picker-border-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-border-color",
+          targetProp: "--calcite-input-text-border-color",
         },
         "--calcite-input-date-picker-corner-radius": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-corner-radius",
+          targetProp: "--calcite-input-text-corner-radius",
         },
         "--calcite-input-date-picker-icon-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-icon-color",
-        },
-        "--calcite-input-date-picker-icon-color-hover": {
-          shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-icon-color-hover",
+          targetProp: "--calcite-input-text-icon-color",
         },
         "--calcite-input-date-picker-text-color": {
           shadowSelector: `.${CSS.input}`,
@@ -2195,7 +2192,7 @@ describe("calcite-input-date-picker", () => {
         },
         "--calcite-input-date-picker-placeholder-text-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-placeholder-text-color",
+          targetProp: "--calcite-input-text-placeholder-text-color",
         },
         "--calcite-input-date-picker-calendar-border-color": {
           shadowSelector: "calcite-date-picker",
