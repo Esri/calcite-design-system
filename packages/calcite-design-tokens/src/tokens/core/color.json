@@ -1284,6 +1284,15 @@
               "category": "color",
               "group": "low-saturation"
             }
+          },
+          "l-vv-1000": {
+            "value": "#13111a",
+            "type": "color",
+            "description": "deprecated, use --calcite-color-low-saturation-violet-l-vv-100 instead",
+            "attributes": {
+              "category": "color",
+              "group": "low-saturation"
+            }
           }
         }
       },
