@@ -135,29 +135,21 @@ describe("calcite-action", () => {
       expect(await button.getProperty("ariaExpanded")).toBe(null);
       expect(await button.getProperty("ariaHasPopup")).toBe(null);
       expect(await button.getProperty("ariaPressed")).toBe(null);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaControlsElements ?? [])).length).toBe(0);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaDescribedByElements ?? [])).length).toBe(0);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaLabelledByElements ?? [])).length).toBe(0);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaOwnsElements ?? [])).length).toBe(0);
 
       action.setProperty("aria", {
-        ariaExpanded: true,
-        ariaHasPopup: true,
-        ariaPressed: true,
-        ariaControlsElements: [document.createElement("div")],
-        ariaDescribedByElements: [document.createElement("div")],
-        ariaLabelledByElements: [document.createElement("div")],
-        ariaOwnsElements: [document.createElement("div")],
+        expanded: true,
+        hasPopup: true,
+        pressed: true,
+        controlsElements: [document.createElement("div")],
+        describedByElements: [document.createElement("div")],
+        labelledByElements: [document.createElement("div")],
+        ownsElements: [document.createElement("div")],
       });
       await page.waitForChanges();
 
       expect(await button.getProperty("ariaExpanded")).toBe("true");
       expect(await button.getProperty("ariaHasPopup")).toBe("true");
       expect(await button.getProperty("ariaPressed")).toBe("true");
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaControlsElements)).length).toBe(1);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaDescribedByElements)).length).toBe(1);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaLabelledByElements)).length).toBe(1);
-      // expect((await page.$eval(buttonSelector, (el) => el.ariaOwnsElements)).length).toBe(1);
     });
   });
 

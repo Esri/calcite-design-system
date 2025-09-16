@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -9,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale, Width } from "../interfaces";
+import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -66,15 +66,17 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /**
    * Use this property to override or extend ARIA properties and attributes on the component's button.
    */
-  @property() aria?: Pick<
-    LuminaJsx.AriaAttributes,
-    | "ariaControlsElements"
-    | "ariaDescribedByElements"
-    | "ariaExpanded"
-    | "ariaHasPopup"
-    | "ariaLabelledByElements"
-    | "ariaOwnsElements"
-    | "ariaPressed"
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased,
+      | "controlsElements"
+      | "describedByElements"
+      | "expanded"
+      | "hasPopup"
+      | "labelledByElements"
+      | "ownsElements"
+      | "pressed"
+    >
   >;
 
   /** When present, the component is highlighted. */
@@ -336,7 +338,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     const internalControlsElements = indicator && indicatorEl ? [indicatorEl] : [];
 
     const ariaControlsElements = [
-      ...(this.aria?.ariaControlsElements ?? []),
+      ...(this.aria?.controlsElements ?? []),
       ...internalControlsElements,
     ];
 
@@ -346,13 +348,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         <span
           ariaBusy={loading}
           ariaControlsElements={ariaControlsElements}
-          ariaDescribedByElements={this.aria?.ariaDescribedByElements}
-          ariaExpanded={this.aria?.ariaExpanded}
-          ariaHasPopup={this.aria?.ariaHasPopup}
+          ariaDescribedByElements={this.aria?.describedByElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.ariaLabelledByElements}
-          ariaOwnsElements={this.aria?.ariaOwnsElements}
-          ariaPressed={this.aria?.ariaPressed}
+          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaOwnsElements={this.aria?.ownsElements}
+          ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -368,13 +370,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       <button
         ariaBusy={loading}
         ariaControlsElements={ariaControlsElements}
-        ariaDescribedByElements={this.aria?.ariaDescribedByElements}
-        ariaExpanded={this.aria?.ariaExpanded}
-        ariaHasPopup={this.aria?.ariaHasPopup}
+        ariaDescribedByElements={this.aria?.describedByElements}
+        ariaExpanded={this.aria?.expanded}
+        ariaHasPopup={this.aria?.hasPopup}
         ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.ariaLabelledByElements}
-        ariaOwnsElements={this.aria?.ariaOwnsElements}
-        ariaPressed={this.aria?.ariaPressed}
+        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaOwnsElements={this.aria?.ownsElements}
+        ariaPressed={this.aria?.pressed}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}

@@ -255,7 +255,7 @@ export class ActionMenu extends LitElement {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
       this.menuButtonEl.aria = {
-        ariaExpanded: open,
+        expanded: open,
       };
     }
 
@@ -476,7 +476,7 @@ export class ActionMenu extends LitElement {
       <slot name={SLOTS.trigger} onSlotChange={this.setMenuButtonEl}>
         <calcite-action
           appearance={appearance}
-          aria={{ ariaExpanded: expanded }}
+          aria={{ expanded }}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
           ref={this.setDefaultMenuButtonEl}

@@ -493,7 +493,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const collapseNode = collapsible ? (
       <calcite-action
-        aria={{ ariaExpanded: !collapsed }}
+        aria={{ expanded: !collapsed }}
         icon={collapsed ? icons[0] : icons[1]}
         id={IDS.collapse}
         label={collapse}
