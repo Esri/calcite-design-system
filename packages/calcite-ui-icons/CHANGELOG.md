@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.23...@esri/calcite-ui-icons@4.3.0-next.24) (2025-09-17)
+
+### Features
+
+- add mission system message ([#12877](https://github.com/Esri/calcite-design-system/issues/12877)) ([fce258b](https://github.com/Esri/calcite-design-system/commit/fce258b9d0eb56a0b6b2889bbab84c4cdac693f6))
+
 ## [4.3.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.22...@esri/calcite-ui-icons@4.3.0-next.23) (2025-09-04)
 
 ### Features
