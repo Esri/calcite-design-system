@@ -7,10 +7,10 @@ const { notReadyForDev, notInLifecycle } = require("./utils");
 
 /**
  * @param {NodeJS.ProcessEnv} env
- * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string }}
+ * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_TOKEN: string; MONDAY_BOARD: string }}
  */
 function assertMondayEnv(env) {
-  if (!env.MONDAY_KEY || !env.MONDAY_BOARD) {
+  if (!env.MONDAY_TOKEN || !env.MONDAY_BOARD) {
     throw new Error("A Monday.com env variable is not set.");
   }
 }
@@ -20,7 +20,7 @@ function assertMondayEnv(env) {
  */
 module.exports = function Monday(issue) {
   assertMondayEnv(process.env);
-  const { MONDAY_KEY, MONDAY_BOARD } = process.env;
+  const { MONDAY_TOKEN, MONDAY_BOARD } = process.env;
   if (!issue) {
     throw new Error("No GitHub issue provided.");
   }
@@ -414,7 +414,7 @@ module.exports = function Monday(issue) {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          Authorization: MONDAY_KEY,
+          Authorization: MONDAY_TOKEN,
         },
         body: JSON.stringify({
           query: query,
