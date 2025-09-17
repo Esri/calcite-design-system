@@ -199,6 +199,7 @@ export class ActionGroup extends LitElement {
         scale={scale}
       >
         <calcite-action
+          aria={{ expanded }}
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
