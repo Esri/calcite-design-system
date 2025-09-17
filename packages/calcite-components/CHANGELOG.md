@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.115](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.114...@esri/calcite-components@3.3.0-next.115) (2025-09-17)
+
+### Bug Fixes
+
+- **action:** set aria-expanded for actions used for expanding and collapsing ([#12579](https://github.com/Esri/calcite-design-system/issues/12579)) ([d116114](https://github.com/Esri/calcite-design-system/commit/d11611481a10349f1cee7cf4ef0bb2165d016364)), closes [#7003](https://github.com/Esri/calcite-design-system/issues/7003) [#10411](https://github.com/Esri/calcite-design-system/issues/10411)
+
 ## [3.3.0-next.114](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.113...@esri/calcite-components@3.3.0-next.114) (2025-09-17)
 
 **Note:** Version bump only for package @esri/calcite-components
