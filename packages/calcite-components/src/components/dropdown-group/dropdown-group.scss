@@ -21,12 +21,9 @@
   cursor-default
   break-words
   border-0
-  border-b
-  border-solid
   font-bold;
 
-  border-color: var(--calcite-dropdown-group-border-color, var(--calcite-color-border-3));
-  color: var(--calcite-dropdown-group-title-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-dropdown-group-title-text-color, var(--calcite-color-text-1));
 }
 
 .dropdown-separator {
@@ -39,6 +36,10 @@
   .dropdown-title {
     @apply p-2;
   }
+  .dropdown-separator {
+    margin-block: var(--calcite-spacing-xxs);
+    margin-inline: var(--calcite-spacing-sm);
+  }
 }
 
 :host([scale="m"]) {
@@ -46,12 +47,20 @@
   .dropdown-title {
     @apply p-3;
   }
+  .dropdown-separator {
+    margin-block: var(--calcite-spacing-sm);
+    margin-inline: var(--calcite-spacing-md);
+  }
 }
 
 :host([scale="l"]) {
   @apply text-0h;
   .dropdown-title {
     @apply p-4;
+  }
+  .dropdown-separator {
+    margin-block: var(--calcite-spacing-sm-plus);
+    margin-inline: var(--calcite-spacing-lg);
   }
 }
 
