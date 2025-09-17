@@ -12,6 +12,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-button-border-inline-end-color
+// --calcite-internal-button-border-inline-start-color
 // --calcite-internal-tab-nav-button-width
 // --calcite-internal-tab-nav-gap
 
@@ -26,8 +28,19 @@
     }
   }
 
-  calcite-button {
-    --calcite-button-border-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+  .scroll-button--forward {
+    calcite-button {
+      --calcite-internal-button-border-inline-end-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+    }
+  }
+
+  .scroll-button--backward {
+    calcite-button {
+      --calcite-internal-button-border-inline-start-color: var(
+        --calcite-tab-border-color,
+        var(--calcite-color-border-1)
+      );
+    }
   }
 }
 
@@ -88,18 +101,13 @@
   }
 }
 
-.container {
-  @apply grid;
-  grid-template-columns: 1fr auto;
-}
-
 .tab-titles-slot-wrapper {
-  @apply flex box-border;
+  @apply flex-1;
 }
 
 .container,
 .tab-titles-slot-wrapper {
-  @apply w-full
+  @apply flex w-full
   justify-start
   whitespace-nowrap
   overflow-hidden;
@@ -144,10 +152,9 @@
 }
 
 :host(:not([bordered])) {
-  .scroll-button--forward,
   .scroll-button--backward {
     &::before {
-      background-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
+      background-color: var(--calcite-tab-border-color, var(--calcite-color-border-3));
       opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);

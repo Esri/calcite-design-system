@@ -587,8 +587,7 @@ export class TabNav extends LitElement {
   }
 
   private renderScrollButton(overflowDirection: "start" | "end"): JsxNode {
-    const { bordered, messages, scale, hasOverflowingEndTabTitle, hasOverflowingStartTabTitle } =
-      this;
+    const { messages, scale, hasOverflowingEndTabTitle, hasOverflowingStartTabTitle } = this;
     const isEnd = overflowDirection === "end";
 
     return (
@@ -601,7 +600,7 @@ export class TabNav extends LitElement {
         key={overflowDirection}
       >
         <calcite-button
-          appearance={bordered ? "outline-fill" : "transparent"}
+          appearance={"transparent"}
           ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
           disabled={isEnd ? !hasOverflowingEndTabTitle : !hasOverflowingStartTabTitle}
           iconFlipRtl="both"
