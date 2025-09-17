@@ -271,6 +271,9 @@ export class Alert extends LitElement implements OpenCloseComponent {
   }
 
   private handlePopover(): void {
+    if (this.embedded) {
+      return;
+    }
     if (this.open) {
       this.transitionEl?.showPopover();
     } else {
@@ -426,7 +429,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
         }}
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
-        popover="manual"
+        popover={!this.embedded ? "manual" : null}
         ref={this.setTransitionEl}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}

@@ -25,6 +25,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .container {
+  &--embedded,
   &[popover] {
     @apply box-border
   fixed
@@ -56,6 +57,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
       all var(--calcite-animation-timing) ease-in-out;
   }
 
+  &--bottom,
+  &--top,
   &--bottom[popover],
   &--top[popover] {
     inset-inline-end: 0;
@@ -344,7 +347,7 @@ $alert-durations:
  * Conditional styles for when Alert is slotted in Shell
  */
 .container--embedded {
-  @apply absolute;
+  @apply absolute z-toast;
 }
 
 @include base-component();
