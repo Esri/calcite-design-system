@@ -2153,8 +2153,9 @@ describe("calcite-input-date-picker", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-input-date-picker></calcite-input-date-picker>`, {
+      themed(html`<calcite-input-date-picker open></calcite-input-date-picker>`, {
         "--calcite-input-date-picker-calendar-shadow": {
+          shadowSelector: `.${CSS.menu} .${CSS.floatingUiAnimation}`,
           targetProp: "boxShadow",
         },
         "--calcite-input-date-picker-actions-icon-color": {

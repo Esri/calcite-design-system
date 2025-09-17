@@ -62,7 +62,7 @@
 }
 
 :host .menu-container .calcite-floating-ui-anim {
-  box-shadow: 0 0 16px 0 var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
+  box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
@@ -89,7 +89,7 @@
 @include disabled();
 
 .calendar-wrapper {
-  box-shadow: 0 0 16px 0 var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
+  box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
   transform: translate3d(0, 0, 0);
 }
 
