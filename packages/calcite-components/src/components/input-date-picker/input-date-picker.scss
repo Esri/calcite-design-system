@@ -36,6 +36,7 @@
  * @prop --calcite-input-date-picker-calendar-month-select-text-color: Specifies the text color of month select of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color: Specifies the text color of day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color-hover: Specifies the text color of day of the component's date-picker when hovered.
+ * @prop --calcite-input-date-picker-calendar-current-day-text-color: Specifies the text color of current day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-current-text-color: [Deprecated] Use `--calcite-input-date-picker-calendar-current-day-text-color`. Specifies the text color of current day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-text-color-selected: Specifies the text color of selected day of the component's date-picker.
  * @prop --calcite-input-date-picker-calendar-day-range-text-color: Specifies the text color of select day range of the component's date-picker.
@@ -270,7 +271,10 @@ calcite-date-picker {
   --calcite-date-picker-day-text-color: var(--calcite-input-date-picker-calendar-day-text-color);
   --calcite-date-picker-day-text-color-hover: var(--calcite-input-date-picker-calendar-day-text-color-hover);
   --calcite-date-picker-day-text-color-selected: var(--calcite-input-date-picker-calendar-day-text-color-selected);
-  --calcite-date-picker-current-day-text-color: var(--calcite-input-date-picker-calendar-current-day-text-color);
+  --calcite-date-picker-current-day-text-color: var(
+    --calcite-input-date-picker-calendar-current-day-text-color,
+    var(--calcite-input-date-picker-calendar-day-current-text-color)
+  );
   --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-calendar-day-range-text-color);
   --calcite-date-picker-day-range-background-color: var(--calcite-input-date-picker-calendar-selected-background-color);
   --calcite-date-picker-day-outside-range-background-color-hover: var(
