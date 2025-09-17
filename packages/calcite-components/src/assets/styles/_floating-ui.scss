@@ -3,7 +3,6 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-base {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
-  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
 @mixin floating-ui-anim {
@@ -39,6 +38,18 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-elem-anim($selector) {
   #{$selector} {
+    &[popover] {
+      overflow: visible;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background-color: transparent;
+    }
+
+    &:popover-open {
+      display: flex;
+    }
+
     .calcite-floating-ui-anim {
       position: relative;
       transition-duration: var(--calcite-floating-ui-transition);
@@ -89,7 +100,6 @@ $floating-ui-transition-offset: 5px;
   inset-block-start: 0;
   /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
   left: 0;
-  z-index: var(--calcite-floating-ui-z-index);
 
   @starting-style {
     opacity: 0;

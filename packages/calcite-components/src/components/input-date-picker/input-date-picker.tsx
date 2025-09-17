@@ -550,6 +550,14 @@ export class InputDatePicker
 
   //#region Private Methods
 
+  private handlePopover(): void {
+    if (this.open) {
+      this.floatingEl?.showPopover();
+    } else {
+      this.floatingEl?.hidePopover();
+    }
+  }
+
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -611,6 +619,7 @@ export class InputDatePicker
     }
 
     this.reposition(true);
+    this.handlePopover();
   }
 
   private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
@@ -1156,9 +1165,10 @@ export class InputDatePicker
               ariaHidden={!this.open}
               ariaLabel={messages.chooseDate}
               ariaLive="polite"
-              ariaModal="true"
+              ariaModal="true" // todo: this should not be true. Its not modal right???
               class={CSS.menu}
               id={this.dialogId}
+              popover="manual"
               ref={this.setFloatingEl}
               role="dialog"
             >

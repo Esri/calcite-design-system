@@ -309,6 +309,14 @@ export class Dropdown
 
   // #region Private Methods
 
+  private handlePopover(): void {
+    if (this.open) {
+      this.floatingEl?.showPopover();
+    } else {
+      this.floatingEl?.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     toggleOpenClose(this);
 
@@ -317,6 +325,7 @@ export class Dropdown
     }
 
     this.reposition(true);
+    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -639,6 +648,7 @@ export class Dropdown
               this.width || this.widthScale
             ),
           }}
+          popover="manual"
           ref={this.setFloatingEl}
         >
           <div

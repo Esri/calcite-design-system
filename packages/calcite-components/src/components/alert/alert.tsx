@@ -270,12 +270,21 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
   }
 
+  private handlePopover(): void {
+    if (this.open) {
+      this.transitionEl?.showPopover();
+    } else {
+      this.transitionEl?.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
     } else {
       manager.unregisterElement(this.el);
     }
+    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -417,6 +426,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
         }}
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
+        popover="manual"
         ref={this.setTransitionEl}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}

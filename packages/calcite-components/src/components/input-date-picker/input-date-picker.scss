@@ -2,20 +2,20 @@
  * CSS Custom Properties
  *
  * These properties can be overridden using the component's tag as selector.
- * 
+ *
  * @prop --calcite-input-date-picker-border-color: Specifies the component's input border color.
  * @prop --calcite-input-date-picker-divider-color: Specifies the component's divider color between two inputs when in range mode.
  *
  * @prop --calcite-input-date-picker-shadow: Specifies the component's input shadow.
  * @prop --calcite-input-date-picker-calendar-shadow: the component's calendar shadow.
- * 
+ *
  * @prop --calcite-input-date-picker-icon-color: Specifies the component's in-field input icon color.
  * @prop --calcite-input-date-picker-icon-color-hover: Specifies the component's in-field input icon color on hover.
  * @prop --calcite-input-date-picker-actions-icon-color: Specifies the component's actions icon color.
  * @prop --calcite-input-date-picker-actions-icon-color-hover: Specifies the component's actions icon color on hover.
  * @prop --calcite-input-date-picker-calendar-icon-color: Specifies the component's calendar icon color.
  * @prop --calcite-input-date-picker-calendar-icon-color-hover: Specifies the component's calendar icon color.
- * 
+ *
  * @prop --calcite-input-date-picker-background-color: Specifies the component's input background color.
  * @prop --calcite-input-date-picker-calendar-actions-background-color: Specifies the background color of actions of the calendar.
  * @prop --calcite-input-date-picker-calendar-actions-background-color-hover: Specifies the background color of actions of the calendar when hovered.
@@ -24,7 +24,7 @@
  * @prop --calcite-input-date-picker-calendar-day-background-color: Specifies the background color of day of the calendar.
  * @prop --calcite-input-date-picker-calendar-day-background-color-hover: Specifies the background color of day of the calendar when hovered.
  * @prop --calcite-input-date-picker-calendar-day-outside-range-background-color-hover: Specifies the background color of day's outside current range of the component's date-picker when hovered.
- * 
+ *
  * @prop --calcite-input-date-picker-corner-radius: Specifies the component's input corner radius.
  * @prop --calcite-input-date-picker-calendar-corner-radius: Specifies the component's calendar corner radius.
  *
@@ -42,7 +42,7 @@
  * @prop --calcite-input-date-picker-calendar-day-outside-range-text-color-hover: Specifies the text color of day's outside current range of the component's date-picker when hovered.
  *
  * @prop --calcite-input-date-picker-calendar-border-color: Specifies the component's calendar border color.
- * @prop --calcite-input-date-picker-calendar-range-divider-color: Specifies the divider color between the component's date-picker 
+ * @prop --calcite-input-date-picker-calendar-range-divider-color: Specifies the divider color between the component's date-picker
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -174,7 +174,6 @@
 }
 
 .menu-container {
-  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
   @include floating-ui-container();
 }
 

@@ -340,6 +340,14 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   //#region Private Methods
 
+  private handlePopover(): void {
+    if (this.open) {
+      this.floatingEl?.showPopover();
+    } else {
+      this.floatingEl?.hidePopover();
+    }
+  }
+
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
@@ -349,6 +357,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
+    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -537,7 +546,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.el.role = "dialog";
 
     return (
-      <div class={CSS.positionContainer} ref={this.setFloatingEl}>
+      <div class={CSS.positionContainer} popover="manual" ref={this.setFloatingEl}>
         <div
           class={{
             [CSS.container]: true,

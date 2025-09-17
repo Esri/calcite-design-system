@@ -10,6 +10,12 @@
  * @prop --calcite-alert-offset-size: Specifies the component's `placement` offset.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-alert-min-height
+
 $border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
@@ -19,7 +25,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .container {
-  @apply box-border
+  &[popover] {
+    @apply box-border
   fixed
   flex
   items-center
@@ -30,27 +37,27 @@ $border-style: 1px solid var(--calcite-color-border-3);
   opacity-0
   pointer-events-none
   text-start
-  w-full
-  z-toast;
+  w-full;
+    inset: initial;
+    --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+    --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
+    box-shadow: var(
+      --calcite-alert-shadow,
+      (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
+    );
+    background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
+    border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
+    border-block-start: 0 solid transparent;
+    border-inline: $border-style;
+    border-block-end: $border-style;
+    max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
+    transition:
+      opacity var(--calcite-internal-animation-timing-slow) $easing-function,
+      all var(--calcite-animation-timing) ease-in-out;
+  }
 
-  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-alert-shadow,
-    (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
-  );
-  background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
-  border-block-start: 0 solid transparent;
-  border-inline: $border-style;
-  border-block-end: $border-style;
-  max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
-  transition:
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-    all var(--calcite-animation-timing) ease-in-out;
-
-  &--bottom,
-  &--top {
+  &--bottom[popover],
+  &--top[popover] {
     inset-inline-end: 0;
     inset-inline-start: 0;
   }

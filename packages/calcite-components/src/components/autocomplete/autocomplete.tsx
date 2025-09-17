@@ -515,6 +515,14 @@ export class Autocomplete
 
   //#region Private Methods
 
+  private handlePopover(): void {
+    if (this.open) {
+      this.floatingEl?.showPopover();
+    } else {
+      this.floatingEl?.hidePopover();
+    }
+  }
+
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
 
@@ -549,6 +557,7 @@ export class Autocomplete
 
     this.setFloatingElSize();
     this.reposition(true);
+    this.handlePopover();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -838,6 +847,7 @@ export class Autocomplete
               [CSS.floatingUIContainer]: true,
               [CSS.floatingUIContainerActive]: isOpen,
             }}
+            popover="manual"
             ref={this.setFloatingEl}
           >
             <div
