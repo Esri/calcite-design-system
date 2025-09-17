@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0-next.113](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.112...@esri/calcite-components@3.3.0-next.113) (2025-09-17)
+
+### Features
+
+- **date-picker, table-cell:** update to use color-surface-highlight token ([#12888](https://github.com/Esri/calcite-design-system/issues/12888)) ([60dc765](https://github.com/Esri/calcite-design-system/commit/60dc7658258ae7be872dae98bf8a8d4431b4bfbc)), closes [#12482](https://github.com/Esri/calcite-design-system/issues/12482)
+- **table:** allow the user to set a specific page to display ([#12558](https://github.com/Esri/calcite-design-system/issues/12558)) ([4ae2dce](https://github.com/Esri/calcite-design-system/commit/4ae2dce2775018d4e064cc8f5b469932ea58e09e)), closes [#8913](https://github.com/Esri/calcite-design-system/issues/8913)
+
 ## [3.3.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.111...@esri/calcite-components@3.3.0-next.112) (2025-09-17)
 
 **Note:** Version bump only for package @esri/calcite-components
