@@ -59,10 +59,12 @@
     w-full
     overflow-visible
     align-top;
+
+  box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
 }
 
 :host .menu-container .calcite-floating-ui-anim {
-  box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
+  box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-sm));
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
