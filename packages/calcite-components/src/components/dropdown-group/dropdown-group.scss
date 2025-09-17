@@ -34,7 +34,11 @@
 :host([scale="s"]) {
   @apply text-n2h;
   .dropdown-title {
-    @apply p-2;
+    padding-block: var(--calcite-spacing-xxs);
+    padding-inline: var(--calcite-spacing-sm);
+  }
+  .dropdown-first-title {
+    padding-block-start: var(--calcite-spacing-sm);
   }
   .dropdown-separator {
     margin-block: var(--calcite-spacing-xxs);
@@ -45,7 +49,11 @@
 :host([scale="m"]) {
   @apply text-n1h;
   .dropdown-title {
-    @apply p-3;
+    padding-block: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-spacing-md);
+  }
+  .dropdown-first-title {
+    padding-block-start: var(--calcite-spacing-lg);
   }
   .dropdown-separator {
     margin-block: var(--calcite-spacing-sm);
@@ -56,7 +64,11 @@
 :host([scale="l"]) {
   @apply text-0h;
   .dropdown-title {
-    @apply p-4;
+    padding-block: var(--calcite-spacing-sm-plus);
+    padding-inline: var(--calcite-spacing-lg);
+  }
+  .dropdown-first-title {
+    padding-block-start: var(--calcite-spacing-xl);
   }
   .dropdown-separator {
     margin-block: var(--calcite-spacing-sm-plus);
