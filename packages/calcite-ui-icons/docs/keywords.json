@@ -10057,5 +10057,10 @@
     ],
     "category": "Layers",
     "release": "4.3.0"
+  },
+  "mission-system-message": {
+    "alias": ["4.3.0", "brand", "mobile", "web", "application", "communication", "data-exchange"],
+    "category": "Brand",
+    "release": "4.3.0"
   }
 }
