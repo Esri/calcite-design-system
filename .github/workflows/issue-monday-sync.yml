@@ -3,7 +3,7 @@ on:
   issues:
     types: [opened, edited, closed, reopened, labeled, unlabeled, milestoned, demilestoned, assigned, unassigned]
 env:
-  MONDAY_TOKEN: ${{ secrets.MONDAY_TOKEN }}
+  MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
   MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
 jobs:
   determine-action:
