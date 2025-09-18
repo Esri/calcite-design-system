@@ -1,6 +1,7 @@
 export const CSS = {
   assistiveText: "assistive-text",
   scrim: "scrim",
+  invisibleScrim: "invisible-scrim",
   container: "container",
   containerOpen: "container--open",
   content: "content",
