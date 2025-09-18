@@ -310,11 +310,17 @@ export class Dropdown
   // #region Private Methods
 
   private handlePopover(): void {
-    if (this.open) {
-      this.floatingEl?.showPopover();
-    } else {
-      this.floatingEl?.hidePopover();
+    if (!this.referenceEl || !this.floatingEl) {
+      return;
     }
+
+    requestAnimationFrame(() => {
+      if (this.open) {
+        this.floatingEl?.showPopover();
+      } else {
+        this.floatingEl?.hidePopover();
+      }
+    });
   }
 
   private openHandler(): void {
@@ -534,11 +540,13 @@ export class Dropdown
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

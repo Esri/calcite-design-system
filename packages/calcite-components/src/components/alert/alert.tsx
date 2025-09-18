@@ -274,11 +274,13 @@ export class Alert extends LitElement implements OpenCloseComponent {
     if (this.embedded) {
       return;
     }
-    if (this.open) {
-      this.transitionEl?.showPopover();
-    } else {
-      this.transitionEl?.hidePopover();
-    }
+    requestAnimationFrame(() => {
+      if (this.open) {
+        this.transitionEl?.showPopover();
+      } else {
+        this.transitionEl?.hidePopover();
+      }
+    });
   }
 
   private openHandler(): void {

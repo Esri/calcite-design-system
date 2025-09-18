@@ -551,11 +551,17 @@ export class InputDatePicker
   //#region Private Methods
 
   private handlePopover(): void {
-    if (this.open) {
-      this.floatingEl?.showPopover();
-    } else {
-      this.floatingEl?.hidePopover();
+    if (!this.referenceEl || !this.floatingEl) {
+      return;
     }
+
+    requestAnimationFrame(() => {
+      if (this.open) {
+        this.floatingEl?.showPopover();
+      } else {
+        this.floatingEl?.hidePopover();
+      }
+    });
   }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
