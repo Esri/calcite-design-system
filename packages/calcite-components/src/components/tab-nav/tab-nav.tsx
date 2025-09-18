@@ -421,7 +421,6 @@ export class TabNav extends LitElement {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
         const containerEndX = containerBounds.x + containerBounds.width;
         const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
-
         if (
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
@@ -433,7 +432,6 @@ export class TabNav extends LitElement {
           } else {
             const crossingContainerEnd =
               tabTitleEndX > containerEndX && tabTitleBounds.x > containerBounds.x;
-
             if (crossingContainerEnd) {
               closestToEdge = tabTitle;
             }
@@ -445,7 +443,7 @@ export class TabNav extends LitElement {
             closestToEdge = tabTitle;
           } else {
             const crossingContainerStart =
-              tabTitleEndX < containerEndX && tabTitleBounds.x < containerBounds.x;
+              tabTitleBounds.x < containerBounds.x && tabTitleEndX > containerBounds.x;
 
             if (crossingContainerStart) {
               closestToEdge = tabTitle;
@@ -461,13 +459,25 @@ export class TabNav extends LitElement {
           (direction === "backward" && effectiveDir === "rtl")
             ? -scrollerButtonContainerWidth
             : closestToEdge.offsetWidth -
-              tabTitleContainer.clientWidth +
-              scrollerButtonContainerWidth;
+              (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
         const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
         tabTitleContainer.scrollTo({
           left: scrollTo,
           behavior: "smooth",
         });
+      } else {
+        const scrollPosition = tabTitleContainer.scrollLeft;
+        const containerWidth = containerBounds.width;
+        const totalContentWidth = tabTitleContainer.scrollWidth;
+        const hiddenContentWidth = totalContentWidth - (containerWidth + Math.abs(scrollPosition));
+        if (hiddenContentWidth > 0) {
+          const directionMultiplier = effectiveDir === "ltr" ? 1 : -1;
+          const scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
+          tabTitleContainer.scrollTo({
+            left: scrollTo,
+            behavior: "smooth",
+          });
+        }
       }
     });
   }
