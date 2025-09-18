@@ -319,6 +319,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
     if (changes.has("referenceElement")) {
       this.referenceElementHandler();
+      this.handlePopover();
     }
   }
 
@@ -341,7 +342,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   //#region Private Methods
 
   private handlePopover(): void {
-    if (this.open) {
+    if (this.open && this.referenceEl) {
       this.floatingEl?.showPopover();
     } else {
       this.floatingEl?.hidePopover();

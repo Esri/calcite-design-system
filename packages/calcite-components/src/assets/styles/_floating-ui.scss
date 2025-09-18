@@ -39,11 +39,12 @@ $floating-ui-transition-offset: 5px;
 @mixin floating-ui-elem-anim($selector) {
   #{$selector} {
     &[popover] {
-      overflow: visible;
       padding: 0;
       margin: 0;
       border: none;
       background-color: transparent;
+      overflow: visible;
+      display: none;
     }
 
     &:popover-open {
