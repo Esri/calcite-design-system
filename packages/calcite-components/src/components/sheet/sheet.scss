@@ -61,7 +61,6 @@
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
-  --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 :host([embedded]) .container {
@@ -174,6 +173,7 @@
 :host([embedded]) {
   .scrim {
     @apply fixed inset-0 flex overflow-hidden;
+    --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
   }
 }
 
