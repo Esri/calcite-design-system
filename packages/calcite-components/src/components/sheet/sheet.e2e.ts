@@ -261,7 +261,7 @@ describe("calcite-sheet", () => {
 
       expect(await sheet.getProperty("opened")).toBe(true);
 
-      const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
+      const scrim = await page.find(`calcite-sheet >>> .${CSS.invisibleScrim}`);
       await scrim.click();
       await page.waitForChanges();
 
@@ -404,7 +404,7 @@ describe("calcite-sheet", () => {
 
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet embedded></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -416,7 +416,7 @@ describe("calcite-sheet", () => {
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet outside-close-disabled ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet embedded outside-close-disabled ></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -498,7 +498,7 @@ describe("calcite-sheet", () => {
       await skipAnimations(page);
       await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
-      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+      const container = await page.find(`calcite-sheet >>> .${CSS.content}`);
 
       let computedStyle = await container.getComputedStyle();
       const initialInlineSize = computedStyle.inlineSize;
