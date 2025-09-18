@@ -92,6 +92,11 @@ export class Table extends LitElement {
    */
   @property() caption: string;
 
+  /**
+   * Sets/gets the current page
+   */
+  @property({ reflect: true }) currentPage = 0;
+
   /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
@@ -110,7 +115,7 @@ export class Table extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When `true`, renders `calcite-pagination`. */
+  /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
   @property({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */
@@ -190,7 +195,8 @@ export class Table extends LitElement {
       changes.has("numberingSystem") ||
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none"))
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
+      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
       this.updateRows();
     }
@@ -325,13 +331,27 @@ export class Table extends LitElement {
     this.footRows = footRows;
     this.allRows = allRows;
 
+    this.handleCurrentPageRange();
     this.updateSelectedItems();
+  }
+
+  private handleCurrentPageRange(): void {
+    const requestedPage = this.currentPage;
+    const totalRows = this.bodyRows?.length || 0;
+    const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
+
+    if (totalPages > 0) {
+      const page = Math.min(Math.max(requestedPage, 1), totalPages);
+      this.currentPage = page;
+      this.pageStartRow = (page - 1) * this.pageSize + 1;
+    }
     this.paginateRows();
   }
 
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
+    this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }
@@ -454,7 +474,7 @@ export class Table extends LitElement {
           pageSize={this.pageSize}
           ref={this.paginationEl}
           scale={this.scale}
-          startItem={1}
+          startItem={this.pageStartRow}
           totalItems={this.bodyRows?.length}
         />
       </div>

@@ -11,6 +11,7 @@ import {
   setAttribute,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -186,7 +187,7 @@ export class Slider
 
   private previousEmittedValue;
 
-  private trackEl: HTMLDivElement;
+  private trackRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -366,9 +367,7 @@ export class Slider
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.minHandle || this.maxHandle;
-    }, options);
+    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
   }
 
   // #endregion
@@ -733,10 +732,6 @@ export class Slider
     this.emitInput();
   }
 
-  private storeTrackRef(node: HTMLDivElement): void {
-    this.trackEl = node;
-  }
-
   private storeThumbRef(el: HTMLDivElement): void {
     if (!el) {
       return;
@@ -779,7 +774,7 @@ export class Slider
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
+    const { left, width } = this.trackRef.value.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -1180,7 +1175,7 @@ export class Slider
           }}
         >
           {this.renderGraph()}
-          <div class={CSS.track} ref={this.storeTrackRef}>
+          <div class={CSS.track} ref={this.trackRef}>
             <div
               class={CSS.trackRange}
               onPointerDown={this.onTrackPointerDown}

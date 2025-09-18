@@ -118,8 +118,8 @@
 :host([highlighted]:not([selected])),
 :host(:hover[highlighted]:not([selected])) {
   .day {
-    color: var(--calcite-date-picker-day-range-text-color, var(--calcite-color-brand));
-    background-color: var(--calcite-date-picker-day-range-background-color, var(--calcite-color-foreground-current));
+    color: var(--calcite-date-picker-day-range-text-color, var(--calcite-color-text-highlight));
+    background-color: var(--calcite-date-picker-day-range-background-color, var(--calcite-color-surface-highlight));
   }
 }
 

@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -77,7 +78,7 @@ export class InputTimePicker
 
   private activeEl: HTMLSpanElement;
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultValue: InputTimePicker["value"];
 
@@ -253,9 +254,7 @@ export class InputTimePicker
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -483,10 +482,6 @@ export class InputTimePicker
     this.openHandler();
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private async setFocusPart(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
   }
@@ -593,7 +588,7 @@ export class InputTimePicker
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
-          ref={this.setContainerEl}
+          ref={this.containerRef}
           role="combobox"
         >
           <calcite-icon
@@ -715,7 +710,7 @@ export class InputTimePicker
           placement={this.placement}
           pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.containerEl}
+          referenceElement={this.containerRef.value}
           triggerDisabled={true}
         >
           <calcite-time-picker
