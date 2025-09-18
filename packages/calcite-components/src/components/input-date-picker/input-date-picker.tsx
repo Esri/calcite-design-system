@@ -675,6 +675,7 @@ export class InputDatePicker
         : startWrapper || endWrapper;
 
     requestAnimationFrame(() => connectFloatingUI(this));
+    this.handlePopover();
   }
 
   private onInputWrapperPointerDown(): void {
@@ -835,6 +836,7 @@ export class InputDatePicker
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setStartWrapper(el: HTMLDivElement): void {

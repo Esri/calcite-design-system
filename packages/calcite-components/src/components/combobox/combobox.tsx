@@ -1179,6 +1179,7 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({
@@ -1210,6 +1211,7 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {

@@ -670,6 +670,7 @@ export class Autocomplete
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -770,6 +771,7 @@ export class Autocomplete
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
