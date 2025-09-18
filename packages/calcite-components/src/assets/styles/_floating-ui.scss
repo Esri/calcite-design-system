@@ -48,7 +48,7 @@ $floating-ui-transition-offset: 5px;
     }
 
     &:popover-open {
-      display: flex;
+      display: block;
     }
 
     .calcite-floating-ui-anim {

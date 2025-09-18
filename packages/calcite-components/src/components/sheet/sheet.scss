@@ -61,6 +61,7 @@
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+  --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 :host([embedded]) .container {
@@ -172,7 +173,6 @@
 
 :host([embedded]) {
   .scrim {
-    --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
     @apply fixed inset-0 flex overflow-hidden;
   }
 }
@@ -200,21 +200,15 @@
   position: fixed;
 }
 
-@keyframes calcite-scrim-fade-in {
-  0% {
-    @apply bg-opacity-0;
-  }
-  100% {
-    @apply text-opacity-100;
-  }
-}
-
 [popover]::backdrop {
   display: flex;
-  animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
+  transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
+  transition-behavior: allow-discrete;
+  opacity: 0;
 }
 
 [popover]:popover-open::backdrop {
+  opacity: 1;
   background-color: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
