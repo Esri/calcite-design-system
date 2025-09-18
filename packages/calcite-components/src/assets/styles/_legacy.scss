@@ -33,12 +33,9 @@
   --calcite-ui-danger-press: var(--calcite-color-status-danger-press);
   --calcite-ui-inverse: var(--calcite-color-inverse);
   --calcite-app-z-index: var(--calcite-z-index);
-  --calcite-app-z-index-tooltip: var(--calcite-z-index-tooltip); // todo: remove
-  --calcite-app-z-index-popup: var(--calcite-z-index-popup); // todo: remove
-  --calcite-app-z-index-modal: var(--calcite-z-index-modal); // todo: remove
-  --calcite-app-z-index-overlay: var(--calcite-z-index-overlay); // todo: remove
-  --calcite-app-z-index-dropdown: var(--calcite-z-index-dropdown); // todo: remove
-  --calcite-app-z-index-toast: var(--calcite-z-index-toast); // todo: remove
+  --calcite-app-z-index-modal: var(--calcite-z-index-modal);
+  --calcite-app-z-index-overlay: var(--calcite-z-index-overlay);
+  --calcite-app-z-index-toast: var(--calcite-z-index-toast);
   --calcite-app-z-index-header: var(--calcite-z-index-header);
   --calcite-app-z-index-sticky: var(--calcite-z-index-sticky);
   --calcite-app-breakpoint-content-fixed: var(--calcite-container-size-content-fixed);
