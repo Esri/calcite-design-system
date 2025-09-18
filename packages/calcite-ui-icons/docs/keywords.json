@@ -10062,5 +10062,15 @@
     "alias": ["4.3.0", "brand", "mobile", "web", "application", "communication", "data-exchange"],
     "category": "Brand",
     "release": "4.3.0"
+  },
+  "integer-set": {
+    "alias": ["4.3.0", "text", "storing", "number", "values", "raster", "fields"],
+    "category": "Text",
+    "release": "4.3.0"
+  },
+  "number-set": {
+    "alias": ["4.3.0", "text", "formatting", "generate", "features", "data", "symbols"],
+    "category": "Text",
+    "release": "4.3.0"
   }
 }
