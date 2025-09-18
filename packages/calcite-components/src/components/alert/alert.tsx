@@ -224,6 +224,10 @@ export class Alert extends LitElement implements OpenCloseComponent {
       this.openHandler();
     }
 
+    if (changes.has("embedded") && (this.hasUpdated || this.embedded !== false)) {
+      this.handlePopover();
+    }
+
     if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
       this.handleActiveChange();
     }
