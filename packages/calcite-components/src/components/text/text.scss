@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+:host([ellipsis]) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host([wrap]) {
+  white-space: wrap;
+}
