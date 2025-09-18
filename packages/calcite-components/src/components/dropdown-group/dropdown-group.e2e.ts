@@ -95,18 +95,11 @@ describe("calcite-dropdown-group", () => {
 
   describe("theme", () => {
     const tokens: ComponentTestTokens = {
-      "--calcite-dropdown-group-border-color": [
-        {
-          targetProp: "borderColor",
-          shadowSelector: `.${CSS.title}`,
-          selector: `calcite-dropdown-group`,
-        },
-        {
-          targetProp: "backgroundColor",
-          shadowSelector: `.${CSS.separator}`,
-          selector: `calcite-dropdown-group.two`,
-        },
-      ],
+      "--calcite-dropdown-group-border-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.separator}`,
+        selector: `calcite-dropdown-group.two`,
+      },
       "--calcite-dropdown-group-title-text-color": {
         targetProp: "color",
         shadowSelector: `.${CSS.title}`,
