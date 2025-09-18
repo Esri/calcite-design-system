@@ -310,18 +310,18 @@ export class Sheet extends LitElement implements OpenCloseComponent {
 
   //#region Private Methods
 
-  private handlePopover(): void {
-    if (this.embedded) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.opened) {
-        this.transitionEl?.showPopover();
-      } else {
-        this.transitionEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -560,6 +560,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     }
 
     this.transitionEl = el;
+    this.handlePopover();
   }
 
   private handleOutsideClose(): void {

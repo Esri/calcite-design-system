@@ -219,18 +219,18 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   // #region Private Methods
 
-  private handlePopover(): void {
-    if (!this.referenceEl || !this.floatingEl) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.floatingEl?.showPopover();
-      } else {
-        this.floatingEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
   }
 
   private openHandler(): void {
@@ -262,6 +262,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     if (el) {
       requestAnimationFrame(() => this.setUpReferenceElement());
     }
+
+    this.handlePopover();
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -285,7 +287,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {

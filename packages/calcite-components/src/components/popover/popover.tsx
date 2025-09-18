@@ -319,7 +319,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
     if (changes.has("referenceElement")) {
       this.referenceElementHandler();
-      this.handlePopover();
     }
   }
 
@@ -341,18 +340,18 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   //#region Private Methods
 
-  private handlePopover(): void {
-    if (!this.referenceEl || !this.floatingEl) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.floatingEl?.showPopover();
-      } else {
-        this.floatingEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
   }
 
   private flipPlacementsHandler(): void {
@@ -378,6 +377,8 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     if (el) {
       requestAnimationFrame(() => this.setUpReferenceElement());
     }
+
+    this.handlePopover();
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -409,7 +410,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {

@@ -270,17 +270,18 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
   }
 
-  private handlePopover(): void {
-    if (this.embedded) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
       return;
     }
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.transitionEl?.showPopover();
-      } else {
-        this.transitionEl?.hidePopover();
-      }
-    });
+
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
   }
 
   private openHandler(): void {
@@ -348,6 +349,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
 
     this.transitionEl = el;
+    this.handlePopover();
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */

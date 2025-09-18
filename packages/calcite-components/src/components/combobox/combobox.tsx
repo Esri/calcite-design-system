@@ -673,18 +673,18 @@ export class Combobox
 
   //#region Private Methods
 
-  private handlePopover(): void {
-    if (!this.referenceEl || !this.floatingEl) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.floatingEl?.showPopover();
-      } else {
-        this.floatingEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
   }
 
   private emitComboboxChange(): void {
@@ -1211,7 +1211,6 @@ export class Combobox
   private setReferenceEl(el: HTMLDivElement): void {
     this.referenceEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {

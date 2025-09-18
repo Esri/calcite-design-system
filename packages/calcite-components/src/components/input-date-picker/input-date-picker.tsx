@@ -550,18 +550,18 @@ export class InputDatePicker
 
   //#region Private Methods
 
-  private handlePopover(): void {
-    if (!this.referenceEl || !this.floatingEl) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.floatingEl?.showPopover();
-      } else {
-        this.floatingEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
   }
 
   private handleDisabledAndReadOnlyChange(value: boolean): void {
@@ -675,7 +675,6 @@ export class InputDatePicker
         : startWrapper || endWrapper;
 
     requestAnimationFrame(() => connectFloatingUI(this));
-    this.handlePopover();
   }
 
   private onInputWrapperPointerDown(): void {

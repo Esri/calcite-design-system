@@ -408,18 +408,18 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
-  private handlePopover(): void {
-    if (this.embedded) {
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
       return;
     }
 
-    requestAnimationFrame(() => {
-      if (this.open) {
-        this.transitionEl?.showPopover();
-      } else {
-        this.transitionEl?.hidePopover();
-      }
-    });
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
   }
 
   private handleOpenedChange(value: boolean): void {
@@ -722,6 +722,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     this.transitionEl = el;
     this.setupInteractions();
+    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
