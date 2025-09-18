@@ -2,7 +2,6 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
   property,
   createEvent,
   h,
@@ -41,6 +40,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { CalciteElementInternals } from "../../mixins/ElementInternals";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -56,16 +56,20 @@ declare global {
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputText
-  extends LitElement
+  extends CalciteElementInternals
   implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
   //#endregion
 
   //#region Private Properties
+
+  #internals: ElementInternals;
 
   private actionWrapperRef = createRef<HTMLDivElement>();
 
@@ -335,6 +339,13 @@ export class InputText
 
   constructor() {
     super();
+    this.#internals = this.attachInternals();
+    this.#internals.ariaLabel = "Calcite Input Text Element Default Aria Label";
+    try {
+      this.attachInternals();
+    } catch {
+      console.log("Expect error was thrown");
+    }
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }
