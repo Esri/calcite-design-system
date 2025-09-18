@@ -111,7 +111,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
    * When present, shows a default recommended icon. Alternatively,

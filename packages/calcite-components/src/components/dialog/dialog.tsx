@@ -143,7 +143,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
    * When present, disables the default close on escape behavior.
