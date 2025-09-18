@@ -403,6 +403,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
+    this.handlePopover();
   }
 
   private getId(): string {

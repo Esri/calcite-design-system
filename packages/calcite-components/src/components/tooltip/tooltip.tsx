@@ -201,7 +201,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
     if (changes.has("referenceElement")) {
       this.setUpReferenceElement();
-      this.handlePopover();
     }
   }
 
@@ -280,6 +279,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
+    this.handlePopover();
   }
 
   private getId(): string {
