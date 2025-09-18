@@ -4,6 +4,7 @@ export const CSS = {
   dialog: "dialog",
   panel: "panel",
   scrim: "scrim",
+  invisibleScrim: "invisible-scrim",
   container: "container",
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
