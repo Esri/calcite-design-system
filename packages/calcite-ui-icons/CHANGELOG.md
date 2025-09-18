@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.24...@esri/calcite-ui-icons@4.3.0-next.25) (2025-09-18)
+
+### Features
+
+- add integer set and number set ([#12907](https://github.com/Esri/calcite-design-system/issues/12907)) ([d162bb6](https://github.com/Esri/calcite-design-system/commit/d162bb68dd6b98153bb661a87de60970af7a32d0))
+
 ## [4.3.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.23...@esri/calcite-ui-icons@4.3.0-next.24) (2025-09-17)
 
 ### Features
