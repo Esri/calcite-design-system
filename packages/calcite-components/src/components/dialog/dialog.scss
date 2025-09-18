@@ -77,13 +77,6 @@
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-
-  // todo: remove once https://github.com/Esri/calcite-design-system/pull/9816 is merged
-  --calcite-scrim-background: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
-  --calcite-scrim-background-color: var(
-    --calcite-dialog-scrim-background-color,
-    var(--calcite-color-transparent-scrim)
-  );
 }
 
 :host([placement="top"]) .container {
@@ -144,6 +137,12 @@
     inset-0
     flex
     overflow-y-hidden;
+    // todo: remove once https://github.com/Esri/calcite-design-system/pull/9816 is merged
+    --calcite-scrim-background: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
+    --calcite-scrim-background-color: var(
+      --calcite-dialog-scrim-background-color,
+      var(--calcite-color-transparent-scrim)
+    );
   }
 }
 
@@ -216,6 +215,12 @@ calcite-panel {
 }
 
 :host([modal]) [popover]::backdrop {
+  // todo: remove once https://github.com/Esri/calcite-design-system/pull/9816 is merged
+  --calcite-scrim-background: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
+  --calcite-scrim-background-color: var(
+    --calcite-dialog-scrim-background-color,
+    var(--calcite-color-transparent-scrim)
+  );
   transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
   transition-behavior: allow-discrete;
   opacity: 0;
