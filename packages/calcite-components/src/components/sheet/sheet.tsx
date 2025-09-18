@@ -291,10 +291,6 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       this.handlePopover();
     }
 
-    if (changes.has("embedded") && (this.hasUpdated || this.embedded !== false)) {
-      this.handlePopover();
-    }
-
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
