@@ -2186,7 +2186,7 @@ describe("calcite-input-date-picker", () => {
         },
         "--calcite-input-date-picker-text-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-text-color",
+          targetProp: "--calcite-input-text-text-color",
         },
         "--calcite-input-date-picker-placeholder-text-color": {
           shadowSelector: `.${CSS.input}`,
