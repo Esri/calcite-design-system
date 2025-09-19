@@ -74,15 +74,6 @@ export default {
   parameters: {
     chromatic: {
       delay: 1000,
-      modes: {
-        specific: {
-          viewport: {
-            width: 1200,
-            height: 400,
-          },
-        },
-      },
-      cropToViewport: true,
     },
   },
 };
