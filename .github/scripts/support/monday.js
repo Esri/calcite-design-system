@@ -117,7 +117,7 @@ module.exports = function Monday(issue) {
       issueWorkflow.readyForDev,
       {
         column: columnIds.status,
-        value: "Ready for dev",
+        value: "Ready for Dev",
       },
     ],
     [
@@ -340,7 +340,7 @@ module.exports = function Monday(issue) {
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
     ["anveshmekala", { role: columnIds.developers, id: 48387134 }],
-    ["aPreciado88", { role: columnIds.developers, id: 6079524 }],
+    ["aPreciado88", { role: columnIds.developers, id: 60795249 }],
     ["ashetland", { role: columnIds.designers, id: 45851619 }],
     ["benelan", { role: columnIds.developers, id: 49704471 }],
     ["chezHarper", { role: columnIds.designers, id: 71157966 }],
@@ -358,6 +358,12 @@ module.exports = function Monday(issue) {
     ["SkyeSeitz", { role: columnIds.designers, id: 45854937 }],
     ["Amretasre002762670", { role: columnIds.developers, id: 77031889 }],
   ]);
+
+  /** @type {Record<Exclude<import('@octokit/webhooks-types').Issue["state"], undefined>, string>} */
+  const stateMap = {
+    open: "Open",
+    closed: "Closed",
+  };
 
   /** Private helper functions */
 
@@ -422,7 +428,10 @@ module.exports = function Monday(issue) {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error when calling the Monday API: ${JSON.stringify(body)}`);
+        const errorBody = await response.json();
+        throw new Error(
+          `${response.status} (${response.statusText}) HTTP error when calling Monday API: ${JSON.stringify(errorBody)}`,
+        );
       }
       return await response.json();
     } catch (error) {
@@ -564,7 +573,7 @@ module.exports = function Monday(issue) {
       labels.forEach((label) => addLabel(label.name));
     }
 
-    if (notInLifecycle({ labels })) {
+    if (notInLifecycle({ labels, skip: [issueWorkflow.new] })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
@@ -573,7 +582,12 @@ module.exports = function Monday(issue) {
 
       // Set to "assigned" if no lifecycle labels were applied
       // Overrides the default "needs triage" label
-      if (notInLifecycle({ labels })) {
+      if (
+        notInLifecycle({
+          labels,
+          skip: [issueWorkflow.new, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+        })
+      ) {
         addLabel(issueWorkflow.assigned);
       }
     }
@@ -584,6 +598,9 @@ module.exports = function Monday(issue) {
 
     if (syncId) {
       console.log(`Sync ID ${syncId} provided, updating existing item instead of creating new.`);
+      setColumnValue(columnIds.title, issue.title);
+      handleState();
+
       const { error } = await updateMultipleColumns(syncId);
       if (error) {
         throw new Error(`Syncing existing item ${syncId}: ${error}`);
@@ -601,7 +618,11 @@ module.exports = function Monday(issue) {
       }
     }`;
 
-    const { data: { create_item: { id } } } = await runQuery(query);
+    const {
+      data: {
+        create_item: { id },
+      },
+    } = await runQuery(query);
     if (!id) {
       throw new Error(`Failed to create item for issue #${issueNumber}`);
     }
@@ -630,9 +651,9 @@ module.exports = function Monday(issue) {
    * Update columnUpdates based on milestone title
    */
   function handleMilestone() {
-    // If removed, reset date and clear stalled label
+    // Null milestone indicates milestone was removed
     if (!issueMilestone) {
-      columnUpdates[columnIds.date] = "";
+      setColumnValue(columnIds.date, "");
       clearLabel(milestone.stalled);
       return;
     }
@@ -641,23 +662,50 @@ module.exports = function Monday(issue) {
     const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
     if (milestoneDate) {
-      columnUpdates[columnIds.date] = milestoneDate;
+      setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
-      if (assignee && notInLifecycle({ labels, skip: [issueWorkflow.needsMilestone] })) {
+      if (
+        assignee &&
+        notInLifecycle({
+          labels,
+          skip: [issueWorkflow.new, issueWorkflow.assigned, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+        })
+      ) {
         addLabel(issueWorkflow.assigned);
       }
       if (!assignee && notReadyForDev(labels)) {
         addLabel(issueWorkflow.new);
       }
     } else {
-      columnUpdates[columnIds.date] = "";
+      setColumnValue(columnIds.date, "");
 
       if (milestoneTitle === milestone.stalled) {
         addLabel(milestone.stalled);
       } else if (inMilestoneStatus()) {
-        columnUpdates[columnIds.status] = milestoneTitle;
+        setColumnValue(columnIds.status, milestoneTitle);
         clearLabel(milestone.stalled);
+      }
+    }
+  }
+
+  /**
+   * Set the Open/Closed and Status columns based on issue state
+   * @param {("reopened" | "closed" | "open")} action - The action that triggered the state change
+   * @returns {void}
+   */
+  function handleState(action = "open") {
+    if (!issue.state) {
+      console.log("No Issue state provided to handleState.");
+      return;
+    }
+    setColumnValue(columnIds.open, stateMap[issue.state]);
+
+    if (action === "closed") {
+      if (issue.state_reason !== "completed") {
+        setColumnValue(columnIds.status, "Closed");
+      } else if (issue.labels?.every((label) => label.name !== issueType.design)) {
+        setColumnValue(columnIds.status, "Done");
       }
     }
   }
@@ -676,7 +724,6 @@ module.exports = function Monday(issue) {
    * @param {string} label
    */
   function addLabel(label) {
-    // Skip the sync label, as it is not needed in Monday.com
     if (label === planning.monday) {
       return;
     }
@@ -698,7 +745,7 @@ module.exports = function Monday(issue) {
       return;
     }
 
-    columnUpdates[info.column] = info.value;
+    setColumnValue(info.column, info.value);
   }
 
   /**
@@ -712,7 +759,7 @@ module.exports = function Monday(issue) {
       console.log(`Label "${label}" not found in Monday Labels map.`);
       return;
     }
-    columnUpdates[labelColumn] = "";
+    setColumnValue(labelColumn, "");
   }
 
   /**
@@ -745,6 +792,7 @@ module.exports = function Monday(issue) {
     createTask,
     setColumnValue,
     handleMilestone,
+    handleState,
     addAllAssignees,
     addLabel,
     clearLabel,
