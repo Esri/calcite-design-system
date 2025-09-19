@@ -4,8 +4,9 @@ export default {
   title: "Prototype/Custom Icon Support",
   args: {
     icon: "banana",
-    iconStart: "banana",
-    iconEnd: "banana",
+    iconStart: "3d-glasses",
+    iconEnd: "layers",
+    placeholderIcon: "information",
     scale: "m",
   },
   argTypes: {
@@ -24,6 +25,11 @@ export default {
         type: "text",
       },
     },
+    placeholderIcon: {
+      control: {
+        type: "text",
+      },
+    },
     scale: {
       control: { type: "select" },
       options: ["m", "s", "l"],
@@ -31,7 +37,7 @@ export default {
   },
 };
 
-type TestIcons = { icon: string; iconStart: string; iconEnd: string; iconPlaceholder: string; scale: string };
+type TestIcons = { icon: string; iconStart: string; iconEnd: string; placeholderIcon: string; scale: string };
 
 // create simple stories for icon and icon-owning components and configure a text control for icon props
 export const icon = ({ icon, scale }: TestIcons): string => html`
@@ -59,8 +65,8 @@ export const dropdown = ({ iconStart, iconEnd, scale }: TestIcons): string => ht
   </calcite-dropdown>
 `;
 
-export const combobox = ({ icon, iconPlaceholder, scale }: TestIcons): string => html`
-  <calcite-combobox placeholder="choose a number" placeholder-icon="${iconPlaceholder}" scale="${scale}">
+export const combobox = ({ icon, placeholderIcon, scale }: TestIcons): string => html`
+  <calcite-combobox placeholder="choose a number" placeholder-icon="${placeholderIcon}" scale="${scale}">
     <calcite-combobox-item icon="${icon}" value="one" text-label="one"></calcite-combobox-item>
     <calcite-combobox-item icon="${icon}" value="two" text-label="two"></calcite-combobox-item>
     <calcite-combobox-item icon="${icon}" value="three" text-label="three"></calcite-combobox-item>
