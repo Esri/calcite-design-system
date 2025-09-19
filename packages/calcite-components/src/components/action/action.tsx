@@ -9,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale, Width } from "../interfaces";
+import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -46,8 +46,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private buttonId = IDS.button(this.guid);
 
-  private indicatorId = IDS.indicator(this.guid);
-
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
   /**
@@ -59,9 +57,29 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private indicatorEl?: HTMLDivElement;
+
   //#endregion
 
   //#region Public Properties
+
+  /**
+   * Use this property to override or extend ARIA properties and attributes on the component's button.
+   *
+   * @internal
+   */
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased,
+      | "controlsElements"
+      | "describedByElements"
+      | "expanded"
+      | "hasPopup"
+      | "labelledByElements"
+      | "ownsElements"
+      | "pressed"
+    >
+  >;
 
   /** When present, the component is highlighted. */
   @property({ reflect: true }) active = false;
@@ -211,6 +229,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     }
   }
 
+  private storeIndicatorEl(el: HTMLDivElement): void {
+    this.indicatorEl = el;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -231,13 +253,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   }
 
   private renderIndicatorText(): JsxNode {
-    const { indicator, messages, indicatorId, buttonId } = this;
+    const { indicator, messages, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
         class={CSS.indicatorText}
-        id={indicatorId}
+        ref={this.storeIndicatorEl}
         role="region"
       >
         {indicator ? messages.indicator : null}
@@ -283,7 +305,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private renderButton(): JsxNode {
     const {
-      active,
       compact,
       disabled,
       icon,
@@ -292,7 +313,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       label,
       text,
       indicator,
-      indicatorId,
+      indicatorEl,
       buttonId,
       messages,
     } = this;
@@ -316,15 +337,26 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       </>
     );
 
+    const internalControlsElements = indicator && indicatorEl ? [indicatorEl] : [];
+
+    const ariaControlsElements = [
+      ...(this.aria?.controlsElements ?? []),
+      ...internalControlsElements,
+    ];
+
     if (this.dragHandle) {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
-          ariaDisabled={this.disabled ? this.disabled : null}
+          ariaControlsElements={ariaControlsElements}
+          ariaDescribedByElements={this.aria?.describedByElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaLabel={ariaLabel}
-          ariaPressed={active}
+          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaOwnsElements={this.aria?.ownsElements}
+          ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -338,10 +370,15 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
     return (
       <button
-        aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
+        ariaControlsElements={ariaControlsElements}
+        ariaDescribedByElements={this.aria?.describedByElements}
+        ariaExpanded={this.aria?.expanded}
+        ariaHasPopup={this.aria?.hasPopup}
         ariaLabel={ariaLabel}
-        ariaPressed={active}
+        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaOwnsElements={this.aria?.ownsElements}
+        ariaPressed={this.aria?.pressed}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
