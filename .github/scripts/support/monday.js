@@ -564,7 +564,7 @@ module.exports = function Monday(issue) {
       labels.forEach((label) => addLabel(label.name));
     }
 
-    if (notInLifecycle({ labels })) {
+    if (notInLifecycle({ labels, skip: [issueWorkflow.new, issueWorkflow.assigned] })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
