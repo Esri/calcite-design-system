@@ -340,7 +340,7 @@ module.exports = function Monday(issue) {
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
     ["anveshmekala", { role: columnIds.developers, id: 48387134 }],
-    ["aPreciado88", { role: columnIds.developers, id: 6079524 }],
+    ["aPreciado88", { role: columnIds.developers, id: 60795249 }],
     ["ashetland", { role: columnIds.designers, id: 45851619 }],
     ["benelan", { role: columnIds.developers, id: 49704471 }],
     ["chezHarper", { role: columnIds.designers, id: 71157966 }],
