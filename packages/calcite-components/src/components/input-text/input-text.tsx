@@ -10,6 +10,7 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
+  LitElement,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
@@ -17,7 +18,6 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot,
   internalHiddenInputInputEvent,
   MutableValidityState,
   submitForm,
@@ -40,7 +40,6 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CalciteElementInternals } from "../../mixins/ElementInternals";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -56,7 +55,7 @@ declare global {
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputText
-  extends CalciteElementInternals
+  extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent, TextualInputComponent
 {
   //#region Static Members
@@ -69,7 +68,7 @@ export class InputText
 
   //#region Private Properties
 
-  #internals: ElementInternals;
+  internals: ElementInternals = this.el.attachInternals();
 
   private actionWrapperRef = createRef<HTMLDivElement>();
 
@@ -339,13 +338,6 @@ export class InputText
 
   constructor() {
     super();
-    this.#internals = this.attachInternals();
-    this.#internals.ariaLabel = "Calcite Input Text Element Default Aria Label";
-    try {
-      this.attachInternals();
-    } catch {
-      console.log("Expect error was thrown");
-    }
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
   }
@@ -355,6 +347,8 @@ export class InputText
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+
+    this.internals.setFormValue(this.value);
 
     connectLabel(this);
     connectForm(this);
@@ -537,6 +531,7 @@ export class InputText
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
+    this.internals.setFormValue(value);
 
     if (origin === "direct") {
       this.setInputValue(value);
@@ -652,7 +647,6 @@ export class InputText
             <slot name={SLOTS.action} />
           </div>
           {this.suffixText ? suffixText : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
