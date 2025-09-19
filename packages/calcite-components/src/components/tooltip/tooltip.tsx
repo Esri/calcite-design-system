@@ -222,7 +222,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   private async handlePopover(): Promise<void> {
     await this.componentOnReady();
 
-    if (!this.floatingEl) {
+    if (!this.floatingEl || !this.referenceEl) {
       return;
     }
 
@@ -287,6 +287,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
+    this.handlePopover();
   }
 
   private getId(): string {

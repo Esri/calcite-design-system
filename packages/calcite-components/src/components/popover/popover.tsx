@@ -343,7 +343,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   private async handlePopover(): Promise<void> {
     await this.componentOnReady();
 
-    if (!this.floatingEl) {
+    if (!this.floatingEl || !this.referenceEl) {
       return;
     }
 
@@ -369,6 +369,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   private referenceElementHandler(): void {
     this.setUpReferenceElement();
     this.reposition(true);
+    this.handlePopover();
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
