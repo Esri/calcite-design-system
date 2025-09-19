@@ -359,6 +359,12 @@ module.exports = function Monday(issue) {
     ["Amretasre002762670", { role: columnIds.developers, id: 77031889 }],
   ]);
 
+  /** @type {Record<Exclude<import('@octokit/webhooks-types').Issue["state"], undefined>, string>} */
+  const stateMap = {
+    open: "Open",
+    closed: "Closed",
+  };
+
   /** Private helper functions */
 
   /**
@@ -689,7 +695,11 @@ module.exports = function Monday(issue) {
    * @returns {void}
    */
   function handleState(action = "open") {
-    setColumnValue(columnIds.open, issue.state === "open" ? "Open" : "Closed");
+    if (!issue.state) {
+      console.log("No Issue state provided to handleState.");
+      return;
+    }
+    setColumnValue(columnIds.open, stateMap[issue.state]);
 
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
