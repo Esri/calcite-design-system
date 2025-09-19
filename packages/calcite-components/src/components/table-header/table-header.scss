@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -10,6 +9,9 @@
  * @prop --calcite-table-header-heading-text-color: Specifies the component's `heading` text color.
  * @prop --calcite-table-header-description-text-color: Specifies the component's `description` text color.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply contents;
 }

@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -12,6 +11,9 @@
  * @prop --calcite-switch-handle-border-color: [Deprecated] No longer necessary. Specifies the handle's border color.
  * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
  */
+
+@use "../../assets/styles/includes";
+
 // sizes
 :host([scale="s"]) {
   .container {

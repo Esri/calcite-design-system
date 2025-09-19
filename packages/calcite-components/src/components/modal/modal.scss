@@ -1,8 +1,3 @@
-@use "../../assets/styles/includes";
-@use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
-@use "../../assets/styles/spacing";
-
 /**
  * CSS Custom Properties
  *
@@ -15,6 +10,12 @@
  * @prop --calcite-modal-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
  *
  */
+
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../assets/styles/animation";
+@use "../../assets/styles/spacing";
+
 $viewport-small: 480px;
 $viewport-medium: 860px;
 

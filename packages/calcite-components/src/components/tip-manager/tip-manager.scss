@@ -1,5 +1,3 @@
-@use "../../assets/styles/includes";
-@use "sass:meta";
 /**
  * CSS Custom Properties
  *
@@ -8,6 +6,9 @@
  * @prop --calcite-tip-manager-height: The maximum height of the component.
  * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  */
+
+@use "../../assets/styles/includes";
+@use "sass:meta";
 
 :host {
   @apply bg-foreground-1

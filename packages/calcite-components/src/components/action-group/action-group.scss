@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,6 +10,15 @@
  * @prop --calcite-action-group-padding: [Deprecated] Use `--calcite-action-group-gap`. Specifies the component's padding.
  *
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-group-columns
+
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
 

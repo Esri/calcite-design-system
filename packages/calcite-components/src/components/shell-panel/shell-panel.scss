@@ -1,20 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-shell-panel-height
-// --calcite-internal-shell-panel-max-height
-// --calcite-internal-shell-panel-max-width
-// --calcite-internal-shell-panel-min-height
-// --calcite-internal-shell-panel-min-width
-// --calcite-internal-shell-panel-resize-handle-offset
-// --calcite-internal-shell-panel-shadow-block-end
-// --calcite-internal-shell-panel-shadow-block-start
-// --calcite-internal-shell-panel-shadow-inline-end
-// --calcite-internal-shell-panel-shadow-inline-start
-// --calcite-internal-shell-panel-width
-
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -36,6 +19,24 @@
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-shell-panel-height
+// --calcite-internal-shell-panel-max-height
+// --calcite-internal-shell-panel-max-width
+// --calcite-internal-shell-panel-min-height
+// --calcite-internal-shell-panel-min-width
+// --calcite-internal-shell-panel-resize-handle-offset
+// --calcite-internal-shell-panel-shadow-block-end
+// --calcite-internal-shell-panel-shadow-block-start
+// --calcite-internal-shell-panel-shadow-inline-end
+// --calcite-internal-shell-panel-shadow-inline-start
+// --calcite-internal-shell-panel-width
+
+@use "../../assets/styles/includes";
 
 :host {
   @apply relative

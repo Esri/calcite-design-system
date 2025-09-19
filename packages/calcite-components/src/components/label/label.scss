@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -7,6 +6,9 @@
  * @prop --calcite-label-margin-bottom: Specifies the component's bottom spacing.
  * @prop --calcite-label-text-color: Specifies the component's text color.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
 }

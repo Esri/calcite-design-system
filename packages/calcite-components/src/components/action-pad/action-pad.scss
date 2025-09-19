@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -8,6 +7,9 @@
  * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width when `expanded`.
  * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
   @apply animate-in block;

@@ -1,12 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-combobox-item-description-font-size
-// --calcite-internal-combobox-item-spacing-unit-l
-// --calcite-internal-combobox-item-spacing-unit-s
-
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -24,6 +15,17 @@
  * @prop --calcite-combobox-description-text-color-press: Specifies the component's `description` and `shortHeading` text color when hovered.
  * @prop --calcite-combobox-heading-text-color: Specifies the component's `heading` text color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-combobox-item-description-font-size
+// --calcite-internal-combobox-item-spacing-unit-l
+// --calcite-internal-combobox-item-spacing-unit-s
+
+@use "../../assets/styles/includes";
+
 @include includes.base-component();
 
 .scale--s {

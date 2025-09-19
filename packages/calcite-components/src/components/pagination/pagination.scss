@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,6 +10,9 @@
  * @prop --calcite-pagination-background-color: Specifies the component's item background color when active.
  * @prop --calcite-pagination-icon-color-background-hover: Specifies the component's chevron item background color when hovered.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
   writing-mode: horizontal-tb;

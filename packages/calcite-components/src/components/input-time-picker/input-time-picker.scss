@@ -1,5 +1,3 @@
-@use "../../assets/styles/includes";
-
 /**
  * CSS Custom Properties
  *
@@ -26,6 +24,8 @@
  * @prop --calcite-input-time-picker-action-background-color-hover: Specifies the background color of the component's actions when hovered or focused.
  * @prop --calcite-input-time-picker-action-background-color-press: Specifies the background color of the component's actions when active.
  */
+
+@use "../../assets/styles/includes";
 
 :host {
   display: inline-block;

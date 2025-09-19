@@ -1,10 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-rating-spacing
-
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -19,6 +12,14 @@
  * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-rating-spacing
+
+@use "../../assets/styles/includes";
 
 :host {
   @apply relative flex items-center;

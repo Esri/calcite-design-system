@@ -1,5 +1,3 @@
-@use "../../assets/styles/includes";
-
 /**
  * CSS Custom Properties
  *
@@ -8,6 +6,9 @@
  * @prop --calcite-radio-button-group-gap: Specifies the space between slotted components in the component.
  * @prop --calcite-radio-button-input-message-spacing: Specifies the margin spacing at the top of the input-message component.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex flex-col;
 }

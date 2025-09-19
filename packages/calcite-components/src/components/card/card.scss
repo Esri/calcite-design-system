@@ -1,6 +1,3 @@
-@use "../../assets/styles/includes";
-@use "@esri/calcite-design-tokens/dist/scss/core";
-
 /**
  * CSS Custom Properties
  *
@@ -23,6 +20,10 @@
  * @prop --calcite-card-shadow: Specifies the component's shadow.
  *
  */
+
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 :host {
   @apply block max-w-full;
 }

@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -31,6 +30,9 @@
  * @prop --calcite-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside current range when hovered.
  *
 */
+
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
   @apply align-top inline-block overflow-visible w-full border-solid border;

@@ -1,6 +1,3 @@
-@use "../../assets/styles/includes";
-@use "../../assets/styles/animation";
-
 /**
 * CSS Custom Properties
 *
@@ -10,6 +7,10 @@
 * @prop --calcite-progress-fill-color: Specifies the component's fill color.
 * @prop --calcite-progress-text-color: Specifies the component's text color.
 */
+
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
+
 :host {
   @apply relative block w-full;
 }

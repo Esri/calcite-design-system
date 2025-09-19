@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -10,6 +9,9 @@
  * @prop --calcite-checkbox-border-color-press: Specifies the component's color when pressed.
  * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
  */
+
+@use "../../assets/styles/includes";
+
 :host([scale="s"]) {
   .check-svg,
   .toggle {

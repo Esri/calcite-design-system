@@ -1,10 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-tile-spacing
-
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -20,6 +13,15 @@
  * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
  * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
+@use "../../assets/styles/includes";
+
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;

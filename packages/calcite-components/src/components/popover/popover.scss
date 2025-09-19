@@ -1,6 +1,3 @@
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
-
 /**
  * CSS Custom Properties
  *
@@ -13,6 +10,10 @@
  * @prop --calcite-popover-text-color: Specifies the component's text color.
  * @prop --calcite-popover-z-index: Specifies the component's z-index value.
  */
+
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 :host {
   @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));

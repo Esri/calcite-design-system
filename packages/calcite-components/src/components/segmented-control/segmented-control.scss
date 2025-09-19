@@ -1,5 +1,3 @@
-@use "../../assets/styles/includes";
-
 /**
  * CSS Custom Properties
  *
@@ -7,6 +5,9 @@
  *
  * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex flex-col;
 }

@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -20,6 +19,9 @@
  * @prop --calcite-filter-input-actions-icon-color-hover: Specifies the icon color of the input's `clearable` element when hovered.
  * @prop --calcite-filter-input-actions-icon-color-press: Specifies the icon color of the input's `clearable` element when pressed.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
   @apply flex w-full;

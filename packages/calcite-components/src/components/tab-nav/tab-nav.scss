@@ -1,6 +1,3 @@
-@use "../../assets/styles/includes";
-@use "@esri/calcite-design-tokens/dist/scss/core";
-
 /**
  * CSS Custom Properties
  *
@@ -10,6 +7,19 @@
  * @prop --calcite-tab-border-color: When `calcite-tabs` is `bordered`, specifies the component's border color.
  * @prop --calcite-tab-text-color: Specifies the component's `iconStart, `iconEnd`, and text color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tab-nav-button-width
+// --calcite-internal-tab-nav-gap
+// --calcite-internal-tab-nav-gradient-end-side
+// --calcite-internal-tab-nav-gradient-start-side
+
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 :host {
   --calcite-internal-tab-nav-gradient-start-side: left;
   --calcite-internal-tab-nav-gradient-end-side: right;

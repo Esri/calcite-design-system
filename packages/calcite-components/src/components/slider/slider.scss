@@ -1,5 +1,3 @@
-@use "../../assets/styles/includes";
-
 /**
  * CSS Custom Properties
  *
@@ -17,6 +15,9 @@
  * @prop --calcite-slider-graph-color: Specifies the component's graph color.
  *
  */
+
+@use "../../assets/styles/includes";
+
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
   --calcite-slider-handle-extension-height: 0.4rem;

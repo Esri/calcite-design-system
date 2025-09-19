@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -14,6 +13,9 @@
  * @prop --calcite-list-label-text-color: Specifies the `label` color.
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex flex-col;
 }

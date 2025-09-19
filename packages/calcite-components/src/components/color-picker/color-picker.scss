@@ -1,12 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-color-picker-min-width
-
-@use "../../assets/styles/includes";
-@use "../../assets/styles/focus";
-
 /**
  * CSS Custom Properties
  *
@@ -32,6 +23,15 @@
  * @prop --calcite-color-picker-action-text-color-hover: Specifies the component's `savedColors` action text color when hovered.
  * @prop --calcite-color-picker-action-text-color: Specifies the component's `savedColors` action text color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-color-picker-min-width
+
+@use "../../assets/styles/includes";
+@use "../../assets/styles/focus";
 
 :host {
   @apply text-n2h inline-block font-normal;

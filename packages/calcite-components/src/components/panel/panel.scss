@@ -1,12 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-panel-default-space
-// --calcite-internal-panel-header-vertical-padding
-
-@use "../../assets/styles/includes";
-@use "sass:meta";
 /**
  * CSS Custom Properties
  *
@@ -33,6 +24,16 @@
  * @prop --calcite-panel-footer-padding: [Deprecated] Use `--calcite-panel-footer-space` instead. Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] Use `--calcite-panel-border-color` instead. Specifies the component header's block end border.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-panel-default-space
+// --calcite-internal-panel-header-vertical-padding
+
+@use "../../assets/styles/includes";
+@use "sass:meta";
 
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;

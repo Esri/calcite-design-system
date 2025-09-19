@@ -1,3 +1,20 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-background-color: Specifies the component's background color.
+ * @prop --calcite-chip-border-color: Specifies the component's border color.
+ * @prop --calcite-chip-close-icon-color: Specifies the component's close element icon color.
+ * @prop --calcite-chip-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-chip-icon-color: Specifies the component's icon color.
+ * @prop --calcite-chip-select-icon-color-press: Specifies the component's selection element icon color when active.
+ * @prop --calcite-chip-select-icon-color-pressed: [Deprecated] Use `--calcite-chip-select-icon-color-press`. Specifies the component's selection element icon color when active.
+ * @prop --calcite-chip-select-icon-color: Specifies the component's selection element icon color.
+ * @prop --calcite-chip-text-color: Specifies the component's text color.
+ *
+ */
+
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -22,22 +39,7 @@
 // --calcite-internal-close-size
 
 @use "../../assets/styles/includes";
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-chip-background-color: Specifies the component's background color.
- * @prop --calcite-chip-border-color: Specifies the component's border color.
- * @prop --calcite-chip-close-icon-color: Specifies the component's close element icon color.
- * @prop --calcite-chip-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-chip-icon-color: Specifies the component's icon color.
- * @prop --calcite-chip-select-icon-color-press: Specifies the component's selection element icon color when active.
- * @prop --calcite-chip-select-icon-color-pressed: [Deprecated] Use `--calcite-chip-select-icon-color-press`. Specifies the component's selection element icon color when active.
- * @prop --calcite-chip-select-icon-color: Specifies the component's selection element icon color.
- * @prop --calcite-chip-text-color: Specifies the component's text color.
- *
- */
+
 :host {
   @apply inline-flex
     cursor-default;

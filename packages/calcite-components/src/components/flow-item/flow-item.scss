@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -30,6 +29,9 @@
  * @prop --calcite-flow-header-action-text-color-press: Specifies the text color of the component's `calcite-action` items in the flow item header when pressed.
  * @prop --calcite-flow-header-action-text-color: Specifies the text color of the component's `calcite-action` items in the flow item header.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
   @apply relative hidden w-full flex-auto overflow-hidden;

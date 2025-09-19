@@ -1,19 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-dialog-animation-offset
-// --calcite-internal-dialog-content-padding
-// --calcite-internal-dialog-hidden-position
-// --calcite-internal-dialog-min-size-x
-// --calcite-internal-dialog-min-size-y
-// --calcite-internal-dialog-shown-position
-
-@use "../../assets/styles/includes";
-@use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
-@use "../../assets/styles/spacing";
-
 /**
  * CSS Custom Properties
  *
@@ -48,6 +32,22 @@
  * @prop --calcite-dialog-header-content-space: Specifies the padding of the `"header-content"` slot.
  * @prop --calcite-dialog-action-menu-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dialog-animation-offset
+// --calcite-internal-dialog-content-padding
+// --calcite-internal-dialog-hidden-position
+// --calcite-internal-dialog-min-size-x
+// --calcite-internal-dialog-min-size-y
+// --calcite-internal-dialog-shown-position
+
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../assets/styles/animation";
+@use "../../assets/styles/spacing";
 
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss

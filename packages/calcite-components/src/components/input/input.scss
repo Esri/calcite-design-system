@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -33,6 +32,9 @@
  * @prop --calcite-input-suffix-text-color:  Specifies the component's suffix text color, when present.
  *
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
 }

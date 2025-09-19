@@ -1,17 +1,3 @@
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-loader-font-size
-// --calcite-internal-loader-size
-// --calcite-internal-loader-size-inline
-// --calcite-internal-loader-value-line-height
-// --calcite-internal-stroke-width
-// --calcite-internal-text-offset
-
-@use "../../assets/styles/includes";
-@use "../../assets/styles/animation";
-
 /**
  * CSS Custom Properties
  *
@@ -28,6 +14,20 @@
  * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
  * @prop --calcite-loader-track-color: Specifies the component's track color.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-loader-font-size
+// --calcite-internal-loader-size
+// --calcite-internal-loader-size-inline
+// --calcite-internal-loader-value-line-height
+// --calcite-internal-stroke-width
+// --calcite-internal-text-offset
+
+@use "../../assets/styles/includes";
+@use "../../assets/styles/animation";
 
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;

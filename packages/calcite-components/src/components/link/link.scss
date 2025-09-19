@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,6 +5,9 @@
  *
  * @prop --calcite-link-text-color: Specifies the component's text color.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   display: inline;
 }

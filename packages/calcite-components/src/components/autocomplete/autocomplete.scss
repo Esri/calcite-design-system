@@ -1,6 +1,3 @@
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
-
 /**
  * CSS Custom Properties
  *
@@ -38,6 +35,10 @@
  * @prop --calcite-autocomplete-input-suffix-background-color:  Specifies the background color of the Input's suffix, when present.
  * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
  */
+
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 :host {
   @apply relative
     block;

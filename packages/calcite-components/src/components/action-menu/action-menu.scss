@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -7,6 +6,9 @@
  * @prop --calcite-action-menu-items-space: Specifies the space between actions in the menu.
  *
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply text-1
   box-border

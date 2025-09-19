@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -10,6 +9,17 @@
  * @prop --calcite-accordion-text-color-hover: Specifies the component's main text color on hover.
  * @prop --calcite-accordion-text-color-press: Specifies the component's main text color when pressed.
 */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-accordion-icon-margin
+// --calcite-internal-accordion-item-padding
+// --calcite-internal-accordion-item-spacing-unit
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply relative
     block

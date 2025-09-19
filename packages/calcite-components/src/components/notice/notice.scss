@@ -1,5 +1,3 @@
-@use "sass:list";
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -16,6 +14,9 @@
  * @prop --calcite-notice-close-text-color-hover: [Deprecated] Use `--calcite-notice-close-icon-color-hover`. Specifies the background color of the component's close button when hovered.
  * @prop --calcite-notice-close-text-color: [Deprecated] Use `--calcite-notice-close-icon-color`. Specifies the text color of the component's close button.
  */
+
+@use "sass:list";
+@use "../../assets/styles/includes";
 
 // scale variables
 :host([scale="s"]) {

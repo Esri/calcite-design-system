@@ -1,4 +1,3 @@
-@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -11,6 +10,9 @@
  * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
  * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
  */
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply box-border block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
@@ -93,8 +95,8 @@ calcite-switch {
   cursor-pointer
   select-none
   items-center
-  font-sans 
-  w-full 
+  font-sans
+  w-full
   border-0;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
