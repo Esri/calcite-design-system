@@ -422,7 +422,10 @@ module.exports = function Monday(issue) {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error when calling the Monday API: ${JSON.stringify(body)}`);
+        const errorBody = await response.json();
+        throw new Error(
+          `${response.status} (${response.statusText}) HTTP error when calling Monday API: ${JSON.stringify(errorBody)}`,
+        );
       }
       return await response.json();
     } catch (error) {
