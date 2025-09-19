@@ -1261,7 +1261,7 @@ describe("calcite-dialog", () => {
       async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
+          html`<calcite-dialog embedded heading="Information" description="Themed" kind="info" scale="s" modal open>
             <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
             <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
             <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
@@ -1285,8 +1285,8 @@ describe("calcite-dialog", () => {
       },
       {
         "--calcite-dialog-scrim-background-color": {
-          shadowSelector: `[popover]::backdrop`,
-          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.scrim}`,
+          targetProp: "--calcite-scrim-background",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,
