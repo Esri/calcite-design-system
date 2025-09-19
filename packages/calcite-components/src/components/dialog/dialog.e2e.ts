@@ -1286,7 +1286,7 @@ describe("calcite-dialog", () => {
       {
         "--calcite-dialog-scrim-background-color": {
           shadowSelector: `[popover]::backdrop`,
-          targetProp: "--calcite-scrim-background-color",
+          targetProp: "backgroundColor",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,
