@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Appearance, Position, IconType } from "../interfaces";
 
 export const SLOTS = {
@@ -34,7 +35,7 @@ export const IDS = {
   sectionToggle: "section-toggle",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronDown: "chevronDown",
   caretDown: "caretDown",
   plus: "plus",

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   hasSlottedContent: "has-slotted-content",
@@ -11,7 +13,7 @@ export const CSS = {
   visuallyHidden: "visually-hidden",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   circle: "circle",
   circleF: "circleF",
   exclamationMarkCircleF: "exclamationMarkCircleF",

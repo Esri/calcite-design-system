@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   contentWrapper: "content-wrapper",
@@ -23,9 +25,9 @@ export const SLOTS = {
   subtitle: "subtitle",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   selected: "check-square-f",
   unselected: "square",
   selectedSingle: "circle-f",
   unselectedSingle: "circle",
-} as const;
+};

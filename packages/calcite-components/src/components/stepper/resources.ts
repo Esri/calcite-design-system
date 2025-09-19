@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionIcon: "action-icon",
   actionIconStart: "action-icon--start",
@@ -12,7 +14,7 @@ export const CSS = {
   singleView: "single-view",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
 };

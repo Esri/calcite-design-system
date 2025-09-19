@@ -18,7 +18,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -259,7 +259,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private renderSelectionIcon(): JsxNode {
-    const icon: IconNameOrString =
+    const icon: IconName =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"

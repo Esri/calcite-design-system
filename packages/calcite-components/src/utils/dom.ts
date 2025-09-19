@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
-import { IconNameOrString } from "../components/icon/interfaces";
+import { IconName } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -371,10 +371,10 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, IconNameOrString>,
-  iconValue: IconNameOrString | boolean | "",
+  iconObject: Record<string, IconName>,
+  iconValue: IconName | boolean | "",
   matchedValue: string,
-): IconNameOrString | undefined {
+): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "" || iconValue === true) {

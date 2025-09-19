@@ -10,7 +10,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -121,7 +121,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ type: String, reflect: true }) icon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

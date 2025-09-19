@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   contentCell: "content-cell",
   numberCell: "number-cell",
@@ -14,7 +16,7 @@ export const CSS = {
   staticCell: "static-cell",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   checked: "check-square-f",
   indeterminate: "minus-square-f",
   unchecked: "square",

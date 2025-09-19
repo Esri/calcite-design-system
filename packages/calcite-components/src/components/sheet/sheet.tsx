@@ -24,6 +24,7 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -327,7 +328,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
-  private getResizeIcon(): string {
+  private getResizeIcon(): IconName {
     const { position } = this;
 
     return position === "block-start" || position === "block-end"

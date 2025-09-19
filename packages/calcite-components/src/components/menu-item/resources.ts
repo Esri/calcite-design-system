@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   content: "content",
@@ -22,11 +24,11 @@ export const SLOTS = {
   submenuItem: "submenu-item",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   arrowLeft: "arrow-left",
   arrowRight: "arrow-right",
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
-} as const;
+};

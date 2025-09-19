@@ -11,7 +11,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
@@ -78,7 +78,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() heading: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -238,7 +238,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   //#region Rendering
 
-  private renderIcon(iconPath: IconNameOrString): JsxNode {
+  private renderIcon(iconPath: IconName): JsxNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -252,7 +252,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  private renderSelectIndicator(icon: IconNameOrString): JsxNode {
+  private renderSelectIndicator(icon: IconName): JsxNode {
     return (
       <calcite-icon
         class={{

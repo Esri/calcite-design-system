@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionsEnd: "actions-end",
   actionsStart: "actions-start",
@@ -46,7 +48,7 @@ export const SLOTS = {
 // Set to zero to extend until the end of the table section.
 export const MAX_COLUMNS = 0;
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   selectedMultiple: "check-square-f",
   selectedSingle: "circle-inset-large",
   unselectedMultiple: "square",
@@ -56,6 +58,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-} as const;
+};
 
 export const activeCellTestAttribute = "data-test-active";

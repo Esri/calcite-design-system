@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   containerNone: "container--none-selection",
@@ -8,7 +10,7 @@ export const CSS = {
   link: "dropdown-link",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   check: "check",
   bulletPoint: "bullet-point",
 };

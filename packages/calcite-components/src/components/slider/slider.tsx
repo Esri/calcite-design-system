@@ -36,7 +36,7 @@ import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale, Status } from "../interfaces";
 import { BigDecimal } from "../../utils/number";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -324,9 +324,7 @@ export class Slider
   @property({ reflect: true }) ticks: number;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;

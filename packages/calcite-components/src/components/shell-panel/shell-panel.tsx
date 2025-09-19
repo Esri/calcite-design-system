@@ -17,6 +17,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
+import { IconName } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
@@ -374,7 +375,7 @@ export class ShellPanel extends LitElement {
     this.hasHeader = slotChangeHasAssignedElement(event);
   }
 
-  private getResizeIcon(): string {
+  private getResizeIcon(): IconName {
     const { layout } = this;
 
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;

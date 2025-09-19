@@ -13,7 +13,7 @@ import {
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -75,13 +75,13 @@ export class MenuItem extends LitElement {
   @property() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;

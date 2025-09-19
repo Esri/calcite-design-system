@@ -1,12 +1,12 @@
 import { TemplateResult } from "lit-html";
 import { h, LuminaJsx } from "@arcgis/lumina";
 import { Scale, Status } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 
 interface ValidationProps extends LuminaJsx.CustomAttributes {
   scale: Scale;
   status: Status;
-  icon?: IconNameOrString | boolean;
+  icon?: IconName | boolean;
   id?: string;
   message: string;
   ref?: (el: HTMLDivElement) => void;

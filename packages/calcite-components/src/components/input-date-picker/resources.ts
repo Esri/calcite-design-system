@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   assistiveText: "assistive-text",
   calendarWrapper: "calendar-wrapper",
@@ -32,7 +34,7 @@ export const POSITION = {
   end: "end",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   calendar: "calendar",
   chevronDown: "chevron-down",
   chevronUp: "chevron-up",
