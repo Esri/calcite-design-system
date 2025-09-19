@@ -117,7 +117,7 @@ module.exports = function Monday(issue) {
       issueWorkflow.readyForDev,
       {
         column: columnIds.status,
-        value: "Ready for dev",
+        value: "Ready for Dev",
       },
     ],
     [
