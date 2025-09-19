@@ -89,7 +89,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.

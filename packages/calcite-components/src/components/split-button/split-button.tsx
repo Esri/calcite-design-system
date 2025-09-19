@@ -122,13 +122,13 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @property({ reflect: true }) primaryIconEnd: IconName;
+  @property({ reflect: true, type: String }) primaryIconEnd: IconName;
 
   /** Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @property({ reflect: true }) primaryIconStart: IconName;
+  @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
   /** Accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;

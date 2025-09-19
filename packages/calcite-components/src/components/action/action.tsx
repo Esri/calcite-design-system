@@ -103,7 +103,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconName;
+  @property({ type: String, reflect: true }) icon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

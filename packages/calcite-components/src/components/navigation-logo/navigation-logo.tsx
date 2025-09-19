@@ -45,7 +45,7 @@ export class NavigationLogo extends LitElement {
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconName;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

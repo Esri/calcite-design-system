@@ -52,6 +52,7 @@ export class Icon extends LitElement {
    */
   @property({
     reflect: true,
+    type: String,
   })
   icon: IconName = null;
 

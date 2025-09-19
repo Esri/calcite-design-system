@@ -47,7 +47,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    *
    * @default "plus"
    */
-  @property({ reflect: true }) icon: IconName = ICONS.plus;
+  @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;

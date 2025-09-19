@@ -405,7 +405,7 @@ export class Combobox
   @property() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @property({ reflect: true }) placeholderIcon: IconName;
+  @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
