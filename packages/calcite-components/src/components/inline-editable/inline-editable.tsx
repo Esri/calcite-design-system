@@ -304,7 +304,10 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
           <div class={CSS.controlsWrapper}>
             <calcite-button
               appearance="transparent"
-              class={CSS.enableEditingButton}
+              class={{
+                [CSS.enableEditingButton]: true,
+                [CSS.enableEditingButtonHidden]: this.editingEnabled,
+              }}
               disabled={this.disabled}
               iconStart={ICONS.pencil}
               kind="neutral"
@@ -312,11 +315,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               onClick={this.enableEditingHandler}
               ref={this.enableEditingButtonRef}
               scale={this.scale}
-              style={{
-                "pointer-events": this.editingEnabled ? "none" : "auto",
-                opacity: this.editingEnabled ? "0" : "1",
-                width: this.editingEnabled ? "0" : "inherit",
-              }}
               title={this.messages.enableEditing}
               type="button"
             />
