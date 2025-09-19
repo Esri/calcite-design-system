@@ -2,7 +2,6 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import {
-  LitElement,
   property,
   createEvent,
   h,
@@ -11,6 +10,7 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
+  LitElement,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
@@ -18,7 +18,6 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot,
   internalHiddenInputInputEvent,
   MutableValidityState,
   submitForm,
@@ -61,11 +60,15 @@ export class InputText
 {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override styles = styles;
 
   //#endregion
 
   //#region Private Properties
+
+  internals: ElementInternals = this.el.attachInternals();
 
   private actionWrapperRef = createRef<HTMLDivElement>();
 
@@ -345,6 +348,8 @@ export class InputText
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
 
+    this.internals.setFormValue(this.value);
+
     connectLabel(this);
     connectForm(this);
     this.el.addEventListener(
@@ -526,6 +531,7 @@ export class InputText
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
+    this.internals.setFormValue(value);
 
     if (origin === "direct") {
       this.setInputValue(value);
@@ -641,7 +647,6 @@ export class InputText
             <slot name={SLOTS.action} />
           </div>
           {this.suffixText ? suffixText : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
