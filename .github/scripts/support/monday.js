@@ -567,7 +567,7 @@ module.exports = function Monday(issue) {
       labels.forEach((label) => addLabel(label.name));
     }
 
-    if (notInLifecycle({ labels, skip: [issueWorkflow.new, issueWorkflow.assigned] })) {
+    if (notInLifecycle({ labels, skip: [issueWorkflow.new] })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
@@ -576,7 +576,12 @@ module.exports = function Monday(issue) {
 
       // Set to "assigned" if no lifecycle labels were applied
       // Overrides the default "needs triage" label
-      if (notInLifecycle({ labels })) {
+      if (
+        notInLifecycle({
+          labels,
+          skip: [issueWorkflow.new, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+        })
+      ) {
         addLabel(issueWorkflow.assigned);
       }
     }
@@ -640,7 +645,7 @@ module.exports = function Monday(issue) {
    * Update columnUpdates based on milestone title
    */
   function handleMilestone() {
-    // If removed, reset date and clear stalled label
+    // Null milestone indicates milestone was removed
     if (!issueMilestone) {
       columnUpdates[columnIds.date] = "";
       clearLabel(milestone.stalled);
@@ -654,7 +659,13 @@ module.exports = function Monday(issue) {
       columnUpdates[columnIds.date] = milestoneDate;
       clearLabel(milestone.stalled);
 
-      if (assignee && notInLifecycle({ labels, skip: [issueWorkflow.needsMilestone] })) {
+      if (
+        assignee &&
+        notInLifecycle({
+          labels,
+          skip: [issueWorkflow.new, issueWorkflow.assigned, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+        })
+      ) {
         addLabel(issueWorkflow.assigned);
       }
       if (!assignee && notReadyForDev(labels)) {
