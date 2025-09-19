@@ -587,6 +587,9 @@ module.exports = function Monday(issue) {
 
     if (syncId) {
       console.log(`Sync ID ${syncId} provided, updating existing item instead of creating new.`);
+      setColumnValue(columnIds.title, issue.title);
+      handleState();
+
       const { error } = await updateMultipleColumns(syncId);
       if (error) {
         throw new Error(`Syncing existing item ${syncId}: ${error}`);
@@ -604,7 +607,11 @@ module.exports = function Monday(issue) {
       }
     }`;
 
-    const { data: { create_item: { id } } } = await runQuery(query);
+    const {
+      data: {
+        create_item: { id },
+      },
+    } = await runQuery(query);
     if (!id) {
       throw new Error(`Failed to create item for issue #${issueNumber}`);
     }
@@ -666,6 +673,23 @@ module.exports = function Monday(issue) {
   }
 
   /**
+   * Set the Open/Closed and Status columns based on issue state
+   * @param {("reopened" | "closed" | "open")} action - The action that triggered the state change
+   * @returns {void}
+   */
+  function handleState(action = "open") {
+    setColumnValue(columnIds.open, issue.state === "open" ? "Open" : "Closed");
+
+    if (action === "closed") {
+      if (issue.state_reason !== "completed") {
+        setColumnValue(columnIds.status, "Closed");
+      } else if (issue.labels?.every((label) => label.name !== issueType.design)) {
+        setColumnValue(columnIds.status, "Done");
+      }
+    }
+  }
+
+  /**
    * Assign each of the current assignees to columnUpdates.
    */
   function addAllAssignees() {
@@ -679,7 +703,6 @@ module.exports = function Monday(issue) {
    * @param {string} label
    */
   function addLabel(label) {
-    // Skip the sync label, as it is not needed in Monday.com
     if (label === planning.monday) {
       return;
     }
@@ -748,6 +771,7 @@ module.exports = function Monday(issue) {
     createTask,
     setColumnValue,
     handleMilestone,
+    handleState,
     addAllAssignees,
     addLabel,
     clearLabel,
