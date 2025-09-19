@@ -15,6 +15,10 @@ export const CSS = {
   screenReadersOnly: "screen-readers-only",
 } as const;
 
+const idPrefix = "autocomplete";
+
 export const IDS = {
   validationMessage: "autocompleteValidationMessage",
+  input: (id: string) => `${idPrefix}-input-${id}`,
+  list: (id: string) => `${idPrefix}-list-${id}`,
 } as const;

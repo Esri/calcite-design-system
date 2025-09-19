@@ -11,3 +11,14 @@ export const CSS = {
   stepBarInactive: "step-bar--inactive",
   singleView: "single-view",
 };
+
+export const ICONS = {
+  chevronLeft: "chevron-left",
+  chevronRight: "chevron-right",
+};
+
+const idPrefix = "calcite-stepper-action";
+
+export const IDS = {
+  position: (id: any, isPositionStart: boolean) => `${idPrefix}-${id}-${isPositionStart ? "start" : "end"}`,
+} as const;

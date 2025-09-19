@@ -2,9 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
+import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -277,9 +278,9 @@ describe("calcite-split-button", () => {
   </calcite-split-button>`);
     const positionContainer = await page.find(`calcite-split-button >>> calcite-dropdown >>> .${DropdownCSS.wrapper}`);
     const secondary = await page.find(`calcite-split-button >>> calcite-button[split-child="secondary"]`);
-    const dropdownOpenEvent = page.waitForEvent("calciteDropdownOpen");
+    const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
     await secondary.click();
-    await dropdownOpenEvent;
+    await dropdownOpenEventSpy.next();
     expect(await positionContainer.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
     await page.keyboard.press("ArrowDown");
@@ -288,9 +289,10 @@ describe("calcite-split-button", () => {
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
-    const dropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
+    const dropdownCloseEventSpy = await page.spyOnEvent("calciteDropdownClose");
     await page.keyboard.press("Enter");
-    await dropdownCloseEvent;
+    await page.waitForChanges();
+    await dropdownCloseEventSpy.next();
     expect(await positionContainer.isVisible()).toBe(false);
   });
 
@@ -325,5 +327,71 @@ describe("calcite-split-button", () => {
 
     expect(await elementAsButton.getProperty("download")).toBe(false);
     expect(elementAsButton).not.toHaveAttribute("download");
+  });
+
+  describe("theming", () => {
+    themed(
+      html`<calcite-split-button primary-text="Button" loading primary-icon-start="layer">
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+          <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-split-button>`,
+      {
+        "--calcite-split-button-text-color": [
+          {
+            shadowSelector: "calcite-button[split-child='primary']",
+            targetProp: "--calcite-button-text-color",
+          },
+          {
+            shadowSelector: "calcite-button[split-child='secondary']",
+            targetProp: "--calcite-button-text-color",
+          },
+        ],
+        "--calcite-split-button-icon-color": [
+          {
+            shadowSelector: "calcite-button[split-child='primary']",
+            targetProp: "--calcite-button-icon-color",
+          },
+        ],
+        "--calcite-split-button-border-color": [
+          {
+            shadowSelector: "calcite-button[split-child='secondary']",
+            targetProp: "--calcite-button-border-color",
+          },
+          {
+            shadowSelector: "calcite-button[split-child='primary']",
+            targetProp: "--calcite-button-border-color",
+          },
+        ],
+        "--calcite-split-button-shadow": [
+          {
+            shadowSelector: "calcite-button[split-child='primary']",
+            targetProp: "--calcite-button-shadow",
+          },
+          {
+            shadowSelector: "calcite-button[split-child='secondary']",
+            targetProp: "--calcite-button-shadow",
+          },
+        ],
+        "--calcite-split-button-divider-color": {
+          shadowSelector: `.${CSS.dividerContainer}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-split-button-divider-border-color": {
+          shadowSelector: `.${CSS.divider}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-split-button-dropdown-background-color": {
+          shadowSelector: `calcite-dropdown`,
+          targetProp: "--calcite-dropdown-background-color",
+        },
+        "--calcite-split-button-dropdown-width": {
+          shadowSelector: `calcite-dropdown`,
+          targetProp: "--calcite-dropdown-width",
+        },
+      },
+    );
   });
 });

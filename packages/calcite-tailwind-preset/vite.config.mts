@@ -5,18 +5,23 @@ import packageJson from "./package.json" with { type: "json" };
 export default defineConfig({
   build: {
     lib: {
-      entry: "src/index.ts",
-      formats: ["cjs"],
-      fileName: () => "index.js",
+      entry: {
+        index: "src/index.ts",
+        utils: "src/utils.ts"
+      }
     },
     rollupOptions: {
       external: ["tailwindcss"],
-      output: {
-        banner: `/*!
+      output: [
+        {
+          entryFileNames: "[name].js",
+          format: "cjs",
+          banner: `/*!
 All material copyright ESRI, All Rights Reserved, unless otherwise specified.
 See https://github.com/Esri/calcite-design-system/blob/${packageJson.version}/LICENSE.md for details.
 */`,
-      }
+        }
+      ]
     },
   },
   plugins: [

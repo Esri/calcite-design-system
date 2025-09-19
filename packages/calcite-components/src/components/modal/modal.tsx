@@ -13,19 +13,18 @@ import {
 } from "@arcgis/lumina";
 import {
   ensureId,
-  focusFirstTabbable,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { createObserver } from "../../utils/observers";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./modal.scss";
@@ -55,8 +54,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
-
   private contentId: string;
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -83,7 +80,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   private ignoreOpenChange = false;
 
-  private modalContent = createRef<HTMLDivElement>();
+  private modalContentRef = createRef<HTMLDivElement>();
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
@@ -105,6 +102,8 @@ export class Modal extends LitElement implements OpenCloseComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
@@ -145,7 +144,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
   @state() titleEl: HTMLElement;
 
-  @state() get preventDocumentScroll(): boolean {
+  get preventDocumentScroll(): boolean {
     return !this.embedded;
   }
 
@@ -156,10 +155,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: (el: Modal["el"]) => Promise<void>;
 
-  /** When `true`, disables the component's close button. */
+  /** When present, disables the component's close button. */
   @property({ reflect: true }) closeButtonDisabled = false;
 
-  /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
+  /** When present, prevents the component from expanding to the entire screen on mobile devices. */
   @property({ reflect: true }) docked: boolean;
 
   /**
@@ -170,10 +169,10 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property() embedded = false;
 
-  /** When `true`, disables the default close on escape behavior. */
+  /** When present, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When present, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -183,10 +182,11 @@ export class Modal extends LitElement implements OpenCloseComponent {
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
    * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
+  /** When present, sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component, which will apply to top border. */
@@ -198,7 +198,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -218,7 +218,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When present, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Specifies the size of the component. */
@@ -239,21 +239,26 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @method()
   async scrollContent(top = 0, left = 0): Promise<void> {
-    if (this.modalContent.value) {
-      if (this.modalContent.value.scrollTo) {
-        this.modalContent.value.scrollTo({ top, left, behavior: "smooth" });
+    if (this.modalContentRef.value) {
+      if (this.modalContentRef.value.scrollTo) {
+        this.modalContentRef.value.scrollTo({ top, left, behavior: "smooth" });
       } else {
-        this.modalContent.value.scrollTop = top;
-        this.modalContent.value.scrollLeft = left;
+        this.modalContentRef.value.scrollTop = top;
+        this.modalContentRef.value.scrollLeft = left;
       }
     }
   }
 
-  /** Sets focus on the component's "close" button (the first focusable item). */
+  /**
+   * Sets focus on the component's "close" button (the first focusable item).
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
   /**
@@ -414,7 +419,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
 
     const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
     transitionEl.classList.add(idleClass);
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
   }
 
   private handleCloseClick() {
@@ -508,7 +513,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
               [CSS.content]: true,
               [CSS.contentNoFooter]: !this.hasFooter,
             }}
-            ref={this.modalContent}
+            ref={this.modalContentRef}
           >
             <slot name={SLOTS.content} onSlotChange={this.handleContentSlotChange} />
           </div>
@@ -558,7 +563,6 @@ export class Modal extends LitElement implements OpenCloseComponent {
         class={CSS.close}
         key="button"
         onClick={this.handleCloseClick}
-        ref={this.closeButtonEl}
         title={this.messages.close}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />

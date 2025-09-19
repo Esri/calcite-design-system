@@ -1,3 +1,9 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
 @use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
@@ -127,6 +133,8 @@ calcite-link {
   .text-content {
     text-align: center;
   }
+  slot[name="content-bottom"]::slotted(*),
+  slot[name="content-top"]::slotted(*),
   slot[name="content-start"]::slotted(*),
   slot[name="content-end"]::slotted(*) {
     align-self: center;

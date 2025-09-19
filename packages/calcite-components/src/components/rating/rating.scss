@@ -1,3 +1,9 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-rating-spacing
+
 @use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
@@ -13,6 +19,7 @@
  * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
  * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
  */
+
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
@@ -112,6 +119,7 @@ calcite-chip {
   @apply sr-only;
 }
 
+@include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();

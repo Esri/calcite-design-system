@@ -1,3 +1,9 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-number-alignment
+
 @use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
@@ -15,6 +21,7 @@
  * @prop --calcite-input-number-background-color: Specifies the background color of the component.
  * @prop --calcite-input-number-border-color: Specifies the border color of the component.
  * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-input-number-icon-color: Specifies the component's icon color.
  * @prop --calcite-input-number-height: Specifies the height of the component.
  * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
  * @prop --calcite-input-number-text-color: Specifies the text color of the component.
@@ -26,6 +33,7 @@
  * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
  * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  */
+
 :host {
   @apply block;
 }
@@ -39,8 +47,7 @@
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & .clear-button {
@@ -57,8 +64,7 @@
     block-size: var(--calcite-input-number-height, 2rem);
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2rem);
   }
   & .clear-button {
@@ -75,8 +81,7 @@
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & .clear-button {
@@ -107,6 +112,7 @@ input {
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
   border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  text-align: var(--calcite-internal-input-number-alignment);
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -135,10 +141,6 @@ input[readonly] {
 }
 input[readonly]:focus {
   color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
-}
-
-calcite-icon {
-  color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
 }
 
 //focus
@@ -197,6 +199,7 @@ input:focus {
     inline-flex
     flex-1
     items-center;
+  isolation: isolate;
 }
 
 .icon {
@@ -205,6 +208,7 @@ input:focus {
     absolute
     block
     z-default; // needed for firefox to display the icon properly
+  --calcite-icon-color: var(--calcite-input-number-icon-color, var(--calcite-color-text-3));
 }
 
 .clear-button {
@@ -226,18 +230,22 @@ input:focus {
   background-color: var(--calcite-input-actions-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: theme("borderWidth.0");
 
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
+  }
+
   &:hover {
     @apply transition-default;
     background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
       @apply transition-default;
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
+      --calcite-icon-color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:active {
     background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
+      --calcite-icon-color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
     }
   }
   &:focus {
@@ -301,15 +309,15 @@ input:focus {
 
 // alignment type
 :host([alignment="start"]) {
-  & input {
-    text-align: start;
-  }
+  --calcite-internal-input-number-alignment: start;
+}
+
+:host([alignment="center"]) {
+  --calcite-internal-input-number-alignment: center;
 }
 
 :host([alignment="end"]) {
-  & input {
-    text-align: end;
-  }
+  --calcite-internal-input-number-alignment: end;
 }
 
 .number-button-wrapper {
@@ -388,6 +396,7 @@ input:focus {
 
   & calcite-icon {
     @apply transition-default pointer-events-none;
+    --calcite-icon-color: var(--calcite-input-actions-icon-color, var(--calcite-color-text-3));
   }
 
   &:disabled {
@@ -397,14 +406,14 @@ input:focus {
   &:hover {
     background-color: var(--calcite-input-actions-background-color-hover, var(--calcite-color-foreground-2));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
+      --calcite-icon-color: var(--calcite-input-actions-icon-color-hover, var(--calcite-color-text-1));
     }
   }
 
   &:active {
     background-color: var(--calcite-input-actions-background-color-press, var(--calcite-color-foreground-3));
     calcite-icon {
-      color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
+      --calcite-icon-color: var(--calcite-input-actions-icon-color-press, var(--calcite-color-text-1));
     }
   }
 }
@@ -480,6 +489,7 @@ input {
   }
 }
 
+@include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();

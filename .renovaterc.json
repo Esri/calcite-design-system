@@ -18,12 +18,14 @@
     "react-dom",
     "typescript"
   ],
-  "ignorePaths": ["packages/calcite-ui-icons/**", "examples/**"],
+  "ignorePaths": ["examples/**"],
   "packageRules": [
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "rangeStrategy": "bump"
+      "rangeStrategy": "bump",
+      "ignoreUnstable": false,
+      "respectLatest": false
     },
     {
       "groupName": "CSpell",

@@ -38,3 +38,10 @@ export const comboboxWithPlaceHolderIcon = html`<calcite-combobox label="test" p
   <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
   <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
 </calcite-combobox>`;
+
+export const noMatches = html`
+  <calcite-combobox open filter-text="Three" selection-mode="single">
+    <calcite-combobox-item value="one" text-label="One"></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="Two"></calcite-combobox-item>
+  </calcite-combobox>
+`;

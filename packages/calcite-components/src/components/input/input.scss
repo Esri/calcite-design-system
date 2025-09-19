@@ -49,8 +49,7 @@
     min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-6;
   }
   & .clear-button {
@@ -76,8 +75,7 @@
     min-block-size: theme("spacing.8");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-8;
   }
   & .clear-button {
@@ -103,8 +101,7 @@
     min-block-size: theme("spacing.11");
   }
   & .number-button-wrapper,
-  & .action-wrapper calcite-button,
-  & .action-wrapper calcite-button button {
+  & .action-wrapper {
     @apply h-11;
   }
   & .clear-button {
@@ -296,6 +293,7 @@ input:focus {
     inline-flex
     flex-1
     items-center;
+  isolation: isolate;
 }
 
 .icon {
@@ -623,6 +621,7 @@ input {
   }
 }
 
+@include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();

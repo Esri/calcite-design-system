@@ -68,6 +68,7 @@
         --calcite-input-number-background-color: yellow;
         --calcite-input-number-border-color: #1e88e5;
         --calcite-input-number-corner-radius: 4px;
+        --calcite-input-number-icon-color: red;
         --calcite-input-number-height: 40px;
         --calcite-input-number-placeholder-text-color: #9e9e9e;
         --calcite-input-number-text-color: #212121;
@@ -152,6 +153,49 @@
         <div class="child-flex font">Small</div>
         <div class="child-flex font">Medium</div>
         <div class="child-flex font">Large</div>
+      </div>
+
+      <!-- Internal label -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Internal label</div>
+        <div class="child-flex">
+          <calcite-input-number
+            placeholder="Placeholder"
+            scale="s"
+            value="123"
+            step="1"
+            label-text="Label text"
+            required
+          >
+            <calcite-icon slot="label-content" icon="banana" scale="s"></calcite-icon>
+          </calcite-input-number>
+        </div>
+
+        <div class="child-flex">
+          <calcite-input-number
+            placeholder="Placeholder"
+            scale="m"
+            value="123"
+            step="1"
+            label-text="Label text"
+            required
+          >
+            <calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon>
+          </calcite-input-number>
+        </div>
+
+        <div class="child-flex">
+          <calcite-input-number
+            placeholder="Placeholder"
+            scale="l"
+            value="123"
+            step="1"
+            label-text="Label text"
+            required
+          >
+            <calcite-icon slot="label-content" icon="banana" scale="l"></calcite-icon>
+          </calcite-input-number>
+        </div>
       </div>
 
       <!-- Number Vertical -->
@@ -712,6 +756,7 @@
             clearable
             value="100"
             loading
+            icon="layers"
           ></calcite-input-number>
         </div>
       </div>

@@ -19,6 +19,7 @@ import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
@@ -27,6 +28,8 @@ type TestWindow = GlobalTestProps<{
 }>;
 
 describe("calcite-flow-item", () => {
+  mockConsole();
+
   describe("renders", () => {
     renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
   });
@@ -418,6 +421,27 @@ describe("calcite-flow-item", () => {
 
     const flowItem = await page.find("calcite-flow-item");
     expect(await flowItem.getProperty("closed")).toBe(false);
+  });
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-flow-item heading="Test"></calcite-flow-item>`);
+    const item = await page.find("calcite-flow-item");
+
+    const expandSpy = await page.spyOnEvent("calciteFlowItemExpand");
+    const collapseSpy = await page.spyOnEvent("calciteFlowItemCollapse");
+
+    item.setProperty("collapsed", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(0);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+
+    item.setProperty("collapsed", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("collapsed")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
   describe("theme", () => {

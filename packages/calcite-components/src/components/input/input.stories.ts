@@ -250,3 +250,25 @@ export const shrinkingInputDoesNotObscureCalendarIcon = (): string => html`
     ></calcite-input>
   </div>
 `;
+
+export const fontSizeSetAtRoot = (): string =>
+  html` <style>
+      :root {
+        font-size: 60px;
+      }
+    </style>
+    <calcite-input placeholder="Placeholder" prefix-text="Prefix" suffix-text="Suffix" type="text" icon="search">
+      <calcite-button slot="action"> Search </calcite-button>
+    </calcite-input>`;
+
+export const overlayDoesNotObscureIcon = (): string =>
+  html` <style>
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        opacity: 0.75;
+      }
+    </style>
+    <calcite-input icon="check-square-f"></calcite-input>
+    <div class="overlay"></div>`;

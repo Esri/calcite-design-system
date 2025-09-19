@@ -35,11 +35,6 @@ export default defineConfig({
           // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
           bundleIn: nonEsmDependencies,
         },
-        ssr: {
-          stencilCompatibility: {
-            enabled: true,
-          },
-        },
         wrappers: [
           {
             type: "react18",
@@ -88,7 +83,6 @@ export default defineConfig({
     include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,
-    setupFiles: ["src/tests/setupTests.ts"],
   },
   /*
    * While useLumina() pre-configures everything for you, you can still

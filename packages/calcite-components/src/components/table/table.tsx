@@ -16,7 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
@@ -82,7 +82,7 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays borders in the component. */
+  /** When present, displays borders in the component. */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -92,7 +92,12 @@ export class Table extends LitElement {
    */
   @property() caption: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * Sets/gets the current page
+   */
+  @property({ reflect: true }) currentPage = 0;
+
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
@@ -104,13 +109,13 @@ export class Table extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the position of the row in numeric form. */
+  /** When present, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When `true`, renders `calcite-pagination`. */
+  /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
   @property({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */
@@ -142,7 +147,7 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
-  /** When `true`, displays striped styling in the component. */
+  /** When present, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
   //#endregion
@@ -190,7 +195,8 @@ export class Table extends LitElement {
       changes.has("numberingSystem") ||
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
-      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none"))
+      (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
+      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
       this.updateRows();
     }
@@ -325,13 +331,27 @@ export class Table extends LitElement {
     this.footRows = footRows;
     this.allRows = allRows;
 
+    this.handleCurrentPageRange();
     this.updateSelectedItems();
+  }
+
+  private handleCurrentPageRange(): void {
+    const requestedPage = this.currentPage;
+    const totalRows = this.bodyRows?.length || 0;
+    const totalPages = this.pageSize > 0 ? Math.ceil(totalRows / this.pageSize) : 1;
+
+    if (totalPages > 0) {
+      const page = Math.min(Math.max(requestedPage, 1), totalPages);
+      this.currentPage = page;
+      this.pageStartRow = (page - 1) * this.pageSize + 1;
+    }
     this.paginateRows();
   }
 
   private handlePaginationChange(): void {
     const requestedItem = this.paginationEl.value?.startItem;
     this.pageStartRow = requestedItem || 1;
+    this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
   }
@@ -401,6 +421,10 @@ export class Table extends LitElement {
     return (
       <div class={CSS.selectionArea}>
         <calcite-chip
+          class={{
+            [CSS.selectionCountChip]: true,
+            [CSS.selectionChipActive]: this.selectedCount > 0,
+          }}
           kind={this.selectedCount > 0 ? "brand" : "neutral"}
           label={selectionText}
           scale={this.scale}
@@ -410,7 +434,8 @@ export class Table extends LitElement {
         </calcite-chip>
         {outOfViewCount > 0 && (
           <calcite-chip
-            icon="hide-empty"
+            class={CSS.selectionOutOfViewChip}
+            icon={ICONS.hideEmpty}
             label={outOfView}
             scale={this.scale}
             title={outOfView}
@@ -421,7 +446,8 @@ export class Table extends LitElement {
         )}
         {this.selectedCount > 0 && (
           <calcite-button
-            iconStart="x"
+            class={CSS.dismissButton}
+            iconStart={ICONS.clear}
             kind="neutral"
             onClick={this.handleDeselectAllRows}
             round
@@ -448,7 +474,7 @@ export class Table extends LitElement {
           pageSize={this.pageSize}
           ref={this.paginationEl}
           scale={this.scale}
-          startItem={1}
+          startItem={this.pageStartRow}
           totalItems={this.bodyRows?.length}
         />
       </div>

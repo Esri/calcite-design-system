@@ -22,18 +22,18 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
-import { focusFirstTabbable } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
-import { IDS } from "./resources";
+import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 
 declare global {
@@ -42,6 +42,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Rating
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -60,7 +63,7 @@ export class Rating
 
   formEl: HTMLFormElement;
 
-  private guid = `calcite-ratings-${guid()}`;
+  private guid = IDS.host(guid());
 
   private isKeyboardInteraction = true;
 
@@ -81,6 +84,8 @@ export class Rating
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -97,7 +102,7 @@ export class Rating
   /** Specifies the number of previous ratings to display. */
   @property({ reflect: true }) count: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -106,6 +111,9 @@ export class Rating
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -117,11 +125,11 @@ export class Rating
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, the component's value can be read, but cannot be modified. */
+  /** When present, the component's value can be read, but cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private
@@ -131,7 +139,7 @@ export class Rating
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  /** When present, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @property({ reflect: true }) showChip = false;
 
   /** Specifies the status of the input field, which determines message and icons. */
@@ -184,11 +192,18 @@ export class Rating
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.el);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   //#endregion
@@ -387,15 +402,23 @@ export class Rating
 
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <span class="wrapper">
-          <fieldset class="fieldset" disabled={this.disabled}>
-            <legend class="visually-hidden">{this.messages.rating}</legend>
+        <span class={CSS.wrapper}>
+          {this.labelText && (
+            <InternalLabel
+              labelText={this.labelText}
+              onClick={this.onLabelClick}
+              required={this.required}
+              tooltipText={this.messages.required}
+            />
+          )}
+          <fieldset class={CSS.fieldSet} disabled={this.disabled}>
+            <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
             {this.starsMap.map(
               ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
                   <label
                     class={{
-                      star: true,
+                      [CSS.star]: true,
                       selected,
                       hovered,
                       average,
@@ -413,8 +436,10 @@ export class Rating
                     <input
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
+                      ariaLabel={getLabelText(this)}
+                      ariaRequired={this.required}
                       checked={checked}
-                      class="visually-hidden"
+                      class={CSS.visuallyHidden}
                       disabled={this.disabled || this.readOnly}
                       id={id}
                       name={this.guid}
@@ -425,11 +450,11 @@ export class Rating
                     />
                     <StarIcon full={selected || average || hovered} scale={this.scale} />
                     {partial && (
-                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                      <div class={CSS.fraction} style={{ width: `${fraction * 100}%` }}>
                         <StarIcon full partial scale={this.scale} />
                       </div>
                     )}
-                    <span class="visually-hidden">
+                    <span class={CSS.visuallyHidden}>
                       {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>
@@ -439,8 +464,8 @@ export class Rating
 
             {(this.count || this.average) && this.showChip ? (
               <calcite-chip label={countString} scale={this.scale} value={countString}>
-                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
-                {!!this.count && <span class="number--count">({countString})</span>}
+                {!!this.average && <span class={CSS.numberAverage}>{this.average.toString()}</span>}
+                {!!this.count && <span class={CSS.numberCount}>({countString})</span>}
               </calcite-chip>
             ) : null}
           </fieldset>

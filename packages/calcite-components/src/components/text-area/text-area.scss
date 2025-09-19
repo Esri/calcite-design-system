@@ -1,4 +1,19 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-text-area-border-block-end-color
+// --calcite-internal-text-area-border-color
+// --calcite-internal-text-area-corner-radius
+// --calcite-internal-text-area-footer-background-color
+// --calcite-internal-text-area-footer-border-color
+// --calcite-internal-text-area-footer-min-height
+// --calcite-internal-text-area-padding-block
+// --calcite-internal-text-area-padding-inline
+// --calcite-internal-text-area-shadow
+
 @use "../../assets/styles/includes";
+
 /**
  * CSS Custom Properties
  *
@@ -18,8 +33,8 @@
  * @prop --calcite-text-area-corner-radius: Specifies component's corner radius.
  * @prop --calcite-text-area-shadow: Specifies the component's shadow.
  * @prop --calcite-text-area-footer-background-color: Specifies the footer's background color.
-
  */
+
 :host {
   @apply inline-block relative w-full h-full box-border;
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
@@ -232,6 +247,7 @@
   }
 }
 
+@include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.disabled();

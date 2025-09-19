@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { focusElement } from "../../utils/dom";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   CheckableFormComponent,
   connectForm,
@@ -14,9 +14,10 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -46,16 +47,18 @@ export class Switch
 
   labelEl: Label["el"];
 
-  private switchEl: HTMLDivElement;
+  private switchRef = createRef<HTMLDivElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -67,6 +70,12 @@ export class Switch
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text at the end of the component */
+  @property() labelTextEnd: string;
+
+  /** When provided, displays label text at the start of the component */
+  @property() labelTextStart: string;
 
   /**
    * Specifies the name of the component.
@@ -85,12 +94,16 @@ export class Switch
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    focusElement(this.switchEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.switchRef.value, options);
   }
 
   // #endregion
@@ -159,10 +172,6 @@ export class Switch
     this.toggle();
   }
 
-  private setSwitchEl(el: HTMLDivElement): void {
-    this.switchEl = el;
-  }
-
   // #endregion
 
   // #region Rendering
@@ -174,13 +183,29 @@ export class Switch
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
           class={CSS.container}
-          ref={this.setSwitchEl}
+          ref={this.switchRef}
           role="switch"
           tabIndex={0}
         >
+          {this.labelTextStart && (
+            <InternalLabel
+              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              labelText={this.labelTextStart}
+              spacingInlineEnd={true}
+            />
+          )}
           <div class={CSS.track}>
             <div class={CSS.handle} />
           </div>
+          {this.labelTextEnd && (
+            <InternalLabel
+              alignmentCenter={true}
+              bottomSpacingDisabled={true}
+              labelText={this.labelTextEnd}
+              spacingInlineStart={true}
+            />
+          )}
           <HiddenFormInputSlot component={this} />
         </div>
       </InteractiveContainer>

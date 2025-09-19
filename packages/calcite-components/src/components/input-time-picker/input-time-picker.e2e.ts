@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { SupportedLocale } from "@arcgis/components-utils";
+import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
 import {
@@ -11,12 +11,14 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
+import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { supportedLocales } from "../../utils/locale";
@@ -113,6 +115,10 @@ describe("calcite-input-time-picker", () => {
     });
   });
 
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-input-time-picker`);
+  });
+
   describe("disabled", () => {
     disabled("calcite-input-time-picker");
   });
@@ -129,9 +135,46 @@ describe("calcite-input-time-picker", () => {
   describe("openClose", () => {
     openClose("calcite-input-time-picker");
 
-    describe.skip("initially open", () => {
+    describe("initially open", () => {
       openClose.initial("calcite-input-time-picker");
     });
+  });
+
+  it("allows resetting after value is set programmatically, modified via the time-picker then reset", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+    await skipAnimations(page);
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    inputTimePicker.setProperty("value", "04:35");
+    await page.waitForChanges();
+
+    await assertDisplayedTime(page, "04:35 AM");
+
+    const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
+    inputTimePicker.setProperty("open", true);
+    await page.waitForChanges();
+    await openEventSpy.next();
+
+    const hourUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonHourUp}`);
+    const minuteUpEl = await page.find(`calcite-input-time-picker >>> .${TimePickerCSS.buttonMinuteUp}`);
+
+    await hourUpEl.click();
+    await minuteUpEl.click();
+
+    const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await closeEventSpy.next();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("05:36");
+    await assertDisplayedTime(page, "05:36 AM");
+
+    inputTimePicker.setProperty("value", "04:35");
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("04:35");
+    await assertDisplayedTime(page, "04:35 AM");
   });
 
   it("resets to previous value when default event behavior is prevented", async () => {
@@ -1543,8 +1586,9 @@ describe("calcite-input-time-picker", () => {
 
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
+      const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
       await toggleButton.click();
-      await page.waitForChanges();
+      await openEventSpy.next();
 
       expect(await popoverPositionContainer.isVisible()).toBe(true);
 
@@ -1566,17 +1610,17 @@ describe("calcite-input-time-picker", () => {
 
       expect(await isElementFocused(page, "calcite-time-picker", { shadowed: true })).toBe(true);
 
+      const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+      await closeEventSpy.next();
 
       expect(await popoverPositionContainer.isVisible()).toBe(false);
       expect(await isElementFocused(page, "calcite-input-time-picker")).toBe(true);
 
       await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
 
-      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+      expect(await isElementFocused(page, `#${nextSibling}`)).toBe(true);
     });
   });
 
@@ -1607,13 +1651,15 @@ describe("calcite-input-time-picker", () => {
 
         expect(await popoverPositionContainer.isVisible()).toBe(false);
 
+        const openEventSpy = await page.spyOnEvent("calciteInputTimePickerOpen");
         await toggleButton.click();
-        await page.waitForChanges();
+        await openEventSpy.next();
 
         expect(await popoverPositionContainer.isVisible()).toBe(true);
 
+        const closeEventSpy = await page.spyOnEvent("calciteInputTimePickerClose");
         await toggleButton.click();
-        await page.waitForChanges();
+        await closeEventSpy.next();
 
         expect(await popoverPositionContainer.isVisible()).toBe(false);
       });
@@ -1756,6 +1802,62 @@ describe("calcite-input-time-picker", () => {
 
       expect(await inputTimePicker.getProperty("value")).toBe("13:01:01.001");
       expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+  });
+  describe("theming", () => {
+    themed(html`<calcite-input-time-picker open></calcite-input-time-picker>`, {
+      "--calcite-input-time-picker-background-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-background-color",
+      },
+      "--calcite-input-time-picker-digit-text-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-color",
+      },
+      "--calcite-input-time-picker-digit-icon-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-icon-color",
+      },
+      "--calcite-input-time-picker-action-background-color-hover": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-button-background-color-hover",
+      },
+      "--calcite-input-time-picker-action-background-color-press": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-button-background-color-press",
+      },
+      "--calcite-input-time-picker-digit-border-color-hover": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-input-border-color-hover",
+      },
+      "--calcite-input-time-picker-digit-border-color-press": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-input-border-color-press",
+      },
+      "--calcite-input-time-picker-input-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-time-picker-input-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-input-time-picker-input-corner-radius": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-input-time-picker-input-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-input-time-picker-input-text-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+      "--calcite-input-time-picker-border-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-border-color",
+      },
     });
   });
 });

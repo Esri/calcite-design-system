@@ -7,12 +7,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable } from "../../utils/component";
 import { Alignment, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
 import type { RadioButton } from "../radio-button/radio-button";
 import type { Checkbox } from "../checkbox/checkbox";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 import { styles } from "./tile-select.scss";
@@ -40,6 +40,8 @@ export class TileSelect extends LitElement implements InteractiveComponent {
 
   private input: Checkbox["el"] | RadioButton["el"];
 
+  private focusSetter = useSetFocus<this>()(this);
+
   // #endregion
 
   // #region State Properties
@@ -51,13 +53,13 @@ export class TileSelect extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
   /** A description for the component, which displays below the heading. */
   @property({ reflect: true }) description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
@@ -66,13 +68,13 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @property({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
-  /** When `true`, displays an interactive input based on the `type` property. */
+  /** When present, displays an interactive input based on the `type` property. */
   @property({ reflect: true }) inputEnabled = false;
 
   /** Specifies the name of the component on form submission. */
@@ -97,12 +99,18 @@ export class TileSelect extends LitElement implements InteractiveComponent {
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.input?.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.input;
+    }, options);
   }
 
   // #endregion
@@ -173,6 +181,7 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   // #endregion
 
   // #region Private Methods
+
   private checkboxChangeHandler(event: CustomEvent): void {
     const checkbox = event.target as Checkbox["el"];
     if (checkbox === this.input) {

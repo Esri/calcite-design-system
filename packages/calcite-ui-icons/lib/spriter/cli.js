@@ -1,34 +1,26 @@
 "use strict";
-
-const spriter = require("./index");
-const { readFileSync } = require("fs");
+import spriter from "./index.js";
+import { readFileSync } from "node:fs";
 const args = process.argv.slice(2); // skip runtime & script args
-
 function hasArg(name, shorthand) {
   return getArgIndex(name, shorthand) > -1;
 }
-
 function getArgIndex(name, shorthand) {
-  return args.findIndex((arg, index) => arg === `--${name}` || arg === `-${shorthand}`);
+  return args.findIndex((arg) => arg === `--${name}` || arg === `-${shorthand}`);
 }
-
 function getArg(name, shorthand) {
   return args[getArgIndex(name, shorthand) + 1];
 }
-
 if (hasArg("help", "h")) {
   process.stdout.write(`
     --input, -i       path to configuration file
     --output, -o      output location for generated SVG sprite
     --help, -h        display this help message
   `);
-
   process.exit(0);
 }
-
 function getConfig() {
   let input = getArg("input", "i");
-
   if (input) {
     try {
       const configFileContents = readFileSync(input);
@@ -38,26 +30,19 @@ function getConfig() {
       process.exit(1);
     }
   }
-
   const output = getArg("output", "o");
-
   return { input, output };
 }
-
 spriter(getConfig())
   .then((summary) => {
     const { ellapsed, spritesheets } = summary;
-
-    process.stdout.write(
-      `Success!
+    process.stdout.write(`Success!
 
 Generated ${spritesheets.length} spritesheets in ${ellapsed} ms:
 
 ${spritesheets.map((spritesheet) => `* ${spritesheet.output} (${spritesheet.icons.length} icons)`).join("\n")}
 
-`,
-    );
-
+`);
     process.exit(0);
   })
   .catch((err) => {

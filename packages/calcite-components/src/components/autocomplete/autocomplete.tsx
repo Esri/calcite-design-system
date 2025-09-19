@@ -12,7 +12,8 @@ import {
   LuminaJsx,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { debounce, escapeRegExp } from "lodash-es";
+import { debounce } from "es-toolkit";
+import { escapeRegExp } from "es-toolkit/compat";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -30,10 +31,10 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import {
   afterConnectDefaultValueSet,
@@ -47,13 +48,15 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
 import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { createObserver } from "../../utils/observers";
-import { componentFocusable } from "../../utils/component";
+import { createObserver, updateRefObserver } from "../../utils/observers";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -71,6 +74,7 @@ declare global {
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
  * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Autocomplete
   extends LitElement
@@ -107,11 +111,11 @@ export class Autocomplete
 
   formEl: HTMLFormElement;
 
-  private inputId = `autocomplete-input-${this.guid}`;
+  private inputId = IDS.input(this.guid);
 
   labelEl: Label["el"];
 
-  private listId = `autocomplete-list-${this.guid}`;
+  private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only
@@ -130,9 +134,13 @@ export class Autocomplete
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
+  private focusSetter = useSetFocus<this>()(this);
+
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
   });
+
+  private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
@@ -152,12 +160,10 @@ export class Autocomplete
 
   @state() groups: AutocompleteItemGroup["el"][] = [];
 
-  @state()
   get isOpen(): boolean {
     return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
   }
 
-  @state()
   get enabledItems(): AutocompleteItem["el"][] {
     return this.items.filter((item) => !item.disabled);
   }
@@ -177,7 +183,7 @@ export class Autocomplete
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -190,10 +196,10 @@ export class Autocomplete
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** The component's input value. */
@@ -202,7 +208,10 @@ export class Autocomplete
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -233,7 +242,7 @@ export class Autocomplete
    */
   @property({ reflect: true }) name: string;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -272,14 +281,14 @@ export class Autocomplete
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When present, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -382,13 +391,14 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns {Promise<void>}
    */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    return this.referenceEl.setFocus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   //#endregion
@@ -423,7 +433,7 @@ export class Autocomplete
   constructor() {
     super();
     this.listenOn(document, "click", this.documentClickHandler);
-    this.listen("calciteInternalAutocompleteItemSelect", this.handleInternalAutocompleteItemSelect);
+    this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
   }
 
   override connectedCallback(): void {
@@ -433,6 +443,7 @@ export class Autocomplete
     this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
+    this.cancelable.add(this.getAllItemsDebounced);
   }
 
   async load(): Promise<void> {
@@ -444,22 +455,16 @@ export class Autocomplete
       this.handleDisabledChange(this.disabled);
     }
 
-    if (changes.has("flipPlacements")) {
-      this.reposition(true);
-    }
-
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      changes.has("flipPlacements") ||
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
-      this.reposition(true);
-    }
-
-    if (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement)) {
       this.reposition(true);
     }
 
@@ -531,7 +536,7 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    onToggleOpenCloseComponent(this);
+    toggleOpenClose(this);
 
     if (!this.open) {
       this.activeIndex = -1;
@@ -554,9 +559,8 @@ export class Autocomplete
     this.open = false;
   }
 
-  private async handleInternalAutocompleteItemSelect(event: Event): Promise<void> {
+  private async handleAutocompleteItemSelect(event: Event): Promise<void> {
     this.value = (event.target as AutocompleteItem["el"]).value;
-    event.stopPropagation();
     this.emitChange();
     await this.setFocus();
     this.open = false;
@@ -648,14 +652,8 @@ export class Autocomplete
   }
 
   private setReferenceEl(el: Input["el"]): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
-
     connectFloatingUI(this);
   }
 
@@ -683,7 +681,7 @@ export class Autocomplete
       case "Enter":
         if (open && activeItem) {
           this.value = activeItem.value;
-          this.emitChange();
+          activeItem.emitSelectEvent();
           this.open = false;
           event.preventDefault();
         } else if (!event.defaultPrevented) {
@@ -780,11 +778,20 @@ export class Autocomplete
 
     return (
       <InteractiveContainer disabled={disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
+            aria-label={getLabelText(this)}
             aria-owns={listId}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}
@@ -816,6 +823,7 @@ export class Autocomplete
             prefixText={this.prefixText}
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
+            required={this.required}
             role="combobox"
             scale={this.scale}
             status={this.status}
@@ -869,6 +877,7 @@ export class Autocomplete
     return (
       <ul
         aria-labelledby={this.inputId}
+        ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
         role="listbox"

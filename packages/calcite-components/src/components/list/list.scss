@@ -17,6 +17,10 @@
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
 }
 
+.container-height {
+  min-block-size: 100vh;
+}
+
 .table-container {
   @apply box-border
   flex

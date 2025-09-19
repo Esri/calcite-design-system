@@ -11,8 +11,10 @@ import {
   setAttribute,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
@@ -29,7 +31,6 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { componentFocusable } from "../../utils/component";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -38,9 +39,11 @@ import { BigDecimal } from "../../utils/number";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -52,6 +55,9 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Slider
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -65,8 +71,6 @@ export class Slider
   // #endregion
 
   // #region Private Properties
-
-  private activeProp: ActiveSliderProperty = "value";
 
   defaultValue: Slider["value"];
 
@@ -116,6 +120,21 @@ export class Slider
           this.maxValueDragRange = this.maxValue - value;
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
+      } else if (
+        isRange(this.value) &&
+        isRange(this.previousEmittedValue) &&
+        this.dragProp === "maxValue"
+      ) {
+        const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
+        if (
+          previousEmittedMinValue === previousEmittedMaxValue &&
+          value < previousEmittedMinValue
+        ) {
+          this.dragProp = "minValue";
+          this.minHandle.focus();
+        } else {
+          this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
+        }
       } else {
         this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
@@ -139,7 +158,7 @@ export class Slider
     return numberStringFormatter.localize(value.toString());
   };
 
-  private guid = `calcite-slider-${guid()}`;
+  private guid = IDS.host(guid());
 
   labelEl: Label["el"];
 
@@ -149,7 +168,12 @@ export class Slider
 
   private maxHandle: HTMLDivElement;
 
-  messages = useT9n<Record<string, never>>({ name: null });
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private minHandle: HTMLDivElement;
 
@@ -161,11 +185,17 @@ export class Slider
     this.dragEnd(event);
   };
 
-  private trackEl: HTMLDivElement;
+  private previousEmittedValue;
+
+  private trackRef = createRef<HTMLDivElement>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   // #endregion
 
   // #region State Properties
+
+  @state() activeProp: ActiveSliderProperty = "value";
 
   @state() private maxValueDragRange: number = null;
 
@@ -179,7 +209,7 @@ export class Slider
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -196,10 +226,10 @@ export class Slider
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, indicates a histogram is present. */
+  /** When present, indicates a histogram is present. */
   @property({ reflect: true }) hasHistogram = false;
 
   /**
@@ -219,10 +249,10 @@ export class Slider
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays label handles with their numeric value. */
+  /** When present, displays label handles with their numeric value. */
   @property({ reflect: true }) labelHandles = false;
 
-  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
+  /** When present and `ticks` is specified, displays label tick marks with their numeric value. */
   @property({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
@@ -240,11 +270,17 @@ export class Slider
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
   /** For multiple selections, the component's lower value. */
   @property() minValue: number;
 
   /**
-   * When `true`, the slider will display values from high to low.
+   * When present, the component will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
@@ -263,11 +299,11 @@ export class Slider
   /** Specifies the interval to move with the page up, or page down keys. */
   @property({ reflect: true }) pageStep: number;
 
-  /** When `true`, sets a finer point for handles. */
+  /** When present, sets a finer point for handles. */
   @property({ reflect: true }) precise = false;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -275,7 +311,7 @@ export class Slider
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
+  /** When present, enables snap selection in coordination with `step` via a mouse. */
   @property({ reflect: true }) snap = false;
 
   /** Specifies the status of the input field, which determines message and icons. */
@@ -322,13 +358,16 @@ export class Slider
 
   // #region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    const handle = this.minHandle ? this.minHandle : this.maxHandle;
-    handle?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
   }
 
   // #endregion
@@ -368,6 +407,7 @@ export class Slider
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
+    this.previousEmittedValue = this.value;
   }
 
   load(): void {
@@ -422,6 +462,7 @@ export class Slider
   // #endregion
 
   // #region Private Methods
+
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
@@ -639,6 +680,7 @@ export class Slider
 
   private emitChange(): void {
     this.calciteSliderChange.emit();
+    this.previousEmittedValue = this.value;
   }
 
   private removeDragListeners() {
@@ -690,10 +732,6 @@ export class Slider
     this.emitInput();
   }
 
-  private storeTrackRef(node: HTMLDivElement): void {
-    this.trackEl = node;
-  }
-
   private storeThumbRef(el: HTMLDivElement): void {
     if (!el) {
       return;
@@ -736,7 +774,7 @@ export class Slider
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
+    const { left, width } = this.trackRef.value.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -1117,18 +1155,27 @@ export class Slider
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
+          ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
-            [`scale--${this.scale}`]: true,
+            [CSS.scale(this.scale)]: true,
           }}
         >
           {this.renderGraph()}
-          <div class={CSS.track} ref={this.storeTrackRef}>
+          <div class={CSS.track} ref={this.trackRef}>
             <div
               class={CSS.trackRange}
               onPointerDown={this.onTrackPointerDown}

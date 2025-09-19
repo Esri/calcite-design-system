@@ -1,17 +1,10 @@
 // @ts-strict-ignore
-import {} from "../utils/puppeteer";
 import { expect, it } from "vitest";
+import { GlobalTestProps } from "../utils/puppeteer";
 import { getTagAndPage } from "./utils";
 import { ComponentTestSetup } from "./interfaces";
 
 export interface FocusableOptions {
-  /**
-   * use this to pass an ID to setFocus()
-   *
-   * @deprecated components should no longer use a focusId parameter for setFocus()
-   */
-  focusId?: string;
-
   /** selector used to assert the focused DOM element */
   focusTargetSelector?: string;
 
@@ -28,7 +21,7 @@ export interface FocusableOptions {
  * describe("is focusable", () => {
  *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ *
  * @param componentTestSetup
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
@@ -37,7 +30,8 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
     const { page, tag } = await getTagAndPage(componentTestSetup);
     const element = await page.find(tag);
     const focusTargetSelector = options?.focusTargetSelector || tag;
-    await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
+    await element.callMethod("setFocus"); // assumes element is FocusableElement
+    await page.waitForChanges();
 
     if (options?.shadowFocusTargetSelector) {
       expect(
@@ -49,11 +43,57 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
       ).toBe(true);
     }
 
-    // wait for next frame before checking focus
-    await page.waitForChanges();
-
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true,
     );
+
+    // we use a fake to assert that the focus options are passed correctly to the target element
+    const fakeFocusOptions = { __id__: "fake-focus-options" } as const;
+
+    type TestWindow = GlobalTestProps<{
+      receivedFocusOptions: FocusOptions[];
+    }>;
+
+    await page.evaluate(() => {
+      const activeElement = document.activeElement;
+
+      if (activeElement) {
+        let elementToBlur: Element | null = activeElement;
+        while (elementToBlur) {
+          if (elementToBlur.shadowRoot && elementToBlur.shadowRoot.activeElement) {
+            elementToBlur = elementToBlur.shadowRoot.activeElement;
+          } else {
+            (elementToBlur as HTMLElement).blur?.();
+            break;
+          }
+        }
+      }
+
+      const originalFocus = HTMLElement.prototype.focus;
+      HTMLElement.prototype.focus = function (this: HTMLElement, options?: FocusOptions) {
+        const testWindow = window as TestWindow;
+        testWindow.receivedFocusOptions = testWindow.receivedFocusOptions
+          ? [...testWindow.receivedFocusOptions, options]
+          : [options];
+
+        originalFocus.call(this, options);
+      };
+    });
+    await page.waitForChanges();
+
+    await element.callMethod("setFocus", fakeFocusOptions);
+    await page.waitForChanges();
+
+    const receivedFocusOptions = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+      return testWindow.receivedFocusOptions;
+    });
+
+    const testScopeFocusOptions = receivedFocusOptions.filter(
+      (focusOptions) => (focusOptions as typeof fakeFocusOptions)?.__id__ === "fake-focus-options",
+    );
+
+    expect(testScopeFocusOptions).toContainEqual(fakeFocusOptions);
+    expect(testScopeFocusOptions.length).toBe(1);
   });
 }

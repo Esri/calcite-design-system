@@ -1,12 +1,11 @@
-const { existsSync, mkdirSync } = require("fs-extra");
-const optimize = require("./optimize");
-const generatePathFile = require("./path-data");
-
-module.exports = function () {
+import fsExtra from "fs-extra";
+import optimize from "./optimize.js";
+import generatePathFile from "./path-data.js";
+const { existsSync, mkdirSync } = fsExtra;
+export default (function () {
   if (!existsSync("js")) {
     mkdirSync("js");
   }
-
   return optimize("*.svg")
     .then(() => optimize("icons/*.svg", true))
     .catch((error) => {
@@ -26,4 +25,4 @@ module.exports = function () {
       console.log("✨ path file generated at ./docs/icons.json");
       return files;
     });
-};
+});

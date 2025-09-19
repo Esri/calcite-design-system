@@ -4,6 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { StatusIconDefaults } from "./interfaces";
+import { CSS } from "./resources";
 
 describe("calcite-input-message", () => {
   describe("renders", () => {
@@ -49,7 +50,7 @@ describe("calcite-input-message", () => {
     <calcite-input-message>Text</calcite-input-message>
     `);
 
-    const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+    const icon = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
     expect(icon).toBeNull();
   });
 
@@ -69,7 +70,7 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message icon>Text</calcite-input-message>
           `);
-          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
           requestedIcon = await iconEl.getAttribute("icon");
           expect(requestedIcon).toEqual(StatusIconDefaults.idle);
           expect(iconEl).not.toBeNull();
@@ -81,7 +82,7 @@ describe("calcite-input-message", () => {
               <calcite-input-message icon status="invalid">An example with icon</calcite-input-message>
             `);
             element = await page.find("calcite-input-message");
-            iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+            iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
             requestedIcon = await iconEl.getAttribute("icon");
             expect(requestedIcon).toEqual(StatusIconDefaults.invalid);
             expect(iconEl).not.toBeNull();
@@ -89,7 +90,7 @@ describe("calcite-input-message", () => {
             await element.setAttribute("status", "valid");
             await page.waitForChanges();
 
-            iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+            iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
             requestedIcon = await iconEl.getAttribute("icon");
             expect(requestedIcon).toEqual(StatusIconDefaults.valid);
             expect(iconEl).not.toBeNull();
@@ -103,7 +104,7 @@ describe("calcite-input-message", () => {
           await page.setContent(`
           <calcite-input-message !icon>Text</calcite-input-message>
           `);
-          iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
+          iconEl = await page.find(`calcite-input-message >>> .${CSS.inputMessageIcon}`);
           expect(iconEl).toBeNull();
         });
       });
@@ -145,21 +146,37 @@ describe("calcite-input-message", () => {
   });
 
   describe("theme", () => {
-    describe("default", () => {
-      themed(html`<calcite-input-message>Message</calcite-input-message>`, {
-        "--calcite-input-message-icon-color": {
-          targetProp: "--calcite-input-message-icon-color",
-        },
-        "--calcite-input-message-spacing": {
-          targetProp: "--calcite-input-message-spacing",
-        },
+    describe("status", () => {
+      describe("invalid", () => {
+        themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
+          "--calcite-input-message-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("valid", () => {
+        themed(html`<calcite-input-message icon status="valid">Message</calcite-input-message>`, {
+          "--calcite-input-message-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("idle", () => {
+        themed(html`<calcite-input-message icon status="idle">Message</calcite-input-message>`, {
+          "--calcite-input-message-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
+        });
       });
     });
 
     describe("deprecated", () => {
       themed(html`<calcite-input-message>Message</calcite-input-message>`, {
         "--calcite-input-message-spacing-value": {
-          targetProp: "--calcite-input-message-spacing-value",
+          targetProp: "marginBlockStart",
         },
       });
     });

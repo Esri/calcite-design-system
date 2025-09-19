@@ -4,7 +4,7 @@ ESLint rules specific to `@esri/calcite-components` development.
 
 ## Installation
 
-Install the following deps in your stencil project:
+Install the following deps in your Lumina project:
 
 ```bash
 npm i @esri/eslint-plugin-calcite-components --save-dev

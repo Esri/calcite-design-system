@@ -11,7 +11,7 @@
     "core/$themes",
     "semantic/border",
     "semantic/container-size",
-    "semantic/corner",
+    "semantic/corner-radius",
     "semantic/font",
     "semantic/opacity",
     "semantic/shadow",

@@ -3,13 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [3.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.1-next.0...@esri/calcite-design-tokens@3.1.1-next.1) (2025-05-21)
+## [3.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.15...@esri/calcite-design-tokens@3.2.1-next.0) (2025-09-19)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
 
-## [3.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0-next.8...@esri/calcite-design-tokens@3.1.1-next.0) (2025-05-16)
+## [3.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.14...@esri/calcite-design-tokens@3.2.0-next.15) (2025-09-17)
 
-**Note:** Version bump only for package @esri/calcite-design-tokens
+### Bug Fixes
+
+- **core-tokens:** add missing color token `l-vv-100` ([#12875](https://github.com/Esri/calcite-design-system/issues/12875)) ([ddbcfa4](https://github.com/Esri/calcite-design-system/commit/ddbcfa47f5b82e236570d18758a9762f04bafbd3)), closes [#12878](https://github.com/Esri/calcite-design-system/issues/12878)
+
+## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0...@esri/calcite-design-tokens@3.2.0) (2025-09-16)
+
+### Features
+
+- **tokens:** Add foreground-highlight and update referenced core tokens ([#12266](https://github.com/Esri/calcite-design-system/issues/12266)) ([cf44406](https://github.com/Esri/calcite-design-system/commit/cf44406f94b5a65aaf8253c6a3285b00083fdb71))
+- **tokens:** Add missing line height tokens ([#12798](https://github.com/Esri/calcite-design-system/issues/12798)) ([3bf135d](https://github.com/Esri/calcite-design-system/commit/3bf135d0c13c0947365092da3b69cf183a44384f))
+
+### Bug Fixes
+
+- Remove breakpoint tokens from semantic output ([#12397](https://github.com/Esri/calcite-design-system/issues/12397)) ([0f22083](https://github.com/Esri/calcite-design-system/commit/0f2208365888d764fa8a13ce774ab203b2ed96d0))
+- **tokens:** Restore `--calcite-color-focus` ([#11960](https://github.com/Esri/calcite-design-system/issues/11960)) ([0432a20](https://github.com/Esri/calcite-design-system/commit/0432a201d6a1c4607a2bdc2fcdf7d91d8d109804))
+- **tokens:** Update `--calcite-font-line-height-relative` to resolve as a valid value ([#12828](https://github.com/Esri/calcite-design-system/issues/12828)) ([458f99d](https://github.com/Esri/calcite-design-system/commit/458f99dae63162bc32b3eca34504dfaa471bd002))
 
 ## [3.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.0.1...@esri/calcite-design-tokens@3.1.0) (2025-05-14)
 

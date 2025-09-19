@@ -1,3 +1,26 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-chip-background-color
+// --calcite-internal-chip-block-size
+// --calcite-internal-chip-border-color
+// --calcite-internal-chip-container-space-x-end
+// --calcite-internal-chip-container-space-x-start
+// --calcite-internal-chip-font-size
+// --calcite-internal-chip-icon-size
+// --calcite-internal-chip-icon-space
+// --calcite-internal-chip-image-size
+// --calcite-internal-chip-image-space-x-end
+// --calcite-internal-chip-select-space-x-end
+// --calcite-internal-chip-select-space-x-start
+// --calcite-internal-chip-selectable-active-background-color
+// --calcite-internal-chip-selectable-active-border-color
+// --calcite-internal-chip-selectable-hover-background-color
+// --calcite-internal-chip-selectable-hover-border-color
+// --calcite-internal-chip-title-space
+// --calcite-internal-close-size
+
 @use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
@@ -38,6 +61,11 @@
 
   &:host([kind="brand"]) {
     --calcite-internal-chip-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-hover-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-active-border-color: var(
+      --calcite-chip-border-color,
+      var(--calcite-color-brand)
+    );
   }
 
   &:host([kind="inverse"]) {
@@ -56,6 +84,8 @@
 }
 :host([appearance="solid"]) {
   --calcite-internal-chip-border-color: transparent;
+  --calcite-internal-chip-selectable-hover-border-color: transparent;
+  --calcite-internal-chip-selectable-active-border-color: transparent;
 
   &:host([kind="brand"]),
   &:host([kind="inverse"]) {

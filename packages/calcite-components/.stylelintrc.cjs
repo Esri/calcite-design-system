@@ -27,6 +27,13 @@ const rules = {
       ignore: ["selectors-within-list"],
     },
   ],
+  "selector-attribute-name-disallowed-list": [
+    ["hidden"],
+    {
+      message: "hidden styles are included in the `base-component` mixin, so make sure it's used",
+      severity: "error",
+    },
+  ],
   "selector-disallowed-list": [
     ["/:host-context/"],
     {

@@ -1,5 +1,6 @@
 {
   "invalid": "Sobimatu",
+  "required": "Nõutud",
   "tooLong": "Praegune tähemärkide arv on {currentLength}, mis ületab tähemärkide maksimaalse arvu{maxLength}.",
   "tooShort": "Praegune tähemärkide arv on {currentLength}, mis on väiksem kui minimaalne tähemärkide arv ({minLength})."
 }

@@ -607,3 +607,6 @@ resizestart
 
 ### stylelint
 stylelintrc
+
+### type-fest
+Arrayable

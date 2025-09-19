@@ -1,3 +1,9 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-radio-size
+
 @use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
@@ -11,6 +17,7 @@
  * @prop --calcite-radio-size: [Deprecated] Use `--calcite-radio-button-size`. Specifies the component's size.
  *
  */
+
 :host {
   @apply block
   cursor-pointer;
@@ -18,6 +25,7 @@
   .container {
     @apply relative
     outline-none;
+    display: flex;
   }
 
   .radio {
@@ -136,11 +144,12 @@
       content: "";
       inline-size: var(--calcite-internal-radio-size);
       block-size: var(--calcite-internal-radio-size);
-      background-color: windowText;
+      background-color: CanvasText;
       display: block;
     }
   }
 }
 
+@include includes.form-internal-label();
 @include includes.hidden-form-input();
 @include includes.base-component();

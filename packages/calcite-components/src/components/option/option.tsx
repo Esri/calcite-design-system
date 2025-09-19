@@ -32,7 +32,7 @@ export class Option extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({
     reflect: true,
   })
@@ -41,7 +41,7 @@ export class Option extends LitElement {
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({
     reflect: true,
   })

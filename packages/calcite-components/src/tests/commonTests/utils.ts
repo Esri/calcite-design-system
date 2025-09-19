@@ -36,11 +36,8 @@ export function getTag(tagOrHTML: string): ComponentTag {
 
 export async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
-  const page = await newE2EPage({
-    html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-  });
-  await page.waitForChanges();
-
+  const page = await newE2EPage();
+  await page.setContent(isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`);
   return page;
 }
 

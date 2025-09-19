@@ -1,5 +1,6 @@
 {
   "reorder": "Järjesta ümber",
+  "addTo": "Lisa järgmisele",
   "moveTo": "Liiguta",
   "moveToTop": "Liiguta üles",
   "moveToBottom": "Liiguta alla",

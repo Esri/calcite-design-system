@@ -1,3 +1,10 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-panel-default-space
+// --calcite-internal-panel-header-vertical-padding
+
 @use "../../assets/styles/includes";
 @use "sass:meta";
 /**
@@ -32,6 +39,10 @@
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+slot[name="alerts"]::slotted(calcite-alert) {
+  block-size: 0;
 }
 
 @include includes.disabled();
@@ -114,10 +125,6 @@
 
 .container * {
   @apply box-border;
-}
-
-.container[hidden] {
-  @apply hidden;
 }
 
 .header {

@@ -2,8 +2,10 @@ import { html } from "../../support/formatting";
 
 export const checkboxTokens = {
   calciteCheckboxSize: "",
-  calciteCheckboxColor: "",
   calciteCheckboxBorderColor: "",
+  calciteCheckboxBorderColorHover: "",
+  calciteCheckboxBorderColorPress: "",
+  calciteCheckboxIconColor: "",
 };
 
 export const checkbox = html`<label>

@@ -7,3 +7,8 @@ export const CSS = {
   itemContent: "dropdown-item-content",
   link: "dropdown-link",
 };
+
+export const ICONS = {
+  check: "check",
+  bulletPoint: "bullet-point",
+};

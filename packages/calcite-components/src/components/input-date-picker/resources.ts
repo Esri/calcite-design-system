@@ -19,6 +19,21 @@ export const CSS = {
   chevronIcon: "chevron-icon",
 };
 
+const idPrefix = "calcite-input-date-picker";
+
 export const IDS = {
   validationMessage: "inputDatePickerValidationMessage",
+  dialog: (id: string) => `date-picker-dialog--${id}`,
+  placeholder: (id: string) => `${idPrefix}-placeholder-${id}`,
+} as const;
+
+export const POSITION = {
+  start: "start",
+  end: "end",
+};
+
+export const ICONS = {
+  calendar: "calendar",
+  chevronDown: "chevron-down",
+  chevronUp: "chevron-up",
 };

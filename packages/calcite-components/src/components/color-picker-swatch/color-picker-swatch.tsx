@@ -5,7 +5,7 @@ import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
-import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
+import { CHECKER_DIMENSIONS, COLORS, CSS, IDS } from "./resources";
 import { styles } from "./color-picker-swatch.scss";
 
 declare global {
@@ -14,6 +14,9 @@ declare global {
   }
 }
 
+/**
+ * @deprecated Use the `calcite-swatch-group` and `calcite-swatch` components instead.
+ */
 export class ColorPickerSwatch extends LitElement {
   // #region Static Members
 
@@ -29,7 +32,7 @@ export class ColorPickerSwatch extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is active. */
+  /** When present, the component is active. */
   @property({
     reflect: true,
   })
@@ -105,7 +108,7 @@ export class ColorPickerSwatch extends LitElement {
     if (isEmpty) {
       return (
         <>
-          <clipPath id="shape">
+          <clipPath id={IDS.shape}>
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
           {this.renderSwatchRect({
@@ -127,7 +130,7 @@ export class ColorPickerSwatch extends LitElement {
         <defs>
           <pattern
             height={CHECKER_DIMENSIONS.size}
-            id="checker"
+            id={IDS.checker}
             patternUnits="userSpaceOnUse"
             width={CHECKER_DIMENSIONS.size}
             x="0"
