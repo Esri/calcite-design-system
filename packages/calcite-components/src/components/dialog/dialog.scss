@@ -133,7 +133,7 @@
 
 :host([embedded]) {
   .scrim {
-    @apply fixed
+    @apply absolute
     inset-0
     flex
     overflow-y-hidden;
