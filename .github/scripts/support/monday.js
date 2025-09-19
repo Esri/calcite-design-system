@@ -647,7 +647,7 @@ module.exports = function Monday(issue) {
   function handleMilestone() {
     // Null milestone indicates milestone was removed
     if (!issueMilestone) {
-      columnUpdates[columnIds.date] = "";
+      setColumnValue(columnIds.date, "");
       clearLabel(milestone.stalled);
       return;
     }
@@ -656,7 +656,7 @@ module.exports = function Monday(issue) {
     const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
     if (milestoneDate) {
-      columnUpdates[columnIds.date] = milestoneDate;
+      setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
       if (
@@ -672,12 +672,12 @@ module.exports = function Monday(issue) {
         addLabel(issueWorkflow.new);
       }
     } else {
-      columnUpdates[columnIds.date] = "";
+      setColumnValue(columnIds.date, "");
 
       if (milestoneTitle === milestone.stalled) {
         addLabel(milestone.stalled);
       } else if (inMilestoneStatus()) {
-        columnUpdates[columnIds.status] = milestoneTitle;
+        setColumnValue(columnIds.status, milestoneTitle);
         clearLabel(milestone.stalled);
       }
     }
@@ -735,7 +735,7 @@ module.exports = function Monday(issue) {
       return;
     }
 
-    columnUpdates[info.column] = info.value;
+    setColumnValue(info.column, info.value);
   }
 
   /**
@@ -749,7 +749,7 @@ module.exports = function Monday(issue) {
       console.log(`Label "${label}" not found in Monday Labels map.`);
       return;
     }
-    columnUpdates[labelColumn] = "";
+    setColumnValue(labelColumn, "");
   }
 
   /**
