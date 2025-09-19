@@ -10,8 +10,8 @@ export const CSS = {
   controlsWrapper: "controls-wrapper",
 };
 
-export const ICONS = {
-  check: "check" as IconName,
-  close: "x" as IconName,
-  pencil: "pencil" as IconName,
+export const ICONS: Record<string, IconName> = {
+  check: "check",
+  close: "x",
+  pencil: "pencil",
 };

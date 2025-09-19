@@ -48,16 +48,16 @@ export const SLOTS = {
 // Set to zero to extend until the end of the table section.
 export const MAX_COLUMNS = 0;
 
-export const ICONS = {
-  selectedMultiple: "check-square-f" as IconName,
-  selectedSingle: "circle-inset-large" as IconName,
-  unselectedMultiple: "square" as IconName,
-  unselectedSingle: "circle" as IconName,
-  collapsedLTR: "chevron-right" as IconName,
-  collapsedRTL: "chevron-left" as IconName,
-  open: "chevron-down" as IconName,
-  blank: "blank" as IconName,
-  close: "x" as IconName,
+export const ICONS: Record<string, IconName> = {
+  selectedMultiple: "check-square-f",
+  selectedSingle: "circle-inset-large",
+  unselectedMultiple: "square",
+  unselectedSingle: "circle",
+  collapsedLTR: "chevron-right",
+  collapsedRTL: "chevron-left",
+  open: "chevron-down",
+  blank: "blank",
+  close: "x",
 };
 
 export const activeCellTestAttribute = "data-test-active";

@@ -21,9 +21,9 @@ export const CSS = {
   valid: "valid",
 };
 
-export const ICONS = {
-  menuExpanded: "chevron-up" as IconName,
-  menuCollapsed: "chevron-down" as IconName,
-  valid: "check-circle" as IconName,
-  invalid: "exclamation-mark-triangle" as IconName,
+export const ICONS: Record<string, IconName> = {
+  menuExpanded: "chevron-up",
+  menuCollapsed: "chevron-down",
+  valid: "check-circle",
+  invalid: "exclamation-mark-triangle",
 };

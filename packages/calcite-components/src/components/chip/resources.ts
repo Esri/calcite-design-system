@@ -23,9 +23,9 @@ export const SLOTS = {
   image: "image",
 };
 
-export const ICONS = {
-  close: "x" as IconName,
-  checkedSingle: "circle-f" as IconName,
-  uncheckedMultiple: "square" as IconName,
-  checkedMultiple: "check-square-f" as IconName,
+export const ICONS: Record<string, IconName> = {
+  close: "x",
+  checkedSingle: "circle-f",
+  uncheckedMultiple: "square",
+  checkedMultiple: "check-square-f",
 };

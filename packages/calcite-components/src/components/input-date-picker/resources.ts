@@ -34,8 +34,8 @@ export const POSITION = {
   end: "end",
 };
 
-export const ICONS = {
-  calendar: "calendar" as IconName,
-  chevronDown: "chevron-down" as IconName,
-  chevronUp: "chevron-up" as IconName,
+export const ICONS: Record<string, IconName> = {
+  calendar: "calendar",
+  chevronDown: "chevron-down",
+  chevronUp: "chevron-up",
 };

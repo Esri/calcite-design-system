@@ -17,7 +17,7 @@ export const IDS = {
   sheetContent: "sheet-content",
 };
 
-export const ICONS = {
-  dragVertical: "drag-resize-vertical" as IconName,
-  dragHorizontal: "drag-resize-horizontal" as IconName,
+export const ICONS: Record<string, IconName> = {
+  dragVertical: "drag-resize-vertical",
+  dragHorizontal: "drag-resize-horizontal",
 };

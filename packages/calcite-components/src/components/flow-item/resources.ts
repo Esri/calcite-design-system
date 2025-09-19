@@ -4,9 +4,9 @@ export const CSS = {
   backButton: "back-button",
 };
 
-export const ICONS = {
-  backLeft: "chevron-left" as IconName,
-  backRight: "chevron-right" as IconName,
+export const ICONS: Record<string, IconName> = {
+  backLeft: "chevron-left",
+  backRight: "chevron-right",
 };
 
 export const SLOTS = {

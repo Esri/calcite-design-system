@@ -106,7 +106,7 @@ export const STATIC_DIMENSIONS = {
 
 export const SCOPE_SIZE = 1;
 
-export const ICONS = {
-  minus: "minus" as IconName,
-  plus: "plus" as IconName,
+export const ICONS: Record<string, IconName> = {
+  minus: "minus",
+  plus: "plus",
 };

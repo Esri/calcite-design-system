@@ -17,11 +17,11 @@ export const CSS = {
   textContent: "text-content",
 };
 
-export const ICONS = {
-  selectedMultiple: "check-square-f" as IconName,
-  selectedSingle: "circle-f" as IconName,
-  unselectedMultiple: "square" as IconName,
-  unselectedSingle: "circle" as IconName,
+export const ICONS: Record<string, IconName> = {
+  selectedMultiple: "check-square-f",
+  selectedSingle: "circle-f",
+  unselectedMultiple: "square",
+  unselectedSingle: "circle",
 };
 
 export const SLOTS = {

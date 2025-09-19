@@ -20,12 +20,12 @@ export const SLOTS = {
   children: "children",
 };
 
-export const ICONS = {
-  blank: "blank" as IconName,
-  bulletPoint: "bullet-point" as IconName,
-  checkmark: "check" as IconName,
-  checkSquareF: "check-square-f" as IconName,
-  chevronRight: "chevron-right" as IconName,
-  minusSquareF: "minus-square-f" as IconName,
-  square: "square" as IconName,
+export const ICONS: Record<string, IconName> = {
+  blank: "blank",
+  bulletPoint: "bullet-point",
+  checkmark: "check",
+  checkSquareF: "check-square-f",
+  chevronRight: "chevron-right",
+  minusSquareF: "minus-square-f",
+  square: "square",
 };

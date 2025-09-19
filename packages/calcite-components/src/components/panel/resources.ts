@@ -35,13 +35,13 @@ export const IDS = {
   collapse: "collapse",
 };
 
-export const ICONS = {
-  close: "x" as IconName,
-  menu: "ellipsis" as IconName,
-  backLeft: "chevron-left" as IconName,
-  backRight: "chevron-right" as IconName,
-  expand: "chevron-down" as IconName,
-  collapse: "chevron-up" as IconName,
+export const ICONS: Record<string, IconName> = {
+  close: "x",
+  menu: "ellipsis",
+  backLeft: "chevron-left",
+  backRight: "chevron-right",
+  expand: "chevron-down",
+  collapse: "chevron-up",
 };
 
 export const SLOTS = {

@@ -10,7 +10,7 @@ export const CSS = {
   link: "dropdown-link",
 };
 
-export const ICONS = {
-  check: "check" as IconName,
-  bulletPoint: "bullet-point" as IconName,
+export const ICONS: Record<string, IconName> = {
+  check: "check",
+  bulletPoint: "bullet-point",
 };

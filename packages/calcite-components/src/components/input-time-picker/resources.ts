@@ -27,8 +27,8 @@ export const IDS = {
   validationMessage: "inputTimePickerValidationMessage",
 };
 
-export const ICONS = {
-  clock: "clock" as IconName,
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
+export const ICONS: Record<string, IconName> = {
+  clock: "clock",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };

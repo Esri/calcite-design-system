@@ -48,9 +48,9 @@ export const IDS = {
   input: (id: string) => `${idPrefix}-input-${id}`,
 } as const;
 
-export const ICONS = {
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };
 
 export const SLOTS = {

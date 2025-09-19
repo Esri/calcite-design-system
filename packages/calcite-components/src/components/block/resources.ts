@@ -39,9 +39,9 @@ export const SLOTS = {
   icon: "icon",
 };
 
-export const ICONS = {
-  expanded: "chevron-up" as IconName,
-  collapsed: "chevron-down" as IconName,
-  valid: "check-circle" as IconName,
-  invalid: "exclamation-mark-triangle" as IconName,
+export const ICONS: Record<string, IconName> = {
+  expanded: "chevron-up",
+  collapsed: "chevron-down",
+  valid: "check-circle",
+  invalid: "exclamation-mark-triangle",
 };

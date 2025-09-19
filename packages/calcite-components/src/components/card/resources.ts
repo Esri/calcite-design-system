@@ -25,9 +25,9 @@ export const SLOTS = {
   subtitle: "subtitle",
 };
 
-export const ICONS = {
-  selected: "check-square-f" as IconName,
-  unselected: "square" as IconName,
-  selectedSingle: "circle-f" as IconName,
-  unselectedSingle: "circle" as IconName,
+export const ICONS: Record<string, IconName> = {
+  selected: "check-square-f",
+  unselected: "square",
+  selectedSingle: "circle-f",
+  unselectedSingle: "circle",
 };

@@ -28,10 +28,10 @@ export const SLOTS = {
   action: "action",
 };
 
-export const ICONS = {
-  clear: "x" as IconName,
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
+export const ICONS: Record<string, IconName> = {
+  clear: "x",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };
 
 export const DIRECTION = {

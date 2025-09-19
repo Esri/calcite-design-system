@@ -40,8 +40,8 @@ export const DIRECTION = {
   down: "down",
 };
 
-export const ICONS = {
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
-  close: "x" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
+  close: "x",
 };

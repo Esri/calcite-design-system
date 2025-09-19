@@ -14,9 +14,9 @@ export const CSS = {
   singleView: "single-view",
 };
 
-export const ICONS = {
-  chevronLeft: "chevron-left" as IconName,
-  chevronRight: "chevron-right" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronLeft: "chevron-left",
+  chevronRight: "chevron-right",
 };
 
 const idPrefix = "calcite-stepper-action";

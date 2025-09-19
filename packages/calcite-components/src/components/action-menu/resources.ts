@@ -18,6 +18,6 @@ export const SLOTS = {
   trigger: "trigger",
 };
 
-export const ICONS = {
-  menu: "ellipsis" as IconName,
+export const ICONS: Record<string, IconName> = {
+  menu: "ellipsis",
 };

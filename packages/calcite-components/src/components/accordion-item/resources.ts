@@ -35,9 +35,9 @@ export const IDS = {
   sectionToggle: "section-toggle",
 };
 
-export const ICONS = {
-  chevronDown: "chevronDown" as IconName,
-  caretDown: "caretDown" as IconName,
-  plus: "plus" as IconName,
-  minus: "minus" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronDown: "chevronDown",
+  caretDown: "caretDown",
+  plus: "plus",
+  minus: "minus",
 };

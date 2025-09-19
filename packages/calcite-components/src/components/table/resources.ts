@@ -22,7 +22,7 @@ export const SLOTS = {
   tableFooter: "table-footer",
 };
 
-export const ICONS = {
-  hideEmpty: "hide-empty" as IconName,
-  clear: "x" as IconName,
+export const ICONS: Record<string, IconName> = {
+  hideEmpty: "hide-empty",
+  clear: "x",
 };

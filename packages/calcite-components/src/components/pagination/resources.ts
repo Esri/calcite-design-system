@@ -11,9 +11,9 @@ export const CSS = {
   ellipsis: "ellipsis",
 };
 
-export const ICONS = {
-  next: "chevron-right" as IconName,
-  previous: "chevron-left" as IconName,
-  first: "chevron-start" as IconName,
-  last: "chevron-end" as IconName,
+export const ICONS: Record<string, IconName> = {
+  next: "chevron-right",
+  previous: "chevron-left",
+  first: "chevron-start",
+  last: "chevron-end",
 };

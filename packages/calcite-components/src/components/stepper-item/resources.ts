@@ -13,9 +13,9 @@ export const CSS = {
   visuallyHidden: "visually-hidden",
 };
 
-export const ICONS = {
-  circle: "circle" as IconName,
-  circleF: "circleF" as IconName,
-  exclamationMarkCircleF: "exclamationMarkCircleF" as IconName,
-  checkCircleF: "checkCircleF" as IconName,
+export const ICONS: Record<string, IconName> = {
+  circle: "circle",
+  circleF: "circleF",
+  exclamationMarkCircleF: "exclamationMarkCircleF",
+  checkCircleF: "checkCircleF",
 };

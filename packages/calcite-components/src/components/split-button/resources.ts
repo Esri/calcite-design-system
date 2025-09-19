@@ -13,9 +13,9 @@ export const SLOTS = {
   trigger: "trigger",
 };
 
-export const ICONS = {
-  chevronDown: "chevronDown" as IconName,
-  caretDown: "caretDown" as IconName,
-  ellipsis: "ellipsis" as IconName,
-  handleVertical: "handle-vertical" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronDown: "chevronDown",
+  caretDown: "caretDown",
+  ellipsis: "ellipsis",
+  handleVertical: "handle-vertical",
 };

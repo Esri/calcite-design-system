@@ -24,11 +24,11 @@ export const SLOTS = {
   submenuItem: "submenu-item",
 };
 
-export const ICONS = {
-  arrowLeft: "arrow-left" as IconName,
-  arrowRight: "arrow-right" as IconName,
-  chevronLeft: "chevron-left" as IconName,
-  chevronRight: "chevron-right" as IconName,
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
+export const ICONS: Record<string, IconName> = {
+  arrowLeft: "arrow-left",
+  arrowRight: "arrow-right",
+  chevronLeft: "chevron-left",
+  chevronRight: "chevron-right",
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };

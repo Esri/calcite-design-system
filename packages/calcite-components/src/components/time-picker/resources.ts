@@ -37,7 +37,7 @@ export const CSS = {
   meridiemStart: "meridiem--start",
 };
 
-export const ICONS = {
-  chevronUp: "chevron-up" as IconName,
-  chevronDown: "chevron-down" as IconName,
+export const ICONS: Record<string, IconName> = {
+  chevronUp: "chevron-up",
+  chevronDown: "chevron-down",
 };

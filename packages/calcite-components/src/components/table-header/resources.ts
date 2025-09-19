@@ -16,8 +16,8 @@ export const CSS = {
   staticCell: "static-cell",
 };
 
-export const ICONS = {
-  checked: "check-square-f" as IconName,
-  indeterminate: "minus-square-f" as IconName,
-  unchecked: "square" as IconName,
+export const ICONS: Record<string, IconName> = {
+  checked: "check-square-f",
+  indeterminate: "minus-square-f",
+  unchecked: "square",
 };

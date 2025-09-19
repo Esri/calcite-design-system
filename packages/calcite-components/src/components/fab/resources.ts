@@ -4,6 +4,6 @@ export const CSS = {
   button: "button",
 };
 
-export const ICONS = {
-  plus: "plus" as IconName,
+export const ICONS: Record<string, IconName> = {
+  plus: "plus",
 };
