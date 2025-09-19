@@ -1,10 +1,5 @@
 // @ts-check
 const Monday = require("../support/monday");
-const {
-  labels: {
-    issueType: { design },
-  },
-} = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
@@ -13,18 +8,6 @@ module.exports = async ({ context }) => {
       context.payload
     );
   const monday = Monday(issue);
-
-  if (action === "reopened") {
-    monday.setColumnValue(monday.columnIds.open, "Open");
-  } else {
-    monday.setColumnValue(monday.columnIds.open, "Closed");
-    if (issue.state_reason !== "completed") {
-      monday.setColumnValue(monday.columnIds.status, "Closed");
-    }
-    else if (issue.labels?.every((label) => label.name !== design)) {
-      monday.setColumnValue(monday.columnIds.status, "Done");
-    }
-  }
-
+  monday.handleState(action);
   await monday.commit();
 };
