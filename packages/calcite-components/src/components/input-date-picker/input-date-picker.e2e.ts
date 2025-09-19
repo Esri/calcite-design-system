@@ -15,6 +15,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
@@ -2205,7 +2206,7 @@ describe("calcite-input-date-picker", () => {
           targetProp: "--calcite-date-picker-corner-radius",
         },
         "--calcite-input-date-picker-calendar-shadow": {
-          shadowSelector: `.${CSS.menu} .${CSS.floatingUiAnimation}`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "boxShadow",
         },
         "--calcite-input-date-picker-calendar-text-color": [

@@ -1,8 +1,6 @@
 export const CSS = {
   assistiveText: "assistive-text",
-  floatingUiAnimation: "calcite-floating-ui-anim",
   calendarWrapper: "calendar-wrapper",
-  chevronIcon: "chevron-icon",
   container: "container",
   dividerContainer: "divider-container",
   divider: "divider",
@@ -18,6 +16,7 @@ export const CSS = {
   menu: "menu-container",
   toggleIcon: "toggle-icon",
   verticalChevronContainer: "vertical-chevron-container",
+  chevronIcon: "chevron-icon",
 };
 
 const idPrefix = "calcite-input-date-picker";
