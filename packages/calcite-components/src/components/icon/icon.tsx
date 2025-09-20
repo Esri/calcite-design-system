@@ -33,6 +33,8 @@ export class Icon extends LitElement {
 
   @state() private pathData: CalciteIconPath;
 
+  @state() private customViewbox = undefined;
+
   @state() private visible = false;
 
   // #endregion
@@ -120,14 +122,25 @@ export class Icon extends LitElement {
     }
 
     const fetchIconProps = { icon, scale };
-    const pathData = getCachedIconData(fetchIconProps) || (await fetchIcon(fetchIconProps));
+
+    const isPathString = /^[Mm]\s*\d/.test(icon);
+    const pathData = isPathString
+      ? icon
+      : getCachedIconData(fetchIconProps) || (await fetchIcon(fetchIconProps));
 
     // While the fetchIcon method is awaiting response, the icon requested can change. This check is to verify the response received belongs to the current icon.
     if (icon !== this.icon) {
       return;
     }
 
-    this.pathData = pathData;
+    if (isPathString) {
+      const [customPathData, customViewBox] = (pathData as any).split("|");
+      this.customViewbox = customViewBox;
+      this.pathData = customPathData;
+    } else {
+      this.customViewbox = undefined;
+      this.pathData = pathData;
+    }
   }
 
   private waitUntilVisible(callback: () => void): void {
@@ -178,7 +191,7 @@ export class Icon extends LitElement {
         }}
         fill="currentColor"
         height="100%"
-        viewBox={`0 0 ${size} ${size}`}
+        viewBox={this.customViewbox || `0 0 ${size} ${size}`}
         width="100%"
         xmlns="http://www.w3.org/2000/svg"
       >
