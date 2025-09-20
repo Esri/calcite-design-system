@@ -2,7 +2,7 @@
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -246,9 +246,7 @@ export class Chip extends LitElement implements InteractiveComponent {
   }
 
   private clickHandler(): void {
-    if (!this.interactive && this.closable) {
-      focusElement(this.closeButtonRef.value);
-    }
+    this.setFocus();
   }
 
   private handleDefaultSlotChange(): void {

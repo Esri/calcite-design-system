@@ -91,9 +91,7 @@ export class Navigation extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.navigationActionEl.value;
-    }, options);
+    return this.focusSetter(() => this.navigationActionEl.value, options);
   }
 
   // #endregion

@@ -124,13 +124,13 @@ export class RadioButtonGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.selectedItem && !this.selectedItem.disabled) {
-        return this.selectedItem;
-      }
-
-      return this.getFocusableRadioButton();
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.selectedItem && !this.selectedItem.disabled
+          ? this.selectedItem
+          : this.getFocusableRadioButton(),
+      options,
+    );
   }
 
   // #endregion

@@ -49,13 +49,6 @@ export class DatePickerMonth extends LitElement {
 
   private activeFocus: boolean;
 
-  private storeDayRef = (el: DatePickerDay["el"]): void => {
-    // when moving via keyboard, focus must be updated on active date
-    if (el?.active && this.activeFocus) {
-      el.setFocus();
-    }
-  };
-
   //#endregion
 
   //#region State Properties
@@ -199,6 +192,17 @@ export class DatePickerMonth extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private storeDayRef(el: DatePickerDay["el"]): void {
+    if (!el) {
+      return;
+    }
+
+    // when moving via keyboard, focus must be updated on active date
+    if (el.active && this.activeFocus) {
+      el.setFocus();
+    }
+  }
 
   private updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {

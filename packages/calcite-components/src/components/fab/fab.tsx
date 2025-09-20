@@ -84,9 +84,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.buttonEl.value;
-    }, options);
+    return this.focusSetter(() => this.buttonEl.value, options);
   }
 
   // #endregion
