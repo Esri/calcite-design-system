@@ -42,6 +42,7 @@ jobs:
           github.event.action == 'unlabeled' && (
             github.event.label.name == 'blocked' ||
             github.event.label.name == 'design' ||
+            github.event.label.name == 'design-token' ||
             github.event.label.name == 'a11y' ||
             github.event.label.name == 'figma changes' ||
             github.event.label.name == 'spike'
