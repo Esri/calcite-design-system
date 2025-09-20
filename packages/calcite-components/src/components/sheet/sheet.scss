@@ -20,8 +20,14 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-sheet-resize-handle-offset
+
 :host {
-  @apply flex absolute z-overlay inset-0;
+  @apply flex absolute inset-0;
   visibility: hidden !important;
   // the sheet should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-sheet-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, 0.85)};
@@ -29,6 +35,10 @@
   --calcite-scrim-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-scrim-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+:host([embedded]) {
+  @apply z-overlay;
 }
 
 .calcite--rtl {
@@ -46,12 +56,15 @@
     fixed
     flex
     opacity-0
-    z-overlay
     invisible;
   color: var(--calcite-sheet-text-color, var(--calcite-color-text-2));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
+}
+
+:host([embedded]) .container {
+  @apply z-overlay;
 }
 
 :host([position="inline-start"]) .container {
@@ -157,9 +170,46 @@
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 70vh);
 }
 
-.scrim {
-  --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
-  @apply fixed inset-0 flex overflow-hidden;
+:host([embedded]) {
+  .scrim {
+    @apply fixed inset-0 flex overflow-hidden;
+    --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
+  }
+}
+
+.invisible-scrim {
+  @apply fixed
+    inset-0
+    bg-transparent
+    pointer-events-auto;
+}
+
+[popover] {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  position: fixed;
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+[popover]:popover-open {
+  display: flex;
+  position: fixed;
+}
+
+[popover]::backdrop {
+  display: flex;
+  transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
+  transition-behavior: allow-discrete;
+  opacity: 0;
+}
+
+[popover]:popover-open::backdrop {
+  opacity: 1;
+  background-color: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 :host([opened]) {
@@ -167,7 +217,7 @@
 }
 
 .content {
-  @apply flex relative box-border p-0 z-modal max-h-full max-w-full;
+  @apply flex relative box-border p-0 max-h-full max-w-full;
   background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
   max-block-size: 100%;
   visibility: hidden;
@@ -176,6 +226,10 @@
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
   transform: var(--calcite-sheet-hidden-position-internal);
+}
+
+:host([embedded]) .content {
+  @apply z-modal;
 }
 
 .content-container {

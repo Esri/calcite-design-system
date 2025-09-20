@@ -1243,7 +1243,7 @@ describe("calcite-dropdown", () => {
         filterInput.value = "numbers";
       });
 
-      expect(dropdownContentHeight.height).toBe("auto");
+      expect(dropdownContentHeight.height).toBe("fit-content");
     });
   });
 

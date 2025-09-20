@@ -8,12 +8,11 @@
  * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-popover-text-color: Specifies the component's text color.
- * @prop --calcite-popover-z-index: Specifies the component's z-index value.
+ * @prop --calcite-popover-z-index: [Deprecated] No longer necessary. Specifies the component's z-index value.
  */
 
 :host {
   @apply contents;
-  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
 .position-container {
