@@ -42,7 +42,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private guid = guid();
 
-  private buttonEl = createRef<HTMLButtonElement>();
+  private buttonRef = createRef<HTMLButtonElement>();
 
   private buttonId = IDS.button(this.guid);
 
@@ -179,7 +179,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      return this.buttonEl.value;
+      return this.buttonRef.value;
     }, options);
   }
 
@@ -225,7 +225,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     const tooltip = tooltips[0];
 
     if (tooltip) {
-      tooltip.referenceElement = this.buttonEl.value;
+      tooltip.referenceElement = this.buttonRef.value;
     }
   }
 
@@ -359,7 +359,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
-          ref={this.buttonEl}
+          ref={this.buttonRef}
           role="button"
           tabIndex={this.disabled ? null : 0}
         >
@@ -383,7 +383,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         disabled={disabled}
         id={buttonId}
         onClick={this.handleClick}
-        ref={this.buttonEl}
+        ref={this.buttonRef}
       >
         {buttonContent}
       </button>

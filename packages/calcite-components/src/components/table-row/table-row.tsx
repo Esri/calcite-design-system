@@ -40,7 +40,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   private tableRowEl: HTMLTableRowElement;
 
-  private tableRowSlotEl = createRef<HTMLSlotElement>();
+  private tableRowSlotRef = createRef<HTMLSlotElement>();
 
   private userTriggered = false;
 
@@ -323,7 +323,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotEl.value
+    const slottedCells = this.tableRowSlotRef.value
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: TableCell["el"] | TableHeader["el"]) =>
@@ -467,7 +467,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
               <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot ref={this.tableRowSlotEl} />
+                <slot ref={this.tableRowSlotRef} />
               </>,
               el,
             );

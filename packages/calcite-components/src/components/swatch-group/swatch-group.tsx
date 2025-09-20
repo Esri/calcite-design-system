@@ -30,7 +30,7 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
 
   private items: Swatch["el"][] = [];
 
-  private slotRefEl = createRef<HTMLSlotElement>();
+  private slotRef = createRef<HTMLSlotElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -168,7 +168,7 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
   }
 
   private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRefEl.value
+    const itemsFromSlot = this.slotRef.value
       ?.assignedElements({ flatten: true })
       .filter((el): el is Swatch["el"] => el?.matches("calcite-swatch"));
 
@@ -233,7 +233,7 @@ export class SwatchGroup extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
-          <slot onSlotChange={this.updateItems} ref={this.slotRefEl} />
+          <slot onSlotChange={this.updateItems} ref={this.slotRef} />
         </div>
       </InteractiveContainer>
     );

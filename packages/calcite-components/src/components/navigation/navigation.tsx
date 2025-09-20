@@ -42,7 +42,7 @@ export class Navigation extends LitElement {
 
   // #region Private Properties
 
-  private navigationActionEl = createRef<Action["el"]>();
+  private navigationActionRef = createRef<Action["el"]>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -92,7 +92,7 @@ export class Navigation extends LitElement {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
-      return this.navigationActionEl.value;
+      return this.navigationActionRef.value;
     }, options);
   }
 
@@ -179,7 +179,7 @@ export class Navigation extends LitElement {
           <calcite-action
             icon={ICONS.hamburger}
             onClick={this.actionClickHandler}
-            ref={this.navigationActionEl}
+            ref={this.navigationActionRef}
             text={this.label}
           />
         )}

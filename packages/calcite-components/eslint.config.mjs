@@ -62,6 +62,14 @@ export default tseslint.config(
           message: "Use the useCancelable controller to manage cancelable resources.",
         },
       ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            ":matches(PropertyDefinition, ClassProperty)[accessibility='private'][value.type='CallExpression'][value.callee.name='createRef']:not([key.name=/Ref$/])",
+          message: "Private properties initialized with createRef must end with Ref",
+        },
+      ],
 
       "unused-imports/no-unused-imports": "error",
 
