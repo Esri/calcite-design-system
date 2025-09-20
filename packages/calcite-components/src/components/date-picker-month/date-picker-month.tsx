@@ -111,7 +111,7 @@ export class DatePickerMonth extends LitElement {
   /** Specifies the monthStyle used by the component. */
   @property() monthStyle: "abbreviated" | "wide";
 
-  /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
+  /** When present, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
@@ -670,7 +670,7 @@ export class DatePickerMonth extends LitElement {
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
-          ref={this.storeDayRef.bind(this)}
+          ref={this.storeDayRef}
           scale={this.scale}
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}

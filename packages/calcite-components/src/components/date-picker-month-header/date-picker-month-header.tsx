@@ -348,9 +348,8 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isTargetLastValidMonth) {
       if (!this.position) {
-        const target = isDirectionLeft
-          ? this.nextMonthActionRef.value
-          : this.prevMonthActionRef.value;
+        const monthActionRef = isDirectionLeft ? this.nextMonthActionRef : this.prevMonthActionRef;
+        const target = monthActionRef.value;
 
         if (!target) {
           return;

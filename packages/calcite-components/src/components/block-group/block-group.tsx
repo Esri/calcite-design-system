@@ -89,10 +89,10 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When provided, the method will be called to determine whether the element can be added from another component. */
   @property() canPut: (detail: BlockDragDetail) => boolean;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, `calcite-block`s are sortable via a draggable button. */
+  /** When present, `calcite-block`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
@@ -111,13 +111,13 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
    */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  /** When present, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   // #endregion
@@ -135,6 +135,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.el, options);
+  }
+
+  /**
+   * Emits the `calciteBlockGroupOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: BlockDragDetail): void {
+    this.calciteBlockGroupOrderChange.emit(detail);
   }
 
   // #endregion
@@ -168,6 +178,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
@@ -428,6 +439,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     toEl.prepend(newEl);
     this.updateBlockItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -453,13 +475,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
     this.connectObserver();
 
-    this.calciteBlockGroupOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

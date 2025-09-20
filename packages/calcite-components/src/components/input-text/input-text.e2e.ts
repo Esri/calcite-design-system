@@ -8,6 +8,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -112,6 +113,10 @@ describe("calcite-input-text", () => {
     focusable(`calcite-input-text`, {
       shadowFocusTargetSelector: "input",
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-input-text`);
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {

@@ -56,7 +56,7 @@ module.exports = async ({ github, context }) => {
 
     await github.rest.issues.addLabels({
       ...issueProps,
-      labels: [issueWorkflow.new, planning.needsMilestone],
+      labels: [issueWorkflow.new, issueWorkflow.needsMilestone],
     });
 
     /* Update issue */

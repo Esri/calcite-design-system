@@ -118,7 +118,7 @@ td.last-cell {
 .selected-cell:not(.number-cell):not(.footer-cell) {
   background-color: var(
     --calcite-table-cell-background-color-selected,
-    var(--calcite-table-row-background-color-selected, var(--calcite-color-foreground-current))
+    var(--calcite-table-row-background-color-selected, var(--calcite-color-surface-highlight))
   );
 }
 

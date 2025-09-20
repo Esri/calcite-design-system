@@ -42,7 +42,7 @@ export class InputMessage extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */

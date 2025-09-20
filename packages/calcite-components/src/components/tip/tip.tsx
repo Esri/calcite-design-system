@@ -45,10 +45,10 @@ export class Tip extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the close button is not present on the component. */
+  /** When present, the close button is not present on the component. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** When `true`, the component does not display. */
+  /** When present, the component does not display. */
   @property({ reflect: true }) closed = false;
 
   /** The component header text. */
@@ -61,7 +61,7 @@ export class Tip extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, the component is selected if it has a parent `calcite-tip-manager`.
+   * When present, the component is selected if it has a parent `calcite-tip-manager`.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */

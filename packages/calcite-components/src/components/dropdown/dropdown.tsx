@@ -23,7 +23,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
@@ -31,7 +31,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -94,13 +94,13 @@ export class Dropdown
   // #region Public Properties
 
   /**
-   * When `true`, the component will remain open after a selection is made.
+   * When present, the component will remain open after a selection is made.
    *
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -122,7 +122,7 @@ export class Dropdown
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, displays and positions the component. */
+  /** When present, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -463,13 +463,7 @@ export class Dropdown
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
-    entries.forEach((entry) => {
-      const { target } = entry;
-
-      if (!this.hasUpdated) {
-        return;
-      }
-
+    entries.forEach(({ target }) => {
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -480,9 +474,12 @@ export class Dropdown
 
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
-    const referenceElWidth = referenceEl?.clientWidth;
 
-    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+    if (!scrollerEl || !referenceEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceEl.clientWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
@@ -501,13 +498,7 @@ export class Dropdown
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
     updateRefObserver(this.resizeObserver, this.scrollerEl, el);
-
-    this.resizeObserver?.observe(el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }

@@ -9,6 +9,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   openClose,
   reflects,
@@ -148,6 +149,10 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
       </calcite-combobox>
     `);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-combobox`);
   });
 
   describe("honors hidden attribute", () => {
@@ -1417,6 +1422,16 @@ describe("calcite-combobox", () => {
           `,
         },
         {
+          selectionMode: "single-persist",
+          html: html`
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `,
+        },
+        {
           selectionMode: "multiple",
           html: html`
             <calcite-combobox selection-mode="multiple">
@@ -1441,15 +1456,25 @@ describe("calcite-combobox", () => {
 
       describe("via mouse", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-            assertValueClearing(testCase.html, "mouse", "clear"));
+          if (testCase.selectionMode === "single-persist") {
+            it(`does not clear the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "no-clear"));
+          } else {
+            it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "clear"));
+          }
         });
       });
 
       describe("via keyboard", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-            assertValueClearing(testCase.html, "keyboard", "clear"));
+          if (testCase.selectionMode === "single-persist") {
+            it(`does not clear the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "no-clear"));
+          } else {
+            it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "keyboard", "clear"));
+          }
         });
       });
     });
@@ -1460,6 +1485,16 @@ describe("calcite-combobox", () => {
           selectionMode: "single",
           html: html`
             <calcite-combobox clear-disabled selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `,
+        },
+        {
+          selectionMode: "single-persist",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="single-persist">
               <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -1491,14 +1526,14 @@ describe("calcite-combobox", () => {
 
       describe("via mouse", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          it(`does not clears the value in ${testCase.selectionMode}-selection mode`, () =>
             assertValueClearing(testCase.html, "mouse", "no-clear"));
         });
       });
 
       describe("via keyboard", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          it(`does not clears the value in ${testCase.selectionMode}-selection mode`, () =>
             assertValueClearing(testCase.html, "keyboard", "no-clear"));
         });
       });

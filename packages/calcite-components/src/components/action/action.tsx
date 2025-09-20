@@ -9,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, Scale, Width } from "../interfaces";
+import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -46,8 +46,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private buttonId = IDS.button(this.guid);
 
-  private indicatorId = IDS.indicator(this.guid);
-
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
   /**
@@ -59,15 +57,35 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private indicatorEl?: HTMLDivElement;
+
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * Use this property to override or extend ARIA properties and attributes on the component's button.
+   *
+   * @internal
+   */
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased,
+      | "controlsElements"
+      | "describedByElements"
+      | "expanded"
+      | "hasPopup"
+      | "labelledByElements"
+      | "ownsElements"
+      | "pressed"
+    >
+  >;
+
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
   /**
-   * When `true`, the component appears as if it is focused.
+   * When present, the component appears as if it is focused.
    * @private
    */
   @property({ reflect: true }) activeDescendant = false;
@@ -79,17 +97,17 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When `true`, the side padding of the component is reduced.
+   * When present, the side padding of the component is reduced.
    *
    * @deprecated No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component is draggable.
+   * When present, the component is draggable.
    *
    * @private
    */
@@ -105,16 +123,16 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, displays a visual indicator. */
+  /** When present, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
   /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -137,7 +155,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @property() text: string;
 
-  /** Indicates whether the text is displayed. */
+  /** When present, the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
   /**
@@ -209,6 +227,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     }
   }
 
+  private storeIndicatorEl(el: HTMLDivElement): void {
+    this.indicatorEl = el;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -229,13 +251,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   }
 
   private renderIndicatorText(): JsxNode {
-    const { indicator, messages, indicatorId, buttonId } = this;
+    const { indicator, messages, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
         class={CSS.indicatorText}
-        id={indicatorId}
+        ref={this.storeIndicatorEl}
         role="region"
       >
         {indicator ? messages.indicator : null}
@@ -281,7 +303,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private renderButton(): JsxNode {
     const {
-      active,
       compact,
       disabled,
       icon,
@@ -290,7 +311,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       label,
       text,
       indicator,
-      indicatorId,
+      indicatorEl,
       buttonId,
       messages,
     } = this;
@@ -314,15 +335,26 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       </>
     );
 
+    const internalControlsElements = indicator && indicatorEl ? [indicatorEl] : [];
+
+    const ariaControlsElements = [
+      ...(this.aria?.controlsElements ?? []),
+      ...internalControlsElements,
+    ];
+
     if (this.dragHandle) {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          aria-controls={indicator ? indicatorId : null}
           ariaBusy={loading}
-          ariaDisabled={this.disabled ? this.disabled : null}
+          ariaControlsElements={ariaControlsElements}
+          ariaDescribedByElements={this.aria?.describedByElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaLabel={ariaLabel}
-          ariaPressed={active}
+          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaOwnsElements={this.aria?.ownsElements}
+          ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
           ref={this.buttonEl}
@@ -336,10 +368,15 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
     return (
       <button
-        aria-controls={indicator ? indicatorId : null}
         ariaBusy={loading}
+        ariaControlsElements={ariaControlsElements}
+        ariaDescribedByElements={this.aria?.describedByElements}
+        ariaExpanded={this.aria?.expanded}
+        ariaHasPopup={this.aria?.hasPopup}
         ariaLabel={ariaLabel}
-        ariaPressed={active}
+        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaOwnsElements={this.aria?.ownsElements}
+        ariaPressed={this.aria?.pressed}
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
