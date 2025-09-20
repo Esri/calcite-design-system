@@ -19,6 +19,7 @@
 //
 // --calcite-internal-close-size
 // --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-no-matches-spacing-unit-s
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
@@ -30,6 +31,7 @@
   @apply text-n2;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 1rem;
@@ -43,6 +45,7 @@
   @apply text-n1;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[1.5]");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 1.5rem;
@@ -56,6 +59,7 @@
   @apply text-0;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[2.5]");
   --calcite-combobox-input-height: theme("spacing.6");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 2rem;
@@ -260,7 +264,7 @@ calcite-chip {
 }
 
 .no-matches {
-  padding-block: var(--calcite-internal-combobox-spacing-unit-s);
+  padding-block: var(--calcite-internal-combobox-no-matches-spacing-unit-s);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
@@ -288,4 +292,5 @@ calcite-chip {
   padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
+@include form-internal-label();
 @include input-placeholder-text();

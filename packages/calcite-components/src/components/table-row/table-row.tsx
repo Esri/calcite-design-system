@@ -79,7 +79,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   @property() cellCount: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** @private */
@@ -109,7 +109,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   @property() scale: Scale;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true })
   get selected(): boolean {
     return this._selected;

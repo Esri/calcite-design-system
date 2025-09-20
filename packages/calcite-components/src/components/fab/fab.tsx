@@ -39,7 +39,7 @@ export class Fab extends LitElement implements InteractiveComponent {
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -49,7 +49,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) icon: IconNameOrString = ICONS.plus;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the kind of the component, which will apply to border and background. */
@@ -59,7 +59,7 @@ export class Fab extends LitElement implements InteractiveComponent {
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the size of the component. */
@@ -68,7 +68,7 @@ export class Fab extends LitElement implements InteractiveComponent {
   /** Specifies text to accompany the component's icon. */
   @property() text: string;
 
-  /** When `true`, displays the `text` value in the component. */
+  /** When present, displays the `text` value in the component. */
   @property({ reflect: true }) textEnabled = false;
 
   // #endregion

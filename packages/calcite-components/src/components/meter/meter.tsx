@@ -97,7 +97,7 @@ export class Meter extends LitElement implements FormComponent {
     Appearance
   > = "outline-fill";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
@@ -110,7 +110,7 @@ export class Meter extends LitElement implements FormComponent {
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
@@ -145,7 +145,7 @@ export class Meter extends LitElement implements FormComponent {
   /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
   @property({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
 
-  /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
+  /** When present, displays the values of `high`, `low`, `min`, and `max`. */
   @property({ reflect: true }) rangeLabels = false;
 
   /** Specifies the size of the component. */
@@ -157,7 +157,7 @@ export class Meter extends LitElement implements FormComponent {
   /** Specifies the current value of the component. */
   @property() value: number;
 
-  /** When `true`, displays the current value. */
+  /** When present, displays the current value. */
   @property({ reflect: true }) valueLabel = false;
 
   /** When `valueLabel` is `true`, specifies the format of displayed label. */

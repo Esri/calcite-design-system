@@ -56,7 +56,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   // #region Public Properties
 
   /**
-   * When `true`, the component is active.
+   * When present, the component is active.
    *
    * @private
    */
@@ -68,7 +68,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -95,7 +95,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** When `true`, a busy indicator is displayed on the primary button. */
+  /** When present, a busy indicator is displayed on the primary button. */
   @property({ reflect: true }) loading = false;
 
   /**

@@ -16,6 +16,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -58,10 +59,10 @@ export class RadioButton
 
   // #region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** When present, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -92,6 +93,9 @@ export class RadioButton
    */
   @property() label?: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /**
    * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
    *
@@ -100,7 +104,7 @@ export class RadioButton
   @property({ reflect: true }) name: string;
 
   /**
-   * When `true` and the component resides in a form,
+   * When present and the component resides in a form,
    * the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -488,6 +492,7 @@ export class RadioButton
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
+          {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

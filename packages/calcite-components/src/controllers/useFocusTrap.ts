@@ -47,12 +47,12 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
 
 interface FocusTrapComponent extends LitElement {
   /*
-   * When `true` prevents focus trapping.
+   * When present, prevents focus trapping.
    */
   focusTrapDisabled?: boolean;
 
   /**
-   * When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping.
+   * When defined, provides a condition to disable focus trapping. When present, prevents focus trapping.
    */
   focusTrapDisabledOverride?: () => boolean;
 

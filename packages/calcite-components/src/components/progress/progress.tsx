@@ -23,7 +23,7 @@ export class Progress extends LitElement {
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When `true` and for `"indeterminate"` progress bars, reverses the animation direction. */
+  /** When present and `type` is `"indeterminate"`, reverses the animation direction. */
   @property({ reflect: true }) reversed = false;
 
   /** Text that displays under the component's indicator. */

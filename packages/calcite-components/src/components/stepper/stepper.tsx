@@ -69,7 +69,7 @@ export class Stepper extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When present, displays a status icon in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
@@ -78,7 +78,7 @@ export class Stepper extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
+  /** When present, displays the step number in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */

@@ -75,7 +75,7 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, hides the component's content area. */
+  /** When present, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
   /**
@@ -190,7 +190,7 @@ export class ShellPanel extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentRef || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
       return;
     }
 

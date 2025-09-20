@@ -8,6 +8,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   openClose,
   reflects,
@@ -476,6 +477,10 @@ describe("calcite-autocomplete", () => {
 
   describe("is focusable", () => {
     focusable("calcite-autocomplete");
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-autocomplete`);
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

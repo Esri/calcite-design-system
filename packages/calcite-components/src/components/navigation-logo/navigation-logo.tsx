@@ -29,7 +29,7 @@ export class NavigationLogo extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
   /** A description for the component, which displays below the `heading`. */
@@ -47,7 +47,7 @@ export class NavigationLogo extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */

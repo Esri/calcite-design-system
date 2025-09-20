@@ -18,10 +18,7 @@
 
 .position-container {
   @include floating-ui-container();
-
-  & {
-    max-inline-size: var(--calcite-popover-max-size-x, 100vw);
-  }
+  max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
 @include floating-ui-elem-anim(".position-container");

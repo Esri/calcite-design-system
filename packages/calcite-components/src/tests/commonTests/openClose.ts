@@ -14,7 +14,7 @@ interface OpenCloseOptions {
   /** Toggle property to test. Currently, either "open" or "expanded". */
   openPropName?: string;
 
-  /** When `true`, the test will assert that the delays match those used when animation is disabled */
+  /** When present, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
 }
 
