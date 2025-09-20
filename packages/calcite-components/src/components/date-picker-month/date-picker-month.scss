@@ -1,4 +1,7 @@
-@include base-component();
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
+@include includes.base-component();
 
 .calendar-container {
   @apply flex w-full;
@@ -14,16 +17,16 @@
 
 .week-header-container {
   @apply flex;
-  block-size: #{$calcite-size-16};
+  block-size: #{core.$calcite-size-16};
   padding-inline: var(--calcite-spacing-sm);
   padding-block: var(--calcite-spacing-md);
 }
 
 .week-header {
   @apply text-center
-    font-bold 
-    flex 
-    text-n2h 
+    font-bold
+    flex
+    text-n2h
     justify-center
     items-center;
   inline-size: calc(100% / 7);
@@ -33,7 +36,7 @@
 .day-container {
   @apply flex
   min-w-0
-  justify-center 
+  justify-center
   w-full;
   calcite-date-picker-day {
     @apply w-full;

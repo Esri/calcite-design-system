@@ -6,6 +6,8 @@
  * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex flex-col;
 }
@@ -21,7 +23,7 @@
   @apply bg-transparent;
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([layout="vertical"]) > .item-wrapper {
   @apply flex-col items-start self-start;
@@ -43,7 +45,7 @@
   }
 }
 
-@include form-internal-label();
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();

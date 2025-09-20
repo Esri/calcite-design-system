@@ -12,6 +12,14 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-user-background-color
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply inline-flex outline-none;
   & .button {
@@ -78,4 +86,4 @@ calcite-avatar ~ .text-container {
   border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
-@include base-component();
+@include includes.base-component();

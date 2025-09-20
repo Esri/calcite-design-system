@@ -49,8 +49,17 @@
  * @prop --calcite-table-pagination-color-border-active: Specifies the component's `pageSize` pagination item bottom border color when selected.
  * @prop --calcite-table-pagination-background-color: Specifies the component's `pageSize` pagination item background color when active.
  * @prop --calcite-table-pagination-icon-color-background-hover: Specifies the component's `pageSize` pagination chevron item background color when hovered.
-
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-table-cell-font-size
+// --calcite-internal-table-cell-font-size-secondary
+// --calcite-internal-table-cell-padding
+
+@use "../../assets/styles/includes";
 
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;
@@ -204,4 +213,4 @@ calcite-pagination {
   }
 }
 
-@include base-component();
+@include includes.base-component();

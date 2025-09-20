@@ -7,6 +7,15 @@
 * @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icon and description text.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-logo-background-color
+// --calcite-internal-navigation-logo-text-color
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply inline-flex;
 }
@@ -22,7 +31,7 @@
     var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
   );
   border-block-end: 2px solid var(--calcite-color-transparent);
-  @include transition-default($target-props: "background-color");
+  @include includes.transition-default($target-props: "background-color");
 }
 
 .container--link {
@@ -100,4 +109,4 @@
   font-size: var(--calcite-font-size--1);
 }
 
-@include base-component();
+@include includes.base-component();

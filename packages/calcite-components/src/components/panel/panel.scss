@@ -32,6 +32,9 @@
 // --calcite-internal-panel-default-space
 // --calcite-internal-panel-header-vertical-padding
 
+@use "../../assets/styles/includes";
+@use "sass:meta";
+
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
 
@@ -43,9 +46,9 @@ slot[name="alerts"]::slotted(calcite-alert) {
   block-size: 0;
 }
 
-@include disabled();
+@include includes.disabled();
 
-@import "../../assets/styles/header";
+@include meta.load-css("../../assets/styles/header");
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
@@ -303,4 +306,4 @@ calcite-icon {
   --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
 }
 
-@include base-component();
+@include includes.base-component();

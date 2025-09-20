@@ -8,6 +8,14 @@
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-autocomplete-item-group-spacing-unit
+
+@use "../../assets/styles/includes";
+
 .scale--s {
   @apply text-n2h;
   --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.2");
@@ -55,4 +63,4 @@
   padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit);
 }
 
-@include base-component();
+@include includes.base-component();

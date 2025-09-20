@@ -25,6 +25,8 @@
 // --calcite-internal-action-padding-inline
 // --calcite-internal-action-text-color
 
+@use "../../assets/styles/includes";
+
 :host {
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
@@ -286,8 +288,8 @@
   @apply sr-only;
 }
 
-@include base-component();
-@include disabled {
+@include includes.base-component();
+@include includes.disabled {
   .button,
   .button:hover,
   .button:focus {

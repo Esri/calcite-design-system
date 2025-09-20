@@ -59,19 +59,6 @@ export default defineConfig({
   ],
 
   css: {
-    preprocessorOptions: {
-      scss: {
-        // Add "includes.scss" import to each scss file
-        additionalData(code: string, id: string) {
-          const globalCss = "/src/assets/styles/includes";
-          if (!id.endsWith(".scss") || id.endsWith(`${globalCss}.sass`)) {
-            return "";
-          }
-          return `@import "${globalCss}";\n${code}`;
-        },
-        silenceDeprecations: ["import", "global-builtin"],
-      },
-    },
     postcss: {
       plugins: [
         tailwindcss(tailwindConfig as any as TailwindConfig),

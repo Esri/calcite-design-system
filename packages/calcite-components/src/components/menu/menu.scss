@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
 }
@@ -10,4 +12,4 @@ ul {
   @apply flex flex-col w-full;
 }
 
-@include base-component();
+@include includes.base-component();

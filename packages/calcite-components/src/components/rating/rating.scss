@@ -19,12 +19,14 @@
 //
 // --calcite-internal-rating-spacing
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([scale="s"]) {
   @apply h-6;
@@ -118,7 +120,7 @@ calcite-chip {
   @apply sr-only;
 }
 
-@include form-internal-label();
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();
