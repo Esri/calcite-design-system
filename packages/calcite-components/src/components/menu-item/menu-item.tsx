@@ -12,11 +12,11 @@ import {
 } from "@arcgis/lumina";
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import { componentFocusable } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -51,6 +51,8 @@ export class MenuItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -63,10 +65,10 @@ export class MenuItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /** When present, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
-  /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
+  /** When present, the component displays a breadcrumb trail for use as a navigational aid. */
   @property({ reflect: true }) breadcrumb: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
@@ -97,7 +99,7 @@ export class MenuItem extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
+  /** When present, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -124,11 +126,18 @@ export class MenuItem extends LitElement {
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    this.anchorEl.value.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.anchorEl.value;
+    }, options);
   }
 
   //#endregion
@@ -334,6 +343,7 @@ export class MenuItem extends LitElement {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
+        aria={{ expanded: this.open }}
         class={CSS.dropdownAction}
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem

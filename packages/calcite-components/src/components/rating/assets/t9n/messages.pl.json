@@ -1,4 +1,5 @@
 {
   "rating": "Ocena",
+  "required": "Wymagane",
   "stars": "Gwiazdki: {num}"
 }

@@ -1,17 +1,15 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  focusFirstTabbable,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { createRef } from "lit-html/directives/ref.js";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { componentFocusable, getIconScale } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
+import { getIconScale } from "../../utils/component";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import {
@@ -24,6 +22,7 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconNameOrString } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -60,7 +59,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl: HTMLElement;
+  private containerRef = createRef<HTMLElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -74,6 +73,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private _closed = false;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -112,10 +113,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the header. */
+  /** When present, displays a close button in the trailing side of the header. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** When present, the component will be hidden. */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -127,23 +128,19 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  /**
-   * Specifies the direction of the collapse.
-   *
-   * @private
-   */
+  /** When `collapsible` is present, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
-  /** When `true`, hides the component's content area. */
+  /** When present, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
-  /** When `true`, the component is collapsible. */
+  /** When present, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text. */
@@ -155,16 +152,16 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true }) icon: IconNameOrString;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /** When present, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Determines where the action menu will be positioned. */
@@ -206,11 +203,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.panelScrollEl?.scrollTo(options);
   }
 
-  /** Sets focus on the component's first focusable element. */
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    focusFirstTabbable(this.containerEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -219,6 +221,12 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   /** Fires when the close button is clicked. */
   calcitePanelClose = createEvent({ cancelable: true });
+
+  /** Fires when the component's content area is collapsed. */
+  calcitePanelCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calcitePanelExpand = createEvent({ cancelable: false });
 
   /** Fires when the content is scrolled. */
   calcitePanelScroll = createEvent({ cancelable: false });
@@ -234,6 +242,16 @@ export class Panel extends LitElement implements InteractiveComponent {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") && this.hasUpdated) {
+      if (this.collapsed) {
+        this.calcitePanelCollapse.emit();
+      } else {
+        this.calcitePanelExpand.emit();
+      }
+    }
   }
 
   override updated(): void {
@@ -281,10 +299,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  private setContainerRef(node: HTMLElement): void {
-    this.containerEl = node;
-  }
-
   private closeClickHandler(): void {
     this.emitCloseEvent();
   }
@@ -301,7 +315,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
-    if (event.defaultPrevented) {
+    if (event.defaultPrevented || event.target !== this.el) {
       return;
     }
 
@@ -372,13 +386,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private setPanelScrollEl(el: HTMLElement): void {
+    updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
-    this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-      this.resizeHandler();
-    }
   }
 
   private handleAlertsSlotChange(event: Event): void {
@@ -397,7 +406,12 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
 
     const iconNode = icon ? (
-      <calcite-icon class={CSS.icon} icon={icon} scale={getIconScale(scale)} />
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={icon}
+        scale={getIconScale(scale)}
+      />
     ) : null;
 
     const headingNode = heading ? (
@@ -479,10 +493,10 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const collapseNode = collapsible ? (
       <calcite-action
-        ariaExpanded={!collapsed}
-        ariaLabel={collapse}
+        aria={{ expanded: !collapsed }}
         icon={collapsed ? icons[0] : icons[1]}
         id={IDS.collapse}
+        label={collapse}
         onClick={this.collapse}
         scale={this.scale}
         text={collapse}
@@ -661,7 +675,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.setContainerRef}>
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

@@ -18,6 +18,13 @@
  * @prop --calcite-action-text-color: Specifies the component's text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-padding-inline
+// --calcite-internal-action-text-color
+
 :host {
   @extend %component-host;
   @apply flex bg-transparent cursor-pointer;
@@ -130,7 +137,6 @@
     transition-opacity
     ease-in-out;
 
-  transition-property: margin;
   transition-property: inline-size;
 }
 
@@ -140,21 +146,21 @@
 
 :host([active]) {
   .button {
-    &,
-    &:hover,
-    &:focus {
-      color: var(
-        --calcite-action-text-color-press,
-        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-      );
+    background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+
+    &:hover {
+      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-3));
+    }
+
+    &:active {
       background-color: var(
         --calcite-action-background-color-press,
         var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
       );
-    }
-
-    &:active {
-      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
     }
   }
 }

@@ -8,6 +8,7 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
@@ -228,6 +229,10 @@ describe("calcite-radio-button", () => {
 
       expect(await getFocusedElementProp(page, "id")).toBe("flowers");
     });
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-radio-button`);
   });
 
   describe("reflects", () => {

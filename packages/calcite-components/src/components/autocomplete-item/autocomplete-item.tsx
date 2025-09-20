@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import {
@@ -24,13 +24,13 @@ declare global {
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
 export class AutocompleteItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * True when the item is highlighted from keyboard interaction.
@@ -42,7 +42,7 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
   /** A description for the component. Displays below the label text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -88,37 +88,49 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
   /** The component's value. */
   @property() value: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Public Methods
 
   /**
-   * Fires when the item has been selected.
+   * Emits the `calciteAutocompleteItemSelect` event.
    *
    * @private
    */
-  calciteInternalAutocompleteItemSelect = createEvent({ cancelable: false });
+  @method()
+  emitSelectEvent(): void {
+    this.calciteAutocompleteItemSelect.emit();
+  }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Events
+
+  /**
+   * Fires when the item has been selected.
+   */
+  calciteAutocompleteItemSelect = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
 
   override updated(): void {
     updateHostInteraction(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleClick(event: MouseEvent): void {
     event.preventDefault();
-    this.calciteInternalAutocompleteItemSelect.emit();
+    this.emitSelectEvent();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { active, description, heading, disabled, inputValueMatchPattern } = this;
@@ -171,5 +183,5 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }

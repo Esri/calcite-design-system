@@ -3,5 +3,6 @@
   "date": "Data",
   "dateFormat": "Formato da Data: {format}",
   "endDate": "Data Final",
+  "required": "Necessário",
   "startDate": "Data Inicial"
 }

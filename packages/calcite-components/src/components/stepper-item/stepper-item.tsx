@@ -24,11 +24,11 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { slotChangeHasContent } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -68,6 +68,8 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private focusSetter = useSetFocus<this>()(this);
+
   //#endregion
 
   //#region State Properties
@@ -78,33 +80,33 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When present, the step has been completed. */
   @property({ reflect: true }) complete = false;
 
   /** A description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component contains an error that requires resolution from the user. */
+  /** When present, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
   /** The component header text. */
   @property() heading: string;
 
   /**
-   * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   * When present, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
    */
   @property() icon = false;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When `true`, the item will be hidden
+   * When present, the item will be hidden.
    *
    * @private
    *  */
@@ -121,7 +123,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   * When present, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
    */
@@ -137,19 +139,25 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   //#endregion
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    (this.layout === "vertical" ? this.el : this.headerEl.value)?.focus();
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      return this.layout === "vertical" ? this.el : this.headerEl.value;
+    }, options);
   }
 
   //#endregion

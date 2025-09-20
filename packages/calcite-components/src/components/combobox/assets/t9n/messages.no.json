@@ -1,8 +1,11 @@
 {
+  "add": "Legg til {text}",
   "all": "Alle",
   "allSelected": "Alle valgte",
-  "selectAll": "Merk alle",
   "clear": "Fjern verdi",
+  "noMatches": "Ingen samsvar",
   "removeTag": "Fjern tagg",
+  "required": "Obligatorisk",
+  "selectAll": "Velg alle",
   "selected": "valgte"
 }

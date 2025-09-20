@@ -3,9 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   accessible,
   disabled,
+  focusable,
   formAssociated,
   hidden,
   HYDRATED_ATTR,
+  internalLabel,
   labelable,
   themed,
 } from "../../tests/commonTests";
@@ -46,6 +48,14 @@ describe("calcite-switch", () => {
 
   describe("disabled", () => {
     disabled("calcite-switch");
+  });
+
+  describe("focusable", () => {
+    focusable("calcite-switch");
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-switch`);
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {

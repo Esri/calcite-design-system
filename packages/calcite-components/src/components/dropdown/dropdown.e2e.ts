@@ -695,7 +695,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -724,7 +724,7 @@ describe("calcite-dropdown", () => {
     const trigger = await element.find("#trigger");
     const item1 = await element.find("#item-1");
     const item3 = await element.find("#item-3");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -755,7 +755,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("#item-1");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -780,7 +780,7 @@ describe("calcite-dropdown", () => {
       await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-button[slot='trigger']");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
 
@@ -829,7 +829,7 @@ describe("calcite-dropdown", () => {
       await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
 
@@ -877,7 +877,7 @@ describe("calcite-dropdown", () => {
       `);
       await skipAnimations(page);
       const element = await page.find("calcite-dropdown");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
       const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
@@ -913,7 +913,7 @@ describe("calcite-dropdown", () => {
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
@@ -953,7 +953,7 @@ describe("calcite-dropdown", () => {
       `);
       const element = await page.find("calcite-dropdown");
       const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .calcite-dropdown-wrapper`);
+      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
       const calciteDropdownClose = await element.spyOnEvent("calciteDropdownClose");
       const calciteDropdownOpen = await element.spyOnEvent("calciteDropdownOpen");
 
@@ -1007,8 +1007,8 @@ describe("calcite-dropdown", () => {
     const element2 = await page.find("calcite-dropdown[id='dropdown-2']");
     const trigger1 = await element1.find("#trigger");
     const trigger2 = await element2.find("#trigger");
-    const dropdownWrapper1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .calcite-dropdown-wrapper");
-    const dropdownWrapper2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper1 = await page.find("calcite-dropdown[id='dropdown-1'] >>> .wrapper");
+    const dropdownWrapper2 = await page.find("calcite-dropdown[id='dropdown-2'] >>> .wrapper");
     expect(await dropdownWrapper1.isVisible()).toBe(false);
     expect(await dropdownWrapper2.isVisible()).toBe(false);
     await trigger1.click();
@@ -1037,7 +1037,7 @@ describe("calcite-dropdown", () => {
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
     expect(await dropdownWrapper.isVisible()).toBe(false);
     await trigger.click();
     await page.waitForChanges();
@@ -1064,7 +1064,7 @@ describe("calcite-dropdown", () => {
 
     const element = await page.find("calcite-dropdown");
     const trigger = await findAll(element, ".trigger");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper");
+    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
     await trigger[0].click();
     expect(await dropdownWrapper.isVisible()).toBe(true);
     await trigger[0].click();
@@ -1235,9 +1235,7 @@ describe("calcite-dropdown", () => {
       await skipAnimations(page);
       await page.waitForChanges();
 
-      const dropdownContentHeight = await (
-        await page.find("calcite-dropdown >>> .calcite-dropdown-wrapper")
-      ).getComputedStyle();
+      const dropdownContentHeight = await (await page.find("calcite-dropdown >>> .wrapper")).getComputedStyle();
 
       await page.evaluate(() => {
         const filter = document.querySelector(`calcite-list`).shadowRoot.querySelector("calcite-filter");
@@ -1263,7 +1261,7 @@ describe("calcite-dropdown", () => {
       `,
       "open",
       {
-        shadowSelector: ".calcite-dropdown-wrapper",
+        shadowSelector: ".wrapper",
       },
     );
   });

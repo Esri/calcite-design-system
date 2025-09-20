@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, t9n, themed, defaults } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -33,6 +33,19 @@ describe("calcite-pagination", () => {
 
   describe("translation support", () => {
     t9n("calcite-pagination");
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-pagination", [
+      {
+        propertyName: "totalItems",
+        defaultValue: 0,
+      },
+      {
+        propertyName: "startItem",
+        defaultValue: 1,
+      },
+    ]);
   });
 
   describe("page links", () => {
@@ -168,6 +181,15 @@ describe("calcite-pagination", () => {
       selectedPage = await page.find(`calcite-pagination >>> .${CSS.page}.${CSS.selected}`);
       expect(selectedPage.innerText).toBe("3");
       expect(toggleSpy).toHaveReceivedEventTimes(2);
+    });
+  });
+  describe("start-item", () => {
+    it("checks page defaults to 1 when start-item is negative", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`);
+      const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
+      expect(links.length).toBe(1);
+      expect(await links[0].getProperty("value")).toBe("1");
     });
   });
   describe("showing one item at a time", () => {

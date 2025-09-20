@@ -7,18 +7,24 @@
 * @prop --calcite-dropdown-background-color: Specifies the component's background color.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dropdown-width
+
 :host {
   @apply inline-block;
 }
 
-.calcite-dropdown-wrapper {
+.wrapper {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".calcite-dropdown-wrapper");
+@include floating-ui-elem-anim(".wrapper");
 
-.calcite-dropdown-content {
+.content {
   @apply w-auto
   overflow-y-auto
   overflow-x-hidden
@@ -27,7 +33,7 @@
   background-color: var(--calcite-dropdown-background-color, var(--calcite-color-foreground-1));
 }
 
-.calcite-trigger-container {
+.trigger-container {
   @apply relative flex flex-auto h-full;
   @include word-break;
 }
@@ -46,7 +52,7 @@
 
 @media (forced-colors: active) {
   /* use real border since box-shadow is removed in high contrast mode */
-  :host([open]) .calcite-dropdown-wrapper {
+  :host([open]) .wrapper {
     border: var(--calcite-border-width-sm) solid canvasText;
   }
 }

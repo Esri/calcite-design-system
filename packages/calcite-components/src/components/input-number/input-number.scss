@@ -27,6 +27,12 @@
  * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-number-alignment
+
 :host {
   @apply block;
 }
@@ -105,6 +111,7 @@ input {
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
   border-radius: var(--calcite-input-number-corner-radius, var(--calcite-corner-radius-sharp));
+  text-align: var(--calcite-internal-input-number-alignment);
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -191,6 +198,7 @@ input:focus {
     inline-flex
     flex-1
     items-center;
+  isolation: isolate;
 }
 
 .icon {
@@ -300,15 +308,15 @@ input:focus {
 
 // alignment type
 :host([alignment="start"]) {
-  & input {
-    text-align: start;
-  }
+  --calcite-internal-input-number-alignment: start;
+}
+
+:host([alignment="center"]) {
+  --calcite-internal-input-number-alignment: center;
 }
 
 :host([alignment="end"]) {
-  & input {
-    text-align: end;
-  }
+  --calcite-internal-input-number-alignment: end;
 }
 
 .number-button-wrapper {
@@ -480,6 +488,7 @@ input {
   }
 }
 
+@include form-internal-label();
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();

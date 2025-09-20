@@ -1,8 +1,25 @@
 // @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
-import { isKeyboardTriggeredClick } from "../../utils/dom";
+import { isKeyboardTriggeredClick, isPrimaryPointerButton } from "../../utils/dom";
 import type { Popover } from "./popover";
+
+const clickTolerance = 5;
+
+export function isDrag({
+  startX,
+  startY,
+  endX,
+  endY,
+}: {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+}): boolean {
+  const distance = Math.hypot(endX - startX, endY - startY);
+  return distance > clickTolerance;
+}
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -14,6 +31,8 @@ export default class PopoverManager {
   private registeredElements = new Map<ReferenceElement, Popover["el"]>();
 
   private registeredElementCount = 0;
+
+  private pointerDownPosition?: { x: number; y: number };
 
   // --------------------------------------------------------------------------
   //
@@ -86,20 +105,43 @@ export default class PopoverManager {
     }
   };
 
-  private clickHandler = (event: PointerEvent): void => {
-    if (isKeyboardTriggeredClick(event) || event.defaultPrevented) {
+  private pointerDownHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented || !isPrimaryPointerButton(event)) {
       return;
     }
+
+    const { clientX, clientY } = event;
+    this.pointerDownPosition = { x: clientX, y: clientY };
+  };
+
+  private clickHandler = (event: PointerEvent): void => {
+    if (
+      isKeyboardTriggeredClick(event) ||
+      event.defaultPrevented ||
+      (this.pointerDownPosition &&
+        isDrag({
+          endY: event.clientY,
+          endX: event.clientX,
+          startY: this.pointerDownPosition.y,
+          startX: this.pointerDownPosition.x,
+        }))
+    ) {
+      return;
+    }
+
+    this.pointerDownPosition = undefined;
 
     this.togglePopovers(event);
   };
 
   private addListeners(): void {
+    window.addEventListener("pointerdown", this.pointerDownHandler);
     window.addEventListener("click", this.clickHandler);
     window.addEventListener("keydown", this.keyDownHandler);
   }
 
   private removeListeners(): void {
+    window.removeEventListener("pointerdown", this.pointerDownHandler);
     window.removeEventListener("click", this.clickHandler);
     window.removeEventListener("keydown", this.keyDownHandler);
   }

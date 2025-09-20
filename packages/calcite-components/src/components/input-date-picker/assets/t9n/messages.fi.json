@@ -3,5 +3,6 @@
   "date": "Päivämäärä",
   "dateFormat": "Päivämäärän muoto: {format}",
   "endDate": "Lopetuspäivämäärä",
+  "required": "Pakollinen",
   "startDate": "Aloituspäivämäärä"
 }

@@ -71,6 +71,14 @@ describe("calcite-block", () => {
         propertyName: "sortHandleOpen",
         defaultValue: false,
       },
+      {
+        propertyName: "sortDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ]);
   });
 
@@ -107,6 +115,10 @@ describe("calcite-block", () => {
       {
         propertyName: "sortHandleOpen",
         value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
     ]);
   });
@@ -415,17 +427,17 @@ describe("calcite-block", () => {
       block.setAttribute("heading", "test-heading");
       await page.waitForChanges();
 
-      expect(header).toHaveClass(CSS.headerHasText);
+      expect(header).toHaveClass(CSS.headerHasContent);
 
       block.removeAttribute("heading");
       await page.waitForChanges();
 
-      expect(header).not.toHaveClass(CSS.headerHasText);
+      expect(header).not.toHaveClass(CSS.headerHasContent);
 
       block.setAttribute("description", "test-description");
       await page.waitForChanges();
 
-      expect(header).toHaveClass(CSS.headerHasText);
+      expect(header).toHaveClass(CSS.headerHasContent);
     });
   });
 
@@ -476,6 +488,27 @@ describe("calcite-block", () => {
     expect(article.getAttribute("aria-label")).toEqual(label);
   });
 
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-block heading="Test"></calcite-block>`);
+    const item = await page.find("calcite-block");
+
+    const expandSpy = await page.spyOnEvent("calciteBlockExpand");
+    const collapseSpy = await page.spyOnEvent("calciteBlockCollapse");
+
+    item.setProperty("expanded", true);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(true);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(0);
+
+    item.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await item.getProperty("expanded")).toBe(false);
+    expect(expandSpy).toHaveReceivedEventTimes(1);
+    expect(collapseSpy).toHaveReceivedEventTimes(1);
+  });
+
   describe("translation support", () => {
     t9n("calcite-block");
   });
@@ -498,6 +531,16 @@ describe("calcite-block", () => {
           "--calcite-block-border-color": {
             targetProp: "borderColor",
           },
+          "--calcite-block-content-space": [
+            {
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingBlock",
+            },
+            {
+              shadowSelector: `section.${CSS.content}`,
+              targetProp: "paddingInline",
+            },
+          ],
           "--calcite-block-header-background-color": {
             shadowSelector: `.${CSS.toggle}`,
             targetProp: "backgroundColor",
@@ -512,11 +555,7 @@ describe("calcite-block", () => {
             targetProp: "backgroundColor",
             state: { press: `calcite-block >>> .${CSS.toggle}` },
           },
-          "--calcite-block-text-color": {
-            shadowSelector: `.${CSS.contentStart}`,
-            targetProp: "color",
-          },
-          "--calcite-block-heading-text-color-press": {
+          "--calcite-block-heading-text-color": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",
             state: { press: { attribute: "class", value: CSS.heading } },
@@ -547,10 +586,38 @@ describe("calcite-block", () => {
         },
       );
     });
+
     describe("collapsed", () => {
       themed(html`<calcite-block heading="heading"></calcite-block>`, {
         "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
       });
+    });
+
+    describe("deprecated", () => {
+      themed(
+        html`<calcite-block
+          heading="heading"
+          description="description"
+          expanded
+          collapsible
+          icon-end="pen"
+          icon-start="pen"
+        >
+          <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <div>content</div>
+        </calcite-block>`,
+        {
+          "--calcite-block-text-color": {
+            shadowSelector: `.${CSS.contentStart}`,
+            targetProp: "color",
+          },
+          "--calcite-block-heading-text-color-press": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+            state: { press: { attribute: "class", value: CSS.heading } },
+          },
+        },
+      );
     });
   });
 });

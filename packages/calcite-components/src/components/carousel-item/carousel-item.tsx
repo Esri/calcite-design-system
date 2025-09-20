@@ -33,7 +33,7 @@ export class CarouselItem extends LitElement {
    */
   @property() label: string;
 
-  /** When `true`, the component is selected. */
+  /** When present, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   // #endregion

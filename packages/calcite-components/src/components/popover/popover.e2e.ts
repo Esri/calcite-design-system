@@ -400,6 +400,37 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
+  it("should not close active popover if click starts within the popover but ends outside", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-popover reference-element="ref" open><div id="content">Content</div></calcite-popover>
+      <button id="ref">Button</button>
+      <div id="outsideNode">Outside node</div>
+    `);
+
+    const popover = await page.find("calcite-popover");
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const content = document.getElementById("content");
+      content.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
+      const outsideNode = document.getElementById("outsideNode");
+      outsideNode.dispatchEvent(new MouseEvent("pointerup", { bubbles: true }));
+    });
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(true);
+
+    const ref = await page.find("#ref");
+
+    await ref.click();
+    await page.waitForChanges();
+
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
   it("should not be visible if reference is hidden", async () => {
     const page = await newE2EPage();
 
@@ -837,6 +868,10 @@ describe("calcite-popover", () => {
           "--calcite-popover-corner-radius": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "borderRadius",
+          },
+          "--calcite-popover-max-size-x": {
+            shadowSelector: `.${CSS.positionContainer}`,
+            targetProp: "maxInlineSize",
           },
           "--calcite-popover-text-color": [
             {

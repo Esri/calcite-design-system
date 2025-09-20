@@ -4,9 +4,10 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { Scale } from "../interfaces";
 import { Block } from "./block";
 
-const { toggleDisplay } = ATTRIBUTES;
+const { toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
   extends Pick<
@@ -21,6 +22,7 @@ interface BlockStoryArgs
       | "menuPlacement"
       | "dragDisabled"
       | "sortHandleOpen"
+      | "scale"
     >,
     Pick<BlockSection, "toggleDisplay"> {
   text: string;
@@ -43,6 +45,7 @@ export default {
     text: "Animals",
     sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
+    scale: scale.defaultValue,
   },
   argTypes: {
     menuPlacement: {
@@ -54,6 +57,10 @@ export default {
     },
     toggleDisplay: {
       options: toggleDisplay.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
   },
@@ -71,6 +78,7 @@ export const simple = (args: BlockStoryArgs): string => html`
     ${boolean("drag-disabled", args.dragDisabled)}
     ${boolean("sort-handle-open", args.dragDisabled)}
     heading-level="${args.headingLevel}"
+    scale="${args.scale}"
   >
     <calcite-block-section
       text="${args.text}"
@@ -337,5 +345,73 @@ export const iconStartEnd = (): string => html`
     style="width: 500px"
   >
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
+  </calcite-block>
+`;
+
+const blockHTML = (scale: Scale): string => html`
+  <calcite-block
+    heading="Heading"
+    description="description"
+    expanded
+    collapsible
+    scale="${scale}"
+    icon-start="layers"
+    icon-end="layers"
+  >
+    <calcite-action
+      label="Add"
+      icon="plus"
+      text="Add item"
+      text-enabled
+      slot="header-menu-actions"
+      scale="${scale}"
+    ></calcite-action>
+    <calcite-action
+      label="Add"
+      icon="plus"
+      text="Add item"
+      text-enabled
+      slot="actions-end"
+      scale="${scale}"
+    ></calcite-action>
+    <calcite-block-section text="block-section"> </calcite-block-section>
+  </calcite-block>
+`;
+
+export const allScales = (): string =>
+  html` <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    </style>
+    <div class="container">${blockHTML("s")} ${blockHTML("m")} ${blockHTML("l")}</div>`;
+
+export const nonCollapsible = (): string =>
+  html` <calcite-block
+    icon-end="3d-building"
+    heading="Layer effects"
+    description="Adjust blur, highlight, and more"
+    icon-start="effects"
+    loading
+    drag-handle
+  >
+    <div slot="content-start">
+      <calcite-action icon="information"></calcite-action>
+    </div>
+    <calcite-action icon="layers" slot="actions-end"></calcite-action>
+    <div slot="header-menu-actions">
+      <calcite-action text="Information" icon="information" text-enabled></calcite-action>
+    </div>
+    <p>Block content</p>
+  </calcite-block>`;
+
+export const emptyHeader = (): string => html`
+  <calcite-block expanded calcite-hydrated>
+    <calcite-label layout="inline-space-between">
+      <div>Favorite vegetable</div>
+      <calcite-icon icon="information" />
+    </calcite-label>
   </calcite-block>
 `;

@@ -10,10 +10,9 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { componentFocusable } from "../../utils/component";
 import { IconNameOrString } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
-import { MoveTo } from "../sort-handle/interfaces";
+import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
@@ -21,6 +20,7 @@ import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -51,17 +51,17 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   //#region Private Properties
 
-  private actionsEndEl = createRef<HTMLDivElement>();
+  private actionsEndRef = createRef<HTMLDivElement>();
 
-  private actionsStartEl = createRef<HTMLDivElement>();
+  private actionsStartRef = createRef<HTMLDivElement>();
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
-  private contentEl = createRef<HTMLDivElement>();
+  private contentRef = createRef<HTMLDivElement>();
 
-  private defaultSlotEl = createRef<HTMLSlotElement>();
+  private defaultSlotRef = createRef<HTMLSlotElement>();
 
-  private handleGridEl = createRef<HTMLDivElement>();
+  private handleGridRef = createRef<HTMLDivElement>();
 
   private sortHandleEl: SortHandle["el"];
 
@@ -71,6 +71,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
 
   //#endregion
 
@@ -112,29 +114,36 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
+
+  /** When present, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** When present, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /** A description for the component. Displays below the label text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the item is not draggable. */
+  /** When present, the item is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
-   * When `true`, the component displays a draggable button.
+   * When present, the component displays a draggable button.
    *
    * @private
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, the item is expanded to show child components. */
+  /** When present, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -168,14 +177,21 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
-   * Sets the item to display a border.
+   * Defines the "Add to" items.
    *
    * @private
    */
-  @property() moveToItems: MoveTo[] = [];
+  @property() addToItems: SortMenuItem[] = [];
 
   /**
-   * When `true`, the item is open to show child components.
+   * Defines the "Move to" items.
+   *
+   * @private
+   */
+  @property() moveToItems: SortMenuItem[] = [];
+
+  /**
+   * When present, the item is open to show child components.
    *
    * @deprecated Use `expanded` prop instead.
    */
@@ -199,7 +215,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    * */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  /** When present and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -233,10 +249,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() setSize: number;
 
-  /** When `true`, displays and positions the sort handle. */
+  /** When present, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When `true`, the component's content appears inactive. */
+  /** When present, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */
@@ -255,27 +271,29 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   //#region Public Methods
 
-  /** Sets focus on the component. */
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
   @method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-    const {
-      containerEl: { value: containerEl },
-      parentListEl,
-    } = this;
-    const focusIndex = focusMap.get(parentListEl);
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => {
+      const { containerRef, parentListEl } = this;
+      const focusIndex = focusMap.get(parentListEl);
 
-    if (typeof focusIndex === "number") {
-      const cells = this.getGridCells();
-      if (cells[focusIndex]) {
-        this.focusCell(cells[focusIndex]);
-      } else {
-        containerEl?.focus();
+      if (typeof focusIndex === "number") {
+        const cell = this.getGridCells()[focusIndex];
+        if (cell) {
+          this.focusCell(cell);
+          return;
+        }
       }
-      return;
-    }
 
-    containerEl?.focus();
+      return { target: containerRef.value, includeContainer: true, strategy: "focusable" };
+    }, options);
   }
 
   //#endregion
@@ -322,6 +340,12 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   /** Fires when the close button is clicked. */
   calciteListItemClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteListItemCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteListItemExpand = createEvent({ cancelable: false });
 
   /** Fires when the component is selected. */
   calciteListItemSelect = createEvent({ cancelable: false });
@@ -386,10 +410,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
       this.handleDisabledChange();
     }
 
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      this.handleExpandedChange();
-    }
-
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.handleSelectedChange();
     }
@@ -399,7 +419,16 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
 
     if (changes.has("displayMode") && this.hasUpdated) {
-      this.handleExpandableChange(this.defaultSlotEl.value);
+      this.handleExpandableChange(this.defaultSlotRef.value);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.handleExpandedChange();
+        this.calciteListItemExpand.emit();
+      } else {
+        this.calciteListItemCollapse.emit();
+      }
     }
   }
 
@@ -444,7 +473,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
-    this.handleExpandableChange(this.defaultSlotEl.value);
+    this.handleExpandableChange(this.defaultSlotRef.value);
   }
 
   private setSortHandleEl(el: SortHandle["el"]): void {
@@ -590,10 +619,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
   private getGridCells(): HTMLDivElement[] {
     return [
-      this.handleGridEl.value,
-      this.actionsStartEl.value,
-      this.contentEl.value,
-      this.actionsEndEl.value,
+      this.handleGridRef.value,
+      this.actionsStartRef.value,
+      this.contentRef.value,
+      this.actionsEndRef.value,
     ].filter((el) => el && !el.hidden);
   }
 
@@ -605,9 +634,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     const { key } = event;
     const composedPath = event.composedPath();
     const {
-      containerEl: { value: containerEl },
-      actionsStartEl: { value: actionsStartEl },
-      actionsEndEl: { value: actionsEndEl },
+      containerRef,
+      actionsStartRef: { value: actionsStartEl },
+      actionsEndRef: { value: actionsEndEl },
       expanded,
       expandable,
     } = this;
@@ -647,7 +676,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }
       } else if (currentIndex === 0) {
         this.focusCell(null);
-        containerEl.focus();
+        containerRef.value.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }
@@ -737,17 +766,27 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
 
   private renderDragHandle(): JsxNode {
-    const { label, dragHandle, dragDisabled, setPosition, setSize, moveToItems } = this;
+    const {
+      label,
+      dragHandle,
+      dragDisabled,
+      setPosition,
+      setSize,
+      moveToItems,
+      sortDisabled,
+      addToItems,
+    } = this;
 
     return dragHandle ? (
       <div
         ariaLabel={label}
         class={{ [CSS.dragContainer]: true, [CSS.gridCell]: true }}
         key="drag-handle-container"
-        ref={this.handleGridEl}
+        ref={this.handleGridRef}
         role="gridcell"
       >
         <calcite-sort-handle
+          addToItems={addToItems}
           disabled={dragDisabled}
           label={label}
           moveToItems={moveToItems}
@@ -760,6 +799,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           scale={this.scale}
           setPosition={setPosition}
           setSize={setSize}
+          sortDisabled={sortDisabled}
         />
       </div>
     ) : null;
@@ -808,7 +848,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         class={{ [CSS.actionsStart]: true, [CSS.gridCell]: true }}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        ref={this.actionsStartEl}
+        ref={this.actionsStartRef}
         role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
@@ -824,7 +864,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         class={{ [CSS.actionsEnd]: true, [CSS.gridCell]: true }}
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
-        ref={this.actionsEndEl}
+        ref={this.actionsEndRef}
         role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
@@ -916,7 +956,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           [CSS.nestedContainerExpanded]: this.expandable && this.expanded,
         }}
       >
-        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
       </div>
     );
   }
@@ -964,7 +1004,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         }}
         key="content-container"
         onClick={this.handleItemClick}
-        ref={this.contentEl}
+        ref={this.contentRef}
         role="gridcell"
       >
         {content}
@@ -1023,7 +1063,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
             onFocus={this.focusCellNull}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
-            ref={this.containerEl}
+            ref={this.containerRef}
             role="row"
             tabIndex={active ? 0 : -1}
           >

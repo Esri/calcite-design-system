@@ -11,6 +11,12 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-radio-size
+
 :host {
   @apply block
   cursor-pointer;
@@ -18,6 +24,7 @@
   .container {
     @apply relative
     outline-none;
+    display: flex;
   }
 
   .radio {
@@ -142,5 +149,6 @@
   }
 }
 
+@include form-internal-label();
 @include hidden-form-input();
 @include base-component();

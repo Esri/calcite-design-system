@@ -6,8 +6,10 @@ import {
   defaults,
   disabled,
   floatingUIOwner,
+  focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   openClose,
   reflects,
@@ -138,6 +140,19 @@ describe("calcite-combobox", () => {
         value: true,
       },
     ]);
+  });
+
+  describe("focusable", () => {
+    focusable(html`
+      <calcite-combobox label="Trees" value="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-combobox`);
   });
 
   describe("honors hidden attribute", () => {
@@ -1407,6 +1422,16 @@ describe("calcite-combobox", () => {
           `,
         },
         {
+          selectionMode: "single-persist",
+          html: html`
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `,
+        },
+        {
           selectionMode: "multiple",
           html: html`
             <calcite-combobox selection-mode="multiple">
@@ -1431,15 +1456,25 @@ describe("calcite-combobox", () => {
 
       describe("via mouse", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-            assertValueClearing(testCase.html, "mouse", "clear"));
+          if (testCase.selectionMode === "single-persist") {
+            it(`does not clear the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "no-clear"));
+          } else {
+            it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "clear"));
+          }
         });
       });
 
       describe("via keyboard", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-            assertValueClearing(testCase.html, "keyboard", "clear"));
+          if (testCase.selectionMode === "single-persist") {
+            it(`does not clear the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "mouse", "no-clear"));
+          } else {
+            it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+              assertValueClearing(testCase.html, "keyboard", "clear"));
+          }
         });
       });
     });
@@ -1450,6 +1485,16 @@ describe("calcite-combobox", () => {
           selectionMode: "single",
           html: html`
             <calcite-combobox clear-disabled selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `,
+        },
+        {
+          selectionMode: "single-persist",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="single-persist">
               <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
               <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -1481,14 +1526,14 @@ describe("calcite-combobox", () => {
 
       describe("via mouse", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          it(`does not clears the value in ${testCase.selectionMode}-selection mode`, () =>
             assertValueClearing(testCase.html, "mouse", "no-clear"));
         });
       });
 
       describe("via keyboard", () => {
         testCases.forEach((testCase) => {
-          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          it(`does not clears the value in ${testCase.selectionMode}-selection mode`, () =>
             assertValueClearing(testCase.html, "keyboard", "no-clear"));
         });
       });
@@ -2209,12 +2254,15 @@ describe("calcite-combobox", () => {
     it("should allow enter unknown tag when tabbing away", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox allow-custom-values>
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
-        </calcite-combobox>
-        <button>OK</button>
+        <div class="child" style="display: flex; flex-direction: row">
+          <calcite-combobox allow-custom-values>
+            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+          <button>OK</button>
+          <div></div>
+        </div>
       `);
       const chip = await page.find("calcite-combobox >>> calcite-chip");
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
@@ -3327,6 +3375,37 @@ describe("calcite-combobox", () => {
           targetProp: "borderBlockEndColor",
         },
       });
+    });
+
+    describe("no-matches", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+            <calcite-combobox open allow-custom-values>
+              <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+              <calcite-combobox-item value="Maple" text-label="Maple"></calcite-combobox-item>
+            </calcite-combobox>
+          `);
+
+          const combobox = await page.find("calcite-combobox");
+          combobox.setProperty("filterText", "Oak");
+          await page.waitForChanges();
+          await page.waitForTimeout(DEBOUNCE.filter);
+
+          return { tag: "calcite-combobox", page };
+        },
+        {
+          "--calcite-combobox-background-color": {
+            shadowSelector: `.${CSS.noMatches}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-combobox-input-text-color": {
+            shadowSelector: `.${CSS.noMatches} >>> mark`,
+            targetProp: "color",
+          },
+        },
+      );
     });
   });
 });

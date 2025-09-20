@@ -18,7 +18,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
@@ -51,7 +51,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
+
+  private containerEl: HTMLDivElement;
 
   private guid = IDS.host(guid());
 
@@ -89,13 +91,13 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When present, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** When present, does not display or position the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When present, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
@@ -128,7 +130,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
+   * When present, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
@@ -338,7 +340,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonEl.value)) {
+        if (!event.composedPath().includes(this.closeButtonRef.value)) {
           this.activateTab();
           event.preventDefault();
         }
@@ -376,6 +378,11 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   private updateHasText(): void {
     this.hasText = this.el.textContent.trim().length > 0;
+  }
+
+  private setContainerRef(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.containerEl, el);
+    this.containerEl = el;
   }
 
   private setupTextContentObserver(): void {
@@ -434,7 +441,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
             [CSS.scale(this.scale)]: true,
           }}
           hidden={closed}
-          ref={(el) => (el ? this.resizeObserver?.observe(el) : null)}
+          ref={this.setContainerRef}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
             {this.iconStart ? iconStartEl : null}
@@ -458,7 +465,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
         key="close-button"
         label={messages.close}
         onClick={this.closeClickHandler}
-        ref={this.closeButtonEl}
+        ref={this.closeButtonRef}
         round={false}
         scale={this.scale}
         title={messages.close}

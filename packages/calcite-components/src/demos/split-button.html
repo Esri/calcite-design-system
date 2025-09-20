@@ -34,6 +34,27 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+      .themed {
+        --calcite-split-button-background-color: teal;
+        --calcite-split-button-border-color: pink;
+        --calcite-split-button-corner-radius: 12px;
+        --calcite-split-button-icon-color: blue;
+        --calcite-split-button-loader-color: green;
+        --calcite-split-button-text-color: yellow;
+        --calcite-split-button-shadow: 0 0 20px 4px rgba(50, 80, 150, 0.4);
+        --calcite-split-button-divider-color: red;
+        --calcite-split-button-divider-border-color: yellow;
+        --calcite-split-button-dropdown-width: 100px;
+        --calcite-split-button-dropdown-background-color: green;
+        --calcite-split-button-dropdown-shadow: 0 0 1px 1px rgba(50, 80, 150, 0.9);
+        --calcite-dropdown-group-border-color: red;
+        --calcite-dropdown-group-title-text-color: green;
+        --calcite-dropdown-item-background-color-hover: teal;
+        --calcite-dropdown-item-background-color-press: purple;
+        --calcite-dropdown-item-icon-color-press: blue;
+        --calcite-dropdown-item-text-color-press: yellow;
+        --calcite-dropdown-item-text-color: pink;
+      }
     </style>
     <script src="./_assets/head.ts"></script>
   </head>
@@ -49,6 +70,212 @@
         <div class="child-flex">Icon start</div>
         <div class="child-flex">Icon end</div>
         <div class="child-flex">Icon start-end</div>
+      </div>
+
+      <!-- themed -->
+      <div class="parent-flex themed">
+        <div class="child-flex right-aligned-text">Themed</div>
+
+        <!-- themed -->
+        <div class="child-flex">
+          <calcite-split-button scale="s" primary-text="Button">
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button scale="m" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button scale="l" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
+
+        <!-- disabled -->
+        <div class="child-flex">
+          <calcite-split-button disabled scale="s" primary-text="Button">
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button disabled scale="m" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button disabled scale="l" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
+
+        <!-- loading -->
+        <div class="child-flex">
+          <calcite-split-button loading scale="s" primary-text="Button">
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button loading scale="m" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button loading scale="l" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
+
+        <!-- icon-start -->
+        <div class="child-flex">
+          <calcite-split-button primary-icon-start="i2DExplore" scale="s" primary-text="Button">
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button primary-icon-start="i2DExplore" scale="m" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button primary-icon-start="i2DExplore" scale="l" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
+
+        <!-- icon-end -->
+        <div class="child-flex">
+          <calcite-split-button primary-icon-end="i2DExplore" scale="s" primary-text="Button">
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button primary-icon-end="i2DExplore" scale="m" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button primary-icon-end="i2DExplore" scale="l" primary-text="Button">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
+
+        <!-- icon-start & icon-end -->
+        <div class="child-flex">
+          <calcite-split-button
+            primary-icon-start="i2DExplore"
+            primary-icon-end="i2DExplore"
+            scale="s"
+            primary-text="Button"
+          >
+            <calcite-dropdown-group selection-mode="none">
+              <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+              <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-split-button>
+
+          <p>
+            <calcite-split-button
+              primary-icon-start="i2DExplore"
+              primary-icon-end="i2DExplore"
+              scale="m"
+              primary-text="Button"
+            >
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+
+          <p>
+            <calcite-split-button
+              primary-icon-start="i2DExplore"
+              primary-icon-end="i2DExplore"
+              scale="l"
+              primary-text="Button"
+            >
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Option 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 3</calcite-dropdown-item>
+                <calcite-dropdown-item>Option 4</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </p>
+        </div>
       </div>
 
       <!--
