@@ -1341,7 +1341,9 @@ export class Combobox
       item.scale = this.scale;
     });
 
-    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
+    this.groupItems.forEach(
+      (groupItem, index) => ((groupItem.scale = this.scale), (groupItem.position = index)),
+    );
 
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();
