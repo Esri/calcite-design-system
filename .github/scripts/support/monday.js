@@ -446,7 +446,7 @@ module.exports = function Monday(issue) {
    * @returns {Promise<{ error: string | null }>} - An object indicating success or failure
    */
   async function updateMultipleColumns(id = "") {
-    const mondayId = id || (await getId());
+    const mondayId = id || (await getId())?.id;
     if (!mondayId) {
       return { error: "No Monday ID found, cannot update columns." };
     }
@@ -535,20 +535,17 @@ module.exports = function Monday(issue) {
   /** Public functions */
 
   /**
-   * Return the Monday.com item ID for a issue.
+   * Find the Monday.com item ID for a issue and its source
    * ID is parsed from the issue body or fetched based on the issue number
-   * @param {("body" | "query" | "both")} location - Where to look for the ID: "body", "query", or "both" (default: "both")
-   * @return {Promise<string | undefined>} - The Monday.com item ID
+   * @return {Promise<{ id: string | undefined, source: ("body" | "query")}>} - The Monday.com item ID
    */
-  async function getId(location = "both") {
-    if (location === "query") {
-      return await queryForId();
+  async function getId() {
+    const bodyId = extractIdFromBody();
+    if (bodyId) {
+      return { id: bodyId, source: "body" };
     }
-    if (location === "body") {
-      return extractIdFromBody();
-    }
-
-    return extractIdFromBody() || (await queryForId());
+  
+    return { id: await queryForId(), source: "query" };
   }
 
   /**
