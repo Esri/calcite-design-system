@@ -10,7 +10,7 @@ export const filter = (data: Array<object>, value: string, filterProps?: string[
   }
 
   const find = (input: object, RE: RegExp, fields?: string[]) => {
-    if ((input as any)?.constant || (input as any)?.filterDisabled) {
+    if ((input as any)?.filterDisabled) {
       return true;
     }
 
