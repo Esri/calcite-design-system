@@ -30,6 +30,9 @@ declare global {
   }
 }
 
+/**
+ * @slot image - A slot for adding an image or pattern.
+ */
 export class Swatch extends LitElement implements InteractiveComponent {
   //#region Static Members
 
