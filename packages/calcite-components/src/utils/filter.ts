@@ -9,6 +9,12 @@ export const filter = (data: Array<object>, value: string, filterProps?: string[
     The data argument should be an array of objects`);
   }
 
+  const matchAll = value === "";
+
+  if (matchAll) {
+    return data;
+  }
+
   const find = (input: object, RE: RegExp, fields?: string[]) => {
     if ((input as any)?.constant || (input as any)?.filterDisabled) {
       return true;
