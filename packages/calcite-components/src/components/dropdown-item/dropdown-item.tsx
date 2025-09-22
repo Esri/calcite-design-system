@@ -119,7 +119,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.el, options);
+    return this.focusSetter(() => {
+      return this.el;
+    }, options);
   }
 
   // #endregion
