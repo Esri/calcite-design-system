@@ -41,7 +41,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private childLinkRef = createRef<HTMLAnchorElement>();
+  private childLink = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
   private parentDropdownGroupEl: DropdownGroup["el"];
@@ -179,7 +179,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
-          this.childLinkRef.value.click();
+          this.childLink.value.click();
         }
         event.preventDefault();
         break;
@@ -293,7 +293,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
         ariaLabel={label}
         class={CSS.link}
         href={href}
-        ref={this.childLinkRef}
+        ref={this.childLink}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
