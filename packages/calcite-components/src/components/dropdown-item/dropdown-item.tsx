@@ -41,6 +41,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
+  /** if href is requested, track the rendered child link */
   private childLink = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
