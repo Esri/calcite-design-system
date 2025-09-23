@@ -450,12 +450,6 @@ describe("calcite-tree-item", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
-  const treeHTML = html`
-    <calcite-tree>
-      <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
-    </calcite-tree>
-  `;
-
   describe("selection event", () => {
     let page: E2EPage;
     let treeItem: E2EElement;
@@ -463,7 +457,11 @@ describe("calcite-tree-item", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(treeHTML);
+      await page.setContent(html`
+        <calcite-tree>
+          <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
+        </calcite-tree>
+      `);
 
       treeItem = await page.find("#item-1");
       selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
