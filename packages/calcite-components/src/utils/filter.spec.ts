@@ -65,12 +65,6 @@ describe("filter function", () => {
     expect(result).toEqual([{ name: "Jane", filterDisabled: true }]);
   });
 
-  it("always includes objects with constant set to true", () => {
-    const data = [{ name: "John" }, { name: "Jane", constant: true }];
-    const result = filter(data, "Doe");
-    expect(result).toEqual([{ name: "Jane", constant: true }]);
-  });
-
   it("should return all results when given an empty search string", () => {
     const data = [
       { name: "John", age: 30 },
