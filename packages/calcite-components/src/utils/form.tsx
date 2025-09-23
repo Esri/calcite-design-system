@@ -205,7 +205,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: IconName | boolean | "";
+  icon: IconName | boolean;
 }
 
 function displayValidationMessage(
@@ -286,7 +286,7 @@ function invalidHandler(event: Event) {
       // don't clear if an icon was specified by the user
       if (
         "validationIcon" in formComponent &&
-        (formComponent.validationIcon === null || formComponent.validationIcon === true)
+        (formComponent.validationIcon === undefined || formComponent.validationIcon === true)
       ) {
         formComponent.validationIcon = false;
       }
