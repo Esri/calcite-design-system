@@ -2,6 +2,7 @@
 const {
   labels: { issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff },
   milestone,
+  packages
 } = require("./resources");
 const { notReadyForDev, notInLifecycle } = require("./utils");
 
@@ -338,6 +339,13 @@ module.exports = function Monday(issue) {
         value: "Stalled",
       },
     ],
+    [
+      packages.tokens,
+      {
+        column: columnIds.designTokens,
+        value: "Design Tokens",
+      },
+    ],
   ]);
 
   /**
@@ -544,7 +552,7 @@ module.exports = function Monday(issue) {
     if (bodyId) {
       return { id: bodyId, source: "body" };
     }
-  
+
     return { id: await queryForId(), source: "query" };
   }
 

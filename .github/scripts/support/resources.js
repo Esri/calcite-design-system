@@ -78,6 +78,8 @@ const resources = {
     translationReviewers: "calcite-translation-reviewers",
   },
   packages: {
+    components: "calcite-components",
+    tokens: "calcite-design-tokens",
     icons: "calcite-ui-icons",
   },
 };
