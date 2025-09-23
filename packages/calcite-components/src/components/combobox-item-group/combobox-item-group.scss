@@ -13,16 +13,16 @@
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
 
   .combobox-first-title {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 
   .combobox-separator {
-    margin-block: var(--calcite-spacing-xxs);
+    margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
-        (var(--calcite-spacing-sm) * var(--calcite-combobox-item-spacing-indent-multiplier))
+        (var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier))
     );
-    margin-inline-end: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 }
 
@@ -32,16 +32,16 @@
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
 
   .combobox-first-title {
-    padding-block-start: var(--calcite-spacing-md);
+    padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 
   .combobox-separator {
-    margin-block: var(--calcite-spacing-xs);
+    margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
-        (var(--calcite-spacing-md) * var(--calcite-combobox-item-spacing-indent-multiplier))
+        (var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier))
     );
-    margin-inline-end: var(--calcite-spacing-md);
+    margin-inline-end: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 }
 
@@ -55,12 +55,12 @@
   }
 
   .combobox-separator {
-    margin-block: var(--calcite-spacing-sm-plus);
+    margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
-        (var(--calcite-spacing-lg) * var(--calcite-combobox-item-spacing-indent-multiplier))
+        (var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier))
     );
-    margin-inline-end: var(--calcite-spacing-lg);
+    margin-inline-end: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 }
 
@@ -96,6 +96,7 @@
   padding-inline-start: calc(
     var(--calcite-combobox-item-indent-value) + var(--calcite-combobox-item-horizontal-spacing-unit)
   );
+  padding-inline-end: var(--calcite-combobox-item-horizontal-spacing-unit);
   color: var(--calcite-combobox-item-group-text-color, var(--calcite-color-text-1));
 }
 

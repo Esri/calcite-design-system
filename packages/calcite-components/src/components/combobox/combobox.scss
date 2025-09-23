@@ -288,9 +288,5 @@ calcite-chip {
 @include base-component();
 @include text-highlight-item();
 
-::slotted(calcite-combobox-item-group:not(:first-child)) {
-  padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
-}
-
 @include form-internal-label();
 @include input-placeholder-text();
