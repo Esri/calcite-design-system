@@ -410,7 +410,6 @@ export class Dropdown
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
-    event.stopPropagation();
   }
 
   private setFilteredPlacements(): void {
