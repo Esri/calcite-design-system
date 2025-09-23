@@ -16,6 +16,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
@@ -1801,6 +1802,62 @@ describe("calcite-input-time-picker", () => {
 
       expect(await inputTimePicker.getProperty("value")).toBe("13:01:01.001");
       expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
+  });
+  describe("theming", () => {
+    themed(html`<calcite-input-time-picker open></calcite-input-time-picker>`, {
+      "--calcite-input-time-picker-background-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-background-color",
+      },
+      "--calcite-input-time-picker-digit-text-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-color",
+      },
+      "--calcite-input-time-picker-digit-icon-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-icon-color",
+      },
+      "--calcite-input-time-picker-action-background-color-hover": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-button-background-color-hover",
+      },
+      "--calcite-input-time-picker-action-background-color-press": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-button-background-color-press",
+      },
+      "--calcite-input-time-picker-digit-border-color-hover": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-input-border-color-hover",
+      },
+      "--calcite-input-time-picker-digit-border-color-press": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-input-border-color-press",
+      },
+      "--calcite-input-time-picker-input-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-time-picker-input-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-input-time-picker-input-corner-radius": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-input-time-picker-input-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-input-time-picker-input-text-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+      "--calcite-input-time-picker-border-color": {
+        shadowSelector: "calcite-time-picker",
+        targetProp: "--calcite-time-picker-border-color",
+      },
     });
   });
 });

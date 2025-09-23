@@ -1,3 +1,19 @@
+.hex-input {
+  --calcite-input-text-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-input-text-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-input-text-text-color: var(--calcite-color-picker-input-text-color);
+  --calcite-input-prefix-background-color: var(--calcite-color-picker-input-prefix-background-color);
+  --calcite-input-prefix-text-color: var(--calcite-color-picker-input-prefix-text-color);
+}
+
+.opacity-input {
+  --calcite-input-number-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-input-number-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-input-number-text-color: var(--calcite-color-picker-input-text-color);
+  --calcite-input-suffix-background-color: var(--calcite-color-picker-input-suffix-background-color);
+  --calcite-input-suffix-text-color: var(--calcite-color-picker-input-suffix-text-color);
+}
+
 :host {
   @apply block;
 }
