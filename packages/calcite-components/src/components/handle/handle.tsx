@@ -98,9 +98,7 @@ export class Handle extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.handleButtonRef.value;
-    }, options);
+    return this.focusSetter(() => this.handleButtonRef.value, options);
   }
 
   //#endregion

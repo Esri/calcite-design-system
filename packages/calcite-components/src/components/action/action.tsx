@@ -178,9 +178,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.buttonRef.value;
-    }, options);
+    return this.focusSetter(() => this.buttonRef.value, options);
   }
 
   //#endregion

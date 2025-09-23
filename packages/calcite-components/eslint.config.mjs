@@ -66,7 +66,7 @@ export default tseslint.config(
         "error",
         {
           selector:
-            ":matches(PropertyDefinition, ClassProperty)[accessibility='private'][value.type='CallExpression'][value.callee.name='createRef']:not([key.name=/Ref$/])",
+            ":matches(PropertyDefinition, ClassProperty)[accessibility='private'][value.type='CallExpression'][value.callee.name='createRef']:not([key.name=/Ref$|^ref$/])",
           message: "Private properties initialized with createRef must end with Ref",
         },
       ],

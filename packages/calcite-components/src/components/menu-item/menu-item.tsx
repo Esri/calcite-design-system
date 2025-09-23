@@ -135,9 +135,7 @@ export class MenuItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.anchorRef.value;
-    }, options);
+    return this.focusSetter(() => this.anchorRef.value, options);
   }
 
   //#endregion

@@ -168,9 +168,7 @@ export class Checkbox
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.toggleRef.value;
-    }, options);
+    return this.focusSetter(() => this.toggleRef.value, options);
   }
 
   // #endregion
