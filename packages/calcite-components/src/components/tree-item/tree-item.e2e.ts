@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -450,34 +450,46 @@ describe("calcite-tree-item", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
+  const treeHTML = html`
+    <calcite-tree>
+      <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
+    </calcite-tree>
+  `;
+
   describe("selection event", () => {
-    it("emits calciteTreeItemSelect when selected or deselected", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-tree>
-          <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
-        </calcite-tree>
-      `);
+    let page: E2EPage;
+    let treeItem: E2EElement;
+    let selectSpy: EventSpy;
 
-      await page.$eval("#item-1", (treeItem: HTMLElement) => {
-        (window as any).eventCount = 0;
-        treeItem.addEventListener("calciteTreeItemSelect", () => {
-          (window as any).eventCount++;
-        });
-      });
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(treeHTML);
 
-      const treeItem = await page.find("#item-1");
+      treeItem = await page.find("#item-1");
+      selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
+      await page.waitForChanges();
+    });
+
+    it("emits calciteTreeItemSelect when toggled by the user", async () => {
       await treeItem.click();
 
-      let eventCount = await page.evaluate(() => (window as any).eventCount);
-      expect(eventCount).toBe(1);
       expect(await treeItem.getProperty("selected")).toBe(true);
+      expect(selectSpy).toHaveReceivedEventTimes(1);
 
       await treeItem.click();
 
-      eventCount = await page.evaluate(() => (window as any).eventCount);
-      expect(eventCount).toBe(2);
       expect(await treeItem.getProperty("selected")).toBe(false);
+      expect(selectSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it("does not emit calciteTreeItemSelect when toggled programmatically", async () => {
+      treeItem.setProperty("selected", true);
+      await page.waitForChanges();
+      expect(selectSpy).toHaveReceivedEventTimes(0);
+
+      treeItem.setProperty("selected", false);
+      await page.waitForChanges();
+      expect(selectSpy).toHaveReceivedEventTimes(0);
     });
   });
 

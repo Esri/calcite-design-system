@@ -200,7 +200,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
         updateItem: false,
       });
     }
-    this.calciteTreeItemSelect.emit();
+    if (this.userChangedValue) {
+      this.calciteTreeItemSelect.emit();
+      this.userChangedValue = false;
+    }
   }
 
   private getSelectionMode(): void {
