@@ -22,9 +22,8 @@ module.exports = async ({ context }) => {
   if (isVerified && issue.state === "closed") {
     monday.handleState("closed");
     await monday.commit();
-    return;
+  } else {
+    monday.addLabel(labelName);
+    await monday.commit();
   }
-
-  monday.addLabel(labelName);
-  await monday.commit();
 };
