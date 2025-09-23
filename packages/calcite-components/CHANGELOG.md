@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1-next.1...@esri/calcite-components@3.3.1-next.2) (2025-09-23)
+
+### Bug Fixes
+
+- **dropdown:** ignore `selection-mode=none` items when `closeOnSelectDisabled=true` ([#12927](https://github.com/Esri/calcite-design-system/issues/12927)) ([2a982d7](https://github.com/Esri/calcite-design-system/commit/2a982d7111e7bccf1b22a8d3009d4afe7f44ca2d)), closes [#10821](https://github.com/Esri/calcite-design-system/issues/10821)
+
 ## [3.3.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1-next.0...@esri/calcite-components@3.3.1-next.1) (2025-09-19)
 
 ### Bug Fixes
