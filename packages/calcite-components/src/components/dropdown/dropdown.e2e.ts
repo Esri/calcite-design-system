@@ -685,84 +685,92 @@ describe("calcite-dropdown", () => {
       html`<calcite-dropdown>
         <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1-1">Dropdown Item Content</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+        <calcite-dropdown-group id="group-2" selection-mode="multiple">
+          <calcite-dropdown-item id="item-2-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-3" selection-mode="none">
+          <calcite-dropdown-item id="item-3-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown> `,
     );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
+    await skipAnimations(page);
+    const trigger = await page.find("#trigger");
+    const openSpy = await page.spyOnEvent("calciteDropdownOpen");
+    const singleGroupItem = await page.find("calcite-dropdown-item[id='item-1-1']");
+    const multipleGroupItem = await page.find("calcite-dropdown-item[id='item-2-1']");
+    const noneGroupItem = await page.find("calcite-dropdown-item[id='item-3-1']");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+
     await trigger.click();
     await page.waitForChanges();
+    await openSpy.next();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
+
+    await singleGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+
+    await trigger.click();
+    await page.waitForChanges();
+    await openSpy.next();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await multipleGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+
+    await trigger.click();
+    await page.waitForChanges();
+    await openSpy.next();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await noneGroupItem.click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("remains open when close-on-select-disabled is requested and selected item is not in a selection-mode:none group", async () => {
+  it("does not close when close-on-select is disabled and a selection is made", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-dropdown close-on-select-disabled>
         <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item>
-            <div id="item-3">Dropdown Item Content</div>
-          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1-1">Dropdown Item Content</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+        <calcite-dropdown-group id="group-2" selection-mode="multiple">
+          <calcite-dropdown-item id="item-2-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-3" selection-mode="none">
+          <calcite-dropdown-item id="item-3-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown> `,
     );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("#item-1");
-    const item3 = await element.find("#item-3");
+    await skipAnimations(page);
+    const trigger = await page.find("#trigger");
+    const openSpy = await page.spyOnEvent("calciteDropdownOpen");
+    const singleGroupItem = await page.find("calcite-dropdown-item[id='item-1-1']");
+    const multipleGroupItem = await page.find("calcite-dropdown-item[id='item-2-1']");
+    const noneGroupItem = await page.find("calcite-dropdown-item[id='item-3-1']");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+
     await trigger.click();
     await page.waitForChanges();
+    await openSpy.next();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item3.click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-  });
 
-  it("closes when close-on-select-disabled is requested and selected item is in a selection-mode:none group", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dropdown close-on-select-disabled>
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="none">
-          <calcite-dropdown-item>
-            <div id="item-1">Dropdown Item Content</div>
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
-    );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("#item-1");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-    await trigger.click();
+    await singleGroupItem.click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
+
+    await multipleGroupItem.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await noneGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
   });
 
   describe("toggles the dropdown with click, enter, or space", () => {

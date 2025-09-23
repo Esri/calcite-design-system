@@ -30,6 +30,9 @@ declare global {
   }
 }
 
+/**
+ * @slot image - A slot for adding an image or pattern.
+ */
 export class Swatch extends LitElement implements InteractiveComponent {
   //#region Static Members
 
@@ -114,9 +117,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion

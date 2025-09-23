@@ -155,9 +155,10 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.layout === "vertical" ? this.el : this.headerEl.value;
-    }, options);
+    return this.focusSetter(
+      () => (this.layout === "vertical" ? this.el : this.headerEl.value),
+      options,
+    );
   }
 
   //#endregion

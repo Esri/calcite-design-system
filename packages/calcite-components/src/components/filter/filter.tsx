@@ -140,9 +140,7 @@ export class Filter extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.textInput.value;
-    }, options);
+    return this.focusSetter(() => this.textInput.value, options);
   }
 
   //#endregion
