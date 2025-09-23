@@ -142,9 +142,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.dropdownEl;
-    }, options);
+    return this.focusSetter(() => this.dropdownEl, options);
   }
 
   // #endregion
