@@ -21,9 +21,9 @@ module.exports = async ({ context }) => {
   const isVerified = labelName === issueWorkflow.verified;
   if (isVerified && issue.state === "closed") {
     monday.handleState("closed");
-    await monday.commit();
   } else {
     monday.addLabel(labelName);
-    await monday.commit();
   }
+
+  await monday.commit();
 };
