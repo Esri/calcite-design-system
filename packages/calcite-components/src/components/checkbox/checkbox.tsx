@@ -60,7 +60,7 @@ export class Checkbox
     this.toggle();
   };
 
-  private toggleEl = createRef<HTMLDivElement>();
+  private toggleRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -168,9 +168,7 @@ export class Checkbox
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.toggleEl.value;
-    }, options);
+    return this.focusSetter(() => this.toggleRef.value, options);
   }
 
   // #endregion
@@ -277,7 +275,7 @@ export class Checkbox
           }}
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={this.toggleEl}
+          ref={this.toggleRef}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
         >

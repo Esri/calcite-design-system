@@ -1,3 +1,6 @@
+import { LuminaJsx } from "@arcgis/lumina";
+import { CamelCase } from "type-fest/source/camel-case";
+
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export interface Dimensions {
@@ -37,3 +40,15 @@ export type IconType = "chevron" | "caret" | "ellipsis" | "overflow" | "plus-min
 export type CollapseDirection = "down" | "up";
 export type Dir = "ltr" | "rtl";
 export type InteractionMode = "interactive" | "static";
+
+type RemoveAriaPrefix<K extends string> = K extends `aria-${infer Rest}`
+  ? Rest
+  : K extends `aria${infer Rest}`
+    ? Uncapitalize<Rest>
+    : K;
+
+export type AriaAttributesCamelCased = {
+  [K in Exclude<keyof LuminaJsx.AriaAttributes, "role"> as CamelCase<
+    RemoveAriaPrefix<K & string>
+  >]: LuminaJsx.AriaAttributes[K];
+};

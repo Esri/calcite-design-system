@@ -220,9 +220,10 @@ describe("useSetFocus", () => {
         private ref = createRef<HTMLDivElement>();
 
         async setFocus(options?: FocusOptions): Promise<void> {
-          return this.focusSetter(() => {
-            return { target: this.ref.value!, includeContainer: true };
-          }, options);
+          return this.focusSetter(
+            () => ({ target: this.ref.value!, includeContainer: true }),
+            options,
+          );
         }
 
         override render(): JsxNode {
@@ -249,9 +250,10 @@ describe("useSetFocus", () => {
         private ref = createRef<HTMLDivElement>();
 
         async setFocus(options?: FocusOptions): Promise<void> {
-          return this.focusSetter(() => {
-            return { target: this.ref.value!, strategy: "focusable" };
-          }, options);
+          return this.focusSetter(
+            () => ({ target: this.ref.value!, strategy: "focusable" }),
+            options,
+          );
         }
 
         override render(): JsxNode {

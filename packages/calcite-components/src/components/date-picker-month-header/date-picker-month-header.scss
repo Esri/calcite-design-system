@@ -1,3 +1,6 @@
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 :host {
   @apply block;
 }
@@ -11,39 +14,39 @@
 }
 
 :host([scale="s"]) {
-  block-size: #{$calcite-size-24};
+  block-size: #{core.$calcite-size-24};
   margin: var(--calcite-spacing-xs);
   margin-inline-start: var(--calcite-spacing-sm);
 
   .chevron-container,
   .chevron {
-    min-inline-size: #{$calcite-size-24};
-    block-size: #{$calcite-size-24};
+    min-inline-size: #{core.$calcite-size-24};
+    block-size: #{core.$calcite-size-24};
   }
 }
 
 :host([scale="m"]) {
-  block-size: #{$calcite-size-32};
+  block-size: #{core.$calcite-size-32};
   margin: var(--calcite-spacing-sm);
   margin-inline-start: var(--calcite-spacing-sm-plus);
 
   .chevron-container,
   .chevron {
-    min-inline-size: #{$calcite-size-32};
-    block-size: #{$calcite-size-32};
+    min-inline-size: #{core.$calcite-size-32};
+    block-size: #{core.$calcite-size-32};
     --calcite-internal-action-padding-block: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="l"]) {
-  block-size: #{$calcite-size-44};
+  block-size: #{core.$calcite-size-44};
   margin: var(--calcite-spacing-xs);
   margin-inline-start: var(--calcite-spacing-sm);
 
   .chevron-container,
   .chevron {
-    min-inline-size: #{$calcite-size-44};
-    block-size: #{$calcite-size-44};
+    min-inline-size: #{core.$calcite-size-44};
+    block-size: #{core.$calcite-size-44};
     --calcite-internal-action-padding-block: var(--calcite-spacing-sm-plus);
   }
 }
@@ -115,7 +118,7 @@
   inline-block
   bg-transparent
   text-center;
-  inline-size: #{$calcite-size-44};
+  inline-size: #{core.$calcite-size-44};
   &:hover {
     @apply ease-in-out;
     transition-property: outline-color;
@@ -149,12 +152,12 @@
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-base);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-base);
-    --calcite-internal-select-block-size: #{$calcite-size-24};
+    --calcite-internal-select-block-size: #{core.$calcite-size-24};
     --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
 
   .year {
-    inline-size: #{$calcite-size-40};
+    inline-size: #{core.$calcite-size-40};
   }
 
   .year,
@@ -171,11 +174,11 @@
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-sm);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
-    --calcite-internal-select-block-size: #{$calcite-size-44};
+    --calcite-internal-select-block-size: #{core.$calcite-size-44};
     --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
   .year {
-    inline-size: #{$calcite-size-48};
+    inline-size: #{core.$calcite-size-48};
   }
   .year,
   .suffix {
@@ -184,4 +187,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

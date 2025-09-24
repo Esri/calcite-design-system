@@ -15,6 +15,31 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-chip-background-color
+// --calcite-internal-chip-block-size
+// --calcite-internal-chip-border-color
+// --calcite-internal-chip-container-space-x-end
+// --calcite-internal-chip-container-space-x-start
+// --calcite-internal-chip-font-size
+// --calcite-internal-chip-icon-size
+// --calcite-internal-chip-icon-space
+// --calcite-internal-chip-image-size
+// --calcite-internal-chip-image-space-x-end
+// --calcite-internal-chip-select-space-x-end
+// --calcite-internal-chip-select-space-x-start
+// --calcite-internal-chip-selectable-active-background-color
+// --calcite-internal-chip-selectable-active-border-color
+// --calcite-internal-chip-selectable-hover-background-color
+// --calcite-internal-chip-selectable-hover-border-color
+// --calcite-internal-chip-title-space
+// --calcite-internal-close-size
+
+@use "../../assets/styles/includes";
+
 :host {
   @apply inline-flex
     cursor-default;
@@ -469,10 +494,10 @@ slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
-@include close-button(
+@include includes.close-button(
   var(--calcite-internal-close-size, var(--calcite-spacing-xxl, 1.5rem)),
   0,
   var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, currentColor))
 );
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

@@ -166,11 +166,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.interactive) {
-        return this.containerEl;
-      }
-    }, options);
+    return this.focusSetter(() => (this.interactive ? this.containerEl : undefined), options);
   }
 
   // #endregion

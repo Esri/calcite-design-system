@@ -50,7 +50,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private headerEl = createRef<HTMLDivElement>();
+  private headerRef = createRef<HTMLDivElement>();
 
   /** position within parent */
   private itemPosition: number;
@@ -155,9 +155,10 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.layout === "vertical" ? this.el : this.headerEl.value;
-    }, options);
+    return this.focusSetter(
+      () => (this.layout === "vertical" ? this.el : this.headerRef.value),
+      options,
+    );
   }
 
   //#endregion
@@ -350,7 +351,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
           )}
           <div
             class={CSS.stepperItemHeader}
-            ref={this.headerEl}
+            ref={this.headerRef}
             tabIndex={innerDisplayContextTabIndex}
           >
             {this.icon ? this.renderIcon() : null}
