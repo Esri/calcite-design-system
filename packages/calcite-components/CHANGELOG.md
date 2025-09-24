@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.3...@esri/calcite-components@4.0.0-next.4) (2025-09-24)
+
+### Features
+
+- **tree-item:** add `calciteTreeItemSelect` event ([#12851](https://github.com/Esri/calcite-design-system/issues/12851)) ([afc3ba8](https://github.com/Esri/calcite-design-system/commit/afc3ba8da782e3af90f97beee52087cb80cb68ee)), closes [#10978](https://github.com/Esri/calcite-design-system/issues/10978)
+
 ## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.2...@esri/calcite-components@4.0.0-next.3) (2025-09-24)
 
 **Note:** Version bump only for package @esri/calcite-components
