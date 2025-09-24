@@ -1,11 +1,11 @@
 {
   "reorder": "Перевпорядкувати",
-  "addTo": "Add to",
+  "addTo": "Додати до",
   "moveTo": "Перемістити до",
-  "moveToTop": "Перемістити нагору",
+  "moveToTop": "Перемістити вверх",
   "moveToBottom": "Перемістити вниз",
-  "moveUp": "Перемістити вгору",
-  "moveDown": "Перемістити вниз",
+  "moveUp": "Перемістити вище",
+  "moveDown": "Перемістити нижче",
   "repositionLabel": "Змінити положення: {label}. Поточне положення {position} з {total}.",
   "reposition": "Змінити положення. Поточне положення {position} з {total}."
 }
