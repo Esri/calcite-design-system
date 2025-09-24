@@ -3420,7 +3420,7 @@ describe("calcite-combobox", () => {
       const comboboxTokens: ComponentTestTokens = {
         "--calcite-combobox-item-group-border-color": {
           selector: "calcite-combobox-item-group",
-          shadowSelector: ".combobox-separator",
+          shadowSelector: ".separator",
           targetProp: "backgroundColor",
         },
       };

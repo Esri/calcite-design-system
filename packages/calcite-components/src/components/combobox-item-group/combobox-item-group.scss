@@ -12,11 +12,11 @@
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-sm);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
 
-  .combobox-first-title {
+  .first-title {
     padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 
-  .combobox-separator {
+  .separator {
     margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
@@ -31,11 +31,11 @@
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-md);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
 
-  .combobox-first-title {
+  .first-title {
     padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
   }
 
-  .combobox-separator {
+  .separator {
     margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
@@ -50,11 +50,11 @@
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-lg);
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
 
-  .combobox-first-title {
+  .first-title {
     padding-block-start: var(--calcite-spacing-xl);
   }
 
-  .combobox-separator {
+  .separator {
     margin-block: var(--calcite-combobox-item-vertical-spacing-unit);
     margin-inline-start: calc(
       var(--calcite-combobox-item-horizontal-spacing-unit) +
@@ -74,7 +74,7 @@
   @apply outline-none;
 }
 
-.combobox-separator {
+.separator {
   block-size: var(--calcite-spacing-px);
   background-color: var(--calcite-combobox-item-group-border-color, var(--calcite-color-border-3));
 }

@@ -1,10 +1,10 @@
 import { Scale } from "../interfaces";
 
 export const CSS = {
-  firstTitle: "combobox-first-title",
+  firstTitle: "first-title",
   list: "list",
   label: "label",
-  separator: "combobox-separator",
+  separator: "separator",
   title: "title",
   scale: (scale: Scale) => `scale--${scale}` as const,
 };
