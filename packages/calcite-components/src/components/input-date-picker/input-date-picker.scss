@@ -47,9 +47,12 @@
 // --calcite-internal-date-picker-toggle-spacing
 // --calcite-internal-input-text-input-padding-inline-end
 
+@use "../../assets/styles/includes";
+@use "../../assets/styles/floating-ui";
+
 :host {
   @extend %component-spacing;
-  @include floating-ui-elem-anim(".menu-container");
+  @include floating-ui.floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block
     w-full
@@ -84,7 +87,7 @@
     )};
 }
 
-@include disabled();
+@include includes.disabled();
 
 .calendar-wrapper {
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
@@ -174,10 +177,10 @@
 
 .menu-container {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".menu-container");
+@include floating-ui.floating-ui-elem-anim(".menu-container");
 
 .input .calcite-input__wrapper {
   @apply mt-0;
@@ -279,12 +282,11 @@ calcite-date-picker {
   );
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-
 .assistive-text {
   @apply sr-only;
 }
 
-@include form-internal-label();
-@include base-component();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.form-internal-label();
+@include includes.base-component();

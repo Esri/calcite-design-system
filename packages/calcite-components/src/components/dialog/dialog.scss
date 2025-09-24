@@ -44,9 +44,14 @@
 // --calcite-internal-dialog-min-size-y
 // --calcite-internal-dialog-shown-position
 
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../assets/styles/animation";
+@use "../../assets/styles/spacing";
+
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-dialog-scrim-background-color: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
+  --calcite-dialog-scrim-background-color: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
   @apply flex
     inset-0
     pointer-events-none;
@@ -74,7 +79,7 @@
   visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 :host([placement="top"]) .container {
@@ -237,8 +242,8 @@ calcite-panel {
   visibility: hidden;
 
   transition:
-    inset-block var(--calcite-internal-animation-timing-slow) $easing-function,
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
@@ -269,7 +274,7 @@ calcite-panel {
 :host([menu-open]) .dialog {
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 .panel {
@@ -277,7 +282,7 @@ calcite-panel {
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 .container--open .panel {
@@ -286,7 +291,7 @@ calcite-panel {
 
   transition:
     visibility 0ms linear,
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 .container--open {
@@ -298,8 +303,8 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset-block var(--calcite-internal-animation-timing-slow) $easing-function,
-      opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
 }
@@ -313,7 +318,7 @@ calcite-panel {
     block-size: var(--calcite-dialog-size-y, auto);
   }
 
-  @media screen and (max-width: $width + 2 * $baseline) {
+  @media screen and (max-width: $width + 2 * spacing.$baseline) {
     .width-#{$size} {
       @apply m-0
           h-full
@@ -414,4 +419,4 @@ calcite-panel {
   @apply sr-only;
 }
 
-@include base-component();
+@include includes.base-component();

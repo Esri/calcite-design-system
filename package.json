@@ -71,7 +71,7 @@
     "axe-core": "4.10.3",
     "change-case": "5.4.4",
     "chokidar": "4.0.3",
-    "chromatic": "13.1.4",
+    "chromatic": "13.2.0",
     "concurrently": "9.2.1",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "12.0.1",
@@ -115,7 +115,7 @@
     "typescript": "5.8.2",
     "typescript-eslint": "8.41.0",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "7.1.5",
+    "vite": "7.1.6",
     "vite-plugin-dts": "4.5.4"
   },
   "license": "SEE LICENSE.md",

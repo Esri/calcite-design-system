@@ -36,6 +36,8 @@
 // --calcite-internal-shell-panel-shadow-inline-start
 // --calcite-internal-shell-panel-width
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply relative
     pointer-events-none
@@ -518,4 +520,4 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -78,7 +78,6 @@ module.exports = async ({ github, context }) => {
       inputs: {
         issue_number: number.toString(),
         event_type: "ReadyForDev",
-        label_name: label.name,
       },
     });
   }

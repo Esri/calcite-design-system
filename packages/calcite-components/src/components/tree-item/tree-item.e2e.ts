@@ -450,6 +450,57 @@ describe("calcite-tree-item", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
+  describe("selection", () => {
+    const selectionModes = [
+      "ancestors",
+      "children",
+      "single",
+      "single-persist",
+      "multiple",
+      "multichildren",
+      "none",
+    ] as const;
+
+    it("emits calciteTreeItemSelect on user click for all selection modes except 'none'", async () => {
+      for (const mode of selectionModes) {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-tree selection-mode="${mode}">
+            <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
+          </calcite-tree>
+        `);
+
+        const treeItem = await page.find("#item-1");
+        const selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
+
+        await treeItem.click();
+        const expected = mode === "none" ? 0 : 1;
+        expect(selectSpy).toHaveReceivedEventTimes(expected);
+      }
+    });
+
+    it("does NOT emit calciteTreeItemSelect on programmatic change for all selection modes", async () => {
+      for (const mode of selectionModes) {
+        const page = await newE2EPage();
+        await page.setContent(html`
+          <calcite-tree selection-mode="${mode}">
+            <calcite-tree-item id="item-1">Item 1</calcite-tree-item>
+          </calcite-tree>
+        `);
+
+        const treeItem = await page.find("#item-1");
+        const selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
+
+        await treeItem.setProperty("selected", true);
+        await page.waitForChanges();
+        await treeItem.setProperty("selected", false);
+        await page.waitForChanges();
+
+        expect(selectSpy).toHaveReceivedEventTimes(0);
+      }
+    });
+  });
+
   describe("themed", () => {
     describe(`selection-mode="none"`, () => {
       themed(
