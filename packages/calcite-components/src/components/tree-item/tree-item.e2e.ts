@@ -474,11 +474,8 @@ describe("calcite-tree-item", () => {
         const selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
 
         await treeItem.click();
-        if (mode === "none") {
-          expect(selectSpy).toHaveReceivedEventTimes(0);
-        } else {
-          expect(selectSpy).toHaveReceivedEventTimes(1);
-        }
+        const expected = mode === "none" ? 0 : 1;
+        expect(selectSpy).toHaveReceivedEventTimes(expected);
       }
     });
 
