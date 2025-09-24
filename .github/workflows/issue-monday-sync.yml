@@ -8,8 +8,6 @@ on:
         required: true
       event_type:
         required: true
-      label_name:
-        required: true
 env:
   MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
   MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
