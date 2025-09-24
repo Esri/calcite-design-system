@@ -225,8 +225,8 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
     );
 
-    const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .dropdown-title");
-    const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .dropdown-title");
+    const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .title");
+    const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .title");
     expect(group1Title).not.toBeNull();
     expect(group2Title).toBeNull();
   });

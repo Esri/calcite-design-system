@@ -15,7 +15,7 @@
   @apply text-start;
 }
 
-.dropdown-title {
+.title {
   @apply -mb-px
   block
   cursor-default
@@ -26,21 +26,21 @@
   color: var(--calcite-dropdown-group-title-text-color, var(--calcite-color-text-1));
 }
 
-.dropdown-separator {
+.separator {
   @apply block h-px;
   background-color: var(--calcite-dropdown-group-border-color, var(--calcite-color-border-3));
 }
 
 :host([scale="s"]) {
   @apply text-n2h;
-  .dropdown-title {
+  .title {
     padding-block: var(--calcite-spacing-xxs);
     padding-inline: var(--calcite-spacing-sm);
   }
-  .dropdown-first-title {
+  .first-title {
     padding-block-start: var(--calcite-spacing-sm);
   }
-  .dropdown-separator {
+  .separator {
     margin-block: var(--calcite-spacing-xxs);
     margin-inline: var(--calcite-spacing-sm);
   }
@@ -48,14 +48,14 @@
 
 :host([scale="m"]) {
   @apply text-n1h;
-  .dropdown-title {
+  .title {
     padding-block: var(--calcite-spacing-sm);
     padding-inline: var(--calcite-spacing-md);
   }
-  .dropdown-first-title {
+  .first-title {
     padding-block-start: var(--calcite-spacing-lg);
   }
-  .dropdown-separator {
+  .separator {
     margin-block: var(--calcite-spacing-sm);
     margin-inline: var(--calcite-spacing-md);
   }
@@ -63,14 +63,14 @@
 
 :host([scale="l"]) {
   @apply text-0h;
-  .dropdown-title {
+  .title {
     padding-block: var(--calcite-spacing-sm-plus);
     padding-inline: var(--calcite-spacing-lg);
   }
-  .dropdown-first-title {
+  .first-title {
     padding-block-start: var(--calcite-spacing-xl);
   }
-  .dropdown-separator {
+  .separator {
     margin-block: var(--calcite-spacing-sm-plus);
     margin-inline: var(--calcite-spacing-lg);
   }
