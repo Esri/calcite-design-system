@@ -452,12 +452,12 @@ describe("calcite-tree-item", () => {
 
   describe("selection", () => {
     const selectionModes = [
+      "ancestors",
+      "children",
       "single",
       "single-persist",
       "multiple",
       "multichildren",
-      "ancestors",
-      "children",
       "none",
     ] as const;
 
