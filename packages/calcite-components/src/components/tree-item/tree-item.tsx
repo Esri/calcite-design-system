@@ -43,7 +43,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private actionSlotWrapper = createRef<HTMLDivElement>();
+  private actionSlotWrapperRef = createRef<HTMLDivElement>();
 
   private childTree: Tree["el"];
 
@@ -291,7 +291,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
-    return composedPath.includes(this.actionSlotWrapper.value);
+    return composedPath.includes(this.actionSlotWrapperRef.value);
   }
 
   /**
@@ -489,7 +489,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
                 defaultSlotNode
               )}
             </div>
-            <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapper}>
+            <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapperRef}>
               {slotNode}
             </div>
           </div>
