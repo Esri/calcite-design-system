@@ -14,7 +14,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
-import { findAll } from "../../tests/utils/puppeteer";
+import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
 import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
@@ -166,6 +166,15 @@ describe("calcite-inline-editable", () => {
       await enableEditingButton.click();
       expect(element).toHaveAttribute("editing-enabled");
       expect(calciteInternalInlineEditableEnableEditingChange).toHaveReceivedEventTimes(1);
+
+      const enableEditingButtonRect = await getElementRect(
+        page,
+        `calcite-inline-editable`,
+        `.${CSS.enableEditingButton}`,
+      );
+      await page.mouse.move(enableEditingButtonRect.x, enableEditingButtonRect.y);
+      const elementHandle = await toElementHandle(enableEditingButton);
+      expect(await elementHandle.evaluate((el) => el.matches(":hover"))).toBe(false);
     });
 
     it("enables editing when the child input is clicked", async () => {

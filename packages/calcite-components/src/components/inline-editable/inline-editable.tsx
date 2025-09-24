@@ -312,6 +312,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               ref={this.enableEditingButtonRef}
               scale={this.scale}
               style={{
+                "pointer-events": this.editingEnabled ? "none" : "auto",
                 opacity: this.editingEnabled ? "0" : "1",
                 width: this.editingEnabled ? "0" : "inherit",
               }}

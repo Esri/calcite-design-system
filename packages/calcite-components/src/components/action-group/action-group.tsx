@@ -116,9 +116,7 @@ export class ActionGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -199,6 +197,7 @@ export class ActionGroup extends LitElement {
         scale={scale}
       >
         <calcite-action
+          aria={{ expanded }}
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}

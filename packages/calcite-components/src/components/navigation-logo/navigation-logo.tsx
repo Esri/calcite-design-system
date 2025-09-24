@@ -83,11 +83,7 @@ export class NavigationLogo extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.href) {
-        return this.el;
-      }
-    }, options);
+    return this.focusSetter(() => (this.href ? this.el : undefined), options);
   }
 
   // #endregion
