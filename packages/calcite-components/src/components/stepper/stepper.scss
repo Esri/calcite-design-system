@@ -10,6 +10,17 @@
  * @prop --calcite-stepper-bar-error-fill-color: Specifies the fill color of error items in the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-step-bar-gap
+// --calcite-internal-stepper-action-block-size
+// --calcite-internal-stepper-action-inline-size
+// --calcite-internal-stepper-item-spacing-unit-s
+
+@use "../../assets/styles/includes";
+
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
@@ -131,4 +142,4 @@
 }
 
 @include step-bar();
-@include base-component();
+@include includes.base-component();

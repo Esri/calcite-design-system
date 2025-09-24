@@ -26,6 +26,8 @@
 // --calcite-internal-button-padding-y
 // --calcite-internal-button-text-color
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply inline-block w-auto align-middle;
 
@@ -224,7 +226,7 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
 @keyframes loader-in {
   0% {
@@ -808,4 +810,4 @@
   --calcite-internal-button-padding-x: theme("padding.11");
 }
 
-@include base-component();
+@include includes.base-component();
