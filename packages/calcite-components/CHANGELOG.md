@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.0...@esri/calcite-components@4.0.0-next.1) (2025-09-24)
+
+### Bug Fixes
+
+- **sort-handle:** update Ukranian translation ([#12944](https://github.com/Esri/calcite-design-system/issues/12944)) ([3192789](https://github.com/Esri/calcite-design-system/commit/3192789345477de31e7e926147bdced3bcbe6236))
+
 ## [4.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1-next.3...@esri/calcite-components@4.0.0-next.0) (2025-09-24)
 
 ### ⚠ BREAKING CHANGES
