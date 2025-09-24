@@ -2,7 +2,6 @@
 const {
   labels: { issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff },
   milestone,
-  packages
 } = require("./resources");
 const { notReadyForDev, notInLifecycle } = require("./utils");
 
@@ -53,7 +52,6 @@ module.exports = function Monday(issue) {
     blocked: "color_mkv7x1gw",
     a11y: "color_mksw1sfa",
     spike: "color_mkrt20dy",
-    designTokens: "color_mkvyhk10",
     figmaChanges: "color_mkrvmhg7",
     open: "color_mknkrb2n",
   };
@@ -148,13 +146,6 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.designIssue,
         value: "Design",
-      },
-    ],
-    [
-      issueType.designTokens,
-      {
-        column: columnIds.designTokens,
-        value: "Design Tokens",
       },
     ],
     [
@@ -337,13 +328,6 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.stalled,
         value: "Stalled",
-      },
-    ],
-    [
-      packages.tokens,
-      {
-        column: columnIds.designTokens,
-        value: "Design Tokens",
       },
     ],
   ]);
