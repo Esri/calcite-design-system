@@ -622,6 +622,7 @@ module.exports = function Monday(issue) {
       }
     }`;
 
+    /** @type {QueryVariables} */
     const queryVariables = {
       board_id: MONDAY_BOARD,
       item_name: title,
