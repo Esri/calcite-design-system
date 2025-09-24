@@ -10,12 +10,7 @@
 
  */
 
-/**
-  * Local props
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  *
-  * --calcite-internal-table-cell-background-color
-*/
+@use "../../assets/styles/includes";
 
 :host {
   @apply contents;
@@ -138,4 +133,4 @@ td.last-cell {
   }
 }
 
-@include disabled();
+@include includes.disabled();

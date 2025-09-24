@@ -11,13 +11,15 @@
  * @prop --calcite-fab-shadow: Specifies the component's shadow.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
 
   background-color: transparent;
 }
 
-@include disabled();
+@include includes.disabled();
 
 calcite-button {
   --calcite-fab-shadow-internal: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
@@ -30,4 +32,4 @@ calcite-button {
   --calcite-button-loader-color: var(--calcite-fab-loader-color);
 }
 
-@include base-component();
+@include includes.base-component();

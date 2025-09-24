@@ -7,6 +7,8 @@
  * @prop --calcite-combobox-item-group-border-color: Specifies the border color of the component.
  */
 
+@use "../../assets/styles/includes";
+
 .scale--s {
   @apply text-n2h;
   --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-sm);
@@ -100,5 +102,5 @@
   color: var(--calcite-combobox-item-group-text-color, var(--calcite-color-text-1));
 }
 
-@include base-component();
-@include item-hidden();
+@include includes.base-component();
+@include includes.item-hidden();

@@ -33,7 +33,7 @@ export class Handle extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private handleButton = createRef<HTMLSpanElement>();
+  private handleButtonRef = createRef<HTMLSpanElement>();
 
   /**
    * Made into a prop for testing purposes only.
@@ -98,9 +98,7 @@ export class Handle extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.handleButton.value;
-    }, options);
+    return this.focusSetter(() => this.handleButtonRef.value, options);
   }
 
   //#endregion
@@ -255,7 +253,7 @@ export class Handle extends LitElement implements InteractiveComponent {
           class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
-          ref={this.handleButton}
+          ref={this.handleButtonRef}
           // role of radio is being applied to allow space key to select in screen readers
           role="radio"
           tabIndex={this.disabled ? null : 0}
