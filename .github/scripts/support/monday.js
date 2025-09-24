@@ -398,14 +398,15 @@ module.exports = function Monday(issue) {
     }
   }
 
+  /** @typedef {Record<string, string | string[]>} QueryVariables
   /**
    * Calls the Monday.com API with a provided query
    * @private
    * @param {string} query - The GraphQL query string
-   * @param {object} variables - The variables for the GraphQL query
+   * @param {QueryVariables} queryVariables - The variables for the GraphQL query
    * @returns {Promise<any>}
    */
-  async function runQuery(query, variables = {}) {
+  async function runQuery(query, queryVariables = {}) {
     try {
       const response = await fetch("https://api.monday.com/v2", {
         method: "post",
@@ -415,7 +416,7 @@ module.exports = function Monday(issue) {
         },
         body: JSON.stringify({
           query,
-          variables,
+          queryVariables,
         }),
       });
 
@@ -453,13 +454,14 @@ module.exports = function Monday(issue) {
       }
     }`;
 
-    const variables = {
+    /** @type {QueryVariables} */
+    const queryVariables = {
       board_id: MONDAY_BOARD,
       item_id: mondayId,
       column_values: JSON.stringify(columnUpdates),
     };
 
-    const response = await runQuery(query, variables);
+    const response = await runQuery(query, queryVariables);
     if (!response?.data?.change_multiple_column_values?.id) {
       return { error: `Failed to update columns for item ID ${mondayId}. Response: ${JSON.stringify(response)}` };
     }
@@ -487,13 +489,14 @@ module.exports = function Monday(issue) {
       }
     }`;
 
-    const variables = {
+    /** @type {QueryVariables} */
+    const queryVariables = {
       board_id: MONDAY_BOARD,
       column_id: columnIds.issueNumber,
       column_values: [String(issueNumber)],
     };
 
-    const response = await runQuery(query, variables);
+    const response = await runQuery(query, queryVariables);
     if (!response) {
       throw new Error(`No response for Github Issue #${issueNumber}`);
     }
