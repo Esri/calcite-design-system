@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1-next.2...@esri/calcite-components@3.3.1-next.3) (2025-09-24)
+
+### Bug Fixes
+
+- **color-picker:** fix initial setting of alpha object color values ([#12934](https://github.com/Esri/calcite-design-system/issues/12934)) ([0048395](https://github.com/Esri/calcite-design-system/commit/004839538681def1e6ae25a967fed310bb9b12b0)), closes [#12871](https://github.com/Esri/calcite-design-system/issues/12871)
+
+### Performance Improvements
+
+- **filter:** return all matches early when input is empty string ([#12926](https://github.com/Esri/calcite-design-system/issues/12926)) ([adc0f1f](https://github.com/Esri/calcite-design-system/commit/adc0f1f604144d13f7d2b5ec57b01f4efcb0dba3))
+
 ## [3.3.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1-next.1...@esri/calcite-components@3.3.1-next.2) (2025-09-23)
 
 ### Bug Fixes
