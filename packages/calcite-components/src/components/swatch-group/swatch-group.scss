@@ -6,6 +6,8 @@
  * @prop --calcite-swatch-group-space: Specifies the space between slotted elements.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
 }
@@ -19,5 +21,5 @@
 :host([scale="s"]) .container {
   gap: var(--calcite-swatch-group-space, var(--calcite-spacing-xs));
 }
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

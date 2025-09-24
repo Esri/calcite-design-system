@@ -407,13 +407,9 @@ export class Dropdown
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (
-      !this.closeOnSelectDisabled ||
-      event.detail.requestedDropdownGroup.selectionMode === "none"
-    ) {
+    if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
-    event.stopPropagation();
   }
 
   private setFilteredPlacements(): void {

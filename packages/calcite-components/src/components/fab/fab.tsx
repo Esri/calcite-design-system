@@ -28,7 +28,7 @@ export class Fab extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private buttonEl = createRef<Button["el"]>();
+  private buttonRef = createRef<Button["el"]>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -84,9 +84,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.buttonEl.value;
-    }, options);
+    return this.focusSetter(() => this.buttonRef.value, options);
   }
 
   // #endregion
@@ -128,7 +126,7 @@ export class Fab extends LitElement implements InteractiveComponent {
           kind={kind}
           label={label}
           loading={loading}
-          ref={this.buttonEl}
+          ref={this.buttonRef}
           round={true}
           scale={scale}
           title={title}

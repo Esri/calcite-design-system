@@ -426,7 +426,11 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
+    const initialColor = willSetNoColor
+      ? null
+      : valueIsCompatible
+        ? this.colorFromValue(value, isClearable, parsedMode)
+        : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -585,14 +589,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       return;
     }
 
-    const color =
-      isClearable && !value
-        ? null
-        : Color(
-            value != null && typeof value === "object" && alphaCompatible(this.mode)
-              ? normalizeColor(value as RGBA | HSVA | HSLA)
-              : value,
-          );
+    const color = this.colorFromValue(value, isClearable, this.mode);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -603,6 +600,22 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         "internal",
       );
     }
+  }
+
+  private colorFromValue(
+    value: ColorValue | null,
+    clearable = false,
+    mode: SupportedMode,
+  ): ColorInstance | null {
+    if (clearable && !value) {
+      return null;
+    }
+
+    return Color(
+      value != null && typeof value === "object" && alphaCompatible(mode)
+        ? normalizeColor(value as RGBA | HSVA | HSLA)
+        : value,
+    );
   }
 
   private handleTabActivate(event: Event): void {

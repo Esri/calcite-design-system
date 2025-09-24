@@ -1,4 +1,5 @@
 export const CSS = {
-  title: "dropdown-title",
-  separator: "dropdown-separator",
+  title: "title",
+  firstTitle: "first-title",
+  separator: "separator",
 };

@@ -44,7 +44,7 @@ export class Filter extends LitElement implements InteractiveComponent {
     DEBOUNCE.filter,
   );
 
-  private textInput = createRef<Input["el"]>();
+  private textInputRef = createRef<Input["el"]>();
 
   private _value = "";
 
@@ -140,9 +140,7 @@ export class Filter extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.textInput.value;
-    }, options);
+    return this.focusSetter(() => this.textInputRef.value, options);
   }
 
   //#endregion
@@ -244,7 +242,7 @@ export class Filter extends LitElement implements InteractiveComponent {
               onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
               placeholder={this.placeholder}
-              ref={this.textInput}
+              ref={this.textInputRef}
               scale={scale}
               type="text"
               value={this.value}
