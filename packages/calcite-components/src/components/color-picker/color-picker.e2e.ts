@@ -252,6 +252,20 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
+  it("allows setting color object on initialization", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate((rgbaValue) => {
+      const picker = document.createElement("calcite-color-picker");
+      picker.alphaChannel = true;
+      picker.value = rgbaValue;
+      document.body.append(picker);
+    }, supportedAlphaFormatToSampleValue.rgba);
+    await page.waitForChanges();
+
+    const picker = await page.find("calcite-color-picker");
+    expect(await picker.getProperty("value")).toEqual(supportedAlphaFormatToSampleValue.rgba);
+  });
+
   it("increments channel's value by 1 when clearing input and pressing ArrowUp. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");

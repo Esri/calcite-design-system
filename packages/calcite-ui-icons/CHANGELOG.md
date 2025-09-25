@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.1-next.1...@esri/calcite-ui-icons@4.4.0-next.0) (2025-09-25)
+
+### Features
+
+- add field groups ([#12955](https://github.com/Esri/calcite-design-system/issues/12955)) ([fc0be28](https://github.com/Esri/calcite-design-system/commit/fc0be282511faa9a0c3e745f1750f63b08b27b27))
+
+## [4.3.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.1-next.0...@esri/calcite-ui-icons@4.3.1-next.1) (2025-09-24)
+
+### Bug Fixes
+
+- replaced domain icon ([#12952](https://github.com/Esri/calcite-design-system/issues/12952)) ([e5f57c0](https://github.com/Esri/calcite-design-system/commit/e5f57c005c6d678b128ce0ce56b641ac531d6ec9))
+
+## [4.3.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.25...@esri/calcite-ui-icons@4.3.1-next.0) (2025-09-19)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
 ## [4.3.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0-next.24...@esri/calcite-ui-icons@4.3.0-next.25) (2025-09-18)
 
 ### Features

@@ -21,6 +21,8 @@
 // --calcite-internal-button-border-block-start-color
 // --calcite-internal-button-text-color
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
 }
@@ -98,6 +100,6 @@ calcite-button {
   --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();

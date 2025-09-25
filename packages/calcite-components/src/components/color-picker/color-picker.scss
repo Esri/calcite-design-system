@@ -30,6 +30,57 @@
 //
 // --calcite-internal-color-picker-min-width
 
+@use "../../assets/styles/includes";
+@use "../../assets/styles/focus";
+
+:host {
+  @apply text-n2h inline-block font-normal;
+  inline-size: var(--calcite-internal-color-picker-min-width);
+  min-inline-size: var(--calcite-internal-color-picker-min-width);
+}
+
+@include includes.disabled();
+
+:host([scale="s"]) {
+  --calcite-internal-color-picker-min-width: 200px;
+  --calcite-color-picker-spacing: var(--calcite-spacing-sm);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-color-picker-min-width: 240px;
+  --calcite-color-picker-spacing: var(--calcite-spacing-md);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-color-picker-min-width: 304px;
+  --calcite-color-picker-spacing: var(--calcite-spacing-lg);
+
+  @apply text-n1h;
+
+  .section {
+    &:first-of-type {
+      padding-block-start: var(--calcite-color-picker-spacing);
+    }
+  }
+
+  .control-section {
+    @apply flex flex-col flex-wrap items-baseline;
+  }
+
+  .color-hex-options {
+    inline-size: 100%;
+
+    @apply flex
+      flex-shrink
+      flex-col
+      justify-around;
+  }
+
+  .color-mode-container {
+    flex-shrink: 3;
+  }
+}
+
 calcite-input-number {
   --calcite-input-number-background-color: var(--calcite-color-picker-input-background-color);
   --calcite-input-number-border-color: var(--calcite-color-picker-input-border-color);
@@ -70,53 +121,6 @@ calcite-tab-title:hover {
 
 calcite-swatch {
   --calcite-swatch-corner-radius: var(--calcite-color-picker-swatch-corner-radius);
-}
-:host {
-  @apply text-n2h inline-block font-normal;
-  inline-size: var(--calcite-internal-color-picker-min-width);
-  min-inline-size: var(--calcite-internal-color-picker-min-width);
-}
-
-@include disabled();
-
-:host([scale="s"]) {
-  --calcite-internal-color-picker-min-width: 200px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-sm);
-}
-
-:host([scale="m"]) {
-  --calcite-internal-color-picker-min-width: 240px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-md);
-}
-
-:host([scale="l"]) {
-  --calcite-internal-color-picker-min-width: 304px;
-  --calcite-color-picker-spacing: var(--calcite-spacing-lg);
-
-  @apply text-n1h;
-
-  .section {
-    &:first-of-type {
-      padding-block-start: var(--calcite-color-picker-spacing);
-    }
-  }
-
-  .control-section {
-    @apply flex flex-col flex-wrap items-baseline;
-  }
-
-  .color-hex-options {
-    inline-size: 100%;
-
-    @apply flex
-      flex-shrink
-      flex-col
-      justify-around;
-  }
-
-  .color-mode-container {
-    flex-shrink: 3;
-  }
 }
 
 .container {
@@ -233,4 +237,4 @@ calcite-swatch {
   margin-block-start: var(--calcite-color-picker-spacing);
 }
 
-@include base-component();
+@include includes.base-component();

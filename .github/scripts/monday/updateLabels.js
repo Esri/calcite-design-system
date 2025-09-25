@@ -1,5 +1,8 @@
 // @ts-check
 const Monday = require("../support/monday");
+const {
+  labels: { planning, issueWorkflow },
+} = require("../support/resources");
 const { assertRequired } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
@@ -8,6 +11,19 @@ module.exports = async ({ context }) => {
   const [labelName] = assertRequired([label?.name]);
 
   const monday = Monday(issue);
-  monday.addLabel(labelName);
+
+  const skippedLabels = [planning.monday, issueWorkflow.new, issueWorkflow.assigned];
+  if (skippedLabels.includes(labelName)) {
+    console.log(`Label "${labelName}" is skipped. Not adding to Monday.com`);
+    return;
+  }
+
+  const isVerified = labelName === issueWorkflow.verified;
+  if (isVerified && issue.state === "closed") {
+    monday.handleState("closed");
+  } else {
+    monday.addLabel(labelName);
+  }
+
   await monday.commit();
 };

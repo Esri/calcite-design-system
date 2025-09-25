@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.1-next.0...@esri/calcite-design-tokens@4.0.0-next.0) (2025-09-24)
+
+### ⚠ BREAKING CHANGES
+
+- Consumers of the **main index file from the Sass
+  output** of the `calcite-design-tokens` package will be affected and
+  will need to update their imports accordingly. Developers can either use
+  [Sass's migrator](https://sass-lang.com/documentation/cli/migrator/) to
+  update their styles or stay on the previous version depending on the
+  desired imports.
+
+### Code Refactoring
+
+- migrate Sass imports ([#12216](https://github.com/Esri/calcite-design-system/issues/12216)) ([22a0da0](https://github.com/Esri/calcite-design-system/commit/22a0da015ce92947d92d2747e7f006812d881aab)), closes [#10585](https://github.com/Esri/calcite-design-system/issues/10585) [#10583](https://github.com/Esri/calcite-design-system/issues/10583)
+
+## [3.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.15...@esri/calcite-design-tokens@3.2.1-next.0) (2025-09-19)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [3.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0-next.14...@esri/calcite-design-tokens@3.2.0-next.15) (2025-09-17)
 
 ### Bug Fixes

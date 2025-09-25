@@ -18,6 +18,7 @@ const resources = {
       a11y: "a11y",
       newComponent: "new component",
       design: "design",
+      designTokens: "design-tokens",
     },
     issueWorkflow: {
       new: "0 - new",
@@ -77,6 +78,7 @@ const resources = {
     translationReviewers: "calcite-translation-reviewers",
   },
   packages: {
+    tokens: "calcite-design-tokens",
     icons: "calcite-ui-icons",
   },
 };
