@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Virtualizer</title>
+
+    <script src="./_assets/head.ts"></script>
+    <style>
+      .control,
+      .parent-flex,
+      span {
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .control,
+      .parent-flex,
+      span {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .control-child,
+      .child-flex {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 32px 0;
+        flex: 0 0 15%;
+        padding: 15px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 10%;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- headers -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex">Basic</div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Basic</div>
+
+        <div class="child-flex">
+          <ul>
+            <calcite-virtualizer scroller id="basic"></calcite-virtualizer>
+          </ul>
+          <script>
+            const virtualizer = document.querySelector("#basic");
+            for (let i = 0; i < 1000; i++) {
+              const li = document.createElement("li");
+              li.textContent = `Item ${i}`;
+              virtualizer.appendChild(li);
+            }
+          </script>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>
