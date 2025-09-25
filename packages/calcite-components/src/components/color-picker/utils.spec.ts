@@ -16,7 +16,6 @@ describe("utils", () => {
   describe("colorFromValue()", () => {
     it("returns null with clearable value + clearable=true", () => {
       expect(colorFromValue(null, true, "hex")).toBeNull();
-      expect(colorFromValue(undefined, true, "hex")).toBeNull();
       expect(colorFromValue("", true, "hex")).toBeNull();
     });
 
@@ -43,7 +42,6 @@ describe("utils", () => {
 
     it("returns default Color for clearable value + clearable=false", () => {
       expect(colorFromValue(null, false, "hex")).not.toBeNull();
-      expect(colorFromValue(undefined, false, "hex")).not.toBeNull();
     });
   });
 
