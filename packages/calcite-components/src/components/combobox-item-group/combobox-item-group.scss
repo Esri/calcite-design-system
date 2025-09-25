@@ -15,7 +15,7 @@
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
 
   .first-title {
-    padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
+    padding-block-start: var(--calcite-spacing-sm);
   }
 
   .separator {
@@ -34,7 +34,7 @@
   --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
 
   .first-title {
-    padding-block-start: var(--calcite-combobox-item-horizontal-spacing-unit);
+    padding-block-start: var(--calcite-spacing-md);
   }
 
   .separator {
