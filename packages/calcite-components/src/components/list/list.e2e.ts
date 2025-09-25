@@ -183,6 +183,17 @@ describe("calcite-list", () => {
     );
   });
 
+  it("should render the loader scrim at full height when empty and has a non-zero height", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list style="block-size: 400px" loading></calcite-list>`);
+    const list = await page.find("calcite-list");
+    const scrim = await list.find(">>> calcite-scrim");
+    const listStyle = await list.getComputedStyle();
+    const scrimStyle = await scrim.getComputedStyle();
+    expect(listStyle.blockSize).toEqual("400px");
+    expect(scrimStyle.blockSize).toEqual("400px");
+  });
+
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(
