@@ -597,6 +597,7 @@ export class Autocomplete
   private updateGroups(): void {
     this.groups.forEach((group, index, items) => {
       group.scale = this.scale;
+      group.position = index;
 
       if (index === 0) {
         group.disableSpacing = true;
