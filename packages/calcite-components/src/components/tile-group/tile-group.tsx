@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { dragAndDrop } from "@formkit/drag-and-drop";
 import {
   InteractiveComponent,
   InteractiveContainer,
@@ -8,7 +9,7 @@ import {
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup, getRootNode } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import type { Tile } from "../tile/tile";
 import { CSS } from "./resources";
@@ -34,6 +35,8 @@ export class TileGroup
   // #region Private Properties
 
   private items: Tile["el"][] = [];
+
+  private dragValues: string[] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
@@ -137,6 +140,7 @@ export class TileGroup
 
   loaded(): void {
     this.updateSelectedItems();
+    this.initDragAndDrop();
   }
 
   override disconnectedCallback(): void {
@@ -146,6 +150,43 @@ export class TileGroup
   // #endregion
 
   // #region Private Methods
+
+  private updateDragValues(): void {
+    this.dragValues = this.items?.map((el) => el.guid) ?? [];
+  }
+
+  private async initDragAndDrop(): Promise<void> {
+    await this.componentOnReady();
+    this.updateDragValues();
+
+    const { el } = this;
+
+    dragAndDrop({
+      parent: el,
+      getValues: () => this.dragValues,
+      setValues: (newValues) => (this.dragValues = newValues),
+
+      config: {
+        root: getRootNode(el),
+        group: "test",
+        onSort: (event) => {
+          console.log({ onSort: event });
+          const values = event.values as string[];
+          const items = event.nodes.map((node) => node.el) as unknown as Tile["el"][];
+          items.sort((a, b) => (values.indexOf(a.guid) > values.indexOf(b.guid) ? 1 : -1));
+          items.forEach((item) => el.appendChild(item));
+        },
+        onTransfer: (event) => {
+          console.log({ onTransfer: event });
+          event.targetParent.el.insertBefore(
+            event.draggedNodes[0].el,
+            event.targetParent.data.enabledNodes.map((node) => node.el)[event.targetIndex],
+          );
+        },
+      },
+    });
+  }
+
   private getSlottedTiles(): Tile["el"][] {
     return this.slotEl
       ?.assignedElements({ flatten: true })
@@ -201,6 +242,7 @@ export class TileGroup
 
   private updateTiles(): void {
     this.items = this.getSlottedTiles();
+    this.updateDragValues();
     this.items?.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;

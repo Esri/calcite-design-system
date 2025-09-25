@@ -82,6 +82,7 @@
     "@esri/calcite-ui-icons": "4.4.0-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
+    "@formkit/drag-and-drop": "^0.5.3",
     "@types/sortablejs": "^1.15.8",
     "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
