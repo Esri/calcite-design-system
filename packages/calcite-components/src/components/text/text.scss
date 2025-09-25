@@ -2,11 +2,11 @@
   display: block;
   overflow: hidden;
   white-space: nowrap;
+  word-wrap: break-word;
 }
 
 :host([ellipsis]) {
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 :host([wrap]) {

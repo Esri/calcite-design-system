@@ -33,6 +33,7 @@
 .container {
   @include item-styling;
   @apply focus-base text-start;
+  overflow: hidden;
 
   & a {
     outline: none;
@@ -42,6 +43,7 @@
 
 .dropdown-item-content {
   @apply flex-auto py-0.5;
+  overflow: hidden;
 }
 
 // item icon
