@@ -573,6 +573,7 @@ export class Panel extends LitElement implements InteractiveComponent {
       collapsible,
       hasMenuItems,
       hasActionBar,
+      hasContentTop,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
@@ -584,7 +585,9 @@ export class Panel extends LitElement implements InteractiveComponent {
       hasEndActions ||
       collapsible ||
       closable ||
-      hasMenuItems;
+      hasMenuItems ||
+      hasActionBar ||
+      hasContentTop;
 
     this.showHeaderContent = showHeaderContent;
 
