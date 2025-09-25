@@ -512,6 +512,8 @@ export class Combobox
     }
   }
 
+  @property() virtualize: boolean;
+
   //#endregion
 
   //#region Public Methods
@@ -1831,7 +1833,13 @@ export class Combobox
                   value="select-all"
                 />
               )}
-            <slot />
+            {this.virtualize ? (
+              <calcite-virtualizer>
+                <slot />
+              </calcite-virtualizer>
+            ) : (
+              <slot />
+            )}
             {this.noMatchesFound &&
               (this.allowCustomValues ? (
                 <li
