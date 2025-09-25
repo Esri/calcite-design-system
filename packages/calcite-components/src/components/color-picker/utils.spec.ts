@@ -21,18 +21,18 @@ describe("utils", () => {
     });
 
     it("returns Color instance for valid modes + clearable=false", () => {
-      expect(colorFromValue("#ff0000", false, "hex").hex().toLowerCase()).toBe("#ff0000");
-      expect(colorFromValue("#ff0000ff", false, "hexa").hexa().toLowerCase()).toBe("#ff0000ff");
-      expect(colorFromValue("rgb(255, 0, 0)", false, "rgb-css").rgb().array()).toEqual([255, 0, 0]);
-      expect(colorFromValue("rgba(255, 0, 0, 0.5)", false, "rgba-css").rgb().array()).toEqual([255, 0, 0, 0.5]);
-      expect(colorFromValue("hsl(0, 100%, 50%)", false, "hsl-css").hsl().array()[0]).toBeCloseTo(0);
-      expect(colorFromValue("hsla(0, 100%, 50%, 0.5)", false, "hsla-css").hsl().array()[3]).toBeCloseTo(0.5);
-      expect(colorFromValue({ r: 10, g: 20, b: 30 }, false, "rgb").rgb().array()).toEqual([10, 20, 30]);
-      expect(colorFromValue({ r: 10, g: 20, b: 30, a: 0.5 }, false, "rgba").rgb().array()).toEqual([10, 20, 30, 0.5]);
-      expect(colorFromValue({ h: 120, s: 100, l: 50, a: 0.5 }, false, "hsla").hsl().array()[3]).toBeCloseTo(0.5);
-      expect(colorFromValue({ h: 120, s: 100, v: 50, a: 0.5 }, false, "hsva").hsv().array()[3]).toBeCloseTo(0.5);
-      expect(colorFromValue({ h: 120, s: 100, v: 50 }, false, "hsv").hsv().array()[0]).toBeCloseTo(120);
-      expect(colorFromValue({ h: 120, s: 100, l: 50 }, false, "hsl").hsl().array()[0]).toBeCloseTo(120);
+      expect(colorFromValue("#ff0000", false, "hex")!.hex().toLowerCase()).toBe("#ff0000");
+      expect(colorFromValue("#ff0000ff", false, "hexa")!.hexa().toLowerCase()).toBe("#ff0000ff");
+      expect(colorFromValue("rgb(255, 0, 0)", false, "rgb-css")!.rgb().array()).toEqual([255, 0, 0]);
+      expect(colorFromValue("rgba(255, 0, 0, 0.5)", false, "rgba-css")!.rgb().array()).toEqual([255, 0, 0, 0.5]);
+      expect(colorFromValue("hsl(0, 100%, 50%)", false, "hsl-css")!.hsl().array()[0]).toBeCloseTo(0);
+      expect(colorFromValue("hsla(0, 100%, 50%, 0.5)", false, "hsla-css")!.hsl().array()[3]).toBeCloseTo(0.5);
+      expect(colorFromValue({ r: 10, g: 20, b: 30 }, false, "rgb")!.rgb().array()).toEqual([10, 20, 30]);
+      expect(colorFromValue({ r: 10, g: 20, b: 30, a: 0.5 }, false, "rgba")!.rgb().array()).toEqual([10, 20, 30, 0.5]);
+      expect(colorFromValue({ h: 120, s: 100, l: 50, a: 0.5 }, false, "hsla")!.hsl().array()[3]).toBeCloseTo(0.5);
+      expect(colorFromValue({ h: 120, s: 100, v: 50, a: 0.5 }, false, "hsva")!.hsv().array()[3]).toBeCloseTo(0.5);
+      expect(colorFromValue({ h: 120, s: 100, v: 50 }, false, "hsv")!.hsv().array()[0]).toBeCloseTo(120);
+      expect(colorFromValue({ h: 120, s: 100, l: 50 }, false, "hsl")!.hsl().array()[0]).toBeCloseTo(120);
     });
 
     it("throws with alpha property but non-alpha-compatible mode", () => {
