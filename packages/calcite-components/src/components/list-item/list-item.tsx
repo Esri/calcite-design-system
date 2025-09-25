@@ -388,6 +388,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.setSelectionDefaults();
   }
 
+  disconnectedCallback() {
+    focusMap.clear();
+  }
+
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *

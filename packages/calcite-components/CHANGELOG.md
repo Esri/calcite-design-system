@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.4...@esri/calcite-components@4.0.0-next.5) (2025-09-25)
+
+### Bug Fixes
+
+- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818) [/github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx#L35](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx/issues/L35)
+
+## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.3...@esri/calcite-components@4.0.0-next.4) (2025-09-24)
+
+### Features
+
+- **tree-item:** add `calciteTreeItemSelect` event ([#12851](https://github.com/Esri/calcite-design-system/issues/12851)) ([afc3ba8](https://github.com/Esri/calcite-design-system/commit/afc3ba8da782e3af90f97beee52087cb80cb68ee)), closes [#10978](https://github.com/Esri/calcite-design-system/issues/10978)
+
 ## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.2...@esri/calcite-components@4.0.0-next.3) (2025-09-24)
 
 **Note:** Version bump only for package @esri/calcite-components

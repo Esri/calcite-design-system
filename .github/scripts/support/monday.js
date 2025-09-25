@@ -419,10 +419,10 @@ module.exports = function Monday(issue) {
    * Calls the Monday.com API with a provided query
    * @private
    * @param {string} query - The GraphQL query string
-   * @param {QueryVariables} queryVariables - The variables for the GraphQL query
+   * @param {QueryVariables} variables - The variables for the GraphQL query
    * @returns {Promise<any>}
    */
-  async function runQuery(query, queryVariables = {}) {
+  async function runQuery(query, variables = {}) {
     try {
       const response = await fetch("https://api.monday.com/v2", {
         method: "post",
@@ -432,7 +432,7 @@ module.exports = function Monday(issue) {
         },
         body: JSON.stringify({
           query,
-          queryVariables,
+          variables,
         }),
       });
 

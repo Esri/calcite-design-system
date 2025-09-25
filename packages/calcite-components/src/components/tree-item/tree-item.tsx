@@ -129,6 +129,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** Fires when the component's content area is expanded. */
   calciteTreeItemExpand = createEvent({ cancelable: false });
 
+  /** Fires when the component is selected or deselected. */
+  calciteTreeItemSelect = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -196,6 +199,11 @@ export class TreeItem extends LitElement implements InteractiveComponent {
         modifyCurrentSelection: true,
         updateItem: false,
       });
+    }
+
+    if (this.userChangedValue) {
+      this.calciteTreeItemSelect.emit();
+      this.userChangedValue = false;
     }
   }
 
