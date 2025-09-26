@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.6...@esri/calcite-components@4.0.0-next.7) (2025-09-26)
+
+### ⚠ BREAKING CHANGES
+
+- **icon:** The `icon` prop now strictly accepts values of type
+  `IconName`, and the previously supported `IconNameOrString` type has
+  been removed to enforce strict type safety and ensure only valid icons
+  are used.
+
+### Code Refactoring
+
+- **icon:** enforce IconName for icon prop ([#12920](https://github.com/Esri/calcite-design-system/issues/12920)) ([527c310](https://github.com/Esri/calcite-design-system/commit/527c310b86c08d4f773e81cc18f22d0f697d676e)), closes [#12357](https://github.com/Esri/calcite-design-system/issues/12357)
+
+## [4.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.5...@esri/calcite-components@4.0.0-next.6) (2025-09-26)
+
+### Bug Fixes
+
+- **panel:** Ensure `content-top` and `action-bar` slots are visible ([#12963](https://github.com/Esri/calcite-design-system/issues/12963)) ([bad18b4](https://github.com/Esri/calcite-design-system/commit/bad18b40f9ac4123d18f2e5ff70ecb806a0e378b)), closes [#12894](https://github.com/Esri/calcite-design-system/issues/12894)
+
+## [4.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.4...@esri/calcite-components@4.0.0-next.5) (2025-09-25)
+
+### Bug Fixes
+
+- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818) [/github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx#L35](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx/issues/L35)
+
+## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.3...@esri/calcite-components@4.0.0-next.4) (2025-09-24)
+
+### Features
+
+- **tree-item:** add `calciteTreeItemSelect` event ([#12851](https://github.com/Esri/calcite-design-system/issues/12851)) ([afc3ba8](https://github.com/Esri/calcite-design-system/commit/afc3ba8da782e3af90f97beee52087cb80cb68ee)), closes [#10978](https://github.com/Esri/calcite-design-system/issues/10978)
+
+## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.2...@esri/calcite-components@4.0.0-next.3) (2025-09-24)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [4.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.1...@esri/calcite-components@4.0.0-next.2) (2025-09-24)
 
 ### Features
