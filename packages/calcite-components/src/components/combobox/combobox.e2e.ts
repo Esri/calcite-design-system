@@ -3305,11 +3305,6 @@ describe("calcite-combobox", () => {
           shadowSelector: ".title",
           targetProp: "color",
         },
-        "--calcite-combobox-item-group-border-color": {
-          selector: "calcite-combobox-item-group",
-          shadowSelector: ".title",
-          targetProp: "borderBottomColor",
-        },
       };
       themed(comboboxHTML, comboboxTokens);
     });
@@ -3406,6 +3401,30 @@ describe("calcite-combobox", () => {
           },
         },
       );
+    });
+
+    describe("groups", () => {
+      const comboboxGroupHTML = html`<calcite-combobox label="test" placeholder="placeholder">
+        <calcite-combobox-item-group label="Parent group">
+          <calcite-combobox-item value="group item 1" text-label="group item 1"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 2" text-label="group item 2"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 3" text-label="group item 3"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Nested group">
+            <calcite-combobox-item value="group item 4" text-label="group item 4"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 5" text-label="group item 5"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 6" text-label="group item 6"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox-item-group>
+      </calcite-combobox>`;
+
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-item-group-border-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".separator",
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(comboboxGroupHTML, comboboxTokens);
     });
   });
 });
