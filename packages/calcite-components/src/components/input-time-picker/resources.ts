@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   clockIcon: "clock-icon",
   container: "container",
@@ -25,7 +27,7 @@ export const IDS = {
   validationMessage: "inputTimePickerValidationMessage",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   clock: "clock",
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",

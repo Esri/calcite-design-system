@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Scale } from "../interfaces";
 
 export const CSS = {
@@ -36,7 +37,7 @@ export const CSS = {
   meridiemStart: "meridiem--start",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
 };

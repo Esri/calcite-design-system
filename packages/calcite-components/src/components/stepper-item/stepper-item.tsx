@@ -24,7 +24,7 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
@@ -379,7 +379,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   private renderIcon(): JsxNode {
-    let path: IconNameOrString = ICONS.circle;
+    let path: IconName = ICONS.circle;
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = ICONS.circleF;
