@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const ComboboxItemSelector = "CALCITE-COMBOBOX-ITEM";
 export const ComboboxItemGroupSelector = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const AllComboboxChildrenSelector = `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`;
@@ -46,7 +48,7 @@ export const IDS = {
   input: (id: string) => `${idPrefix}-input-${id}`,
 } as const;
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronUp: "chevron-up",
   chevronDown: "chevron-down",
 };

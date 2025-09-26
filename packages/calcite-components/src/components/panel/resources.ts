@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionBarContainer: "action-bar-container",
   backButton: "back-button",
@@ -33,14 +35,14 @@ export const IDS = {
   collapse: "collapse",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   close: "x",
   menu: "ellipsis",
   backLeft: "chevron-left",
   backRight: "chevron-right",
   expand: "chevron-down",
   collapse: "chevron-up",
-} as const;
+};
 
 export const SLOTS = {
   actionBar: "action-bar",
