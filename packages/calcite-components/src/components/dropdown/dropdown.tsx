@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { queryAssignedElements } from "lit/decorators.js";
 import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -84,8 +85,11 @@ export class Dropdown
 
   transitionEl: HTMLDivElement;
 
-  /** trigger elements */
-  private triggers: HTMLElement[];
+  /**
+   * Typed as single-element array due to queryAssignedElements always returning an array.
+   */
+  @queryAssignedElements({ slot: SLOTS.trigger })
+  private triggerEl: [HTMLElement];
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -420,14 +424,6 @@ export class Dropdown
       : null;
   }
 
-  private updateTriggers(event: Event): void {
-    this.triggers = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    }) as HTMLElement[];
-
-    this.reposition(true);
-  }
-
   private updateItems(): void {
     this.items = this.groups
       .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
@@ -575,7 +571,7 @@ export class Dropdown
     this.open = false;
 
     if (focusTrigger) {
-      focusElement(this.triggers[0]);
+      focusElement(this.triggerEl[0]);
     }
   }
 
