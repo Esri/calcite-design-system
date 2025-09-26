@@ -33,7 +33,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl = createRef<HTMLTableCellElement>();
+  private containerRef = createRef<HTMLTableCellElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -119,9 +119,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl.value;
-    }, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -194,7 +192,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
           colSpan={this.colSpan}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
           rowSpan={this.rowSpan}
           tabIndex={staticCell ? -1 : 0}

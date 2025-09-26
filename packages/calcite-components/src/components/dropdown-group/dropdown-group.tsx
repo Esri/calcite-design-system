@@ -129,7 +129,7 @@ export class DropdownGroup extends LitElement {
 
   override render(): JsxNode {
     const groupTitle = this.groupTitle ? (
-      <span ariaHidden="true" class={CSS.title}>
+      <span ariaHidden="true" class={{ [CSS.title]: true, [CSS.firstTitle]: this.position === 0 }}>
         {this.groupTitle}
       </span>
     ) : null;

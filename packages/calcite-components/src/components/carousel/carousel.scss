@@ -40,6 +40,8 @@
 // --calcite-internal-carousel-pagination-space
 // --calcite-internal-carousel-pagination-space-wide
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex w-full;
   --calcite-internal-carousel-pagination-space: 1.5rem;
@@ -317,6 +319,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
-@include base-component();
+@include includes.base-component();

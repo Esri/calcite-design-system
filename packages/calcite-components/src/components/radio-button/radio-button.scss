@@ -17,6 +17,8 @@
 //
 // --calcite-internal-radio-size
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply block
   cursor-pointer;
@@ -56,7 +58,7 @@
   }
 }
 
-@include disabled() {
+@include includes.disabled() {
   .radio {
     @apply opacity-disabled
     cursor-default;
@@ -149,6 +151,6 @@
   }
 }
 
-@include form-internal-label();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.hidden-form-input();
+@include includes.base-component();
