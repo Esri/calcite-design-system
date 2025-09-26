@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.6...@esri/calcite-components@4.0.0-next.7) (2025-09-26)
+
+### ⚠ BREAKING CHANGES
+
+- **icon:** The `icon` prop now strictly accepts values of type
+  `IconName`, and the previously supported `IconNameOrString` type has
+  been removed to enforce strict type safety and ensure only valid icons
+  are used.
+
+### Code Refactoring
+
+- **icon:** enforce IconName for icon prop ([#12920](https://github.com/Esri/calcite-design-system/issues/12920)) ([527c310](https://github.com/Esri/calcite-design-system/commit/527c310b86c08d4f773e81cc18f22d0f697d676e)), closes [#12357](https://github.com/Esri/calcite-design-system/issues/12357)
+
 ## [4.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.5...@esri/calcite-components@4.0.0-next.6) (2025-09-26)
 
 ### Bug Fixes
