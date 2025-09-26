@@ -53,7 +53,7 @@ import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -405,7 +405,7 @@ export class Combobox
   @property() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @property({ reflect: true }) placeholderIcon: IconNameOrString;
+  @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
@@ -472,8 +472,8 @@ export class Combobox
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -1341,7 +1341,9 @@ export class Combobox
       item.scale = this.scale;
     });
 
-    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
+    this.groupItems.forEach(
+      (groupItem, index) => ((groupItem.scale = this.scale), (groupItem.position = index)),
+    );
 
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();

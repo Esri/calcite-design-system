@@ -10,7 +10,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -42,7 +42,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private guid = guid();
 
-  private buttonEl = createRef<HTMLButtonElement>();
+  private buttonRef = createRef<HTMLButtonElement>();
 
   private buttonId = IDS.button(this.guid);
 
@@ -121,7 +121,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ type: String, reflect: true }) icon: IconName;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -178,7 +178,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.buttonEl.value, options);
+    return this.focusSetter(() => this.buttonRef.value, options);
   }
 
   //#endregion
@@ -223,7 +223,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     const tooltip = tooltips[0];
 
     if (tooltip) {
-      tooltip.referenceElement = this.buttonEl.value;
+      tooltip.referenceElement = this.buttonRef.value;
     }
   }
 
@@ -357,7 +357,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
-          ref={this.buttonEl}
+          ref={this.buttonRef}
           role="button"
           tabIndex={this.disabled ? null : 0}
         >
@@ -381,7 +381,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         disabled={disabled}
         id={buttonId}
         onClick={this.handleClick}
-        ref={this.buttonEl}
+        ref={this.buttonRef}
       >
         {buttonContent}
       </button>

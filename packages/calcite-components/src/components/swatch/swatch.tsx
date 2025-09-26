@@ -44,7 +44,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
   private internalColor: ColorInstance;
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -445,7 +445,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
             [CSS.nonInteractive]: !this.interactive,
           }}
           onClick={this.handleEmittingEvent}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
           title={this.label}

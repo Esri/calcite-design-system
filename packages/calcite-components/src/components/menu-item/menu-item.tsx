@@ -13,7 +13,7 @@ import {
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -38,9 +38,9 @@ export class MenuItem extends LitElement {
 
   //#region Private Properties
 
-  private anchorEl = createRef<HTMLAnchorElement>();
+  private anchorRef = createRef<HTMLAnchorElement>();
 
-  private dropdownActionEl = createRef<Action["el"]>();
+  private dropdownActionRef = createRef<Action["el"]>();
 
   private isFocused: boolean;
 
@@ -75,13 +75,13 @@ export class MenuItem extends LitElement {
   @property() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;
@@ -135,7 +135,7 @@ export class MenuItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.anchorEl.value, options);
+    return this.focusSetter(() => this.anchorRef.value, options);
   }
 
   //#endregion
@@ -190,7 +190,7 @@ export class MenuItem extends LitElement {
 
   private clickHandler(event: MouseEvent): void {
     if (
-      (this.href && event.target === this.dropdownActionEl.value) ||
+      (this.href && event.target === this.dropdownActionRef.value) ||
       (!this.href && this.hasSubmenu)
     ) {
       this.open = !this.open;
@@ -219,7 +219,7 @@ export class MenuItem extends LitElement {
   private async keyDownHandler(event: KeyboardEvent): Promise<void> {
     const { hasSubmenu, href, layout, open, submenuItems } = this;
     const key = event.key;
-    const targetIsDropdown = event.target === this.dropdownActionEl.value;
+    const targetIsDropdown = event.target === this.dropdownActionRef.value;
 
     if (event.defaultPrevented) {
       return;
@@ -275,7 +275,7 @@ export class MenuItem extends LitElement {
   }
 
   private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
-    if (event.target !== this.dropdownActionEl.value) {
+    if (event.target !== this.dropdownActionRef.value) {
       this.calciteMenuItemSelect.emit();
     }
   }
@@ -353,7 +353,7 @@ export class MenuItem extends LitElement {
         key={CSS.dropdownAction}
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        ref={this.dropdownActionEl}
+        ref={this.dropdownActionRef}
         text={this.messages.open}
       />
     );
@@ -425,7 +425,7 @@ export class MenuItem extends LitElement {
             href={this.href}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            ref={this.anchorEl}
+            ref={this.anchorRef}
             rel={this.rel}
             role="menuitem"
             tabIndex={this.isTopLevelItem ? 0 : -1}

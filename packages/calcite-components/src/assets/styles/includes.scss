@@ -1,13 +1,14 @@
-@import "@esri/calcite-design-tokens/dist/css/component.css";
-@import "@esri/calcite-design-tokens/dist/scss/index";
-@import "@esri/calcite-design-tokens/dist/scss/core";
+@use "sass:list";
+@use "@esri/calcite-design-tokens/dist/css/component.css";
+@use "@esri/calcite-design-tokens/dist/scss";
+@use "@esri/calcite-design-tokens/dist/scss/core";
 
 /* mixins & extensions */
-@import "animation";
-@import "focus";
-@import "host";
-@import "spacing";
-@import "floating-ui";
+@use "animation";
+@use "focus";
+@use "host";
+@use "spacing";
+@use "floating-ui";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
@@ -282,7 +283,7 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   $merged-props: $target-props;
 
   @if $extra-props != null {
-    $merged-props: join($target-props, $extra-props, comma);
+    $merged-props: list.join($target-props, $extra-props, comma);
   }
 
   transition-property: #{$merged-props};

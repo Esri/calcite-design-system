@@ -17,7 +17,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { Tree } from "../tree/tree";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -43,7 +43,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private actionSlotWrapper = createRef<HTMLDivElement>();
+  private actionSlotWrapperRef = createRef<HTMLDivElement>();
 
   private childTree: Tree["el"];
 
@@ -89,7 +89,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -128,6 +128,9 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   /** Fires when the component's content area is expanded. */
   calciteTreeItemExpand = createEvent({ cancelable: false });
+
+  /** Fires when the component is selected or deselected. */
+  calciteTreeItemSelect = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -196,6 +199,11 @@ export class TreeItem extends LitElement implements InteractiveComponent {
         modifyCurrentSelection: true,
         updateItem: false,
       });
+    }
+
+    if (this.userChangedValue) {
+      this.calciteTreeItemSelect.emit();
+      this.userChangedValue = false;
     }
   }
 
@@ -291,7 +299,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
 
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
-    return composedPath.includes(this.actionSlotWrapper.value);
+    return composedPath.includes(this.actionSlotWrapperRef.value);
   }
 
   /**
@@ -489,7 +497,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
                 defaultSlotNode
               )}
             </div>
-            <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapper}>
+            <div class={CSS.actionsEnd} hidden={!hasEndActions} ref={this.actionSlotWrapperRef}>
               {slotNode}
             </div>
           </div>

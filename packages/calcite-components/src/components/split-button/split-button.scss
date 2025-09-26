@@ -23,6 +23,8 @@
 // --calcite-internal-split-button-divider-border-color
 // --calcite-internal-split-button-divider-color
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply inline-block;
 }
@@ -188,7 +190,7 @@ calcite-dropdown {
   --calcite-dropdown-width: var(--calcite-split-button-dropdown-width);
 }
 
-@include disabled() {
+@include includes.disabled() {
   calcite-dropdown > calcite-button {
     @apply pointer-events-none;
   }
@@ -199,5 +201,4 @@ calcite-dropdown {
     background-color: transparent;
   }
 }
-
-@include base-component();
+@include includes.base-component();

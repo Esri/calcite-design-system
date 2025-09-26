@@ -26,7 +26,7 @@ export class TableHeader extends LitElement {
 
   //#region Private Properties
 
-  private containerEl = createRef<HTMLTableCellElement>();
+  private containerRef = createRef<HTMLTableCellElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -119,7 +119,7 @@ export class TableHeader extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.containerEl.value, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -204,7 +204,7 @@ export class TableHeader extends LitElement {
         colSpan={this.colSpan}
         onBlur={this.onContainerBlur}
         onFocus={this.onContainerFocus}
-        ref={this.containerEl}
+        ref={this.containerRef}
         role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
         rowSpan={this.rowSpan}
         scope={scope}
