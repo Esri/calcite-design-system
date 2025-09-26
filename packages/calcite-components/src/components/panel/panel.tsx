@@ -592,7 +592,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header class={CSS.header}>
+      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar || hasContentTop)}>
         <div
           class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
           hidden={!showHeaderContent}
