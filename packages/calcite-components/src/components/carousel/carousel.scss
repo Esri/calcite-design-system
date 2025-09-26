@@ -92,11 +92,11 @@
   );
   --calcite-internal-carousel-control-icon-color-hover: var(
     --calcite-carousel-control-icon-color-hover,
-    var(--calcite-color-text-1)
+    var(--calcite-internal-carousel-pagination-icon-color-hover)
   );
   --calcite-internal-carousel-control-icon-color: var(
     --calcite-carousel-control-icon-color,
-    var(--calcite-color-text-3)
+    var(--calcite-carousel-pagination-icon-color, var(--calcite-color-text-3))
   );
   --calcite-internal-carousel-autoplay-progress-background-color: var(
     --calcite-carousel-autoplay-progress-background-color,
