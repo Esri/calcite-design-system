@@ -620,7 +620,6 @@ export class Dropdown
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.trigger}
-            onSlotChange={this.updateTriggers}
           />
         </div>
         <div
