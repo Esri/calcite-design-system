@@ -197,7 +197,7 @@ export class Autocomplete
   @property({ reflect: true }) form: string;
 
   /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -303,7 +303,9 @@ export class Autocomplete
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
+    | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;

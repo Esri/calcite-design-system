@@ -165,7 +165,7 @@ export class InputText
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -248,7 +248,9 @@ export class InputText
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
+    | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;

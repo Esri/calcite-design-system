@@ -143,7 +143,9 @@ export class Select
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
+    | boolean;
 
   /** Specifies the validation message to display under the component. */
   @property() validationMessage: string;
