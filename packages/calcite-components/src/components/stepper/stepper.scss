@@ -19,7 +19,7 @@
 // --calcite-internal-stepper-action-inline-size
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");

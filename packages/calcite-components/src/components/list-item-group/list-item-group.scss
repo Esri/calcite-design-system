@@ -7,7 +7,7 @@
  * @prop --calcite-list-color: Specifies the component's color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply flex flex-col;

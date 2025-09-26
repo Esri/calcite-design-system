@@ -3,14 +3,8 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 @use "floating-ui";
 @use "animation";
-
-/* CSS vars (@include in global) */
 @use "type";
-
-// Add Calcite Design Tokens as CSS Custom Props
 @import url("@esri/calcite-design-tokens/dist/css/index.css");
-
-// Include legacy tokens for backwards compatibility
 @include meta.load-css("legacy");
 
 :root {

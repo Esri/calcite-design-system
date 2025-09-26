@@ -24,7 +24,7 @@
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -134,7 +134,7 @@
 
 @include includes.disabled();
 
-@include meta.load-css("../../assets/styles/header");
+@include meta.load-css("../../styles/header");
 
 .header {
   @apply justify-start;

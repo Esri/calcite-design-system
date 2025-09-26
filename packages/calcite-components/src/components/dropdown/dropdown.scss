@@ -13,8 +13,8 @@
 //
 // --calcite-internal-dropdown-width
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/floating-ui";
 
 :host {
   @apply inline-block;

@@ -26,8 +26,8 @@
 // --calcite-internal-stroke-width
 // --calcite-internal-text-offset
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/animation";
+@use "../../styles/includes";
+@use "../../styles/animation";
 
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;

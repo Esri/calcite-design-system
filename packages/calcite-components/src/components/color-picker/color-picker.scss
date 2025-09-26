@@ -30,8 +30,8 @@
 //
 // --calcite-internal-color-picker-min-width
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/focus";
+@use "../../styles/includes";
+@use "../../styles/focus";
 
 :host {
   @apply text-n2h inline-block font-normal;

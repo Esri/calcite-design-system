@@ -7,7 +7,7 @@
  * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "sass:meta";
 
 :host {
@@ -28,7 +28,7 @@
   @apply hidden;
 }
 
-@include meta.load-css("../../assets/styles/header");
+@include meta.load-css("../../styles/header");
 
 .header {
   @apply border-color-3

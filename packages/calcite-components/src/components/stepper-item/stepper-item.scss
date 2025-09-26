@@ -32,7 +32,7 @@
 // --calcite-internal-stepper-item-spacing-unit-m
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host([scale="s"]) {

@@ -17,8 +17,8 @@
 // --calcite-internal-tree-item-padding-block
 // --calcite-internal-tree-item-spacing-unit
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/animation";
+@use "../../styles/includes";
+@use "../../styles/animation";
 
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
