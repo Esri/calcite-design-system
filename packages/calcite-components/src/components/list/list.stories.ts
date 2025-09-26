@@ -5123,3 +5123,6 @@ export const filterGroups = (): string =>
       </calcite-list-item-group>
     </calcite-list-item-group>
   </calcite-list>`;
+
+export const emptyFixedHeight = (): string =>
+  html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
