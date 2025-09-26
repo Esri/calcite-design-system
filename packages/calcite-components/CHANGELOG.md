@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.7...@esri/calcite-components@4.0.0-next.8) (2025-09-26)
+
+### Features
+
+- **combobox-item-group:** update group design for 4.0 ([#12933](https://github.com/Esri/calcite-design-system/issues/12933)) ([48b882e](https://github.com/Esri/calcite-design-system/commit/48b882e42d59d1a1b959a101894bcdf8f5d9bd80)), closes [#10780](https://github.com/Esri/calcite-design-system/issues/10780)
+
 ## [4.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.6...@esri/calcite-components@4.0.0-next.7) (2025-09-26)
 
 ### ⚠ BREAKING CHANGES
