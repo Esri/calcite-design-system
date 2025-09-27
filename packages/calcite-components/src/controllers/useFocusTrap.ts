@@ -1,8 +1,11 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
+import { createFocusTrap, FocusTrap, Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { SetReturnType } from "type-fest";
-import { createFocusTrapOptions } from "../utils/focusTrapComponent";
+import { FocusableElement, focusElement, tabbableOptions } from "../utils/dom";
+import { focusTrapStack } from "../utils/config";
+
+export { FocusTrap };
 
 export interface UseFocusTrap {
   /**
@@ -149,7 +152,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
           const effectiveFocusTrapOptions = {
             ...internalFocusTrapOptions,
             ...component.focusTrapOptions,
-          };
+          } as Options;
           effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
 
           focusTrap = createFocusTrap(effectiveContainers, createFocusTrapOptions(targetEl, effectiveFocusTrapOptions));
@@ -183,3 +186,49 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     return utils;
   });
 };
+
+const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
+
+/**
+ * Default behavior for returning focus when the FocusTrap is deactivated.
+ *
+ * @param hostEl
+ * @param el
+ */
+function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
+  if (!outsideClickDeactivated.has(hostEl)) {
+    focusElement(el as FocusableElement);
+  }
+
+  return false;
+}
+
+function createFocusTrapOptions(hostEl: HTMLElement, options?: Options): Options {
+  const fallbackFocus = options?.fallbackFocus || hostEl;
+  const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
+
+  return {
+    fallbackFocus,
+    ...options,
+
+    // the following options are not overridable
+    document: hostEl.ownerDocument,
+    tabbableOptions,
+    trapStack: focusTrapStack,
+    clickOutsideDeactivates: (event) => {
+      if (!outsideClickDeactivated.has(hostEl)) {
+        outsideClickDeactivated.add(hostEl);
+      }
+      return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onPostDeactivate: () => {
+      outsideClickDeactivated.delete(hostEl);
+    },
+    setReturnFocus: (el) => {
+      const returnFocusTarget =
+        typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
+
+      return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
+    },
+  };
+}
