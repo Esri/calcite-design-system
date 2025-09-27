@@ -27,7 +27,7 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, Width } from "../interfaces";
+import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -85,11 +85,8 @@ export class Dropdown
 
   transitionEl: HTMLDivElement;
 
-  /**
-   * Typed as single-element array due to queryAssignedElements always returning an array.
-   */
   @queryAssignedElements({ slot: SLOTS.trigger })
-  private triggerEl: [HTMLElement];
+  private triggerEls: SingleItemSlotArray<HTMLElement>;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -571,7 +568,7 @@ export class Dropdown
     this.open = false;
 
     if (focusTrigger) {
-      focusElement(this.triggerEl[0]);
+      focusElement(this.triggerEls[0]);
     }
   }
 
