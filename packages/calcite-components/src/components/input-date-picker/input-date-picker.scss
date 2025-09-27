@@ -48,7 +48,7 @@
 // --calcite-internal-input-text-input-padding-inline-end
 
 @use "../../styles/includes";
-@use "../../styles/floating-ui";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @include floating-ui.floating-ui-elem-anim(".menu-container");

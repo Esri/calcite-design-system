@@ -1,8 +1,8 @@
 @use "sass:meta";
 @use "@esri/calcite-design-tokens/dist/css/index.css";
 @use "@esri/calcite-design-tokens/dist/scss";
-@use "floating-ui";
-@use "animation";
+@use "../shared/floating-ui";
+@use "../shared/animation";
 @use "type";
 @use "legacy";
 

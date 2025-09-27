@@ -24,7 +24,7 @@
 // --calcite-internal-combobox-spacing-unit-s
 
 @use "../../styles/includes";
-@use "../../styles/floating-ui";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply relative block;

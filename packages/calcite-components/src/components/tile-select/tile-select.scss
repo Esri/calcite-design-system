@@ -1,5 +1,5 @@
 @use "../../styles/includes";
-@use "../../styles/spacing";
+@use "../../styles/shared/spacing";
 
 $spacing: spacing.$baseline * 0.5;
 

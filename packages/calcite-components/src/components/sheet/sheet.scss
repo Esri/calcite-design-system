@@ -28,7 +28,7 @@
 
 @use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../styles/animation";
+@use "../../styles/shared/animation";
 
 :host {
   @apply flex absolute z-overlay inset-0;

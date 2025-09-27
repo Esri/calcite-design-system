@@ -14,7 +14,7 @@
 // --calcite-internal-dropdown-width
 
 @use "../../styles/includes";
-@use "../../styles/floating-ui";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply inline-block;
