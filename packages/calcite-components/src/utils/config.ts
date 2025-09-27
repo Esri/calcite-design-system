@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { isServer } from "lit-html/is-server.js";
-import { FocusTrap } from "./focusTrapComponent";
+import { FocusTrap } from "../controllers/useFocusTrap";
 import { LogLevel } from "./logger";
 
 export interface CalciteConfig {
