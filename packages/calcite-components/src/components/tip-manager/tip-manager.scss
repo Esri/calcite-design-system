@@ -28,7 +28,7 @@
   @apply hidden;
 }
 
-@include meta.load-css("../../styles/header");
+@include meta.load-css("../../styles/component/header");
 
 .header {
   @apply border-color-3

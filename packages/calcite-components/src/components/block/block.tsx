@@ -22,7 +22,8 @@ import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { styles as sortableStyles } from "../../styles/_sortable.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
+import { styles as headerStyles } from "../../styles/component/header.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -46,7 +47,7 @@ declare global {
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   //#region Static Members
 
-  static override styles = [styles, sortableStyles];
+  static override styles = [styles, headerStyles, sortableStyles];
 
   //#endregion
 

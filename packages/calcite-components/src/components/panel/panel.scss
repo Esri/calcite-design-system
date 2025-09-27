@@ -48,8 +48,6 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 @include includes.disabled();
 
-@include meta.load-css("../../styles/header");
-
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);
   --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-sm-plus);

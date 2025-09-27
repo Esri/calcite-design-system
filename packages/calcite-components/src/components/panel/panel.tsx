@@ -24,6 +24,7 @@ import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { styles as headerStyles } from "../../styles/component/header.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -53,7 +54,7 @@ declare global {
 export class Panel extends LitElement implements InteractiveComponent {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, headerStyles];
 
   //#endregion
 
