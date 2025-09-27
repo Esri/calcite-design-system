@@ -3,7 +3,6 @@
 @use "@esri/calcite-design-tokens/dist/scss";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 @use "host";
-@use "spacing";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
