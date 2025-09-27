@@ -51,7 +51,6 @@
 @use "../../styles/floating-ui";
 
 :host {
-  @extend %component-spacing;
   @include floating-ui.floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block

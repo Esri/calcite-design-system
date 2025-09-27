@@ -37,8 +37,6 @@
 
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
-
-  --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 

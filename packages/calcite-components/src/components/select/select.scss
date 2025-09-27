@@ -25,7 +25,6 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @extend %component-spacing;
   @apply flex flex-col;
   font-size: var(--calcite-select-font-size);
   font-weight: var(--calcite-internal-select-font-weight, var(--calcite-font-weight-regular));
