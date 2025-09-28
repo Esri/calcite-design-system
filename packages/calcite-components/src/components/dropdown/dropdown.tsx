@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { queryAssignedElements } from "lit/decorators.js";
 import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -26,7 +27,7 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, Width } from "../interfaces";
+import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -84,8 +85,8 @@ export class Dropdown
 
   transitionEl: HTMLDivElement;
 
-  /** trigger elements */
-  private triggers: HTMLElement[];
+  @queryAssignedElements({ slot: SLOTS.trigger })
+  private triggerEls: SingleItemSlotArray<HTMLElement>;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -420,14 +421,6 @@ export class Dropdown
       : null;
   }
 
-  private updateTriggers(event: Event): void {
-    this.triggers = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    }) as HTMLElement[];
-
-    this.reposition(true);
-  }
-
   private updateItems(): void {
     this.items = this.groups
       .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
@@ -575,7 +568,7 @@ export class Dropdown
     this.open = false;
 
     if (focusTrigger) {
-      focusElement(this.triggers[0]);
+      focusElement(this.triggerEls[0]);
     }
   }
 
@@ -624,7 +617,6 @@ export class Dropdown
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.trigger}
-            onSlotChange={this.updateTriggers}
           />
         </div>
         <div

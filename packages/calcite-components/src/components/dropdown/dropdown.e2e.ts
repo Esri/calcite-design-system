@@ -1056,36 +1056,6 @@ describe("calcite-dropdown", () => {
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
   });
 
-  it("accepts multiple triggers", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-dropdown>
-        <calcite-button class="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-icon class="trigger" icon="caretDown" scale="s" slot="trigger"></calcite-icon>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    `);
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await findAll(element, ".trigger");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    await trigger[0].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await trigger[0].click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-    await page.waitForChanges();
-    await trigger[1].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await trigger[1].click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-  });
-
   describe("accessible", () => {
     accessible(html`${dropdownSelectionModeContent}`);
   });
