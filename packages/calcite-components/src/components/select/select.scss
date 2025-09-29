@@ -21,6 +21,9 @@
 // --calcite-internal-select-font-size
 // --calcite-internal-select-icon-container-padding-inline
 
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
 :host {
   @extend %component-spacing;
   @apply flex flex-col;
@@ -31,7 +34,7 @@
 .wrapper {
   @apply relative flex items-stretch;
   inline-size: var(--select-width);
-  block-size: var(--calcite-internal-select-block-size, #{$calcite-size-32});
+  block-size: var(--calcite-internal-select-block-size, #{core.$calcite-size-32});
   &:focus-within,
   &:active,
   &:hover {
@@ -41,13 +44,13 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
-  --calcite-internal-select-block-size: #{$calcite-size-24};
+  --calcite-internal-select-block-size: #{core.$calcite-size-24};
 }
 
 :host([scale="m"]) {
@@ -60,7 +63,7 @@
   --calcite-internal-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-lg);
-  --calcite-internal-select-block-size: #{$calcite-size-44};
+  --calcite-internal-select-block-size: #{core.$calcite-size-44};
 }
 
 :host([width="auto"]) {
@@ -138,7 +141,7 @@ select:disabled {
   @apply border-color-transparent;
 }
 
-@include form-internal-label();
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();

@@ -3,15 +3,15 @@ const Monday = require("../support/monday");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
-  const { issue, action } =
+  const { issue } =
     /** @type {import('@octokit/webhooks-types').IssuesOpenedEvent | import('@octokit/webhooks-types').IssuesLabeledEvent}*/ (
       context.payload
     );
   const monday = Monday(issue);
-  const labeledId = action === "labeled" ? await monday.getId("query") : undefined;
-  const createdId = await monday.createTask(labeledId);
+  const { id, source } = await monday.getId();
+  const createdId = await monday.createTask(id);
 
-  if (createdId !== labeledId) {
+  if (source !== "body") {
     const updatedBody = monday.addSyncLine(createdId);
     try {
       await github.rest.issues.update({

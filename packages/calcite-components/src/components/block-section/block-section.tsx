@@ -14,7 +14,7 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { FlipContext, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -62,13 +62,13 @@ export class BlockSection extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -126,9 +126,7 @@ export class BlockSection extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion

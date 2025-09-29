@@ -17,7 +17,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
@@ -119,13 +119,13 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** When present, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -232,9 +232,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion

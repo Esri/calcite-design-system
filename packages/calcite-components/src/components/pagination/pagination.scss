@@ -11,6 +11,8 @@
  * @prop --calcite-pagination-icon-color-background-hover: Specifies the component's chevron item background color when hovered.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex;
   writing-mode: horizontal-tb;
@@ -142,4 +144,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -7,7 +7,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Appearance, Kind, Scale } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { Button } from "../button/button";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
@@ -28,7 +28,7 @@ export class Fab extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private buttonEl = createRef<Button["el"]>();
+  private buttonRef = createRef<Button["el"]>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -47,7 +47,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    *
    * @default "plus"
    */
-  @property({ reflect: true }) icon: IconNameOrString = ICONS.plus;
+  @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -84,9 +84,7 @@ export class Fab extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.buttonEl.value;
-    }, options);
+    return this.focusSetter(() => this.buttonRef.value, options);
   }
 
   // #endregion
@@ -128,7 +126,7 @@ export class Fab extends LitElement implements InteractiveComponent {
           kind={kind}
           label={label}
           loading={loading}
-          ref={this.buttonEl}
+          ref={this.buttonRef}
           round={true}
           scale={scale}
           title={title}

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   menu: "menu",
   defaultTrigger: "default-trigger",
@@ -16,6 +18,6 @@ export const SLOTS = {
   trigger: "trigger",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   menu: "ellipsis",
-} as const;
+};

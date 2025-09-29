@@ -19,7 +19,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
@@ -41,8 +41,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  /** if href is requested, track the rendered child link */
-  private childLink = createRef<HTMLAnchorElement>();
+  private childLinkRef = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
   private parentDropdownGroupEl: DropdownGroup["el"];
@@ -70,13 +69,13 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Accessible name for the component. */
   @property() label: string;
@@ -120,9 +119,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   // #endregion
@@ -182,7 +179,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
       case "Enter":
         this.emitRequestedItem();
         if (this.href) {
-          this.childLink.value.click();
+          this.childLinkRef.value.click();
         }
         event.preventDefault();
         break;
@@ -296,7 +293,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
         ariaLabel={label}
         class={CSS.link}
         href={href}
-        ref={this.childLink}
+        ref={this.childLinkRef}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
