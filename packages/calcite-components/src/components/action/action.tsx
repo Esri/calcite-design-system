@@ -155,7 +155,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @property() text: string;
 
-  /** Indicates whether the text is displayed. */
+  /** When `true`, indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
   /**
