@@ -66,13 +66,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
 
-  /** When present and `editingEnabled` is present, displays save and cancel controls on the component. */
+  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
   @property({ reflect: true }) controls = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, inline editing is enabled on the component. */
+  /** When `true`, inline editing is enabled on the component. */
   @property({ reflect: true })
   get editingEnabled(): boolean {
     return this._editingEnabled;
@@ -85,7 +85,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
   }
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */

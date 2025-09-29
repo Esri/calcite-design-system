@@ -131,10 +131,10 @@ export class Carousel extends LitElement implements InteractiveComponent {
   /** When `autoplay` is present, specifies in milliseconds the length of time to display each Carousel Item. */
   @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
-  /** When present, the component's controls are positioned absolutely on top of slotted Carousel Items. */
+  /** Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items. */
   @property({ reflect: true }) controlOverlay = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**

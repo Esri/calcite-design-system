@@ -82,7 +82,7 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When present, displays borders in the component. */
+  /** When `true`, displays borders in the component. */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -109,7 +109,7 @@ export class Table extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, displays the position of the row in numeric form. */
+  /** When `true`, displays the position of the row in numeric form. */
   @property({ reflect: true }) numbered = false;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -147,7 +147,7 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
-  /** When present, displays striped styling in the component. */
+  /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
   //#endregion
