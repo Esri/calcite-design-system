@@ -20,7 +20,7 @@
 }
 
 .container-height {
-  min-block-size: 100vh;
+  @apply h-full;
 }
 
 .table-container {
