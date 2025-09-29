@@ -186,7 +186,7 @@ export class Modal extends LitElement implements OpenCloseComponent {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
+  /** When `true`, sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @property({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component, which will apply to top border. */
