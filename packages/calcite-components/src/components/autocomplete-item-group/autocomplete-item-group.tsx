@@ -70,10 +70,7 @@ export class AutocompleteItemGroup extends LitElement {
         role="group"
       >
         {autocompleteSeparator}
-        <div
-          class={{ [CSS.heading]: true, [CSS.firstTitle]: this.position === 0 }}
-          role="presentation"
-        >
+        <div class={{ [CSS.heading]: true, [CSS.firstTitle]: this.position === 0 }}>
           {this.heading}
         </div>
         <slot />
