@@ -3,15 +3,15 @@
   *
   * These properties can be overridden using the component's tag as selector.
   *
-  * --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination item, navigation arrows, and autoplay controls.
+  * --calcite-carousel-pagination-background-color: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
   * --calcite-carousel-pagination-background-color-hover: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
   * --calcite-carousel-pagination-background-color-press: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
   * --calcite-carousel-pagination-background-color-selected: Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
-  * --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items.
+  * --calcite-carousel-pagination-icon-color: Specifies the icon color of the component's pagination items and autoplay controls.
   * --calcite-carousel-pagination-icon-color-hover: Specifies the icon color of the component's pagination items when hovered or pressed.
   * --calcite-carousel-pagination-icon-color-selected: Specifies the icon color of the component's pagination items when selected.
-  * --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrows and autoplay controls.
-  * --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrows and autoplay controls when hovered or pressed.
+  * --calcite-carousel-control-icon-color: Specifies the icon color of the component's navigation arrow controls.
+  * --calcite-carousel-control-icon-color-hover: Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
   * --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's autoplay progress when `autoplay` is specified.
   * --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
   *
@@ -21,9 +21,10 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-carousel-autoplay-control-color
 // --calcite-internal-carousel-autoplay-progress-background-color
 // --calcite-internal-carousel-autoplay-progress-fill-color
-// --calcite-internal-carousel-control-color
+// --calcite-internal-carousel-control-icon-color
 // --calcite-internal-carousel-control-icon-color-hover
 // --calcite-internal-carousel-pagination-background-color
 // --calcite-internal-carousel-pagination-background-color-hover
@@ -91,9 +92,12 @@
   );
   --calcite-internal-carousel-control-icon-color-hover: var(
     --calcite-carousel-control-icon-color-hover,
-    var(--calcite-color-text-1)
+    var(--calcite-internal-carousel-pagination-icon-color-hover)
   );
-  --calcite-internal-carousel-control-color: var(--calcite-carousel-pagination-icon-color, var(--calcite-color-text-3));
+  --calcite-internal-carousel-control-icon-color: var(
+    --calcite-carousel-control-icon-color,
+    var(--calcite-carousel-pagination-icon-color, var(--calcite-color-text-3))
+  );
   --calcite-internal-carousel-autoplay-progress-background-color: var(
     --calcite-carousel-autoplay-progress-background-color,
     var(--calcite-color-border-3)
@@ -101,6 +105,10 @@
   --calcite-internal-carousel-autoplay-progress-fill-color: var(
     --calcite-carousel-autoplay-progress-fill-color,
     var(--calcite-color-brand)
+  );
+  --calcite-internal-carousel-autoplay-control-color: var(
+    --calcite-carousel-pagination-icon-color,
+    var(--calcite-color-text-3)
   );
 }
 
@@ -169,12 +177,13 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item.page-next,
 .pagination-item.page-previous {
-  color: var(--calcite-internal-carousel-control-color);
+  color: var(--calcite-internal-carousel-control-icon-color);
+  --calcite-icon-color: var(--calcite-internal-carousel-control-icon-color);
   &:hover {
     color: var(--calcite-internal-carousel-control-icon-color-hover);
+    --calcite-icon-color: var(--calcite-internal-carousel-control-icon-color-hover);
   }
 }
-
 .container--edged {
   .page-next,
   .page-previous {
@@ -201,7 +210,7 @@ calcite-carousel-item:not([selected]) {
 
 .pagination-item.autoplay-control {
   position: relative;
-  color: var(--calcite-internal-carousel-control-color);
+  color: var(--calcite-internal-carousel-autoplay-control-color);
   --calcite-progress-fill-color: var(--calcite-internal-carousel-autoplay-progress-fill-color);
   --calcite-progress-background-color: var(--calcite-internal-carousel-autoplay-progress-background-color);
 }
