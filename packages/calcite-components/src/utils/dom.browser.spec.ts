@@ -4,6 +4,7 @@ import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
+import { IconName } from "../components/icon/interfaces";
 import { guidPattern } from "./guid.spec";
 import {
   ensureId,
@@ -84,11 +85,11 @@ describe("dom", () => {
   }
 
   describe("setRequestedIcon()", () => {
-    const iconObject = { exampleValue: "exampleReturnedValue" };
+    const iconObject = { exampleValue: "exampleReturnedValue" as IconName };
     const matchedValue = "exampleValue";
 
     it("returns the custom icon name if custom value is passed", () =>
-      expect(setRequestedIcon(iconObject, "myCustomValue", matchedValue)).toBe("myCustomValue"));
+      expect(setRequestedIcon(iconObject, "myCustomValue" as IconName, matchedValue)).toBe("myCustomValue"));
 
     it("returns the pre-defined icon name if custom value is true", () =>
       expect(setRequestedIcon(iconObject, true, matchedValue)).toBe(iconObject[matchedValue]));

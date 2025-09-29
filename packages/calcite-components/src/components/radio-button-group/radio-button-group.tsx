@@ -16,9 +16,10 @@ import { Layout, Scale, Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { useT9n } from "../../controllers/useT9n";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { logger } from "../../utils/logger";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
@@ -69,7 +70,7 @@ export class RadioButtonGroup extends LitElement {
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Defines the layout of the component. */
+  /** Defines the layout of the component. [Deprecated] The `"grid"` value is deprecated, use `"horizontal"` instead. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "horizontal";
 
@@ -103,8 +104,8 @@ export class RadioButtonGroup extends LitElement {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -123,13 +124,13 @@ export class RadioButtonGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.selectedItem && !this.selectedItem.disabled) {
-        return this.selectedItem;
-      }
-
-      return this.getFocusableRadioButton();
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.selectedItem && !this.selectedItem.disabled
+          ? this.selectedItem
+          : this.getFocusableRadioButton(),
+      options,
+    );
   }
 
   // #endregion
@@ -169,6 +170,12 @@ export class RadioButtonGroup extends LitElement {
 
   loaded(): void {
     this.passPropsToRadioButtons();
+
+    if (this.layout === "grid") {
+      logger.warn(
+        `The "grid" value of the layout property is deprecated and will be removed in v4.0. Use "horizontal" instead.`,
+      );
+    }
   }
 
   override disconnectedCallback(): void {

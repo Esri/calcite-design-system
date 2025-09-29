@@ -38,6 +38,13 @@ export class AutocompleteItemGroup extends LitElement {
   @property() label: any;
 
   /**
+   * Specifies the position of the group in the autocomplete menu.
+   *
+   * @internal
+   */
+  @property() position: number = 0;
+
+  /**
    * Specifies the size of the component inherited from the `calcite-autocomplete`, defaults to `m`.
    *
    * @private
@@ -50,6 +57,8 @@ export class AutocompleteItemGroup extends LitElement {
 
   override render(): JsxNode {
     const { scale } = this;
+    const autocompleteSeparator =
+      this.position > 0 ? <div class={CSS.separator} role="separator" /> : null;
     return (
       <div
         aria-label={this.label ?? this.heading}
@@ -60,7 +69,8 @@ export class AutocompleteItemGroup extends LitElement {
         }}
         role="group"
       >
-        <div class={CSS.heading} role="presentation">
+        {autocompleteSeparator}
+        <div class={{ [CSS.heading]: true, [CSS.firstTitle]: this.position === 0 }}>
           {this.heading}
         </div>
         <slot />

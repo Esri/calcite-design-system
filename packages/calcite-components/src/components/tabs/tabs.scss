@@ -7,6 +7,8 @@
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply flex flex-col;
   background-color: var(--calcite-tab-background-color, var(--calcite-color-transparent));
@@ -77,4 +79,4 @@ section {
   }
 }
 
-@include base-component();
+@include includes.base-component();

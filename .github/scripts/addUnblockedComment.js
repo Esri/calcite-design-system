@@ -8,22 +8,32 @@ module.exports = async ({ github, context }) => {
   const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
   const { ISSUE_VERIFIERS } = process.env;
   const issueBody = payload.issue.body;
-  const blockedIssuesRegex = /Blocked issues:\s*(#\d+(?:,\s*#\d+)*)/i;
+  // Matches the "Blocked issues:" line and captures everything after it
+  const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
+  // Matches number only or full issue URLs
+  const issueRegex = /#(\d+)|https:\/\/github\.com\/[^/]+\/[^/]+\/issues\/(\d+)/g;
 
   if (!issueBody) {
     console.log("No issue body was found.");
     return;
   }
 
-  // Get the list of issues blocked by this issue if there are any
-  const blockedIssues = issueBody.match(blockedIssuesRegex);
+  // Get the "Blocked issues:" line
+  const blockedIssuesLineMatch = issueBody.match(blockedIssuesLineRegex);
 
   // Add a "@" character to notify the user
   const verifiers = ISSUE_VERIFIERS?.split(",").map((v) => `@${v.trim()}`);
 
   // If "Blocked issues" line is matched in the body then create a comment on each issue listed
-  if (blockedIssues) {
-    const issueNumbers = blockedIssues[1].split(",").map((num) => num.trim().slice(1));
+  if (blockedIssuesLineMatch) {
+    const blockedIssuesLine = blockedIssuesLineMatch[1];
+    const issueNumbers = [];
+    let match;
+
+    while ((match = issueRegex.exec(blockedIssuesLine)) !== null) {
+      // match[1] is the issue number from only number format #12345, match[2] is from the URL format
+      issueNumbers.push(match[1] || match[2]);
+    }
 
     for (const issueNumber of issueNumbers) {
       const issueProps = {

@@ -17,6 +17,10 @@
 // --calcite-internal-tab-nav-button-width
 // --calcite-internal-tab-nav-gap
 
+@use "../../assets/styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+
+
 :host {
   @apply relative flex;
 }
@@ -39,17 +43,17 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-24};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-32};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-button-width: #{$calcite-size-44};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
@@ -140,7 +144,6 @@
   .scroll-button--backward {
     &::before {
       background-color: var(--calcite-tab-border-color, var(--calcite-color-border-3));
-      opacity: $calcite-opacity-50;
       content: "";
       inline-size: var(--calcite-border-width-sm);
       inset-block-start: var(--calcite-border-width-md);
@@ -151,4 +154,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

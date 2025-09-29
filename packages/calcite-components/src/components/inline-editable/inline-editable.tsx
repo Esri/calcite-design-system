@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
@@ -137,16 +136,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     connectLabel(this);
   }
 
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.disabledWatcher(this.disabled);
-    }
-  }
-
   override updated(): void {
     updateHostInteraction(this);
   }
@@ -161,12 +150,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
-  }
-
-  private disabledWatcher(disabled: boolean): void {
-    if (this.inputEl) {
-      this.inputEl.disabled = disabled;
-    }
   }
 
   private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
@@ -197,7 +180,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
     await inputElement.componentOnReady();
     inputElement.editingEnabled = this.editingEnabled;
-    inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
     this.scale = this.scale || this.inputEl?.scale || "m";
   }
@@ -304,18 +286,16 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
           <div class={CSS.controlsWrapper}>
             <calcite-button
               appearance="transparent"
-              class={CSS.enableEditingButton}
-              disabled={this.disabled}
+              class={{
+                [CSS.enableEditingButton]: true,
+                [CSS.enableEditingButtonHidden]: this.editingEnabled,
+              }}
               iconStart={ICONS.pencil}
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
               ref={this.enableEditingButtonRef}
               scale={this.scale}
-              style={{
-                opacity: this.editingEnabled ? "0" : "1",
-                width: this.editingEnabled ? "0" : "inherit",
-              }}
               title={this.messages.enableEditing}
               type="button"
             />
@@ -324,7 +304,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 <calcite-button
                   appearance="transparent"
                   class={CSS.cancelEditingButton}
-                  disabled={this.disabled}
                   iconStart={ICONS.close}
                   kind="neutral"
                   label={this.messages.cancelEditing}
@@ -338,7 +317,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               <calcite-button
                 appearance="solid"
                 class={CSS.confirmChangesButton}
-                disabled={this.disabled}
                 iconStart={ICONS.check}
                 kind="brand"
                 label={this.messages.confirmChanges}

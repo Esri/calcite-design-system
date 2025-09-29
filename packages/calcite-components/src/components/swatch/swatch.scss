@@ -14,6 +14,8 @@
 // --calcite-internal-swatch-inset
 // --calcite-internal-swatch-size
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
   --calcite-internal-swatch-inset: var(--calcite-spacing-xxs);
@@ -126,6 +128,7 @@
   stroke: var(--calcite-color-text-1);
   stroke-width: var(--calcite-border-width-md);
   stroke-opacity: 0.3;
+  rx: var(--calcite-swatch-corner-radius);
 }
 
 .internal-svg-disabled {
@@ -142,4 +145,4 @@
   fill: #cacaca;
 }
 
-@include base-component();
+@include includes.base-component();
