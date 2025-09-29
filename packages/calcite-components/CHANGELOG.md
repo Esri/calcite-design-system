@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.8...@esri/calcite-components@4.0.0-next.9) (2025-09-29)
+
+### Bug Fixes
+
+- **carousel:** Ensure icon tokens are correctly applied ([#12902](https://github.com/Esri/calcite-design-system/issues/12902)) ([bb32814](https://github.com/Esri/calcite-design-system/commit/bb32814a41b769cbdb1aa6610e41d1f2daaf73bd)), closes [#12876](https://github.com/Esri/calcite-design-system/issues/12876)
+
 ## [4.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.7...@esri/calcite-components@4.0.0-next.8) (2025-09-26)
 
 ### Features
