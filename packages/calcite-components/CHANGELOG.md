@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.10...@esri/calcite-components@4.0.0-next.11) (2025-09-29)
+
+### Bug Fixes
+
+- **list:** fix loader scrim height for empty list ([#12961](https://github.com/Esri/calcite-design-system/issues/12961)) ([e2c2806](https://github.com/Esri/calcite-design-system/commit/e2c28069f4a140f81a9bfd8184f566d9f287161b)), closes [#12943](https://github.com/Esri/calcite-design-system/issues/12943)
+
 ## [4.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.9...@esri/calcite-components@4.0.0-next.10) (2025-09-29)
 
 ### Features
