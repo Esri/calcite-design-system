@@ -32,7 +32,7 @@ import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { getElementDir } from "../../utils/dom";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
@@ -204,8 +204,8 @@ export class InputTimePicker
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */

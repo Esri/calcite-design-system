@@ -3,12 +3,13 @@
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
 // 3. Generates a notification to the Calcite project manager(s)
+// 4. Trigger the Monday.com sync workflow
 //
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
 const {
-  labels: { issueWorkflow, planning },
+  labels: { issueWorkflow },
 } = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
@@ -45,12 +46,12 @@ module.exports = async ({ github, context }) => {
     await removeLabel({
       github,
       context,
-      label: planning.needsTriage,
+      label: issueWorkflow.needsTriage,
     });
 
     await github.rest.issues.addLabels({
       ...issueProps,
-      labels: [issueWorkflow.new, planning.needsMilestone],
+      labels: [issueWorkflow.new, issueWorkflow.needsMilestone],
     });
 
     /* Update issue */
@@ -66,6 +67,18 @@ module.exports = async ({ github, context }) => {
     await github.rest.issues.createComment({
       ...issueProps,
       body: `cc ${calcite_managers}`,
+    });
+
+    // Emit event to trigger Monday.com syncing actions
+    await github.rest.actions.createWorkflowDispatch({
+      owner,
+      repo,
+      workflow_id: "issue-monday-sync.yml",
+      ref: "dev",
+      inputs: {
+        issue_number: number.toString(),
+        event_type: "ReadyForDev",
+      },
     });
   }
 };

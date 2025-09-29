@@ -16,7 +16,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -50,12 +50,12 @@ export class Notice extends LitElement implements OpenCloseComponent {
   //#region Private Properties
 
   /** The close button element. */
-  private closeButton = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
 
   transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   transitionEl: HTMLElement;
 
@@ -82,7 +82,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   @property({ reflect: true }) closable = false;
 
   /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -120,7 +120,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       const noticeLinkEl = this.el.querySelector("calcite-link");
-      return noticeLinkEl || this.closeButton.value;
+      return noticeLinkEl || this.closeButtonRef.value;
     }, options);
   }
 
@@ -211,7 +211,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
         ariaLabel={this.messages.close}
         class={CSS.close}
         onClick={this.close}
-        ref={this.closeButton}
+        ref={this.closeButtonRef}
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>
