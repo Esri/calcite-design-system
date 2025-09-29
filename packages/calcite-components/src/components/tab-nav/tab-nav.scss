@@ -22,12 +22,6 @@
 }
 
 :host([bordered]) {
-  &:not([selected]) {
-    .container {
-      background-color: var(--calcite-tab-background-color, var(--calcite-color-foreground-1));
-    }
-  }
-
   .scroll-button--forward {
     calcite-button {
       --calcite-internal-button-border-inline-end-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
@@ -120,16 +114,7 @@
     --calcite-button-text-color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
     --calcite-button-background-color: var(--calcite-color-transparent);
     --calcite-offset-invert-focus: 1;
-
     block-size: var(--calcite-container-size-content-fluid);
-
-    &:hover &:focus {
-      --calcite-button-background-color: var(--calcite-color-transparent-hover);
-    }
-
-    &:active {
-      --calcite-button-background-color: var(--calcite-color-transparent-press);
-    }
   }
 }
 

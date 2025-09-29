@@ -141,7 +141,6 @@ describe("calcite-tab-nav", () => {
     let scrollContainer: E2EElement;
 
     async function assertScrollButtonVisibility(expectedVisibility: boolean): Promise<void> {
-      /* we need to find the scroll container to ensure visibility */
       expect(await scrollButtonContainer.isVisible()).toBe(expectedVisibility);
     }
 
