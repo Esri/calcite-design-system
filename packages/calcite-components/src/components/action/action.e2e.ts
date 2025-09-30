@@ -123,6 +123,36 @@ describe("calcite-action", () => {
     ]);
   });
 
+  describe("aria property", () => {
+    it("should set aria properties on internal button element", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-action></calcite-action>`);
+
+      const buttonSelector = `calcite-action >>> .${CSS.button}`;
+      const action = await page.find("calcite-action");
+      const button = await page.find(buttonSelector);
+
+      expect(await button.getProperty("ariaExpanded")).toBe(null);
+      expect(await button.getProperty("ariaHasPopup")).toBe(null);
+      expect(await button.getProperty("ariaPressed")).toBe(null);
+
+      action.setProperty("aria", {
+        expanded: true,
+        hasPopup: true,
+        pressed: true,
+        controlsElements: [document.createElement("div")],
+        describedByElements: [document.createElement("div")],
+        labelledByElements: [document.createElement("div")],
+        ownsElements: [document.createElement("div")],
+      });
+      await page.waitForChanges();
+
+      expect(await button.getProperty("ariaExpanded")).toBe("true");
+      expect(await button.getProperty("ariaHasPopup")).toBe("true");
+      expect(await button.getProperty("ariaPressed")).toBe("true");
+    });
+  });
+
   describe("form integration", () => {
     async function assertOnFormButtonType(type: HTMLButtonElement["type"]): Promise<void> {
       const page = await newE2EPage();

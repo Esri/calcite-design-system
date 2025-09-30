@@ -65,10 +65,10 @@ export class MenuItem extends LitElement {
 
   //#region Public Properties
 
-  /** When present, the component is highlighted. */
+  /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
-  /** When present, the component displays a breadcrumb trail for use as a navigational aid. */
+  /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
   @property({ reflect: true }) breadcrumb: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
@@ -99,7 +99,7 @@ export class MenuItem extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
+  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -343,6 +343,7 @@ export class MenuItem extends LitElement {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
+        aria={{ expanded: this.open }}
         class={CSS.dropdownAction}
         icon={
           this.topLevelMenuLayout === "vertical" || this.isTopLevelItem

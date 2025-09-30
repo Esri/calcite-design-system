@@ -16,6 +16,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
@@ -2159,12 +2160,6 @@ describe("calcite-input-date-picker", () => {
   describe("theme", () => {
     describe("default", () => {
       themed(html`<calcite-input-date-picker></calcite-input-date-picker>`, {
-        "--calcite-input-date-picker-shadow": {
-          targetProp: "boxShadow",
-        },
-        "--calcite-input-date-picker-calendar-shadow": {
-          targetProp: "boxShadow",
-        },
         "--calcite-input-date-picker-actions-icon-color": {
           shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
           targetProp: "color",
@@ -2174,34 +2169,39 @@ describe("calcite-input-date-picker", () => {
           targetProp: "color",
           state: "hover",
         },
+        "--calcite-input-date-picker-shadow": {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-text-shadow",
+        },
         "--calcite-input-date-picker-background-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-background-color",
+          targetProp: "--calcite-input-text-background-color",
         },
         "--calcite-input-date-picker-border-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-border-color",
+          targetProp: "--calcite-input-text-border-color",
         },
         "--calcite-input-date-picker-corner-radius": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-corner-radius",
+          targetProp: "--calcite-input-text-corner-radius",
         },
         "--calcite-input-date-picker-icon-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-icon-color",
-        },
-        "--calcite-input-date-picker-icon-color-hover": {
-          shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-icon-color-hover",
+          targetProp: "--calcite-input-text-icon-color",
         },
         "--calcite-input-date-picker-text-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-text-color",
+          targetProp: "--calcite-input-text-text-color",
         },
         "--calcite-input-date-picker-placeholder-text-color": {
           shadowSelector: `.${CSS.input}`,
-          targetProp: "--calcite-input-placeholder-text-color",
+          targetProp: "--calcite-input-text-placeholder-text-color",
         },
+      });
+    });
+
+    describe("calcite-date-picker when open", () => {
+      themed(html`<calcite-input-date-picker open></calcite-input-date-picker>`, {
         "--calcite-input-date-picker-calendar-border-color": {
           shadowSelector: "calcite-date-picker",
           targetProp: "--calcite-date-picker-border-color",
@@ -2210,11 +2210,10 @@ describe("calcite-input-date-picker", () => {
           shadowSelector: "calcite-date-picker",
           targetProp: "--calcite-date-picker-corner-radius",
         },
-      });
-    });
-
-    describe("calcite-date-picker when open", () => {
-      themed(html`<calcite-input-date-picker open></calcite-input-date-picker>`, {
+        "--calcite-input-date-picker-calendar-shadow": {
+          shadowSelector: `.${FloatingCSS.animation}`,
+          targetProp: "boxShadow",
+        },
         "--calcite-input-date-picker-calendar-text-color": [
           {
             shadowSelector: `calcite-date-picker >>> .${MONTH_CSS.weekHeader}`,
@@ -2278,6 +2277,10 @@ describe("calcite-input-date-picker", () => {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day`,
           targetProp: "--calcite-date-picker-day-text-color-hover",
           state: "hover",
+        },
+        "--calcite-input-date-picker-calendar-current-day-text-color": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
+          targetProp: "--calcite-date-picker-current-day-text-color",
         },
         "--calcite-input-date-picker-calendar-day-current-text-color": {
           shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
