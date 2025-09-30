@@ -15,6 +15,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset
 
+## [1.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.1...@esri/calcite-tailwind-preset@1.0.2) (2025-09-30)
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-design-tokens bumped from 3.2.0 to 3.2.1
+  - peerDependencies
+    - @esri/calcite-design-tokens bumped from ^3.0.2-next.8 to ^3.2.1
+
 ## [1.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.0...@esri/calcite-tailwind-preset@1.0.1) (2025-09-16)
 
 ### Bug Fixes
