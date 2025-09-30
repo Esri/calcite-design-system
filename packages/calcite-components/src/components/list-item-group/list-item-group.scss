@@ -22,10 +22,10 @@
 .container {
   @apply m-0 flex flex-1;
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-list-color, var(--calcite-color-text-2));
+  color: var(--calcite-list-color, var(--calcite-color-text-1));
 }
 .heading {
-  font-weight: var(--calcite-font-weight-medium);
+  font-weight: var(--calcite-font-weight-bold);
 }
 
 :host([scale="s"]) {
