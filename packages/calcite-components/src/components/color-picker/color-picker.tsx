@@ -25,13 +25,13 @@ import {
   alphaCompatible,
   alphaToOpacity,
   colorEqual,
+  colorFromValue,
   CSSColorMode,
   Format,
   getColorFieldDimensions,
   getSliderWidth,
   hexify,
   normalizeAlpha,
-  normalizeColor,
   normalizeHex,
   opacityToAlpha,
   parseMode,
@@ -51,7 +51,7 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 
@@ -426,11 +426,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = willSetNoColor
-      ? null
-      : valueIsCompatible
-        ? this.colorFromValue(value, isClearable, parsedMode)
-        : color;
+    const initialColor = valueIsCompatible ? colorFromValue(value, isClearable, parsedMode) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -589,7 +585,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       return;
     }
 
-    const color = this.colorFromValue(value, isClearable, this.mode);
+    const color = colorFromValue(value, isClearable, this.mode);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -600,22 +596,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         "internal",
       );
     }
-  }
-
-  private colorFromValue(
-    value: ColorValue | null,
-    clearable = false,
-    mode: SupportedMode,
-  ): ColorInstance | null {
-    if (clearable && !value) {
-      return null;
-    }
-
-    return Color(
-      value != null && typeof value === "object" && alphaCompatible(mode)
-        ? normalizeColor(value as RGBA | HSVA | HSLA)
-        : value,
-    );
   }
 
   private handleTabActivate(event: Event): void {

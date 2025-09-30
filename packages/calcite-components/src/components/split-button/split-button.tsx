@@ -16,7 +16,7 @@ import {
 } from "../../utils/interactive";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
@@ -39,7 +39,7 @@ export class SplitButton extends LitElement implements InteractiveComponent {
 
   // #region Private Properties
 
-  private get dropdownIcon(): string {
+  private get dropdownIcon(): IconName {
     return this.dropdownIconType === "chevron"
       ? ICONS.chevronDown
       : this.dropdownIconType === "caret"
@@ -122,13 +122,13 @@ export class SplitButton extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @property({ reflect: true }) primaryIconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) primaryIconEnd: IconName;
 
   /** Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @property({ reflect: true }) primaryIconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
   /** Accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;

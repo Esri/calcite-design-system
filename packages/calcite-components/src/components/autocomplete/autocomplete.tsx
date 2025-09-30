@@ -33,7 +33,7 @@ import {
 } from "../../utils/interactive";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import {
@@ -197,7 +197,7 @@ export class Autocomplete
   @property({ reflect: true }) form: string;
 
   /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -303,8 +303,8 @@ export class Autocomplete
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -597,6 +597,7 @@ export class Autocomplete
   private updateGroups(): void {
     this.groups.forEach((group, index, items) => {
       group.scale = this.scale;
+      group.position = index;
 
       if (index === 0) {
         group.disableSpacing = true;

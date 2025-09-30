@@ -280,10 +280,6 @@ calcite-chip {
   cursor: default;
 }
 
-::slotted(calcite-combobox-item-group:not(:first-child)) {
-  padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
-}
-
 @include includes.disabled();
 @include includes.x-button(
   $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
