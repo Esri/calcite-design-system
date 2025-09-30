@@ -148,6 +148,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @esri/calcite-components
 
+## [3.3.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0...@esri/calcite-components@3.3.1) (2025-09-30)
+
+### Bug Fixes
+
+- **action:** Set aria-expanded for actions used for expanding and collapsing ([#12579](https://github.com/Esri/calcite-design-system/issues/12579)) ([171c30a](https://github.com/Esri/calcite-design-system/commit/171c30ad5701bf2badd245e76dac6c4ff75ca39c))
+- **carousel:** Ensure icon tokens are correctly applied ([#12902](https://github.com/Esri/calcite-design-system/issues/12902)) ([e9a9cd2](https://github.com/Esri/calcite-design-system/commit/e9a9cd23b8a6854b2e828761e2b7313a76c014e7))
+- **color-picker:** Fix initial setting of alpha object color values ([#12934](https://github.com/Esri/calcite-design-system/issues/12934)) ([b4326cf](https://github.com/Esri/calcite-design-system/commit/b4326cf67d995294f9027a68f7bd7cec805758d8))
+- **inline-editable:** Prevent interaction with start-editing button when hidden ([#12903](https://github.com/Esri/calcite-design-system/issues/12903)) ([35373de](https://github.com/Esri/calcite-design-system/commit/35373de4ae5620d5a8ab48d4f3caf96f095b0867))
+- **input-date-picker:** Correct token assignments and CSS setup ([#12883](https://github.com/Esri/calcite-design-system/issues/12883)) ([93751ee](https://github.com/Esri/calcite-design-system/commit/93751ee6f82271b9f85a50cf62ace038a6192176))
+- **list-item:** Fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([7a51b8d](https://github.com/Esri/calcite-design-system/commit/7a51b8d876b57b5923e0c8c7a42ddeb8a5db6c07))
+- **list:** Fix loader scrim height for empty list ([#12961](https://github.com/Esri/calcite-design-system/issues/12961)) ([e8ba90e](https://github.com/Esri/calcite-design-system/commit/e8ba90e8bd8771b58f64c37efbc1153c36066f6e))
+- **panel:** Ensure `content-top` and `action-bar` slots are visible ([#12963](https://github.com/Esri/calcite-design-system/issues/12963)) ([e64195c](https://github.com/Esri/calcite-design-system/commit/e64195cf2d49ebd94b7ee694ca0c9abb5f211357))
+- **sort-handle:** Update Ukranian translation ([#12944](https://github.com/Esri/calcite-design-system/issues/12944)) ([70be691](https://github.com/Esri/calcite-design-system/commit/70be691847d61471e59a6ddc79bc3705e40c7197))
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - devDependencies
+    - @esri/calcite-design-tokens bumped from 3.2.0 to 3.2.1
+    - @esri/calcite-tailwind-preset bumped from 1.0.1 to 1.0.2
+
 ## [3.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1...@esri/calcite-components@3.3.0) (2025-09-16)
 
 ### Features
