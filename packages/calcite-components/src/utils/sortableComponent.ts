@@ -30,10 +30,10 @@ export interface SortableComponent {
   /** The host element. */
   readonly el: HTMLElement;
 
-  /** When present, dragging is enabled. */
+  /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
 
-  /** When present, sorting is disabled. */
+  /** When `true`, sorting is disabled. */
   sortDisabled?: boolean;
 
   /** Specifies which items inside the element should be draggable. */
@@ -75,7 +75,7 @@ export interface SortableComponent {
 
 export interface SortableComponentItem {
   /**
-   * When present, the item is not draggable.
+   * When `true`, the item is not draggable.
    *
    *
    * Notes:

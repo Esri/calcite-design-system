@@ -65,11 +65,11 @@ export class Swatch extends LitElement implements InteractiveComponent {
    */
   @property() color: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When present, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
+   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
    * This is set to `true` by a parent Swatch Group component.
    *
    * @private
@@ -89,7 +89,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
   /** Specifies the size of the component. When contained in a parent `calcite-swatch-group` inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

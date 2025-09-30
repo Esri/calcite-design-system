@@ -39,7 +39,7 @@ export class Icon extends LitElement {
 
   // #region Public Properties
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({
     reflect: true,
   })
@@ -55,7 +55,7 @@ export class Icon extends LitElement {
   })
   icon: IconNameOrString = null;
 
-  /** When present, it loads preloads the icon data. */
+  /** When `true`, it preloads the icon data. */
   @property({ reflect: true }) preload = false;
 
   /** Specifies the size of the component. */

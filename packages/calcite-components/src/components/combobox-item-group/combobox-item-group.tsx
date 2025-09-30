@@ -30,7 +30,7 @@ export class ComboboxItemGroup extends LitElement {
   // #region Public Properties
 
   /**
-   * When present, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
+   * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
    *
    * @private
    */
@@ -54,7 +54,7 @@ export class ComboboxItemGroup extends LitElement {
   @property() scale: Scale = "m";
 
   /**
-   * When present, the item will be hidden
+   * When `true`, the item will be hidden
    *
    * @private
    *  */
