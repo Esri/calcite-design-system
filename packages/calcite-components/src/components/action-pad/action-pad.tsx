@@ -68,10 +68,10 @@ export class ActionPad extends LitElement {
   /** Specifies the accessible label for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
 
-  /** When present, the expand-toggling behavior is disabled. */
+  /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When present, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Indicates the layout of the component. */

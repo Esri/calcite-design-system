@@ -113,10 +113,10 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When present, displays a close button in the trailing side of the header. */
+  /** When `true`, displays a close button in the trailing side of the header. */
   @property({ reflect: true }) closable = false;
 
-  /** When present, the component will be hidden. */
+  /** When `true`, the component will be hidden. */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -131,16 +131,16 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** When `collapsible` is present, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
-  /** When present, hides the component's content area. */
+  /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
-  /** When present, the component is collapsible. */
+  /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text. */
@@ -152,16 +152,16 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
-  /** When present, the action menu items in the `header-menu-actions` slot are open. */
+  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Determines where the action menu will be positioned. */

@@ -123,14 +123,14 @@ export class ActionBar extends LitElement {
   @property() actionsEndGroupLabel: string;
 
   /**
-   * When present, the component is in a floating state.
+   * When `true`, the component is in a floating state.
    */
   @property({ reflect: true }) floating = false;
 
-  /** When present, the expand-toggling behavior is disabled. */
+  /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When present, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */
@@ -140,7 +140,7 @@ export class ActionBar extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /**
