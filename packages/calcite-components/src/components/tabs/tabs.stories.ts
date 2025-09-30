@@ -537,6 +537,8 @@ export const responsiveTabs = (): string =>
       </calcite-tabs>
     </calcite-tabs>
   `);
+responsiveTabs.parameters = { chromatic: { delay: 3000 } };
+
 export const paddingPropOverrideAtRootLevel = (): string => html`
   <style>
     :root {
