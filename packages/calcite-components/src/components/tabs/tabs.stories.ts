@@ -442,8 +442,7 @@ export const noVerticalScrollbarInsideShellPanel_TestOnly = (): string => html`
   </calcite-shell>
 `;
 
-export const responsiveTabs = (): string =>
-  createBreakpointStories(html`
+const responsiveTabsHTML = `
     <style>
       .breakpoint-story-container {
         flex-direction: column;
@@ -536,8 +535,16 @@ export const responsiveTabs = (): string =>
         <calcite-tab>Tab 8 Content</calcite-tab>
       </calcite-tabs>
     </calcite-tabs>
-  `);
-responsiveTabs.parameters = { chromatic: { delay: 10000 } };
+`;
+
+export const responsiveTabsScaleS = (): string =>
+  createBreakpointStories(html` ${responsiveTabsHTML} `, { scale: "s" });
+
+export const responsiveTabsScaleM = (): string =>
+  createBreakpointStories(html` ${responsiveTabsHTML} `, { scale: "m" });
+
+export const responsiveTabsScaleL = (): string =>
+  createBreakpointStories(html` ${responsiveTabsHTML} `, { scale: "l" });
 
 export const paddingPropOverrideAtRootLevel = (): string => html`
   <style>
