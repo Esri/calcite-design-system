@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { getElementDir } from "../../utils/dom";
 import {
@@ -15,6 +16,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -39,7 +41,7 @@ export class RadioButton
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultChecked: boolean;
 
@@ -91,6 +93,9 @@ export class RadioButton
    */
   @property() label?: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /**
    * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
    *
@@ -133,9 +138,7 @@ export class RadioButton
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl;
-    }, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   // #endregion
@@ -329,10 +332,6 @@ export class RadioButton
     }
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private uncheckAllRadioButtonsInGroup(): void {
     const radioButtons = this.queryButtons();
     radioButtons.forEach((radioButton) => {
@@ -488,11 +487,12 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
+          ref={this.containerRef}
           role="radio"
           tabIndex={tabIndex}
         >
           <div class={CSS.radio} />
+          {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

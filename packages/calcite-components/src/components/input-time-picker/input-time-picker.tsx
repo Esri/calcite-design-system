@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -29,9 +30,10 @@ import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { getElementDir } from "../../utils/dom";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
@@ -50,6 +52,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimePicker
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
@@ -73,7 +78,7 @@ export class InputTimePicker
 
   private activeEl: HTMLSpanElement;
 
-  private containerEl: HTMLDivElement;
+  private containerRef = createRef<HTMLDivElement>();
 
   defaultValue: InputTimePicker["value"];
 
@@ -129,6 +134,9 @@ export class InputTimePicker
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /**
    * When the component resides in a form,
@@ -193,8 +201,8 @@ export class InputTimePicker
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -246,9 +254,7 @@ export class InputTimePicker
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -476,10 +482,6 @@ export class InputTimePicker
     this.openHandler();
   }
 
-  private setContainerEl(el: HTMLDivElement): void {
-    this.containerEl = el;
-  }
-
   private async setFocusPart(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
   }
@@ -571,6 +573,14 @@ export class InputTimePicker
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
@@ -578,7 +588,7 @@ export class InputTimePicker
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,
           }}
-          ref={this.setContainerEl}
+          ref={this.containerRef}
           role="combobox"
         >
           <calcite-icon
@@ -588,6 +598,7 @@ export class InputTimePicker
           />
           <div
             aria-label={getLabelText(this)}
+            ariaRequired={this.required}
             class={CSS.inputContainer}
             dir="ltr"
             id={IDS.inputContainer}
@@ -699,7 +710,7 @@ export class InputTimePicker
           placement={this.placement}
           pointer-disabled={true}
           ref={this.setCalcitePopoverEl}
-          referenceElement={this.containerEl}
+          referenceElement={this.containerRef.value}
           triggerDisabled={true}
         >
           <calcite-time-picker

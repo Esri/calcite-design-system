@@ -10,12 +10,7 @@
 
  */
 
-/**
-  * Local props
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  *
-  * --calcite-internal-table-cell-background-color
-*/
+@use "../../styles/includes";
 
 :host {
   @apply contents;
@@ -118,7 +113,7 @@ td.last-cell {
 .selected-cell:not(.number-cell):not(.footer-cell) {
   background-color: var(
     --calcite-table-cell-background-color-selected,
-    var(--calcite-table-row-background-color-selected, var(--calcite-color-foreground-current))
+    var(--calcite-table-row-background-color-selected, var(--calcite-color-surface-highlight))
   );
 }
 
@@ -138,4 +133,4 @@ td.last-cell {
   }
 }
 
-@include disabled();
+@include includes.disabled();

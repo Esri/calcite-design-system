@@ -30,6 +30,8 @@
  * @prop --calcite-flow-header-action-text-color: Specifies the text color of the component's `calcite-action` items in the flow item header.
  */
 
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
   @apply relative hidden w-full flex-auto overflow-hidden;
@@ -39,7 +41,7 @@
   @apply flex;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .back-button {
   @apply border-0
@@ -68,4 +70,4 @@ calcite-panel {
   --calcite-panel-space: var(--calcite-flow-space);
 }
 
-@include base-component();
+@include includes.base-component();

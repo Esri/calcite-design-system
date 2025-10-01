@@ -142,9 +142,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.dropdownEl;
-    }, options);
+    return this.focusSetter(() => this.dropdownEl, options);
   }
 
   // #endregion
@@ -311,6 +309,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
           <calcite-action
             active={open}
             appearance="transparent"
+            aria={{ expanded: open }}
             class={CSS.handle}
             dragHandle
             icon={disabled ? ICONS.blank : ICONS.drag}

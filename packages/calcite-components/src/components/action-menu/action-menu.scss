@@ -7,6 +7,8 @@
  *
  */
 
+@use "../../styles/includes";
+
 :host {
   @apply text-1
   box-border
@@ -25,7 +27,7 @@
   self-stretch;
 }
 
-@include slotted("trigger", "calcite-action") {
+@include includes.slotted("trigger", "calcite-action") {
   @apply relative
   h-full
   flex-initial
@@ -43,4 +45,4 @@
   gap: var(--calcite-action-menu-items-space, 0);
 }
 
-@include base-component();
+@include includes.base-component();

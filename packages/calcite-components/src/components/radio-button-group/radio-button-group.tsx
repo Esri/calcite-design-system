@@ -13,11 +13,15 @@ import {
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import { IconName } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { logger } from "../../utils/logger";
 import { CSS, IDS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
 
 declare global {
@@ -26,7 +30,10 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-radio-button`s. */
+/**
+ * @slot - A slot for adding `calcite-radio-button`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class RadioButtonGroup extends LitElement {
   // #region Static Members
 
@@ -35,6 +42,13 @@ export class RadioButtonGroup extends LitElement {
   // #endregion
 
   // #region Private Properties
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
@@ -53,9 +67,15 @@ export class RadioButtonGroup extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Defines the layout of the component. */
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Defines the layout of the component. [Deprecated] The `"grid"` value is deprecated, use `"horizontal"` instead. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "horizontal";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the name of the component on form submission. Must be unique to other component instances.
@@ -84,8 +104,8 @@ export class RadioButtonGroup extends LitElement {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -104,13 +124,13 @@ export class RadioButtonGroup extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.selectedItem && !this.selectedItem.disabled) {
-        return this.selectedItem;
-      }
-
-      return this.getFocusableRadioButton();
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.selectedItem && !this.selectedItem.disabled
+          ? this.selectedItem
+          : this.getFocusableRadioButton(),
+      options,
+    );
   }
 
   // #endregion
@@ -150,6 +170,12 @@ export class RadioButtonGroup extends LitElement {
 
   loaded(): void {
     this.passPropsToRadioButtons();
+
+    if (this.layout === "grid") {
+      logger.warn(
+        `The "grid" value of the layout property is deprecated and will be removed in v4.0. Use "horizontal" instead.`,
+      );
+    }
   }
 
   override disconnectedCallback(): void {
@@ -196,9 +222,17 @@ export class RadioButtonGroup extends LitElement {
     this.el.role = "radiogroup";
     return (
       <>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
+          ariaRequired={this.required}
           class={CSS.itemWrapper}
         >
           <slot />

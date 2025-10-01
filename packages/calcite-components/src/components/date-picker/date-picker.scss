@@ -28,13 +28,15 @@
  * @prop --calcite-date-picker-day-range-background-color: Specifies the background color of select day range of the component.
  * @prop --calcite-date-picker-day-outside-range-background-color-hover: Specifies the background color of day's outside current range when hovered.
  * @prop --calcite-date-picker-day-outside-range-text-color-hover: Specifies the text color of day's outside current range when hovered.
- * 
+ *
 */
+
+@use "../../styles/includes";
 
 :host {
   @extend %component-host;
   @apply align-top inline-block overflow-visible w-full border-solid border;
-  border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-1));
+  border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-date-picker-corner-radius, 0);
 }
 
@@ -79,4 +81,4 @@
   @apply outline-none;
 }
 
-@include base-component();
+@include includes.base-component();

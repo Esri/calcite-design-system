@@ -1,19 +1,15 @@
-@import "@esri/calcite-design-tokens/dist/scss/index";
-@import "@esri/calcite-design-tokens/dist/scss/core";
-
-/* CSS vars (@include in global) */
-@import "type";
-
-// Add Calcite Design Tokens as CSS Custom Props
-@import url("@esri/calcite-design-tokens/dist/css/index.css");
-
-// Include legacy tokens for backwards compatibility
-@import "./legacy";
+@use "sass:meta";
+@use "@esri/calcite-design-tokens/dist/css/index.css";
+@use "@esri/calcite-design-tokens/dist/scss";
+@use "../shared/floating-ui";
+@use "../shared/animation";
+@use "type";
+@use "legacy";
 
 :root {
   @extend %type-vars;
-  @include floating-ui-base();
-  @include animation-base();
+  @include floating-ui.floating-ui-base();
+  @include animation.animation-base();
   --calcite-popover-z-index: var(--calcite-z-index-popup);
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
@@ -29,17 +25,13 @@
 
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
-    @include calcite-mode-dark();
+    @include scss.calcite-mode-dark();
   }
 
   @media (prefers-color-scheme: light) {
-    @include calcite-mode-light();
+    @include scss.calcite-mode-light();
   }
 }
-
-@include animation-reduced-motion();
-
-@include animation-helper-classes();
 
 .text--truncate {
   text-overflow: ellipsis;
@@ -48,3 +40,6 @@
 .text--wrap {
   white-space: wrap;
 }
+
+@include animation.animation-reduced-motion();
+@include animation.animation-helper-classes();

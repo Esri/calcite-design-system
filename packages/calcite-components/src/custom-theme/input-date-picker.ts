@@ -5,7 +5,6 @@ export const inputDatePickerTokens = {
   calciteInputDatePickerBorderColor: "",
   calciteInputDatePickerDividerColor: "",
   calciteInputDatePickerIconColor: "",
-  calciteInputDatePickerIconColorHover: "",
   calciteInputDatePickerShadow: "",
   calciteInputDatePickerInputBackgroundColor: "",
   calciteInputDatePickerInputBorderColor: "",

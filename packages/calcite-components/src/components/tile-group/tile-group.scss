@@ -1,3 +1,5 @@
+@use "../../styles/includes";
+
 :host {
   box-sizing: border-box;
   display: inline-block;
@@ -33,5 +35,5 @@
   }
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();

@@ -6,6 +6,8 @@
  * @prop --calcite-scrim-background: Specifies the background color of the scrim.
  */
 
+@use "../../styles/includes";
+
 :host {
   @apply absolute
   inset-0
@@ -43,4 +45,4 @@
   @apply p-4;
 }
 
-@include base-component();
+@include includes.base-component();

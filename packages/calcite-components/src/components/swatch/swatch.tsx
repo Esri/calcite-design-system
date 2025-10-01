@@ -30,6 +30,9 @@ declare global {
   }
 }
 
+/**
+ * @slot image - A slot for adding an image or pattern.
+ */
 export class Swatch extends LitElement implements InteractiveComponent {
   //#region Static Members
 
@@ -41,7 +44,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
   private internalColor: ColorInstance;
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -66,7 +69,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When true, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
+   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
    * This is set to `true` by a parent Swatch Group component.
    *
    * @private
@@ -114,9 +117,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -321,7 +322,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
 
     return (
       <>
-        <title>{hexa}</title>
         <defs>
           <pattern
             height={CHECKER_DIMENSIONS.size}
@@ -356,12 +356,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
         {this.renderSwatchRect({
           clipPath: alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round "${borderRadius}")`,
           fill: hex,
+          id: IDS.swatchSolid,
           ...commonSwatchProps,
         })}
         {alpha < 1
           ? this.renderSwatchRect({
               clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
               fill: hexa,
+              id: IDS.swatchTransparent,
               key: "opacity-fill",
               ...commonSwatchProps,
             })
@@ -379,6 +381,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     stroke,
     strokeWidth,
     width,
+    id,
   }: {
     clipPath?: string;
     fill?: string;
@@ -392,13 +395,14 @@ export class Swatch extends LitElement implements InteractiveComponent {
     strokeWidth?: string;
 
     width: string;
+    id?: string;
   }): JsxNode {
     return (
       <rect
         clip-path={clipPath}
         fill={fill}
         height={height}
-        id={IDS.swatchRect}
+        id={id ? id : IDS.swatchRect}
         key={key}
         rx={rx}
         stroke={stroke}
@@ -441,9 +445,10 @@ export class Swatch extends LitElement implements InteractiveComponent {
             [CSS.nonInteractive]: !this.interactive,
           }}
           onClick={this.handleEmittingEvent}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
+          title={this.label}
         >
           {this.renderSwatchImage()}
           {!this.internalColor && !this.hasImage && this.renderEmptyDisplay()}

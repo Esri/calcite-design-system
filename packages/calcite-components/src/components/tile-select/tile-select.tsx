@@ -8,7 +8,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Alignment, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { logger } from "../../utils/logger";
 import type { RadioButton } from "../radio-button/radio-button";
 import type { Checkbox } from "../checkbox/checkbox";
@@ -66,7 +66,7 @@ export class TileSelect extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) heading: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -108,9 +108,7 @@ export class TileSelect extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.input;
-    }, options);
+    return this.focusSetter(() => this.input, options);
   }
 
   // #endregion

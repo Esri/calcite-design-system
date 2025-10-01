@@ -1,3 +1,5 @@
+@use "../../styles/includes";
+
 :host {
   @apply bg-foreground-1
     text-color-2
@@ -11,4 +13,4 @@
   max-inline-size: var(--calcite-tip-max-width);
 }
 
-@include base-component();
+@include includes.base-component();

@@ -16,6 +16,8 @@
  *
  */
 
+@use "../../styles/includes";
+
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
   --calcite-slider-handle-extension-height: 0.4rem;
@@ -76,7 +78,7 @@
   user-select: none;
 }
 
-@include disabled() {
+@include includes.disabled() {
   .track__range,
   .tick--active {
     background-color: var(--calcite-color-text-3);
@@ -400,6 +402,7 @@
   }
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();

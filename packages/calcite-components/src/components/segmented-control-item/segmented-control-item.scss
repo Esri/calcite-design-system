@@ -10,6 +10,15 @@
  * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-segmented-control-icon-margin-end
+// --calcite-internal-segmented-control-icon-margin-start
+
+@use "../../styles/includes";
+
 :host {
   @apply flex
     cursor-pointer
@@ -147,4 +156,4 @@
   --calcite-internal-segmented-control-icon-margin-end: 0;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -301,11 +301,23 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.filterEnabled
-        ? this.filterEl
-        : this.focusableItems.find((listItem) => listItem.active);
-    }, options);
+    return this.focusSetter(
+      () =>
+        this.filterEnabled
+          ? this.filterEl
+          : this.focusableItems.find((listItem) => listItem.active),
+      options,
+    );
+  }
+
+  /**
+   * Emits the `calciteListOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: ListDragDetail): void {
+    this.calciteListOrderChange.emit(detail);
   }
 
   //#endregion
@@ -355,6 +367,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteListItemSortHandleBeforeOpen", this.updateListItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
@@ -959,7 +972,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl?.setFocus();
+        this.filterEl.setFocus();
         return;
       }
 
@@ -1058,6 +1071,17 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     expandedAncestors(dragEl);
     this.updateListItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -1083,13 +1107,16 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.updateListItemsDebounced();
     this.connectObserver();
 
-    this.calciteListOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

@@ -18,7 +18,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -51,7 +51,7 @@ export class Card extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -136,7 +136,7 @@ export class Card extends LitElement implements InteractiveComponent {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(
-      () => ({ target: this.containerEl.value, includeContainer: true }),
+      () => ({ target: this.containerRef.value, includeContainer: true }),
       options,
     );
   }
@@ -196,7 +196,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.containerEl.value && !this.selectable && !this.disabled) {
+    if (event.target === this.containerRef.value && !this.selectable && !this.disabled) {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
@@ -215,7 +215,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private cardBodyClickHandler(event: MouseEvent): void {
-    const isFromScreenReader = event.target === this.containerEl.value;
+    const isFromScreenReader = event.target === this.containerRef.value;
     if (isFromScreenReader && !this.selectable && !this.disabled && this.selectionMode !== "none") {
       this.calciteCardSelect.emit();
     }
@@ -259,7 +259,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private renderSelectionIcon(): JsxNode {
-    const icon: IconNameOrString =
+    const icon: IconName =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"
@@ -321,7 +321,7 @@ export class Card extends LitElement implements InteractiveComponent {
           class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
           onClick={this.cardBodyClickHandler}
           onKeyDown={this.keyDownHandler}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={role}
           tabIndex={!this.selectable || this.disabled ? 0 : -1}
         >

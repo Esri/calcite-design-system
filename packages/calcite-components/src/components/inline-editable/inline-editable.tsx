@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import {
@@ -37,15 +36,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   //#region Private Properties
 
-  private cancelEditingButton = createRef<Button["el"]>();
-
-  private confirmEditingButton = createRef<Button["el"]>();
+  private cancelEditingButtonRef = createRef<Button["el"]>();
 
   private _editingEnabled = false;
 
-  private enableEditingButton = createRef<Button["el"]>();
+  private enableEditingButtonRef = createRef<Button["el"]>();
 
-  private inputElement: Input["el"];
+  private inputEl: Input["el"];
 
   labelEl: Label["el"];
 
@@ -110,9 +107,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.inputElement;
-    }, options);
+    return this.focusSetter(() => this.inputEl, options);
   }
 
   //#endregion
@@ -141,16 +136,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     connectLabel(this);
   }
 
-  override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.disabledWatcher(this.disabled);
-    }
-  }
-
   override updated(): void {
     updateHostInteraction(this);
   }
@@ -167,15 +152,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     return this.editingEnabled && this.controls;
   }
 
-  private disabledWatcher(disabled: boolean): void {
-    if (this.inputElement) {
-      this.inputElement.disabled = disabled;
-    }
-  }
-
   private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
-    if (this.inputElement) {
-      this.inputElement.editingEnabled = newValue;
+    if (this.inputEl) {
+      this.inputEl.editingEnabled = newValue;
     }
     if (!newValue && !!oldValue) {
       this.shouldEmitCancel = true;
@@ -193,7 +172,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
       el.matches("calcite-input"),
     )[0];
 
-    this.inputElement = inputElement;
+    this.inputEl = inputElement;
 
     if (!inputElement) {
       return;
@@ -201,9 +180,8 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
     await inputElement.componentOnReady();
     inputElement.editingEnabled = this.editingEnabled;
-    inputElement.disabled = this.disabled;
     inputElement.label = inputElement.label || getLabelText(this);
-    this.scale = this.scale || this.inputElement?.scale || "m";
+    this.scale = this.scale || this.inputEl?.scale || "m";
   }
 
   onLabelClick(): void {
@@ -211,9 +189,9 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   }
 
   private enableEditing() {
-    this.valuePriorToEditing = this.inputElement?.value;
+    this.valuePriorToEditing = this.inputEl?.value;
     this.editingEnabled = true;
-    this.inputElement?.setFocus();
+    this.inputEl?.setFocus();
     this.calciteInternalInlineEditableEnableEditingChange.emit();
   }
 
@@ -222,17 +200,17 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   }
 
   private cancelEditing() {
-    if (this.inputElement) {
-      this.inputElement.value = this.valuePriorToEditing;
+    if (this.inputEl) {
+      this.inputEl.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.value?.setFocus();
+    this.enableEditingButtonRef.value?.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
   }
 
-  private async escapeKeyHandler(event: KeyboardEvent) {
+  private escapeKeyHandler(event: KeyboardEvent) {
     if (event.defaultPrevented) {
       return;
     }
@@ -243,13 +221,13 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     }
 
     if (event.key === "Tab" && this.shouldShowControls) {
-      if (!event.shiftKey && event.target === this.inputElement) {
+      if (!event.shiftKey && event.target === this.inputEl) {
         event.preventDefault();
-        this.cancelEditingButton.value.setFocus();
+        this.cancelEditingButtonRef.value.setFocus();
       }
-      if (!!event.shiftKey && event.target === this.cancelEditingButton.value) {
+      if (!!event.shiftKey && event.target === this.cancelEditingButtonRef.value) {
         event.preventDefault();
-        this.inputElement?.setFocus();
+        this.inputEl?.setFocus();
       }
     }
   }
@@ -259,10 +237,10 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     this.cancelEditing();
   }
 
-  private async enableEditingHandler(event: MouseEvent) {
+  private enableEditingHandler(event: MouseEvent) {
     if (
       this.disabled ||
-      (event.target !== this.enableEditingButton.value && event.target !== this.inputElement)
+      (event.target !== this.enableEditingButtonRef.value && event.target !== this.inputEl)
     ) {
       return;
     }
@@ -281,7 +259,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
         this.loading = true;
         await this.afterConfirm();
         this.disableEditing();
-        this.enableEditingButton.value.setFocus();
+        this.enableEditingButtonRef.value?.setFocus();
       }
     } catch {
       // we handle error in finally block
@@ -308,18 +286,16 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
           <div class={CSS.controlsWrapper}>
             <calcite-button
               appearance="transparent"
-              class={CSS.enableEditingButton}
-              disabled={this.disabled}
+              class={{
+                [CSS.enableEditingButton]: true,
+                [CSS.enableEditingButtonHidden]: this.editingEnabled,
+              }}
               iconStart={ICONS.pencil}
               kind="neutral"
               label={this.messages.enableEditing}
               onClick={this.enableEditingHandler}
-              ref={this.enableEditingButton}
+              ref={this.enableEditingButtonRef}
               scale={this.scale}
-              style={{
-                opacity: this.editingEnabled ? "0" : "1",
-                width: this.editingEnabled ? "0" : "inherit",
-              }}
               title={this.messages.enableEditing}
               type="button"
             />
@@ -328,12 +304,11 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
                 <calcite-button
                   appearance="transparent"
                   class={CSS.cancelEditingButton}
-                  disabled={this.disabled}
                   iconStart={ICONS.close}
                   kind="neutral"
                   label={this.messages.cancelEditing}
                   onClick={this.cancelEditingHandler}
-                  ref={this.cancelEditingButton}
+                  ref={this.cancelEditingButtonRef}
                   scale={this.scale}
                   title={this.messages.cancelEditing}
                   type="button"
@@ -342,13 +317,11 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
               <calcite-button
                 appearance="solid"
                 class={CSS.confirmChangesButton}
-                disabled={this.disabled}
                 iconStart={ICONS.check}
                 kind="brand"
                 label={this.messages.confirmChanges}
                 loading={this.loading}
                 onClick={this.confirmChangesHandler}
-                ref={this.confirmEditingButton}
                 scale={this.scale}
                 title={this.messages.confirmChanges}
                 type="button"

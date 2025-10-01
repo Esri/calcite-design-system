@@ -134,9 +134,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
+  }
+
+  /**
+   * Emits the `calciteBlockGroupOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: BlockDragDetail): void {
+    this.calciteBlockGroupOrderChange.emit(detail);
   }
 
   // #endregion
@@ -170,6 +178,7 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
       "calciteInternalAssistiveTextChange",
       this.handleCalciteInternalAssistiveTextChange,
     );
+    this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
     this.listen("calciteSortHandleReorder", this.handleSortReorder);
     this.listen("calciteSortHandleMove", this.handleSortMove);
     this.listen("calciteSortHandleAdd", this.handleSortAdd);
@@ -430,6 +439,17 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     toEl.prepend(newEl);
     this.updateBlockItemsDebounced();
     this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleMove(event: CustomEvent<MoveEventDetail>): void {
@@ -455,13 +475,16 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.updateBlockItemsDebounced();
     this.connectObserver();
 
-    this.calciteBlockGroupOrderChange.emit({
+    const eventDetail = {
       dragEl,
       fromEl,
       toEl,
       newIndex,
       oldIndex,
-    });
+    };
+
+    this.calciteBlockGroupOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {

@@ -10,6 +10,8 @@
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
 
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
   @apply inline-flex
@@ -83,4 +85,4 @@
   @apply justify-end;
 }
 
-@include base-component();
+@include includes.base-component();

@@ -8,6 +8,8 @@
  * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
  */
 
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
   @apply animate-in block;
@@ -53,4 +55,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

@@ -14,6 +14,8 @@
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
+@use "../../styles/includes";
+
 :host {
   @apply flex flex-col;
 }
@@ -27,7 +29,7 @@
   border-block-end: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   @apply box-border
@@ -461,4 +463,4 @@
   @apply border-t-0;
 }
 
-@include base-component();
+@include includes.base-component();

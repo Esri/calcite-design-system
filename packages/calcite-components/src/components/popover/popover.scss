@@ -11,22 +11,22 @@
  * @prop --calcite-popover-z-index: Specifies the component's z-index value.
  */
 
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
+
 :host {
   @apply contents;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
 }
 
 .position-container {
-  @include floating-ui-container();
-
-  & {
-    max-inline-size: var(--calcite-popover-max-size-x, 100vw);
-  }
+  @include floating-ui.floating-ui-container();
+  max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
-@include floating-ui-elem-anim(".position-container");
+@include floating-ui.floating-ui-elem-anim(".position-container");
 
-@include floating-ui-arrow();
+@include floating-ui.floating-ui-arrow();
 
 :host([scale="s"]) {
   .heading {
@@ -131,4 +131,4 @@
   @apply h-full;
 }
 
-@include base-component();
+@include includes.base-component();

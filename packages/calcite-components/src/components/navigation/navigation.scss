@@ -9,7 +9,9 @@
  * @prop --calcite-navigation-border-color: Specifies the component's border color.
  */
 
-@include base-component();
+@use "../../styles/includes";
+
+@include includes.base-component();
 
 :host {
   @apply block;

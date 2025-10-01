@@ -6,6 +6,8 @@
  * @prop --calcite-flow-background-color: Specifies the component's background color.
  */
 
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
   @apply relative
@@ -75,4 +77,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();

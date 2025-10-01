@@ -11,6 +11,8 @@
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
 */
 
+@use "../../styles/includes";
+
 @mixin item-styling {
   @apply relative
     flex
@@ -146,5 +148,5 @@
   @apply opacity-100;
 }
 
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

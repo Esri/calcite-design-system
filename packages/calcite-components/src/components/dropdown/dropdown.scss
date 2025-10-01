@@ -13,16 +13,19 @@
 //
 // --calcite-internal-dropdown-width
 
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
+
 :host {
   @apply inline-block;
 }
 
 .wrapper {
   --calcite-floating-ui-z-index: theme("zIndex.dropdown");
-  @include floating-ui-container();
+  @include floating-ui.floating-ui-container();
 }
 
-@include floating-ui-elem-anim(".wrapper");
+@include floating-ui.floating-ui-elem-anim(".wrapper");
 
 .content {
   @apply w-auto
@@ -35,7 +38,7 @@
 
 .trigger-container {
   @apply relative flex flex-auto h-full;
-  @include word-break;
+  @include includes.word-break;
 }
 
 .width-s {
@@ -57,5 +60,5 @@
   }
 }
 
-@include base-component();
-@include disabled();
+@include includes.base-component();
+@include includes.disabled();

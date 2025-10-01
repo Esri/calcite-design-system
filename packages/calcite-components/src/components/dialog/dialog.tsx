@@ -18,7 +18,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -88,7 +88,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   transitionProp = "opacity" as const;
 
-  private panelEl = createRef<Panel["el"]>();
+  private panelRef = createRef<Panel["el"]>();
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
@@ -178,7 +178,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -259,7 +259,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    await this.panelEl.value?.scrollContentTo(options);
+    await this.panelRef.value?.scrollContentTo(options);
   }
 
   /**
@@ -272,9 +272,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.panelEl.value ?? this.el;
-    }, options);
+    return this.focusSetter(() => this.panelRef.value ?? this.el, options);
   }
 
   /**
@@ -710,7 +708,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
-    if (event.target !== this.panelEl.value) {
+    if (event.target !== this.panelRef.value) {
       return;
     }
 
@@ -719,7 +717,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
-    if (event.target !== this.panelEl.value) {
+    if (event.target !== this.panelRef.value) {
       return;
     }
 
@@ -797,7 +795,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
                 oncalcitePanelClose={this.handleInternalPanelCloseClick}
                 oncalcitePanelScroll={this.handleInternalPanelScroll}
                 overlayPositioning={this.overlayPositioning}
-                ref={this.panelEl}
+                ref={this.panelRef}
                 scale={this.scale}
               >
                 <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />

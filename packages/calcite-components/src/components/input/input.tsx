@@ -42,8 +42,9 @@ import {
 } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
@@ -60,7 +61,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a `calcite-button` next to the component. */
+/**
+ * @slot action - A slot for positioning a `calcite-button` next to the component.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Input
   extends LitElement
   implements
@@ -78,7 +82,7 @@ export class Input
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode", "spellcheck"],
@@ -86,13 +90,13 @@ export class Input
   );
 
   /** keep track of the rendered child type */
-  private childEl?: HTMLInputElement | HTMLTextAreaElement;
+  private childRef = createRef<HTMLInputElement | HTMLTextAreaElement>();
 
   /** keep track of the rendered child type */
   private childElType?: "input" | "textarea" = "input";
 
   /** number text input element for locale */
-  private childNumberEl?: HTMLInputElement;
+  private childNumberRef = createRef<HTMLInputElement>();
 
   defaultValue: Input["value"];
 
@@ -100,7 +104,7 @@ export class Input
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -128,7 +132,7 @@ export class Input
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   private userChangedValue = false;
 
@@ -206,13 +210,16 @@ export class Input
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -357,8 +364,8 @@ export class Input
     | "week" = "text";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -410,11 +417,8 @@ export class Input
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    if (this.type === "number") {
-      this.childNumberEl?.select();
-    } else {
-      this.childEl?.select();
-    }
+    const selectTarget = this.type === "number" ? this.childNumberRef : this.childRef;
+    selectTarget.value?.select();
   }
 
   /**
@@ -426,9 +430,10 @@ export class Input
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.type === "number" ? this.childNumberEl : this.childEl;
-    }, options);
+    return this.focusSetter(
+      () => (this.type === "number" ? this.childNumberRef.value : this.childRef.value),
+      options,
+    );
   }
 
   //#endregion
@@ -655,8 +660,8 @@ export class Input
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -674,7 +679,7 @@ export class Input
     }
 
     if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
+      this.files = (this.childRef.value as HTMLInputElement).files;
     }
 
     this.setValue({
@@ -718,7 +723,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.displayedValue;
+      this.childNumberRef.value.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -777,27 +782,30 @@ export class Input
       useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (
+        this.value &&
+        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key)) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.split("-").length <= 2) {
+      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -852,19 +860,10 @@ export class Input
     syncHiddenFormInput(this.type, this, input);
   }
 
-  private setChildElRef(el: HTMLInputElement | HTMLTextAreaElement) {
-    this.childEl = el;
-  }
-
-  private setChildNumberElRef(el: HTMLInputElement) {
-    this.childNumberEl = el;
-  }
-
   private setInputValue(newInputValue: string): void {
-    if (this.type === "number" && this.childNumberEl) {
-      this.childNumberEl.value = newInputValue;
-    } else if (this.childEl) {
-      this.childEl.value = newInputValue;
+    const target = this.type === "number" ? this.childNumberRef : this.childRef;
+    if (target.value) {
+      target.value.value = newInputValue;
     }
   }
 
@@ -990,6 +989,7 @@ export class Input
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
         tabIndex={-1}
+        title={this.messages.clear}
         type="button"
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
@@ -1085,7 +1085,8 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildNumberElRef}
+          ref={this.childNumberRef}
+          required={this.required}
           type="text"
           value={this.displayedValue}
         />
@@ -1127,7 +1128,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildElRef}
+          ref={
+            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
+          }
           required={this.required ? true : null}
           spellcheck={this.el.spellcheck}
           step={this.step}
@@ -1139,6 +1142,15 @@ export class Input
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
+
         <div
           class={{
             [CSS.inputWrapper]: true,
@@ -1146,7 +1158,7 @@ export class Input
             [CSS.hasSuffix]: this.suffixText,
             [CSS.hasPrefix]: this.prefixText,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
@@ -1159,7 +1171,7 @@ export class Input
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly

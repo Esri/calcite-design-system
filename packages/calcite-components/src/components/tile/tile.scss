@@ -14,6 +14,14 @@
  * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
+@use "../../styles/includes";
+
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
@@ -68,7 +76,7 @@ calcite-link {
 
 .content-container {
   flex-direction: column;
-  @include word-break();
+  @include includes.word-break();
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
@@ -265,8 +273,8 @@ calcite-link {
   }
 }
 
-@include disabled();
-@include base-component();
+@include includes.disabled();
+@include includes.base-component();
 
 ::slotted(*) {
   max-inline-size: 100%;

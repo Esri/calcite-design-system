@@ -8,19 +8,58 @@
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-autocomplete-item-group-horizontal-spacing-unit
+// --calcite-internal-autocomplete-item-group-vertical-spacing-unit
+
+@use "../../styles/includes";
+
 .scale--s {
   @apply text-n2h;
-  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.2");
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-sm);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xxs);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-sm);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.3");
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-md);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xs);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-md);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-internal-autocomplete-item-group-spacing-unit: theme("spacing.4");
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-lg);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-xl);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
 }
 
 :host {
@@ -33,26 +72,27 @@
   @apply flex
     flex-col;
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
-  padding-block-start: var(--calcite-internal-autocomplete-item-group-spacing-unit);
 }
 
 .container--no-spacing {
   padding-block-start: 0;
 }
 
+.separator {
+  block-size: var(--calcite-spacing-px);
+  background-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
+}
+
 .heading {
-  border: 0 solid;
   @apply box-border
     w-full
     min-w-0
     max-w-full
     word-break
-    border-b
     font-bold;
-  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-2));
-  border-block-end-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
-  padding-block: var(--calcite-internal-autocomplete-item-group-spacing-unit);
-  padding-inline: var(--calcite-internal-autocomplete-item-group-spacing-unit);
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
+  padding-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+  padding-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
 }
 
-@include base-component();
+@include includes.base-component();

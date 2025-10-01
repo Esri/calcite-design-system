@@ -3,6 +3,7 @@ import Color, { type ColorInstance } from "color";
 import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import {
@@ -24,13 +25,13 @@ import {
   alphaCompatible,
   alphaToOpacity,
   colorEqual,
+  colorFromValue,
   CSSColorMode,
   Format,
   getColorFieldDimensions,
   getSliderWidth,
   hexify,
   normalizeAlpha,
-  normalizeColor,
   normalizeHex,
   opacityToAlpha,
   parseMode,
@@ -50,7 +51,7 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 
@@ -89,9 +90,9 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
-  private colorFieldScopeNode: HTMLDivElement;
+  private colorFieldScopeRef = createRef<HTMLDivElement>();
 
-  private hueScopeNode: HTMLDivElement;
+  private hueScopeRef = createRef<HTMLDivElement>();
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -103,7 +104,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private opacityScopeNode: HTMLDivElement;
+  private opacityScopeRef = createRef<HTMLDivElement>();
 
   private opacitySliderRenderingContext: CanvasRenderingContext2D;
 
@@ -381,9 +382,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   // #endregion
@@ -427,7 +426,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
+    const initialColor = valueIsCompatible ? colorFromValue(value, isClearable, parsedMode) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -586,14 +585,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       return;
     }
 
-    const color =
-      isClearable && !value
-        ? null
-        : Color(
-            value != null && typeof value === "object" && alphaCompatible(this.mode)
-              ? normalizeColor(value as RGBA | HSVA | HSLA)
-              : value,
-          );
+    const color = colorFromValue(value, isClearable, this.mode);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -817,7 +809,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.colorFieldRenderingContext,
       this.captureColorFieldColor,
-      this.colorFieldScopeNode,
+      this.colorFieldScopeRef.value,
     );
   }
 
@@ -832,7 +824,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.hueSliderRenderingContext,
       this.captureHueSliderColor,
-      this.hueScopeNode,
+      this.hueScopeRef.value,
     );
   }
 
@@ -841,7 +833,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       event,
       this.opacitySliderRenderingContext,
       this.captureOpacitySliderValue,
-      this.opacityScopeNode,
+      this.opacityScopeRef.value,
     );
   }
 
@@ -870,14 +862,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
     captureValue.call(this, event.offsetX, event.offsetY);
     this.focusScope(scopeNode);
-  }
-
-  private storeColorFieldScope(node: HTMLDivElement): void {
-    this.colorFieldScopeNode = node;
-  }
-
-  private storeHueScope(node: HTMLDivElement): void {
-    this.hueScopeNode = node;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -1099,6 +1083,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     if (!canvas) {
       return;
     }
+
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
     this.drawColorControls();
@@ -1416,10 +1401,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
-  private storeOpacityScope(node: HTMLDivElement): void {
-    this.opacityScopeNode = node;
-  }
-
   private handleOpacityScopeKeyDown(event: KeyboardEvent): void {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
@@ -1527,7 +1508,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 ariaValueNow={(vertical ? color?.saturationv() : color?.value()) || "0"}
                 class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
                 onKeyDown={this.handleColorFieldScopeKeyDown}
-                ref={this.storeColorFieldScope}
+                ref={this.colorFieldScopeRef}
                 role="slider"
                 style={{
                   top: `${adjustedColorFieldScopeTop || 0}px`,
@@ -1558,7 +1539,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                   ariaValueNow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.storeHueScope}
+                  ref={this.hueScopeRef}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,
@@ -1581,7 +1562,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                     ariaValueNow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.storeOpacityScope}
+                    ref={this.opacityScopeRef}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,

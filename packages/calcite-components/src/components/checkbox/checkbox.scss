@@ -10,6 +10,8 @@
  * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
  */
 
+@use "../../styles/includes";
+
 :host([scale="s"]) {
   .check-svg,
   .toggle {
@@ -146,6 +148,7 @@
   }
 }
 
-@include disabled();
-@include hidden-form-input();
-@include base-component();
+@include includes.form-internal-label();
+@include includes.disabled();
+@include includes.hidden-form-input();
+@include includes.base-component();

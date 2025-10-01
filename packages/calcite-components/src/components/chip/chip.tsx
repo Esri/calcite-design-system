@@ -2,7 +2,7 @@
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   InteractiveComponent,
@@ -11,7 +11,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -38,9 +38,9 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonEl = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLButtonElement>();
 
-  private containerEl = createRef<HTMLDivElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -82,7 +82,7 @@ export class Chip extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -146,9 +146,9 @@ export class Chip extends LitElement implements InteractiveComponent {
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       if (this.interactive) {
-        return this.containerEl.value;
+        return this.containerRef.value;
       } else if (this.closable) {
-        return this.closeButtonEl.value;
+        return this.closeButtonRef.value;
       }
     }, options);
   }
@@ -247,7 +247,7 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   private clickHandler(): void {
     if (!this.interactive && this.closable) {
-      this.closeButtonEl.value.focus();
+      focusElement(this.closeButtonRef.value);
     }
   }
 
@@ -337,7 +337,7 @@ export class Chip extends LitElement implements InteractiveComponent {
         class={CSS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        ref={this.closeButtonEl}
+        ref={this.closeButtonRef}
         tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
@@ -393,7 +393,7 @@ export class Chip extends LitElement implements InteractiveComponent {
                 (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
           }}
           onClick={this.handleEmittingEvent}
-          ref={this.containerEl}
+          ref={this.containerRef}
           role={role}
           tabIndex={disableInteraction ? -1 : 0}
         >

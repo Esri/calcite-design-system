@@ -7,6 +7,8 @@
  * @prop --calcite-shell-tip-spacing: [Deprecated] This component has been deprecated. The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
   @apply absolute
@@ -148,4 +150,4 @@ slot[name="modals"]::slotted(calcite-modal) {
   position: absolute;
 }
 
-@include base-component();
+@include includes.base-component();

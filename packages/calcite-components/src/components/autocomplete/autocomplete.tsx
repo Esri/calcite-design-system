@@ -33,8 +33,8 @@ import {
 } from "../../utils/interactive";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { IconName } from "../icon/interfaces";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import {
   afterConnectDefaultValueSet,
@@ -53,8 +53,9 @@ import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -73,6 +74,7 @@ declare global {
  * @slot - A slot for adding `calcite-autocomplete-item` elements.
  * @slot content-bottom - A slot for adding content below `calcite-autocomplete-item` elements.
  * @slot content-top - A slot for adding content above `calcite-autocomplete-item` elements.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Autocomplete
   extends LitElement
@@ -195,7 +197,7 @@ export class Autocomplete
   @property({ reflect: true }) form: string;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -205,6 +207,9 @@ export class Autocomplete
 
   /** Accessible name for the component. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -298,8 +303,8 @@ export class Autocomplete
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -393,9 +398,7 @@ export class Autocomplete
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.referenceEl;
-    }, options);
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   //#endregion
@@ -594,6 +597,7 @@ export class Autocomplete
   private updateGroups(): void {
     this.groups.forEach((group, index, items) => {
       group.scale = this.scale;
+      group.position = index;
 
       if (index === 0) {
         group.disableSpacing = true;
@@ -649,14 +653,8 @@ export class Autocomplete
   }
 
   private setReferenceEl(el: Input["el"]): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
-
     connectFloatingUI(this);
   }
 
@@ -781,11 +779,20 @@ export class Autocomplete
 
     return (
       <InteractiveContainer disabled={disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
+            aria-label={getLabelText(this)}
             aria-owns={listId}
             ariaAutoComplete="list"
             ariaExpanded={isOpen}
@@ -817,6 +824,7 @@ export class Autocomplete
             prefixText={this.prefixText}
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
+            required={this.required}
             role="combobox"
             scale={this.scale}
             status={this.status}

@@ -11,6 +11,14 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-group-columns
+
+@use "../../styles/includes";
+
 :host {
   @extend %component-host;
 
@@ -76,4 +84,4 @@
   border-inline-end: var(--calcite-size-px);
 }
 
-@include base-component();
+@include includes.base-component();

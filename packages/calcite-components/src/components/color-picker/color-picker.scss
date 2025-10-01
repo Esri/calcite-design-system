@@ -1,17 +1,44 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-background-color: Specifies the component's background color.
+ * @prop --calcite-color-picker-border-color: Specifies the component's border color.
+ * @prop --calcite-color-picker-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-color-picker-shadow: Specifies the component's shadow.
+ * @prop --calcite-color-picker-text-color: Specifies the component's text color.
+ * @prop --calcite-color-picker-input-background-color: Specifies the component's input background color.
+ * @prop --calcite-color-picker-input-border-color: Specifies the component's input border color.
+ * @prop --calcite-color-picker-input-text-color: Specifies the component's input text color.
+ * @prop --calcite-color-picker-input-prefix-background-color:  When `hexDisabled` is not `true`, specifies the component's input prefix background color.
+ * @prop --calcite-color-picker-input-prefix-text-color:  When `hexDisabled` is not `true`, specifies the component's input prefix text color.
+ * @prop --calcite-color-picker-input-suffix-background-color:  When `alphaChannel` is `true`, specifies the component's input suffix background color.
+ * @prop --calcite-color-picker-input-suffix-text-color:  When `alphaChannel` is `true`, specifies the component's input suffix text color.
+ * @prop --calcite-color-picker-tab-border-color: Specifies the component's tab border color.
+ * @prop --calcite-color-picker-tab-text-color: Specifies the component's tab text color.
+ * @prop --calcite-color-picker-tab-accent-color-press: Specifies the component's tab accent color when selected or active.
+ * @prop --calcite-color-picker-swatch-corner-radius: Specifies the component's swatch corner radius.
+ * @prop --calcite-color-picker-action-text-color-press: Specifies the component's `savedColors` action text color when pressed.
+ * @prop --calcite-color-picker-action-text-color-hover: Specifies the component's `savedColors` action text color when hovered.
+ * @prop --calcite-color-picker-action-text-color: Specifies the component's `savedColors` action text color.
+ */
+
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-color-picker-min-width
 
+@use "../../styles/includes";
+
 :host {
   @apply text-n2h inline-block font-normal;
-
   inline-size: var(--calcite-internal-color-picker-min-width);
   min-inline-size: var(--calcite-internal-color-picker-min-width);
 }
 
-@include disabled();
+@include includes.disabled();
 
 :host([scale="s"]) {
   --calcite-internal-color-picker-min-width: 200px;
@@ -53,12 +80,56 @@
   }
 }
 
+calcite-input-number {
+  --calcite-input-number-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-input-number-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-input-number-text-color: var(--calcite-color-picker-input-text-color);
+  --calcite-input-prefix-background-color: var(--calcite-color-picker-input-prefix-background-color);
+  --calcite-input-prefix-text-color: var(--calcite-color-picker-input-prefix-text-color);
+  --calcite-input-suffix-background-color: var(--calcite-color-picker-input-suffix-background-color);
+  --calcite-input-suffix-text-color: var(--calcite-color-picker-input-suffix-text-color);
+}
+
+calcite-button {
+  --calcite-button-text-color: var(--calcite-color-picker-action-text-color);
+  --calcite-button-text-color-press: var(--calcite-color-picker-action-text-color-press);
+}
+
+calcite-button:hover,
+calcite-button:focus {
+  --calcite-button-text-color: var(--calcite-color-picker-action-text-color-hover);
+}
+
+calcite-button:active {
+  --calcite-button-text-color: var(--calcite-color-picker-action-text-color-press);
+}
+
+calcite-tabs {
+  --calcite-tab-border-color: var(--calcite-color-picker-tab-border-color);
+  --calcite-tab-text-color: var(--calcite-color-picker-tab-text-color);
+  --calcite-tab-border-color: var(--calcite-color-picker-tab-border-color);
+  --calcite-tab-accent-color-press: var(--calcite-color-picker-tab-accent-color);
+  --calcite-swatch-corner-radius: var(--calcite-color-picker-swatch-corner-radius);
+  --calcite-tab-text-color: var(--calcite-color-picker-tab-text-color);
+}
+
+calcite-tab-title:hover {
+  // temp semantic override - issue: https://github.com/Esri/calcite-design-system/issues/12873
+  --calcite-color-text-1: var(--calcite-color-picker-tab-text-color-hover);
+}
+
+calcite-swatch {
+  --calcite-swatch-corner-radius: var(--calcite-color-picker-swatch-corner-radius);
+}
+
 .container {
-  @apply bg-foreground-1;
   display: flex;
   flex-direction: column;
   block-size: min-content;
-  border: 1px solid var(--calcite-color-border-1);
+  border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-3));
+  background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none));
+  box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
 
 .control-and-scope {
@@ -68,6 +139,9 @@
 .color-field,
 .control-and-scope {
   user-select: none;
+  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none))
+    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none)) var(--calcite-corner-radius-none)
+    var(--calcite-corner-radius-none);
 }
 
 .scope {
@@ -116,10 +190,10 @@
 }
 
 .header {
-  @apply text-color-1
-    flex
+  @apply flex
     items-center
     justify-between;
+  color: var(--calcite-color-picker-text-color, var(--calcite-color-text-1));
 }
 
 .color-mode-container {
@@ -162,4 +236,4 @@
   margin-block-start: var(--calcite-color-picker-spacing);
 }
 
-@include base-component();
+@include includes.base-component();

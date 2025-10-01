@@ -1,3 +1,5 @@
+@use "../../styles/includes";
+
 :host {
   @apply block;
 }
@@ -6,4 +8,4 @@
   @apply outline-none;
 }
 
-@include base-component();
+@include includes.base-component();

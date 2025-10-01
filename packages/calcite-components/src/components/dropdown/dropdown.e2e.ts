@@ -225,8 +225,8 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
     );
 
-    const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .dropdown-title");
-    const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .dropdown-title");
+    const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .title");
+    const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .title");
     expect(group1Title).not.toBeNull();
     expect(group2Title).toBeNull();
   });
@@ -623,59 +623,93 @@ describe("calcite-dropdown", () => {
       expect(await item.isIntersectingViewport()).toBe(true);
     });
 
-    it("control max items displayed", async () => {
+    describe("max-items", () => {
       const maxItems = 7;
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dropdown max-items="${maxItems}">
-          <calcite-button slot="trigger">Open Dropdown</calcite-button>
-          <calcite-dropdown-group group-title="First group">
-            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
-          </calcite-dropdown-group>
-          <calcite-dropdown-group group-title="Second group">
-            <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>`,
-      );
 
-      const element = await page.find("calcite-dropdown");
-      const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
-      await element.click();
-      await dropdownOpenEventSpy.next();
+      it("control max items displayed", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-dropdown max-items="${maxItems}">
+            <calcite-button slot="trigger">Open Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="First group">
+              <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+            </calcite-dropdown-group>
+            <calcite-dropdown-group group-title="Second group">
+              <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>`,
+        );
 
-      const items = await findAll(page, "calcite-dropdown-item");
+        const element = await page.find("calcite-dropdown");
+        const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
+        await element.click();
+        await dropdownOpenEventSpy.next();
 
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
-      }
+        const items = await findAll(page, "calcite-dropdown-item");
 
-      const newMaxItems = 4;
-      element.setProperty("maxItems", newMaxItems);
-      await page.waitForChanges();
+        for (let i = 0; i < items.length; i++) {
+          expect(await items[i].isIntersectingViewport()).toBe(i <= maxItems - 1);
+        }
 
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
-      }
+        const newMaxItems = 4;
+        element.setProperty("maxItems", newMaxItems);
+        await page.waitForChanges();
 
-      const totalItems = 10;
-      element.setProperty("maxItems", totalItems);
-      await page.waitForChanges();
+        for (let i = 0; i < items.length; i++) {
+          expect(await items[i].isIntersectingViewport()).toBe(i <= newMaxItems - 1);
+        }
 
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].isIntersectingViewport()).toBe(true);
-      }
+        const totalItems = 10;
+        element.setProperty("maxItems", totalItems);
+        await page.waitForChanges();
 
-      // no scroller should be present when max-items === items
-      const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
-      expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
+        for (let i = 0; i < items.length; i++) {
+          expect(await items[i].isIntersectingViewport()).toBe(true);
+        }
+
+        // no scroller should be present when max-items === items
+        const scroller = await page.find(`calcite-dropdown >>> .${CSS.content}`);
+        expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
+      });
+
+      it("shows selected item on open when max-items causes selected item to be beyond scroller", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-dropdown max-items="${maxItems}">
+            <calcite-button slot="trigger">Open Dropdown</calcite-button>
+            <calcite-dropdown-group group-title="First group">
+              <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+            </calcite-dropdown-group>
+            <calcite-dropdown-group group-title="Second group">
+              <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-10" selected>10</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>`,
+        );
+        const selectedItem = await page.find("#item-10");
+        const element = await page.find("calcite-dropdown");
+        const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
+
+        await element.click();
+        await dropdownOpenEventSpy.next();
+
+        expect(await selectedItem.isIntersectingViewport()).toBe(true);
+      });
     });
   });
 
@@ -685,84 +719,92 @@ describe("calcite-dropdown", () => {
       html`<calcite-dropdown>
         <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1-1">Dropdown Item Content</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+        <calcite-dropdown-group id="group-2" selection-mode="multiple">
+          <calcite-dropdown-item id="item-2-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-3" selection-mode="none">
+          <calcite-dropdown-item id="item-3-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown> `,
     );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("calcite-dropdown-item[id='item-1']");
+    await skipAnimations(page);
+    const trigger = await page.find("#trigger");
+    const openSpy = await page.spyOnEvent("calciteDropdownOpen");
+    const singleGroupItem = await page.find("calcite-dropdown-item[id='item-1-1']");
+    const multipleGroupItem = await page.find("calcite-dropdown-item[id='item-2-1']");
+    const noneGroupItem = await page.find("calcite-dropdown-item[id='item-3-1']");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+
     await trigger.click();
     await page.waitForChanges();
+    await openSpy.next();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
+
+    await singleGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+
+    await trigger.click();
+    await page.waitForChanges();
+    await openSpy.next();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await multipleGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(false);
+
+    await trigger.click();
+    await page.waitForChanges();
+    await openSpy.next();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await noneGroupItem.click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("remains open when close-on-select-disabled is requested and selected item is not in a selection-mode:none group", async () => {
+  it("does not close when close-on-select is disabled and a selection is made", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-dropdown close-on-select-disabled>
         <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
         <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item>
-            <div id="item-3">Dropdown Item Content</div>
-          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-1-1">Dropdown Item Content</calcite-dropdown-item>
         </calcite-dropdown-group>
-      </calcite-dropdown>`,
+        <calcite-dropdown-group id="group-2" selection-mode="multiple">
+          <calcite-dropdown-item id="item-2-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-3" selection-mode="none">
+          <calcite-dropdown-item id="item-3-1">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown> `,
     );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("#item-1");
-    const item3 = await element.find("#item-3");
+    await skipAnimations(page);
+    const trigger = await page.find("#trigger");
+    const openSpy = await page.spyOnEvent("calciteDropdownOpen");
+    const singleGroupItem = await page.find("calcite-dropdown-item[id='item-1-1']");
+    const multipleGroupItem = await page.find("calcite-dropdown-item[id='item-2-1']");
+    const noneGroupItem = await page.find("calcite-dropdown-item[id='item-3-1']");
     const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+
     await trigger.click();
     await page.waitForChanges();
+    await openSpy.next();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item3.click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-  });
 
-  it("closes when close-on-select-disabled is requested and selected item is in a selection-mode:none group", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dropdown close-on-select-disabled>
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="none">
-          <calcite-dropdown-item>
-            <div id="item-1">Dropdown Item Content</div>
-          </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
-    );
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await element.find("#trigger");
-    const item1 = await element.find("#item-1");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-    await trigger.click();
+    await singleGroupItem.click();
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(true);
-    await item1.click();
+
+    await multipleGroupItem.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownWrapper.isVisible()).toBe(true);
+
+    await noneGroupItem.click();
+    await page.waitForChanges();
+    expect(await dropdownWrapper.isVisible()).toBe(true);
   });
 
   describe("toggles the dropdown with click, enter, or space", () => {
@@ -1046,36 +1088,6 @@ describe("calcite-dropdown", () => {
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
-  });
-
-  it("accepts multiple triggers", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-dropdown>
-        <calcite-button class="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-icon class="trigger" icon="caretDown" scale="s" slot="trigger"></calcite-icon>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    `);
-
-    const element = await page.find("calcite-dropdown");
-    const trigger = await findAll(element, ".trigger");
-    const dropdownWrapper = await page.find("calcite-dropdown >>> .wrapper");
-    await trigger[0].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await trigger[0].click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
-    await page.waitForChanges();
-    await trigger[1].click();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
-    await trigger[1].click();
-    await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
   describe("accessible", () => {

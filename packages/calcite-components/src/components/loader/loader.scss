@@ -26,6 +26,9 @@
 // --calcite-internal-stroke-width
 // --calcite-internal-text-offset
 
+@use "../../styles/includes";
+@use "../../styles/shared/animation";
+
 :host {
   @apply flex relative mx-auto items-center justify-center opacity-100;
   flex-direction: column;
@@ -107,7 +110,7 @@
 
 :host([type="indeterminate"]) {
   .ring--progress {
-    animation: loader-clockwise scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
+    animation: loader-clockwise animation.scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
   }
 }
 
@@ -193,4 +196,4 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();
