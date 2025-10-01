@@ -183,7 +183,16 @@ describe("calcite-pagination", () => {
       expect(toggleSpy).toHaveReceivedEventTimes(2);
     });
   });
+
   describe("start-item", () => {
+    it("initializes to 1 consistently", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination page-size="25" start-item="1" total-items="10"></calcite-pagination>`);
+      const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
+      expect(links.length).toBe(1);
+      expect(await links[0].getProperty("value")).toBe("1");
+    });
+
     it("checks page defaults to 1 when start-item is negative", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`);
@@ -192,6 +201,7 @@ describe("calcite-pagination", () => {
       expect(await links[0].getProperty("value")).toBe("1");
     });
   });
+
   describe("showing one item at a time", () => {
     let page: E2EPage;
     let pagination: E2EElement;
