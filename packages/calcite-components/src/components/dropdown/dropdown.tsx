@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
-import { focusElement, focusElementInGroup } from "../../utils/dom";
+import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -480,7 +480,7 @@ export class Dropdown
 
     const maxScrollerHeight =
       items.length >= maxItems && maxItems > 0
-        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        ? this.getYDistanceFromScroller(items.at(maxItems - 1))
         : 0;
     scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
@@ -558,10 +558,9 @@ export class Dropdown
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getYDistance(parent: HTMLElement, child: HTMLElement): number {
-    const parentRect = parent.getBoundingClientRect();
-    const childRect = child.getBoundingClientRect();
-    return childRect.bottom - parentRect.top;
+  private getYDistanceFromScroller(last: HTMLElement): number {
+    const style = last.getBoundingClientRect();
+    return last.offsetTop + style.height;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
@@ -572,11 +571,10 @@ export class Dropdown
     }
   }
 
-  private focusOnFirstActiveOrDefaultItem(): void {
+  private async focusOnFirstActiveOrDefaultItem(): Promise<void> {
     const selectedItem = this.getTraversableItems().find((item) => item.selected);
     const target: DropdownItem["el"] =
-      selectedItem ||
-      (this.focusLastDropdownItem ? this.items[this.items.length - 1] : this.items[0]);
+      selectedItem || (this.focusLastDropdownItem ? this.items.at(-1) : this.items[0]);
 
     this.focusLastDropdownItem = false;
 
@@ -584,7 +582,14 @@ export class Dropdown
       return;
     }
 
-    focusElement(target);
+    // ensure element is rendered/visible before focus or scrollIntoView
+    // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
+    await this.updateComplete;
+    await nextFrame();
+    await nextFrame();
+
+    await focusElement(target);
+    target.scrollIntoView({ block: "nearest" });
   }
 
   private toggleDropdown() {
