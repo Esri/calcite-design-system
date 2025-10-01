@@ -367,7 +367,6 @@ module.exports = function Monday(issue) {
     ["geospatialem", { role: columnIds.productEngineers, id: 45853373 }],
     ["isaacbraun", { role: columnIds.productEngineers, id: 76547859 }],
     ["jcfranco", { role: columnIds.developers, id: 45854945 }],
-    ["josercarcamo", { role: columnIds.developers, id: 56555749 }],
     ["macandcheese", { role: columnIds.developers, id: 45854918 }],
     ["matgalla", { role: columnIds.designers, id: 69473378 }],
     ["rmstinson", { role: columnIds.designers, id: 47277636 }],
