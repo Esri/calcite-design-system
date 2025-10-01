@@ -143,7 +143,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
    * When `true`, disables the default close on escape behavior.
@@ -406,6 +406,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
+  }
+
   private handleOpenedChange(value: boolean): void {
     const { transitionEl } = this;
 
@@ -415,6 +429,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
+    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -705,6 +720,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     this.transitionEl = el;
     this.setupInteractions();
+    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -758,7 +774,11 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           [CSS.containerEmbedded]: this.embedded,
         }}
       >
-        {this.modal ? <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} /> : null}
+        {this.modal && this.embedded ? (
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+        ) : this.modal ? (
+          <div class={CSS.invisibleScrim} onClick={this.handleOutsideClose} />
+        ) : null}
         <div
           ariaDescription={description}
           ariaLabel={heading}
@@ -770,6 +790,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
             ),
           }}
           onKeyDown={this.handleKeyDown}
+          popover={!this.embedded ? "manual" : null}
           ref={this.setTransitionEl}
           role="dialog"
         >

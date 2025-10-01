@@ -111,7 +111,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
@@ -268,12 +268,27 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
   }
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
     } else {
       manager.unregisterElement(this.el);
     }
+    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -332,6 +347,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
 
     this.transitionEl = el;
+    this.handlePopover();
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
@@ -415,6 +431,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
         }}
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
+        popover={!this.embedded ? "manual" : null}
         ref={this.setTransitionEl}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
