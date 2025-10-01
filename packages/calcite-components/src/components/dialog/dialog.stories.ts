@@ -526,6 +526,20 @@ export const withWrappingHeaderText = (): string =>
     Dialog Content
   </calcite-dialog>`;
 
+withWrappingHeaderText.parameters = {
+  chromatic: {
+    modes: {
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 1200,
+        },
+      },
+    },
+    cropToViewport: true,
+  },
+};
+
 export const themed = (): string =>
   html`<calcite-dialog
     style="${themedStyle}"
