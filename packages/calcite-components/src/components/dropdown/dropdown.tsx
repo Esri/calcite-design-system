@@ -480,7 +480,7 @@ export class Dropdown
 
     const maxScrollerHeight =
       items.length >= maxItems && maxItems > 0
-        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        ? this.getYDistanceFromScroller(items.at(maxItems - 1))
         : 0;
     scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
@@ -558,10 +558,9 @@ export class Dropdown
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getYDistance(parent: HTMLElement, child: HTMLElement): number {
-    const parentRect = parent.getBoundingClientRect();
-    const childRect = child.getBoundingClientRect();
-    return childRect.bottom - parentRect.top;
+  private getYDistanceFromScroller(last: HTMLElement): number {
+    const style = last.getBoundingClientRect();
+    return last.offsetTop + style.height;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
