@@ -54,7 +54,7 @@ declare global {
 export class Panel extends LitElement implements InteractiveComponent {
   //#region Static Members
 
-  static override styles = [styles, headerStyles];
+  static override styles = [headerStyles, styles];
 
   //#endregion
 

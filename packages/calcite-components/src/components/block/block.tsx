@@ -47,7 +47,7 @@ declare global {
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   //#region Static Members
 
-  static override styles = [styles, headerStyles, sortableStyles];
+  static override styles = [headerStyles, styles, sortableStyles];
 
   //#endregion
 
