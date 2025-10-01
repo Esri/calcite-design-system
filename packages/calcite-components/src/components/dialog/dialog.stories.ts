@@ -515,6 +515,17 @@ export const withShellInside = (): string =>
     <calcite-button slot="footer-end"> Save </calcite-button>
   </calcite-dialog>`;
 
+export const withWrappingHeaderText = (): string =>
+  html`<calcite-dialog
+    style="--calcite-dialog-max-size-x: 100px"
+    scale="s"
+    open
+    heading="Thisisthesongthatneverends...itkeeps goingonnd on my friends...."
+    description="Heyyy"
+  >
+    Dialog Content
+  </calcite-dialog>`;
+
 export const themed = (): string =>
   html`<calcite-dialog
     style="${themedStyle}"

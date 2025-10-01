@@ -167,6 +167,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .heading-text-content {
     flex: 1 1 auto;
+    overflow: hidden;
   }
 
   .heading,
