@@ -1,10 +1,9 @@
-name: Deploy to NPM
+name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main, dev]
+    branches: [main]
 permissions:
-  id-token: write # Required for OIDC
   contents: write
   pull-requests: write
 jobs:
@@ -35,8 +34,8 @@ jobs:
           npm test
           git push origin main
 
-  release-latest:
-    if: github.event_name != 'workflow_dispatch' && github.ref_name == 'main'
+  release-please:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -61,6 +60,8 @@ jobs:
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
           npm install
@@ -105,36 +106,3 @@ jobs:
           git push -u origin HEAD
           gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
             --label "skip visual snapshots"
-
-  release-next:
-    if: github.event_name != 'workflow_dispatch' && github.ref_name == 'dev'
-    runs-on: ubuntu-22.04
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.ADMIN_TOKEN }}
-          ref: ${{ github.base_ref || github.ref_name }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-          registry-url: "https://registry.npmjs.org"
-      - name: Deploy prerelease and storybook
-        env:
-          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
-          # the storybook token needs the the github username appended to the token, see:
-          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
-          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
-          BRANCH: ${{ github.base_ref || github.ref_name }}
-        run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
-      - name: notify teams
-        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
-        if: ${{ !cancelled() && github.event_name == 'push' }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URI_BUILD }}
-          show-on-start: false
-          card-layout-exit: complete
-          timezone: America/Los_Angeles
