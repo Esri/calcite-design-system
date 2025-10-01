@@ -582,9 +582,12 @@ export class Dropdown
       return;
     }
 
+    // ensure element is rendered/visible before focus or scrollIntoView
+    // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
     await this.updateComplete;
     await nextFrame();
     await nextFrame();
+
     await focusElement(target);
     target.scrollIntoView({ block: "nearest" });
   }
