@@ -61,6 +61,8 @@ jobs:
       - name: Build Packages and Publish to NPM
         if: steps.release.outputs.releases_created == 'true'
         env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
           npm install
@@ -121,12 +123,15 @@ jobs:
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           # the storybook token needs the the github username appended to the token, see:
           # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
         run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
       - name: notify teams
