@@ -9,7 +9,7 @@ jobs:
       issues: write
       actions: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: "Installed notification"
         if: github.event.label.name == '3 - installed'
