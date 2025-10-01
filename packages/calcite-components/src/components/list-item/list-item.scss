@@ -14,7 +14,7 @@
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply flex flex-col;

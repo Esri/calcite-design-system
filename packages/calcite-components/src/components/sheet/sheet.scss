@@ -26,9 +26,9 @@
 //
 // --calcite-internal-sheet-resize-handle-offset
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
+@use "../../styles/shared/animation";
 
 :host {
   @apply flex absolute z-overlay inset-0;

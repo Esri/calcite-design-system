@@ -16,7 +16,7 @@
  */
 
 @use "sass:list";
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 // scale variables
 :host([scale="s"]) {

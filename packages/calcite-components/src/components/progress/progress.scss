@@ -8,8 +8,8 @@
 * @prop --calcite-progress-text-color: Specifies the component's text color.
 */
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/animation";
+@use "../../styles/includes";
+@use "../../styles/shared/animation";
 
 :host {
   @apply relative block w-full;
