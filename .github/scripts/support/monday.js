@@ -36,6 +36,7 @@ module.exports = function Monday(issue) {
   let columnUpdates = {};
 
   const columnIds = {
+    /* eslint-disable @cspell/spellchecker -- Monday IDs may include segments with randomized characters */
     title: "name",
     issueNumber: "numeric_mknk2xhh",
     link: "link",
@@ -56,6 +57,7 @@ module.exports = function Monday(issue) {
     designTokens: "color_mkvyhk10",
     figmaChanges: "color_mkrvmhg7",
     open: "color_mknkrb2n",
+    /* eslint-enable @cspell/spellchecker */
   };
 
   const labelMap = new Map([
@@ -355,6 +357,7 @@ module.exports = function Monday(issue) {
    */
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
+    /* eslint-disable @cspell/spellchecker -- GitHub usernames */
     ["anveshmekala", { role: columnIds.developers, id: 48387134 }],
     ["aPreciado88", { role: columnIds.developers, id: 60795249 }],
     ["ashetland", { role: columnIds.designers, id: 45851619 }],
@@ -373,6 +376,7 @@ module.exports = function Monday(issue) {
     ["rmstinson", { role: columnIds.designers, id: 47277636 }],
     ["SkyeSeitz", { role: columnIds.designers, id: 45854937 }],
     ["Amretasre002762670", { role: columnIds.developers, id: 77031889 }],
+    /* eslint-enable @cspell/spellchecker */
   ]);
 
   /** @type {Record<Exclude<import('@octokit/webhooks-types').Issue["state"], undefined>, string>} */
