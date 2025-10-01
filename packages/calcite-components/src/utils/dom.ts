@@ -694,8 +694,11 @@ export async function whenTransitionOrAnimationDone(
   }
 }
 
-function nextFrame(): Promise<void> {
-  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+/**
+ * Helper function to wait for the next animation frame.
+ */
+export async function nextFrame(): Promise<void> {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 /**

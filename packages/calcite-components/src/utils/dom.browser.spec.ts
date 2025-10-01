@@ -18,6 +18,7 @@ import {
   isBefore,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
+  nextFrame,
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeGetAssignedNodes,
@@ -1001,6 +1002,17 @@ describe("dom", () => {
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
         });
       });
+    });
+  });
+
+  describe("nextFrame", () => {
+    it("should resolve in the same frame as requestAnimationFrame", async () => {
+      let frameResolved = false;
+      requestAnimationFrame(() => (frameResolved = true));
+
+      await nextFrame();
+
+      expect(frameResolved).toBe(true);
     });
   });
 
