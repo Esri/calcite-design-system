@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.12...@esri/calcite-components@4.0.0-next.13) (2025-10-01)
+
+### Features
+
+- **color-picker, date-picker:** adjust outline color for 4.0 ([#12990](https://github.com/Esri/calcite-design-system/issues/12990)) ([7af0410](https://github.com/Esri/calcite-design-system/commit/7af04102003e7dddbaf337a9beff13258ca4a5a7)), closes [#10768](https://github.com/Esri/calcite-design-system/issues/10768)
+
+### Bug Fixes
+
+- **dropdown:** fix scroller size when setting max-items ([#12967](https://github.com/Esri/calcite-design-system/issues/12967)) ([05ade56](https://github.com/Esri/calcite-design-system/commit/05ade5615378269b3467d1a2eaf5d23c70dd3888)), closes [#12737](https://github.com/Esri/calcite-design-system/issues/12737)
+
 ## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.11...@esri/calcite-components@4.0.0-next.12) (2025-09-30)
 
 ### Features
