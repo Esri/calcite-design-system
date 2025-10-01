@@ -8,7 +8,7 @@ import {
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
@@ -86,13 +86,13 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
+   * When `true`, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
    * This is set to `true` by a parent Tile Group component.
    *
    * @private
@@ -159,11 +159,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.interactive) {
-        return this.containerEl;
-      }
-    }, options);
+    return this.focusSetter(() => (this.interactive ? this.containerEl : undefined), options);
   }
 
   // #endregion

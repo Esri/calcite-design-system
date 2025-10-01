@@ -1277,6 +1277,10 @@
     "camera-sensor-layer": 61814,
     "shopping-cart-plus": 61815,
     "shopping-cart-f": 61816,
-    "carousel-frames": 61817
+    "carousel-frames": 61817,
+    "layer-3d": 61818,
+    "mission-system-message": 61819,
+    "number-set": 61820,
+    "integer-set": 61821
   }
 }

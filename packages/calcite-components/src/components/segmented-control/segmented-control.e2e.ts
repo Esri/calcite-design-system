@@ -8,9 +8,11 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
@@ -473,6 +475,10 @@ describe("calcite-segmented-control", () => {
     });
   });
 
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-segmented-control`);
+  });
+
   describe("is form-associated", () => {
     describe("unselected value", () => {
       formAssociated(
@@ -499,6 +505,10 @@ describe("calcite-segmented-control", () => {
         { testValue: 2 },
       );
     });
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-segmented-control");
   });
 
   describe("theme", () => {

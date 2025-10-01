@@ -33,6 +33,8 @@
 //
 // --calcite-internal-input-number-alignment
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
 }
@@ -89,7 +91,7 @@
   }
 }
 
-@include disabled();
+@include includes.disabled();
 
 input {
   transition:
@@ -488,7 +490,8 @@ input {
   }
 }
 
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
-@include input-placeholder-text();
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();
+@include includes.input-placeholder-text();

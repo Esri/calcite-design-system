@@ -1,3 +1,5 @@
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
 }
@@ -10,6 +12,6 @@
   @apply sr-only;
 }
 
-@include base-component();
+@include includes.base-component();
 
-@include disabled();
+@include includes.disabled();

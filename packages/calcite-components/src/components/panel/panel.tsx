@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   InteractiveComponent,
@@ -8,7 +9,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import {
@@ -22,7 +23,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -58,7 +59,7 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private containerEl: HTMLElement;
+  private containerRef = createRef<HTMLElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -127,11 +128,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  /**
-   * Specifies the direction of the collapse.
-   *
-   * @private
-   */
+  /** When `collapsible` is present, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -153,7 +150,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -215,9 +212,7 @@ export class Panel extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.containerEl;
-    }, options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -302,10 +297,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     } else {
       panelScrollEl.removeAttribute("tabindex");
     }
-  }
-
-  private setContainerRef(node: HTMLElement): void {
-    this.containerEl = node;
   }
 
   private closeClickHandler(): void {
@@ -395,13 +386,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private setPanelScrollEl(el: HTMLElement): void {
+    updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
-    this.resizeObserver?.disconnect();
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-      this.resizeHandler();
-    }
   }
 
   private handleAlertsSlotChange(event: Event): void {
@@ -507,10 +493,10 @@ export class Panel extends LitElement implements InteractiveComponent {
 
     const collapseNode = collapsible ? (
       <calcite-action
-        ariaExpanded={!collapsed}
-        ariaLabel={collapse}
+        aria={{ expanded: !collapsed }}
         icon={collapsed ? icons[0] : icons[1]}
         id={IDS.collapse}
+        label={collapse}
         onClick={this.collapse}
         scale={this.scale}
         text={collapse}
@@ -587,6 +573,7 @@ export class Panel extends LitElement implements InteractiveComponent {
       collapsible,
       hasMenuItems,
       hasActionBar,
+      hasContentTop,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
@@ -598,12 +585,14 @@ export class Panel extends LitElement implements InteractiveComponent {
       hasEndActions ||
       collapsible ||
       closable ||
-      hasMenuItems;
+      hasMenuItems ||
+      hasActionBar ||
+      hasContentTop;
 
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar)}>
+      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar || hasContentTop)}>
         <div
           class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
           hidden={!showHeaderContent}
@@ -689,7 +678,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     const { disabled, loading, closed } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.setContainerRef}>
+      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}

@@ -42,13 +42,14 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   NumericInputComponent,
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
@@ -63,7 +64,10 @@ declare global {
   }
 }
 
-/** @slot action - A slot for positioning a button next to the component. */
+/**
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputNumber
   extends LitElement
   implements
@@ -81,7 +85,7 @@ export class InputNumber
 
   //#region Private Properties
 
-  private actionWrapperEl = createRef<HTMLDivElement>();
+  private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
     ["autofocus", "enterkeyhint", "inputmode"],
@@ -89,7 +93,7 @@ export class InputNumber
   );
 
   /** number text input element for locale */
-  private childNumberEl?: HTMLInputElement;
+  private childNumberRef = createRef<HTMLInputElement>();
 
   defaultValue: InputNumber["value"];
 
@@ -97,7 +101,7 @@ export class InputNumber
 
   private inlineEditableEl: InlineEditable["el"];
 
-  private inputWrapperEl = createRef<HTMLDivElement>();
+  private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
 
@@ -125,7 +129,7 @@ export class InputNumber
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   private userChangedValue = false;
 
@@ -191,7 +195,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -201,6 +205,9 @@ export class InputNumber
 
   /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
@@ -304,8 +311,8 @@ export class InputNumber
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -357,7 +364,7 @@ export class InputNumber
   /** Selects the text of the component's `value`. */
   @method()
   async selectText(): Promise<void> {
-    this.childNumberEl?.select();
+    this.childNumberRef.value?.select();
   }
 
   /**
@@ -369,9 +376,7 @@ export class InputNumber
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.childNumberEl;
-    }, options);
+    return this.focusSetter(() => this.childNumberRef.value, options);
   }
 
   //#endregion
@@ -596,8 +601,8 @@ export class InputNumber
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperEl.value) ||
-      composedPath.includes(this.actionWrapperEl.value)
+      !composedPath.includes(this.inputWrapperRef.value) ||
+      composedPath.includes(this.actionWrapperRef.value)
     ) {
       return;
     }
@@ -637,7 +642,7 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.displayedValue;
+      this.childNumberRef.value.value = this.displayedValue;
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -699,27 +704,30 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (
+        this.value &&
+        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberEl.value)) {
+      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberEl.value) {
+      if (!this.value && !this.childNumberRef.value.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.split("-").length <= 2) {
+      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -781,15 +789,11 @@ export class InputNumber
     syncHiddenFormInput("number", this, input);
   }
 
-  private setChildNumberElRef(el: HTMLInputElement) {
-    this.childNumberEl = el;
-  }
-
   private setInputNumberValue(newInputValue: string): void {
-    if (!this.childNumberEl) {
+    if (!this.childNumberRef.value) {
       return;
     }
-    this.childNumberEl.value = newInputValue;
+    this.childNumberRef.value.value = newInputValue;
   }
 
   private setPreviousEmittedNumberValue(value: string): void {
@@ -888,7 +892,7 @@ export class InputNumber
       ...numberStringFormatter.digits,
     ]);
 
-    const childInputValue = this.childNumberEl?.value;
+    const childInputValue = this.childNumberRef.value?.value;
     // remove invalid characters from child input
     if (childInputValue) {
       const sanitizedChildInputValue = Array.from(childInputValue)
@@ -1035,7 +1039,8 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildNumberElRef}
+        ref={this.childNumberRef}
+        required={this.required}
         type="text"
         value={this.displayedValue}
       />
@@ -1043,6 +1048,14 @@ export class InputNumber
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           class={{
             [CSS.inputWrapper]: true,
@@ -1051,7 +1064,7 @@ export class InputNumber
             [CSS.hasPrefix]: this.prefixText,
             [CSS.clearable]: this.isClearable,
           }}
-          ref={this.inputWrapperEl}
+          ref={this.inputWrapperRef}
         >
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown
@@ -1063,7 +1076,7 @@ export class InputNumber
             {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
           </div>
-          <div class={CSS.actionWrapper} ref={this.actionWrapperEl}>
+          <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
           {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}

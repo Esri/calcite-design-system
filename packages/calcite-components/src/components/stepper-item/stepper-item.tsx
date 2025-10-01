@@ -24,7 +24,7 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
@@ -50,7 +50,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private headerEl = createRef<HTMLDivElement>();
+  private headerRef = createRef<HTMLDivElement>();
 
   /** position within parent */
   private itemPosition: number;
@@ -106,7 +106,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When `true`, the item will be hidden
+   * When `true`, the item will be hidden.
    *
    * @private
    *  */
@@ -155,9 +155,10 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.layout === "vertical" ? this.el : this.headerEl.value;
-    }, options);
+    return this.focusSetter(
+      () => (this.layout === "vertical" ? this.el : this.headerRef.value),
+      options,
+    );
   }
 
   //#endregion
@@ -350,7 +351,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
           )}
           <div
             class={CSS.stepperItemHeader}
-            ref={this.headerEl}
+            ref={this.headerRef}
             tabIndex={innerDisplayContextTabIndex}
           >
             {this.icon ? this.renderIcon() : null}
@@ -378,7 +379,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   private renderIcon(): JsxNode {
-    let path: IconNameOrString = ICONS.circle;
+    let path: IconName = ICONS.circle;
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = ICONS.circleF;

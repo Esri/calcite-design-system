@@ -6,11 +6,13 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  */
 
+@use "../../assets/styles/includes";
+
 :host {
   @apply block;
 }
 
-@include disabled();
+@include includes.disabled();
 
 .container {
   position: relative;
@@ -18,7 +20,7 @@
 }
 
 .container-height {
-  min-block-size: 100vh;
+  @apply h-full;
 }
 
 .table-container {
@@ -52,4 +54,4 @@
   @apply sr-only;
 }
 
-@include base-component();
+@include includes.base-component();

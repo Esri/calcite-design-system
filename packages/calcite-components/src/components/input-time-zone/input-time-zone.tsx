@@ -9,6 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -25,12 +26,13 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
+import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
@@ -49,6 +51,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class InputTimeZone
   extends LitElement
   implements FormComponent, InteractiveComponent, LabelableComponent
@@ -63,7 +68,7 @@ export class InputTimeZone
 
   //#region Private Properties
 
-  private comboboxEl: Combobox["el"];
+  private comboboxRef = createRef<Combobox["el"]>();
 
   defaultValue: InputTimeZone["value"];
 
@@ -108,6 +113,9 @@ export class InputTimeZone
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
@@ -185,8 +193,8 @@ export class InputTimeZone
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -240,9 +248,7 @@ export class InputTimeZone
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.comboboxEl;
-    }, options);
+    return this.focusSetter(() => this.comboboxRef.value, options);
   }
 
   //#endregion
@@ -336,8 +342,8 @@ export class InputTimeZone
 
   private openChanged(): void {
     // we set the property instead of the attribute to ensure open/close events are emitted properly
-    if (this.comboboxEl) {
-      this.comboboxEl.open = this.open;
+    if (this.comboboxRef.value) {
+      this.comboboxRef.value.open = this.open;
     }
   }
 
@@ -371,10 +377,6 @@ export class InputTimeZone
     this.setFocus();
   }
 
-  private setComboboxRef(el: Combobox["el"]): void {
-    this.comboboxEl = el;
-  }
-
   /**
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
@@ -386,7 +388,10 @@ export class InputTimeZone
       return;
     }
 
-    this.comboboxEl.selectedItems[0].textLabel = this.getItemLabel(this.selectedTimeZoneItem, open);
+    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+      this.selectedTimeZoneItem,
+      open,
+    );
   }
 
   private onComboboxBeforeClose(event: CustomEvent): void {
@@ -503,6 +508,7 @@ export class InputTimeZone
           clearDisabled={!this.clearable}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
+          labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
           oncalciteComboboxBeforeClose={this.onComboboxBeforeClose}
@@ -520,7 +526,8 @@ export class InputTimeZone
           }
           placeholderIcon="search"
           readOnly={this.readOnly}
-          ref={this.setComboboxRef}
+          ref={this.comboboxRef}
+          required={this.required}
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
@@ -528,6 +535,7 @@ export class InputTimeZone
           validationMessage={this.validationMessage}
         >
           {this.renderItems()}
+          <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
       </InteractiveContainer>

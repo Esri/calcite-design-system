@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -14,7 +16,7 @@ export const CSS = {
   description: "description",
   header: "header",
   headerContainer: "header-container",
-  headerHasText: "header--has-text",
+  headerHasContent: "header--has-content",
   heading: "heading",
   icon: "icon",
   iconStart: "icon--start",
@@ -37,9 +39,9 @@ export const SLOTS = {
   icon: "icon",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   expanded: "chevron-up",
   collapsed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-} as const;
+};

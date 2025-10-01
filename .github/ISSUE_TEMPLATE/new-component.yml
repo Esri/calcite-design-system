@@ -1,6 +1,6 @@
 name: New Component
 description: Request for a new component to be added
-labels: ["new component", "0 - new", "needs triage"]
+labels: ["new component", "0 - new", "needs triage", "design"]
 body:
   - type: markdown
     attributes:

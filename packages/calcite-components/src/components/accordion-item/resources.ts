@@ -1,8 +1,11 @@
+import { IconName } from "../icon/interfaces";
 import { Appearance, Position, IconType } from "../interfaces";
 
 export const SLOTS = {
   actionsStart: "actions-start",
   actionsEnd: "actions-end",
+  contentEnd: "content-end",
+  contentStart: "content-start",
 };
 
 export const CSS = {
@@ -23,6 +26,8 @@ export const CSS = {
   iconPosition: (iconPosition: Position) => `icon-position--${iconPosition}` as const,
   iconType: (iconType: IconType) => `icon-type--${iconType}` as const,
   item: "item",
+  slotContentEnd: "slot-content-end",
+  slotContentStart: "slot-content-start",
 };
 
 export const IDS = {
@@ -30,7 +35,7 @@ export const IDS = {
   sectionToggle: "section-toggle",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronDown: "chevronDown",
   caretDown: "caretDown",
   plus: "plus",

@@ -1,11 +1,13 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   backButton: "back-button",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   backLeft: "chevron-left",
   backRight: "chevron-right",
-} as const;
+};
 
 export const SLOTS = {
   actionBar: "action-bar",

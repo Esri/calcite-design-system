@@ -189,9 +189,7 @@ export class ActionMenu extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.menuButtonEl;
-    }, options);
+    return this.focusSetter(() => this.menuButtonEl, options);
   }
 
   //#endregion
@@ -256,6 +254,9 @@ export class ActionMenu extends LitElement {
   private openHandler(open: boolean): void {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
+      this.menuButtonEl.aria = {
+        expanded: open,
+      };
     }
 
     if (this.popoverEl) {
@@ -344,10 +345,7 @@ export class ActionMenu extends LitElement {
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
     this.defaultMenuButtonEl = el;
-
-    if (el) {
-      this.connectMenuButtonEl();
-    }
+    this.connectMenuButtonEl();
   }
 
   private setPopoverEl(el: Popover["el"]): void {
@@ -478,6 +476,7 @@ export class ActionMenu extends LitElement {
       <slot name={SLOTS.trigger} onSlotChange={this.setMenuButtonEl}>
         <calcite-action
           appearance={appearance}
+          aria={{ expanded }}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
           ref={this.setDefaultMenuButtonEl}

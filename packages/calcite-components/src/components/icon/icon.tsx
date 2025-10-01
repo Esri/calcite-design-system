@@ -7,7 +7,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
-import { IconNameOrString } from "./interfaces";
+import { IconName } from "./interfaces";
 import { styles } from "./icon.scss";
 
 declare global {
@@ -52,10 +52,11 @@ export class Icon extends LitElement {
    */
   @property({
     reflect: true,
+    type: String,
   })
-  icon: IconNameOrString = null;
+  icon: IconName = null;
 
-  /** When true, it loads preloads the icon data. */
+  /** When `true`, it preloads the icon data. */
   @property({ reflect: true }) preload = false;
 
   /** Specifies the size of the component. */

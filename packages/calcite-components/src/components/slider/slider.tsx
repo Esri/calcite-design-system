@@ -11,8 +11,10 @@ import {
   setAttribute,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import {
   afterConnectDefaultValueSet,
@@ -34,13 +36,14 @@ import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
 import { Scale, Status } from "../interfaces";
 import { BigDecimal } from "../../utils/number";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -52,6 +55,9 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Slider
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -88,7 +94,7 @@ export class Slider
   private dragProp: ActiveSliderProperty;
 
   private dragUpdate = (event: PointerEvent): void => {
-    if (this.disabled) {
+    if (this.disabled || !this.trackRef.value) {
       return;
     }
 
@@ -162,7 +168,12 @@ export class Slider
 
   private maxHandle: HTMLDivElement;
 
-  messages = useT9n<Record<string, never>>({ name: null });
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
 
   private minHandle: HTMLDivElement;
 
@@ -176,7 +187,7 @@ export class Slider
 
   private previousEmittedValue;
 
-  private trackEl: HTMLDivElement;
+  private trackRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -259,11 +270,17 @@ export class Slider
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
   /** For multiple selections, the component's lower value. */
   @property() minValue: number;
 
   /**
-   * When `true`, the slider will display values from high to low.
+   * When `true`, the component will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
@@ -307,8 +324,8 @@ export class Slider
   @property({ reflect: true }) ticks: number;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -350,9 +367,7 @@ export class Slider
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.minHandle || this.maxHandle;
-    }, options);
+    return this.focusSetter(() => this.minHandle || this.maxHandle, options);
   }
 
   // #endregion
@@ -717,10 +732,6 @@ export class Slider
     this.emitInput();
   }
 
-  private storeTrackRef(node: HTMLDivElement): void {
-    this.trackEl = node;
-  }
-
   private storeThumbRef(el: HTMLDivElement): void {
     if (!el) {
       return;
@@ -763,7 +774,7 @@ export class Slider
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackEl.getBoundingClientRect();
+    const { left, width } = this.trackRef.value.getBoundingClientRect() || { left: 0, width: 0 };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -1144,10 +1155,19 @@ export class Slider
 
     return (
       <InteractiveContainer disabled={this.disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
           ariaLabel={getLabelText(this)}
+          ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
@@ -1155,7 +1175,7 @@ export class Slider
           }}
         >
           {this.renderGraph()}
-          <div class={CSS.track} ref={this.storeTrackRef}>
+          <div class={CSS.track} ref={this.trackRef}>
             <div
               class={CSS.trackRange}
               onPointerDown={this.onTrackPointerDown}

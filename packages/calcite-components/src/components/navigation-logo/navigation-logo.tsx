@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
@@ -45,7 +45,7 @@ export class NavigationLogo extends LitElement {
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -83,11 +83,7 @@ export class NavigationLogo extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      if (this.href) {
-        return this.el;
-      }
-    }, options);
+    return this.focusSetter(() => (this.href ? this.el : undefined), options);
   }
 
   // #endregion

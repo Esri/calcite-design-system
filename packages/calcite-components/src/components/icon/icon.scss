@@ -1,3 +1,4 @@
+@use "../../assets/styles/includes";
 /**
  * CSS Custom Properties
  *
@@ -6,7 +7,6 @@
  * @prop --calcite-ui-icon-color: [Deprecated] Use `--calcite-icon-color`. Specifies the component's color. Defaults to current color.
  * @prop --calcite-icon-color: Specifies the component's color. Defaults to current color.
  */
-
 :host {
   @apply text-color-icon inline-flex;
 }
@@ -44,4 +44,4 @@ $icon-size-l: 32px;
   @apply block;
 }
 
-@include base-component();
+@include includes.base-component();

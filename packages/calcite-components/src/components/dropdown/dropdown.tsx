@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { queryAssignedElements } from "lit/decorators.js";
 import { focusElement, focusElementInGroup } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -22,16 +23,16 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { createObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { createObserver, updateRefObserver } from "../../utils/observers";
+import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, Width } from "../interfaces";
+import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -84,8 +85,8 @@ export class Dropdown
 
   transitionEl: HTMLDivElement;
 
-  /** trigger elements */
-  private triggers: HTMLElement[];
+  @queryAssignedElements({ slot: SLOTS.trigger })
+  private triggerEls: SingleItemSlotArray<HTMLElement>;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -210,9 +211,7 @@ export class Dropdown
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.referenceEl;
-    }, options);
+    return this.focusSetter(() => this.referenceEl, options);
   }
 
   // #endregion
@@ -409,13 +408,9 @@ export class Dropdown
     this.updateSelectedItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
-    if (
-      !this.closeOnSelectDisabled ||
-      event.detail.requestedDropdownGroup.selectionMode === "none"
-    ) {
+    if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
-    event.stopPropagation();
   }
 
   private setFilteredPlacements(): void {
@@ -424,14 +419,6 @@ export class Dropdown
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
       : null;
-  }
-
-  private updateTriggers(event: Event): void {
-    this.triggers = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    }) as HTMLElement[];
-
-    this.reposition(true);
   }
 
   private updateItems(): void {
@@ -465,13 +452,7 @@ export class Dropdown
   }
 
   private resizeObserverCallback(entries: ResizeObserverEntry[]): void {
-    entries.forEach((entry) => {
-      const { target } = entry;
-
-      if (!this.hasUpdated) {
-        return;
-      }
-
+    entries.forEach(({ target }) => {
       if (target === this.referenceEl) {
         this.setDropdownWidth();
       } else if (target === this.scrollerEl) {
@@ -482,23 +463,31 @@ export class Dropdown
 
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
-    const referenceElWidth = referenceEl?.clientWidth;
 
-    scrollerEl.style.minWidth = `${referenceElWidth}px`;
+    if (!scrollerEl || !referenceEl) {
+      return;
+    }
+
+    scrollerEl.style.minWidth = `${referenceEl.clientWidth}px`;
   }
 
   private setMaxScrollerHeight(): void {
-    const maxScrollerHeight = this.getMaxScrollerHeight();
-    this.scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const { maxItems, items, scrollerEl } = this;
+
+    if (!scrollerEl) {
+      return;
+    }
+
+    const maxScrollerHeight =
+      items.length >= maxItems && maxItems > 0
+        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        : 0;
+    scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
   }
 
   private setScrollerAndTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.resizeObserver?.observe(el);
+    updateRefObserver(this.resizeObserver, this.scrollerEl, el);
     this.scrollerEl = el;
     this.transitionEl = el;
   }
@@ -522,11 +511,9 @@ export class Dropdown
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -571,14 +558,6 @@ export class Dropdown
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getMaxScrollerHeight(): number {
-    const { maxItems, items } = this;
-
-    return items.length >= maxItems && maxItems > 0
-      ? this.getYDistance(this.scrollerEl, items[maxItems - 1])
-      : 0;
-  }
-
   private getYDistance(parent: HTMLElement, child: HTMLElement): number {
     const parentRect = parent.getBoundingClientRect();
     const childRect = child.getBoundingClientRect();
@@ -589,7 +568,7 @@ export class Dropdown
     this.open = false;
 
     if (focusTrigger) {
-      focusElement(this.triggers[0]);
+      focusElement(this.triggerEls[0]);
     }
   }
 
@@ -638,7 +617,6 @@ export class Dropdown
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.trigger}
-            onSlotChange={this.updateTriggers}
           />
         </div>
         <div

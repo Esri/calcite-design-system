@@ -22,10 +22,11 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
+import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -41,6 +42,9 @@ declare global {
   }
 }
 
+/**
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
 export class Rating
   extends LitElement
   implements LabelableComponent, FormComponent, InteractiveComponent
@@ -108,6 +112,9 @@ export class Rating
    */
   @property({ reflect: true }) form: string;
 
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -139,8 +146,8 @@ export class Rating
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -194,9 +201,7 @@ export class Rating
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -396,6 +401,14 @@ export class Rating
     return (
       <InteractiveContainer disabled={this.disabled}>
         <span class={CSS.wrapper}>
+          {this.labelText && (
+            <InternalLabel
+              labelText={this.labelText}
+              onClick={this.onLabelClick}
+              required={this.required}
+              tooltipText={this.messages.required}
+            />
+          )}
           <fieldset class={CSS.fieldSet} disabled={this.disabled}>
             <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
             {this.starsMap.map(
@@ -421,6 +434,8 @@ export class Rating
                     <input
                       aria-errormessage={IDS.validationMessage}
                       ariaInvalid={this.status === "invalid"}
+                      ariaLabel={getLabelText(this)}
+                      ariaRequired={this.required}
                       checked={checked}
                       class={CSS.visuallyHidden}
                       disabled={this.disabled || this.readOnly}

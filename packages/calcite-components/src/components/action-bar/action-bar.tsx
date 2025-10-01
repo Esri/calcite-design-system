@@ -140,7 +140,7 @@ export class ActionBar extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /**
@@ -181,9 +181,7 @@ export class ActionBar extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
-      return this.el;
-    }, options);
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion

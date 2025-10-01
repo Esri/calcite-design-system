@@ -6,6 +6,9 @@ export const selectTokens = {
   calciteSelectBorderColor: "",
   calciteSelectIconColor: "",
   calciteSelectIconColorHover: "",
+  calciteSelectBackgroundColor: "",
+  calciteSelectCornerRadius: "",
+  calciteSelectShadow: "",
 };
 
 export const select = html`<calcite-select>

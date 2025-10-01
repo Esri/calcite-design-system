@@ -8,9 +8,11 @@ import {
   focusable,
   formAssociated,
   hidden,
+  internalLabel,
   labelable,
   reflects,
   renders,
+  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -41,6 +43,10 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(`calcite-select`);
   });
 
   describe("defaults", () => {
@@ -461,6 +467,10 @@ describe("calcite-select", () => {
     );
   });
 
+  describe("translation support", () => {
+    t9n("calcite-select");
+  });
+
   describe("theme", () => {
     themed(
       html`
@@ -497,6 +507,18 @@ describe("calcite-select", () => {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
           state: "hover",
+        },
+        "--calcite-select-background-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-select-corner-radius": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-select-shadow": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "boxShadow",
         },
       },
     );

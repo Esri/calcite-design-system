@@ -20,10 +20,10 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -63,8 +63,7 @@ export class Button
   /** the rendered child element */
   private childEl?: HTMLElement;
 
-  /** keep track of the rendered contentEl */
-  private contentEl = createRef<HTMLSpanElement>();
+  private contentRef = createRef<HTMLSpanElement>();
 
   formEl: HTMLFormElement;
 
@@ -129,13 +128,13 @@ export class Button
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -271,7 +270,7 @@ export class Button
 
   private setTooltipText(): void {
     const {
-      contentEl: { value: contentEl },
+      contentRef: { value: contentEl },
     } = this;
     if (contentEl) {
       this.tooltipText =
@@ -279,12 +278,9 @@ export class Button
     }
   }
 
-  private setChildEl(el: HTMLElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
+    updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
-
-    if (el) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   //#endregion
@@ -327,7 +323,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content} ref={this.contentEl}>
+      <span class={CSS.content} ref={this.contentRef}>
         <slot />
       </span>
     );
