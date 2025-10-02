@@ -528,6 +528,7 @@ export const withWrappingHeaderText = (): string =>
 
 withWrappingHeaderText.parameters = {
   chromatic: {
+    delay: 1000,
     modes: {
       specific: {
         viewport: {
