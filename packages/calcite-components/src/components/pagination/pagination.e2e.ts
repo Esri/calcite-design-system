@@ -185,19 +185,30 @@ describe("calcite-pagination", () => {
   });
 
   describe("start-item", () => {
-    it("initializes to 1 consistently", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination page-size="25" start-item="1" total-items="10"></calcite-pagination>`);
-      const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
-      expect(links.length).toBe(1);
-      expect(await links[0].getProperty("value")).toBe("1");
-    });
+    const testCases = [
+      {
+        name: "page defaults to 1 when page-size equals total-items",
+        html: `<calcite-pagination page-size="25" start-item="1" total-items="10"></calcite-pagination>`,
+      },
+      {
+        name: "page defaults to 1 when page-size is less than total-items",
+        html: `<calcite-pagination page-size="25" start-item="1" total-items="10"></calcite-pagination>`,
+      },
+      {
+        name: "page defaults to 1 when page-size is greater than total-items",
+        html: `<calcite-pagination page-size="25" start-item="1" total-items="10"></calcite-pagination>`,
+      },
+      {
+        name: "page defaults to 1 when start-item is negative",
+        html: `<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`,
+      },
+    ];
 
-    it("checks page defaults to 1 when start-item is negative", async () => {
+    it.each(testCases)("$name", async ({ html }) => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="-2" page-size="3"></calcite-pagination>`);
+      await page.setContent(html);
       const links = await findAll(page, `calcite-pagination >>> .${CSS.page}`);
-      expect(links.length).toBe(1);
+      expect(links).toHaveLength(1);
       expect(await links[0].getProperty("value")).toBe("1");
     });
   });
