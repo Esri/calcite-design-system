@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.13...@esri/calcite-components@4.0.0-next.14) (2025-10-02)
+
+### Bug Fixes
+
+- **pagination, table:** fix page number when page size > total items ([#13007](https://github.com/Esri/calcite-design-system/issues/13007)) ([4bc835a](https://github.com/Esri/calcite-design-system/commit/4bc835af931b1a13f5857389270d63e7dc1b6fbb)), closes [#12975](https://github.com/Esri/calcite-design-system/issues/12975) [#12569](https://github.com/Esri/calcite-design-system/issues/12569)
+
 ## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.12...@esri/calcite-components@4.0.0-next.13) (2025-10-01)
 
 ### Features
