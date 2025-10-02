@@ -79,7 +79,6 @@
 
 .heading {
   @apply p-0;
-  @include text-truncate("truncate");
 }
 
 @include includes.base-component();
