@@ -36,8 +36,8 @@
  * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
  */
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply relative

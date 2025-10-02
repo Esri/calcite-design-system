@@ -32,13 +32,11 @@
 // --calcite-internal-panel-default-space
 // --calcite-internal-panel-header-vertical-padding
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "sass:meta";
 
 :host {
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
-
-  --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
@@ -47,8 +45,6 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 @include includes.disabled();
-
-@include meta.load-css("../../assets/styles/header");
 
 :host([scale="s"]) {
   --calcite-internal-panel-default-space: var(--calcite-spacing-sm);

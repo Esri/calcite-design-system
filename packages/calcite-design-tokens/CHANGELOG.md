@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.0...@esri/calcite-design-tokens@4.0.0-next.1) (2025-10-01)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [4.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.1-next.0...@esri/calcite-design-tokens@4.0.0-next.0) (2025-09-24)
 
 ### ⚠ BREAKING CHANGES
@@ -27,6 +31,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - **core-tokens:** add missing color token `l-vv-100` ([#12875](https://github.com/Esri/calcite-design-system/issues/12875)) ([ddbcfa4](https://github.com/Esri/calcite-design-system/commit/ddbcfa47f5b82e236570d18758a9762f04bafbd3)), closes [#12878](https://github.com/Esri/calcite-design-system/issues/12878)
+
+## [3.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.0...@esri/calcite-design-tokens@3.2.1) (2025-09-30)
+
+### Bug Fixes
+
+- **core-tokens:** Add missing color token `l-vv-100` ([#12875](https://github.com/Esri/calcite-design-system/issues/12875)) ([64d24ed](https://github.com/Esri/calcite-design-system/commit/64d24edf0cb623ac98d47981003741bc7bbf919f))
 
 ## [3.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.1.0...@esri/calcite-design-tokens@3.2.0) (2025-09-16)
 

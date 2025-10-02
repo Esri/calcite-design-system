@@ -99,7 +99,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
    */
   @property() active = false;
 
-  /** When present, the component closes automatically. Recommended for passive, non-blocking alerts. */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @property({ reflect: true }) autoClose = false;
 
   /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
@@ -114,12 +114,12 @@ export class Alert extends LitElement implements OpenCloseComponent {
   @property() embedded = false;
 
   /**
-   * When present, shows a default recommended icon. Alternatively,
+   * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the kind of the component, which will apply to top border and icon. */
@@ -141,7 +141,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**

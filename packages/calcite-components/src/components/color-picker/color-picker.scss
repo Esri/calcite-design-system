@@ -30,8 +30,7 @@
 //
 // --calcite-internal-color-picker-min-width
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/focus";
+@use "../../styles/includes";
 
 :host {
   @apply text-n2h inline-block font-normal;
@@ -127,7 +126,7 @@ calcite-swatch {
   display: flex;
   flex-direction: column;
   block-size: min-content;
-  border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-1));
+  border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none));
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "4.0.0-next.8",
+  "version": "4.0.0-next.14",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -49,7 +49,6 @@
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
-    "prepublish": "./support/cleanupDistFiles.sh",
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
@@ -77,8 +76,8 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/lumina": "^4.34.0-next.122",
-    "@arcgis/toolkit": "^4.34.0-next.139",
+    "@arcgis/lumina": "^4.34.0-next.151",
+    "@arcgis/toolkit": "^4.34.0-next.151",
     "@esri/calcite-ui-icons": "4.4.0-next.0",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
@@ -94,9 +93,9 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.34.0-next.122",
-    "@esri/calcite-design-tokens": "4.0.0-next.0",
-    "@esri/calcite-tailwind-preset": "1.0.2-next.1",
+    "@arcgis/lumina-compiler": "^4.34.0-next.151",
+    "@esri/calcite-design-tokens": "4.0.0-next.1",
+    "@esri/calcite-tailwind-preset": "1.0.2-next.2",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.0",
     "@vitest/browser": "3.2.4",
     "playwright": "1.55.0",
