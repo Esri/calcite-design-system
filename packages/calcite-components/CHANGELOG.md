@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.14...@esri/calcite-components@4.0.0-next.15) (2025-10-02)
+
+### ⚠ BREAKING CHANGES
+
+- **radio-button-group:** remove the deprecated `"grid"` type from the `layout`
+  property.
+
+### Code Refactoring
+
+- **radio-button-group:** remove deprecated `"grid"` `layout` type ([#13005](https://github.com/Esri/calcite-design-system/issues/13005)) ([48fe83f](https://github.com/Esri/calcite-design-system/commit/48fe83ffae7ee5e570830c672b56e53c44ded6a4)), closes [#12831](https://github.com/Esri/calcite-design-system/issues/12831)
+
 ## [4.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.13...@esri/calcite-components@4.0.0-next.14) (2025-10-02)
 
 ### Bug Fixes
