@@ -447,9 +447,6 @@ const responsiveTabsHTML = `
       .breakpoint-story-container {
         flex-direction: column;
       }
-      .breakpoint-stories-container {
-        height: 2400px;
-        }
     </style>
     <calcite-tabs scale="{scale}">
         <calcite-tab-nav slot="title-group">
