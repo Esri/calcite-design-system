@@ -21,7 +21,7 @@ interface UseValueComponent {
   /**
    * The component's public value property.
    */
-  value: string;
+  value: any;
 }
 
 interface CommitValueOptions {
@@ -32,7 +32,7 @@ interface CommitValueOptions {
   /**
    * The new value to set on the component.  If omitted, the controller will commit the component's currently set value.
    */
-  value: string;
+  value: any;
 }
 
 interface InputValueOptions {
@@ -43,7 +43,7 @@ interface InputValueOptions {
   /**
    * The new value to set on the component.
    */
-  value: string;
+  value: any;
 }
 
 /**
