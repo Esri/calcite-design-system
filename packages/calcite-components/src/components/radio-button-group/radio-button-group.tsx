@@ -19,7 +19,6 @@ import { useT9n } from "../../controllers/useT9n";
 import { IconName } from "../icon/interfaces";
 import type { RadioButton } from "../radio-button/radio-button";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { logger } from "../../utils/logger";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
@@ -70,9 +69,8 @@ export class RadioButtonGroup extends LitElement {
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Defines the layout of the component. [Deprecated] The `"grid"` value is deprecated, use `"horizontal"` instead. */
-  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
-    "horizontal";
+  /** Defines the layout of the component. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -170,12 +168,6 @@ export class RadioButtonGroup extends LitElement {
 
   loaded(): void {
     this.passPropsToRadioButtons();
-
-    if (this.layout === "grid") {
-      logger.warn(
-        `The "grid" value of the layout property is deprecated and will be removed in v4.0. Use "horizontal" instead.`,
-      );
-    }
   }
 
   override disconnectedCallback(): void {
