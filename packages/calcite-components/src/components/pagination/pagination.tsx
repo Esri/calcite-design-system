@@ -234,16 +234,8 @@ export class Pagination extends LitElement {
   }
 
   private handleLastStartItemChange(): void {
-    const { totalItems, pageSize, totalPages } = this;
-
-    const isStartNegative = totalItems - pageSize < 0;
-
-    this.lastStartItem =
-      (totalItems % pageSize === 0
-        ? isStartNegative
-          ? 0
-          : totalItems - pageSize
-        : Math.floor(totalPages) * pageSize) + 1;
+    const { totalItems, pageSize } = this;
+    this.lastStartItem = Math.max(1, Math.floor((totalItems - 1) / pageSize) * pageSize + 1);
   }
 
   private handleIsXXSmall(): void {
