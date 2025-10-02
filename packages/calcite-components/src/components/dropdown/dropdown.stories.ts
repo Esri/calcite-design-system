@@ -3,6 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { MODES } from "../../../.storybook/modes";
 import { Dropdown } from "./dropdown";
 
 const { scale, clickType, selectionMode } = ATTRIBUTES;
@@ -85,7 +86,7 @@ export const smallViewport = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
 
 export const simpleAutoWidth = (): string => html`
   <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" type="click">
