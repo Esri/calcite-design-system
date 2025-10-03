@@ -237,8 +237,6 @@ export class Combobox
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
 
-  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
-
   private textInputRef = createRef<HTMLInputElement>();
 
   transitionEl: HTMLDivElement;
@@ -431,15 +429,7 @@ export class Combobox
    *
    * @readonly
    */
-  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this._selectedItems;
-  }
-  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
-    const oldSelectedItems = this._selectedItems;
-    if (selectedItems !== oldSelectedItems) {
-      this._selectedItems = selectedItems;
-    }
-  }
+  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
