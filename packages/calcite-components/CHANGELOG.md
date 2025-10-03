@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.16...@esri/calcite-components@4.0.0-next.17) (2025-10-03)
+
+### Bug Fixes
+
+- **button:** Ensure `--calcite-button-icon-color` is applied ([#13013](https://github.com/Esri/calcite-design-system/issues/13013)) ([2875ab4](https://github.com/Esri/calcite-design-system/commit/2875ab4d6760a6c90a5d4f413017daafb1ef2592)), closes [#12843](https://github.com/Esri/calcite-design-system/issues/12843)
+
 ## [4.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.15...@esri/calcite-components@4.0.0-next.16) (2025-10-03)
 
 ### Bug Fixes
