@@ -732,11 +732,7 @@ export class Slider
     this.emitInput();
   }
 
-  private storeThumbRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
+  private setThumbEl(el: HTMLDivElement): void {
     const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
     if (valueProp === "minValue") {
       this.minHandle = el;
@@ -1315,7 +1311,7 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
-        ref={this.storeThumbRef}
+        ref={this.setThumbEl}
         role="slider"
         style={thumbStyle}
         tabIndex={0}

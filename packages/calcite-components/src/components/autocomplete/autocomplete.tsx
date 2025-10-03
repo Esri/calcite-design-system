@@ -14,6 +14,7 @@ import {
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
+import { createRef } from "lit/directives/ref.js";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -31,7 +32,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -83,7 +84,6 @@ export class Autocomplete
     FormComponent,
     InteractiveComponent,
     LabelableComponent,
-    OpenCloseComponent,
     TextualInputComponent
 {
   //#region Static Members
@@ -128,7 +128,7 @@ export class Autocomplete
 
   referenceEl: Input["el"];
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   private inputValueMatchPattern: RegExp;
 
@@ -375,7 +375,7 @@ export class Autocomplete
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.transitionEl?.scrollTo(options);
+    this.transitionRef.value?.scrollTo(options);
   }
 
   /**
@@ -758,14 +758,6 @@ export class Autocomplete
     connectFloatingUI(this);
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -847,7 +839,7 @@ export class Autocomplete
                 [FloatingCSS.animation]: true,
                 [FloatingCSS.animationActive]: isOpen,
               }}
-              ref={this.setTransitionEl}
+              ref={this.transitionRef}
             >
               <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
                 <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />

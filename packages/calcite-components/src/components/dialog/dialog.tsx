@@ -7,7 +7,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -47,7 +47,7 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Dialog extends LitElement implements OpenCloseComponent {
+export class Dialog extends LitElement {
   //#region Static Members
 
   static override styles = styles;

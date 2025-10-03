@@ -1,13 +1,14 @@
 // @ts-strict-ignore
 import { KebabCase } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
+import { Ref } from "lit/directives/ref.js";
 import { whenTransitionDone } from "./dom";
 
 /**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
-export interface OpenCloseComponent extends LitElement {
+interface OpenCloseComponentBase extends LitElement {
   /**
    * Specifies property on which active transition is watched for.
    *
@@ -17,9 +18,6 @@ export interface OpenCloseComponent extends LitElement {
 
   /** Specifies the name of CSS transition property. */
   transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
-
-  /** Specifies element that the transition is allowed to emit on. */
-  transitionEl: HTMLElement;
 
   /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;
@@ -34,6 +32,18 @@ export interface OpenCloseComponent extends LitElement {
   onClose: () => void;
 }
 
+export interface OpenCloseComponentWithEl extends OpenCloseComponentBase {
+  /** Specifies element that the transition is allowed to emit on. */
+  transitionEl: HTMLElement;
+}
+
+export interface OpenCloseComponentWithRef extends OpenCloseComponentBase {
+  /** Specifies a Ref to the element that the transition is allowed to emit on. */
+  transitionRef: Ref<HTMLElement>;
+}
+
+export type OpenCloseComponent = OpenCloseComponentWithEl | OpenCloseComponentWithRef;
+
 function isOpen(component: OpenCloseComponent): boolean {
   return component[component.openProp || "open"];
 }
@@ -44,7 +54,7 @@ function isOpen(component: OpenCloseComponent): boolean {
  * Note: this should be called whenever the component's toggling property changes and would trigger a transition.
  *
  * @example
- * import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+ * import { toggleOpenClose } from "../../utils/openCloseComponent";
  *
  * override willUpdate(changes: PropertyValues<this>): void {
  *   if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
@@ -64,8 +74,10 @@ export async function toggleOpenClose(component: OpenCloseComponent): Promise<vo
   }
 
   await component.updateComplete;
-  if (component.transitionEl) {
-    await whenTransitionDone(component.transitionEl, component.transitionProp);
+  const transitionNode = hasRef(component) ? component.transitionRef.value : component.transitionEl;
+
+  if (transitionNode) {
+    await whenTransitionDone(transitionNode, component.transitionProp);
   }
 
   if (isOpen(component)) {
@@ -73,4 +85,8 @@ export async function toggleOpenClose(component: OpenCloseComponent): Promise<vo
   } else {
     component.onClose();
   }
+}
+
+function hasRef(component: OpenCloseComponent): component is OpenCloseComponentWithRef {
+  return !!(component as OpenCloseComponentWithRef).transitionRef;
 }

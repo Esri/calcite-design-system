@@ -57,7 +57,7 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -88,12 +88,7 @@ declare global {
  */
 export class InputDatePicker
   extends LitElement
-  implements
-    FloatingUIComponent,
-    FormComponent,
-    InteractiveComponent,
-    LabelableComponent,
-    OpenCloseComponent
+  implements FloatingUIComponent, FormComponent, InteractiveComponent, LabelableComponent
 {
   //#region Static Members
 
@@ -163,7 +158,7 @@ export class InputDatePicker
 
   private startWrapper: HTMLDivElement;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   private userChangedValue = false;
 
@@ -691,14 +686,6 @@ export class InputDatePicker
       : null;
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -833,12 +820,11 @@ export class InputDatePicker
   }
 
   private setDatePickerRef(el: DatePicker["el"]): void {
-    if (!el) {
-      return;
-    }
-
     this.datePickerEl = el;
-    this.focusTrap.overrideFocusTrapEl(el);
+
+    if (el) {
+      this.focusTrap.overrideFocusTrapEl(el);
+    }
   }
 
   private async loadLocaleData(): Promise<void> {
@@ -1168,7 +1154,7 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open,
                 }}
-                ref={this.setTransitionEl}
+                ref={this.transitionRef}
               >
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}

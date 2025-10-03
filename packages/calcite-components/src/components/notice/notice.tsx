@@ -14,7 +14,7 @@ import {
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -40,7 +40,7 @@ declare global {
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
-export class Notice extends LitElement implements OpenCloseComponent {
+export class Notice extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -52,12 +52,12 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** The close button element. */
   private closeButtonRef = createRef<HTMLButtonElement>();
 
-  transitionProp = "opacity" as const;
-
   /** The computed icon to render. */
   private requestedIcon?: IconName;
 
-  transitionEl: HTMLElement;
+  transitionProp = "opacity" as const;
+
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -185,14 +185,6 @@ export class Notice extends LitElement implements OpenCloseComponent {
     this.calciteNoticeOpen.emit();
   }
 
-  private setTransitionEl(el: HTMLElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   private close(): void {
     this.open = false;
   }
@@ -218,7 +210,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
     );
 
     return (
-      <div class={CSS.container} ref={this.setTransitionEl}>
+      <div class={CSS.container} ref={this.transitionRef}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon

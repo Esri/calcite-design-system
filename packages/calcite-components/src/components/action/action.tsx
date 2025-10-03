@@ -57,7 +57,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private indicatorEl?: HTMLDivElement;
+  private indicatorRef = createRef<HTMLDivElement>();
 
   //#endregion
 
@@ -227,10 +227,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     }
   }
 
-  private storeIndicatorEl(el: HTMLDivElement): void {
-    this.indicatorEl = el;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -257,7 +253,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         aria-labelledby={buttonId}
         ariaLive="polite"
         class={CSS.indicatorText}
-        ref={this.storeIndicatorEl}
+        ref={this.indicatorRef}
         role="region"
       >
         {indicator ? messages.indicator : null}
@@ -311,7 +307,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       label,
       text,
       indicator,
-      indicatorEl,
+      indicatorRef,
       buttonId,
       messages,
     } = this;
@@ -335,7 +331,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       </>
     );
 
-    const internalControlsElements = indicator && indicatorEl ? [indicatorEl] : [];
+    const internalControlsElements = indicator && indicatorRef.value ? [indicatorRef.value] : [];
 
     const ariaControlsElements = [
       ...(this.aria?.controlsElements ?? []),

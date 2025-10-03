@@ -10,7 +10,7 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -44,7 +44,7 @@ declare global {
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
+export class Block extends LitElement implements InteractiveComponent {
   //#region Static Members
 
   static override styles = [headerStyles, styles, sortableStyles];

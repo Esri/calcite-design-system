@@ -14,7 +14,7 @@ import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom"
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { IconName } from "../icon/interfaces";
@@ -43,7 +43,7 @@ const manager = new AlertManager();
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
  * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
-export class Alert extends LitElement implements OpenCloseComponent {
+export class Alert extends LitElement {
   //#region Static Members
 
   static override styles = styles;

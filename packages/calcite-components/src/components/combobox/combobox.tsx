@@ -46,7 +46,7 @@ import {
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
@@ -86,12 +86,7 @@ declare global {
  */
 export class Combobox
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    OpenCloseComponent,
-    FloatingUIComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
 {
   //#region Static Members
 

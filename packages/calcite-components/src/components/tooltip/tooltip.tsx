@@ -25,7 +25,7 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS, IDS } from "./resources";
 import TooltipManager from "./TooltipManager";
@@ -41,7 +41,7 @@ declare global {
 const manager = new TooltipManager();
 
 /** @slot - A slot for adding text. */
-export class Tooltip extends LitElement implements FloatingUIComponent, OpenCloseComponent {
+export class Tooltip extends LitElement implements FloatingUIComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -58,7 +58,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
 
   transitionProp = "opacity" as const;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   // #endregion
 
@@ -248,14 +248,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   private setUpReferenceElement(warn = true): void {
     this.removeReferences();
     this.referenceEl = getEffectiveReferenceElement(this.el);
@@ -331,7 +323,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          ref={this.setTransitionEl}
+          ref={this.transitionRef}
         >
           <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowRef} />
           <div class={CSS.container}>
