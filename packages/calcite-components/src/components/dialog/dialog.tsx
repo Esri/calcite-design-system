@@ -788,6 +788,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}
+                hidden={!this.opened}
                 icon={icon}
                 iconFlipRtl={iconFlipRtl}
                 loading={this.loading}
