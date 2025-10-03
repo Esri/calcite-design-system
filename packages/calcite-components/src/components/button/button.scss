@@ -224,6 +224,10 @@
   }
 }
 
+.icon--start,
+.icon--end {
+  color: var(--calcite-button-icon-color, var(--calcite-icon-color));
+}
 @include disabled();
 
 @keyframes loader-in {
