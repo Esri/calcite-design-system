@@ -307,6 +307,10 @@ export class ActionBar extends LitElement {
     entries.forEach(this.resizeHandler);
   }
 
+  private setExpandToggleEl(el: Action["el"]): void {
+    this.expandToggleEl = el;
+  }
+
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
@@ -363,7 +367,7 @@ export class ActionBar extends LitElement {
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={(el: Action["el"]) => (this.expandToggleEl = el)}
+        ref={this.setExpandToggleEl}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

@@ -10,6 +10,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -27,7 +28,7 @@ import {
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -50,7 +51,7 @@ declare global {
 const manager = new PopoverManager();
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent, OpenCloseComponent {
+export class Popover extends LitElement implements FloatingUIComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -90,7 +91,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   transitionProp = "opacity" as const;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -364,14 +365,6 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     }
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   private setFilteredPlacements(): void {
     const { el, flipPlacements } = this;
 
@@ -476,7 +469,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.focusTrap.deactivate();
   }
 
-  private storeArrowEl(el: SVGSVGElement): void {
+  private setArrowEl(el: SVGSVGElement): void {
     this.arrowEl = el;
     this.reposition(true);
   }
@@ -523,7 +516,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     const displayed = referenceEl && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
-      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.storeArrowEl} />
+      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.setArrowEl} />
     ) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
@@ -544,7 +537,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          ref={this.setTransitionEl}
+          ref={this.transitionRef}
         >
           {arrowNode}
           <div

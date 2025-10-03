@@ -86,21 +86,21 @@ export class InputTimePicker
 
   formEl: HTMLFormElement;
 
-  private fractionalSecondEl: HTMLSpanElement;
+  private fractionalSecondRef = createRef<HTMLSpanElement>();
 
-  private hourEl: HTMLSpanElement;
-
-  private meridiemEl: HTMLSpanElement;
-
-  private minuteEl: HTMLSpanElement;
+  private hourRef = createRef<HTMLSpanElement>();
 
   labelEl: Label["el"];
+
+  private meridiemRef = createRef<HTMLSpanElement>();
+
+  private minuteRef = createRef<HTMLSpanElement>();
 
   private popoverEl: Popover["el"];
 
   private previousEmittedValue: string;
 
-  private secondEl: HTMLSpanElement;
+  private secondRef = createRef<HTMLSpanElement>();
 
   private time = useTime(this);
 
@@ -377,14 +377,14 @@ export class InputTimePicker
       const showFractionalSecond = decimalPlaces(this.step) > 0;
       const showSecond = this.step < 60;
       switch (this.activeEl) {
-        case this.hourEl:
+        case this.hourRef.value:
           if (key === "ArrowRight") {
             this.setFocusPart("minute");
           } else if (key === "ArrowLeft" && hourFormat === "12" && meridiemOrder === 0) {
             this.setFocusPart("meridiem");
           }
           break;
-        case this.minuteEl:
+        case this.minuteRef.value:
           switch (key) {
             case "ArrowLeft":
               this.setFocusPart("hour");
@@ -398,7 +398,7 @@ export class InputTimePicker
               break;
           }
           break;
-        case this.secondEl:
+        case this.secondRef.value:
           switch (key) {
             case "ArrowLeft":
               this.setFocusPart("minute");
@@ -412,7 +412,7 @@ export class InputTimePicker
               break;
           }
           break;
-        case this.fractionalSecondEl:
+        case this.fractionalSecondRef.value:
           switch (key) {
             case "ArrowLeft":
               this.setFocusPart("second");
@@ -424,7 +424,7 @@ export class InputTimePicker
               break;
           }
           break;
-        case this.meridiemEl:
+        case this.meridiemRef.value:
           if (key === "ArrowLeft" && meridiemOrder !== 0) {
             if (showFractionalSecond) {
               this.setFocusPart("fractionalSecond");
@@ -484,26 +484,6 @@ export class InputTimePicker
 
   private async setFocusPart(target: TimePart): Promise<void> {
     this[`${target || "hour"}El`]?.focus();
-  }
-
-  private setFractionalSecondEl(el: HTMLSpanElement) {
-    this.fractionalSecondEl = el;
-  }
-
-  private setHourEl(el: HTMLSpanElement): void {
-    this.hourEl = el;
-  }
-
-  private setMinuteEl(el: HTMLSpanElement): void {
-    this.minuteEl = el;
-  }
-
-  private setSecondEl(el: HTMLSpanElement): void {
-    this.secondEl = el;
-  }
-
-  private setMeridiemEl(el: HTMLSpanElement): void {
-    this.meridiemEl = el;
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -618,7 +598,7 @@ export class InputTimePicker
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
-              ref={this.setHourEl}
+              ref={this.hourRef}
               role="spinbutton"
               tabIndex={0}
             >
@@ -638,7 +618,7 @@ export class InputTimePicker
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
-              ref={this.setMinuteEl}
+              ref={this.minuteRef}
               role="spinbutton"
               tabIndex={0}
             >
@@ -659,7 +639,7 @@ export class InputTimePicker
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
-                ref={this.setSecondEl}
+                ref={this.secondRef}
                 role="spinbutton"
                 tabIndex={0}
               >
@@ -683,7 +663,7 @@ export class InputTimePicker
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
-                ref={this.setFractionalSecondEl}
+                ref={this.fractionalSecondRef}
                 role="spinbutton"
                 tabIndex={0}
               >
@@ -759,7 +739,7 @@ export class InputTimePicker
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
-        ref={this.setMeridiemEl}
+        ref={this.meridiemRef}
         role="spinbutton"
         tabIndex={0}
       >
