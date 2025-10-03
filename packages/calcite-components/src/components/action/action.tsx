@@ -9,7 +9,14 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
-import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
+import {
+  Alignment,
+  Appearance,
+  AriaAttributesCamelCased,
+  Scale,
+  SelectionAppearance,
+  Width,
+} from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -164,6 +171,16 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
+
+  /**
+   * Specifies the selection appearance of the component. Inherited from `calcite-action-bar`.
+   *
+   * @private
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "highlight" | "neutral",
+    SelectionAppearance
+  >;
 
   //#endregion
 

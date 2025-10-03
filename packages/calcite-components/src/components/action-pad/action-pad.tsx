@@ -3,7 +3,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,7 +39,10 @@ export class ActionPad extends LitElement {
 
   private actionGroups: ActionGroup["el"][];
 
-  private mutationObserver = createObserver("mutation", () => this.updateGroups());
+  private mutationObserver = createObserver("mutation", () => {
+    this.updateGroups();
+    this.updateSlottedActions();
+  });
 
   private toggleExpand = (): void => {
     this.expanded = !this.expanded;
@@ -96,6 +99,12 @@ export class ActionPad extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the selection appearance of the component */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "highlight" | "neutral",
+    SelectionAppearance
+  > = "neutral";
+
   //#endregion
 
   //#region Public Methods
@@ -136,6 +145,7 @@ export class ActionPad extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateSlottedActions();
   }
 
   async load(): Promise<void> {
@@ -165,6 +175,13 @@ export class ActionPad extends LitElement {
       } else {
         this.calciteActionPadCollapse.emit();
       }
+    }
+
+    if (
+      changes.has("selectionAppearance") &&
+      (this.hasUpdated || this.selectionAppearance !== "neutral")
+    ) {
+      this.updateSlottedActions();
     }
   }
 
@@ -207,6 +224,15 @@ export class ActionPad extends LitElement {
     );
 
     this.expandTooltip = tooltips[0];
+  }
+
+  /**
+   * Updates all slotted calcite-action to match the current selectionAppearance.
+   */
+  private updateSlottedActions(): void {
+    this.el.querySelectorAll("calcite-action").forEach((action) => {
+      action.selectionAppearance = this.selectionAppearance;
+    });
   }
 
   //#endregion

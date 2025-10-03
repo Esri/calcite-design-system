@@ -50,6 +50,10 @@ describe("calcite-action-pad", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "selectionAppearance",
+        defaultValue: "neutral",
+      },
     ]);
   });
 
@@ -70,6 +74,10 @@ describe("calcite-action-pad", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "selectionAppearance",
+        value: "neutral",
       },
     ]);
   });
