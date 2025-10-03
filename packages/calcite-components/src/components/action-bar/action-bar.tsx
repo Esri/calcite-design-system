@@ -5,7 +5,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
@@ -45,7 +45,10 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][];
 
-  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
+  private mutationObserver = createObserver("mutation", () => {
+    this.mutationObserverHandler();
+    this.updateSlottedActions();
+  });
 
   private cancelable = useCancelable<this>()(this);
 
@@ -158,6 +161,12 @@ export class ActionBar extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the selection appearance of the component */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "highlight" | "neutral",
+    SelectionAppearance
+  > = "neutral";
+
   //#endregion
 
   //#region Public Methods
@@ -212,6 +221,7 @@ export class ActionBar extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
+    this.updateSlottedActions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -241,6 +251,13 @@ export class ActionBar extends LitElement {
       } else {
         this.calciteActionBarCollapse.emit();
       }
+    }
+
+    if (
+      changes.has("selectionAppearance") &&
+      (this.hasUpdated || this.selectionAppearance !== "neutral")
+    ) {
+      this.updateSlottedActions();
     }
   }
 
@@ -334,6 +351,15 @@ export class ActionBar extends LitElement {
     );
 
     this.expandTooltip = tooltips[0];
+  }
+
+  /**
+   * Updates all slotted calcite-action to match the current selectionAppearance.
+   */
+  private updateSlottedActions(): void {
+    this.el.querySelectorAll("calcite-action").forEach((action) => {
+      action.selectionAppearance = this.selectionAppearance;
+    });
   }
 
   //#endregion

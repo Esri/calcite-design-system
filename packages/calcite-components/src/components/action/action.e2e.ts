@@ -63,6 +63,10 @@ describe("calcite-action", () => {
         propertyName: "type",
         defaultValue: "button",
       },
+      {
+        propertyName: "selectionAppearance",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -119,6 +123,10 @@ describe("calcite-action", () => {
       {
         propertyName: "type",
         value: "button",
+      },
+      {
+        propertyName: "selectionAppearance",
+        value: "neutral",
       },
     ]);
   });

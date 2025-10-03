@@ -204,6 +204,15 @@
   }
 }
 
+:host([selection-appearance="highlight"]) {
+  .button {
+    &:active {
+      background-color: var(--calcite-color-surface-highlight);
+      color: var(--calcite-color-text-highlight);
+    }
+  }
+}
+
 :host([active-descendant]) .button {
   @apply focus-inset;
 }

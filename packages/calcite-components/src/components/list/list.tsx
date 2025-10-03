@@ -266,7 +266,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() selectedItems: ListItem["el"][] = [];
 
   /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border). */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border",
+    SelectionAppearance
+  > = "icon";
 
   /**
    * Specifies the selection mode of the component, where:
