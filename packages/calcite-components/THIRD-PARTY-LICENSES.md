@@ -2,7 +2,6 @@
 
 @floating-ui/core
 @floating-ui/dom
-@floating-ui/utils
 
 MIT License
 
@@ -63,7 +62,6 @@ BSD-3-Clause
 ---
 
 @lit/reactive-element
-lit
 lit-element
 
 BSD 3-Clause License
