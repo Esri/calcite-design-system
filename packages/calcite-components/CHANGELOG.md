@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.15...@esri/calcite-components@4.0.0-next.16) (2025-10-03)
+
+### Bug Fixes
+
+- **dialog:** exclude dialog content from keyboard focus ([#13015](https://github.com/Esri/calcite-design-system/issues/13015)) ([c74c1f8](https://github.com/Esri/calcite-design-system/commit/c74c1f86da92f22965e593cb0bde5424f22d76c9)), closes [#13000](https://github.com/Esri/calcite-design-system/issues/13000) [#12569](https://github.com/Esri/calcite-design-system/issues/12569)
+
 ## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.14...@esri/calcite-components@4.0.0-next.15) (2025-10-02)
 
 ### ⚠ BREAKING CHANGES
