@@ -179,8 +179,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   second: string;
 
-  userChangedValue: boolean = false;
-
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
@@ -518,7 +516,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.meridiemOrder = getMeridiemOrder(locale);
   }
 
-  setValue(value: string, userChangedValue: boolean = false): void {
+  setValue(value: string): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
@@ -576,7 +574,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
-      this.userChangedValue = userChangedValue;
       this.component.value = newValue ?? "";
     } else {
       this.component.requestUpdate();
@@ -593,7 +590,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     const hour12 = hourFormat === "12";
     const previousValue = this.component.value;
     if (key === "meridiem") {
-      const oldMeridiem = this.meridiem;
       this.meridiem = value as Meridiem;
       this.localizedMeridiem = localizeTimePart({
         hour12,
@@ -616,7 +612,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
-            this.component.value = "";
             break;
         }
         this.localizedHour = localizeTimePart({
@@ -627,11 +622,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
           value: this.hour,
         });
       }
-      if (oldMeridiem !== this.meridiem) {
-        this.component.requestUpdate();
-      }
     } else if (key === "fractionalSecond") {
-      const oldFractionalSecond = this.fractionalSecond;
       const stepPrecision = decimalPlaces(step);
       if (typeof value === "number") {
         this.fractionalSecond = value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
@@ -645,11 +636,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         numberingSystem,
         hour12,
       });
-      if (oldFractionalSecond !== this.fractionalSecond) {
-        this.component.requestUpdate();
-      }
     } else {
-      const oldValue = this[key];
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalizeWord(key)}`] = localizeTimePart({
         value: this[key],
@@ -658,10 +645,8 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         numberingSystem,
         hour12,
       });
-      if (oldValue !== this[key]) {
-        this.component.requestUpdate();
-      }
     }
+    this.component.requestUpdate();
     const { hour, minute, second, fractionalSecond } = this;
     const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
@@ -669,7 +654,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         this.meridiem = getMeridiem(hour);
         this.localizedMeridiem = getLocalizedMeridiem({ locale, meridiem: this.meridiem });
       }
-      this.userChangedValue = true;
       this.calciteTimeChange.emit(newValue ?? "");
     }
   }
