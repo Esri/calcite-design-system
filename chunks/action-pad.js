@@ -1,0 +1,84 @@
+import { b as g, L as m, c as a, s as n, x as l, q as b } from "./index.js";
+import { d as f } from "./dom.js";
+import { t as v, E as y } from "./ExpandToggle.js";
+import { c as w } from "./observers.js";
+import { u as E } from "./useT9n.js";
+import { u as T } from "./useSetFocus.js";
+import { l as G } from "./logger.js";
+/*! All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.
+v4.0.0-next.20 */
+const c = {
+  actionGroupEnd: "action-group--end",
+  container: "container"
+}, A = {
+  expandTooltip: "expand-tooltip"
+}, C = g`:host{--calcite-internal-color-focus: var( --calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)) )}:host{box-sizing:border-box;background-color:var(--calcite-color-foreground-1);color:var(--calcite-color-text-2);font-size:var(--calcite-font-size--1)}:host *{box-sizing:border-box}:host{display:block}@keyframes in{0%{opacity:0}to{opacity:1}}:host{animation:in var(--calcite-internal-animation-timing-slow) ease-in-out;border-radius:var(--calcite-action-pad-corner-radius, .125rem);background:transparent}:host([expanded][layout=vertical]) .container{max-inline-size:var(--calcite-action-pad-expanded-max-width, auto)}:host([layout=vertical]) ::slotted(calcite-action-group:not(:last-of-type)){border-block-end-width:1px}.container{display:inline-flex;flex-direction:column;overflow:hidden;--tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, .1), 0 4px 12px -2px rgba(0, 0, 0, .08);--tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);gap:var(--calcite-action-pad-items-space, 0);border-radius:calc(var(--calcite-action-pad-corner-radius, .125rem) * 2);background-color:var(--calcite-action-background-color, var(--calcite-color-foreground-1))}.action-group--bottom{flex-grow:1;justify-content:flex-end;padding-block-end:0px}:host([layout=horizontal]) .container{flex-direction:row}:host([layout=horizontal]) .container .action-group--bottom{padding:0}:host([layout=horizontal]) .container ::slotted(calcite-action-group:not(:last-of-type)){border-inline-end-width:1px}:host([hidden]){display:none}[hidden]{display:none}`;
+class P extends m {
+  constructor() {
+    super(), this.mutationObserver = w("mutation", () => this.updateGroups()), this.toggleExpand = () => {
+      this.expanded = !this.expanded, this.calciteActionPadToggle.emit();
+    }, this.messages = E(), this.focusSetter = T()(this), this.expandDisabled = !1, this.expanded = !1, this.layout = "vertical", this.overlayPositioning = "absolute", this.scale = "m", this.calciteActionPadCollapse = a({ cancelable: !1 }), this.calciteActionPadExpand = a({ cancelable: !1 }), this.calciteActionPadToggle = a({ cancelable: !1 }), this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+  }
+  static {
+    this.properties = { expandTooltip: 16, actionsEndGroupLabel: 1, expandDisabled: 7, expanded: 7, layout: 3, messageOverrides: 0, overlayPositioning: 3, position: 3, scale: 3 };
+  }
+  static {
+    this.shadowRootOptions = { mode: "open", delegatesFocus: !0 };
+  }
+  static {
+    this.styles = C;
+  }
+  async setFocus(t) {
+    return this.focusSetter(() => this.el, t);
+  }
+  connectedCallback() {
+    super.connectedCallback(), this.mutationObserver?.observe(this.el, { childList: !0, subtree: !0 });
+  }
+  async load() {
+    G.deprecated("component", {
+      name: "action-pad",
+      removalVersion: 4,
+      suggested: "action-bar"
+    });
+  }
+  willUpdate(t) {
+    t.has("expanded") && this.hasUpdated && v({ el: this.el, expanded: this.expanded }), t.has("layout") && (this.hasUpdated || this.layout !== "vertical") && this.updateGroups(), t.has("expanded") && this.hasUpdated && (this.expanded ? this.calciteActionPadExpand.emit() : this.calciteActionPadCollapse.emit());
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback(), this.mutationObserver?.disconnect();
+  }
+  actionMenuOpenHandler(t) {
+    if (t.target.menuOpen) {
+      const e = t.composedPath();
+      this.actionGroups?.forEach((o) => {
+        e.includes(o) || (o.menuOpen = !1);
+      });
+    }
+  }
+  updateGroups() {
+    const t = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = t, this.setGroupLayout(t);
+  }
+  setGroupLayout(t) {
+    t.forEach((e) => e.layout = this.layout);
+  }
+  handleDefaultSlotChange() {
+    this.updateGroups();
+  }
+  handleTooltipSlotChange(t) {
+    const e = f(t).filter((o) => o?.matches("calcite-tooltip"));
+    this.expandTooltip = e[0];
+  }
+  renderBottomActionGroup() {
+    const { expanded: t, expandDisabled: e, messages: o, el: r, position: d, toggleExpand: p, scale: i, layout: h, actionsEndGroupLabel: u, overlayPositioning: x } = this, s = e ? null : y({ collapseLabel: o.collapseLabel, collapseText: o.collapse, el: r, expandLabel: o.expandLabel, expandText: o.expand, expanded: t, position: d, scale: i, toggle: p, tooltip: this.expandTooltip });
+    return s ? l`<calcite-action-group class=${n(c.actionGroupEnd)} .label=${u} .layout=${h} .overlayPositioning=${x} .scale=${i}><slot name=${A.expandTooltip} @slotchange=${this.handleTooltipSlotChange}></slot>${s}</calcite-action-group>` : null;
+  }
+  render() {
+    return l`<div class=${n(c.container)}><slot @slotchange=${this.handleDefaultSlotChange}></slot>${this.renderBottomActionGroup()}</div>`;
+  }
+}
+b("calcite-action-pad", P);
+export {
+  P as ActionPad
+};
