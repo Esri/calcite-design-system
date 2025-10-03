@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.18...@esri/calcite-components@4.0.0-next.19) (2025-10-03)
+
+### Bug Fixes
+
+- **panel, dialog:** Calcite dialog header fails to wrap for the longer text ([#13004](https://github.com/Esri/calcite-design-system/issues/13004)) ([44b0871](https://github.com/Esri/calcite-design-system/commit/44b08710cde535f1fca132736949f127f69836f6)), closes [#12964](https://github.com/Esri/calcite-design-system/issues/12964)
+
 ## [4.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.17...@esri/calcite-components@4.0.0-next.18) (2025-10-03)
 
 **Note:** Version bump only for package @esri/calcite-components
