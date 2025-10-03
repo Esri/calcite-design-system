@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.19...@esri/calcite-components@4.0.0-next.20) (2025-10-03)
+
+### Bug Fixes
+
+- **table-row:** add deprecated background token as fallback ([#13025](https://github.com/Esri/calcite-design-system/issues/13025)) ([adae123](https://github.com/Esri/calcite-design-system/commit/adae123942790878ca660173cc3f7b8cfe67b080)), closes [#13024](https://github.com/Esri/calcite-design-system/issues/13024)
+
 ## [4.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.18...@esri/calcite-components@4.0.0-next.19) (2025-10-03)
 
 ### Bug Fixes
