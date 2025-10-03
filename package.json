@@ -124,7 +124,7 @@
     "node": "22.14.0"
   },
   "dependencies": {
-    "patch-package": "8.0.0"
+    "patch-package": "8.0.1"
   },
   "optionalDependencies": {
     "@nx/nx-darwin-arm64": "21.4.1",
