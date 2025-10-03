@@ -226,6 +226,10 @@
   }
 }
 
+.icon--start,
+.icon--end {
+  color: var(--calcite-button-icon-color, var(--calcite-icon-color));
+}
 @include includes.disabled();
 
 @keyframes loader-in {
