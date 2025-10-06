@@ -16,6 +16,7 @@ Follow these conventions when adding or editing API reference:
 - For boolean attributes, use "When `true`, xxx" or "When `false`, xxx" to communicate behavior in the different states.
 - Use "Accessible" instead of "Aria" or "a11y" language.
 - Verify slots and properties/attributes don't use the text "optional" in their descriptions.
+- For CSS token properties, avoid the use of forward slashes (`/`) in descriptions as it causes API generation issues.
 
 ### Deprecation notices
 
