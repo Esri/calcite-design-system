@@ -23,13 +23,12 @@ export const modesDarkDefault = {
  * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`). You can additionally use `.breakpoint-stories-container` and `.breakpoint-story-container` to style breakpoint story containers.
  * @param [focused] – when specified, creates a single story for the provided breakpoint and scale.
  *   This should only be used if multiple stories cannot be displayed side-by-side.
- *   Creates a single story for a specific scale with multiple breakpoints if no breakpoint is provided.
  * @param focused.breakpoint
  * @param focused.scale
  */
 export function createBreakpointStories(
   singleStoryHtml: string,
-  focused?: { scale: Scale; breakpoint?: keyof Breakpoints["width"] },
+  focused?: { breakpoint: keyof Breakpoints["width"]; scale: Scale },
 ): string {
   // we hard-code breakpoint values because we can't read them directly from the page when setting up a story
   // based on https://github.com/Esri/calcite-design-tokens/blob/2e8fc1b8f410b5443fa53ca1c12ceef71e651b9a/tokens/core.json#L1533-L1553
@@ -55,7 +54,7 @@ export function createBreakpointStories(
       storyHTML += html`<strong>scale = ${scale}</strong>`;
 
       widthBreakpoints
-        .filter(({ name }): boolean => !focused || !focused.breakpoint || focused.breakpoint === name)
+        .filter(({ name }): boolean => !focused || focused.breakpoint === name)
         .forEach(({ name, maxWidth }): void => {
           storyHTML += html`<strong>breakpoint = ${name}</strong>`;
           storyHTML += html`<div class="${css.storyContainer}" style="width:${maxWidth - 1}px">
