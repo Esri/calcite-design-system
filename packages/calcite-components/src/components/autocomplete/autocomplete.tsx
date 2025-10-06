@@ -130,6 +130,10 @@ export class Autocomplete
 
   transitionEl: HTMLDivElement;
 
+  autocompleteListContainerRef: HTMLUListElement;
+
+  activeDescendantElement: HTMLElement;
+
   private inputValueMatchPattern: RegExp;
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
@@ -658,6 +662,10 @@ export class Autocomplete
     connectFloatingUI(this);
   }
 
+  private setAutocompleteListContainerRef(el: HTMLUListElement): void {
+    this.autocompleteListContainerRef = el;
+  }
+
   private keyDownHandler(event: KeyboardEvent): void {
     const { defaultPrevented, key } = event;
 
@@ -730,6 +738,7 @@ export class Autocomplete
 
   private scrollToActiveItem(): void {
     this.enabledItems[this.activeIndex]?.scrollIntoView({ block: "nearest" });
+    this.activeDescendantElement = this.enabledItems[this.activeIndex];
   }
 
   private changeHandler(event: CustomEvent): void {
@@ -790,13 +799,16 @@ export class Autocomplete
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
-            aria-activedescendant={this.activeDescendant}
-            aria-controls={listId}
-            aria-label={getLabelText(this)}
-            aria-owns={listId}
-            ariaAutoComplete="list"
-            ariaExpanded={isOpen}
-            ariaHasPopup="listbox"
+            aria={{
+              role: "combobox",
+              controls: listId,
+              activeDescendantElement: this.activeDescendantElement,
+              expanded: isOpen,
+              hasPopup: "listbox",
+              labelledby: getLabelText(this),
+              autoComplete: "list",
+              controlsElements: [this.autocompleteListContainerRef],
+            }}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
             class={CSS.input}
@@ -806,9 +818,8 @@ export class Autocomplete
             form={this.form}
             icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
-            id={inputId}
+            inputId={inputId}
             inputMode={inputMode}
-            label={this.label}
             loading={this.loading}
             maxLength={this.maxLength}
             messageOverrides={this.messages}
@@ -825,7 +836,6 @@ export class Autocomplete
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
             required={this.required}
-            role="combobox"
             scale={this.scale}
             status={this.status}
             suffixText={this.suffixText}
@@ -881,6 +891,7 @@ export class Autocomplete
         ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
+        ref={this.setAutocompleteListContainerRef}
         role="listbox"
         tabIndex={-1}
       >
@@ -894,8 +905,8 @@ export class Autocomplete
       .filter((item) => !!(item.label || item.heading))
       .map((item) => (
         <li
+          aria-label={item.label === undefined ? item.heading : item.label}
           ariaDisabled={item.disabled}
-          ariaLabel={item.label}
           id={item.guid}
           key={item.guid}
           role="option"
