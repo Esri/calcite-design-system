@@ -979,7 +979,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           <div class={CSS.description} key="description">
             {description}
           </div>
-        ) : null}
+        ) : (
+          <slot name="description" />
+        )}
       </div>
     ) : null;
   }
