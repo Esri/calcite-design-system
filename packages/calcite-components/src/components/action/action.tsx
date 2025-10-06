@@ -10,7 +10,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Alignment, Appearance, AriaAttributesCamelCased, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -81,11 +81,11 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     >
   >;
 
-  /** When present, the component is highlighted. */
+  /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
   /**
-   * When present, the component appears as if it is focused.
+   * When `true`, the component appears as if it is focused.
    * @private
    */
   @property({ reflect: true }) activeDescendant = false;
@@ -97,17 +97,17 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * When present, the side padding of the component is reduced.
+   * When `true`, the side padding of the component is reduced.
    *
    * @deprecated No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When present, the component is draggable.
+   * When `true`, the component is draggable.
    *
    * @private
    */
@@ -121,18 +121,18 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ type: String, reflect: true }) icon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When present, displays a visual indicator. */
+  /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
   /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -155,7 +155,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    */
   @property() text: string;
 
-  /** When present, the text is displayed. */
+  /** When `true`, indicates whether the text is displayed. */
   @property({ reflect: true }) textEnabled = false;
 
   /**

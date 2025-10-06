@@ -5,7 +5,7 @@ const {
     planning: { spike, spikeComplete },
     issueType: { designTokens },
   },
-  packages: { tokens }
+  packages: { tokens },
 } = require("../support/resources");
 const { assertRequired } = require("../support/utils");
 

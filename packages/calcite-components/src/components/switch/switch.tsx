@@ -55,10 +55,10 @@ export class Switch
 
   // #region Public Properties
 
-  /** When present, the component is checked. */
+  /** When `true`, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**

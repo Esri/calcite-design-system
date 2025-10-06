@@ -53,7 +53,7 @@ import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Chip } from "../chip/chip";
 import type { ComboboxItemGroup as HTMLCalciteComboboxItemGroupElement } from "../combobox-item-group/combobox-item-group";
@@ -322,13 +322,13 @@ export class Combobox
 
   //#region Public Properties
 
-  /** When present, allows entry of custom values, which are not in the original set of items. */
+  /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
-  /** When present, the value-clearing will be disabled. */
+  /** When `true`, the value-clearing will be disabled. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Text for the component's filter input field. */
@@ -389,7 +389,7 @@ export class Combobox
    */
   @property({ reflect: true }) name: string;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -405,16 +405,16 @@ export class Combobox
   @property() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @property({ reflect: true }) placeholderIcon: IconNameOrString;
+  @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -422,7 +422,7 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
@@ -472,8 +472,8 @@ export class Combobox
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
@@ -1341,7 +1341,9 @@ export class Combobox
       item.scale = this.scale;
     });
 
-    this.groupItems.forEach((groupItem) => (groupItem.scale = this.scale));
+    this.groupItems.forEach(
+      (groupItem, index) => ((groupItem.scale = this.scale), (groupItem.position = index)),
+    );
 
     if (!this.allowCustomValues) {
       this.setMaxScrollerHeight();

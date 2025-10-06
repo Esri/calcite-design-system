@@ -33,7 +33,7 @@
 // --calcite-internal-text-area-padding-inline
 // --calcite-internal-text-area-shadow
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply inline-block relative w-full h-full box-border;

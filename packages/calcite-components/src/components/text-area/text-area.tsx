@@ -33,7 +33,7 @@ import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
@@ -164,7 +164,7 @@ export class TextArea
   @property({ reflect: true }) columns: number;
 
   /**
-   * When present, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -177,7 +177,7 @@ export class TextArea
    */
   @property({ reflect: true }) form: string;
 
-  /** When present, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Accessible name for the component. */
@@ -187,7 +187,7 @@ export class TextArea
   @property() labelText: string;
 
   /**
-   * When present, prevents input beyond the `maxLength` value, mimicking native text area behavior.
+   * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
    */
   @property({ reflect: true }) limitText = false;
 
@@ -228,14 +228,14 @@ export class TextArea
   @property() placeholder: string;
 
   /**
-   * When present, the component's `value` can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
@@ -259,8 +259,8 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */

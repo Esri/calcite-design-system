@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.0...@esri/calcite-ui-icons@4.4.0-next.1) (2025-10-03)
+
+### Features
+
+- add group template and organize template ([#13021](https://github.com/Esri/calcite-design-system/issues/13021)) ([a2e83ef](https://github.com/Esri/calcite-design-system/commit/a2e83ef113e1d4078820a55027596f86642ad852))
+
+## [4.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.1-next.1...@esri/calcite-ui-icons@4.4.0-next.0) (2025-09-25)
+
+### Features
+
+- add field groups ([#12955](https://github.com/Esri/calcite-design-system/issues/12955)) ([fc0be28](https://github.com/Esri/calcite-design-system/commit/fc0be282511faa9a0c3e745f1750f63b08b27b27))
+
 ## [4.3.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.1-next.0...@esri/calcite-ui-icons@4.3.1-next.1) (2025-09-24)
 
 ### Bug Fixes

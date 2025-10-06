@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   actionsEnd: "actions-end",
   bulletPointIcon: "bullet-point",
@@ -18,7 +20,7 @@ export const SLOTS = {
   children: "children",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   blank: "blank",
   bulletPoint: "bullet-point",
   checkmark: "check",
@@ -26,4 +28,4 @@ export const ICONS = {
   chevronRight: "chevron-right",
   minusSquareF: "minus-square-f",
   square: "square",
-} as const;
+};

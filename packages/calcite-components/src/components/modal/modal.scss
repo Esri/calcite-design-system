@@ -11,10 +11,10 @@
  *
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
-@use "../../assets/styles/spacing";
+@use "../../styles/shared/animation";
+@use "../../styles/shared/spacing";
 
 $viewport-small: 480px;
 $viewport-medium: 860px;
