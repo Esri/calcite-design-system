@@ -17,7 +17,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { Tree } from "../tree/tree";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -74,10 +74,10 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) depth = -1;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** @private */
@@ -85,11 +85,11 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     return !!this.childTree;
   }
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -110,7 +110,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) scale: Scale;
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /** @private */

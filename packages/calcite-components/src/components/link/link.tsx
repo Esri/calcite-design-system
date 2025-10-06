@@ -10,7 +10,7 @@ import {
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./link.scss";
 import { CSS } from "./resources";
@@ -47,7 +47,7 @@ export class Link extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -62,13 +62,13 @@ export class Link extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Specifies the relationship to the linked document defined in `href`. */
   @property() rel: string;

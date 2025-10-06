@@ -7,7 +7,7 @@
  * @prop --calcite-label-text-color: Specifies the component's text color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply flex;

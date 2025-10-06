@@ -12,7 +12,7 @@
  * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 // sizes
 :host([scale="s"]) {

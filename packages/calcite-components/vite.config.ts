@@ -44,7 +44,7 @@ export default defineConfig({
         preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
       },
       css: {
-        globalStylesPath: "src/assets/styles/global.scss",
+        globalStylesPath: "src/styles/global/index.scss",
         hydratedAttribute: "calcite-hydrated",
       },
       puppeteerTesting: {

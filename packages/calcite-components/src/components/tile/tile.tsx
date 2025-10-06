@@ -8,7 +8,7 @@ import {
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
@@ -55,7 +55,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   // #region Public Properties
 
   /**
-   * When present, the component is active.
+   * When `true`, the component is active.
    *
    * @deprecated
    */
@@ -67,13 +67,13 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   /** A description for the component, which displays below the heading. */
   @property({ reflect: true }) description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
    * The component's embed mode.
    *
-   * When present, renders without a border and padding for use by other components.
+   * When `true`, renders without a border and padding for use by other components.
    *
    * @deprecated No longer necessary.
    */
@@ -86,13 +86,13 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When present, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
+   * When `true`, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
    * This is set to `true` by a parent Tile Group component.
    *
    * @private
@@ -114,7 +114,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  /** When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

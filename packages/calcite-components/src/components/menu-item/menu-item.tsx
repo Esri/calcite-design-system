@@ -13,7 +13,7 @@ import {
 import { FlipContext, Layout } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -65,23 +65,23 @@ export class MenuItem extends LitElement {
 
   //#region Public Properties
 
-  /** When present, the component is highlighted. */
+  /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
-  /** When present, the component displays a breadcrumb trail for use as a navigational aid. */
+  /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
   @property({ reflect: true }) breadcrumb: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
   @property() href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;
@@ -99,7 +99,7 @@ export class MenuItem extends LitElement {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
+  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
   /**

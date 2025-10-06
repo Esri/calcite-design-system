@@ -25,13 +25,13 @@ import {
   alphaCompatible,
   alphaToOpacity,
   colorEqual,
+  colorFromValue,
   CSSColorMode,
   Format,
   getColorFieldDimensions,
   getSliderWidth,
   hexify,
   normalizeAlpha,
-  normalizeColor,
   normalizeHex,
   opacityToAlpha,
   parseMode,
@@ -51,7 +51,7 @@ import {
   STATIC_DIMENSIONS,
   ICONS,
 } from "./resources";
-import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
+import { Channels, ColorMode, ColorValue, InternalColor } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./color-picker.scss";
 
@@ -279,24 +279,24 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * When present, an empty color (`null`) will be allowed as a `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
-   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    *
    * @deprecated Use `clearable` instead
    */
   @property({ reflect: true }) allowEmpty = false;
 
-  /** When present, the component will allow updates to the color's alpha value. */
+  /** When `true`, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
-  /** When present, hides the RGB/HSV channel inputs. */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @property() channelsDisabled = false;
 
   /**
-   * When present, an empty color (`null`) will be allowed as a `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
-   * When not present, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
@@ -315,10 +315,10 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.handleColorChange(color, oldColor);
   }
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, hides the color field. */
+  /** When `true`, hides the color field. */
   @property({ reflect: true }) fieldDisabled = false;
 
   /**
@@ -330,7 +330,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) format: Format = "auto";
 
-  /** When present, hides the hex input. */
+  /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -339,7 +339,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When present, hides the saved colors section. */
+  /** When `true`, hides the saved colors section. */
   @property({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -426,11 +426,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = willSetNoColor
-      ? null
-      : valueIsCompatible
-        ? this.colorFromValue(value, isClearable, parsedMode)
-        : color;
+    const initialColor = valueIsCompatible ? colorFromValue(value, isClearable, parsedMode) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -589,7 +585,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       return;
     }
 
-    const color = this.colorFromValue(value, isClearable, this.mode);
+    const color = colorFromValue(value, isClearable, this.mode);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -600,22 +596,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
         "internal",
       );
     }
-  }
-
-  private colorFromValue(
-    value: ColorValue | null,
-    clearable = false,
-    mode: SupportedMode,
-  ): ColorInstance | null {
-    if (clearable && !value) {
-      return null;
-    }
-
-    return Color(
-      value != null && typeof value === "object" && alphaCompatible(mode)
-        ? normalizeColor(value as RGBA | HSVA | HSLA)
-        : value,
-    );
   }
 
   private handleTabActivate(event: Event): void {
