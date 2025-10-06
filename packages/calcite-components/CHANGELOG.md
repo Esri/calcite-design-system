@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.19...@esri/calcite-components@4.0.0-next.20) (2025-10-03)
+
+### Bug Fixes
+
+- **table-row:** add deprecated background token as fallback ([#13025](https://github.com/Esri/calcite-design-system/issues/13025)) ([adae123](https://github.com/Esri/calcite-design-system/commit/adae123942790878ca660173cc3f7b8cfe67b080)), closes [#13024](https://github.com/Esri/calcite-design-system/issues/13024)
+
+## [4.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.18...@esri/calcite-components@4.0.0-next.19) (2025-10-03)
+
+### Bug Fixes
+
+- **panel, dialog:** Calcite dialog header fails to wrap for the longer text ([#13004](https://github.com/Esri/calcite-design-system/issues/13004)) ([44b0871](https://github.com/Esri/calcite-design-system/commit/44b08710cde535f1fca132736949f127f69836f6)), closes [#12964](https://github.com/Esri/calcite-design-system/issues/12964)
+
+## [4.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.17...@esri/calcite-components@4.0.0-next.18) (2025-10-03)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.16...@esri/calcite-components@4.0.0-next.17) (2025-10-03)
+
+### Bug Fixes
+
+- **button:** Ensure `--calcite-button-icon-color` is applied ([#13013](https://github.com/Esri/calcite-design-system/issues/13013)) ([2875ab4](https://github.com/Esri/calcite-design-system/commit/2875ab4d6760a6c90a5d4f413017daafb1ef2592)), closes [#12843](https://github.com/Esri/calcite-design-system/issues/12843)
+
+## [4.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.15...@esri/calcite-components@4.0.0-next.16) (2025-10-03)
+
+### Bug Fixes
+
+- **dialog:** exclude dialog content from keyboard focus ([#13015](https://github.com/Esri/calcite-design-system/issues/13015)) ([c74c1f8](https://github.com/Esri/calcite-design-system/commit/c74c1f86da92f22965e593cb0bde5424f22d76c9)), closes [#13000](https://github.com/Esri/calcite-design-system/issues/13000) [#12569](https://github.com/Esri/calcite-design-system/issues/12569)
+
+## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.14...@esri/calcite-components@4.0.0-next.15) (2025-10-02)
+
+### ⚠ BREAKING CHANGES
+
+- **radio-button-group:** remove the deprecated `"grid"` type from the `layout`
+  property.
+
+### Code Refactoring
+
+- **radio-button-group:** remove deprecated `"grid"` `layout` type ([#13005](https://github.com/Esri/calcite-design-system/issues/13005)) ([48fe83f](https://github.com/Esri/calcite-design-system/commit/48fe83ffae7ee5e570830c672b56e53c44ded6a4)), closes [#12831](https://github.com/Esri/calcite-design-system/issues/12831)
+
 ## [4.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.13...@esri/calcite-components@4.0.0-next.14) (2025-10-02)
 
 ### Bug Fixes
@@ -163,6 +202,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## [3.3.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.111...@esri/calcite-components@3.3.0-next.112) (2025-09-17)
 
 **Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1...@esri/calcite-components@3.3.2) (2025-10-03)
+
+### Bug Fixes
+
+- **button:** Ensure `--calcite-button-icon-color` is applied ([#13013](https://github.com/Esri/calcite-design-system/issues/13013)) ([e1ee420](https://github.com/Esri/calcite-design-system/commit/e1ee4209bb20193476e6c9dd60b8cefb77f7e83a))
+- **dialog:** Exclude dialog content from keyboard focus ([#13015](https://github.com/Esri/calcite-design-system/issues/13015)) ([fc5f0d7](https://github.com/Esri/calcite-design-system/commit/fc5f0d7ca424b09aab9e8809de8bf36e8dfdce7b))
+- **dropdown:** Fix scroller size when setting max-items ([#12967](https://github.com/Esri/calcite-design-system/issues/12967)) ([9323d1c](https://github.com/Esri/calcite-design-system/commit/9323d1cc9a66b405b3395850dba820bc945fd625))
+- **pagination, table:** Fix page number when page size &gt; total items ([#13007](https://github.com/Esri/calcite-design-system/issues/13007)) ([c92883e](https://github.com/Esri/calcite-design-system/commit/c92883e6897626340aaf4cb28a9b4b1ec17a31a7))
+- **panel, dialog:** Calcite dialog header fails to wrap for the longer text ([#13004](https://github.com/Esri/calcite-design-system/issues/13004)) ([6521d9b](https://github.com/Esri/calcite-design-system/commit/6521d9b4ee77fcd72ecbc95edfe9a6ce9baa6197))
+- **table-row:** Add deprecated background token as fallback ([#13025](https://github.com/Esri/calcite-design-system/issues/13025)) ([0b35fd4](https://github.com/Esri/calcite-design-system/commit/0b35fd41b7bf68e5b4a6d4e7310fe864b963b319))
 
 ## [3.3.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0...@esri/calcite-components@3.3.1) (2025-09-30)
 

@@ -728,6 +728,18 @@ describe("calcite-dialog", () => {
     });
   });
 
+  it("content with visibility: visible should not be focusable when closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dialog>
+        <button id="should-not-be-keyboard-focusable" style="visibility: visible">hi</button>
+      </calcite-dialog>
+    `);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, "#should-not-be-keyboard-focusable")).toBe(false);
+  });
+
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);

@@ -71,7 +71,7 @@
     "axe-core": "4.10.3",
     "change-case": "5.4.4",
     "chokidar": "4.0.3",
-    "chromatic": "13.2.0",
+    "chromatic": "13.3.0",
     "concurrently": "9.2.1",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "12.0.1",
@@ -92,7 +92,7 @@
     "husky": "9.1.7",
     "jest-axe": "10.0.0",
     "lerna": "8.2.4",
-    "lint-staged": "16.1.6",
+    "lint-staged": "16.2.3",
     "markdownlint-cli2": "0.18.1",
     "postcss": "8.5.6",
     "prettier": "3.6.2",
@@ -109,8 +109,8 @@
     "stylelint-config-recommended-scss": "15.0.1",
     "stylelint-use-logical-spec": "5.0.1",
     "tailwindcss": "3.4.17",
-    "tsx": "4.20.5",
-    "turbo": "2.5.6",
+    "tsx": "4.20.6",
+    "turbo": "2.5.8",
     "type-fest": "4.41.0",
     "typescript": "5.8.2",
     "typescript-eslint": "8.44.1",
@@ -124,7 +124,7 @@
     "node": "22.14.0"
   },
   "dependencies": {
-    "patch-package": "8.0.0"
+    "patch-package": "8.0.1"
   },
   "optionalDependencies": {
     "@nx/nx-darwin-arm64": "21.4.1",
