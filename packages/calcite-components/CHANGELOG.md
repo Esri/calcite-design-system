@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.20...@esri/calcite-components@4.0.0-next.21) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([f07c3e4](https://github.com/Esri/calcite-design-system/commit/f07c3e426a8a2f833c14e42603b04deadad7d2e7)), closes [#13038](https://github.com/Esri/calcite-design-system/issues/13038) [/devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895#issuecomment-5829349](https://github.com/Esri//devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895/issues/issuecomment-5829349)
+
 ## [4.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.19...@esri/calcite-components@4.0.0-next.20) (2025-10-03)
 
 ### Bug Fixes
