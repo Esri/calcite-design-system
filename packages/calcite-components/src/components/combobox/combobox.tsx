@@ -1743,6 +1743,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
+          ariaDescription={`${this.value}`}
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}

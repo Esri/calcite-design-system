@@ -3251,6 +3251,21 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("accessibility", () => {
+    it("combobox input should have correct description for accessibility", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-combobox selection-mode="single" select-all-enabled read-only>
+          <calcite-combobox-item value="one" text-label="one" selected=""></calcite-combobox-item>
+          <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>`,
+      );
+      const input = await page.find("calcite-combobox >>> input");
+      expect(input.getAttribute("aria-description")).toBe("one");
+    });
+  });
+
   describe("theme", () => {
     describe("default", () => {
       const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
