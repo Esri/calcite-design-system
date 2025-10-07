@@ -3262,7 +3262,7 @@ describe("calcite-combobox", () => {
         </calcite-combobox>`,
       );
       const input = await page.find("calcite-combobox >>> input");
-      expect(input.getAttribute("aria-description")).toBe("one");
+      expect(input.getAttribute("aria-description")).toBe("non-editable one");
     });
   });
 
