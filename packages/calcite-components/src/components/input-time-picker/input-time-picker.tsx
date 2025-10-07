@@ -15,7 +15,6 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot,
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
@@ -61,6 +60,8 @@ export class InputTimePicker
 {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
@@ -68,6 +69,8 @@ export class InputTimePicker
   //#endregion
 
   //#region Private Properties
+
+  internals: ElementInternals = this.el.attachInternals();
 
   /**
    * Made into a prop for testing purposes only
@@ -290,6 +293,7 @@ export class InputTimePicker
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
+    this.internals.setFormValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -520,6 +524,7 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
+      this.internals.setFormValue(newValue);
     }
   }
 
@@ -726,7 +731,7 @@ export class InputTimePicker
             value={this.value}
           />
         </calcite-popover>
-        <HiddenFormInputSlot component={this} />
+
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
