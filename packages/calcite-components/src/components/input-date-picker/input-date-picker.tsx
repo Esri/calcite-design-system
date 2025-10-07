@@ -1172,7 +1172,7 @@ export class InputDatePicker
               ariaHidden={!this.open}
               ariaLabel={messages.chooseDate}
               ariaLive="polite"
-              ariaModal="true" // todo: this should not be true. Its not modal right???
+              ariaModal={false}
               class={CSS.menu}
               id={this.dialogId}
               popover="manual"
