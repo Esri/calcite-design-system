@@ -1866,6 +1866,7 @@ describe("calcite-combobox", () => {
       ).toBeTruthy();
     });
 
+    //candidate for event
     it("should cycle through items on ArrowUp/ArrowDown and toggle selection on/off on Enter", async () => {
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const item1 = await page.find("calcite-combobox-item#one");
@@ -2106,6 +2107,7 @@ describe("calcite-combobox", () => {
     });
   });
 
+  //refactor
   describe("calciteComboboxItemChange event correctly updates active item index", () => {
     let page: E2EPage;
     let element: E2EElement;
@@ -2151,6 +2153,7 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
     });
 
+    //refactor to assert event
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
       expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
@@ -2583,6 +2586,7 @@ describe("calcite-combobox", () => {
     expect(focusedId).toBe("demoId");
   });
 
+  // refactor
   it("should gain focus when it's items are selected via keyboard interaction", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -2924,6 +2928,7 @@ describe("calcite-combobox", () => {
     expect(await page.find("calcite-combobox")).not.toHaveAttribute("open");
   });
 
+  //refactor
   it("prevents toggling items when combobox is closed", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -3014,6 +3019,7 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("value")).toBe("three");
   });
 
+  // refactor
   it("should not emit calciteComboboxItemChange event when selected attribute is toggled", async () => {
     const page = await newE2EPage();
     await page.setContent(

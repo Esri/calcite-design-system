@@ -940,7 +940,7 @@ export class Combobox
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
           const item = this.keyboardNavItems[this.activeItemIndex];
-          this.toggleSelection(item, !item.selected);
+          this.toggleSelection(item, !item.selected, true);
           event.preventDefault();
 
           if (this.selectAllEnabled) {
@@ -1260,7 +1260,11 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
+  private toggleSelection(
+    item: HTMLCalciteComboboxItemElement["el"],
+    value: boolean,
+    emit = false,
+  ): void {
     if (
       !item ||
       (this.selectionMode === "single-persist" &&
@@ -1275,6 +1279,12 @@ export class Combobox
       this.handleMultiSelection(item, value);
     } else {
       this.handleSingleSelection(item, value);
+    }
+
+    if (emit) {
+      this.ignoreSelectedEventsFlag = true;
+      item.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+      this.ignoreSelectedEventsFlag = false;
     }
   }
 

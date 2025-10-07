@@ -170,7 +170,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Events
 
   /** Fires whenever the component is selected or unselected. */
-  calciteComboboxItemChange = createEvent({ cancelable: false });
+  calciteComboboxItemChange = createEvent({ cancelable: true });
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
@@ -182,6 +182,11 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+  }
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
@@ -221,7 +226,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   private toggleSelected(): Promise<void> {
     const isSinglePersistSelect = this.selectionMode === "single-persist";
-
     if (this.disabled || (isSinglePersistSelect && this.selected)) {
       return;
     }
@@ -232,6 +236,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   private itemClickHandler(): void {
     this.toggleSelected();
+  }
+
+  private keyDownHandler(): void {
+    this.calciteComboboxItemChange.emit();
   }
 
   //#endregion
@@ -320,7 +328,12 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           }}
           style={{ [itemSpacingMultiplier]: `${depth}` }}
         >
-          <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
+          <li
+            class={classes}
+            id={this.guid}
+            onClick={this.itemClickHandler}
+            // onKeyDown={this.keyDownHandler}
+          >
             {this.renderSelectIndicator(selectionIcon)}
             <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
