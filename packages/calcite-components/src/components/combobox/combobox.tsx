@@ -1718,7 +1718,8 @@ export class Combobox
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem && !this.filterText;
-    const descriptionMessage = this.readOnly ? "non-editable" : "";
+    const descriptionMessage =
+      (this.readOnly && this.messages.nonEditable?.replace("{value}", `${this.value}`)) ?? "";
 
     return (
       <span
@@ -1744,7 +1745,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
-          ariaDescription={`${descriptionMessage} ${this.value}`}
+          ariaDescription={descriptionMessage}
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
