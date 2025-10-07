@@ -101,7 +101,7 @@ export class ActionPad extends LitElement {
 
   /** Specifies the selection appearance of the component */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "highlight" | "neutral",
+    "neutral" | "highlight",
     SelectionAppearance
   > = "neutral";
 

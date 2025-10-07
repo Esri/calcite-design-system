@@ -65,7 +65,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: selectionAppearance.values.filter((option) => option !== "highlight" && option !== "neutral"),
+      options: selectionAppearance.values.filter((option) => option !== "neutral" && option !== "highlight"),
       control: { type: "select" },
     },
     iconStart: {

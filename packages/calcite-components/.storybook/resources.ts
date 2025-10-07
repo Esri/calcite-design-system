@@ -122,7 +122,7 @@ const textTypeOptions: TextType[] = [
   "date",
 ];
 const modeOptions: TimeZoneMode[] = ["offset", "name"];
-const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "highlight", "neutral"];
+const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
 const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
 

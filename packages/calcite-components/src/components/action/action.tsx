@@ -178,7 +178,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
    * @private
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "highlight" | "neutral",
+    "neutral" | "highlight",
     SelectionAppearance
   >;
 

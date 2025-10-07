@@ -3,9 +3,12 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionBar } from "./action-bar";
 
-const { position } = ATTRIBUTES;
+const { position, selectionAppearance } = ATTRIBUTES;
 
-type ActionBarStoryArgs = Pick<ActionBar, "expandDisabled" | "expanded" | "floating" | "position">;
+type ActionBarStoryArgs = Pick<
+  ActionBar,
+  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance"
+>;
 
 export default {
   title: "Components/Action Bar",
@@ -14,10 +17,15 @@ export default {
     expanded: false,
     position: position.defaultValue,
     floating: false,
+    selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: selectionAppearance.values.filter((option) => option !== "icon" && option !== "border"),
       control: { type: "select" },
     },
   },
@@ -29,6 +37,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
     position="${args.position}"
+    selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
