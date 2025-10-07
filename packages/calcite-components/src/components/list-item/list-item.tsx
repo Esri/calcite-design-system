@@ -10,7 +10,7 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { SortableComponentItem } from "../../utils/sortableComponent";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -19,7 +19,7 @@ import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
-import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
@@ -121,29 +121,29 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() sortDisabled = false;
 
-  /** When present, a close button is added to the component. */
+  /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When present, hides the component. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /** A description for the component. Displays below the label text. */
   @property() description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, the item is not draggable. */
+  /** When `true`, the item is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
-   * When present, the component displays a draggable button.
+   * When `true`, the component displays a draggable button.
    *
    * @private
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When present, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -191,7 +191,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @property() moveToItems: SortMenuItem[] = [];
 
   /**
-   * When present, the item is open to show child components.
+   * When `true`, the item is open to show child components.
    *
    * @deprecated Use `expanded` prop instead.
    */
@@ -215,7 +215,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    * */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -249,20 +249,20 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() setSize: number;
 
-  /** When present, displays and positions the sort handle. */
+  /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When present, the component's content appears inactive. */
+  /** When `true`, the component's content appears inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */
   @property() value: any;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
@@ -386,6 +386,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
     this.setSelectionDefaults();
+  }
+
+  disconnectedCallback() {
+    focusMap.clear();
   }
 
   /**

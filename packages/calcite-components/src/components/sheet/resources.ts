@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   assistiveText: "assistive-text",
   scrim: "scrim",
@@ -16,7 +18,7 @@ export const IDS = {
   sheetContent: "sheet-content",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   dragVertical: "drag-resize-vertical",
   dragHorizontal: "drag-resize-horizontal",
 };

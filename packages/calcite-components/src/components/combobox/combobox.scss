@@ -23,8 +23,8 @@
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply relative block;
@@ -277,10 +277,6 @@ calcite-chip {
 .no-matches-placeholder {
   color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
   cursor: default;
-}
-
-::slotted(calcite-combobox-item-group:not(:first-child)) {
-  padding-block-start: var(--calcite-internal-combobox-spacing-unit-l);
 }
 
 @include includes.disabled();

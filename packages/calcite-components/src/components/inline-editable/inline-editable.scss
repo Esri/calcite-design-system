@@ -21,7 +21,7 @@
 // --calcite-internal-button-border-block-start-color
 // --calcite-internal-button-text-color
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply block;
@@ -80,8 +80,16 @@
   }
 }
 
-.enable-editing-button[appearance="transparent"][kind="neutral"] {
-  --calcite-internal-button-background-color: transparent;
+.enable-editing-button {
+  &--hidden {
+    pointer-events: none;
+    opacity: 0;
+    inline-size: 0;
+  }
+
+  &[appearance="transparent"][kind="neutral"] {
+    --calcite-internal-button-background-color: transparent;
+  }
 }
 
 calcite-button {

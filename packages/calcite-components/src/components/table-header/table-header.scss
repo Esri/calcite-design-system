@@ -10,7 +10,7 @@
  * @prop --calcite-table-header-description-text-color: Specifies the component's `description` text color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply contents;

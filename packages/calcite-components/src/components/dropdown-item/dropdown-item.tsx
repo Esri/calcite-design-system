@@ -19,7 +19,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, ICONS } from "./resources";
@@ -58,7 +58,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   // #region Public Properties
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -69,13 +69,13 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Accessible name for the component. */
   @property() label: string;
@@ -90,7 +90,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

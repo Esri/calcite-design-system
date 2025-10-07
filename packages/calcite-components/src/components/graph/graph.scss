@@ -6,7 +6,7 @@
  * @prop --calcite-graph-highlight-fill-color: Specifies the fill color of the `highlight` element, when present.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply block;

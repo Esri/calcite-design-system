@@ -24,6 +24,7 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -144,10 +145,10 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    */
   @property({ reflect: true }) embedded = false;
 
-  /** When present, disables the default close on escape behavior. */
+  /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When present, prevents focus trapping. */
+  /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -181,7 +182,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -200,13 +201,13 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When present, disables the closing of the component when clicked outside. */
+  /** When `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
   @property({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
-  /** When present, the component is resizable. */
+  /** When `true`, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
@@ -340,7 +341,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
-  private getResizeIcon(): string {
+  private getResizeIcon(): IconName {
     const { position } = this;
 
     return position === "block-start" || position === "block-end"

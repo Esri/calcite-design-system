@@ -6,7 +6,7 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply block;
@@ -20,7 +20,7 @@
 }
 
 .container-height {
-  min-block-size: 100vh;
+  @apply h-full;
 }
 
 .table-container {

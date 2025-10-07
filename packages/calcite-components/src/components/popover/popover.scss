@@ -11,8 +11,8 @@
  * @prop --calcite-popover-z-index: [Deprecated] No longer necessary. Specifies the component's z-index value.
  */
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply contents;

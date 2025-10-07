@@ -16,7 +16,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -55,7 +55,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   transitionProp = "opacity" as const;
 
   /** The computed icon to render. */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   transitionEl: HTMLElement;
 
@@ -78,13 +78,13 @@ export class Notice extends LitElement implements OpenCloseComponent {
 
   //#region Public Properties
 
-  /** When present, a close button is added to the component. */
+  /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When present, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the kind of the component, which will apply to top border and icon. */
@@ -96,7 +96,7 @@ export class Notice extends LitElement implements OpenCloseComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, the component is visible. */
+  /** When `true`, the component is visible. */
   @property({ reflect: true }) open = false;
 
   /** Specifies the size of the component. */

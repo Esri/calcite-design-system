@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { focusElement, focusElementInGroup } from "../../utils/dom";
+import { queryAssignedElements } from "lit/decorators.js";
+import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -26,7 +27,7 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, Width } from "../interfaces";
+import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -84,8 +85,8 @@ export class Dropdown
 
   transitionEl: HTMLDivElement;
 
-  /** trigger elements */
-  private triggers: HTMLElement[];
+  @queryAssignedElements({ slot: SLOTS.trigger })
+  private triggerEls: SingleItemSlotArray<HTMLElement>;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -94,13 +95,13 @@ export class Dropdown
   // #region Public Properties
 
   /**
-   * When present, the component will remain open after a selection is made.
+   * When `true`, the component will remain open after a selection is made.
    *
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
@@ -122,7 +123,7 @@ export class Dropdown
   /** Offset the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -435,14 +436,6 @@ export class Dropdown
       : null;
   }
 
-  private updateTriggers(event: Event): void {
-    this.triggers = (event.target as HTMLSlotElement).assignedElements({
-      flatten: true,
-    }) as HTMLElement[];
-
-    this.reposition(true);
-  }
-
   private updateItems(): void {
     this.items = this.groups
       .map((group) => Array.from(group?.querySelectorAll("calcite-dropdown-item")))
@@ -502,7 +495,7 @@ export class Dropdown
 
     const maxScrollerHeight =
       items.length >= maxItems && maxItems > 0
-        ? this.getYDistance(scrollerEl, items[maxItems - 1])
+        ? this.getYDistanceFromScroller(items.at(maxItems - 1))
         : 0;
     scrollerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     this.reposition(true);
@@ -581,25 +574,23 @@ export class Dropdown
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getYDistance(parent: HTMLElement, child: HTMLElement): number {
-    const parentRect = parent.getBoundingClientRect();
-    const childRect = child.getBoundingClientRect();
-    return childRect.bottom - parentRect.top;
+  private getYDistanceFromScroller(last: HTMLElement): number {
+    const style = last.getBoundingClientRect();
+    return last.offsetTop + style.height;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {
     this.open = false;
 
     if (focusTrigger) {
-      focusElement(this.triggers[0]);
+      focusElement(this.triggerEls[0]);
     }
   }
 
-  private focusOnFirstActiveOrDefaultItem(): void {
+  private async focusOnFirstActiveOrDefaultItem(): Promise<void> {
     const selectedItem = this.getTraversableItems().find((item) => item.selected);
     const target: DropdownItem["el"] =
-      selectedItem ||
-      (this.focusLastDropdownItem ? this.items[this.items.length - 1] : this.items[0]);
+      selectedItem || (this.focusLastDropdownItem ? this.items.at(-1) : this.items[0]);
 
     this.focusLastDropdownItem = false;
 
@@ -607,7 +598,14 @@ export class Dropdown
       return;
     }
 
-    focusElement(target);
+    // ensure element is rendered/visible before focus or scrollIntoView
+    // https://github.com/Esri/calcite-design-system/issues/10703 should help improve this
+    await this.updateComplete;
+    await nextFrame();
+    await nextFrame();
+
+    await focusElement(target);
+    target.scrollIntoView({ block: "nearest" });
   }
 
   private toggleDropdown() {
@@ -640,7 +638,6 @@ export class Dropdown
             ariaExpanded={open}
             ariaHasPopup="menu"
             name={SLOTS.trigger}
-            onSlotChange={this.updateTriggers}
           />
         </div>
         <div
