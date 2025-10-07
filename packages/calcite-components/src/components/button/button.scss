@@ -226,7 +226,7 @@
 
 .icon--start,
 .icon--end {
-  color: var(--calcite-button-icon-color, var(--calcite-icon-color));
+  color: var(--calcite-button-icon-color, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
 }
 @include disabled();
 
