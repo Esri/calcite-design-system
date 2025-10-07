@@ -131,6 +131,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @esri/calcite-components-react
 
+## [3.3.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.2...@esri/calcite-components-react@3.3.3) (2025-10-07)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-react:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from 3.3.2 to 3.3.3
+
 ## [3.3.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@3.3.1...@esri/calcite-components-react@3.3.2) (2025-10-03)
 
 ### Miscellaneous Chores

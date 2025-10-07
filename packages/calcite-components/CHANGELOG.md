@@ -209,6 +209,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @esri/calcite-components
 
+## [3.3.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.2...@esri/calcite-components@3.3.3) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** Add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([2de2da3](https://github.com/Esri/calcite-design-system/commit/2de2da3454330709364f5fb3501518724b918988))
+
 ## [3.3.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1...@esri/calcite-components@3.3.2) (2025-10-03)
 
 ### Bug Fixes
