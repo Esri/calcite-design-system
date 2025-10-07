@@ -85,7 +85,7 @@
     "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
     "es-toolkit": "^1.39.8",
-    "focus-trap": "^7.6.2",
+    "focus-trap": "^7.6.5",
     "interactjs": "^1.10.27",
     "lit": "^3.3.0",
     "sortablejs": "^1.15.6",
