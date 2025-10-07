@@ -343,7 +343,7 @@
 }
 
 :host([layout="horizontal"]) .content {
-  block-size: var(--calcite-internal-shell-panel-height);
+  block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-height));
   max-block-size: var(--calcite-internal-shell-panel-max-height);
   min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
