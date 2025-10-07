@@ -3,7 +3,7 @@ import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
-import { CSS_UTILITY } from "../../utils/resources";
+import { CSS_UTILITY, userResize } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
@@ -777,6 +777,63 @@ describe("calcite-shell-panel", () => {
           targetProp: "minInlineSize",
         },
       });
+    });
+  });
+
+  describe("--calcite-shell-panel-width", () => {
+    it("should honor programmatic updates to the width token before and after the handle resize", async () => {
+      const page = await newE2EPage();
+      await page.setViewport({ width: 1600, height: 1200 });
+      await page.setContent(html`
+        <div style="width: 100%; height: 100%;">
+          <calcite-shell>
+            <calcite-shell-panel slot="panel-start" resizable>
+              <calcite-panel> Content dimensions test </calcite-panel>
+            </calcite-shell-panel>
+          </calcite-shell>
+        </div>
+      `);
+
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const panel = await page.find("calcite-shell-panel");
+      const maxDimension = 500;
+      const minDimension = 100;
+      const initialDimension = 450;
+
+      panel.setProperty("layout", "vertical");
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-max-width", `${maxDimension}px`);
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-min-width", `${minDimension}px`);
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-width", `${initialDimension}px`);
+      await page.waitForChanges();
+
+      await resizeHandle.press("ArrowLeft");
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).width).toBe(`${initialDimension - userResize}px`);
+
+      panel.style.setProperty("--calcite-shell-panel-width", `${minDimension}px`);
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).width).toBe(`${minDimension}px`);
+
+      panel.setProperty("layout", "horizontal");
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-max-height", `${maxDimension}px`);
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-min-height", `${minDimension}px`);
+      await page.waitForChanges();
+      panel.style.setProperty("--calcite-shell-panel-height", `${initialDimension}px`);
+      await page.waitForChanges();
+
+      await resizeHandle.press("ArrowDown");
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).height).toBe(`${initialDimension - userResize}px`);
+
+      panel.style.setProperty("--calcite-shell-panel-height", `${minDimension}px`);
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).height).toBe(`${minDimension}px`);
     });
   });
 });
