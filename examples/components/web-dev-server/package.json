@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.2"
+    "@esri/calcite-components": "3.3.3"
   },
   "devDependencies": {
     "@web/dev-server": "^0.4.6"
