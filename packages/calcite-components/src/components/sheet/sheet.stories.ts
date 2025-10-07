@@ -75,20 +75,25 @@ export const resizableRTL = (): string =>
 
 export const resizableWithDropdown = (): string =>
   html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start">
-    <calcite-panel heading="Map" id="panel-start">
-      <calcite-dropdown open width="m" overlay-positioning="fixed">
-        <calcite-button slot="trigger">Select landform</calcite-button>
-        <calcite-dropdown-group group-title="Natural places">
-          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-          <calcite-dropdown-item>River</calcite-dropdown-item>
-          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-          <calcite-dropdown-item>Desert</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    </calcite-panel></calcite-sheet
-  >`;
+      <calcite-panel heading="Map" id="panel-start">
+        <calcite-dropdown width="m" overlay-positioning="fixed">
+          <calcite-button slot="trigger">Select landform</calcite-button>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-panel></calcite-sheet
+    >
+    <script>
+      document.addEventListener("calciteSheetOpen", (event) => {
+        document.querySelector("calcite-dropdown").open = true;
+      });
+    </script>`;
 
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;

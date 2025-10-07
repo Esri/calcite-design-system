@@ -127,7 +127,12 @@ export const withTooltips_TestOnly = (): string => html`
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
     <calcite-button slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
-  <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
+  <calcite-tooltip id="back-tooltip" label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
+  <script>
+    document.addEventListener("calciteDialogOpen", (event) => {
+      document.querySelector("calcite-tooltip#back-tooltip").open = true;
+    });
+  </script>
 `;
 
 withTooltips_TestOnly.parameters = {

@@ -74,6 +74,15 @@ export default {
   parameters: {
     chromatic: {
       delay: 1000,
+      modes: {
+        specific: {
+          viewport: {
+            width: 1200,
+            height: 900,
+          },
+        },
+      },
+      cropToViewport: true,
     },
   },
 };
@@ -298,9 +307,6 @@ export const darkModeRTLCustomSizeCSSVars = (): string => html`
 darkModeRTLCustomSizeCSSVars.parameters = { themes: modesDarkDefault };
 
 export const withTooltips = (): string => html`
-  <calcite-tooltip style="--calcite-tooltip-z-index: 600;" open label="Open modal" reference-element="button"
-    >Open modal</calcite-tooltip
-  >
   <calcite-dialog scale="m" width-scale="s" open heading="Dialog title">
     <div>
       Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
@@ -309,7 +315,12 @@ export const withTooltips = (): string => html`
     </div>
     ${footerContent}
   </calcite-dialog>
-  <calcite-tooltip open label="Back" reference-element="tooltip-button">Back</calcite-tooltip>
+  <calcite-tooltip label="Back" reference-element="tooltip-button">Back</calcite-tooltip>
+  <script>
+    document.addEventListener("calciteDialogOpen", (event) => {
+      document.querySelector("calcite-tooltip").open = true;
+    });
+  </script>
 `;
 
 withTooltips.parameters = {
@@ -360,7 +371,6 @@ export const loading = (): string => html`
 export const menuOpen = (): string => html`
   <calcite-dialog
     overlay-positioning="fixed"
-    menu-open
     open
     modal
     heading="heading"
@@ -371,6 +381,11 @@ export const menuOpen = (): string => html`
     <p>Slotted content!</p>
     ${menuActionsContent}
   </calcite-dialog>
+  <script>
+    document.addEventListener("calciteDialogOpen", (event) => {
+      event.target.menuOpen = true;
+    });
+  </script>
 `;
 
 export const withFooter = (): string => html`
@@ -525,21 +540,6 @@ export const withWrappingHeaderText = (): string =>
   >
     Dialog Content
   </calcite-dialog>`;
-
-withWrappingHeaderText.parameters = {
-  chromatic: {
-    delay: 1000,
-    modes: {
-      specific: {
-        viewport: {
-          width: 1200,
-          height: 1200,
-        },
-      },
-    },
-    cropToViewport: true,
-  },
-};
 
 export const themed = (): string =>
   html`<calcite-dialog

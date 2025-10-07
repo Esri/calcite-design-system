@@ -108,14 +108,19 @@ export const nested = (): string => html`
       <calcite-popover
         heading="Heading"
         closable
+        id="nested-popover"
         reference-element="reference-element-nested"
         placement="${defaultPopoverPlacement}"
-        open
       >
         ${contentHTML}
       </calcite-popover>
     </calcite-popover>
   </div>
+  <script>
+    document.addEventListener("calcitePopoverOpen", (event) => {
+      document.querySelector("calcite-popover#nested-popover").open = true;
+    });
+  </script>
 `;
 
 nested.parameters = {

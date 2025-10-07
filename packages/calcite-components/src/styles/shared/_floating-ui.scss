@@ -45,6 +45,7 @@ $floating-ui-transition-offset: 5px;
       background-color: transparent;
       overflow: visible;
       display: none;
+      color: inherit;
     }
 
     &:popover-open {
