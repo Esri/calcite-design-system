@@ -109,9 +109,8 @@
 }
 
 :host([layout="horizontal"]) .content {
-  block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-height));
-  max-block-size: var(--calcite-shell-panel-max-height, var(--calcite-internal-shell-panel-max-height, 30vh));
-  min-block-size: var(--calcite-shell-panel-min-height, var(--calcite-internal-shell-panel-min-height, 5vh));
+  --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
 }
 
 :host([layout="horizontal"]) .height-s {
@@ -341,6 +340,12 @@
 :host([layout="vertical"][display-mode="float-all"]) .content {
   inline-size: var(--calcite-shell-panel-width, var(--calcite-internal-shell-panel-width));
   min-inline-size: var(--calcite-internal-shell-panel-min-width);
+}
+
+:host([layout="horizontal"]) .content {
+  block-size: var(--calcite-internal-shell-panel-height);
+  max-block-size: var(--calcite-internal-shell-panel-max-height);
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 :host([resizable][layout="vertical"][position="start"]) {

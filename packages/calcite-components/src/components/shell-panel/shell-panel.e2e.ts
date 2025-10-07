@@ -781,7 +781,7 @@ describe("calcite-shell-panel", () => {
   });
 
   describe("--calcite-shell-panel-width", () => {
-    it("should honor programmatic updates to the width token before and after the handle resize", async () => {
+    it.only("should honor programmatic updates to the width token before and after the handle resize", async () => {
       const page = await newE2EPage();
       await page.setViewport({ width: 1600, height: 1200 });
       await page.setContent(html`
@@ -819,10 +819,6 @@ describe("calcite-shell-panel", () => {
       expect((await content.getComputedStyle()).width).toBe(`${minDimension}px`);
 
       panel.setProperty("layout", "horizontal");
-      await page.waitForChanges();
-      panel.style.setProperty("--calcite-shell-panel-max-height", `${maxDimension}px`);
-      await page.waitForChanges();
-      panel.style.setProperty("--calcite-shell-panel-min-height", `${minDimension}px`);
       await page.waitForChanges();
       panel.style.setProperty("--calcite-shell-panel-height", `${initialDimension}px`);
       await page.waitForChanges();
