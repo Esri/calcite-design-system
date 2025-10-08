@@ -175,8 +175,8 @@
 }
 
 .scrim {
-  @apply fixed inset-0 flex overflow-hidden -z-default;
   --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
+  @apply fixed inset-0 flex overflow-hidden -z-default;
 }
 
 [popover] {
@@ -192,7 +192,6 @@
 
 [popover]:popover-open {
   display: flex;
-  position: fixed;
 }
 
 :host([opened]) {
