@@ -125,7 +125,7 @@
             <div class="global-nav" slot="header">
               <h2>Boomer v Millennial - California</h2>
             </div>
-            <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row">
+            <calcite-shell-panel slot="panel-bottom" height-scale="s" display-mode="float-content" id="center-panel">
               <calcite-panel heading="Table" description="Table in the center row.">
                 <calcite-action label="this is a label" slot="header-actions-start" icon="caret-down" scale="s">
                 </calcite-action>
@@ -408,8 +408,8 @@
                   <calcite-action icon="mega-phone" text="What's that?!" id="tip-manager-button"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-            </calcite-shell-center-row>
-            <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
+            </calcite-shell-panel>
+            <calcite-tip-manager slot="panel-bottom" id="tip-manager" hidden>
               <calcite-tip-group group-title="Astronomy">
                 <calcite-tip heading="The Red Rocks and Blue Water">
                   <img
@@ -489,13 +489,13 @@
           });
 
           const expandTrigger = document.getElementById("expand-trigger");
-          const centerRow = document.getElementById("center-row");
+          const centerPanel = document.getElementById("center-panel");
           expandTrigger.addEventListener("click", function () {
-            centerRow.getAttribute("height-scale") == "s"
-              ? centerRow.setAttribute("height-scale", "m")
-              : centerRow.setAttribute("height-scale", "s");
+            centerPanel.getAttribute("height-scale") == "s"
+              ? centerPanel.setAttribute("height-scale", "m")
+              : centerPanel.setAttribute("height-scale", "s");
 
-            centerRow.getAttribute("height-scale") == "s"
+            centerPanel.getAttribute("height-scale") == "s"
               ? expandTrigger.setAttribute("icon", "chevrons-up")
               : expandTrigger.setAttribute("icon", "chevrons-down");
           });

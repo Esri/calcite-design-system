@@ -1,5 +1,4 @@
 import { ShellPanel } from "../shell-panel/shell-panel";
-import { ShellCenterRow } from "../shell-center-row/shell-center-row";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -7,48 +6,45 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
+  centerPanelPosition: ShellPanel["position"];
   leadingPanelPosition: ShellPanel["position"];
   trailingPanelPosition: ShellPanel["position"];
 }
 
-interface ShellCenterRowArgs extends Pick<ShellCenterRow, "detached" | "heightScale"> {
-  shellCenterRowPosition: ShellCenterRow["position"];
-}
-
-type ShellStoryArgs = ShellPanelArgs & ShellCenterRowArgs;
+type ShellStoryArgs = ShellPanelArgs;
 
 export default {
   title: "Components/Shell",
   args: {
     collapsed: false,
     displayMode: shellDisplayMode.defaultValue,
+    centerPanelPosition: position.values[0],
     leadingPanelPosition: position.values[0],
     trailingPanelPosition: position.values[1],
     resizable: true,
     detached: false,
     heightScale: scale.values[0],
-    shellCenterRowPosition: position.values[1],
   },
   argTypes: {
     displayMode: {
       options: shellDisplayMode.values,
       control: { type: "select" },
     },
+    centerPanelPosition: {
+      options: position.values,
+      control: { type: "select" },
+    },
     leadingPanelPosition: {
-      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      options: position.values,
       control: { type: "select" },
     },
     trailingPanelPosition: {
-      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      options: position.values,
       control: { type: "select" },
     },
     heightScale: {
       options: scale.values,
-      control: { type: "select" },
-    },
-    shellCenterRowPosition: {
-      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
   },
@@ -95,7 +91,7 @@ const leadingPanelHTML = html`
   </calcite-panel>
 `;
 
-const centerRowHTML = html`
+const centerPanelHTML = html`
   <calcite-panel heading="Center row content">
     <div>Content</div>
   </calcite-panel>
@@ -107,7 +103,7 @@ const bottomPanelHTML = html`
   </calcite-panel>
 `;
 
-const centerRowWithActionBarHTML = html`
+const centerPanelWithActionBarHTML = html`
   <calcite-action-bar slot="action-bar">
     <calcite-action-group>
       <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -162,8 +158,8 @@ const contentHTML = html(`
   ></div>
 `);
 
-const centerRowAdvancedHTML = html(`
-  <calcite-tip-manager slot="center-row">
+const centerPanelAdvancedHTML = html(`
+  <calcite-tip-manager slot="panel-bottom">
     <calcite-tip-group group-title="Astronomy">
       <calcite-tip heading="The Red Rocks and Blue Water">
         <img slot="thumbnail" src="${placeholderImage({ width: 1000, height: 600 })}" alt="This is an image." />
@@ -319,15 +315,15 @@ export const simple = (args: ShellStoryArgs): string => html`
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
     ${contentHTML}
-    <calcite-shell-center-row
-      ${boolean("detached", args.detached)}
+    <calcite-shell-panel
+      display-mode="${args.displayMode}"
       height-scale="${args.heightScale}"
-      position="${args.shellCenterRowPosition}"
-      slot="center-row"
+      position="${args.centerPanelPosition}"
+      slot="panel-bottom"
     >
-      ${centerRowHTML}
-    </calcite-shell-center-row>
-    ${centerRowAdvancedHTML}
+      ${centerPanelHTML}
+    </calcite-shell-panel>
+    ${centerPanelAdvancedHTML}
     <calcite-shell-panel
       slot="panel-end"
       ${boolean("collapsed", args.collapsed)}
@@ -348,10 +344,8 @@ export const darkModeRTL_TestOnly = (): string => html`
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
     ${contentHTML}
-    <calcite-shell-center-row height-scale="s" position="end" slot="center-row">
-      ${centerRowHTML}
-    </calcite-shell-center-row>
-    ${contentHTML} ${centerRowAdvancedHTML}
+    <calcite-shell-panel height-scale="s" position="end" slot="panel-bottom"> ${centerPanelHTML} </calcite-shell-panel>
+    ${contentHTML} ${centerPanelAdvancedHTML}
     <calcite-shell-panel slot="panel-end" displayMode="dock" position="end">
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>
@@ -584,7 +578,6 @@ export const slottedModalAndAlert = (): string =>
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-modal open slot="modals" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
       <calcite-alert open slot="alerts" placement="top-end"
         ><span slot="title">Alert slotted in Shell</span>
       </calcite-alert>
@@ -833,7 +826,7 @@ export const contentBehind = (): string =>
   ${headerHTML}
   <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
   ${contentHTML}
-  <calcite-shell-center-row slot="center-row">${centerRowHTML}</calcite-shell-center-row>
+  <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
   <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
   ${footerHTML}
 </calcite-shell>`);
@@ -858,7 +851,7 @@ export const slottedPanelTop_TestOnly = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
+    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
@@ -912,7 +905,7 @@ export const slottedPanelBottom_TestOnly = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
       <footer slot="footer">Footer Example</footer>
     </calcite-shell>
   `);
@@ -938,8 +931,8 @@ export const slottedPanelTopAndBottom = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
-    <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
+    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
@@ -984,8 +977,8 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
     >
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>
-    <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
-    <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
+    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
@@ -995,7 +988,7 @@ export const shellCenterRowWithActionBar_TestOnly = (): string =>
   ${headerHTML}
   <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
   ${contentHTML}
-  <calcite-shell-center-row slot="center-row">${centerRowWithActionBarHTML}</calcite-shell-center-row>
+  <calcite-shell-panel slot="panel-bottom">${centerPanelWithActionBarHTML}</calcite-shell-panel>
   <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
   ${footerHTML}
 </calcite-shell>`);
@@ -1012,9 +1005,9 @@ position:relative;
         <calcite-tooltip open slot="expand-tooltip">Expand</calcite-tooltip>
       </calcite-action-bar>
     </calcite-shell-panel>
-    <calcite-shell-center-row slot="panel-bottom">
+    <calcite-shell-panel slot="panel-bottom">
       <div style="height: 100%; width: 600px; background-color: black;"></div>
-    </calcite-shell-center-row>
+    </calcite-shell-panel>
   </calcite-shell>`;
 
 shellPanelZIndex_TestOnly.parameters = {

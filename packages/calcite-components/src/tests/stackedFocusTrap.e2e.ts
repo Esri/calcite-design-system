@@ -23,14 +23,14 @@ describe("stacked focus-trap components", () => {
       <calcite-button>Back</calcite-button>
     </calcite-dialog>
 
-    <calcite-modal id="example-modal">
+    <calcite-dialog id="example-dialog">
       <div slot="content">
         <p>This is an example modal that opens from a Sheet.</p>
       </div>
       <calcite-button slot="back">Open Another Modal</calcite-button>
-    </calcite-modal>
+    </calcite-dialog>
 
-    <calcite-modal id="another-modal">
+    <calcite-dialog id="another-dialog">
       <div slot="content">
         <p>
           This is an example of a another modal that opens from a modal. This modal an input date picker, a popover and
@@ -55,7 +55,7 @@ describe("stacked focus-trap components", () => {
         <calcite-button id="popover-button">Example Popover</calcite-button>
         <calcite-button id="tooltip-auto-ref">auto</calcite-button>
       </div>
-    </calcite-modal>
+    </calcite-dialog>
   `;
 
   it("closes a stack of open components sequentially in visual order", async () => {
@@ -120,15 +120,15 @@ describe("stacked focus-trap components", () => {
 
       const sheet = await page.find("#sheet");
       const dialog = await page.find("#dialog");
-      const firstModal = await page.find("#example-modal");
-      const secondModal = await page.find("#another-modal");
+      const firstDialog = await page.find("#example-dialog");
+      const secondDialog = await page.find("#another-dialog");
       const popover = await page.find("#popover");
       const inputTimeOrDatePicker = await page.find(pickerType);
 
       await openAndCheckVisibility(sheet);
       await openAndCheckVisibility(dialog);
-      await openAndCheckVisibility(firstModal);
-      await openAndCheckVisibility(secondModal);
+      await openAndCheckVisibility(firstDialog);
+      await openAndCheckVisibility(secondDialog);
       await openAndCheckVisibility(popover);
 
       const clickTarget =
@@ -141,7 +141,7 @@ describe("stacked focus-trap components", () => {
       await waitForAnimationFrame(page);
       await waitForAnimationFrame(page);
 
-      await testEscapeAndAssertOpenState([inputTimeOrDatePicker, popover, secondModal, firstModal, dialog, sheet]);
+      await testEscapeAndAssertOpenState([inputTimeOrDatePicker, popover, secondDialog, firstDialog, dialog, sheet]);
     }
 
     await testStackEscapeSequence(page, "calcite-input-time-picker");
