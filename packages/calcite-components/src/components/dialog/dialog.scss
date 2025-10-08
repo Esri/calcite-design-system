@@ -209,7 +209,6 @@ calcite-panel {
   background-color: transparent;
   position: fixed;
   display: flex;
-  color: inherit;
 }
 
 [popover]:popover-open {
@@ -217,7 +216,9 @@ calcite-panel {
 }
 
 :host([modal]) [popover]::backdrop {
+  display: flex;
   transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
+  transition-behavior: allow-discrete;
   background-color: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
 }
 

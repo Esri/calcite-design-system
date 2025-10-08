@@ -197,7 +197,6 @@
   display: flex;
   inline-size: 100%;
   block-size: 100%;
-  color: inherit;
 }
 
 [popover]:popover-open {
@@ -209,12 +208,14 @@
   display: flex;
   transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
   transition-behavior: allow-discrete;
-  opacity: 0;
+  background-color: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 [popover]:popover-open::backdrop {
+  @starting-style {
+    opacity: 0;
+  }
   opacity: 1;
-  background-color: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 :host([opened]) {
