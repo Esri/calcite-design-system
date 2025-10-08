@@ -82,7 +82,7 @@ export default {
           },
         },
       },
-      cropToViewport: false,
+      cropToViewport: true,
     },
   },
 };
