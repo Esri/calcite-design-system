@@ -119,7 +119,7 @@ export const nested = (): string => html`
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.querySelector("calcite-popover#popover").open = true;
-      requestAnimationFrame(() => {
+      document.addEventListener("calcitePopoverOpen", () => {
         document.querySelector("calcite-popover#nested-popover").open = true;
       });
     });
