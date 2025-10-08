@@ -2,6 +2,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { findAll } from "../../tests/utils/puppeteer";
 import type { Option } from "./option";
 
 describe("calcite-option", () => {
@@ -94,5 +96,47 @@ describe("calcite-option", () => {
 
     expect(await option.getProperty("label")).toBe(charDataUpdateLabel);
     expect(await option.getProperty("value")).toBe(charDataUpdateLabel);
+  });
+
+  describe("whitespace handling", async () => {
+    it("trims whitespace but preserves non-breaking spaces in text content", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-option> spaces </calcite-option>
+        <calcite-option><br />breaks<br /></calcite-option>
+        <calcite-option>&nbsp;non-breaking-space&nbsp;</calcite-option>
+
+        <!-- prettier-ignore -->
+        <!-- need to preserve newlines -->
+        <calcite-option> newlines </calcite-option>
+      `);
+      const options = await findAll(page, "calcite-option");
+      const labels = await Promise.all(options.map((option) => option.getProperty("label")));
+
+      expect(labels).toEqual(["spaces", "breaks", "\u00A0non-breaking-space\u00A0", "newlines"]);
+    });
+
+    it("preserves all whitespace when provided via label", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-option label=" spaces (label) "></calcite-option>
+        <calcite-option label="<br>breaks (label)<br>"></calcite-option>
+        <calcite-option label="&nbsp;non-breaking-space (label)&nbsp;"></calcite-option>
+        <calcite-option
+          label="
+newlines (label)
+"
+        ></calcite-option>
+      `);
+      const options = await findAll(page, "calcite-option");
+      const labels = await Promise.all(options.map((option) => option.getProperty("label")));
+
+      expect(labels).toEqual([
+        " spaces (label) ",
+        "<br>breaks (label)<br>",
+        "\u00A0non-breaking-space (label)\u00A0",
+        "\nnewlines (label)\n",
+      ]);
+    });
   });
 });
