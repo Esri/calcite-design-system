@@ -75,7 +75,9 @@
     items-center
     justify-center
     overflow-hidden
-    opacity-0;
+    opacity-0
+    w-full
+    h-full;
   visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
