@@ -1,6 +1,7 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { filterUnwantedOptions } from "../../../.storybook/utils";
 import { ActionPad } from "./action-pad";
 
 const { position, selectionAppearance } = ATTRIBUTES;
@@ -21,7 +22,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: selectionAppearance.values.filter((option) => option !== "icon" && option !== "border"),
+      options: filterUnwantedOptions(selectionAppearance.values, ["icon", "border"]),
       control: { type: "select" },
     },
   },

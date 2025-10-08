@@ -39,10 +39,7 @@ export class ActionPad extends LitElement {
 
   private actionGroups: ActionGroup["el"][];
 
-  private mutationObserver = createObserver("mutation", () => {
-    this.updateGroups();
-    this.updateSlottedActions();
-  });
+  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private toggleExpand = (): void => {
     this.expanded = !this.expanded;
@@ -145,7 +142,6 @@ export class ActionPad extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateSlottedActions();
   }
 
   async load(): Promise<void> {
@@ -181,7 +177,7 @@ export class ActionPad extends LitElement {
       changes.has("selectionAppearance") &&
       (this.hasUpdated || this.selectionAppearance !== "neutral")
     ) {
-      this.updateSlottedActions();
+      this.updateActions();
     }
   }
 
@@ -227,12 +223,17 @@ export class ActionPad extends LitElement {
   }
 
   /**
-   * Updates all slotted calcite-action to match the current selectionAppearance.
+   * Updates all calcite-action to match the current selectionAppearance.
    */
-  private updateSlottedActions(): void {
+  private updateActions(): void {
     this.el.querySelectorAll("calcite-action").forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
     });
+  }
+
+  private mutationObserverHandler(): void {
+    this.updateGroups();
+    this.updateActions();
   }
 
   //#endregion

@@ -45,10 +45,7 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][];
 
-  private mutationObserver = createObserver("mutation", () => {
-    this.mutationObserverHandler();
-    this.updateSlottedActions();
-  });
+  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
 
@@ -221,7 +218,6 @@ export class ActionBar extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
-    this.updateSlottedActions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -257,7 +253,7 @@ export class ActionBar extends LitElement {
       changes.has("selectionAppearance") &&
       (this.hasUpdated || this.selectionAppearance !== "neutral")
     ) {
-      this.updateSlottedActions();
+      this.updateActions();
     }
   }
 
@@ -318,6 +314,7 @@ export class ActionBar extends LitElement {
   private mutationObserverHandler(): void {
     this.updateGroups();
     this.overflowActions();
+    this.updateActions();
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -354,11 +351,11 @@ export class ActionBar extends LitElement {
   }
 
   /**
-   * Updates all slotted calcite-action to match the current selectionAppearance.
+   * Updates all calcite-action to match the current selectionAppearance.
    */
-  private updateSlottedActions(): void {
+  private updateActions(): void {
     this.el.querySelectorAll("calcite-action").forEach((action) => {
-      action.selectionAppearance = this.selectionAppearance;
+      (action as any).selectionAppearance = this.selectionAppearance;
     });
   }
 
