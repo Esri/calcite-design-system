@@ -110,10 +110,6 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
 darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
-  <button id="button">Open</button>
-  <calcite-tooltip style="--calcite-tooltip-z-index: 600;" open label="Open modal" reference-element="button"
-    >Open modal</calcite-tooltip
-  >
   <calcite-modal open aria-labelledby="modal-title" id="modal">
     <div slot="header" id="modal-title">Modal title</div>
     <div slot="content">
@@ -129,7 +125,7 @@ export const withTooltips_TestOnly = (): string => html`
   </calcite-modal>
   <calcite-tooltip id="back-tooltip" label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
   <script>
-    document.addEventListener("calciteDialogOpen", (event) => {
+    document.addEventListener("calciteModalOpen", (event) => {
       document.querySelector("calcite-tooltip#back-tooltip").open = true;
     });
   </script>
