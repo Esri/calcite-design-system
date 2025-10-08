@@ -90,6 +90,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private panelRef = createRef<Panel["el"]>();
 
+  private popoverRef = createRef<HTMLDivElement>();
+
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
   transitionEl: HTMLDivElement;
@@ -409,14 +411,14 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   private async handlePopover(): Promise<void> {
     await this.componentOnReady();
 
-    if (this.embedded || !this.transitionEl) {
+    if (this.embedded || !this.popoverRef.value) {
       return;
     }
 
     if (this.open) {
-      this.transitionEl.showPopover();
+      this.popoverRef.value.showPopover();
     } else {
-      this.transitionEl.hidePopover();
+      this.popoverRef.value.hidePopover();
     }
   }
 
@@ -768,11 +770,17 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
+        ariaDescription={description}
+        ariaLabel={heading}
+        ariaModal={this.modal}
         class={{
           [CSS.container]: true,
           [CSS.containerOpen]: opened,
           [CSS.containerEmbedded]: this.embedded,
         }}
+        popover={!this.embedded ? "manual" : null}
+        ref={this.popoverRef}
+        role="dialog"
       >
         {this.modal && this.embedded ? (
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -780,9 +788,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           <div class={CSS.invisibleScrim} onClick={this.handleOutsideClose} />
         ) : null}
         <div
-          ariaDescription={description}
-          ariaLabel={heading}
-          ariaModal={this.modal}
           class={{
             [CSS.dialog]: true,
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
@@ -790,9 +795,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
             ),
           }}
           onKeyDown={this.handleKeyDown}
-          popover={!this.embedded ? "manual" : null}
           ref={this.setTransitionEl}
-          role="dialog"
         >
           {assistiveText ? (
             <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">

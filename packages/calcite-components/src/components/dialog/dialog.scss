@@ -75,7 +75,9 @@
     items-center
     justify-center
     overflow-hidden
-    opacity-0;
+    opacity-0
+    w-full
+    h-full;
   visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -212,9 +214,6 @@ calcite-panel {
 
 [popover]:popover-open {
   display: flex;
-  align-self: center;
-  justify-self: center;
-  position: fixed;
 }
 
 :host([modal]) [popover]::backdrop {
