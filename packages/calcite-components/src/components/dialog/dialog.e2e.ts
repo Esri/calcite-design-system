@@ -754,7 +754,7 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
     await page.waitForChanges();
     expect(dialogContainer).toEqualAttribute("role", "dialog");
