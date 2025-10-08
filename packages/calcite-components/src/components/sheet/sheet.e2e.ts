@@ -261,7 +261,7 @@ describe("calcite-sheet", () => {
 
       expect(await sheet.getProperty("opened")).toBe(true);
 
-      const scrim = await page.find(`calcite-sheet >>> .${CSS.invisibleScrim}`);
+      const scrim = await page.find(`calcite-sheet >>> .${CSS.scrim}`);
       await scrim.click();
       await page.waitForChanges();
 

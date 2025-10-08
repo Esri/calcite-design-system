@@ -318,7 +318,7 @@ describe("calcite-dialog", () => {
     await page.$eval(
       "calcite-dialog",
       (el, className) => el.shadowRoot.querySelector<HTMLElement>(className).click(),
-      `.${CSS.invisibleScrim}`,
+      `.${CSS.scrim}`,
     );
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(true);
@@ -329,7 +329,7 @@ describe("calcite-dialog", () => {
     await page.$eval(
       "calcite-dialog",
       (el, className) => el.shadowRoot.querySelector<HTMLElement>(className).click(),
-      `.${CSS.invisibleScrim}`,
+      `.${CSS.scrim}`,
     );
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(false);
@@ -850,7 +850,7 @@ describe("calcite-dialog", () => {
     await page.evaluate((className) => {
       const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
       (scrim as HTMLElement).click();
-    }, `.${CSS.invisibleScrim}`);
+    }, `.${CSS.scrim}`);
 
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(false);

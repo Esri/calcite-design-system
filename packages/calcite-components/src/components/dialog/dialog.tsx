@@ -782,11 +782,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
         ref={this.popoverRef}
         role="dialog"
       >
-        {this.modal && this.embedded ? (
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        ) : this.modal ? (
-          <div class={CSS.invisibleScrim} onClick={this.handleOutsideClose} />
-        ) : null}
+        {this.modal ? <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} /> : null}
         <div
           class={{
             [CSS.dialog]: true,

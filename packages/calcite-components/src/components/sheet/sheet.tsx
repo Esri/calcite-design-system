@@ -608,12 +608,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
         popover={!this.embedded ? "manual" : null}
         ref={this.setTransitionEl}
       >
-        {this.embedded ? (
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        ) : (
-          <div class={CSS.invisibleScrim} onClick={this.handleOutsideClose} />
-        )}
-
+        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
           <div class={CSS.contentContainer}>
             <slot />

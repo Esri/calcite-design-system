@@ -174,18 +174,9 @@
   --calcite-sheet-max-height-internal: var(--calcite-sheet-max-height, 70vh);
 }
 
-:host([embedded]) {
-  .scrim {
-    @apply fixed inset-0 flex overflow-hidden;
-    --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
-  }
-}
-
-.invisible-scrim {
-  @apply fixed
-    inset-0
-    bg-transparent
-    pointer-events-auto;
+.scrim {
+  @apply fixed inset-0 flex overflow-hidden -z-default;
+  --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
 }
 
 [popover] {
@@ -202,20 +193,6 @@
 [popover]:popover-open {
   display: flex;
   position: fixed;
-}
-
-[popover]::backdrop {
-  display: flex;
-  transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out;
-  transition-behavior: allow-discrete;
-  background-color: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
-}
-
-[popover]:popover-open::backdrop {
-  @starting-style {
-    opacity: 0;
-  }
-  opacity: 1;
 }
 
 :host([opened]) {
