@@ -1,7 +1,7 @@
 {
   "name": "calcite-vue-starter",
   "private": true,
-  "description": "Starter application for @esri/calcite-commponents with Vue and TypeScript",
+  "description": "Starter application for @esri/calcite-components with Vue and TypeScript",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",
