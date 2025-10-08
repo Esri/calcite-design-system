@@ -1,6 +1,6 @@
 {
   "name": "calcite-rollup-starter",
-  "description": "Starter application for @esri/calcite-commponents with Rollup",
+  "description": "Starter application for @esri/calcite-components with Rollup",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 {
   "name": "calcite-react-starter",
   "private": true,
-  "description": "Starter application for @esri/calcite-commponents-react with TypeScript",
+  "description": "Starter application for @esri/calcite-components-react with TypeScript",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",
