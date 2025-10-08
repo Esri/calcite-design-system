@@ -4,7 +4,7 @@ const {
   milestone,
   packages,
 } = require("./resources");
-const { notReadyForDev, notInLifecycle } = require("./utils");
+const { includesLabel, notInLifecycle } = require("./utils");
 
 /**
  * @param {NodeJS.ProcessEnv} env
@@ -695,17 +695,18 @@ module.exports = function Monday(issue) {
       setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
+      const { new: newLabel, assigned, needsTriage, needsMilestone, readyForDev } = issueWorkflow;
       if (
         assignee &&
         notInLifecycle({
           labels,
-          skip: [issueWorkflow.new, issueWorkflow.assigned, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+          skip: [newLabel, assigned, needsTriage, needsMilestone],
         })
       ) {
-        addLabel(issueWorkflow.assigned);
+        addLabel(assigned);
       }
-      if (!assignee && notReadyForDev(labels)) {
-        addLabel(issueWorkflow.new);
+      if (!assignee && !includesLabel(labels, readyForDev)) {
+        addLabel(newLabel);
       }
     } else {
       setColumnValue(columnIds.date, "");
@@ -734,7 +735,7 @@ module.exports = function Monday(issue) {
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
         setColumnValue(columnIds.status, "Closed");
-      } else if (issue.labels?.every((label) => label.name !== issueType.design)) {
+      } else if (!includesLabel(issue.labels, issueType.design)) {
         setColumnValue(columnIds.status, "Done");
       }
     }
@@ -759,7 +760,7 @@ module.exports = function Monday(issue) {
     }
 
     const { needsMilestone, readyForDev } = issueWorkflow;
-    if (label === needsMilestone && !notReadyForDev(labels)) {
+    if (label === needsMilestone && includesLabel(labels, readyForDev)) {
       console.log(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`);
       return;
     }
