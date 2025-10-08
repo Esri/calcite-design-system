@@ -793,17 +793,28 @@ describe("calcite-shell-panel", () => {
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
     const resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const panel = await page.find("calcite-shell-panel");
+
     const maxDimension = 500;
     const minDimension = 100;
     const initialDimension = 450;
 
+    const dimensions = {
+      "--calcite-shell-panel-max-width": `${maxDimension}px`,
+      "--calcite-shell-panel-min-width": `${minDimension}px`,
+      "--calcite-shell-panel-width": `${initialDimension}px`,
+    };
+
+    await page.$eval(
+      "calcite-shell-panel",
+      (panel, dimensions) => {
+        Object.entries(dimensions).forEach(([key, value]) => {
+          panel.style.setProperty(key, value);
+        });
+      },
+      dimensions,
+    );
+
     panel.setProperty("layout", "vertical");
-    await page.waitForChanges();
-    panel.style.setProperty("--calcite-shell-panel-max-width", `${maxDimension}px`);
-    await page.waitForChanges();
-    panel.style.setProperty("--calcite-shell-panel-min-width", `${minDimension}px`);
-    await page.waitForChanges();
-    panel.style.setProperty("--calcite-shell-panel-width", `${initialDimension}px`);
     await page.waitForChanges();
 
     await resizeHandle.press("ArrowLeft");
