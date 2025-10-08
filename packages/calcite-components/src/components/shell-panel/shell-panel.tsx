@@ -279,17 +279,10 @@ export class ShellPanel extends LitElement {
       [type]: rounded,
     };
 
-    if (type === "blockSize") {
-      this.el.style.setProperty(
-        "--calcite-shell-panel-height",
-        size !== null ? `${rounded}px` : null,
-      );
-    } else {
-      this.el.style.setProperty(
-        "--calcite-shell-panel-width",
-        size !== null ? `${rounded}px` : null,
-      );
-    }
+    const property =
+      type === "blockSize" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
+
+    this.el.style.setProperty(property, size !== null ? `${rounded}px` : null);
   }
 
   private cleanupInteractions(): void {

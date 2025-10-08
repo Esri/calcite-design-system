@@ -51,4 +51,4 @@ export const DEBOUNCE = {
 
 export const resizeStep = 10;
 export const resizeShiftStep = 25;
-export const userResize = 30;
+export const resizeStep30 = 30;
