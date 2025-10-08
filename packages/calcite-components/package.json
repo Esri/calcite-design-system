@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
-    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json && npm run util:copy-legacy-vscode-data",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json",
     "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
