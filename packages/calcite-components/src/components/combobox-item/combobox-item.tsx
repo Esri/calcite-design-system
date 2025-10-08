@@ -238,8 +238,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.toggleSelected();
   }
 
-  private keyDownHandler(): void {
-    this.calciteComboboxItemChange.emit();
+  private keyDownHandler(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      this.calciteComboboxItemChange.emit();
+    }
   }
 
   //#endregion
@@ -328,12 +330,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           }}
           style={{ [itemSpacingMultiplier]: `${depth}` }}
         >
-          <li
-            class={classes}
-            id={this.guid}
-            onClick={this.itemClickHandler}
-            // onKeyDown={this.keyDownHandler}
-          >
+          <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
             {this.renderSelectIndicator(selectionIcon)}
             <slot name={SLOTS.contentStart} />
             {this.renderIcon(icon)}
