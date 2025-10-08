@@ -226,6 +226,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   private toggleSelected(): Promise<void> {
     const isSinglePersistSelect = this.selectionMode === "single-persist";
+
     if (this.disabled || (isSinglePersistSelect && this.selected)) {
       return;
     }

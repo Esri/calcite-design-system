@@ -1059,7 +1059,6 @@ describe("calcite-combobox", () => {
           `);
           const combobox = await page.find("calcite-combobox");
           const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
-
           await combobox.click();
           await openEventSpy.next();
 
