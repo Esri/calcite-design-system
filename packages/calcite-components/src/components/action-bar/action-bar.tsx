@@ -355,7 +355,7 @@ export class ActionBar extends LitElement {
    */
   private updateActions(): void {
     this.el.querySelectorAll("calcite-action").forEach((action) => {
-      (action as any).selectionAppearance = this.selectionAppearance;
+      action.selectionAppearance = this.selectionAppearance;
     });
   }
 
