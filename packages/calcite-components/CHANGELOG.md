@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.23...@esri/calcite-components@4.0.0-next.24) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Legacy custom CSS props were removed. Developers can
+  use [`calcite-codemod`](https://www.npmjs.com/package/calcite-codemod)
+  to migrate, upgrade to the CSS variables [introduced in version
+  2](https://developers.arcgis.com/calcite-design-system/releases/changelogs/2.0.0/#css-variable-comparison-tables),
+  or include the [legacy CSS
+  props](https://github.com/Esri/calcite-design-system/blob/b0f063e213adaa31bc5fed124b7f29381735ccf5/packages/calcite-components/src/assets/styles/_legacy.scss)
+  locally.
+
+### Features
+
+- **action-bar, action-pad:** add new selectionAppearance property for 4.0 ([#13023](https://github.com/Esri/calcite-design-system/issues/13023)) ([61f0f05](https://github.com/Esri/calcite-design-system/commit/61f0f0569dc75ea54b1056431fd4513e73c441a9)), closes [#10758](https://github.com/Esri/calcite-design-system/issues/10758)
+
+### Code Refactoring
+
+- drop legacy custom CSS props deprecated at v2 ([#13089](https://github.com/Esri/calcite-design-system/issues/13089)) ([fc9cb47](https://github.com/Esri/calcite-design-system/commit/fc9cb47d4aa56bbeabe656176754c6933266a7eb)), closes [#11807](https://github.com/Esri/calcite-design-system/issues/11807)
+
 ## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.22...@esri/calcite-components@4.0.0-next.23) (2025-10-09)
 
 ### ⚠ BREAKING CHANGES
