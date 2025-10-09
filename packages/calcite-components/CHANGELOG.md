@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.22...@esri/calcite-components@4.0.0-next.23) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- **inline-editable:** No longer set `scale` based on slotted input. This
+  change is will allow the component to honor the `scale` property set on
+  slotted inputs. Developers should explicitly set `scale` on slotted
+  inputs if they are using a non-default scale.
+
+### Bug Fixes
+
+- **inline-editable:** no longer sets the component's scale to the slotted `calcite-input`'s scale ([#12241](https://github.com/Esri/calcite-design-system/issues/12241)) ([b399ab7](https://github.com/Esri/calcite-design-system/commit/b399ab7b05530e009935ffe97500f9d3bdff7344)), closes [#10466](https://github.com/Esri/calcite-design-system/issues/10466)
+
 ## [4.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.21...@esri/calcite-components@4.0.0-next.22) (2025-10-09)
 
 ### ⚠ BREAKING CHANGES
