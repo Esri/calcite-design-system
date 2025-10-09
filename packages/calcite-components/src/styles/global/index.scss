@@ -4,7 +4,6 @@
 @use "../shared/floating-ui";
 @use "../shared/animation";
 @use "type";
-@use "legacy";
 
 :root {
   @extend %type-vars;
