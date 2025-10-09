@@ -95,10 +95,3 @@ export function createBreakpointStories(
 export const boolean = (prop: string, value: boolean): string => {
   return value ? prop : "";
 };
-
-/*
-  This helper filters out unwanted items from an array of options.
-*/
-export function filterUnwantedOptions(values: string[], exclude: string[]): string[] {
-  return values.filter((option) => !exclude.includes(option));
-}

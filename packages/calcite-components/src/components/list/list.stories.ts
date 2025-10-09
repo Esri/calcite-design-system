@@ -1,10 +1,10 @@
+import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { filterUnwantedOptions } from "../../../.storybook/utils";
 import { List } from "./list";
 
 const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
@@ -66,7 +66,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: filterUnwantedOptions(selectionAppearance.values, ["neutral", "highlight"]),
+      options: without(selectionAppearance.values, "neutral", "highlight"),
       control: { type: "select" },
     },
     iconStart: {

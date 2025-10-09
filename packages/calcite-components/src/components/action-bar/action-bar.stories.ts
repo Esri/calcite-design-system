@@ -1,7 +1,7 @@
+import { without } from "es-toolkit";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { filterUnwantedOptions } from "../../../.storybook/utils";
 import { ActionBar } from "./action-bar";
 
 const { position, selectionAppearance } = ATTRIBUTES;
@@ -26,7 +26,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: filterUnwantedOptions(selectionAppearance.values, ["icon", "border"]),
+      options: without(selectionAppearance.values, "icon", "border"),
       control: { type: "select" },
     },
   },
