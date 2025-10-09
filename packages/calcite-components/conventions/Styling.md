@@ -81,14 +81,6 @@ There are some edge cases where you may wish to isolate and use only the values 
 }
 ```
 
-## Legacy Tokens
-
-In Calcite's [2.0.0](https://github.com/Esri/calcite-design-system/releases/tag/%40esri%2Fcalcite-design-tokens%402.0.0) release, design tokens were refactored, which included the removal and refactoring of legacy CSS custom properties. Refer to the [map of token changes from 2.0.0](https://github.com/Esri/calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes) for a more comprehensive list of changes.
-
-In the release of 2.0 Calcite Component styles got a major refactor which included the removal and reassignment of legacy CSS Custom Properties originally introduced through calcite-styles/calcite-colors. To see a full list of CSS Custom Property additions, deletions, and renamed tokens please refer to the [Calcite Design Tokens 2.0 Changelog > Map of token changes](../../calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes).
-
-For backwards compatibility, deprecated tokens will continue to be provided until the next major release via [\_legacy.scss](../src/assets/styles/_legacy.scss)
-
 ## Custom Themes
 
 Since Calcite Components might be used in many different contexts, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end-user needs to be able to customize brand colors and typography. To this end, custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark modes with new values:
