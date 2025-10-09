@@ -768,6 +768,7 @@ export class Combobox
     }
 
     const newIndex = this.keyboardNavItems.indexOf(target);
+    console.log(newIndex);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
@@ -940,12 +941,8 @@ export class Combobox
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
           const item = this.keyboardNavItems[this.activeItemIndex];
-          this.toggleSelection(item, !item.selected, true);
+          item.toggleSelected();
           event.preventDefault();
-
-          if (this.selectAllEnabled) {
-            this.handleSelectAll(item === this.selectAllComboboxItemRef.value);
-          }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
