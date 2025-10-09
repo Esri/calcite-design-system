@@ -7,5 +7,6 @@
   "removeTag": "Удалить тег",
   "required": "Обязательное",
   "selectAll": "Выбрать все",
-  "selected": "выбрано"
+  "selected": "выбрано",
+  "non-editable": "Read-only {value}"
 }

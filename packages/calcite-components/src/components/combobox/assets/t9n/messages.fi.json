@@ -7,5 +7,6 @@
   "removeTag": "Poista tunniste",
   "required": "Pakollinen",
   "selectAll": "Valitse kaikki",
-  "selected": "valitut"
+  "selected": "valitut",
+  "non-editable": "Read-only {value}"
 }

@@ -7,5 +7,6 @@
   "removeTag": "Elimina l'etiqueta",
   "required": "Obligatori",
   "selectAll": "Selecciona-ho tot",
-  "selected": "seleccionat"
+  "selected": "seleccionat",
+  "non-editable": "Read-only {value}"
 }
