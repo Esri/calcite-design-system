@@ -1,7 +1,17 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, labelable, renders, t9n, themed } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  disabled,
+  hidden,
+  labelable,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -19,6 +29,15 @@ describe("calcite-inline-editable", () => {
       `,
       { display: "block" },
     );
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-inline-editable", [
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ]);
   });
 
   describe("honors hidden attribute", () => {
@@ -94,20 +113,6 @@ describe("calcite-inline-editable", () => {
       for (const button of buttons) {
         expect(await button.getProperty("title")).toBeTruthy();
       }
-    });
-
-    it("uses a child input's scale when none are provided", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-label>
-        <calcite-inline-editable>
-          <calcite-input scale="l"/>
-        </calcite-inline-editable>
-      </calcite-label>
-      `);
-      await page.waitForChanges();
-      const element = await page.find("calcite-inline-editable");
-      expect(element).toEqualAttribute("scale", "l");
     });
 
     it("renders requested props when valid props are provided", async () => {
