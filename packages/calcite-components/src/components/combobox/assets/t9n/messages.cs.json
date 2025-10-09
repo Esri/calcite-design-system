@@ -7,5 +7,6 @@
   "removeTag": "Odebrat klíčové slovo",
   "required": "Povinné",
   "selectAll": "Vybrat vše",
-  "selected": "vybraný"
+  "selected": "vybraný",
+  "non-editable": "Read-only {value}"
 }

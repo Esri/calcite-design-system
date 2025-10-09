@@ -7,5 +7,6 @@
   "removeTag": "Eemaldage märksõna",
   "required": "Nõutud",
   "selectAll": "Vali kõik",
-  "selected": "valitud"
+  "selected": "valitud",
+  "non-editable": "Read-only {value}"
 }

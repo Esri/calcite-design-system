@@ -7,5 +7,6 @@
   "removeTag": "Eliminar etiqueta",
   "required": "Obligatorio",
   "selectAll": "Seleccionar todo",
-  "selected": "seleccionado"
+  "selected": "seleccionado",
+  "non-editable": "Read-only {value}"
 }

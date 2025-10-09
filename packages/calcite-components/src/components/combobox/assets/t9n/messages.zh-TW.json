@@ -7,5 +7,6 @@
   "removeTag": "移除標記",
   "required": "必填資訊",
   "selectAll": "全選",
-  "selected": "選取"
+  "selected": "選取",
+  "non-editable": "Read-only {value}"
 }

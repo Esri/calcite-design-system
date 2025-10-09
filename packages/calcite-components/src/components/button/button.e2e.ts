@@ -709,5 +709,19 @@ describe("calcite-button", () => {
         ],
       });
     });
+    describe("deprecated", () => {
+      themed(html`<calcite-button icon-start="layer" icon-end="layer"></calcite-button>`, {
+        "--calcite-ui-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
   });
 });
