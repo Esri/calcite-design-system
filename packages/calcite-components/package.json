@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
-    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json && npm run util:copy-legacy-vscode-data",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json",
     "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
@@ -63,7 +63,6 @@
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
     "util:ensure-playwright-workaround": "npx playwright install",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../calcite-ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
