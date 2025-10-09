@@ -171,6 +171,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   /**
    * Toggles selection of the component.
+   *
    * @private
    */
   @method()
@@ -190,7 +191,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Events
 
   /** Fires whenever the component is selected or unselected. */
-  calciteComboboxItemChange = createEvent({ cancelable: true });
+  calciteComboboxItemChange = createEvent({ cancelable: false });
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
