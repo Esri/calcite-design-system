@@ -170,7 +170,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Public Methods
 
   /**
-   * Toggles selection of the component.
+   * Toggle selection of the component.
    *
    * @private
    */

@@ -1259,11 +1259,7 @@ export class Combobox
     return [...this.groupItems, ...this.items];
   }
 
-  private toggleSelection(
-    item: HTMLCalciteComboboxItemElement["el"],
-    value: boolean,
-    emit = false,
-  ): void {
+  private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     if (
       !item ||
       (this.selectionMode === "single-persist" &&
@@ -1278,12 +1274,6 @@ export class Combobox
       this.handleMultiSelection(item, value);
     } else {
       this.handleSingleSelection(item, value);
-    }
-
-    if (emit) {
-      this.ignoreSelectedEventsFlag = true;
-      item.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
-      this.ignoreSelectedEventsFlag = false;
     }
   }
 
