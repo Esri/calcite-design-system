@@ -4,6 +4,5 @@ export enum Platform {
   es6 = "es6",
 
   // internal
-  js = "js",
   docs = "docs",
 }

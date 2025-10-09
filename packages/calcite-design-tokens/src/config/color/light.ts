@@ -75,29 +75,6 @@ const config: Config = {
         },
       ],
     },
-    [Platform.js]: {
-      transformGroup: transformers.TransformCalciteGroup,
-      transforms: transformers.platformTransforms.es6,
-      buildPath: "dist/js/",
-      prefix: "calcite",
-      options: {
-        platform: Platform.js,
-        fileExtension: ".js",
-        fileHeader: headers.HeaderDefault,
-      },
-      files: [
-        {
-          destination: "light.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterSourceTokens,
-        },
-        {
-          destination: "light.d.ts",
-          format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterSourceTokens,
-        },
-      ],
-    },
     [Platform.docs]: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],

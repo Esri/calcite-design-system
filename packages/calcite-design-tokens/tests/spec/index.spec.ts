@@ -1,14 +1,7 @@
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-
-enum Platform {
-  CSS = "css",
-  SCSS = "scss",
-  ES6 = "es6",
-  JS = "js",
-  DOCS = "docs",
-}
+import { Platform } from "../../src/build/utils/enums";
 
 const platforms: {
   name: Platform;
@@ -16,13 +9,12 @@ const platforms: {
   internal?: boolean;
 }[] = [
   {
-    name: Platform.CSS,
+    name: Platform.css,
     files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
   },
-  { name: Platform.SCSS, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
-  { name: Platform.ES6, files: ["breakpoints", "core", "global", "semantic"] },
-  { name: Platform.DOCS, files: ["core", "global", "semantic"], internal: true },
-  { name: Platform.JS, files: ["core", "global", "semantic"], internal: true },
+  { name: Platform.scss, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
+  { name: Platform.es6, files: ["breakpoints", "core", "global", "semantic"] },
+  { name: Platform.docs, files: ["core", "global", "semantic"], internal: true },
 ];
 
 describe("generated tokens", () => {
@@ -44,7 +36,7 @@ function generateTests(platform: Platform, files: string[], internal = false) {
 
       it(`${file} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
 
-      if (platform === "es6" || platform === "js") {
+      if (platform === "es6") {
         it(`${file} types should match`, () => assertOutput(`${platform}/${file}.d.ts`));
       }
     });
