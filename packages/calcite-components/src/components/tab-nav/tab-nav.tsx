@@ -452,6 +452,7 @@ export class TabNav extends LitElement {
         }
       });
 
+      let scrollTo: number;
       if (closestToEdge) {
         const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =
@@ -460,11 +461,7 @@ export class TabNav extends LitElement {
             ? -scrollerButtonContainerWidth
             : closestToEdge.offsetWidth -
               (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
-        const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
-        tabTitleContainer.scrollTo({
-          left: scrollTo,
-          behavior: "smooth",
-        });
+        scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
       } else {
         const scrollPosition = tabTitleContainer.scrollLeft;
         const containerWidth = containerBounds.width;
@@ -472,13 +469,13 @@ export class TabNav extends LitElement {
         const hiddenContentWidth = totalContentWidth - (containerWidth + Math.abs(scrollPosition));
         if (hiddenContentWidth > 0) {
           const directionMultiplier = effectiveDir === "ltr" ? 1 : -1;
-          const scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
-          tabTitleContainer.scrollTo({
-            left: scrollTo,
-            behavior: "smooth",
-          });
+          scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
         }
       }
+      tabTitleContainer.scrollTo({
+        left: scrollTo,
+        behavior: "smooth",
+      });
     });
   }
 
@@ -610,7 +607,7 @@ export class TabNav extends LitElement {
         key={overflowDirection}
       >
         <calcite-button
-          appearance={"transparent"}
+          appearance="transparent"
           ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
           disabled={isEnd ? !hasOverflowingEndTabTitle : !hasOverflowingStartTabTitle}
           iconFlipRtl="both"
