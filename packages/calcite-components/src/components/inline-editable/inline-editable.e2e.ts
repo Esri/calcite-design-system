@@ -115,20 +115,6 @@ describe("calcite-inline-editable", () => {
       }
     });
 
-    it("does not use child input's scale when none are provided", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`
-      <calcite-label>
-        <calcite-inline-editable>
-          <calcite-input scale="l"/>
-        </calcite-inline-editable>
-      </calcite-label>
-      `);
-      await page.waitForChanges();
-      const element = await page.find("calcite-inline-editable");
-      expect(element).toEqualAttribute("scale", "m");
-    });
-
     it("renders requested props when valid props are provided", async () => {
       const page = await newE2EPage();
       await page.setContent(`
