@@ -41,6 +41,8 @@ export class ActionBar extends LitElement {
 
   //#region Private Properties
 
+  private actions: Action["el"][] = [];
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -215,6 +217,8 @@ export class ActionBar extends LitElement {
   override connectedCallback(): void {
     this.updateGroups();
     this.overflowActions();
+    this.queryAndStoreActions();
+    this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
@@ -314,6 +318,7 @@ export class ActionBar extends LitElement {
   private mutationObserverHandler(): void {
     this.updateGroups();
     this.overflowActions();
+    this.queryAndStoreActions();
     this.updateActions();
   }
 
@@ -332,6 +337,8 @@ export class ActionBar extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   private handleActionsEndSlotChange(event: Event): void {
@@ -350,13 +357,14 @@ export class ActionBar extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  /**
-   * Updates all calcite-action to match the current selectionAppearance.
-   */
   private updateActions(): void {
-    this.el.querySelectorAll("calcite-action").forEach((action) => {
+    this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
     });
+  }
+
+  private queryAndStoreActions(): void {
+    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
   //#endregion

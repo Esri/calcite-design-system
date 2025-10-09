@@ -8,6 +8,7 @@ import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
@@ -36,6 +37,8 @@ export class ActionPad extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  private actions: Action["el"][] = [];
 
   private actionGroups: ActionGroup["el"][];
 
@@ -141,6 +144,8 @@ export class ActionPad extends LitElement {
   }
 
   override connectedCallback(): void {
+    this.queryAndStoreActions();
+    this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -212,6 +217,8 @@ export class ActionPad extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -222,17 +229,19 @@ export class ActionPad extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  /**
-   * Updates all calcite-action to match the current selectionAppearance.
-   */
   private updateActions(): void {
-    this.el.querySelectorAll("calcite-action").forEach((action) => {
+    this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
     });
   }
 
+  private queryAndStoreActions(): void {
+    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  }
+
   private mutationObserverHandler(): void {
     this.updateGroups();
+    this.queryAndStoreActions();
     this.updateActions();
   }
 
