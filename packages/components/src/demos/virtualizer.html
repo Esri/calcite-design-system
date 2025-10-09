@@ -48,12 +48,6 @@
 
   <body>
     <demo-dom-swapper>
-      <!-- headers -->
-      <div class="parent-flex">
-        <div class="child-flex right-aligned-text"></div>
-        <div class="child-flex">Basic</div>
-      </div>
-
       <div class="parent-flex">
         <div class="child-flex right-aligned-text">Basic</div>
 
@@ -62,12 +56,32 @@
             <calcite-virtualizer scroller id="basic"></calcite-virtualizer>
           </ul>
           <script>
-            const virtualizer = document.querySelector("#basic");
-            for (let i = 0; i < 1000; i++) {
-              const li = document.createElement("li");
-              li.textContent = `Item ${i}`;
-              virtualizer.appendChild(li);
-            }
+            const virtualizerBasic = document.querySelector("#basic");
+            virtualizerBasic.items = Array.from(Array(1000).keys());
+            virtualizerBasic.renderItem = (item) => {
+              const elBasic = document.createElement("li");
+              elBasic.textContent = `Item ${item}`;
+              return elBasic;
+            };
+          </script>
+        </div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Combobox</div>
+        <div class="child-flex">
+          <calcite-combobox label="combobox" placeholder="select element" max-items="6" selection-mode="single">
+            <calcite-virtualizer id="combobox"></calcite-virtualizer>
+          </calcite-combobox>
+          <script>
+            const virtualizerCombobox = document.querySelector("#combobox");
+            virtualizerCombobox.items = Array.from(Array(1000).keys());
+            virtualizerCombobox.renderItem = (item) => {
+              const elCombobox = document.createElement("calcite-combobox-item");
+              elCombobox.value = `Item ${item}`;
+              elCombobox.textLabel = `Item ${item}`;
+              return elCombobox;
+            };
           </script>
         </div>
       </div>
