@@ -470,12 +470,12 @@ describe("calcite-sheet", () => {
       const minSize = 100;
       const initialSize = 500;
       const page = await newE2EPage();
+      await page.setViewport({ width: 1200, height: 1200 });
       await page.setContent(
         html` <calcite-sheet
-          width-scale="m"
-          height-scale="m"
           heading="Hello world"
           position="inline-start"
+          embedded
           resizable
           open
           style="
@@ -496,9 +496,9 @@ describe("calcite-sheet", () => {
         </calcite-sheet>`,
       );
       await skipAnimations(page);
-      await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
-      const container = await page.find(`calcite-sheet >>> .${CSS.content}`);
+
+      const container = await page.find(`calcite-sheet >>> #${IDS.sheetContent}`);
 
       let computedStyle = await container.getComputedStyle();
       const initialInlineSize = computedStyle.inlineSize;

@@ -316,7 +316,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
       return;
     }
 
-    if (this.open) {
+    if (this.opened) {
       this.transitionEl.showPopover();
     } else {
       this.transitionEl.hidePopover();
