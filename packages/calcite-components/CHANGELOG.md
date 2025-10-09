@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.21...@esri/calcite-components@4.0.0-next.22) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Developers using the legacy VS Code custom data files
+  should use `vscode.html-custom-data.json` as suggested in
+  <https://developers.arcgis.com/calcite-design-system/resources/frameworks/#visual-studio-intellisense>
+
+### Bug Fixes
+
+- **option:** improve whitespace handling ([#13076](https://github.com/Esri/calcite-design-system/issues/13076)) ([e89a9b8](https://github.com/Esri/calcite-design-system/commit/e89a9b8903119315ddd6abba29eb30254e123f39)), closes [#12146](https://github.com/Esri/calcite-design-system/issues/12146)
+
+### Code Refactoring
+
+- drop legacy VS Code IntelliSense file ([#13072](https://github.com/Esri/calcite-design-system/issues/13072)) ([5f15e51](https://github.com/Esri/calcite-design-system/commit/5f15e51e8f204c74895ceab7a50d3e2f48a3cd54)), closes [#13082](https://github.com/Esri/calcite-design-system/issues/13082)
+
 ## [4.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.20...@esri/calcite-components@4.0.0-next.21) (2025-10-07)
 
 ### Bug Fixes
