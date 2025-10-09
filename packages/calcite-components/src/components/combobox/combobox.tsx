@@ -767,9 +767,7 @@ export class Combobox
       this.handleSelectAll(isSelectAllTarget);
     }
 
-    const newIndex = this.keyboardNavItems.indexOf(
-      isSelectAllTarget ? this.selectAllComboboxItemRef.value : target,
-    );
+    const newIndex = this.keyboardNavItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
