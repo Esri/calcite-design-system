@@ -47,11 +47,10 @@
 // --calcite-internal-date-picker-toggle-spacing
 // --calcite-internal-input-text-input-padding-inline-end
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
 
 :host {
-  @extend %component-spacing;
   @include floating-ui.floating-ui-elem-anim(".menu-container");
   @apply relative
     inline-block

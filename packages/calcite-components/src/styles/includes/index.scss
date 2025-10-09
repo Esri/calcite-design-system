@@ -2,13 +2,7 @@
 @use "@esri/calcite-design-tokens/dist/css/component.css";
 @use "@esri/calcite-design-tokens/dist/scss";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-
-/* mixins & extensions */
-@use "animation";
-@use "focus";
 @use "host";
-@use "spacing";
-@use "floating-ui";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),

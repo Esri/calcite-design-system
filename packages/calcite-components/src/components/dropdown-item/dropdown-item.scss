@@ -11,7 +11,7 @@
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
 */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 @mixin item-styling {
   @apply relative

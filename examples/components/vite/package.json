@@ -1,7 +1,7 @@
 {
   "name": "calcite-vite-starter",
   "private": true,
-  "description": "Starter application for @esri/calcite-commponents with Vite and TypeScript",
+  "description": "Starter application for @esri/calcite-components with Vite and TypeScript",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.0"
+    "@esri/calcite-components": "3.3.3"
   },
   "devDependencies": {
     "@types/node": "^22.1.0",

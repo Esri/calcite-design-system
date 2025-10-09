@@ -3,6 +3,108 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.22...@esri/calcite-components@4.0.0-next.23) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- **inline-editable:** No longer set `scale` based on slotted input. This
+  change is will allow the component to honor the `scale` property set on
+  slotted inputs. Developers should explicitly set `scale` on slotted
+  inputs if they are using a non-default scale.
+
+### Bug Fixes
+
+- **inline-editable:** no longer sets the component's scale to the slotted `calcite-input`'s scale ([#12241](https://github.com/Esri/calcite-design-system/issues/12241)) ([b399ab7](https://github.com/Esri/calcite-design-system/commit/b399ab7b05530e009935ffe97500f9d3bdff7344)), closes [#10466](https://github.com/Esri/calcite-design-system/issues/10466)
+
+## [4.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.21...@esri/calcite-components@4.0.0-next.22) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Developers using the legacy VS Code custom data files
+  should use `vscode.html-custom-data.json` as suggested in
+  <https://developers.arcgis.com/calcite-design-system/resources/frameworks/#visual-studio-intellisense>
+
+### Bug Fixes
+
+- **option:** improve whitespace handling ([#13076](https://github.com/Esri/calcite-design-system/issues/13076)) ([e89a9b8](https://github.com/Esri/calcite-design-system/commit/e89a9b8903119315ddd6abba29eb30254e123f39)), closes [#12146](https://github.com/Esri/calcite-design-system/issues/12146)
+
+### Code Refactoring
+
+- drop legacy VS Code IntelliSense file ([#13072](https://github.com/Esri/calcite-design-system/issues/13072)) ([5f15e51](https://github.com/Esri/calcite-design-system/commit/5f15e51e8f204c74895ceab7a50d3e2f48a3cd54)), closes [#13082](https://github.com/Esri/calcite-design-system/issues/13082)
+
+## [4.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.20...@esri/calcite-components@4.0.0-next.21) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([f07c3e4](https://github.com/Esri/calcite-design-system/commit/f07c3e426a8a2f833c14e42603b04deadad7d2e7)), closes [#13038](https://github.com/Esri/calcite-design-system/issues/13038) [/devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895#issuecomment-5829349](https://github.com/Esri//devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895/issues/issuecomment-5829349)
+
+## [4.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.19...@esri/calcite-components@4.0.0-next.20) (2025-10-03)
+
+### Bug Fixes
+
+- **table-row:** add deprecated background token as fallback ([#13025](https://github.com/Esri/calcite-design-system/issues/13025)) ([adae123](https://github.com/Esri/calcite-design-system/commit/adae123942790878ca660173cc3f7b8cfe67b080)), closes [#13024](https://github.com/Esri/calcite-design-system/issues/13024)
+
+## [4.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.18...@esri/calcite-components@4.0.0-next.19) (2025-10-03)
+
+### Bug Fixes
+
+- **panel, dialog:** Calcite dialog header fails to wrap for the longer text ([#13004](https://github.com/Esri/calcite-design-system/issues/13004)) ([44b0871](https://github.com/Esri/calcite-design-system/commit/44b08710cde535f1fca132736949f127f69836f6)), closes [#12964](https://github.com/Esri/calcite-design-system/issues/12964)
+
+## [4.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.17...@esri/calcite-components@4.0.0-next.18) (2025-10-03)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.16...@esri/calcite-components@4.0.0-next.17) (2025-10-03)
+
+### Bug Fixes
+
+- **button:** Ensure `--calcite-button-icon-color` is applied ([#13013](https://github.com/Esri/calcite-design-system/issues/13013)) ([2875ab4](https://github.com/Esri/calcite-design-system/commit/2875ab4d6760a6c90a5d4f413017daafb1ef2592)), closes [#12843](https://github.com/Esri/calcite-design-system/issues/12843)
+
+## [4.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.15...@esri/calcite-components@4.0.0-next.16) (2025-10-03)
+
+### Bug Fixes
+
+- **dialog:** exclude dialog content from keyboard focus ([#13015](https://github.com/Esri/calcite-design-system/issues/13015)) ([c74c1f8](https://github.com/Esri/calcite-design-system/commit/c74c1f86da92f22965e593cb0bde5424f22d76c9)), closes [#13000](https://github.com/Esri/calcite-design-system/issues/13000) [#12569](https://github.com/Esri/calcite-design-system/issues/12569)
+
+## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.14...@esri/calcite-components@4.0.0-next.15) (2025-10-02)
+
+### ⚠ BREAKING CHANGES
+
+- **radio-button-group:** remove the deprecated `"grid"` type from the `layout`
+  property.
+
+### Code Refactoring
+
+- **radio-button-group:** remove deprecated `"grid"` `layout` type ([#13005](https://github.com/Esri/calcite-design-system/issues/13005)) ([48fe83f](https://github.com/Esri/calcite-design-system/commit/48fe83ffae7ee5e570830c672b56e53c44ded6a4)), closes [#12831](https://github.com/Esri/calcite-design-system/issues/12831)
+
+## [4.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.13...@esri/calcite-components@4.0.0-next.14) (2025-10-02)
+
+### Bug Fixes
+
+- **pagination, table:** fix page number when page size > total items ([#13007](https://github.com/Esri/calcite-design-system/issues/13007)) ([4bc835a](https://github.com/Esri/calcite-design-system/commit/4bc835af931b1a13f5857389270d63e7dc1b6fbb)), closes [#12975](https://github.com/Esri/calcite-design-system/issues/12975) [#12569](https://github.com/Esri/calcite-design-system/issues/12569)
+
+## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.12...@esri/calcite-components@4.0.0-next.13) (2025-10-01)
+
+### Features
+
+- **color-picker, date-picker:** adjust outline color for 4.0 ([#12990](https://github.com/Esri/calcite-design-system/issues/12990)) ([7af0410](https://github.com/Esri/calcite-design-system/commit/7af04102003e7dddbaf337a9beff13258ca4a5a7)), closes [#10768](https://github.com/Esri/calcite-design-system/issues/10768)
+
+### Bug Fixes
+
+- **dropdown:** fix scroller size when setting max-items ([#12967](https://github.com/Esri/calcite-design-system/issues/12967)) ([05ade56](https://github.com/Esri/calcite-design-system/commit/05ade5615378269b3467d1a2eaf5d23c70dd3888)), closes [#12737](https://github.com/Esri/calcite-design-system/issues/12737)
+
+## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.11...@esri/calcite-components@4.0.0-next.12) (2025-09-30)
+
+### Features
+
+- **list-item-group:** update design for 4.0 ([#12977](https://github.com/Esri/calcite-design-system/issues/12977)) ([c86419c](https://github.com/Esri/calcite-design-system/commit/c86419c48ebfce7dc72b63541f7e40be5e618c9b)), closes [#10764](https://github.com/Esri/calcite-design-system/issues/10764)
+
+## [4.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.10...@esri/calcite-components@4.0.0-next.11) (2025-09-29)
+
+### Bug Fixes
+
+- **list:** fix loader scrim height for empty list ([#12961](https://github.com/Esri/calcite-design-system/issues/12961)) ([e2c2806](https://github.com/Esri/calcite-design-system/commit/e2c28069f4a140f81a9bfd8184f566d9f287161b)), closes [#12943](https://github.com/Esri/calcite-design-system/issues/12943)
+
 ## [4.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.9...@esri/calcite-components@4.0.0-next.10) (2025-09-29)
 
 ### Features
@@ -135,6 +237,44 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## [3.3.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.111...@esri/calcite-components@3.3.0-next.112) (2025-09-17)
 
 **Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.2...@esri/calcite-components@3.3.3) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** Add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([2de2da3](https://github.com/Esri/calcite-design-system/commit/2de2da3454330709364f5fb3501518724b918988))
+
+## [3.3.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1...@esri/calcite-components@3.3.2) (2025-10-03)
+
+### Bug Fixes
+
+- **button:** Ensure `--calcite-button-icon-color` is applied ([#13013](https://github.com/Esri/calcite-design-system/issues/13013)) ([e1ee420](https://github.com/Esri/calcite-design-system/commit/e1ee4209bb20193476e6c9dd60b8cefb77f7e83a))
+- **dialog:** Exclude dialog content from keyboard focus ([#13015](https://github.com/Esri/calcite-design-system/issues/13015)) ([fc5f0d7](https://github.com/Esri/calcite-design-system/commit/fc5f0d7ca424b09aab9e8809de8bf36e8dfdce7b))
+- **dropdown:** Fix scroller size when setting max-items ([#12967](https://github.com/Esri/calcite-design-system/issues/12967)) ([9323d1c](https://github.com/Esri/calcite-design-system/commit/9323d1cc9a66b405b3395850dba820bc945fd625))
+- **pagination, table:** Fix page number when page size &gt; total items ([#13007](https://github.com/Esri/calcite-design-system/issues/13007)) ([c92883e](https://github.com/Esri/calcite-design-system/commit/c92883e6897626340aaf4cb28a9b4b1ec17a31a7))
+- **panel, dialog:** Calcite dialog header fails to wrap for the longer text ([#13004](https://github.com/Esri/calcite-design-system/issues/13004)) ([6521d9b](https://github.com/Esri/calcite-design-system/commit/6521d9b4ee77fcd72ecbc95edfe9a6ce9baa6197))
+- **table-row:** Add deprecated background token as fallback ([#13025](https://github.com/Esri/calcite-design-system/issues/13025)) ([0b35fd4](https://github.com/Esri/calcite-design-system/commit/0b35fd41b7bf68e5b4a6d4e7310fe864b963b319))
+
+## [3.3.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0...@esri/calcite-components@3.3.1) (2025-09-30)
+
+### Bug Fixes
+
+- **action:** Set aria-expanded for actions used for expanding and collapsing ([#12579](https://github.com/Esri/calcite-design-system/issues/12579)) ([171c30a](https://github.com/Esri/calcite-design-system/commit/171c30ad5701bf2badd245e76dac6c4ff75ca39c))
+- **carousel:** Ensure icon tokens are correctly applied ([#12902](https://github.com/Esri/calcite-design-system/issues/12902)) ([e9a9cd2](https://github.com/Esri/calcite-design-system/commit/e9a9cd23b8a6854b2e828761e2b7313a76c014e7))
+- **color-picker:** Fix initial setting of alpha object color values ([#12934](https://github.com/Esri/calcite-design-system/issues/12934)) ([b4326cf](https://github.com/Esri/calcite-design-system/commit/b4326cf67d995294f9027a68f7bd7cec805758d8))
+- **inline-editable:** Prevent interaction with start-editing button when hidden ([#12903](https://github.com/Esri/calcite-design-system/issues/12903)) ([35373de](https://github.com/Esri/calcite-design-system/commit/35373de4ae5620d5a8ab48d4f3caf96f095b0867))
+- **input-date-picker:** Correct token assignments and CSS setup ([#12883](https://github.com/Esri/calcite-design-system/issues/12883)) ([93751ee](https://github.com/Esri/calcite-design-system/commit/93751ee6f82271b9f85a50cf62ace038a6192176))
+- **list-item:** Fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([7a51b8d](https://github.com/Esri/calcite-design-system/commit/7a51b8d876b57b5923e0c8c7a42ddeb8a5db6c07))
+- **list:** Fix loader scrim height for empty list ([#12961](https://github.com/Esri/calcite-design-system/issues/12961)) ([e8ba90e](https://github.com/Esri/calcite-design-system/commit/e8ba90e8bd8771b58f64c37efbc1153c36066f6e))
+- **panel:** Ensure `content-top` and `action-bar` slots are visible ([#12963](https://github.com/Esri/calcite-design-system/issues/12963)) ([e64195c](https://github.com/Esri/calcite-design-system/commit/e64195cf2d49ebd94b7ee694ca0c9abb5f211357))
+- **sort-handle:** Update Ukranian translation ([#12944](https://github.com/Esri/calcite-design-system/issues/12944)) ([70be691](https://github.com/Esri/calcite-design-system/commit/70be691847d61471e59a6ddc79bc3705e40c7197))
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - devDependencies
+    - @esri/calcite-design-tokens bumped from 3.2.0 to 3.2.1
+    - @esri/calcite-tailwind-preset bumped from 1.0.1 to 1.0.2
 
 ## [3.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.2.1...@esri/calcite-components@3.3.0) (2025-09-16)
 

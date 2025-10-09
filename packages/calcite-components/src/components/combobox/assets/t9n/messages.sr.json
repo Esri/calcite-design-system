@@ -7,5 +7,6 @@
   "removeTag": "Ukloni oznaku",
   "required": "Obavezno",
   "selectAll": "Izaberi sve",
-  "selected": "selektovano"
+  "selected": "selektovano",
+  "non-editable": "Read-only {value}"
 }

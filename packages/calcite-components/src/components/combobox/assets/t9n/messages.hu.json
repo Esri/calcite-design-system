@@ -7,5 +7,6 @@
   "removeTag": "Címke eltávolítása",
   "required": "Szükséges",
   "selectAll": "Összes kiválasztása",
-  "selected": "kiválasztva"
+  "selected": "kiválasztva",
+  "non-editable": "Read-only {value}"
 }

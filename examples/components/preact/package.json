@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
-  "description": "Starter application for @esri/calcite-commponents with Preact and TypeScript",
+  "description": "Starter application for @esri/calcite-components with Preact and TypeScript",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.0",
+    "@esri/calcite-components": "3.3.3",
     "preact": "^10.26.2",
     "preact-iso": "^2.9.0"
   },

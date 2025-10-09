@@ -10077,5 +10077,15 @@
     "alias": ["4.3.1", "forms", "configure", "value", "combinations", "group"],
     "category": "Forms",
     "release": "4.3.1"
+  },
+  "group-template": {
+    "alias": ["4.4.0", "gis", "list", "point", "entry", "field", "maps"],
+    "category": "GIS",
+    "release": "4.4.0"
+  },
+  "organize-template": {
+    "alias": ["4.4.0", "gis", "list", "field", "maps", "feature", "manage"],
+    "category": "GIS",
+    "release": "4.4.0"
   }
 }

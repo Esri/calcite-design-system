@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { trim } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./option.scss";
 
@@ -9,6 +10,8 @@ declare global {
     "calcite-option": Option;
   }
 }
+
+const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 
 export class Option extends LitElement {
   // #region Static Members
@@ -32,7 +35,7 @@ export class Option extends LitElement {
 
   // #region Public Properties
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({
     reflect: true,
   })
@@ -41,7 +44,7 @@ export class Option extends LitElement {
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({
     reflect: true,
   })
@@ -111,25 +114,21 @@ export class Option extends LitElement {
   }
 
   private ensureTextContentDependentProps(): void {
-    const {
-      el: { textContent },
-      internallySetLabel,
-      internallySetValue,
-      label,
-      value,
-    } = this;
+    const { el, internallySetLabel, internallySetValue, label, value } = this;
+    const trimmedContent = trim(el.textContent, whitespaceCharsToTrim);
+    const trimmedLabel = label;
 
-    if (!label || label === internallySetLabel) {
-      this.label = textContent;
-      this.internallySetLabel = textContent;
+    if (!trimmedLabel || trimmedLabel === internallySetLabel) {
+      this.label = trimmedContent;
+      this.internallySetLabel = trimmedContent;
     }
 
     if (
       value == null /* intentional loose equals to handle both undefined & null */ ||
       value === internallySetValue
     ) {
-      this.value = textContent;
-      this.internallySetValue = textContent;
+      this.value = trimmedContent;
+      this.internallySetValue = trimmedContent;
     }
   }
 

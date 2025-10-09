@@ -44,10 +44,10 @@
 // --calcite-internal-dialog-min-size-y
 // --calcite-internal-dialog-shown-position
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
-@use "../../assets/styles/spacing";
+@use "../../styles/shared/animation";
+@use "../../styles/shared/spacing";
 
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
@@ -162,7 +162,6 @@ calcite-panel {
   --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
   --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
-  --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
   --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
 }

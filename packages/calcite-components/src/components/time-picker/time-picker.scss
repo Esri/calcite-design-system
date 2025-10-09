@@ -14,7 +14,7 @@
  * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply inline-block;

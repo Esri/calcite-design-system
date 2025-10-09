@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "4.0.0-next.10",
+  "version": "4.0.0-next.23",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
-    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json && npm run util:copy-legacy-vscode-data",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json",
     "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
@@ -49,7 +49,6 @@
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
-    "prepublish": "./support/cleanupDistFiles.sh",
     "screenshot-tests": "npm run build-storybook",
     "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
@@ -64,7 +63,6 @@
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
     "util:ensure-playwright-workaround": "npx playwright install",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:copy-legacy-vscode-data": "cpy \"./dist/docs/vscode.html-custom-data.json\" \"./dist/extras/\" --rename=vscode-data.json --flat",
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../calcite-ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
@@ -77,16 +75,16 @@
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/lumina": "^4.34.0-next.122",
-    "@arcgis/toolkit": "^4.34.0-next.139",
-    "@esri/calcite-ui-icons": "4.4.0-next.0",
+    "@arcgis/lumina": ">=4.34.0-next.158 <4.35.0",
+    "@arcgis/toolkit": ">=4.34.0-next.158 <4.35.0",
+    "@esri/calcite-ui-icons": "4.4.0-next.1",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
     "color": "^5.0.0",
     "composed-offset-position": "^0.0.6",
     "es-toolkit": "^1.39.8",
-    "focus-trap": "^7.6.2",
+    "focus-trap": "^7.6.5",
     "interactjs": "^1.10.27",
     "lit": "^3.3.0",
     "sortablejs": "^1.15.6",
@@ -94,13 +92,13 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": "^4.34.0-next.122",
-    "@esri/calcite-design-tokens": "4.0.0-next.0",
-    "@esri/calcite-tailwind-preset": "1.0.2-next.1",
+    "@arcgis/lumina-compiler": ">=4.34.0-next.158 <4.35.0",
+    "@esri/calcite-design-tokens": "4.0.0-next.2",
+    "@esri/calcite-tailwind-preset": "1.0.2-next.4",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.0",
     "@vitest/browser": "3.2.4",
-    "playwright": "1.55.0",
-    "sass-embedded": "1.92.1",
+    "playwright": "1.55.1",
+    "sass-embedded": "1.93.2",
     "vitest": "3.2.4"
   },
   "volta": {

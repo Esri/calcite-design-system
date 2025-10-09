@@ -22,7 +22,8 @@ import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { styles as sortableStyles } from "../../assets/styles/_sortable.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
+import { styles as headerStyles } from "../../styles/component/header.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
@@ -46,7 +47,7 @@ declare global {
 export class Block extends LitElement implements InteractiveComponent, OpenCloseComponent {
   //#region Static Members
 
-  static override styles = [styles, sortableStyles];
+  static override styles = [headerStyles, styles, sortableStyles];
 
   //#endregion
 
@@ -87,26 +88,26 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
 
   //#region Public Properties
 
-  /** When present, the component is collapsible. */
+  /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
   /** A description for the component, which displays below the heading. */
   @property() description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, and a parent Block Group is `dragEnabled`, the component is not draggable. */
+  /** When `true`, and a parent Block Group is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
-   * When present, the component displays a draggable button.
+   * When `true`, the component displays a draggable button.
    *
    * @deprecated No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When present, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /**
@@ -127,7 +128,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart: IconName;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -166,7 +167,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
   @property() sortDisabled = false;
 
   /**
-   * When present, expands the component and its contents.
+   * When `true`, expands the component and its contents.
    *
    * @deprecated Use `expanded` prop instead.
    */
@@ -209,7 +210,7 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property() setSize: number = null;
 
-  /** When present, displays and positions the sort handle. */
+  /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
   /**

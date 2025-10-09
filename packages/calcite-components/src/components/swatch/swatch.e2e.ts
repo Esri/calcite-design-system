@@ -157,12 +157,12 @@ describe("calcite-swatch", () => {
         ],
       });
     });
-    describe("solid ", () => {
+    describe("solid", () => {
       themed(html`<calcite-swatch color="#ff8200"></calcite-swatch>`, {
         "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" }],
       });
     });
-    describe("transparent ", () => {
+    describe("transparent", () => {
       themed(html`<calcite-swatch color="rgba(255, 255, 255, 0.5)"></calcite-swatch>`, {
         "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" }],
       });

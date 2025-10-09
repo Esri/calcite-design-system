@@ -7,5 +7,6 @@
   "removeTag": "ลบแท็ก",
   "required": "ต้องการ",
   "selectAll": "เลือกทั้งหมด",
-  "selected": "เลือก"
+  "selected": "เลือก",
+  "non-editable": "Read-only {value}"
 }

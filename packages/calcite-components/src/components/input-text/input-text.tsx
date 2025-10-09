@@ -140,11 +140,11 @@ export class InputText
    */
   @property() autocomplete: AutoFill;
 
-  /** When present, a clear button is displayed when the component has a value. */
+  /** When `true`, a clear button is displayed when the component has a value. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When present, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -167,7 +167,7 @@ export class InputText
    */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
@@ -175,7 +175,7 @@ export class InputText
 
   @property() labelText: string;
 
-  /** When present, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -226,14 +226,14 @@ export class InputText
   @property() prefixText: string;
 
   /**
-   * When present, the component's value can be read, but cannot be modified.
+   * When `true`, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;

@@ -4,7 +4,7 @@ const {
   milestone,
   packages,
 } = require("./resources");
-const { notReadyForDev, notInLifecycle } = require("./utils");
+const { includesLabel, notInLifecycle } = require("./utils");
 
 /**
  * @param {NodeJS.ProcessEnv} env
@@ -36,6 +36,7 @@ module.exports = function Monday(issue) {
   let columnUpdates = {};
 
   const columnIds = {
+    /* eslint-disable @cspell/spellchecker -- Monday IDs may include segments with randomized characters */
     title: "name",
     issueNumber: "numeric_mknk2xhh",
     link: "link",
@@ -56,6 +57,7 @@ module.exports = function Monday(issue) {
     designTokens: "color_mkvyhk10",
     figmaChanges: "color_mkrvmhg7",
     open: "color_mknkrb2n",
+    /* eslint-enable @cspell/spellchecker */
   };
 
   const labelMap = new Map([
@@ -355,6 +357,7 @@ module.exports = function Monday(issue) {
    */
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
+    /* eslint-disable @cspell/spellchecker -- GitHub usernames */
     ["anveshmekala", { role: columnIds.developers, id: 48387134 }],
     ["aPreciado88", { role: columnIds.developers, id: 60795249 }],
     ["ashetland", { role: columnIds.designers, id: 45851619 }],
@@ -367,12 +370,12 @@ module.exports = function Monday(issue) {
     ["geospatialem", { role: columnIds.productEngineers, id: 45853373 }],
     ["isaacbraun", { role: columnIds.productEngineers, id: 76547859 }],
     ["jcfranco", { role: columnIds.developers, id: 45854945 }],
-    ["josercarcamo", { role: columnIds.developers, id: 56555749 }],
     ["macandcheese", { role: columnIds.developers, id: 45854918 }],
     ["matgalla", { role: columnIds.designers, id: 69473378 }],
     ["rmstinson", { role: columnIds.designers, id: 47277636 }],
     ["SkyeSeitz", { role: columnIds.designers, id: 45854937 }],
     ["Amretasre002762670", { role: columnIds.developers, id: 77031889 }],
+    /* eslint-enable @cspell/spellchecker */
   ]);
 
   /** @type {Record<Exclude<import('@octokit/webhooks-types').Issue["state"], undefined>, string>} */
@@ -692,17 +695,18 @@ module.exports = function Monday(issue) {
       setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
+      const { new: newLabel, assigned, needsTriage, needsMilestone, readyForDev } = issueWorkflow;
       if (
         assignee &&
         notInLifecycle({
           labels,
-          skip: [issueWorkflow.new, issueWorkflow.assigned, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+          skip: [newLabel, assigned, needsTriage, needsMilestone],
         })
       ) {
-        addLabel(issueWorkflow.assigned);
+        addLabel(assigned);
       }
-      if (!assignee && notReadyForDev(labels)) {
-        addLabel(issueWorkflow.new);
+      if (!assignee && !includesLabel(labels, readyForDev)) {
+        addLabel(newLabel);
       }
     } else {
       setColumnValue(columnIds.date, "");
@@ -731,7 +735,7 @@ module.exports = function Monday(issue) {
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
         setColumnValue(columnIds.status, "Closed");
-      } else if (issue.labels?.every((label) => label.name !== issueType.design)) {
+      } else if (!includesLabel(issue.labels, issueType.design)) {
         setColumnValue(columnIds.status, "Done");
       }
     }
@@ -756,7 +760,7 @@ module.exports = function Monday(issue) {
     }
 
     const { needsMilestone, readyForDev } = issueWorkflow;
-    if (label === needsMilestone && !notReadyForDev(labels)) {
+    if (label === needsMilestone && includesLabel(labels, readyForDev)) {
       console.log(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`);
       return;
     }
