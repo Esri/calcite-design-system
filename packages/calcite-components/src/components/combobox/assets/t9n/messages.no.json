@@ -7,5 +7,6 @@
   "removeTag": "Fjern tagg",
   "required": "Obligatorisk",
   "selectAll": "Velg alle",
-  "selected": "valgte"
+  "selected": "valgte",
+  "non-editable": "Read-only {value}"
 }

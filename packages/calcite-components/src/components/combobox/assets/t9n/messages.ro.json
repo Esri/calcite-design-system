@@ -7,5 +7,6 @@
   "removeTag": "Eliminare etichetă",
   "required": "Obligatoriu",
   "selectAll": "Selectare globală",
-  "selected": "selectat"
+  "selected": "selectat",
+  "non-editable": "Read-only {value}"
 }

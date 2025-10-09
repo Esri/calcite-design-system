@@ -88,7 +88,8 @@
   "plugins": [
     {
       "type": "node-workspace",
-      "merge": false
+      "merge": false,
+      "updatePeerDependencies": true
     },
     {
       "type": "linked-versions",
