@@ -7,5 +7,6 @@
   "removeTag": "タグの削除",
   "required": "必須",
   "selectAll": "すべて選択",
-  "selected": "選択済み"
+  "selected": "選択済み",
+  "non-editable": "Read-only {value}"
 }

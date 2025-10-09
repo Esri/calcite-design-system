@@ -7,5 +7,6 @@
   "removeTag": "Xóa thẻ",
   "required": "Bắt buộc",
   "selectAll": "Chọn tất cả",
-  "selected": "đã được chọn"
+  "selected": "đã được chọn",
+  "non-editable": "Read-only {value}"
 }

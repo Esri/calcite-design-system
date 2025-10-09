@@ -7,5 +7,6 @@
   "removeTag": "移除标签",
   "required": "必需项",
   "selectAll": "全选",
-  "selected": "选择"
+  "selected": "选择",
+  "non-editable": "Read-only {value}"
 }

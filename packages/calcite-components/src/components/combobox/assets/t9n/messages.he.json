@@ -7,5 +7,6 @@
   "removeTag": "הסר תג",
   "required": "נדרש",
   "selectAll": "בחר הכול",
-  "selected": "נבחר"
+  "selected": "נבחר",
+  "non-editable": "Read-only {value}"
 }
