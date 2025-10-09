@@ -105,15 +105,15 @@ export const nested = (): string => html`
     ${referenceElementHTML}
     <calcite-popover closable open reference-element="reference-element" placement="${defaultPopoverPlacement}">
       <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
-      <calcite-popover
-        heading="Heading"
-        closable
-        id="nested-popover"
-        reference-element="reference-element-nested"
-        placement="${defaultPopoverPlacement}"
-      >
-        ${contentHTML}
-      </calcite-popover>
+    </calcite-popover>
+    <calcite-popover
+      heading="Heading"
+      closable
+      id="nested-popover"
+      reference-element="reference-element-nested"
+      placement="${defaultPopoverPlacement}"
+    >
+      ${contentHTML}
     </calcite-popover>
     <script>
       document.addEventListener("calcitePopoverOpen", () => {
