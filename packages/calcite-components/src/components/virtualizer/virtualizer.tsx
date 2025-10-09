@@ -25,14 +25,14 @@ export class Virtualizer extends LitElement {
   @property({ reflect: true }) scroller = false;
 
   /** When `true`, the content will be scrollable. */
-  @property({ reflect: true }) items = [];
+  @property({ reflect: true }) items: Array<any> = [];
 
   /**
    * Specifies a function to handle rendering items.
    *
    * @param item
    */
-  @property() renderItem: (item) => HTMLElement = (item) => {
+  @property() renderItem: (item: any) => HTMLElement = (item) => {
     const el = document.createElement("div");
     el.textContent = `${item}`;
     return el;
