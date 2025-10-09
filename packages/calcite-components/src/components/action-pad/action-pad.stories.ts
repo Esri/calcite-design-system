@@ -1,11 +1,12 @@
+import { without } from "es-toolkit";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionPad } from "./action-pad";
 
-const { position } = ATTRIBUTES;
+const { position, selectionAppearance } = ATTRIBUTES;
 
-type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position">;
+type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position" | "selectionAppearance">;
 
 export default {
   title: "Components/Action Pad",
@@ -13,10 +14,15 @@ export default {
     expandDisabled: false,
     expanded: false,
     position: position.defaultValue,
+    selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: without(selectionAppearance.values, "icon", "border"),
       control: { type: "select" },
     },
   },
@@ -32,6 +38,7 @@ export const simple = (args: ActionPadStoryArgs): string => html`
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
     position="${args.position}"
+    selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
       <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>

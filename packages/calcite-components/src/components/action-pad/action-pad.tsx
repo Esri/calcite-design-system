@@ -3,11 +3,12 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
@@ -37,9 +38,11 @@ export class ActionPad extends LitElement {
 
   //#region Private Properties
 
+  private actions: Action["el"][] = [];
+
   private actionGroups: ActionGroup["el"][];
 
-  private mutationObserver = createObserver("mutation", () => this.updateGroups());
+  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private toggleExpand = (): void => {
     this.expanded = !this.expanded;
@@ -96,6 +99,12 @@ export class ActionPad extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the selection appearance of the component */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "neutral" | "highlight",
+    SelectionAppearance
+  > = "neutral";
+
   //#endregion
 
   //#region Public Methods
@@ -135,6 +144,7 @@ export class ActionPad extends LitElement {
   }
 
   override connectedCallback(): void {
+    this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -165,6 +175,13 @@ export class ActionPad extends LitElement {
       } else {
         this.calciteActionPadCollapse.emit();
       }
+    }
+
+    if (
+      changes.has("selectionAppearance") &&
+      (this.hasUpdated || this.selectionAppearance !== "neutral")
+    ) {
+      this.updateActions();
     }
   }
 
@@ -199,6 +216,8 @@ export class ActionPad extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -207,6 +226,22 @@ export class ActionPad extends LitElement {
     );
 
     this.expandTooltip = tooltips[0];
+  }
+
+  private updateActions(): void {
+    this.actions.forEach((action) => {
+      action.selectionAppearance = this.selectionAppearance;
+    });
+  }
+
+  private queryAndStoreActions(): void {
+    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  }
+
+  private mutationObserverHandler(): void {
+    this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   //#endregion
