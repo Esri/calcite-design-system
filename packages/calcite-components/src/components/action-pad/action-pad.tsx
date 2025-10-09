@@ -144,7 +144,6 @@ export class ActionPad extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.queryAndStoreActions();
     this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }

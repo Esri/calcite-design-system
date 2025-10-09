@@ -217,7 +217,6 @@ export class ActionBar extends LitElement {
   override connectedCallback(): void {
     this.updateGroups();
     this.overflowActions();
-    this.queryAndStoreActions();
     this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
