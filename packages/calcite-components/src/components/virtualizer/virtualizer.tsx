@@ -1,9 +1,6 @@
-import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { html } from "lit";
-import { unsafeHTML } from "lit-html/directives/unsafe-html.js";
 import { virtualize } from "@lit-labs/virtualizer/virtualize.js";
-import { slotChangeGetAssignedElements } from "@arcgis/toolkit/dom";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { styles } from "./virtualizer.scss";
 
 declare global {
@@ -22,27 +19,24 @@ export class Virtualizer extends LitElement {
 
   //#endregion
 
-  //#region State Properties
-
-  @state() hasSlottedContent = false;
-
-  @state() slotElements: Element[] = [];
-
-  //#endregion
-
   //#region Public Properties
 
-  /** When present, content interaction is prevented and displayed with lower opacity. */
+  /** When `true`, the content will be scrollable. */
   @property({ reflect: true }) scroller = false;
 
-  //#endregion
+  /** When `true`, the content will be scrollable. */
+  @property({ reflect: true }) items = [];
 
-  //#region Private Methods
-
-  private handleDefaultSlotChange(event: Event): void {
-    this.hasSlottedContent = slotChangeHasAssignedElement(event);
-    this.slotElements = slotChangeGetAssignedElements(event);
-  }
+  /**
+   * Specifies a function to handle rendering items.
+   *
+   * @param item
+   */
+  @property() renderItem: (item) => HTMLElement = (item) => {
+    const el = document.createElement("div");
+    el.textContent = `${item}`;
+    return el;
+  };
 
   //#endregion
 
@@ -51,11 +45,10 @@ export class Virtualizer extends LitElement {
   override render(): JsxNode {
     return (
       <div>
-        <slot hidden onSlotChange={this.handleDefaultSlotChange} />
         {virtualize({
           scroller: this.scroller,
-          items: this.slotElements,
-          renderItem: (item) => html`${unsafeHTML(item.outerHTML)}`,
+          items: this.items,
+          renderItem: (item) => html`${this.renderItem(item)}`,
         })}
       </div>
     );
