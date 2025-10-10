@@ -2303,6 +2303,7 @@ describe("calcite-list", () => {
       await page.keyboard.type("Bui");
       await page.waitForChanges();
       await filterSpy.next();
+      console.log(filterSpy.length, "total emits");
 
       expect(await list.getProperty("filterText")).toBe("Bui");
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
