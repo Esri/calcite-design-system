@@ -8,5 +8,5 @@
   "required": "Obligatorio",
   "selectAll": "Seleccionar todo",
   "selected": "seleccionado",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

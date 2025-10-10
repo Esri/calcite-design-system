@@ -8,5 +8,5 @@
   "required": "Obavezno",
   "selectAll": "Izaberi sve",
   "selected": "selektovano",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

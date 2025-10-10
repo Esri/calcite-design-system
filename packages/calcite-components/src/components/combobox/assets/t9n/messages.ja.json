@@ -8,5 +8,5 @@
   "required": "必須",
   "selectAll": "すべて選択",
   "selected": "選択済み",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

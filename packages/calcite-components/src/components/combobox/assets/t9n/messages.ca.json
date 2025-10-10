@@ -8,5 +8,5 @@
   "required": "Obligatori",
   "selectAll": "Selecciona-ho tot",
   "selected": "seleccionat",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }
