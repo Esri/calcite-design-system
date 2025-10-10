@@ -3,7 +3,7 @@
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
 // 3. Generates a notification to the Calcite project manager(s)
-// 4. Trigger the Monday.com sync workflow
+// 4. Emits "NotifyWorkflow" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
@@ -77,7 +77,7 @@ module.exports = async ({ github, context }) => {
       ref: "dev",
       inputs: {
         issue_number: number.toString(),
-        event_type: "ReadyForDev",
+        event_type: "NotifyWorkflow",
       },
     });
   }
