@@ -1,3 +1,4 @@
+import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -65,7 +66,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: selectionAppearance.values,
+      options: without(selectionAppearance.values, "neutral", "highlight"),
       control: { type: "select" },
     },
     iconStart: {

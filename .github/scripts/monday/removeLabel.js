@@ -1,14 +1,15 @@
 // @ts-check
 const Monday = require("../support/monday");
+const { assertRequired, notInLifecycle } = require("../support/utils");
 const {
   labels: {
-    planning: { spike, spikeComplete },
-    issueType: { designTokens },
+    planning: { spike, spikeComplete, blocked },
+    issueType: { design, designTokens, a11y },
     issueWorkflow: { new: newLabel, assigned: assignedLabel, needsTriage, needsMilestone },
+    handoff: { figmaChanges },
   },
-  packages: { tokens },
+  packages: { tokens: tokensPackage },
 } = require("../support/resources");
-const { assertRequired, notInLifecycle } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
@@ -21,17 +22,24 @@ module.exports = async ({ context }) => {
     assertRequired([isSpikeComplete], "Issue is marked as a spike complete. Skipping label removal.");
   }
 
-  if ([designTokens, tokens].includes(labelName) && issueLabels) {
+  if ([designTokens, tokensPackage].includes(labelName) && issueLabels) {
     const areTokensStillPresent = issueLabels.some((label) => label.name === designTokens);
     assertRequired([areTokensStillPresent], "Issue is still marked as a design token issue. Skipping label removal.");
   }
 
   const monday = Monday(issue);
 
-  if (assignee && notInLifecycle({ labels: issueLabels, skip: [newLabel, assignedLabel, needsTriage, needsMilestone] })) {
+  if (
+    assignee &&
+    notInLifecycle({ labels: issueLabels, skip: [newLabel, assignedLabel, needsTriage, needsMilestone] })
+  ) {
     monday.addLabel(assignedLabel);
   }
 
-  monday.clearLabel(labelName);
+  const clearable = [a11y, spike, design, blocked, figmaChanges, designTokens, tokensPackage].includes(labelName);
+  if (clearable) {
+    monday.clearLabel(labelName);
+  }
+
   await monday.commit();
 };
