@@ -392,7 +392,9 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   private closeTabTitleAndNotify(): void {
     this.closed = true;
     this.calciteInternalTabsClose.emit({ tab: this.tab });
-    this.calciteTabsClose.emit();
+
+    // emit in the next frame to let internal events sync up
+    requestAnimationFrame(() => this.calciteTabsClose.emit());
   }
 
   //#endregion
