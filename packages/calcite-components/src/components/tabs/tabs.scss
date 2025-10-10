@@ -11,6 +11,7 @@
 
 :host {
   @apply flex flex-col;
+  background-color: var(--calcite-tab-background-color, var(--calcite-color-transparent));
 }
 
 :host([bordered]) {
