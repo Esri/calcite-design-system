@@ -41,6 +41,22 @@ function generateIconId({ icon, scale }: FetchIconProps): string {
 }
 
 export async function fetchIcon(props: FetchIconProps): Promise<CalciteIconPath> {
+  /*
+   * option 2: allow developers to fetch icons by name and scale for their own use
+   *
+   * pros:
+   *
+   * - flexible
+   *   - allows developers to fetch icons by name and scale
+   *   - can customize rules for icon name/scale matching
+   * - allows passing icons by name
+   * - similar DX
+   *
+   * cons:
+   *
+   * - will require type overrides until we provide a way to extend supported icon types
+   * - icons need to match scale
+   */
   const cachedIconKey = generateIconId(props);
   const cachedIconData = getCachedIconDataByKey(cachedIconKey);
 
