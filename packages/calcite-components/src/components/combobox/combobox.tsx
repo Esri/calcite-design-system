@@ -646,7 +646,6 @@ export class Combobox
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
-    this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
 

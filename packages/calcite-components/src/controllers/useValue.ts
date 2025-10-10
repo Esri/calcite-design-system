@@ -15,13 +15,18 @@ interface UseValue {
    * Whether the last value change was performed by a KeyboardEvent or MouseEvent.
    */
   userChangedValue: boolean;
+  /**
+   * The name of the component's value property useValue will manage.  Defaults to "value".
+   */
+  valueProperty: string;
 }
 
 interface UseValueComponent {
   /**
    * The component's public value property.
+   *
    */
-  value: any;
+  valueProperty?: string;
 }
 
 interface CommitValueOptions {
@@ -63,19 +68,22 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   //#region Component Lifecycle
 
   hostConnected(): void {
-    this.lastCommittedValue = this.component.value;
-    this.previousValue = this.component.value;
+    const valueProperty = this.getComponentValueProperty();
+    this.lastCommittedValue = this.component[valueProperty];
+    this.previousValue = this.component[valueProperty];
   }
 
   hostLoaded(): void {
-    this.lastCommittedValue = this.component.value;
-    this.previousValue = this.component.value;
+    const valueProperty = this.getComponentValueProperty();
+    this.lastCommittedValue = this.component[valueProperty];
+    this.previousValue = this.component[valueProperty];
   }
 
   hostUpdate(changes: PropertyValues): void {
-    if (changes.has("value")) {
+    const valueProperty = this.getComponentValueProperty();
+    if (changes.has(valueProperty)) {
       if (!this.userChangedValue) {
-        this.handleDirectValueChange(this.component.value);
+        this.handleDirectValueChange(this.component[valueProperty]);
       }
       this.userChangedValue = false;
     }
@@ -92,7 +100,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param changeEventEmitter
    */
   commitCurrentValue({ changeEventEmitter }: Pick<CommitValueOptions, "changeEventEmitter">): void {
-    this.commitValue({ changeEventEmitter, value: this.component.value });
+    this.commitValue({ changeEventEmitter, value: this.component[this.getComponentValueProperty()] });
   }
 
   /**
@@ -105,22 +113,27 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param changeEvent.value
    */
   commitValue({ changeEventEmitter, value }: CommitValueOptions): void {
-    if (this.component.value === value && this.component.value === this.lastCommittedValue) {
+    const valueProperty = this.getComponentValueProperty();
+    if (this.component[valueProperty] === value && this.component[valueProperty] === this.lastCommittedValue) {
       return;
     }
 
-    this.previousValue = this.component.value;
+    this.previousValue = this.component[valueProperty];
     this.userChangedValue = true;
-    this.component.value = value;
+    this.component[valueProperty] = value;
     this.userChangedValue = false;
 
     const changeEvent = changeEventEmitter.emit();
     if (changeEvent.defaultPrevented) {
       this.userChangedValue = false;
-      this.component.value = this.lastCommittedValue;
+      this.component[valueProperty] = this.lastCommittedValue;
     } else {
-      this.lastCommittedValue = this.component.value;
+      this.lastCommittedValue = this.component[valueProperty];
     }
+  }
+
+  private getComponentValueProperty(): string {
+    return this.component.valueProperty ?? "value";
   }
 
   /**
@@ -129,7 +142,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    */
   private handleDirectValueChange(value: string): void {
     if (!value) {
-      this.component.value = "";
+      this.component[this.getComponentValueProperty()] = "";
     }
     this.previousValue = value;
     this.lastCommittedValue = value;
@@ -144,18 +157,19 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
    * @param inputEventEmitter.value
    */
   inputValue({ inputEventEmitter, value }: InputValueOptions): void {
-    if (value !== this.component.value) {
-      this.previousValue = this.component.value;
+    const valueProperty = this.getComponentValueProperty();
+    if (value !== this.component[valueProperty]) {
+      this.previousValue = this.component[valueProperty];
       this.userChangedValue = true;
-      this.component.value = value;
+      this.component[valueProperty] = value;
     }
 
     const inputEvent = inputEventEmitter.emit(value);
     if (inputEvent.defaultPrevented) {
       this.userChangedValue = false;
       // This check allows direct changes to the value to persist after calling inputEvent.preventDefault()
-      if (value === this.component.value) {
-        this.component.value = this.previousValue;
+      if (value === this.component[valueProperty]) {
+        this.component[valueProperty] = this.previousValue;
       }
     }
   }

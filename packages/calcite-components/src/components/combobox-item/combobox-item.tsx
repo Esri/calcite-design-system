@@ -14,6 +14,7 @@ import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
+import { useValue } from "../../controllers/useValue";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -38,6 +39,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Private Properties
 
   private _selected = false;
+
+  private valueController = useValue(this);
+
+  valueProperty: string = "selected";
 
   //#endregion
 
@@ -226,8 +231,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       return;
     }
 
-    this.selected = !this.selected;
-    this.calciteComboboxItemChange.emit();
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteComboboxItemChange,
+      value: !this.selected,
+    });
   }
 
   private itemClickHandler(): void {
