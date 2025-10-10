@@ -17,7 +17,7 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { logger } from "../../utils/logger";
@@ -45,7 +45,7 @@ declare global {
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
  */
-export class Modal extends LitElement implements OpenCloseComponent {
+export class Modal extends LitElement {
   //#region Static Members
 
   static override styles = styles;
