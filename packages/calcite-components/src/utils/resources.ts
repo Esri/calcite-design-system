@@ -51,4 +51,7 @@ export const DEBOUNCE = {
 
 export const resizeStep = 10;
 export const resizeShiftStep = 25;
-export const resizeStep30 = 30;
+
+export const maxDimension = 500;
+export const minDimension = 100;
+export const initialDimension = 420;

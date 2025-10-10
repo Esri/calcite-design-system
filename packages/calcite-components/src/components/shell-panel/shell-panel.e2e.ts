@@ -3,7 +3,7 @@ import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting
 import { describe, expect, it } from "vitest";
 import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
-import { CSS_UTILITY, resizeStep, resizeStep30 } from "../../utils/resources";
+import { CSS_UTILITY, initialDimension, maxDimension, minDimension, resizeStep } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -779,63 +779,74 @@ describe("calcite-shell-panel", () => {
     });
   });
 
-  it("should honor programmatic updates to the width and height token before and after the handle resize", async () => {
-    const page = await newE2EPage();
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(html`
-      <calcite-shell>
-        <calcite-shell-panel slot="panel-start" resizable>
-          <calcite-panel> Content dimensions test </calcite-panel>
-        </calcite-shell-panel>
-      </calcite-shell>
-    `);
+  describe("programmatic updates to size tokens", () => {
+    it("should reflect programmatic changes to width token before and after handle resize (vertical layout)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-shell>
+          <calcite-shell-panel slot="panel-start" layout="vertical" resizable>
+            <calcite-panel> Content dimensions test </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      `);
 
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const panel = await page.find("calcite-shell-panel");
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const panel = await page.find("calcite-shell-panel");
 
-    const maxDimension = 500;
-    const minDimension = 100;
-    const initialDimension = 450;
+      const dimensions = {
+        "--calcite-shell-panel-max-width": `${maxDimension}px`,
+        "--calcite-shell-panel-min-width": `${minDimension}px`,
+        "--calcite-shell-panel-width": `${initialDimension}px`,
+      };
 
-    const dimensions = {
-      "--calcite-shell-panel-max-width": `${maxDimension}px`,
-      "--calcite-shell-panel-min-width": `${minDimension}px`,
-      "--calcite-shell-panel-width": `${initialDimension}px`,
-    };
+      await page.$eval(
+        "calcite-shell-panel",
+        (panel, dimensions) => {
+          Object.entries(dimensions).forEach(([key, value]) => {
+            panel.style.setProperty(key, value);
+          });
+        },
+        dimensions,
+      );
 
-    await page.$eval(
-      "calcite-shell-panel",
-      (panel, dimensions) => {
-        Object.entries(dimensions).forEach(([key, value]) => {
-          panel.style.setProperty(key, value);
-        });
-      },
-      dimensions,
-    );
+      expect((await content.getComputedStyle()).width).toBe(`${initialDimension}px`);
 
-    panel.setProperty("layout", "vertical");
-    await page.waitForChanges();
+      await resizeHandle.press("ArrowLeft");
+      expect((await content.getComputedStyle()).width).toBe(`${initialDimension - resizeStep}px`);
 
-    await resizeHandle.press("ArrowLeft");
-    expect((await content.getComputedStyle()).width).toBe(`${initialDimension - resizeStep30}px`);
+      panel.style.setProperty("--calcite-shell-panel-width", `${minDimension}px`);
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).width).toBe(`${minDimension}px`);
+    });
 
-    panel.style.setProperty("--calcite-shell-panel-width", `${minDimension}px`);
-    await page.waitForChanges();
-    expect((await content.getComputedStyle()).width).toBe(`${minDimension}px`);
+    it("should reflect programmatic changes to height token before and after handle resize (horizontal layout)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-shell>
+          <calcite-shell-panel
+            slot="panel-top"
+            layout="horizontal"
+            style="--calcite-shell-panel-height: ${initialDimension}px; --calcite-shell-panel-max-height: ${maxDimension}px;"
+            resizable
+          >
+            <calcite-panel> Content dimensions test </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>
+      `);
 
-    panel.setProperty("layout", "horizontal");
-    await page.waitForChanges();
-    panel.style.setProperty("--calcite-shell-panel-height", `${initialDimension}px`);
-    await page.waitForChanges();
+      const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+      const resizeHandle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
+      const panel = await page.find("calcite-shell-panel");
 
-    expect((await content.getComputedStyle()).height).toBe(`${initialDimension}px`);
+      expect((await content.getComputedStyle()).height).toBe(`${initialDimension}px`);
 
-    await resizeHandle.press("ArrowUp");
-    expect((await content.getComputedStyle()).height).toBe(`${initialDimension - resizeStep30}px`);
+      await resizeHandle.press("ArrowUp");
+      expect((await content.getComputedStyle()).height).toBe(`${initialDimension - resizeStep}px`);
 
-    panel.style.setProperty("--calcite-shell-panel-height", `${minDimension}px`);
-    await page.waitForChanges();
-    expect((await content.getComputedStyle()).height).toBe(`${minDimension}px`);
+      panel.style.setProperty("--calcite-shell-panel-height", `${minDimension}px`);
+      await page.waitForChanges();
+      expect((await content.getComputedStyle()).height).toBe(`${minDimension}px`);
+    });
   });
 });
