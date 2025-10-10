@@ -8,5 +8,5 @@
   "required": "Obligatoriu",
   "selectAll": "Selectare globală",
   "selected": "selectat",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

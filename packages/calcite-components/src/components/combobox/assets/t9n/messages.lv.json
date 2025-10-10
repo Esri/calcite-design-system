@@ -8,5 +8,5 @@
   "required": "Obligāts",
   "selectAll": "Izvēlēties visu",
   "selected": "atlasīts",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

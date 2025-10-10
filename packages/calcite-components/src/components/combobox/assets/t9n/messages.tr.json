@@ -8,5 +8,5 @@
   "required": "Gerekli",
   "selectAll": "Tümünü seç",
   "selected": "seçili",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

@@ -8,5 +8,5 @@
   "required": "Vyžadované",
   "selectAll": "Vybrať všetko",
   "selected": "vybrané",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

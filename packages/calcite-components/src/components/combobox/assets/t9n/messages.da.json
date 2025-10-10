@@ -8,5 +8,5 @@
   "required": "Obligatorisk",
   "selectAll": "Vælg alle",
   "selected": "valgt",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }
