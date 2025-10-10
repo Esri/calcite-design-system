@@ -45,6 +45,8 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
    * */
   @property({ reflect: true }) scale: Scale = "m";
 
+  @property() textTruncation: { heading: "wrap" | "truncate" | "clip" } = { heading: "clip" };
+
   // #endregion
 
   // #region Events
@@ -72,6 +74,15 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
     this.calciteInternalListItemGroupDefaultSlotChange.emit();
   }
 
+  private setHeadingElement(el: HTMLDivElement): void {
+    if (el) {
+      const headingStyle = this.textTruncation.heading;
+      el.style.textOverflow = headingStyle === "truncate" ? "ellipsis" : "clip";
+      el.style.whiteSpace = headingStyle === "wrap" ? "wrap" : "nowrap";
+      el.style.overflow = headingStyle === "wrap" ? "visible" : "hidden";
+    }
+  }
+
   // #endregion
 
   // #region Rendering
@@ -81,7 +92,12 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
-          <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
+          <div
+            ariaColSpan={MAX_COLUMNS}
+            class={CSS.heading}
+            ref={this.setHeadingElement}
+            role="cell"
+          >
             {heading}
           </div>
         </div>

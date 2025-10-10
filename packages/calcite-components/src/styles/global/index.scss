@@ -32,5 +32,13 @@
   }
 }
 
+.text--truncate {
+  text-overflow: ellipsis;
+}
+
+.text--wrap {
+  white-space: wrap;
+}
+
 @include animation.animation-reduced-motion();
 @include animation.animation-helper-classes();
