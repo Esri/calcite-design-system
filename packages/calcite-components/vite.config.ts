@@ -28,9 +28,6 @@ export default defineConfig({
   plugins: [
     useLumina({
       build: {
-        cdn: {
-          namespace: "calcite",
-        },
         dependencies: {
           // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
           bundleIn: nonEsmDependencies,

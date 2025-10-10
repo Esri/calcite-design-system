@@ -59,7 +59,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: normalizePath(resolve("node_modules", "@esri", "calcite-components", "dist", "calcite", "assets")),
+          src: normalizePath(resolve("node_modules", "@esri", "calcite-components", "dist", "cdn", "assets")),
           dest: normalizePath("."),
         },
       ],
