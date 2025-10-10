@@ -8,7 +8,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: "Create unblocked comment"
         uses: actions/github-script@v7

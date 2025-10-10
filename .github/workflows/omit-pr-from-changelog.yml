@@ -10,7 +10,7 @@ jobs:
   add-changelog-omit-comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Add omit comment to PR
         uses: actions/github-script@v7
