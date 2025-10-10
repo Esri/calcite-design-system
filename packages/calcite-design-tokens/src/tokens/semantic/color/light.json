@@ -360,14 +360,6 @@
       },
       "border": {
         "1": {
-          "value": "{core.color.neutral.blk-050}",
-          "type": "color",
-          "attributes": {
-            "category": "color",
-            "group": "border"
-          }
-        },
-        "2": {
           "value": "{core.color.neutral.blk-040}",
           "type": "color",
           "attributes": {
@@ -375,8 +367,16 @@
             "group": "border"
           }
         },
-        "3": {
+        "2": {
           "value": "{core.color.neutral.blk-030}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "border"
+          }
+        },
+        "3": {
+          "value": "{core.color.neutral.blk-020}",
           "type": "color",
           "attributes": {
             "category": "color",
