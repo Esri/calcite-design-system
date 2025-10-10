@@ -2,6 +2,7 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { MODES } from "../../../.storybook/modes";
 import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
 
@@ -79,7 +80,7 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { modes: { default: MODES.small } } };
 
 export const darkModeRTL_TestOnly = (): string =>
   html` <div style="width: 400px;">

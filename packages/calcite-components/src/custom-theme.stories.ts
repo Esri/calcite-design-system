@@ -1,4 +1,5 @@
 import { html } from "../support/formatting";
+import { MODES } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
@@ -132,7 +133,7 @@ const globalTokens = {
   calciteUiIconColor: "currentColor",
 };
 
-function convertToParamCase(str) {
+function convertToParamCase(str: string): string {
   return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
@@ -352,6 +353,7 @@ export default {
 export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
+themingInteractive.parameters = { chromatic: { modes: { default: MODES.large } } };
 
 export const theming = (): string => {
   return kitchenSink(
@@ -361,3 +363,4 @@ export const theming = (): string => {
     true,
   );
 };
+theming.parameters = { chromatic: { modes: { default: MODES.large } } };
