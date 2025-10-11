@@ -75,12 +75,12 @@ describe("calcite-shell", () => {
           <p>Primary Content</p>
         </calcite-shell-panel>
         <p>Main content</p>
-        <calcite-shell-center-row slot="${SLOTS.panelBottom}">
-          <p>Center row content</p>
-        </calcite-shell-center-row>
-        <calcite-shell-center-row slot="${SLOTS.panelTop}">
-          <p>Center row content</p>
-        </calcite-shell-center-row>
+        <calcite-shell-panel slot="${SLOTS.panelBottom}">
+          <p>Bottom panel content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelTop}">
+          <p>Top panel content</p>
+        </calcite-shell-panel>
       </calcite-shell>`,
     );
 
@@ -106,12 +106,12 @@ describe("calcite-shell", () => {
           <p>Primary Content</p>
         </calcite-shell-panel>
         <p>Main content</p>
-        <calcite-shell-center-row slot="${SLOTS.panelBottom}">
-          <p>Center row content</p>
-        </calcite-shell-center-row>
-        <calcite-shell-center-row slot="${SLOTS.panelTop}">
-          <p>Center row content</p>
-        </calcite-shell-center-row>
+        <calcite-shell-panel slot="${SLOTS.panelBottom}">
+          <p>Bottom panel content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelTop}">
+          <p>Top panel content</p>
+        </calcite-shell-panel>
       </calcite-shell>`,
     );
 
@@ -199,34 +199,6 @@ describe("calcite-shell", () => {
       expect(await block.getProperty("expanded")).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
     });
-
-    it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html` <calcite-shell>
-          <calcite-shell-panel slot="panel-start">
-            <calcite-panel heading="Example">
-              <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
-            </calcite-panel>
-          </calcite-shell-panel>
-          <calcite-panel heading="Content">
-            <calcite-shell style="position:relative">
-              <calcite-modal slot="modals" open>
-                <calcite-panel heading="Modal"></calcite-panel>
-              </calcite-modal>
-            </calcite-shell>
-          </calcite-panel>
-        </calcite-shell>`,
-      );
-      const block = await page.find("calcite-block");
-
-      const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
-      await block.click();
-      await openEventSpy.next();
-
-      expect(await block.getProperty("expanded")).toBe(true);
-      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
-    });
   });
 
   describe("theme", () => {
@@ -239,7 +211,6 @@ describe("calcite-shell", () => {
           <calcite-flow slot="panel-end">
             <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
           </calcite-flow>
-          <calcite-shell-center-row slot="center-row">Hello world </calcite-shell-center-row>
         </calcite-shell>`,
         {
           "--calcite-shell-border-color": [
@@ -251,33 +222,7 @@ describe("calcite-shell", () => {
               targetProp: "borderColor",
               selector: "calcite-flow",
             },
-            {
-              targetProp: "borderColor",
-              selector: "calcite-shell-center-row",
-            },
           ],
-        },
-      );
-    });
-    describe("deprecated", () => {
-      themed(
-        html` <calcite-shell
-          ><calcite-tip-manager slot="center-row" id="tip-manager" hidden>
-            <calcite-tip heading="The lack of imagery">
-              <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
-              <p>
-                This is the next paragraph and should show how wide the content area is now. Of course, the width of the
-                overall tip will affect things. In astronomy, the terms object and body are often used interchangeably.
-              </p>
-              <a href="http://www.esri.com">View Esri</a>
-            </calcite-tip>
-          </calcite-tip-manager>
-        </calcite-shell>`,
-        {
-          "--calcite-shell-tip-spacing": {
-            targetProp: "insetInline",
-            selector: "calcite-tip-manager",
-          },
         },
       );
     });

@@ -56,7 +56,7 @@
       <main>
         <div class="shell-container">
           <calcite-shell content-behind>
-            <calcite-shell-center-row slot="panel-top" hidden height-scale="s" detached>
+            <calcite-shell-panel slot="panel-top" hidden height-scale="s" display-mode="float-content">
               <calcite-panel
                 heading="Shell center row top"
                 description="Will be replaced with horizontal action bar / slot panel in shell panel"
@@ -84,8 +84,8 @@
                   <calcite-action icon="mega-phone" text="What's that?!" id="tip-manager-button"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-            </calcite-shell-center-row>
-            <calcite-shell-center-row slot="panel-bottom" height-scale="s" detached>
+            </calcite-shell-panel>
+            <calcite-shell-panel slot="panel-bottom" height-scale="s" display-mode="float-content">
               <calcite-panel
                 heading="Shell center row bottom"
                 description="Will be replaced with horizontal action bar / slot panel in shell panel"
@@ -113,7 +113,7 @@
                   <calcite-action icon="mega-phone" text="What's that?!" id="tip-manager-button"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-            </calcite-shell-center-row>
+            </calcite-shell-panel>
             <calcite-shell-panel resizable slot="panel-start" position="start">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>

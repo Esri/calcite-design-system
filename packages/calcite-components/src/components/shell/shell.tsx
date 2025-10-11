@@ -5,7 +5,6 @@ import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
-import { Modal } from "../modal/modal";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
@@ -138,7 +137,7 @@ export class Shell extends LitElement {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.tagName === "CALCITE-MODAL") {
-        (el as Modal["el"]).embedded = true;
+        (el as Dialog) /* casting as dialog until slot is removed */.embedded = true;
       }
     });
   }

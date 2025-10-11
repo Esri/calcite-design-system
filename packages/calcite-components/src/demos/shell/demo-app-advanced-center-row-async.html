@@ -49,26 +49,26 @@
         });
         view.when(function () {
           view.ui.move("zoom", "bottom-right");
-          addCenterRow();
+          addCenterPanel();
         });
       });
-      function addCenterRow() {
-        const centerRow = document.createElement("calcite-shell-center-row");
-        centerRow.setAttribute("slot", "center-row");
-        centerRow.setAttribute("detached", "");
-        centerRow.setAttribute("hidden", "");
+      function addCenterPanel() {
+        const centerPanel = document.createElement("calcite-shell-panel");
+        centerPanel.slot = "panel-bottom";
+        centerPanel.displayMode = "float-content";
+        centerPanel.hidden = true;
 
         const shell = document.getElementById("shell");
-        shell.appendChild(centerRow);
+        shell.append(centerPanel);
 
-        const contentTrigger = document.getElementById("center-row-trigger");
+        const contentTrigger = document.getElementById("center-panel-trigger");
         contentTrigger.addEventListener("click", function () {
-          centerRow.removeAttribute("hidden");
+          centerPanel.hidden = false;
 
           const panel = document.createElement("calcite-panel");
-          panel.setAttribute("heading", "This is it.");
+          panel.heading = "This is it.";
           panel.innerHTML = "<p>This is cool stuff.</p>";
-          centerRow.appendChild(panel);
+          centerPanel.append(panel);
         });
       }
     </script>
@@ -91,7 +91,7 @@
                   <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
                   <calcite-action icon="legend" text="Legend"> </calcite-action>
                   <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
-                  <calcite-action icon="table" text="Table" id="center-row-trigger"> </calcite-action>
+                  <calcite-action icon="table" text="Table" id="center-panel-trigger"> </calcite-action>
                 </calcite-action-group>
                 <calcite-action-group>
                   <calcite-action text="Share" icon="share"></calcite-action>
@@ -121,7 +121,7 @@
                   <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
                   <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
                   <calcite-action text="Labels" icon="label"> </calcite-action>
-                  <calcite-action text="Table" icon="table" id="center-row-trigger"> </calcite-action>
+                  <calcite-action text="Table" icon="table" id="center-panel-trigger"> </calcite-action>
                 </calcite-action-group>
                 <calcite-action-group>
                   <calcite-action icon="search" text="Search"></calcite-action>
@@ -147,11 +147,6 @@
               <h2>Boomer v Millennial - California</h2>
             </div>
             <div id="viewDiv"></div>
-            <!-- <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row" hidden position="end">
-              <calcite-action-bar slot="action-bar" hidden></calcite-action-bar>
-
-          </calcite-shell-center-row> -->
-
             <footer slot="footer">Footer</footer>
           </calcite-shell>
         </div>

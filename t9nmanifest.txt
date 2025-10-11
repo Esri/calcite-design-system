@@ -30,7 +30,6 @@ packages\calcite-components\src\components\list\assets\t9n
 packages\calcite-components\src\components\list-item\assets\t9n
 packages\calcite-components\src\components\menu\assets\t9n
 packages\calcite-components\src\components\menu-item\assets\t9n
-packages\calcite-components\src\components\modal\assets\t9n
 packages\calcite-components\src\components\notice\assets\t9n
 packages\calcite-components\src\components\pagination\assets\t9n
 packages\calcite-components\src\components\panel\assets\t9n
