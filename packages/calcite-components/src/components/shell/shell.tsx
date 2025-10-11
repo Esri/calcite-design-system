@@ -6,6 +6,7 @@ import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
 import { Modal } from "../modal/modal";
+import { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
@@ -118,46 +119,76 @@ export class Shell extends LitElement {
 
   private handleAlertsSlotChange(event: Event): void {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.tagName === "CALCITE-ALERT") {
-        (el as Alert["el"]).embedded = true;
-      }
-    });
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is Alert["el"] => el?.matches("calcite-alert"))
+      .forEach((el) => {
+        el.embedded = true;
+      });
   }
 
   private handleSheetsSlotChange(event: Event): void {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.tagName === "CALCITE-SHEET") {
-        (el as Sheet["el"]).embedded = true;
-      }
-    });
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is Sheet["el"] => el?.matches("calcite-sheet"))
+      .forEach((el) => {
+        el.embedded = true;
+      });
   }
 
   private handleModalsSlotChange(event: Event): void {
     this.hasModals = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.tagName === "CALCITE-MODAL") {
-        (el as Modal["el"]).embedded = true;
-      }
-    });
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is Modal["el"] => el?.matches("calcite-modal"))
+      .forEach((el) => {
+        el.embedded = true;
+      });
   }
 
   private handlePanelTopChange(event: Event): void {
     this.hasPanelTop = slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
+      .forEach((el) => {
+        el.layout = "horizontal";
+        el.position = "start";
+      });
   }
 
   private handlePanelBottomChange(event: Event): void {
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
+      .forEach((el) => {
+        el.layout = "horizontal";
+        el.position = "end";
+      });
+  }
+
+  private handlePanelStartChange(event: Event): void {
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
+      .forEach((el) => {
+        el.layout = "vertical";
+        el.position = "start";
+      });
+  }
+
+  private handlePanelEndChange(event: Event): void {
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
+      .forEach((el) => {
+        el.layout = "vertical";
+        el.position = "end";
+      });
   }
 
   private handleDialogsSlotChange(event: Event): void {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)?.map((el) => {
-      if (el.tagName === "CALCITE-DIALOG") {
-        (el as Dialog["el"]).embedded = true;
-      }
-    });
+    slotChangeGetAssignedElements(event)
+      .filter((el): el is Dialog["el"] => el?.matches("calcite-dialog"))
+      .forEach((el) => {
+        el.embedded = true;
+      });
   }
 
   // #endregion
@@ -276,9 +307,9 @@ export class Shell extends LitElement {
   private renderMain(): JsxNode {
     return (
       <div class={CSS.main}>
-        <slot name={SLOTS.panelStart} />
+        <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
         {this.renderContent()}
-        <slot name={SLOTS.panelEnd} />
+        <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />
       </div>
     );
   }
