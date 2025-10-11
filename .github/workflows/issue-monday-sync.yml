@@ -79,10 +79,10 @@ jobs:
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateState.js')
             await action({github, context})
 
-      - name: "Handle Ready For Dev Automation"
-        if: github.event.inputs.event_type == 'ReadyForDev'
+      - name: "Handle Notify Workflow Event"
+        if: github.event.inputs.event_type == 'NotifyWorkflow'
         uses: actions/github-script@v7
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/monday/handleReadyForDev.js')
+            const action = require('${{ github.workspace }}/.github/scripts/monday/handleNotifyWorkflow.js')
             await action({github, context})
