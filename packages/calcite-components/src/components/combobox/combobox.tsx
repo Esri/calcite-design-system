@@ -62,6 +62,7 @@ import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
+import { useValue } from "../../controllers/useValue";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -211,8 +212,6 @@ export class Combobox
 
   private inputHeight = 0;
 
-  private internalValueChangeFlag = false;
-
   labelEl: Label["el"];
 
   private listContainerEl: HTMLDivElement;
@@ -238,13 +237,13 @@ export class Combobox
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
 
-  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
-
   private textInputRef = createRef<HTMLInputElement>();
 
   transitionEl: HTMLDivElement;
 
   private _value: string | string[] = null;
+
+  private valueController = useValue(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -430,16 +429,7 @@ export class Combobox
    *
    * @readonly
    */
-  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this._selectedItems;
-  }
-  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
-    const oldSelectedItems = this._selectedItems;
-    if (selectedItems !== oldSelectedItems) {
-      this._selectedItems = selectedItems;
-      this.selectedItemsHandler();
-    }
-  }
+  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -597,9 +587,8 @@ export class Combobox
     connectLabel(this);
     connectForm(this);
 
-    this.internalValueChangeFlag = true;
+    this.updateItems();
     this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -657,7 +646,6 @@ export class Combobox
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
-    this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
 
@@ -673,8 +661,15 @@ export class Combobox
 
   //#region Private Methods
 
-  private emitComboboxChange(): void {
-    this.calciteComboboxChange.emit();
+  private commitValue(): void {
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteComboboxChange,
+      value: this.getValue(),
+    });
+  }
+
+  private syncSelectedItems(): void {
+    this.selectedItems = this.getSelectedItems();
   }
 
   private filterTextChange(value: string): void {
@@ -699,7 +694,7 @@ export class Combobox
   }
 
   private valueHandler(value: string | string[]): void {
-    if (!this.internalValueChangeFlag) {
+    if (!this.valueController.userChangedValue) {
       this.getItems().forEach((item) => {
         item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
       });
@@ -711,12 +706,6 @@ export class Combobox
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
-  }
-
-  private selectedItemsHandler(): void {
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -771,7 +760,7 @@ export class Combobox
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
-    this.selectedItems = this.getSelectedItems();
+    this.syncSelectedItems();
   }
 
   private calciteInternalComboboxItemChangeHandler(
@@ -788,7 +777,7 @@ export class Combobox
     this.items.forEach((el) => (el.selected = false));
     this.ignoreSelectedEventsFlag = false;
     this.selectedItems = [];
-    this.emitComboboxChange();
+    this.commitValue();
     this.open = false;
     this.updateActiveItemIndex(-1);
     this.resetText();
@@ -830,7 +819,7 @@ export class Combobox
     const toggledValue = !this.allSelected;
     this.items.forEach((item) => (item.selected = toggledValue));
     this.selectedItems = toggledValue ? this.items : [];
-    this.emitComboboxChange();
+    this.commitValue();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -1281,8 +1270,8 @@ export class Combobox
   private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     item.selected = value;
     this.updateAncestors(item);
-    this.selectedItems = this.getSelectedItems();
-    this.emitComboboxChange();
+    this.syncSelectedItems();
+    this.commitValue();
     this.resetText();
     this.filterItems("");
   }
@@ -1291,8 +1280,8 @@ export class Combobox
     this.ignoreSelectedEventsFlag = true;
     this.items.forEach((el) => (el.selected = el === item ? value : false));
     this.ignoreSelectedEventsFlag = false;
-    this.selectedItems = this.getSelectedItems();
-    this.emitComboboxChange();
+    this.syncSelectedItems();
+    this.commitValue();
 
     if (this.textInputRef.value) {
       this.textInputRef.value.value = getLabel(item);
