@@ -727,7 +727,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   }
 
   private handlePanelKeyDown(event: KeyboardEvent): void {
-    if (this.escapeDisabled && event.key === "Escape") {
+    if (this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       event.preventDefault();
     }
   }

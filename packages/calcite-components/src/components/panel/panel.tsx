@@ -127,6 +127,14 @@ export class Panel extends LitElement implements InteractiveComponent {
     if (value !== oldValue) {
       this.setClosedState(value);
     }
+
+    if (value) {
+      this.removeEventListener("keydown", this.panelKeyDownHandler);
+      this.removeEventListener("calcitePanelClose", this.panelCloseHandler);
+    } else {
+      this.listen("keydown", this.panelKeyDownHandler);
+      this.listen("calcitePanelClose", this.panelCloseHandler);
+    }
   }
 
   /** When `collapsible` is present, specifies the direction of the collapse icon. */
@@ -239,12 +247,6 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   //#region Lifecycle
 
-  constructor() {
-    super();
-    this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.panelCloseHandler);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
@@ -310,8 +312,8 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.emitCloseEvent();
       event.preventDefault();
+      this.emitCloseEvent();
     }
   }
 
