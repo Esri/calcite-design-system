@@ -54,12 +54,15 @@
   --calcite-dialog-scrim-background-color: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
   @apply flex
     inset-0
-    z-overlay
     pointer-events-none;
   --calcite-internal-dialog-animation-offset: 20px;
 }
 
-:host([modal]) {
+:host([embedded]) {
+  @apply z-overlay;
+}
+
+:host([embedded][modal]) {
   @apply absolute;
 }
 
@@ -73,7 +76,8 @@
     justify-center
     overflow-hidden
     opacity-0
-    z-overlay;
+    w-full
+    h-full;
   visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -140,6 +144,7 @@
     var(--calcite-color-transparent-scrim)
   );
   @apply fixed
+    -z-default
     inset-0
     flex
     overflow-y-hidden;
@@ -190,6 +195,18 @@ calcite-panel {
   --calcite-panel-background-color: initial;
 }
 
+[popover] {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  position: fixed;
+  display: flex;
+}
+
+[popover]:popover-open {
+  display: flex;
+}
+
 .dialog {
   @apply pointer-events-none
     m-6
@@ -199,7 +216,6 @@ calcite-panel {
     flex-col
     opacity-0
     shadow-2-sm
-    z-modal
     relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
@@ -228,6 +244,10 @@ calcite-panel {
       inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
   }
+}
+
+:host([embedded]) .dialog {
+  @apply z-modal;
 }
 
 :host([menu-open]) .dialog {
@@ -366,6 +386,7 @@ calcite-panel {
 }
 
 .container--embedded {
+  @apply z-overlay;
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

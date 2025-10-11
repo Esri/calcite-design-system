@@ -673,6 +673,20 @@ export class Combobox
 
   //#region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
   }
@@ -690,6 +704,7 @@ export class Combobox
     }
 
     this.setMaxScrollerHeight();
+    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -1164,6 +1179,7 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({
@@ -1812,7 +1828,7 @@ export class Combobox
     const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
-      <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
+      <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             {this.selectAllEnabled &&

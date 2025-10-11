@@ -218,9 +218,25 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
   // #endregion
 
   // #region Private Methods
+
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open && this.referenceEl) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
+    this.handlePopover();
   }
 
   onBeforeOpen(): void {
@@ -269,6 +285,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
+    this.handlePopover();
   }
 
   private getId(): string {
@@ -325,7 +342,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, OpenClos
     this.el.role = "tooltip";
 
     return (
-      <div class={CSS.positionContainer} ref={this.setFloatingEl}>
+      <div class={CSS.positionContainer} popover="manual" ref={this.setFloatingEl}>
         <div
           class={{
             [FloatingCSS.animation]: true,

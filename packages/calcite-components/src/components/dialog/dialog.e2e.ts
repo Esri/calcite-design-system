@@ -315,14 +315,22 @@ describe("calcite-dialog", () => {
 
     const dialog = await page.find("calcite-dialog");
 
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+    await page.$eval(
+      "calcite-dialog",
+      (el, className) => el.shadowRoot.querySelector<HTMLElement>(className).click(),
+      `.${CSS.scrim}`,
+    );
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(true);
 
     dialog.setProperty("outsideCloseDisabled", false);
     await page.waitForChanges();
 
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+    await page.$eval(
+      "calcite-dialog",
+      (el, className) => el.shadowRoot.querySelector<HTMLElement>(className).click(),
+      `.${CSS.scrim}`,
+    );
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(false);
   });
@@ -746,7 +754,7 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
     await page.waitForChanges();
     expect(dialogContainer).toEqualAttribute("role", "dialog");
@@ -966,7 +974,7 @@ describe("calcite-dialog", () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
     const page = await newE2EPage({
       html: `
-      <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background-color:${overrideStyle}">
+      <calcite-dialog embedded modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background-color:${overrideStyle}">
         <div>The actual content of the dialog</div>
         <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
@@ -1265,7 +1273,7 @@ describe("calcite-dialog", () => {
       async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
+          html`<calcite-dialog embedded heading="Information" description="Themed" kind="info" scale="s" modal open>
             <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
             <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
             <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
@@ -1290,7 +1298,7 @@ describe("calcite-dialog", () => {
       {
         "--calcite-dialog-scrim-background-color": {
           shadowSelector: `.${CSS.scrim}`,
-          targetProp: "--calcite-scrim-background-color",
+          targetProp: "--calcite-scrim-background",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,

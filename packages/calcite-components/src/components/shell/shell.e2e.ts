@@ -186,6 +186,8 @@ describe("calcite-shell", () => {
           <calcite-panel heading="Content">
             <calcite-shell style="position:relative">
               <calcite-dialog heading="Dialog" slot="dialogs" open modal></calcite-dialog>
+            <calcite-shell>
+              <calcite-dialog embedded heading="Dialog" slot="dialogs" open modal></calcite-dialog>
             </calcite-shell>
           </calcite-panel>
         </calcite-shell>`,

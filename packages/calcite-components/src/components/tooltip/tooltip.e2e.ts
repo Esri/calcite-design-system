@@ -180,24 +180,6 @@ describe("calcite-tooltip", () => {
     });
   });
 
-  it("should have zIndex of 901", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-tooltip reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`,
-    );
-
-    await page.waitForChanges();
-
-    const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
-
-    await page.waitForChanges();
-
-    const style = await positionContainer.getComputedStyle();
-
-    expect(style.zIndex).toBe("901");
-  });
-
   it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -1449,10 +1431,6 @@ describe("calcite-tooltip", () => {
           "--calcite-tooltip-text-color": {
             shadowSelector: `.${CSS.container}`,
             targetProp: "color",
-          },
-          "--calcite-tooltip-z-index": {
-            shadowSelector: `.${CSS.positionContainer}`,
-            targetProp: "zIndex",
           },
           "--calcite-tooltip-max-size-x": {
             shadowSelector: `.${CSS.positionContainer}`,
