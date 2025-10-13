@@ -3,7 +3,6 @@ import {
   logBrokenReferenceLevels,
   logWarningLevels,
   logVerbosityLevels,
-  transforms,
 } from "style-dictionary/enums";
 import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
@@ -252,73 +251,6 @@ const config: Config = {
         {
           destination: "core.json",
           format: formats.FormatCalciteDocs,
-          filter: filters.FilterIncludeTokens,
-        },
-      ],
-    },
-    [Platform.js]: {
-      transformGroup: transformers.TransformCalciteGroup,
-      transforms: [
-        ...transformers.platformTransforms.es6.filter(
-          // conflicts with TransformNameCapitalCase
-          (transform) =>
-            transform !== transforms.nameCamel &&
-            // already handled by group transform
-            transform !== transformers.TransformNameIncludePlusMinus,
-        ),
-        transformers.TransformNameRemovePrefix,
-        transformers.TransformNameCapitalCase,
-        transformers.TransformValueCorrectPropName,
-        transformers.TransformValueMergeValues,
-      ],
-      buildPath: "dist/js/",
-      prefix: "calcite",
-      expand: {
-        typesMap: commonExpand.typesMap,
-        include: (token) => {
-          return token.type === "color";
-        },
-      },
-      options: {
-        platform: Platform.js,
-        fileExtension: ".js",
-        fileHeader: headers.HeaderDefault,
-      },
-      files: [
-        {
-          destination: "global.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterGlobalTokensJs,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
-        {
-          destination: "global.d.ts",
-          format: sdFormats.typescriptModuleDeclarations,
-          filter: filters.FilterGlobalTokensJs,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
-        {
-          destination: "semantic.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterSemanticTokens,
-        },
-        {
-          destination: "semantic.d.ts",
-          format: sdFormats.typescriptModuleDeclarations,
-          filter: filters.FilterSemanticTokens,
-        },
-        {
-          destination: "core.js",
-          format: formats.FormatCalciteJs,
-          filter: filters.FilterIncludeTokens,
-        },
-        {
-          destination: "core.d.ts",
-          format: sdFormats.typescriptModuleDeclarations,
           filter: filters.FilterIncludeTokens,
         },
       ],

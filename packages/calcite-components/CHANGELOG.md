@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.24...@esri/calcite-components@4.0.0-next.25) (2025-10-10)
+
+### Features
+
+- **tab-nav:** improve overflow UX ([#12850](https://github.com/Esri/calcite-design-system/issues/12850)) ([55e1809](https://github.com/Esri/calcite-design-system/commit/55e1809d918ab68b189b641ec7d2cdcfbd4cec32)), closes [#10177](https://github.com/Esri/calcite-design-system/issues/10177) [#12970](https://github.com/Esri/calcite-design-system/issues/12970)
+
+## [4.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.23...@esri/calcite-components@4.0.0-next.24) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Legacy custom CSS props were removed. Developers can
+  use [`calcite-codemod`](https://www.npmjs.com/package/calcite-codemod)
+  to migrate, upgrade to the CSS variables [introduced in version
+  2](https://developers.arcgis.com/calcite-design-system/releases/changelogs/2.0.0/#css-variable-comparison-tables),
+  or include the [legacy CSS
+  props](https://github.com/Esri/calcite-design-system/blob/b0f063e213adaa31bc5fed124b7f29381735ccf5/packages/calcite-components/src/assets/styles/_legacy.scss)
+  locally.
+
+### Features
+
+- **action-bar, action-pad:** add new selectionAppearance property for 4.0 ([#13023](https://github.com/Esri/calcite-design-system/issues/13023)) ([61f0f05](https://github.com/Esri/calcite-design-system/commit/61f0f0569dc75ea54b1056431fd4513e73c441a9)), closes [#10758](https://github.com/Esri/calcite-design-system/issues/10758)
+
+### Code Refactoring
+
+- drop legacy custom CSS props deprecated at v2 ([#13089](https://github.com/Esri/calcite-design-system/issues/13089)) ([fc9cb47](https://github.com/Esri/calcite-design-system/commit/fc9cb47d4aa56bbeabe656176754c6933266a7eb)), closes [#11807](https://github.com/Esri/calcite-design-system/issues/11807)
+
+## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.22...@esri/calcite-components@4.0.0-next.23) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- **inline-editable:** No longer set `scale` based on slotted input. This
+  change is will allow the component to honor the `scale` property set on
+  slotted inputs. Developers should explicitly set `scale` on slotted
+  inputs if they are using a non-default scale.
+
+### Bug Fixes
+
+- **inline-editable:** no longer sets the component's scale to the slotted `calcite-input`'s scale ([#12241](https://github.com/Esri/calcite-design-system/issues/12241)) ([b399ab7](https://github.com/Esri/calcite-design-system/commit/b399ab7b05530e009935ffe97500f9d3bdff7344)), closes [#10466](https://github.com/Esri/calcite-design-system/issues/10466)
+
+## [4.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.21...@esri/calcite-components@4.0.0-next.22) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Developers using the legacy VS Code custom data files
+  should use `vscode.html-custom-data.json` as suggested in
+  <https://developers.arcgis.com/calcite-design-system/resources/frameworks/#visual-studio-intellisense>
+
+### Bug Fixes
+
+- **option:** improve whitespace handling ([#13076](https://github.com/Esri/calcite-design-system/issues/13076)) ([e89a9b8](https://github.com/Esri/calcite-design-system/commit/e89a9b8903119315ddd6abba29eb30254e123f39)), closes [#12146](https://github.com/Esri/calcite-design-system/issues/12146)
+
+### Code Refactoring
+
+- drop legacy VS Code IntelliSense file ([#13072](https://github.com/Esri/calcite-design-system/issues/13072)) ([5f15e51](https://github.com/Esri/calcite-design-system/commit/5f15e51e8f204c74895ceab7a50d3e2f48a3cd54)), closes [#13082](https://github.com/Esri/calcite-design-system/issues/13082)
+
+## [4.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.20...@esri/calcite-components@4.0.0-next.21) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([f07c3e4](https://github.com/Esri/calcite-design-system/commit/f07c3e426a8a2f833c14e42603b04deadad7d2e7)), closes [#13038](https://github.com/Esri/calcite-design-system/issues/13038) [/devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895#issuecomment-5829349](https://github.com/Esri//devtopia.esri.com/WebGIS/arcgis-js-api/pull/74895/issues/issuecomment-5829349)
+
 ## [4.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.19...@esri/calcite-components@4.0.0-next.20) (2025-10-03)
 
 ### Bug Fixes
@@ -202,6 +263,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## [3.3.0-next.112](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.0-next.111...@esri/calcite-components@3.3.0-next.112) (2025-09-17)
 
 **Note:** Version bump only for package @esri/calcite-components
+
+## [3.3.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.2...@esri/calcite-components@3.3.3) (2025-10-07)
+
+### Bug Fixes
+
+- **button:** Add backward compatibility for `--calcite-ui-icon-color` token ([#13058](https://github.com/Esri/calcite-design-system/issues/13058)) ([2de2da3](https://github.com/Esri/calcite-design-system/commit/2de2da3454330709364f5fb3501518724b918988))
 
 ## [3.3.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.1...@esri/calcite-components@3.3.2) (2025-10-03)
 

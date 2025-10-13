@@ -5,7 +5,7 @@ import { LitElement, property, createEvent, h, method, state, JsxNode } from "@a
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
@@ -40,6 +40,8 @@ export class ActionBar extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  private actions: Action["el"][] = [];
 
   private expandToggleEl: Action["el"];
 
@@ -158,6 +160,12 @@ export class ActionBar extends LitElement {
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the selection appearance of the component */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "neutral" | "highlight",
+    SelectionAppearance
+  > = "neutral";
+
   //#endregion
 
   //#region Public Methods
@@ -209,6 +217,7 @@ export class ActionBar extends LitElement {
   override connectedCallback(): void {
     this.updateGroups();
     this.overflowActions();
+    this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
@@ -241,6 +250,13 @@ export class ActionBar extends LitElement {
       } else {
         this.calciteActionBarCollapse.emit();
       }
+    }
+
+    if (
+      changes.has("selectionAppearance") &&
+      (this.hasUpdated || this.selectionAppearance !== "neutral")
+    ) {
+      this.updateActions();
     }
   }
 
@@ -301,6 +317,8 @@ export class ActionBar extends LitElement {
   private mutationObserverHandler(): void {
     this.updateGroups();
     this.overflowActions();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -318,6 +336,8 @@ export class ActionBar extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
   }
 
   private handleActionsEndSlotChange(event: Event): void {
@@ -334,6 +354,16 @@ export class ActionBar extends LitElement {
     );
 
     this.expandTooltip = tooltips[0];
+  }
+
+  private updateActions(): void {
+    this.actions.forEach((action) => {
+      action.selectionAppearance = this.selectionAppearance;
+    });
+  }
+
+  private queryAndStoreActions(): void {
+    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
   //#endregion
