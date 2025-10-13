@@ -64,8 +64,8 @@ body:
   - type: input
     id: regression
     attributes:
-      label: Regression?
-      description: Please provide the last working version if the issue is a regression. If a value is entered, the issue will be considered a regression and prioritized accordingly.
+      label: Regression Version?
+      description: Please provide the last working version if the issue is a regression. If a valid version is entered, the issue will be considered a regression and prioritized accordingly.
     validations:
       required: false
   - type: dropdown
