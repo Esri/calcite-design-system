@@ -8,5 +8,5 @@
   "required": "נדרש",
   "selectAll": "בחר הכול",
   "selected": "נבחר",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

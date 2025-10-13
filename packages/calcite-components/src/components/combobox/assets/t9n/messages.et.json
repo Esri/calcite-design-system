@@ -8,5 +8,5 @@
   "required": "Nõutud",
   "selectAll": "Vali kõik",
   "selected": "valitud",
-  "non-editable": "Read-only {value}"
+  "nonEditable": "Read-only {value}"
 }

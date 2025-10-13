@@ -456,6 +456,9 @@ describe("calcite-tabs", () => {
           shadowSelector: `.${CSS.section}`,
           targetProp: "borderBlockStartColor",
         },
+        "--calcite-tab-background-color": {
+          targetProp: "backgroundColor",
+        },
       });
     });
 
