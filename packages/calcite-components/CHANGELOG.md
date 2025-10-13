@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.24...@esri/calcite-components@4.0.0-next.25) (2025-10-10)
+
+### Features
+
+- **tab-nav:** improve overflow UX ([#12850](https://github.com/Esri/calcite-design-system/issues/12850)) ([55e1809](https://github.com/Esri/calcite-design-system/commit/55e1809d918ab68b189b641ec7d2cdcfbd4cec32)), closes [#10177](https://github.com/Esri/calcite-design-system/issues/10177) [#12970](https://github.com/Esri/calcite-design-system/issues/12970)
+
 ## [4.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.23...@esri/calcite-components@4.0.0-next.24) (2025-10-09)
 
 ### ⚠ BREAKING CHANGES
