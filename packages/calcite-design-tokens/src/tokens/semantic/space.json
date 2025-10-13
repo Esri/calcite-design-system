@@ -5,72 +5,73 @@
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "xs": {
           "value": "{core.size.default.6}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "sm": {
           "value": "{core.size.default.8}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "md": {
           "value": "{core.size.default.12}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "lg": {
           "value": "{core.size.default.14}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "xl": {
           "value": "{core.size.default.16}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "xxl": {
           "value": "{core.size.default.20}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         },
         "xxxl": {
           "value": "{core.size.default.32}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
-          },
-          "description": "deprecated"
+          }
         }
       },
       "default": {
         "none": {
           "value": "{core.size.default.none}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -78,6 +79,7 @@
         "px": {
           "value": "{core.size.default.1}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -85,6 +87,7 @@
         "base": {
           "value": "{core.size.default.2}",
           "type": "spacing",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -92,6 +95,7 @@
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -99,6 +103,7 @@
         "xs": {
           "value": "{core.size.default.6}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -106,6 +111,7 @@
         "sm": {
           "value": "{core.size.default.8}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -113,6 +119,7 @@
         "sm+": {
           "value": "{core.size.default.10}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -120,6 +127,7 @@
         "md": {
           "value": "{core.size.default.12}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -127,6 +135,7 @@
         "md+": {
           "value": "{core.size.default.14}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -134,6 +143,7 @@
         "lg": {
           "value": "{core.size.default.16}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -141,6 +151,7 @@
         "xl": {
           "value": "{core.size.default.20}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -148,6 +159,7 @@
         "xxl": {
           "value": "{core.size.default.24}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
@@ -155,9 +167,103 @@
         "xxxl": {
           "value": "{core.size.default.32}",
           "type": "dimension",
+          "description": "deprecated",
           "attributes": {
             "category": "spacing"
           }
+        }
+      }
+    },
+    "space": {
+      "none": {
+        "value": "{core.size.default.none}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "px": {
+        "value": "{core.size.default.1}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "base": {
+        "value": "{core.size.default.2}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "2xs": {
+        "value": "{core.size.default.4}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xs": {
+        "value": "{core.size.default.6}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "sm": {
+        "value": "{core.size.default.8}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "sm+": {
+        "value": "{core.size.default.10}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "md": {
+        "value": "{core.size.default.12}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "md+": {
+        "value": "{core.size.default.14}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "lg": {
+        "value": "{core.size.default.16}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "xl": {
+        "value": "{core.size.default.20}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "2xl": {
+        "value": "{core.size.default.24}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
+        }
+      },
+      "3xl": {
+        "value": "{core.size.default.32}",
+        "type": "spacing",
+        "attributes": {
+          "category": "spacing"
         }
       }
     }
