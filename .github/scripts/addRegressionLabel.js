@@ -25,17 +25,21 @@ module.exports = async ({ github, context }) => {
 
   const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
   const regressionRegexMatch = body.match(regressionRegex);
-  const regressionVersion = (regressionRegexMatch?.[0] || "").trim();
+  const regressionVersionResponse = (regressionRegexMatch?.[0] || "").trim();
 
   // If issue has "_No response_" under the regression section or regressionVersion is an empty string then log and exit, otherwise add regression label.
-  if (regressionVersion === "_No response_" || regressionVersion === "") {
+  if (regressionVersionResponse === "_No response_" || regressionVersionResponse === "") {
     console.log("No regression version provided, not adding regression label.");
-  } else {
-    await github.rest.issues.addLabels({
-      issue_number,
-      owner,
-      repo,
-      labels: [bug.regression],
-    });
+    return;
+  }
+
+  // Match x.y.z with an optional prerelease extension of "-next.N".
+  // Example matches: 1.0.0, v1.0.0, 1.0.0-next.13, Yes was working v1.2.3-next.4, please fix!
+  const semVerRegex = /\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-next\.(?:0|[1-9]\d*))?\b/i;
+
+  const containsValidVersion = semVerRegex.test(regressionVersionResponse);
+  if (!containsValidVersion) {
+    console.log("No valid version (e.g., 1.0.0 or 1.0.0-next.13) found, not adding regression label.");
+    return;
   }
 };
