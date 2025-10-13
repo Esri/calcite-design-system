@@ -21,6 +21,16 @@ export class Text extends LitElement {
 
   @property() nowrap: boolean;
 
+  @property({ reflect: true }) maxLines: number;
+
+  //#endregion
+
+  //#region Lifecycle
+
+  async loaded(): Promise<void> {
+    this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines.toString());
+  }
+
   //#endregion
 
   //#region Rendering

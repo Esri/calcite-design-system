@@ -12,3 +12,10 @@
 :host([wrap]) {
   white-space: wrap;
 }
+
+:host([max-lines]) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--calcite-internal-text-max-lines, 2);
+  white-space: normal;
+}
