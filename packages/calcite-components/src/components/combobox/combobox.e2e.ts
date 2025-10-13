@@ -3035,6 +3035,19 @@ describe("calcite-combobox", () => {
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 
+  it("combobox input should have correct description for accessibility", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="single" select-all-enabled read-only>
+        <calcite-combobox-item value="one" text-label="one" selected=""></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+        <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+    const input = await page.find("calcite-combobox >>> input");
+    expect(input.getAttribute("aria-description")).toBe("Read-only one");
+  });
+
   describe("selectAllEnabled", async () => {
     let page: E2EPage;
 
@@ -3248,21 +3261,6 @@ describe("calcite-combobox", () => {
 
       a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
       expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
-    });
-  });
-
-  describe("accessibility", () => {
-    it("combobox input should have correct description for accessibility", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-combobox selection-mode="single" select-all-enabled read-only>
-          <calcite-combobox-item value="one" text-label="one" selected=""></calcite-combobox-item>
-          <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
-        </calcite-combobox>`,
-      );
-      const input = await page.find("calcite-combobox >>> input");
-      expect(input.getAttribute("aria-description")).toBe("non-editable one");
     });
   });
 

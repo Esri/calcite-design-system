@@ -278,6 +278,8 @@ export class Combobox
     this.addCustomChip(this.filterText, true);
   };
 
+  private descriptionMessage: string = "";
+
   //#endregion
 
   //#region State Properties
@@ -638,6 +640,10 @@ export class Combobox
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
+
+    if (changes.has("readOnly")) {
+      this.setDescriptionMessage();
+    }
   }
 
   override updated(): void {
@@ -659,6 +665,8 @@ export class Combobox
     connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
+
+    this.setDescriptionMessage();
   }
 
   override disconnectedCallback(): void {
@@ -1544,6 +1552,17 @@ export class Combobox
     }
   }
 
+  private setDescriptionMessage(): void {
+    this.descriptionMessage = this.readOnly
+      ? this.messages.nonEditable?.replace(
+          "{value}",
+          `${Array.isArray(this.value) ? this.value.join(", ") : this.value}`,
+        )
+      : Array.isArray(this.value)
+        ? this.value.join(", ")
+        : this.value;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1718,8 +1737,6 @@ export class Combobox
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem && !this.filterText;
-    const descriptionMessage =
-      (this.readOnly && this.messages.nonEditable?.replace("{value}", `${this.value}`)) ?? "";
 
     return (
       <span
@@ -1745,7 +1762,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
-          ariaDescription={descriptionMessage}
+          ariaDescription={this.descriptionMessage}
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
