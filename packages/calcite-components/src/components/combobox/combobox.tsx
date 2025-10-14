@@ -1544,6 +1544,12 @@ export class Combobox
     }
   }
 
+  private getDescriptionMessage(): string {
+    const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
+
+    return this.readOnly ? this.messages.nonEditable?.replace("{value}", `${value}`) : value;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1743,6 +1749,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
+          ariaDescription={this.getDescriptionMessage()}
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
