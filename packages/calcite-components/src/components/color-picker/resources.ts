@@ -4,6 +4,7 @@ import {
   calciteSpacingFixedMd,
   calciteSpacingFixedXl,
 } from "@esri/calcite-design-tokens/dist/es6/global";
+import { IconName } from "../icon/interfaces";
 
 export const CSS = {
   channel: "channel",
@@ -105,7 +106,7 @@ export const STATIC_DIMENSIONS = {
 
 export const SCOPE_SIZE = 1;
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   minus: "minus",
   plus: "plus",
 };

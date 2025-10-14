@@ -728,13 +728,25 @@ describe("calcite-dialog", () => {
     });
   });
 
+  it("content with visibility: visible should not be focusable when closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dialog>
+        <button id="should-not-be-keyboard-focusable" style="visibility: visible">hi</button>
+      </calcite-dialog>
+    `);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, "#should-not-be-keyboard-focusable")).toBe(false);
+  });
+
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
     await page.waitForChanges();
     expect(dialogContainer).toEqualAttribute("role", "dialog");
@@ -1278,7 +1290,7 @@ describe("calcite-dialog", () => {
       {
         "--calcite-dialog-scrim-background-color": {
           shadowSelector: `.${CSS.scrim}`,
-          targetProp: "--calcite-scrim-background-color",
+          targetProp: "--calcite-scrim-background",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,

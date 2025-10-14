@@ -1,3 +1,4 @@
+import { IconName } from "../icon/interfaces";
 import { Scale } from "../interfaces";
 
 export const CSS = {
@@ -15,7 +16,7 @@ export const CSS = {
   heading: "heading",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   checked: "check-square-f",
   circle: "circle",
   indeterminate: "minus-square-f",

@@ -10,7 +10,7 @@
  * @prop --calcite-checkbox-icon-color: Specifies the component's icon color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host([scale="s"]) {
   .check-svg,

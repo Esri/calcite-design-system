@@ -8,7 +8,7 @@
  * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @extend %component-host;

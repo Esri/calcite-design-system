@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   contentContainer: "content-container",
@@ -15,12 +17,12 @@ export const CSS = {
   textContent: "text-content",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   selectedMultiple: "check-square-f",
   selectedSingle: "circle-f",
   unselectedMultiple: "square",
   unselectedSingle: "circle",
-} as const;
+};
 
 export const SLOTS = {
   contentBottom: "content-bottom",

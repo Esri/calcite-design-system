@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { ColorInstance as Color } from "color";
+import Color, { type ColorInstance } from "color";
 import { Dimensions, Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import { STATIC_DIMENSIONS } from "./resources";
@@ -9,6 +9,18 @@ const shorthandHex = /^#[0-9A-F]{3}$/i;
 const longhandHex = /^#[0-9A-F]{6}$/i;
 const shorthandHexWithAlpha = /^#[0-9A-F]{4}$/i;
 const longhandHexWithAlpha = /^#[0-9A-F]{8}$/i;
+
+export function colorFromValue(value: ColorValue | null, clearable = false, mode: SupportedMode): ColorInstance | null {
+  if (clearable && !value) {
+    return null;
+  }
+
+  return Color(
+    value != null && typeof value === "object" && alphaCompatible(mode)
+      ? normalizeColor(value as RGBA | HSVA | HSLA)
+      : value,
+  );
+}
 
 export const alphaToOpacity = (alpha: number): number => Number((alpha * 100).toFixed());
 
@@ -65,7 +77,7 @@ export function normalizeHex(hex: string, hasAlpha = false, convertFromHexToHexa
   return hex;
 }
 
-export function hexify(color: Color, hasAlpha = false): string {
+export function hexify(color: ColorInstance, hasAlpha = false): string {
   return hasAlpha ? color.hexa() : color.hex();
 }
 
@@ -84,14 +96,14 @@ function numToHex(num: number): string {
   return num.toString(16).padStart(2, "0");
 }
 
-export function normalizeAlpha<T extends RGBA | HSVA | HSLA>(colorObject: ReturnType<Color["object"]>): T {
+export function normalizeAlpha<T extends RGBA | HSVA | HSLA>(colorObject: ReturnType<ColorInstance["object"]>): T {
   const normalized = { ...colorObject, a: colorObject.alpha ?? 1 /* Color() will omit alpha if 1 */ };
   delete normalized.alpha;
 
   return normalized as T;
 }
 
-export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType<Color["object"]> {
+export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType<ColorInstance["object"]> {
   const normalized = { ...alphaColorObject, alpha: alphaColorObject.a ?? 1 };
   delete normalized.a;
 
@@ -208,7 +220,7 @@ function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channel
   return channels.every((channel) => channel && colorObject && `${channel}` in colorObject);
 }
 
-export function colorEqual(value1: Color | null, value2: Color | null): boolean {
+export function colorEqual(value1: ColorInstance | null, value2: ColorInstance | null): boolean {
   return value1?.rgb().array().toString() === value2?.rgb().array().toString();
 }
 

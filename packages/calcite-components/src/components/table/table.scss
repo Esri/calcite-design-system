@@ -59,7 +59,7 @@
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;

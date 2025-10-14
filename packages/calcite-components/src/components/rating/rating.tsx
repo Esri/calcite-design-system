@@ -26,7 +26,7 @@ import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from 
 import { Scale, Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -102,7 +102,7 @@ export class Rating
   /** Specifies the number of previous ratings to display. */
   @property({ reflect: true }) count: number;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -125,11 +125,11 @@ export class Rating
    */
   @property({ reflect: true }) name: string;
 
-  /** When present, the component's value can be read, but cannot be modified. */
+  /** When `true`, the component's value can be read, but cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private
@@ -139,15 +139,15 @@ export class Rating
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
   @property({ reflect: true }) showChip = false;
 
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */

@@ -3035,6 +3035,19 @@ describe("calcite-combobox", () => {
     expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 
+  it("combobox input should have correct description for accessibility", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="single" select-all-enabled read-only>
+        <calcite-combobox-item value="one" text-label="one" selected=""></calcite-combobox-item>
+        <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+        <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+    const input = await page.find("calcite-combobox >>> input");
+    expect(input.getAttribute("aria-description")).toBe("Read-only one");
+  });
+
   describe("selectAllEnabled", async () => {
     let page: E2EPage;
 
@@ -3305,11 +3318,6 @@ describe("calcite-combobox", () => {
           shadowSelector: ".title",
           targetProp: "color",
         },
-        "--calcite-combobox-item-group-border-color": {
-          selector: "calcite-combobox-item-group",
-          shadowSelector: ".title",
-          targetProp: "borderBottomColor",
-        },
       };
       themed(comboboxHTML, comboboxTokens);
     });
@@ -3406,6 +3414,30 @@ describe("calcite-combobox", () => {
           },
         },
       );
+    });
+
+    describe("groups", () => {
+      const comboboxGroupHTML = html`<calcite-combobox label="test" placeholder="placeholder">
+        <calcite-combobox-item-group label="Parent group">
+          <calcite-combobox-item value="group item 1" text-label="group item 1"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 2" text-label="group item 2"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 3" text-label="group item 3"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Nested group">
+            <calcite-combobox-item value="group item 4" text-label="group item 4"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 5" text-label="group item 5"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 6" text-label="group item 6"></calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox-item-group>
+      </calcite-combobox>`;
+
+      const comboboxTokens: ComponentTestTokens = {
+        "--calcite-combobox-item-group-border-color": {
+          selector: "calcite-combobox-item-group",
+          shadowSelector: ".separator",
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(comboboxGroupHTML, comboboxTokens);
     });
   });
 });

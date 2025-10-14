@@ -23,7 +23,7 @@ import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { getIconScale } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
@@ -91,23 +91,23 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When present, a close button is added to the component. */
+  /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When present, does not display or position the component. */
+  /** When `true`, does not display or position the component. */
   @property({ reflect: true }) closed = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** @private */
   @property({ reflect: true }) layout: TabLayout;
@@ -130,7 +130,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
   @property() scale: Scale = "m";
 
   /**
-   * When present, the component and its respective `calcite-tab` contents are selected.
+   * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */

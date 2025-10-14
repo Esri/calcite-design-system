@@ -21,11 +21,10 @@
 // --calcite-internal-select-font-size
 // --calcite-internal-select-icon-container-padding-inline
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @extend %component-spacing;
   @apply flex flex-col;
   font-size: var(--calcite-select-font-size);
   font-weight: var(--calcite-internal-select-font-weight, var(--calcite-font-weight-regular));

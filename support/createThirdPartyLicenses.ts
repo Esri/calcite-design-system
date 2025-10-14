@@ -15,13 +15,15 @@ import { getProjectLicenses } from "generate-license-file";
 
     const coveredByEsriLicense = [
       "@arcgis/lumina",
+      "@arcgis/lumina-compiler",
       "@arcgis/toolkit",
       "@esri/calcite-components",
       "@esri/calcite-components-react",
       "@esri/calcite-design-tokens",
+      "@esri/calcite-tailwind-preset",
       "@esri/calcite-ui-icons",
       "@esri/eslint-config-calcite",
-      "@esri/eslint-plugin-calcite-components",
+      "@esri/eslint-plugin-calcite-components"
     ];
 
     const licenses = await getProjectLicenses("./package.json", {

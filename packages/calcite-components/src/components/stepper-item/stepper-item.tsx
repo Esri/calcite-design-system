@@ -24,7 +24,7 @@ import {
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
@@ -80,33 +80,33 @@ export class StepperItem extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When present, the step has been completed. */
+  /** When `true`, the step has been completed. */
   @property({ reflect: true }) complete = false;
 
   /** A description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, the component contains an error that requires resolution from the user. */
+  /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
   /** The component header text. */
   @property() heading: string;
 
   /**
-   * When present, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
    */
   @property() icon = false;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When present, the item will be hidden.
+   * When `true`, the item will be hidden.
    *
    * @private
    *  */
@@ -123,7 +123,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When present, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
+   * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
    *
    * @private
    */
@@ -139,7 +139,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   //#endregion
@@ -379,7 +379,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   private renderIcon(): JsxNode {
-    let path: IconNameOrString = ICONS.circle;
+    let path: IconName = ICONS.circle;
 
     if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = ICONS.circleF;

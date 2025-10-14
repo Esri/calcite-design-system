@@ -67,9 +67,9 @@ export const simple = (args: NoticeStoryArgs): string => html`
   </div>
 `;
 
-export const customIcon = (): string => html`
+export const customIcon = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice icon="${iconNames[0]}" open closable scale="m" width="auto" kind="brand">
+    <calcite-notice icon="${args.icon}" open closable scale="m" width="auto" kind="brand">
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
       <calcite-link slot="link" title="my action">Learn more</calcite-link>

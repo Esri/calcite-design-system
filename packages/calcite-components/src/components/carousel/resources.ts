@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const DURATION = 6000;
 
 export const CSS = {
@@ -21,14 +23,14 @@ export const CSS = {
   autoplayProgress: "autoplay-progress",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
   inactive: "bullet-point",
   active: "bullet-point-large",
   pause: "pause-f",
   play: "play-f",
-} as const;
+};
 
 export const centerItemsByBreakpoint = {
   medium: 7,

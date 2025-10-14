@@ -10,7 +10,7 @@
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @extend %component-host;

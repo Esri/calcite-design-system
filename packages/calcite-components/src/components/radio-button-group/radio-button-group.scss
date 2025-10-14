@@ -7,7 +7,7 @@
  * @prop --calcite-radio-button-input-message-spacing: Specifies the margin spacing at the top of the input-message component.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply flex flex-col;

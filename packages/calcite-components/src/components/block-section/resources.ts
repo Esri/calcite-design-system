@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -19,9 +21,9 @@ export const CSS = {
   valid: "valid",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   menuExpanded: "chevron-up",
   menuCollapsed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-} as const;
+};

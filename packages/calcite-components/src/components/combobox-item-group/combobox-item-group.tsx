@@ -30,7 +30,7 @@ export class ComboboxItemGroup extends LitElement {
   // #region Public Properties
 
   /**
-   * When present, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
+   * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
    *
    * @private
    */
@@ -47,6 +47,13 @@ export class ComboboxItemGroup extends LitElement {
   @property() label: string;
 
   /**
+   * Specifies the position of the group in the combobox menu.
+   *
+   * @internal
+   */
+  @property() position: number = 0;
+
+  /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
    *
    * @private
@@ -54,7 +61,7 @@ export class ComboboxItemGroup extends LitElement {
   @property() scale: Scale = "m";
 
   /**
-   * When present, the item will be hidden
+   * When `true`, the item will be hidden
    *
    * @private
    *  */
@@ -75,6 +82,14 @@ export class ComboboxItemGroup extends LitElement {
   override render(): JsxNode {
     const { el, scale } = this;
     const depth = getDepth(el);
+    const comboboxSeparator =
+      this.position > 0 ? (
+        <div
+          class={CSS.separator}
+          role="separator"
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+        />
+      ) : null;
 
     return (
       <ul
@@ -82,13 +97,16 @@ export class ComboboxItemGroup extends LitElement {
         class={{ [CSS.list]: true, [CSS.scale(scale)]: true }}
         role="group"
       >
+        {comboboxSeparator}
         <li
           class={{ [CSS.label]: true }}
           id={this.guid}
           role="presentation"
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
-          <span class={CSS.title}>{this.label}</span>
+          <span class={{ [CSS.title]: true, [CSS.firstTitle]: this.position === 0 }}>
+            {this.label}
+          </span>
         </li>
         <slot />
       </ul>

@@ -24,7 +24,7 @@
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -125,7 +125,6 @@
 
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply transition-margin ease-cubic flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0;
   flex-basis: auto;
@@ -133,8 +132,6 @@
 }
 
 @include includes.disabled();
-
-@include meta.load-css("../../assets/styles/header");
 
 .header {
   @apply justify-start;

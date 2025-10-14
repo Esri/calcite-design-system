@@ -18,7 +18,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -90,6 +90,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private panelRef = createRef<Panel["el"]>();
 
+  private popoverRef = createRef<HTMLDivElement>();
+
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
   transitionEl: HTMLDivElement;
@@ -128,13 +130,13 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When present, disables the component's close button. */
+  /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
   /** A description for the component. */
   @property() description: string;
 
-  /** When present, the component is draggable. */
+  /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
@@ -143,10 +145,10 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
-   * When present, disables the default close on escape behavior.
+   * When `true`, disables the default close on escape behavior.
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
@@ -178,27 +180,27 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   >;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When present, the action menu items in the `header-menu-actions` slot are open. */
+  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, displays a scrim blocking interaction underneath the component. */
+  /** When `true`, displays a scrim blocking interaction underneath the component. */
   @property({ reflect: true }) modal = false;
 
-  /** When present and `modal` is `false`, prevents focus trapping. */
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -210,7 +212,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     }
   }
 
-  /** When present, disables the closing of the component when clicked outside. */
+  /** When `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /**
@@ -225,7 +227,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
   /** Specifies the placement of the dialog. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
-  /** When present, the component is resizable. */
+  /** When `true`, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** Specifies the size of the component. */
@@ -406,6 +408,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.popoverRef.value) {
+      return;
+    }
+
+    if (this.open) {
+      this.popoverRef.value.showPopover();
+    } else {
+      this.popoverRef.value.hidePopover();
+    }
+  }
+
   private handleOpenedChange(value: boolean): void {
     const { transitionEl } = this;
 
@@ -415,6 +431,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
+    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -705,6 +722,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     this.transitionEl = el;
     this.setupInteractions();
+    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -752,17 +770,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
+        ariaDescription={description}
+        ariaLabel={heading}
+        ariaModal={this.modal}
         class={{
           [CSS.container]: true,
           [CSS.containerOpen]: opened,
           [CSS.containerEmbedded]: this.embedded,
         }}
+        popover={!this.embedded ? "manual" : null}
+        ref={this.popoverRef}
+        role="dialog"
       >
         {this.modal ? <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} /> : null}
         <div
-          ariaDescription={description}
-          ariaLabel={heading}
-          ariaModal={this.modal}
           class={{
             [CSS.dialog]: true,
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
@@ -771,7 +792,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
-          role="dialog"
         >
           {assistiveText ? (
             <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">
@@ -786,6 +806,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
                 description={description}
                 heading={heading}
                 headingLevel={this.headingLevel}
+                hidden={!this.opened}
                 icon={icon}
                 iconFlipRtl={iconFlipRtl}
                 loading={this.loading}

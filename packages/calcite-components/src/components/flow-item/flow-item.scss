@@ -30,7 +30,7 @@
  * @prop --calcite-flow-header-action-text-color: Specifies the text color of the component's `calcite-action` items in the flow item header.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @extend %component-host;

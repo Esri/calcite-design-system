@@ -113,19 +113,19 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   //#region Public Properties
 
-  /** When present, clicking outside of the component automatically closes open `calcite-popover`s. */
+  /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
 
-  /** When present, displays a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When present, prevents flipping the component's placement when overlapping its `referenceElement`. */
+  /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
   @property({ reflect: true }) flipDisabled = false;
 
   /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** When present, prevents focus trapping. */
+  /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -165,7 +165,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   /** Offsets the position of the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -180,7 +180,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
-  /** When present, removes the caret pointer. */
+  /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
@@ -200,7 +200,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When present, disables automatically toggling the component when its `referenceElement` has been triggered.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
    *
    * This property can be set to `true` to manage when the component is open.
    */
@@ -340,6 +340,20 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
 
   //#region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open && this.referenceEl) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
@@ -349,6 +363,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
+    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -393,6 +408,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     }
 
     this.addReferences();
+    this.handlePopover();
   }
 
   private getId(): string {
@@ -537,7 +553,7 @@ export class Popover extends LitElement implements FloatingUIComponent, OpenClos
     this.el.role = "dialog";
 
     return (
-      <div class={CSS.positionContainer} ref={this.setFloatingEl}>
+      <div class={CSS.positionContainer} popover="manual" ref={this.setFloatingEl}>
         <div
           class={{
             [CSS.container]: true,

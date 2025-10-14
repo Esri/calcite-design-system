@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   container: "container",
   dividerContainer: "divider-container",
@@ -11,7 +13,7 @@ export const SLOTS = {
   trigger: "trigger",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   chevronDown: "chevronDown",
   caretDown: "caretDown",
   ellipsis: "ellipsis",

@@ -135,17 +135,21 @@ describe("calcite-tab-nav", () => {
     const sizeShowingSomeTabs = { width: 350, height: 1200 };
 
     let page: E2EPage;
-    let scrollBackButton: E2EElement;
+    let scrollButtonContainer: E2EElement;
+    let scrollBackwardButton: E2EElement;
     let scrollForwardButton: E2EElement;
     let scrollContainer: E2EElement;
 
-    async function assertScrollButtonVisibility(
-      backExpectedVisibility: boolean,
-      expectedForwardVisibility: boolean,
+    async function assertScrollButtonVisibility(expectedVisibility: boolean): Promise<void> {
+      expect(await scrollButtonContainer.isVisible()).toBe(expectedVisibility);
+    }
+
+    async function assertScrollButtonDisabled(
+      expectedBackwardButtonDisabled: boolean,
+      expectedForwardButtonDisabled: boolean,
     ): Promise<void> {
-      /* we need to find the scroll buttons to ensure visibility */
-      expect(await scrollBackButton.isVisible()).toBe(backExpectedVisibility);
-      expect(await scrollForwardButton.isVisible()).toBe(expectedForwardVisibility);
+      expect(await scrollBackwardButton.getProperty("disabled")).toBe(expectedBackwardButtonDisabled);
+      expect(await scrollForwardButton.getProperty("disabled")).toBe(expectedForwardButtonDisabled);
     }
 
     beforeEach(async () => {
@@ -153,84 +157,85 @@ describe("calcite-tab-nav", () => {
       await page.setContent(tabsHTML);
       await page.setViewport(sizeShowingSomeTabs);
       await page.waitForChanges();
-      scrollBackButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardContainerButton}`);
-      scrollForwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollForwardContainerButton}`);
+      scrollButtonContainer = await page.find(`calcite-tab-nav >>> .${CSS.scrollButtonContainer}`);
+      scrollBackwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardButton} >>> calcite-button`);
+      scrollForwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollForwardButton} >>> calcite-button`);
       scrollContainer = await page.find(`calcite-tab-nav >>> .${CSS.tabTitleSlotWrapper}`);
     });
 
     it("shows scrolling buttons if tab-titles overflow", async () => {
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
 
       await page.click("calcite-tab-title:nth-child(4)");
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       await page.setViewport(sizeShowingAllTabs);
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(false, false);
+      await assertScrollButtonVisibility(false);
 
       await page.setViewport(sizeShowingSomeTabs);
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
 
       await page.click("calcite-tab-title:nth-child(4)");
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
     });
 
     it("scrolling tabs via buttons", async () => {
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
 
       const scrollEndEventSpy = await scrollContainer.spyOnEvent("scrollend");
       await scrollForwardButton.click();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       await scrollForwardButton.click();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, false);
+      await assertScrollButtonVisibility(true);
 
-      await scrollBackButton.click();
+      await scrollBackwardButton.click();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
-      await scrollBackButton.click();
+      await scrollBackwardButton.click();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
     });
 
     it("scrolling tabs via mouse wheel", async () => {
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
 
       const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
       await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
       await page.mouse.wheel({ deltaY: 200 });
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       await page.mouse.wheel({ deltaY: 200 });
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(true, false);
+      await assertScrollButtonVisibility(true);
 
       await page.mouse.wheel({ deltaY: -200 });
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       await page.mouse.wheel({ deltaY: -200 });
       await page.waitForChanges();
 
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
     });
 
     it("scrolls into view clipped start or end tab-title when selected", async () => {
@@ -243,27 +248,44 @@ describe("calcite-tab-nav", () => {
       await page.waitForChanges();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       const firstTab = await page.find("calcite-tab-title:first-child");
       await firstTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
       await page.waitForChanges();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(false, true);
+      await assertScrollButtonVisibility(true);
 
       await page.mouse.wheel({ deltaY: 180 });
       await page.waitForChanges();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, true);
+      await assertScrollButtonVisibility(true);
 
       const lastTab = await page.find("calcite-tab-title:last-child");
       await lastTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
       await page.waitForChanges();
       await scrollEndEventSpy.next();
 
-      await assertScrollButtonVisibility(true, false);
+      await assertScrollButtonVisibility(true);
+    });
+
+    it("disables scroll buttons with respect to current scroll position", async () => {
+      await assertScrollButtonVisibility(true);
+      await assertScrollButtonDisabled(true, false);
+
+      await page.click("calcite-tab-title:last-child");
+      await page.waitForChanges();
+      await assertScrollButtonDisabled(false, true);
+
+      await page.click("calcite-tab-title:nth-child(4)");
+      await page.waitForChanges();
+      await assertScrollButtonDisabled(false, false);
+
+      await page.click("calcite-tab-title:first-child");
+      await page.waitForChanges();
+      await assertScrollButtonDisabled(true, false);
     });
   });
 
@@ -271,11 +293,11 @@ describe("calcite-tab-nav", () => {
     describe("default", () => {
       themed(html`<calcite-tab-nav></calcite-tab-nav>`, {
         "--calcite-tab-border-color": {
-          shadowSelector: `.${CSS.scrollBackwardContainerButton}::before`,
+          shadowSelector: `.${CSS.scrollBackwardButton}::before`,
           targetProp: "backgroundColor",
         },
         "--calcite-tab-text-color": {
-          shadowSelector: `.${CSS.scrollButton}`,
+          shadowSelector: `calcite-button`,
           targetProp: "--calcite-button-text-color",
         },
       });

@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   bordered: "bordered",
   striped: "striped",
@@ -20,7 +22,7 @@ export const SLOTS = {
   tableFooter: "table-footer",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   hideEmpty: "hide-empty",
   clear: "x",
 };

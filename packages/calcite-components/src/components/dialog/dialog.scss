@@ -44,22 +44,25 @@
 // --calcite-internal-dialog-min-size-y
 // --calcite-internal-dialog-shown-position
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
-@use "../../assets/styles/animation";
-@use "../../assets/styles/spacing";
+@use "../../styles/shared/animation";
+@use "../../styles/shared/spacing";
 
 :host {
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-dialog-scrim-background-color: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
   @apply flex
     inset-0
-    z-overlay
     pointer-events-none;
   --calcite-internal-dialog-animation-offset: 20px;
 }
 
-:host([modal]) {
+:host([embedded]) {
+  @apply z-overlay;
+}
+
+:host([embedded][modal]) {
   @apply absolute;
 }
 
@@ -73,7 +76,8 @@
     justify-center
     overflow-hidden
     opacity-0
-    z-overlay;
+    w-full
+    h-full;
   visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -140,6 +144,7 @@
     var(--calcite-color-transparent-scrim)
   );
   @apply fixed
+    -z-default
     inset-0
     flex
     overflow-y-hidden;
@@ -162,7 +167,6 @@ calcite-panel {
   --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
   --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
-  --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
   --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
 }
@@ -191,6 +195,18 @@ calcite-panel {
   --calcite-panel-background-color: initial;
 }
 
+[popover] {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  position: fixed;
+  display: flex;
+}
+
+[popover]:popover-open {
+  display: flex;
+}
+
 .dialog {
   @apply pointer-events-none
     m-6
@@ -200,7 +216,6 @@ calcite-panel {
     flex-col
     opacity-0
     shadow-2-sm
-    z-modal
     relative;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
@@ -229,6 +244,10 @@ calcite-panel {
       inset-block-start: var(--calcite-internal-dialog-shown-position);
     }
   }
+}
+
+:host([embedded]) .dialog {
+  @apply z-modal;
 }
 
 :host([menu-open]) .dialog {
@@ -367,6 +386,7 @@ calcite-panel {
 }
 
 .container--embedded {
+  @apply z-overlay;
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

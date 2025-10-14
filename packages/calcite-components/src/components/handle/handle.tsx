@@ -49,13 +49,13 @@ export class Handle extends LitElement implements InteractiveComponent {
   //#region Public Properties
 
   /**
-   * When present, disables unselecting the component when blurred.
+   * When `true`, disables unselecting the component when blurred.
    *
    * @private
    */
   @property() blurUnselectDisabled = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Value for the button title attribute. */
@@ -70,7 +70,7 @@ export class Handle extends LitElement implements InteractiveComponent {
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

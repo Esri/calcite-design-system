@@ -161,13 +161,13 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: ListDragDetail) => boolean;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, `calcite-list-item`s are sortable via a draggable button. */
+  /** When `true`, `calcite-list-item`s are sortable via a draggable button. */
   @property({ reflect: true }) dragEnabled = false;
 
-  /** When present, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
+  /** When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s. */
   @property({ reflect: true }) filterEnabled = false;
 
   /**
@@ -234,7 +234,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @property() label: string;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -266,7 +266,10 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() selectedItems: ListItem["el"][] = [];
 
   /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border). */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border",
+    SelectionAppearance
+  > = "icon";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -284,7 +287,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     SelectionMode
   > = "none";
 
-  /** When present, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
+  /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
   //#endregion

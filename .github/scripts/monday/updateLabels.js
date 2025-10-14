@@ -1,9 +1,13 @@
 // @ts-check
 const Monday = require("../support/monday");
 const {
-  labels: { planning, issueWorkflow },
+  labels: {
+    planning,
+    issueWorkflow,
+    issueType: { design },
+  },
 } = require("../support/resources");
-const { assertRequired } = require("../support/utils");
+const { assertRequired, includesLabel } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
@@ -19,8 +23,8 @@ module.exports = async ({ context }) => {
   }
 
   const isVerified = labelName === issueWorkflow.verified;
-  if (isVerified && issue.state === "closed") {
-    monday.handleState("closed");
+  if (isVerified && issue.state === "closed" && !includesLabel(issue.labels, design)) {
+    monday.setColumnValue(monday.columnIds.status, "Done");
   } else {
     monday.addLabel(labelName);
   }

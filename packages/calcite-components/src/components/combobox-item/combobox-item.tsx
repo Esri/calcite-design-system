@@ -11,7 +11,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
@@ -49,7 +49,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When present, the component is active. */
+  /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
 
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
@@ -58,10 +58,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** A description for the component, which displays below the heading. */
   @property() description: string;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, omits the component from the `calcite-combobox` filtered search results. */
+  /** When `true`, omits the component from the `calcite-combobox` filtered search results. */
   @property({ reflect: true }) filterDisabled: boolean;
 
   /**
@@ -78,9 +78,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() heading: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true }) icon: IconNameOrString;
+  @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** The component's label. */
@@ -96,7 +96,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   @property() scale: Scale = "m";
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true })
   get selected(): boolean {
     return this._selected;
@@ -152,7 +152,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   @property() value: any;
 
   /**
-   * When present, the item will be hidden
+   * When `true`, the item will be hidden
    *
    * @private
    *  */
@@ -238,7 +238,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   //#region Rendering
 
-  private renderIcon(iconPath: IconNameOrString): JsxNode {
+  private renderIcon(iconPath: IconName): JsxNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -252,7 +252,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) : null;
   }
 
-  private renderSelectIndicator(icon: IconNameOrString): JsxNode {
+  private renderSelectIndicator(icon: IconName): JsxNode {
     return (
       <calcite-icon
         class={{

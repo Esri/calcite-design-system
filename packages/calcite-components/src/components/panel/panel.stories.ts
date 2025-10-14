@@ -533,6 +533,25 @@ export const footerAndContentTopBottomSlots = (): string => html`
   </div>
 `;
 
+export const contentTopAndActionBarSlotsNoHeader = (): string => html`
+  <div style="height: 350px; width: 400px; display: flex">
+    <calcite-panel height-scale="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="content-top">Slot for a content-top.</div>
+      <p>Slotted content!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <div slot="content-bottom">Slot for a content-bottom.</div>
+      <p slot="footer">Footer!</p>
+    </calcite-panel>
+  </div>
+`;
+
 export const footerStartAndEndSlots = (): string => html`
   <calcite-panel style="height: 200px; width: 300px;">
     <div slot="header-content">header-content slot</div>

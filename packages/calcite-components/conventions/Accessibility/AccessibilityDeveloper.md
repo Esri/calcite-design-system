@@ -62,7 +62,7 @@ customElements.define("ui-input-broken", UIInputBroken);
 
 As of today there are no great workarounds for associating elements across the Shadow DOM boundary. Either all the associated elements should exist in the light DOM or Shadow DOM.
 
-However, you *could* extend the native element to allow an association.
+However, you _could_ extend the native element to allow an association.
 
 [scroll to top](#developer-quick-start-guide)
 

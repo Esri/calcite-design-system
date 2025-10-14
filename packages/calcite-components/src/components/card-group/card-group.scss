@@ -7,7 +7,7 @@
  * @prop --calcite-card-group-space: Specifies the space between slotted elements.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply block;

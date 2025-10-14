@@ -13,7 +13,6 @@ export const transformAttributePlatformNames: AttributeTransform["transform"] = 
     names: {
       scss: `$${kebabName}`,
       css: `var(--${kebabName})`,
-      js: `${token.path.join(".")}`,
       docs: `${token.path.join(".")}`,
       es6: `${camelCaseName}`,
     },

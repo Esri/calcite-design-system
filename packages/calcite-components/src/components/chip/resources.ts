@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   title: "title",
   close: "close",
@@ -21,9 +23,9 @@ export const SLOTS = {
   image: "image",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   close: "x",
   checkedSingle: "circle-f",
   uncheckedMultiple: "square",
   checkedMultiple: "check-square-f",
-} as const;
+};

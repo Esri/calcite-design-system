@@ -26,7 +26,7 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
@@ -98,13 +98,13 @@ export class InputTimeZone
   //#region Public Properties
 
   /**
-   * When present, an empty value (`null`) will be allowed as a `value`.
+   * When `true`, an empty value (`null`) will be allowed as a `value`.
    *
-   * When not present, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -154,7 +154,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -166,7 +166,7 @@ export class InputTimeZone
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When present, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -179,7 +179,7 @@ export class InputTimeZone
   @property() referenceDate: Date | string;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
    * @private
@@ -193,8 +193,8 @@ export class InputTimeZone
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */

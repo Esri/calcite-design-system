@@ -7,7 +7,7 @@
 * @prop --calcite-dropdown-group-title-text-color: Specifies the component's `groupTitle` color.
 */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply block;

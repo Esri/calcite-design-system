@@ -556,6 +556,16 @@ describe("calcite-panel", () => {
     expect(await header.isVisible()).toBe(false);
   });
 
+  it("should render a header if slotted content and no header is present", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-panel><div slot='content-top'>test</div></calcite-panel>");
+
+    const header = await page.find(`calcite-panel >>> .${CSS.header}`);
+
+    expect(await header.isVisible()).toBe(true);
+  });
+
   it("menuOpen should show/hide when toggled", async () => {
     const page = await newE2EPage();
 

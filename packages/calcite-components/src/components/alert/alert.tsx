@@ -17,7 +17,7 @@ import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -99,7 +99,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
    */
   @property() active = false;
 
-  /** When present, the component closes automatically. Recommended for passive, non-blocking alerts. */
+  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
   @property({ reflect: true }) autoClose = false;
 
   /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
@@ -111,15 +111,15 @@ export class Alert extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
-   * When present, shows a default recommended icon. Alternatively,
+   * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the kind of the component, which will apply to top border and icon. */
@@ -141,7 +141,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When present, displays and positions the component. */
+  /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -268,12 +268,27 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
   }
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
     } else {
       manager.unregisterElement(this.el);
     }
+    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -332,6 +347,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
     }
 
     this.transitionEl = el;
+    this.handlePopover();
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
@@ -415,6 +431,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
         }}
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
+        popover={!this.embedded ? "manual" : null}
         ref={this.setTransitionEl}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
@@ -479,7 +496,7 @@ export class Alert extends LitElement implements OpenCloseComponent {
     );
   }
 
-  private renderIcon(icon: IconNameOrString): JsxNode {
+  private renderIcon(icon: IconName): JsxNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />

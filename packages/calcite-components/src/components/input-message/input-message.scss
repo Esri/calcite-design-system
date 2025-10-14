@@ -8,7 +8,7 @@
  * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;

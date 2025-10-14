@@ -23,7 +23,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
@@ -106,7 +106,7 @@ export class Button
     Appearance
   > = "solid";
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -128,13 +128,13 @@ export class Button
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true }) iconEnd: IconNameOrString;
+  @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true }) iconStart: IconNameOrString;
+  @property({ reflect: true, type: String }) iconStart: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -143,7 +143,7 @@ export class Button
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
@@ -159,7 +159,7 @@ export class Button
    */
   @property({ reflect: true }) rel: string;
 
-  /** When present, adds a round style to the component. */
+  /** When `true`, adds a round style to the component. */
   @property({ reflect: true }) round = false;
 
   /** Specifies the size of the component. */

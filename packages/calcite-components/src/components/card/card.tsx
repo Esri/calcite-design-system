@@ -18,7 +18,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -86,26 +86,26 @@ export class Card extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When present, a busy indicator is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When present, the component is selectable.
+   * When `true`, the component is selectable.
    *
    * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @property({ reflect: true }) selectable = false;
 
-  /** When present, the component is selected. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -259,7 +259,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private renderSelectionIcon(): JsxNode {
-    const icon: IconNameOrString =
+    const icon: IconName =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"

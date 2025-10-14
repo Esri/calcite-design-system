@@ -20,7 +20,7 @@
 //
 // --calcite-internal-tile-spacing
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));

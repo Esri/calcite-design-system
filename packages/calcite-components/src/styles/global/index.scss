@@ -1,23 +1,14 @@
 @use "sass:meta";
+@use "@esri/calcite-design-tokens/dist/css/index.css";
 @use "@esri/calcite-design-tokens/dist/scss";
-@use "@esri/calcite-design-tokens/dist/scss/core";
-@use "floating-ui";
-@use "animation";
-
-/* CSS vars (@include in global) */
+@use "../shared/floating-ui";
+@use "../shared/animation";
 @use "type";
-
-// Add Calcite Design Tokens as CSS Custom Props
-@import url("@esri/calcite-design-tokens/dist/css/index.css");
-
-// Include legacy tokens for backwards compatibility
-@include meta.load-css("legacy");
 
 :root {
   @extend %type-vars;
   @include floating-ui.floating-ui-base();
   @include animation.animation-base();
-  --calcite-popover-z-index: var(--calcite-z-index-popup);
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-offset-invert-focus: 0; // should be 0 or 1

@@ -11,7 +11,7 @@ import {
 } from "@arcgis/lumina";
 import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { StatusIconDefaults } from "./interfaces";
 import { styles } from "./input-message.scss";
 import { CSS } from "./resources";
@@ -33,16 +33,16 @@ export class InputMessage extends LitElement {
   //#region Private Properties
 
   /** the computed icon to render */
-  private requestedIcon?: IconNameOrString;
+  private requestedIcon?: IconName;
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, converter: stringOrBoolean }) icon: IconNameOrString | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When present, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
@@ -88,7 +88,7 @@ export class InputMessage extends LitElement {
     );
   }
 
-  private renderIcon(iconName: IconNameOrString): JsxNode {
+  private renderIcon(iconName: IconName): JsxNode {
     if (iconName) {
       return (
         <calcite-icon

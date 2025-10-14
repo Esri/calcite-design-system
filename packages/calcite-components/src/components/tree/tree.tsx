@@ -38,7 +38,7 @@ export class Tree extends LitElement {
   /** @private */
   @property({ reflect: true }) child: boolean;
 
-  /** When present, displays indentation guide lines. */
+  /** When `true`, displays indentation guide lines. */
   @property({ reflect: true }) lines = false;
 
   /** @private */

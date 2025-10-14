@@ -11,7 +11,7 @@
  * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
  */
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply box-border block;

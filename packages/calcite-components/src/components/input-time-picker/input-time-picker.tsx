@@ -33,7 +33,7 @@ import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { getElementDir } from "../../utils/dom";
-import { IconNameOrString } from "../icon/interfaces";
+import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
@@ -108,10 +108,10 @@ export class InputTimePicker
 
   //#region Public Properties
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When present, prevents focus trapping. */
+  /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -163,7 +163,7 @@ export class InputTimePicker
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** When present, displays the `calcite-time-picker` component. */
+  /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
 
   /**
@@ -179,14 +179,14 @@ export class InputTimePicker
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When present, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
-   * When present and the component resides in a form,
+   * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
@@ -201,8 +201,8 @@ export class InputTimePicker
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon:
-    | IconNameOrString
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */

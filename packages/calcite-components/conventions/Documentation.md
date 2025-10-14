@@ -13,9 +13,10 @@ Follow these conventions when adding or editing API reference:
 - Only use single quotes (`'`) as apostrophes.
 - No links or URLs allowed in descriptions. If a link is necessary, a custom JSDoc tag should be added and parsed in the SDK site.
 - Refrain from using "e.g." or "i.e." references. Leverage "such as" (or similar) where examples are referenced.
-- For boolean attributes, refrain from using `true` or `false` as values. Instead, use "When present", "When not present", or similar.
+- For boolean attributes, use "When `true`, xxx" or "When `false`, xxx" to communicate behavior in the different states.
 - Use "Accessible" instead of "Aria" or "a11y" language.
 - Verify slots and properties/attributes don't use the text "optional" in their descriptions.
+- For CSS token properties, avoid the use of forward slashes (`/`) in descriptions as it causes the generated API documentation to be cut off.
 
 ### Deprecation notices
 

@@ -17,7 +17,7 @@
 //
 // --calcite-internal-table-cell-background-color
 
-@use "../../assets/styles/includes";
+@use "../../styles/includes";
 
 :host {
   @apply contents;
@@ -34,7 +34,7 @@
 calcite-table-cell {
   --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color,
-    var(--calcite-color-foreground-1)
+    var(--calcite-table-row-background, var(--calcite-color-foreground-1))
   );
 }
 
@@ -47,7 +47,10 @@ calcite-table-cell {
 
 tr {
   border-block-end: var(--calcite-border-width-sm) solid var(--calcite-table-row-border-color, transparent);
-  background-color: var(--calcite-table-row-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-table-row-background-color,
+    var(--calcite-table-row-background, var(--calcite-color-foreground-1))
+  );
 }
 
 tr.last-visible-row {

@@ -13,15 +13,14 @@
 //
 // --calcite-internal-dropdown-width
 
-@use "../../assets/styles/includes";
-@use "../../assets/styles/floating-ui";
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
 
 :host {
   @apply inline-block;
 }
 
 .wrapper {
-  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui.floating-ui-container();
 }
 

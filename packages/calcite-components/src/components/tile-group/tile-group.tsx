@@ -49,7 +49,7 @@ export class TileGroup
   /** Specifies the alignment of each `calcite-tile`'s content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** When present, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -82,7 +82,10 @@ export class TileGroup
    * - `"icon"` (displays a checkmark or dot), or
    * - `"border"` (displays a border).
    */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border",
+    SelectionAppearance
+  > = "icon";
 
   /**
    * Specifies the selection mode, where:

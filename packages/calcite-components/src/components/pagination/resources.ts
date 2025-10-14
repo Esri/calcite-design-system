@@ -1,3 +1,5 @@
+import { IconName } from "../icon/interfaces";
+
 export const CSS = {
   list: "list",
   listItem: "list-item",
@@ -9,9 +11,9 @@ export const CSS = {
   ellipsis: "ellipsis",
 };
 
-export const ICONS = {
+export const ICONS: Record<string, IconName> = {
   next: "chevron-right",
   previous: "chevron-left",
   first: "chevron-start",
   last: "chevron-end",
-} as const;
+};
