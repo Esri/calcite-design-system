@@ -2566,7 +2566,7 @@ export const customPanelWithOverflowingContent = (): string => html` <calcite-sh
     <div slot="panel-bottom" style="height:66%; --calcite-shell-panel-max-height: auto;
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;">
-      <calcite-shell-panel display-mode="float" slot="panel-bottom" style="height: 100%;
+      <calcite-shell-panel display-mode="float" width-scale="l" slot="panel-bottom" style="height: 100%;
     ">
         <calcite-panel heading="Panel">
           <div style="display: flex; flex-direction: row; height: 100%; width:100%">
