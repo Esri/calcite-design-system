@@ -1,6 +1,6 @@
 // @ts-check
 const {
-  labels: { issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff },
+  labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff },
   milestone,
   packages,
 } = require("./resources");
@@ -30,7 +30,7 @@ module.exports = function Monday(issue) {
 
   /**
    * Monday.com column value options
-   * @typedef {string | number | { url: string, text: string }} ColumnValue
+   * @typedef {string | number | { url: string, text: string } | { labels: string[] }} ColumnValue
    */
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
@@ -46,20 +46,20 @@ module.exports = function Monday(issue) {
     status: "dup__of_overall_status__1",
     date: "date6",
     priority: "priority",
-    issueType: "color_mkrbz0t1",
+    typeDropdown: "dropdown_mkwhjde2",
     designEstimate: "color_mkrbg2b9",
     devEstimate: "numeric_mkswahrw",
     designIssue: "color_mkswbke0",
     stalled: "color_mkv79bbx",
     blocked: "color_mkv7x1gw",
-    a11y: "color_mksw1sfa",
     spike: "color_mkrt20dy",
-    designTokens: "color_mkvyhk10",
     figmaChanges: "color_mkrvmhg7",
     open: "color_mknkrb2n",
     /* eslint-enable @cspell/spellchecker */
   };
 
+  /** @typedef {{ column: string, value: string | number, clearable?: boolean }} MondayLabel */
+  /** @type {Map<string, MondayLabel>} */
   const labelMap = new Map([
     [
       issueWorkflow.needsTriage,
@@ -80,6 +80,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.spike,
         value: "Spike",
+        clearable: true,
       },
     ],
     [
@@ -87,6 +88,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.spike,
         value: "Spike Complete",
+        clearable: true,
       },
     ],
     [
@@ -94,6 +96,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.blocked,
         value: "Blocked",
+        clearable: true,
       },
     ],
     [
@@ -108,13 +111,6 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.status,
         value: "Assigned",
-      },
-    ],
-    [
-      issueWorkflow.inDesign,
-      {
-        column: columnIds.status,
-        value: "In Design",
       },
     ],
     [
@@ -150,76 +146,111 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.designIssue,
         value: "Design",
-      },
-    ],
-    [
-      issueType.designTokens,
-      {
-        column: columnIds.designTokens,
-        value: "Design Tokens",
-      },
-    ],
-    [
-      issueType.bug,
-      {
-        column: columnIds.issueType,
-        value: "Bug",
-      },
-    ],
-    [
-      issueType.chore,
-      {
-        column: columnIds.issueType,
-        value: "Chore",
-      },
-    ],
-    [
-      issueType.enhancement,
-      {
-        column: columnIds.issueType,
-        value: "Enhancement",
-      },
-    ],
-    [
-      issueType.newComponent,
-      {
-        column: columnIds.issueType,
-        value: "New Component",
-      },
-    ],
-    [
-      issueType.refactor,
-      {
-        column: columnIds.issueType,
-        value: "Refactor",
-      },
-    ],
-    [
-      issueType.docs,
-      {
-        column: columnIds.issueType,
-        value: "Docs",
-      },
-    ],
-    [
-      issueType.test,
-      {
-        column: columnIds.issueType,
-        value: "Testing",
-      },
-    ],
-    [
-      issueType.tooling,
-      {
-        column: columnIds.issueType,
-        value: "Tooling",
+        clearable: true,
       },
     ],
     [
       issueType.a11y,
       {
-        column: columnIds.a11y,
+        column: columnIds.typeDropdown,
         value: "a11y",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.bug,
+      {
+        column: columnIds.typeDropdown,
+        value: "Bug",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.chore,
+      {
+        column: columnIds.typeDropdown,
+        value: "Chore",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.designTokens,
+      {
+        column: columnIds.typeDropdown,
+        value: "Design Tokens",
+        clearable: true,
+      },
+    ],
+    [
+      packages.tokens,
+      {
+        column: columnIds.typeDropdown,
+        value: "Design Tokens",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.docs,
+      {
+        column: columnIds.typeDropdown,
+        value: "Docs",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.enhancement,
+      {
+        column: columnIds.typeDropdown,
+        value: "Enhancement",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.newComponent,
+      {
+        column: columnIds.typeDropdown,
+        value: "New Component",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.refactor,
+      {
+        column: columnIds.typeDropdown,
+        value: "Refactor",
+        clearable: true,
+      },
+    ],
+    [
+      bug.regression,
+      {
+        column: columnIds.typeDropdown,
+        value: "Regression",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.research,
+      {
+        column: columnIds.typeDropdown,
+        value: "Research",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.test,
+      {
+        column: columnIds.typeDropdown,
+        value: "Testing",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.tooling,
+      {
+        column: columnIds.typeDropdown,
+        value: "Tooling",
+        clearable: true,
       },
     ],
     [
@@ -332,6 +363,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.figmaChanges,
         value: "Figma Changes Only",
+        clearable: true,
       },
     ],
     [
@@ -339,13 +371,6 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.stalled,
         value: "Stalled",
-      },
-    ],
-    [
-      packages.tokens,
-      {
-        column: columnIds.designTokens,
-        value: "Design Tokens",
       },
     ],
   ]);
@@ -544,6 +569,41 @@ module.exports = function Monday(issue) {
   function extractIdFromBody() {
     const mondayIdRegex = /(?<=\*\*monday\.com sync:\*\* #)(\d+)/;
     return body?.match(mondayIdRegex)?.[0];
+  }
+
+  /**
+   * Add or remove a label from a DropdownValues object. Creates a new object if none exists.
+   * @private
+   * @param {MondayLabel} labelInfo - The label information
+   * @param {("add" | "remove")} action - The action to perform: "add" or "remove"
+   * @returns {{ labels: string[] } | string} - The updated dropdown object or an empty string if no labels remain
+   */
+  function createDropdownValues(labelInfo, action) {
+    const columnValue = columnUpdates[labelInfo.column];
+    const foundLabels = labels?.filter((label) => labelMap.get(label.name)?.column === columnIds.typeDropdown);
+    /** @type {{ labels: string[] }} */
+    const dropdownObject = { labels: [] };
+    /** @type {Set<string>} */
+    let valueSet = new Set();
+
+    // Object exists
+    if (columnValue && typeof columnValue === "object" && "labels" in columnValue) {
+      valueSet = new Set(columnValue.labels);
+    } else if (foundLabels) {
+      valueSet = new Set(
+        foundLabels.map((label) => labelMap.get(label.name)?.value).filter((value) => typeof value === "string"),
+      );
+    }
+
+    if (action === "add") {
+      valueSet.add(String(labelInfo.value));
+      dropdownObject.labels = Array.from(valueSet);
+    } else if (action === "remove" && labelInfo.clearable === true) {
+      valueSet.delete(String(labelInfo.value));
+      dropdownObject.labels = Array.from(valueSet);
+    }
+
+    return dropdownObject.labels.length ? dropdownObject : "";
   }
 
   /** Public functions */
@@ -776,6 +836,11 @@ module.exports = function Monday(issue) {
       return;
     }
 
+    if (info.column === columnIds.typeDropdown) {
+      setColumnValue(info.column, createDropdownValues(info, "add"));
+      return;
+    }
+
     setColumnValue(info.column, info.value);
   }
 
@@ -785,12 +850,25 @@ module.exports = function Monday(issue) {
    * @returns {void}
    */
   function clearLabel(label) {
-    const labelColumn = labelMap.get(label)?.column;
-    if (!labelColumn) {
+    if (!labelMap.has(label)) {
       console.log(`Label "${label}" not found in Monday Labels map.`);
       return;
     }
-    setColumnValue(labelColumn, "");
+
+    const info = labelMap.get(label);
+    if (!info?.column) {
+      console.log(`Label "${label}" is missing column information.`);
+      return;
+    }
+
+    if (info.column === columnIds.typeDropdown) {
+      setColumnValue(info.column, createDropdownValues(info, "remove"));
+      return;
+    }
+
+    if (info.clearable) {
+      setColumnValue(info.column, "");
+    }
   }
 
   /**
