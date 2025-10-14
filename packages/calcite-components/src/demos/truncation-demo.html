@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Truncation Prototyping</title>
+
+    <style>
+      calcite-button {
+        min-width: 0;
+      }
+
+      .maxWidthWrapper {
+        width: 400px;
+        display: flex;
+      }
+
+      .demo {
+        display: flex;
+        margin: 50px;
+        gap: 100px;
+      }
+
+      .demo-child {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .dropdown {
+        max-width: 200px;
+      }
+
+      pre {
+        background-color: #272822; /* Dark background for code blocks */
+        color: #f8f8f2; /* Light text color for contrast */
+        margin: 0;
+        overflow-x: auto;
+        max-width: 600px;
+      }
+
+      pre code {
+        font-family: "Consolas", "Monaco", monospace; /* Specific monospace font */
+        display: block; /* Ensures code takes full width of pre */
+      }
+    </style>
+
+    <script src="_assets/head.ts"></script>
+  </head>
+
+  <body>
+    <div class="demo">
+      <div class="demo-child">
+        <p>last button is using calcite-typography component</p>
+        <div class="maxWidthWrapper">
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button>Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-button>
+          <calcite-button
+            ><calcite-typography wrap
+              >Add layer Add layerAdd layerAdd layerAdd layerAdd layerAdd layer</calcite-typography
+            ></calcite-button
+          >
+        </div>
+      </div>
+      <div class="demo-child">
+        <p><strong>Code</strong></p>
+        <pre>
+          <code>&lt;calcite-button&gt;</code><code>&lt;calcite-typography wrap&gt;Add layer Add layerAdd layerAdd layerAdd layerAdd
+          layerAdd layer&lt;/calcite-typography&gt;</code><code>&lt;/calcite-button&gt;</code>
+        </pre>
+        <p>Pros</p>
+        <ul>
+          <li>Easy to configure existing behavior</li>
+          <li>Developer friendly with wide range of properties</li>
+        </ul>
+      </div>
+      <div class="demo-child">
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <li>What should be default word-wrap property for calcite-typography?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-child">
+        <p>calcite-button + calcite-typography component for default text</p>
+        <calcite-button width="half" class="maxWidthWrapper">
+          <calcite-typography ellipsis
+            >This is a really long text that should be truncated when it exceeds the width of its container.This is a
+            really long text that should be truncated when it exceeds the width of its container.This is a really long
+            text that should be truncated when it exceeds the width of its container.This is a really long text that
+            should be truncated when it exceeds the width of its container.</calcite-typography
+          >
+        </calcite-button>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Code</strong></p>
+        <pre>
+          <code>&lt;calcite-button&gt;</code><code>&lt;calcite-typography ellipsis&gt;This is a really long text that should be truncated when it exceeds the width of its container.This is a
+            really long text that should be truncated when it exceeds the width of its container.This is a really long
+            text that should be truncated when it exceeds the width of its container.This is a really long text that
+            should be truncated when it exceeds the width of its container.&lt;/calcite-typography&gt;</code><code>&lt;/calcite-button&gt;</code>
+        </pre>
+        <p>Pros</p>
+        <ul>
+          <li>Easy to configure existing behavior</li>
+        </ul>
+      </div>
+      <div class="demo-child">
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <li>??</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- <div class="demo">
+      <div class="demo-child"> 
+      <div class="maxWidthWrapper">
+        <calcite-chip value="biome-a" label="Biome A"
+          ><calcite-typography ellipsis
+            >Biome A Biome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome
+            ABiome ABiome ABiome ABiome ABiome A</calcite-typography
+          ></calcite-chip
+        >
+        <calcite-chip value="biome-a" label="Biome A">
+          Biome A Biome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome ABiome
+          ABiome ABiome ABiome ABiome ABiome A
+        </calcite-chip>
+        <calcite-chip value="biome-b" label="Biome B">Biome B</calcite-chip>
+        <calcite-chip value="biome-d" label="Biome C">Biome C</calcite-chip>
+        <calcite-chip value="biome-d" label="Biome D">Biome D</calcite-chip>
+        <calcite-chip value="biome-e" label="Biome E">Biome E</calcite-chip>
+      </div>
+    </div>
+    </div> -->
+
+    <div class="demo">
+      <div class="demo-child">
+        <p>calcite-list-item-group heading uses textTruncation property</p>
+        <p>textTruncation = &#123; heading: "truncate" &#125;</p>
+
+        <div style="width: 200px; border: 1px dashed black">
+          <calcite-list heading="Park features">
+            <calcite-list-item-group style="background-color: blue" heading="longlonglonglonglonglonglonglong">
+              <calcite-list-item
+                label="Hiking trails"
+                description="Designated routes for hikers to use."
+                value="hiking-trails"
+              >
+                <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+                <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+              </calcite-list-item>
+              <calcite-list-item
+                label="This_label_breaks_correctly_______This_label_breaks_correctly_"
+                description="Large naturally flowing watercourses."
+                value="rivers"
+              >
+                <calcite-action slot="actions-end" icon="layer" text="Rivers layer"> </calcite-action>
+              </calcite-list-item>
+            </calcite-list-item-group>
+          </calcite-list>
+        </div>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Code</strong></p>
+        <pre>
+          <code>&lt;calcite-list-item-group textTruncation=&#123; heading: "truncate" &#125; heading="longlonglonglonglonglonglonglong"&gt;</code><code>...</code><code>&lt;/calcite-list-item-group&gt;</code>
+        </pre>
+        <p>Pros</p>
+        <ul>
+          <li>Do not require calcite-typography component</li>
+          <li>No potential BREAKING CHANGES</li>
+        </ul>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <li>Configuring objects is not developer friendly</li>
+          <li>
+            Requires lot of values to cover multiple truncation strategies with word-wrap, word-break & white-space
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-child">
+        <p>calcite-list-item slots calcite-typography component</p>
+        <p>slot="description"</p>
+
+        <calcite-list label="Park features" style="width: 300px">
+          <calcite-list-item label="Hiking trails" value="hiking-trails">
+            <calcite-typography slot="description" ellipsis>
+              Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
+              experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
+              including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
+              local favorite for its peaceful atmosphere and breathtaking natural beauty..</calcite-typography
+            >
+            <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Code</strong></p>
+        <pre>
+          <code>&lt;calcite-list-item&gt;</code><code>&lt;calcite-typography slot="description" ellipsis&gt;Embark on an adventure along the River. This moderately challenging route offers a diverse hiking
+              experience, from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain,
+              including switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a
+              local favorite for its peaceful atmosphere and breathtaking natural beauty..&lt;/calcite-typography&gt;</code><code>&lt;/calcite-list-item&gt;</code>
+        </pre>
+        <p>Pros</p>
+        <ul>
+          <li>Preserves current behavior and avoids BREAKING CHANGES</li>
+          <li>Users can configure description with native css properties</li>
+          <li>Scalable</li>
+          <li>Extendable to all components</li>
+          <li>Easy to add opt-in features (Ex: copy icon)</li>
+        </ul>
+      </div>
+      <div class="demo-child">
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <li>Slots can undermine design decisions</li>
+          <li>Developers might need to overhaul their code to match current design decisions</li>
+          <li>Change in typography element will impact all components</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-child">
+        <p>Dropdown items using calcite-typography component</p>
+        <calcite-dropdown width="m" class="dropdown" open placement="bottom-end" open>
+          <calcite-button slot="trigger"> dropdown menu</calcite-button>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item
+              ><calcite-typography class="text--wrap"
+                >MountainWithAVeryLongTranslationString</calcite-typography
+              ></calcite-dropdown-item
+            >
+            <calcite-dropdown-item>
+              <calcite-typography wrap
+                >RiverWithVeryLongTranslationStringgggggg</calcite-typography
+              ></calcite-dropdown-item
+            >
+            <calcite-dropdown-item>
+              <calcite-typography ellipsis title="WaterfallVeryLongTranslationStringgggggg"
+                >WaterfallVeryLongTranslationStringgggggg</calcite-typography
+              ></calcite-dropdown-item
+            >
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Code</strong> comparing multiple ways to configure truncation</p>
+        <pre>
+          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography class="text--wrap"&gt;MountainWithAVeryLongTranslationString&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
+          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography wrap&gt;RiverWithVeryLongTranslationStringgggggg&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
+          <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography ellipsis title="WaterfallVeryLongTranslationStringgggggg"&gt;WaterfallVeryLongTranslationStringgggggg&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
+        </pre>
+      </div>
+
+      <div>
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <p><strong>Global CSS</strong></p>
+          <li>
+            Scalability can be issue if we have to extend it to multiple text based properties (ex: heading--text--wrap,
+            description--text--wrap)
+          </li>
+          <li>
+            Endup adding more classes to configure different combinations of text-overflow, word-wrap, word-break &
+            white-spaces
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-child">
+        <p>calcite-list-item slots calcite-typography component with max-lines</p>
+        <p>max-lines="5"</p>
+        <calcite-list label="Park features" style="width: 300px">
+          <calcite-list-item label="Hiking trails" value="hiking-trails">
+            <calcite-typography slot="description" max-lines="5">
+              Designated routes for hikers to use.Designated routes for hikers to use.Designated routes for hikers to
+              use.Designated routes for hikers to use. Designated routes for hikers to use. Designated routes for hikers
+              to use. Designated routes for hikers to use. Designated routes for hikers to use.</calcite-typography
+            >
+            <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+          </calcite-list-item>
+        </calcite-list>
+      </div>
+      <div class="demo-child">
+        <p><strong>Code</strong></p>
+        <pre>
+          <code>&lt;calcite-list-item&gt;</code><code>&lt;calcite-typography slot="description" max-lines="5"&gt;Designated routes for hikers to use.Designated routes for hikers to use.Designated routes for hikers to
+              use.Designated routes for hikers to use. Designated routes for hikers to use. Designated routes for hikers
+              to use. Designated routes for hikers to use. Designated routes for hikers to use.&lt;/calcite-typography&gt;</code><code>&lt;/calcite-list-item&gt;</code>
+        </pre>
+        <p>Pros</p>
+        <ul>
+          <li>Allows users to preserve critical information before truncation</li>
+          <li>Provides flexibility to user to determine number of lines to fit before truncation</li>
+        </ul>
+      </div>
+      <div class="demo-child">
+        <p><strong>Cons/ Open questions</strong></p>
+        <ul>
+          <li>--web-kit-line-clamp is vendor specific</li>
+          <li>Can be achieved with css line-clamp property which has limited support currently</li>
+          <li>Might run into unkown browser issues</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-child">
+        <p><strong>Findngs so far</strong></p>
+        <li>Multiple ways to achieve truncation</li>
+        <li>Can avoid BREAKING CHANGES with <code>slots</code></li>
+        <li>Leaning towards using typography component</li>
+        <li>Typography component is configurable at :host levels</li>
+        <li>Scalable for future additions such as truncate by position</li>
+        <li>tokens solution is not feasible with multiple token configuration required to achieve desired output</li>
+      </div>
+
+      <div class="demo-child">
+        <p><strong>Feedback & Open Ended Questions</strong></p>
+        <li>
+          All the parent containers needs to add <code>overflow:hidden</code> property to support truncation effort be
+          it via slots or CSS
+        </li>
+        <li>Tooltips (On me to evaluate)</li>
+        <li>Performance</li>
+        <li>Do we need truncation by position for initial MVP</li>
+        <li>Feasability of Internationalization with truncation by position</li>
+      </div>
+    </div>
+
+    <script>
+      const listItemGroup = document.querySelector("calcite-list-item-group");
+      listItemGroup.textTruncation = { heading: "truncate" };
+    </script>
+  </body>
+</html>

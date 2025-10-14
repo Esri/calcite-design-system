@@ -1,17 +1,27 @@
 import { LitElement, h, property, type JsxNode } from "@arcgis/lumina";
-import { styles } from "./text.scss";
+import { slotChangeGetTextContent } from "../../utils/dom";
+import { styles } from "./typography.scss";
 
 declare global {
   interface DeclareElements {
     // Declare a custom element with a given tag name
-    "calcite-text": Text;
+    "calcite-typography": Typography;
   }
 }
 
-export class Text extends LitElement {
+export class Typography extends LitElement {
   //#region Static Members
 
   static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private handleDefaultSlot = (event: Event): void => {
+    const text = slotChangeGetTextContent(event);
+    console.log(text);
+  };
 
   //#endregion
 
@@ -23,12 +33,14 @@ export class Text extends LitElement {
 
   @property({ reflect: true }) maxLines: number;
 
+  @property({ reflect: true }) truncatePosition: "start" | "middle" | "end" = "end";
+
   //#endregion
 
   //#region Lifecycle
 
   async loaded(): Promise<void> {
-    this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines.toString());
+    this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines?.toString());
   }
 
   //#endregion
@@ -39,7 +51,7 @@ export class Text extends LitElement {
   //     return this.el;
   //   }
   override render(): JsxNode {
-    return <slot />;
+    return <slot onSlotChange={this.handleDefaultSlot} />;
   }
 
   //#endregion
