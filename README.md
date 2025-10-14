@@ -283,13 +283,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/MikeTschudi">
-      <img src="https://avatars.githubusercontent.com/u/2125181?v=4" width="100;" alt="MikeTschudi"/>
-      <br />
-      <sub><b>Mike Tschudi</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/brandentheintern">
       <img src="https://avatars.githubusercontent.com/u/158607603?v=4" width="100;" alt="brandentheintern"/>
       <br />
@@ -324,8 +317,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Tom Wayson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/cosbyr">
       <img src="https://avatars.githubusercontent.com/u/11748268?v=4" width="100;" alt="cosbyr"/>
@@ -333,6 +324,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Ryan Cosby</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/rpanichakit9541">
       <img src="https://avatars.githubusercontent.com/u/44479773?v=4" width="100;" alt="rpanichakit9541"/>
@@ -368,8 +361,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>anvesh mekala</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/timmorey">
       <img src="https://avatars.githubusercontent.com/u/2340894?v=4" width="100;" alt="timmorey"/>
@@ -377,6 +368,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Timothy Morey</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/timsun123">
       <img src="https://avatars.githubusercontent.com/u/5298143?v=4" width="100;" alt="timsun123"/>
@@ -412,8 +405,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nathan Whittaker</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/oknoway">
       <img src="https://avatars.githubusercontent.com/u/354970?v=4" width="100;" alt="oknoway"/>
@@ -421,6 +412,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nate Bedortha</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/kevindoshier">
       <img src="https://avatars.githubusercontent.com/u/11093161?v=4" width="100;" alt="kevindoshier"/>
@@ -456,8 +449,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Drew Tate</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/ashetland">
       <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
