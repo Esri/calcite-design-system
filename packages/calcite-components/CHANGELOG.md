@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.26...@esri/calcite-components@4.0.0-next.27) (2025-10-14)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove `layout` and `position` properties. The `shell`
+  component will now handle this logic. Developers will no longer need to
+  set `position` and `layout` properties.
+
+### Features
+
+- **shell-panel:** `layout` and `position` properties are no longer required ([#12248](https://github.com/Esri/calcite-design-system/issues/12248)) ([de8c602](https://github.com/Esri/calcite-design-system/commit/de8c6029fd734090f2f39f4e94296fc29a09d71c)), closes [#8306](https://github.com/Esri/calcite-design-system/issues/8306)
+
+## [4.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.25...@esri/calcite-components@4.0.0-next.26) (2025-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [4.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.24...@esri/calcite-components@4.0.0-next.25) (2025-10-10)
 
 ### Features

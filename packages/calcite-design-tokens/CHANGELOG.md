@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.2...@esri/calcite-design-tokens@4.0.0-next.3) (2025-10-13)
+
+### Features
+
+- **semantic-tokens:** update border color token values ([#13102](https://github.com/Esri/calcite-design-system/issues/13102)) ([4cb610f](https://github.com/Esri/calcite-design-system/commit/4cb610f005b23714440b4923faed6e6cace63d6c)), closes [#10755](https://github.com/Esri/calcite-design-system/issues/10755)
+
 ## [4.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.1...@esri/calcite-design-tokens@4.0.0-next.2) (2025-10-09)
 
 ### ⚠ BREAKING CHANGES
