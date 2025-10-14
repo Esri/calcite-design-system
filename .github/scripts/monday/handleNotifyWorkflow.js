@@ -3,8 +3,10 @@ const Monday = require("../support/monday");
 const { assertRequired } = require("../support/utils");
 
 /**
- * When the "Ready for Dev" automation runs, it fires a trigger for this step.
- * This script clears the milestone through `handleMilestone` and updates all assignees.
+ * When another workflow emits the "NotifyWorkflow" event:
+ * 1. Clears the milestone through `handleMilestone`
+ * 2. Updates all assignees.
+ * 3. If `added_label` is provided, adds that label.
  */
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
@@ -18,5 +20,10 @@ module.exports = async ({ github, context }) => {
   const monday = Monday(issue);
   monday.handleMilestone();
   monday.addAllAssignees();
+
+  if (context.payload.inputs.added_label) {
+    monday.addLabel(context.payload.inputs.added_label);
+  }
+
   await monday.commit();
 };
