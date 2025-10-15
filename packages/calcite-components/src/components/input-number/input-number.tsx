@@ -559,7 +559,7 @@ export class InputNumber
       this.setNumberFormatOptions();
     }
 
-    if (changes.has("value") && !this.valueController.userChangedValue) {
+    if (changes.has("value") && this.valueController.valueSetDirectly) {
       const validatedValue = this.getValidNumberString(this.value);
       if (this.value && validatedValue && this.value !== validatedValue) {
         this.value = validatedValue;

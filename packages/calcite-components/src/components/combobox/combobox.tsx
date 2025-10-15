@@ -709,7 +709,7 @@ export class Combobox
   }
 
   private valueHandler(value: string | string[]): void {
-    if (!this.valueController.userChangedValue) {
+    if (this.valueController.valueSetDirectly) {
       this.getItems().forEach((item) => {
         item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
       });

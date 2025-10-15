@@ -12,18 +12,18 @@ interface UseValue {
    */
   previousValue: string;
   /**
-   * Whether the last value change was performed by a KeyboardEvent or MouseEvent.
-   */
-  userChangedValue: boolean;
-  /**
    * The name of the component's value property useValue will manage.  Defaults to "value".
    */
   valueProperty: string;
+  /**
+   * Whether the incoming value change is as a result of an external direct property assignment and not from any public useValue methods.
+   */
+  valueSetDirectly: boolean;
 }
 
 interface UseValueComponent {
   /**
-   * The component's public value property.
+   * The name of the component's public value property.
    *
    */
   valueProperty?: string;
@@ -61,7 +61,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
 
   previousValue = "";
 
-  userChangedValue = false;
+  valueSetDirectly = true;
 
   //#endregion
 
@@ -82,10 +82,10 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   hostUpdate(changes: PropertyValues): void {
     const valueProperty = this.getComponentValueProperty();
     if (changes.has(valueProperty)) {
-      if (!this.userChangedValue) {
+      if (this.valueSetDirectly) {
         this.handleDirectValueChange(this.component[valueProperty]);
       }
-      this.userChangedValue = false;
+      this.valueSetDirectly = true;
     }
   }
 
@@ -119,12 +119,12 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     }
 
     this.previousValue = this.component[valueProperty];
-    this.userChangedValue = true;
+    this.valueSetDirectly = false;
     this.component[valueProperty] = value;
 
     const changeEvent = changeEventEmitter.emit();
     if (changeEvent.defaultPrevented) {
-      this.userChangedValue = false;
+      this.valueSetDirectly = true;
       this.component[valueProperty] = this.lastCommittedValue;
     } else {
       this.lastCommittedValue = this.component[valueProperty];
@@ -136,7 +136,7 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
   }
 
   /**
-   * Sets internal properties as a result of a direct value assignment.
+   * Sets internal properties as a result of an external direct value assignment.
    * Sets the component's value to empty string when the incoming value is falsy.
    * @internal
    */
@@ -163,13 +163,13 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     const valueProperty = this.getComponentValueProperty();
     if (value !== this.component[valueProperty]) {
       this.previousValue = this.component[valueProperty];
-      this.userChangedValue = true;
+      this.valueSetDirectly = false;
       this.component[valueProperty] = value;
     }
 
     const inputEvent = inputEventEmitter.emit(value);
     if (inputEvent.defaultPrevented) {
-      this.userChangedValue = false;
+      this.valueSetDirectly = true;
       // This check allows direct changes to the value to persist after calling inputEvent.preventDefault()
       if (value === this.component[valueProperty]) {
         this.component[valueProperty] = this.previousValue;
