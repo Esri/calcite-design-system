@@ -118,7 +118,7 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
-  /** When `true` and `displayMode` is not `float-content` or `float`, the component's content area is resizable. */
+  /** When `true` and `displayMode` is not `float-all`, `float-content`, or `float`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
   /** Specifies the height of the component. */
