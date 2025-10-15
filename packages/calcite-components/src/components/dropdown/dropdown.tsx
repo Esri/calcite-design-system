@@ -310,6 +310,20 @@ export class Dropdown
 
   // #region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     toggleOpenClose(this);
 
@@ -318,6 +332,7 @@ export class Dropdown
     }
 
     this.reposition(true);
+    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -519,6 +534,7 @@ export class Dropdown
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -632,6 +648,7 @@ export class Dropdown
               this.width || this.widthScale
             ),
           }}
+          popover="manual"
           ref={this.setFloatingEl}
         >
           <div

@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.29...@esri/calcite-components@4.0.0-next.30) (2025-10-15)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.28...@esri/calcite-components@4.0.0-next.29) (2025-10-14)
+
+### ⚠ BREAKING CHANGES
+
+- The `alert`, `autocomplete`, `combobox`, `dialog`,
+  `dropdown`, `input-date-picker`, `popover`, `sheet`, and `tooltip`
+  components will now be placed within the document's
+  [top-layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+  when open. Setting `z-index` token values on them are no longer
+  necessary. Developers no longer need to specify the tokens
+  `--calcite-z-index-tooltip`, `--calcite-z-index-popup`,
+  `-calcite-z-index-dropdown`, or `--calcite-floating-ui-z-index`. Use
+  cases that may be affected would be custom `z-index` stacking and screen
+  shot tests with components that are initially open.
+
+### Features
+
+- use the popover attribute to place floating components in the top-layer ([#12904](https://github.com/Esri/calcite-design-system/issues/12904)) ([1bf3b3b](https://github.com/Esri/calcite-design-system/commit/1bf3b3b6cce7dfc27913a177acad68fc40b277bb)), closes [#10208](https://github.com/Esri/calcite-design-system/issues/10208) [#13099](https://github.com/Esri/calcite-design-system/issues/13099)
+
+## [4.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.27...@esri/calcite-components@4.0.0-next.28) (2025-10-14)
+
+### Bug Fixes
+
+- **combobox:** add description for input accessibility ([#13047](https://github.com/Esri/calcite-design-system/issues/13047)) ([6981654](https://github.com/Esri/calcite-design-system/commit/6981654c879e6634a68e5dbb2298e05f33084475)), closes [#10633](https://github.com/Esri/calcite-design-system/issues/10633)
+
+## [4.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.26...@esri/calcite-components@4.0.0-next.27) (2025-10-14)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove `layout` and `position` properties. The `shell`
+  component will now handle this logic. Developers will no longer need to
+  set `position` and `layout` properties.
+
+### Features
+
+- **shell-panel:** `layout` and `position` properties are no longer required ([#12248](https://github.com/Esri/calcite-design-system/issues/12248)) ([de8c602](https://github.com/Esri/calcite-design-system/commit/de8c6029fd734090f2f39f4e94296fc29a09d71c)), closes [#8306](https://github.com/Esri/calcite-design-system/issues/8306)
+
+## [4.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.25...@esri/calcite-components@4.0.0-next.26) (2025-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [4.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.24...@esri/calcite-components@4.0.0-next.25) (2025-10-10)
 
 ### Features

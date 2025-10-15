@@ -261,7 +261,7 @@ describe("calcite-sheet", () => {
 
       expect(await sheet.getProperty("opened")).toBe(true);
 
-      const scrim = await page.find(`calcite-sheet >>> calcite-scrim`);
+      const scrim = await page.find(`calcite-sheet >>> .${CSS.scrim}`);
       await scrim.click();
       await page.waitForChanges();
 
@@ -404,7 +404,7 @@ describe("calcite-sheet", () => {
 
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet embedded></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -416,7 +416,7 @@ describe("calcite-sheet", () => {
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-sheet outside-close-disabled ></calcite-sheet>`);
+    await page.setContent(`<calcite-sheet embedded outside-close-disabled ></calcite-sheet>`);
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
     await page.waitForChanges();
@@ -470,12 +470,12 @@ describe("calcite-sheet", () => {
       const minSize = 100;
       const initialSize = 500;
       const page = await newE2EPage();
+      await page.setViewport({ width: 1200, height: 1200 });
       await page.setContent(
         html` <calcite-sheet
-          width-scale="m"
-          height-scale="m"
           heading="Hello world"
           position="inline-start"
+          embedded
           resizable
           open
           style="
@@ -496,9 +496,9 @@ describe("calcite-sheet", () => {
         </calcite-sheet>`,
       );
       await skipAnimations(page);
-      await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
-      const container = await page.find(`calcite-sheet >>> .${CSS.container}`);
+
+      const container = await page.find(`calcite-sheet >>> #${IDS.sheetContent}`);
 
       let computedStyle = await container.getComputedStyle();
       const initialInlineSize = computedStyle.inlineSize;

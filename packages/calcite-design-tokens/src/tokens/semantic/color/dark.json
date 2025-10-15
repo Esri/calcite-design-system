@@ -3,7 +3,7 @@
     "color": {
       "background": {
         "default": {
-          "value": "{core.color.neutral.blk-190}",
+          "value": "{core.color.neutral.blk-210}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -29,7 +29,7 @@
           }
         },
         "2": {
-          "value": "{core.color.neutral.blk-210}",
+          "value": "{core.color.neutral.blk-190}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -37,7 +37,7 @@
           }
         },
         "3": {
-          "value": "{core.color.neutral.blk-220}",
+          "value": "{core.color.neutral.blk-180}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -292,7 +292,7 @@
           }
         },
         "hover": {
-          "value": "{core.color.neutral.blk-000}",
+          "value": "{core.color.neutral.blk-010}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -300,7 +300,7 @@
           }
         },
         "press": {
-          "value": "{core.color.neutral.blk-010}",
+          "value": "{core.color.neutral.blk-020}",
           "type": "color",
           "attributes": {
             "category": "color",
