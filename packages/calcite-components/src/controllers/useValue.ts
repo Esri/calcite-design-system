@@ -121,7 +121,6 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
     this.previousValue = this.component[valueProperty];
     this.userChangedValue = true;
     this.component[valueProperty] = value;
-    this.userChangedValue = false;
 
     const changeEvent = changeEventEmitter.emit();
     if (changeEvent.defaultPrevented) {
