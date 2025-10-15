@@ -627,17 +627,9 @@ module.exports = function Monday(issue) {
     }
 
     const isDropdown = info.column === columnIds.typeDropdown;
-
     if (action === "add") {
-      if (isDropdown) {
-        setColumnValue(info.column, createDropdownValues(info, "add"));
-      } else {
-        setColumnValue(info.column, info.value);
-      }
-      return;
-    }
-
-    if (action === "remove" && info.clearable) {
+      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "add") : info.value);
+    } else {
       setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "");
     }
   }
