@@ -579,31 +579,66 @@ module.exports = function Monday(issue) {
    * @returns {{ labels: string[] } | string} - The updated dropdown object or an empty string if no labels remain
    */
   function createDropdownValues(labelInfo, action) {
-    const columnValue = columnUpdates[labelInfo.column];
-    const foundLabels = labels?.filter((label) => labelMap.get(label.name)?.column === columnIds.typeDropdown);
-    /** @type {{ labels: string[] }} */
-    const dropdownObject = { labels: [] };
-    /** @type {Set<string>} */
-    let valueSet = new Set();
-
-    // Object exists
-    if (columnValue && typeof columnValue === "object" && "labels" in columnValue) {
-      valueSet = new Set(columnValue.labels);
-    } else if (foundLabels) {
-      valueSet = new Set(
-        foundLabels.map((label) => labelMap.get(label.name)?.value).filter((value) => typeof value === "string"),
-      );
+    if (action !== "add" && action !== "remove") {
+      throw new Error(`Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`);
     }
+
+    const labelValue = String(labelInfo.value);
+    const currentValue = columnUpdates[labelInfo.column];
+    const existingLabels =
+      currentValue && typeof currentValue === "object" && "labels" in currentValue ? currentValue.labels : [];
+
+    if (existingLabels.length === 0 && labels?.length) {
+      for (const { name } of labels) {
+        const info = labelMap.get(name);
+        if (info?.column === labelInfo.column && info?.value) {
+          existingLabels.push(String(info.value));
+        }
+      }
+    }
+
+    const dropdownSet = new Set(existingLabels);
+    if (action === "add" && !dropdownSet.has(labelValue)) {
+      dropdownSet.add(labelValue);
+    } else {
+      dropdownSet.delete(labelValue);
+    }
+
+    return dropdownSet.size ? { labels: Array.from(dropdownSet) } : "";
+  }
+
+  /**
+   * Update a label in columnUpdates based on the action
+   * @private
+   * @param {string} label - The label name to update
+   * @param {("add" | "remove")} action - The action to perform
+   */
+  function updateLabel(label, action) {
+    if (!labelMap.has(label)) {
+      console.log(`Label "${label}" not found in Monday Labels map.`);
+      return;
+    }
+
+    const info = labelMap.get(label);
+    if (!info?.column || !info?.value) {
+      console.log(`Label "${label}" is missing column or title information.`);
+      return;
+    }
+
+    const isDropdown = info.column === columnIds.typeDropdown;
 
     if (action === "add") {
-      valueSet.add(String(labelInfo.value));
-      dropdownObject.labels = Array.from(valueSet);
-    } else if (action === "remove" && labelInfo.clearable === true) {
-      valueSet.delete(String(labelInfo.value));
-      dropdownObject.labels = Array.from(valueSet);
+      if (isDropdown) {
+        setColumnValue(info.column, createDropdownValues(info, "add"));
+      } else {
+        setColumnValue(info.column, info.value);
+      }
+      return;
     }
 
-    return dropdownObject.labels.length ? dropdownObject : "";
+    if (action === "remove" && info.clearable) {
+      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "");
+    }
   }
 
   /** Public functions */
@@ -825,23 +860,7 @@ module.exports = function Monday(issue) {
       return;
     }
 
-    if (!labelMap.has(label)) {
-      console.log(`Label "${label}" not found in Monday Labels map.`);
-      return;
-    }
-
-    const info = labelMap.get(label);
-    if (!info?.column || !info?.value) {
-      console.log(`Label "${label}" is missing column or title information.`);
-      return;
-    }
-
-    if (info.column === columnIds.typeDropdown) {
-      setColumnValue(info.column, createDropdownValues(info, "add"));
-      return;
-    }
-
-    setColumnValue(info.column, info.value);
+    updateLabel(label, "add");
   }
 
   /**
@@ -850,25 +869,7 @@ module.exports = function Monday(issue) {
    * @returns {void}
    */
   function clearLabel(label) {
-    if (!labelMap.has(label)) {
-      console.log(`Label "${label}" not found in Monday Labels map.`);
-      return;
-    }
-
-    const info = labelMap.get(label);
-    if (!info?.column) {
-      console.log(`Label "${label}" is missing column information.`);
-      return;
-    }
-
-    if (info.column === columnIds.typeDropdown) {
-      setColumnValue(info.column, createDropdownValues(info, "remove"));
-      return;
-    }
-
-    if (info.clearable) {
-      setColumnValue(info.column, "");
-    }
+    updateLabel(label, "remove");
   }
 
   /**
