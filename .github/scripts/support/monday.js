@@ -388,6 +388,7 @@ module.exports = function Monday(issue) {
     ["ashetland", { role: columnIds.designers, id: 45851619 }],
     ["benelan", { role: columnIds.developers, id: 49704471 }],
     ["chezHarper", { role: columnIds.designers, id: 71157966 }],
+    ["DintaMel", { role: columnIds.productEngineers, id: 92955697 }],
     ["DitwanP", { role: columnIds.productEngineers, id: 53683093 }],
     ["driskull", { role: columnIds.developers, id: 45944985 }],
     ["Elijbet", { role: columnIds.developers, id: 55852207 }],
