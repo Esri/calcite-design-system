@@ -2541,7 +2541,12 @@ export const customPanelWithOverflowingContent = (): string =>
     overflow-y: hidden;"
             >
               <div style="width: 100%; height: 100%; position: static; left: 0.195313px; top: -0.5px;">
-                <img alt="placeholder image" src="${placeholderImage({ width: 700, height: 400 })}" width="100%" />
+                <img
+                  alt="placeholder image"
+                  src="${placeholderImage({ width: 631, height: 297 })}"
+                  width="100%"
+                  height="100%"
+                />
               </div>
             </div>
           </div>
