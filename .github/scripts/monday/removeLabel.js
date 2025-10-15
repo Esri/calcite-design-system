@@ -16,18 +16,16 @@ module.exports = async ({ context }) => {
   const { labels: issueLabels, assignee } = issue;
   const [labelName] = assertRequired([label?.name]);
 
-  if (labelName === spike && issueLabels && includesLabel(issueLabels, spikeComplete)) {
+  if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
     console.log("Issue is marked as a spike complete. Skipping label removal.");
     process.exit(0);
   }
 
   const tokensLabels = [designTokens, tokensPackage];
-  if (tokensLabels.includes(labelName) && issueLabels) {
-    const remainingLabel = tokensLabels.find((label) => label !== labelName);
-    if (issueLabels.some((label) => label.name === remainingLabel)) {
-      console.error("Issue is still marked as a design token issue. Skipping label removal.");
-      process.exit(0);
-    }
+  const remainingTokenLabel = tokensLabels.includes(labelName) && tokensLabels.find((l) => l !== labelName);
+  if (remainingTokenLabel && includesLabel(issueLabels, remainingTokenLabel)) {
+    console.error("Issue is still marked as a design token issue. Skipping label removal.");
+    process.exit(0);
   }
 
   const monday = Monday(issue);
