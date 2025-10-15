@@ -583,7 +583,7 @@ module.exports = function Monday(issue) {
       throw new Error(`Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`);
     }
 
-    const labelValue = String(labelInfo.value);
+    const labelValue = `${labelInfo.value}`;
     const currentValue = columnUpdates[labelInfo.column];
     const existingLabels =
       currentValue && typeof currentValue === "object" && "labels" in currentValue ? currentValue.labels : [];
@@ -591,8 +591,8 @@ module.exports = function Monday(issue) {
     if (existingLabels.length === 0 && labels?.length) {
       for (const { name } of labels) {
         const info = labelMap.get(name);
-        if (info?.column === labelInfo.column && info?.value) {
-          existingLabels.push(String(info.value));
+        if (info?.column === labelInfo.column && info.value) {
+          existingLabels.push(`${info.value}`);
         }
       }
     }
@@ -629,7 +629,7 @@ module.exports = function Monday(issue) {
     const isDropdown = info.column === columnIds.typeDropdown;
     if (action === "add") {
       setColumnValue(info.column, isDropdown ? createDropdownValues(info, "add") : info.value);
-    } else if (action === "remove" && info.clearable) {
+    } else if (info.clearable) {
       setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "");
     }
   }
