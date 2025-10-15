@@ -143,7 +143,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
@@ -287,6 +287,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       toggleOpenClose(this);
+      this.handlePopover();
     }
 
     if (
@@ -307,6 +308,20 @@ export class Sheet extends LitElement implements OpenCloseComponent {
   //#endregion
 
   //#region Private Methods
+
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.transitionEl) {
+      return;
+    }
+
+    if (this.opened) {
+      this.transitionEl.showPopover();
+    } else {
+      this.transitionEl.hidePopover();
+    }
+  }
 
   private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {
@@ -544,6 +559,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
     }
 
     this.transitionEl = el;
+    this.handlePopover();
   }
 
   private handleOutsideClose(): void {
@@ -589,6 +605,7 @@ export class Sheet extends LitElement implements OpenCloseComponent {
             this.height || this.heightScale
           ),
         }}
+        popover={!this.embedded ? "manual" : null}
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />

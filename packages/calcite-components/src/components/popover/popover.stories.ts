@@ -103,18 +103,23 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 export const nested = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
-    <calcite-popover closable reference-element="reference-element" placement="${defaultPopoverPlacement}" open>
+    <calcite-popover closable open reference-element="reference-element" placement="${defaultPopoverPlacement}">
       <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
-      <calcite-popover
-        heading="Heading"
-        closable
-        reference-element="reference-element-nested"
-        placement="${defaultPopoverPlacement}"
-        open
-      >
-        ${contentHTML}
-      </calcite-popover>
     </calcite-popover>
+    <calcite-popover
+      heading="Heading"
+      closable
+      id="nested-popover"
+      reference-element="reference-element-nested"
+      placement="${defaultPopoverPlacement}"
+    >
+      ${contentHTML}
+    </calcite-popover>
+    <script>
+      document.addEventListener("calcitePopoverOpen", () => {
+        document.querySelector("#nested-popover").open = true;
+      });
+    </script>
   </div>
 `;
 

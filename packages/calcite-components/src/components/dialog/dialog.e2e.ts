@@ -746,7 +746,7 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
-    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
 
     await page.waitForChanges();
     expect(dialogContainer).toEqualAttribute("role", "dialog");
@@ -1290,7 +1290,7 @@ describe("calcite-dialog", () => {
       {
         "--calcite-dialog-scrim-background-color": {
           shadowSelector: `.${CSS.scrim}`,
-          targetProp: "--calcite-scrim-background-color",
+          targetProp: "--calcite-scrim-background",
         },
         "--calcite-dialog-content-space": {
           shadowSelector: `.${CSS.panel}`,
