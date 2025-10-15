@@ -9,13 +9,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
-interface PointerMoveOptions {
-  delay: number;
-  selector: string;
-  property: string;
-  value: boolean;
-}
-
 const eventOptions = { bubbles: true, cancelable: true };
 
 describe("calcite-tooltip", () => {
@@ -1018,113 +1011,6 @@ describe("calcite-tooltip", () => {
       expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
       expect(closeEvent).toHaveReceivedEventTimes(1);
     });
-  });
-
-  it.skip("should open hovered tooltip while pointer is moving", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-      <button id="ref">Button</button>
-    `);
-
-    const tooltip = await page.find("calcite-tooltip");
-    expect(await tooltip.getProperty("open")).toBe(false);
-
-    const pointerMoves: PointerMoveOptions[] = [
-      {
-        delay: 0,
-        property: "open",
-        value: false,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
-        property: "open",
-        value: false,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_OPEN_DELAY_MS * 0.5,
-        property: "open",
-        value: false,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_OPEN_DELAY_MS,
-        property: "open",
-        value: true,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
-        property: "open",
-        value: true,
-        selector: "#ref",
-      },
-    ];
-
-    for (let i = 0; i < pointerMoves.length; i++) {
-      const { delay, selector } = pointerMoves[i];
-      await page.waitForTimeout(delay);
-      await dispatchPointerEvent(page, selector);
-      expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
-    }
-  });
-
-  it.skip("should close non hovered tooltip while pointer is moving", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-      <p>
-        <button id="ref">Button</button>
-      </p>
-      <p>
-        <button id="ref2">No tooltip button</button>
-      </p>
-    `);
-
-    const tooltip = await page.find("calcite-tooltip");
-    expect(await tooltip.getProperty("open")).toBe(false);
-
-    const pointerMoves: PointerMoveOptions[] = [
-      {
-        delay: 0,
-        property: "open",
-        value: false,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_CLOSE_DELAY_MS,
-        property: "open",
-        value: true,
-        selector: "#ref",
-      },
-      {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
-        property: "open",
-        value: true,
-        selector: "#ref2",
-      },
-      {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
-        property: "open",
-        value: true,
-        selector: "#ref2",
-      },
-      {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
-        property: "open",
-        value: false,
-        selector: "#ref2",
-      },
-    ];
-
-    for (let i = 0; i < pointerMoves.length; i++) {
-      const { delay, selector } = pointerMoves[i];
-      await page.waitForTimeout(delay);
-      await dispatchPointerEvent(page, selector);
-      expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
-    }
   });
 
   describe("within shadowRoot", () => {
