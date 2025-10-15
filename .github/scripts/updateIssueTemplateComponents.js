@@ -2,21 +2,30 @@
 const fs = require("fs");
 const path = require("path");
 
-const componentsDir = path.join(process.cwd(), "packages", "src", "components");
-const componentBlacklist = new Set(["avoid-me", "dont-add-me-to-list", "should-not-be-included"]);
+const componentsDir = path.join(process.cwd(), "packages", "calcite-components", "src", "components");
+const blockList = new Set([
+  "Action Menu",
+  "Color Picker Hex Input",
+  "Date Picker Day",
+  "Date Picker Month",
+  "Date Picker Month Header",
+  "Functional",
+  "Graph",
+  "Handle",
+  "Sort Handle",
+  "Sortable List",
+  "Stack",
+]);
 
-function titleCase(folderName) {
-  return folderName
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-function main() {
+async function main() {
   if (!fs.existsSync(componentsDir)) {
     console.error("Components directory not found:", componentsDir);
     process.exit(2);
   }
+
+  const changeCaseModule = await import("change-case");
+  const changeCaseRoot = changeCaseModule.default ?? changeCaseModule;
+  const { capitalCase } = changeCaseRoot;
 
   const entries = fs.readdirSync(componentsDir, { withFileTypes: true });
   const componentFolders = entries
@@ -25,7 +34,7 @@ function main() {
     .sort((left, right) => left.localeCompare(right, "en"));
 
   // Exclude non user facing component folders (blacklist)
-  const filteredComponentFolders = componentFolders.filter((name) => !componentBlacklist.has(name));
+  const filteredComponentFolders = componentFolders.filter((name) => !blockList.has(name));
   const templateDir = path.join(process.cwd(), ".github", "ISSUE_TEMPLATE");
   const allFiles = fs.readdirSync(templateDir);
 
@@ -43,11 +52,8 @@ function main() {
     const fullPath = path.join(templateDir, file);
     const content = fs.readFileSync(fullPath, "utf8");
 
-    // Parse by lines and look for the input that has `id: which-component`
     const lines = content.split(/\r?\n/);
     const outputLines = [...lines];
-
-    // Find the "which-component" id line
     const whichComponentIndex = lines.findIndex((line) => /^\s*id:\s*which-component\s*$/.test(line));
 
     let changed = false;
@@ -55,14 +61,14 @@ function main() {
       // Find the next line with "options:" under "which-component"
       let i = whichComponentIndex + 1;
       while (i < lines.length && !/^\s*options:\s*$/.test(lines[i])) i++;
-      const componentOptionsLineIdx = i;
-      if (componentOptionsLineIdx >= lines.length) {
+      const optionsLineIndex = i;
+      if (optionsLineIndex >= lines.length) {
         console.error(`No options: line found after which-component in ${file}, skipping`);
         continue;
       }
 
       // Determine where the options list ends: scan downward and stop when we encounter the next '- type:' line (start of next input)
-      let componentsListEndIdx = componentOptionsLineIdx + 1;
+      let componentsListEndIdx = optionsLineIndex + 1;
       while (componentsListEndIdx < lines.length) {
         // Stop when we hit the next input marker '- type:'
         if (/^\s*\-\s*type:/.test(lines[componentsListEndIdx])) break;
@@ -70,21 +76,19 @@ function main() {
       }
 
       // Get indentation from options line so we don't change any user formatting there
-      const indentMatch = lines[componentOptionsLineIdx].match(/^(\s*)/);
+      const indentMatch = lines[optionsLineIndex].match(/^(\s*)/);
       const optionsLineIndentation = indentMatch[1];
-      const componentListIndent = optionsLineIndentation + "  ";
+      const componentListIndent = `${optionsLineIndentation}  `;
 
       // Build the new component option item lines, populate the constant options first
-      const newOptionItems = [];
-      newOptionItems.push(componentListIndent + "- N/A");
-      newOptionItems.push(componentListIndent + "- Unknown / Not Sure");
+      const newOptionItems = [`${componentListIndent}- N/A`, `${componentListIndent}- Unknown / Not Sure`];
       for (const componentName of filteredComponentFolders) {
-        newOptionItems.push(componentListIndent + "- " + titleCase(componentName));
+        newOptionItems.push(`${componentListIndent}- ${capitalCase(componentName)}`);
       }
 
-      // Replace the lines between the "options:"" line and the next input marker with the item lines
-      // componentOptionsLineIdx points at the 'options:' line, so start replacing at +1
-      const replaceStart = componentOptionsLineIdx + 1;
+      // Replace the lines between the "options:" line and the next input marker with the item lines
+      // optionsLineIndex points at the 'options:' line, so start replacing at +1
+      const replaceStart = optionsLineIndex + 1;
       const replaceCount = componentsListEndIdx - replaceStart;
       outputLines.splice(replaceStart, replaceCount, ...newOptionItems);
       changed = true;
@@ -94,17 +98,14 @@ function main() {
       const newContent = outputLines.join("\n");
       if (newContent !== content) {
         fs.writeFileSync(fullPath, newContent, "utf8");
-        console.log("Updated", file, "with", filteredComponentFolders.length, "components");
+        console.log(`Updated ${file} with ${filteredComponentFolders.length} components`);
         updatedCount++;
       }
     }
   }
 
-  if (updatedCount === 0) {
-    console.log("No templates needed updating");
-  } else {
-    console.log("Updated", updatedCount, "template(s)");
-  }
+  const message = updatedCount === 0 ? "No templates needed updating" : `Updated ${updatedCount} template(s)`;
+  console.log(message);
 }
 
 main();

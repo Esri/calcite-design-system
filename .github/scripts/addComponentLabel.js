@@ -18,7 +18,6 @@ module.exports = async ({ github, context }) => {
   const whichComponentRegex = /### Which Component(?:\r\n|\r|\n){1,2}([^\r\n]+)/m;
   const whichComponentRegexMatch = body.match(whichComponentRegex);
 
-  // If issue includes "Which Component" line then add or create labels, otherwise log message.
   if (whichComponentRegexMatch) {
     const componentsString = (whichComponentRegexMatch[1] || "").trim();
 
