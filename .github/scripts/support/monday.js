@@ -598,9 +598,10 @@ module.exports = function Monday(issue) {
     }
 
     const dropdownSet = new Set(existingLabels);
-    if (action === "add" && !dropdownSet.has(labelValue)) {
+    const present = dropdownSet.has(labelValue);
+    if (action === "add" && !present) {
       dropdownSet.add(labelValue);
-    } else {
+    } else if (action === "remove" && present) {
       dropdownSet.delete(labelValue);
     }
 
