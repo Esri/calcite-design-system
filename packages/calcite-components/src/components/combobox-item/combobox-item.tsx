@@ -104,7 +104,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** When `true`, the component is selected. */
   @property({ reflect: true })
   get selected(): boolean {
-    return this._selected;
+    return !!this._selected;
   }
   set selected(value: boolean) {
     const oldValue = this._selected;
