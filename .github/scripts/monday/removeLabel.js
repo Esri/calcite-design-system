@@ -3,10 +3,9 @@ const Monday = require("../support/monday");
 const { assertRequired, notInLifecycle } = require("../support/utils");
 const {
   labels: {
-    planning: { spike, spikeComplete, blocked },
-    issueType: { design, designTokens, a11y },
+    planning: { spike, spikeComplete },
+    issueType: { designTokens },
     issueWorkflow: { new: newLabel, assigned: assignedLabel, needsTriage, needsMilestone },
-    handoff: { figmaChanges },
   },
   packages: { tokens: tokensPackage },
 } = require("../support/resources");
@@ -36,10 +35,6 @@ module.exports = async ({ context }) => {
     monday.addLabel(assignedLabel);
   }
 
-  const clearable = [a11y, spike, design, blocked, figmaChanges, designTokens, tokensPackage].includes(labelName);
-  if (clearable) {
-    monday.clearLabel(labelName);
-  }
-
+  monday.clearLabel(labelName);
   await monday.commit();
 };
