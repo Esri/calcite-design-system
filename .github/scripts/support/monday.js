@@ -629,7 +629,7 @@ module.exports = function Monday(issue) {
     const isDropdown = info.column === columnIds.typeDropdown;
     if (action === "add") {
       setColumnValue(info.column, isDropdown ? createDropdownValues(info, "add") : info.value);
-    } else {
+    } else if (action === "remove" && info.clearable) {
       setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "");
     }
   }
