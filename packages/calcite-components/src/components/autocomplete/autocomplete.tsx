@@ -519,6 +519,20 @@ export class Autocomplete
 
   //#region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
 
@@ -553,6 +567,7 @@ export class Autocomplete
 
     this.setFloatingElSize();
     this.reposition(true);
+    this.handlePopover();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -765,6 +780,7 @@ export class Autocomplete
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setTransitionEl(el: HTMLDivElement): void {
@@ -849,6 +865,7 @@ export class Autocomplete
               [CSS.floatingUIContainer]: true,
               [CSS.floatingUIContainerActive]: isOpen,
             }}
+            popover="manual"
             ref={this.setFloatingEl}
           >
             <div

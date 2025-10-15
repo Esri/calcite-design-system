@@ -3,6 +3,106 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.29...@esri/calcite-components@4.0.0-next.30) (2025-10-15)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.28...@esri/calcite-components@4.0.0-next.29) (2025-10-14)
+
+### ⚠ BREAKING CHANGES
+
+- The `alert`, `autocomplete`, `combobox`, `dialog`,
+  `dropdown`, `input-date-picker`, `popover`, `sheet`, and `tooltip`
+  components will now be placed within the document's
+  [top-layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+  when open. Setting `z-index` token values on them are no longer
+  necessary. Developers no longer need to specify the tokens
+  `--calcite-z-index-tooltip`, `--calcite-z-index-popup`,
+  `-calcite-z-index-dropdown`, or `--calcite-floating-ui-z-index`. Use
+  cases that may be affected would be custom `z-index` stacking and screen
+  shot tests with components that are initially open.
+
+### Features
+
+- use the popover attribute to place floating components in the top-layer ([#12904](https://github.com/Esri/calcite-design-system/issues/12904)) ([1bf3b3b](https://github.com/Esri/calcite-design-system/commit/1bf3b3b6cce7dfc27913a177acad68fc40b277bb)), closes [#10208](https://github.com/Esri/calcite-design-system/issues/10208) [#13099](https://github.com/Esri/calcite-design-system/issues/13099)
+
+## [4.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.27...@esri/calcite-components@4.0.0-next.28) (2025-10-14)
+
+### Bug Fixes
+
+- **combobox:** add description for input accessibility ([#13047](https://github.com/Esri/calcite-design-system/issues/13047)) ([6981654](https://github.com/Esri/calcite-design-system/commit/6981654c879e6634a68e5dbb2298e05f33084475)), closes [#10633](https://github.com/Esri/calcite-design-system/issues/10633)
+
+## [4.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.26...@esri/calcite-components@4.0.0-next.27) (2025-10-14)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove `layout` and `position` properties. The `shell`
+  component will now handle this logic. Developers will no longer need to
+  set `position` and `layout` properties.
+
+### Features
+
+- **shell-panel:** `layout` and `position` properties are no longer required ([#12248](https://github.com/Esri/calcite-design-system/issues/12248)) ([de8c602](https://github.com/Esri/calcite-design-system/commit/de8c6029fd734090f2f39f4e94296fc29a09d71c)), closes [#8306](https://github.com/Esri/calcite-design-system/issues/8306)
+
+## [4.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.25...@esri/calcite-components@4.0.0-next.26) (2025-10-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.24...@esri/calcite-components@4.0.0-next.25) (2025-10-10)
+
+### Features
+
+- **tab-nav:** improve overflow UX ([#12850](https://github.com/Esri/calcite-design-system/issues/12850)) ([55e1809](https://github.com/Esri/calcite-design-system/commit/55e1809d918ab68b189b641ec7d2cdcfbd4cec32)), closes [#10177](https://github.com/Esri/calcite-design-system/issues/10177) [#12970](https://github.com/Esri/calcite-design-system/issues/12970)
+
+## [4.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.23...@esri/calcite-components@4.0.0-next.24) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Legacy custom CSS props were removed. Developers can
+  use [`calcite-codemod`](https://www.npmjs.com/package/calcite-codemod)
+  to migrate, upgrade to the CSS variables [introduced in version
+  2](https://developers.arcgis.com/calcite-design-system/releases/changelogs/2.0.0/#css-variable-comparison-tables),
+  or include the [legacy CSS
+  props](https://github.com/Esri/calcite-design-system/blob/b0f063e213adaa31bc5fed124b7f29381735ccf5/packages/calcite-components/src/assets/styles/_legacy.scss)
+  locally.
+
+### Features
+
+- **action-bar, action-pad:** add new selectionAppearance property for 4.0 ([#13023](https://github.com/Esri/calcite-design-system/issues/13023)) ([61f0f05](https://github.com/Esri/calcite-design-system/commit/61f0f0569dc75ea54b1056431fd4513e73c441a9)), closes [#10758](https://github.com/Esri/calcite-design-system/issues/10758)
+
+### Code Refactoring
+
+- drop legacy custom CSS props deprecated at v2 ([#13089](https://github.com/Esri/calcite-design-system/issues/13089)) ([fc9cb47](https://github.com/Esri/calcite-design-system/commit/fc9cb47d4aa56bbeabe656176754c6933266a7eb)), closes [#11807](https://github.com/Esri/calcite-design-system/issues/11807)
+
+## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.22...@esri/calcite-components@4.0.0-next.23) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- **inline-editable:** No longer set `scale` based on slotted input. This
+  change is will allow the component to honor the `scale` property set on
+  slotted inputs. Developers should explicitly set `scale` on slotted
+  inputs if they are using a non-default scale.
+
+### Bug Fixes
+
+- **inline-editable:** no longer sets the component's scale to the slotted `calcite-input`'s scale ([#12241](https://github.com/Esri/calcite-design-system/issues/12241)) ([b399ab7](https://github.com/Esri/calcite-design-system/commit/b399ab7b05530e009935ffe97500f9d3bdff7344)), closes [#10466](https://github.com/Esri/calcite-design-system/issues/10466)
+
+## [4.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.21...@esri/calcite-components@4.0.0-next.22) (2025-10-09)
+
+### ⚠ BREAKING CHANGES
+
+- Developers using the legacy VS Code custom data files
+  should use `vscode.html-custom-data.json` as suggested in
+  <https://developers.arcgis.com/calcite-design-system/resources/frameworks/#visual-studio-intellisense>
+
+### Bug Fixes
+
+- **option:** improve whitespace handling ([#13076](https://github.com/Esri/calcite-design-system/issues/13076)) ([e89a9b8](https://github.com/Esri/calcite-design-system/commit/e89a9b8903119315ddd6abba29eb30254e123f39)), closes [#12146](https://github.com/Esri/calcite-design-system/issues/12146)
+
+### Code Refactoring
+
+- drop legacy VS Code IntelliSense file ([#13072](https://github.com/Esri/calcite-design-system/issues/13072)) ([5f15e51](https://github.com/Esri/calcite-design-system/commit/5f15e51e8f204c74895ceab7a50d3e2f48a3cd54)), closes [#13082](https://github.com/Esri/calcite-design-system/issues/13082)
+
 ## [4.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.20...@esri/calcite-components@4.0.0-next.21) (2025-10-07)
 
 ### Bug Fixes

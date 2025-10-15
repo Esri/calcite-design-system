@@ -21,7 +21,6 @@
 }
 
 .wrapper {
-  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floating-ui.floating-ui-container();
 }
 

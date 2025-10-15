@@ -58,6 +58,10 @@ describe("calcite-action-bar", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "selectionAppearance",
+        defaultValue: "neutral",
+      },
     ]);
   });
 
@@ -78,6 +82,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "selectionAppearance",
+        value: "neutral",
       },
     ]);
   });

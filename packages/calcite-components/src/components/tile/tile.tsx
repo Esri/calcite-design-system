@@ -127,7 +127,10 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border",
+    SelectionAppearance
+  > = "icon";
 
   /**
    * Specifies the selection mode, where:
