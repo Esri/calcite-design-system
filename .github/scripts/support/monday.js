@@ -783,7 +783,7 @@ module.exports = function Monday(issue) {
       setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
-      const { new: newLabel, assigned, needsTriage, needsMilestone, readyForDev } = issueWorkflow;
+      const { new: newLabel, assigned, needsTriage, needsMilestone, readyForDev, installed } = issueWorkflow;
       if (
         assignee &&
         notInLifecycle({
@@ -793,7 +793,7 @@ module.exports = function Monday(issue) {
       ) {
         addLabel(assigned);
       }
-      if (!assignee && !includesLabel(labels, readyForDev)) {
+      if (!assignee && !includesLabel(labels, installed) && !includesLabel(labels, readyForDev)) {
         addLabel(newLabel);
       }
     } else {
