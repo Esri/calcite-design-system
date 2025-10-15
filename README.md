@@ -195,17 +195,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/justinhough">
-      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
-      <br />
-      <sub><b>Justin Hough</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/Amretasre002762670">
       <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
       <br />
       <sub><b>Amretasre Rengarajan</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/justinhough">
+      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
+      <br />
+      <sub><b>Justin Hough</b></sub>
     </a>
   </td>
   <td align="center">
