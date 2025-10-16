@@ -1,4 +1,5 @@
 {
+  "css.customData": ["../packages/calcite-components/dist/docs/vscode.css-custom-data.json"],
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
@@ -8,9 +9,6 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "html.customData": [
-    "./packages/calcite-components/dist/extras/vscode-data.json",
-    "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
-  ],
+  "html.customData": ["../packages/calcite-components/dist/docs/vscode.html-custom-data.json"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

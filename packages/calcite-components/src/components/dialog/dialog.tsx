@@ -90,6 +90,8 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
   private panelRef = createRef<Panel["el"]>();
 
+  private popoverRef = createRef<HTMLDivElement>();
+
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
   transitionEl: HTMLDivElement;
@@ -143,7 +145,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
    *
    * @private
    */
-  @property() embedded = false;
+  @property({ reflect: true }) embedded = false;
 
   /**
    * When `true`, disables the default close on escape behavior.
@@ -406,6 +408,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     this.opened = value;
   }
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (this.embedded || !this.popoverRef.value) {
+      return;
+    }
+
+    if (this.open) {
+      this.popoverRef.value.showPopover();
+    } else {
+      this.popoverRef.value.hidePopover();
+    }
+  }
+
   private handleOpenedChange(value: boolean): void {
     const { transitionEl } = this;
 
@@ -415,6 +431,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
+    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -705,6 +722,7 @@ export class Dialog extends LitElement implements OpenCloseComponent {
 
     this.transitionEl = el;
     this.setupInteractions();
+    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -752,17 +770,20 @@ export class Dialog extends LitElement implements OpenCloseComponent {
     const { assistiveText, description, heading, opened, icon, iconFlipRtl } = this;
     return (
       <div
+        ariaDescription={description}
+        ariaLabel={heading}
+        ariaModal={this.modal}
         class={{
           [CSS.container]: true,
           [CSS.containerOpen]: opened,
           [CSS.containerEmbedded]: this.embedded,
         }}
+        popover={!this.embedded ? "manual" : null}
+        ref={this.popoverRef}
+        role="dialog"
       >
         {this.modal ? <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} /> : null}
         <div
-          ariaDescription={description}
-          ariaLabel={heading}
-          ariaModal={this.modal}
           class={{
             [CSS.dialog]: true,
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
@@ -771,7 +792,6 @@ export class Dialog extends LitElement implements OpenCloseComponent {
           }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
-          role="dialog"
         >
           {assistiveText ? (
             <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">
