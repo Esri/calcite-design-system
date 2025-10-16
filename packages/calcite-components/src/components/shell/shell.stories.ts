@@ -1,9 +1,12 @@
+import type { DecoratorFunction } from "@storybook/html";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { ShellCenterRow } from "../shell-center-row/shell-center-row";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Dialog } from "../dialog/dialog";
+import { dialogPlacements } from "../dialog/resources";
 
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
@@ -17,6 +20,12 @@ interface ShellCenterRowArgs extends Pick<ShellCenterRow, "detached" | "heightSc
 }
 
 type ShellStoryArgs = ShellPanelArgs & ShellCenterRowArgs;
+
+type ShellSlottedElementsStoryArgs = {
+  dialogPlacement: Dialog["placement"];
+  dialogWidth: number;
+  dialogHeight: number;
+};
 
 export default {
   title: "Components/Shell",
@@ -2778,3 +2787,201 @@ customPanelWithOverflowingContent.parameters = {
     cropToViewport: true,
   },
 };
+
+const embeddedSlotsShellDecorator: DecoratorFunction = (storyFn) => html`
+  <style>
+    calcite-shell {
+      position: relative;
+      width: 1200px;
+      max-width: 90%;
+      max-height: 90%;
+      height: 600px;
+      margin: 0 auto;
+    }
+    .padded-content {
+      padding: 0.75rem;
+    }
+    .padded-content calcite-notice {
+      margin-block-end: 0.75rem;
+    }
+  </style>
+  <main>
+    <p class="padded-content">
+      <calcite-notice width="full" open>
+        <span slot="title">Other page content outside of shell</span>
+      </calcite-notice>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua...
+    </p>
+    ${storyFn()}
+    <p class="padded-content">
+      <calcite-notice width="full" open>
+        <span slot="title">Notice outside of shell</span>
+      </calcite-notice>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua...
+    </p>
+  </main>
+`;
+
+export const embeddedSlots = (): string => html`
+  <calcite-shell>
+    <div slot="header">Header Example</div>
+    <calcite-dialog open modal slot="dialogs"
+      ><span slot="header-content">Dialog slotted in Shell</span></calcite-dialog
+    >
+    <calcite-alert open slot="alerts" placement="top-end"
+      ><span slot="title">Alert slotted in Shell</span>
+    </calcite-alert>
+    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+      <calcite-panel closable heading="Ultrices neque"
+        ><p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
+        </p>
+        <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+        <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+      </calcite-panel>
+    </calcite-sheet>
+    <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+          <calcite-action icon="legend" text="Legend"> </calcite-action>
+          <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel">
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <calcite-shell-panel slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar">
+        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-action-group>
+          <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+          <calcite-action text="Styles" icon="shapes"> </calcite-action>
+          <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+          <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+          <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+          </calcite-action>
+          <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-flow>
+        <calcite-flow-item heading="Flow 01">
+          <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Flow 02">
+          <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+      </calcite-flow>
+    </calcite-shell-panel>
+
+    <calcite-panel heading="Main content">
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    </calcite-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+`;
+
+embeddedSlots.decorators = [embeddedSlotsShellDecorator];
+
+export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): string => html`
+  <calcite-shell>
+    <div slot="header">Header Example</div>
+    <calcite-dialog
+      slot="dialogs"
+      modal
+      open
+      placement="${args.dialogPlacement}"
+      style="--calcite-dialog-size-x: ${args.dialogWidth}; --calcite-dialog-size-y: ${args.dialogHeight}"
+    >
+      <h3 slot="header-content">Test custom dialog sizes in slotted dialog in shell</h3>
+      Expected behavior: none: css var for height + width adhered to. Below width, goes to fullscreen. fullscreen:
+      ignores css var for height + width. docked: css var for height + width adhered to. Below width, docks, with
+      provided height
+      <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    </calcite-dialog>
+    <calcite-alert open slot="alerts" placement="top-end"
+      ><span slot="title">Alert slotted in Shell</span>
+    </calcite-alert>
+    <calcite-shell-panel slot="panel-start" position="start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+          <calcite-action icon="legend" text="Legend"> </calcite-action>
+          <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel">
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <calcite-shell-panel slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar">
+        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-action-group>
+          <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+          <calcite-action text="Styles" icon="shapes"> </calcite-action>
+          <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+          <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+          <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+          </calcite-action>
+          <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-flow>
+        <calcite-flow-item heading="Flow 01">
+          <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Flow 02">
+          <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+      </calcite-flow>
+    </calcite-shell-panel>
+
+    <calcite-panel heading="Main content">
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    </calcite-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+`;
+
+embeddedSlotsInteractive.args = {
+  dialogPlacement: "center",
+  dialogHeight: "300px",
+  dialogWidth: "800px",
+};
+embeddedSlotsInteractive.argTypes = {
+  dialogPlacement: {
+    control: { type: "select" },
+    options: dialogPlacements,
+  },
+  dialogWidth: {
+    control: "text",
+  },
+  dialogHeight: {
+    control: "text",
+  },
+};
+embeddedSlotsInteractive.decorators = [embeddedSlotsShellDecorator];
