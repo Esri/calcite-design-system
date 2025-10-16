@@ -25,7 +25,7 @@ jobs:
       - name: "Create Task"
         if: github.event.action == 'opened' ||
           (github.event.action == 'labeled' && github.event.label.name == 'monday.com sync')
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/createTask.js')
@@ -33,7 +33,7 @@ jobs:
 
       - name: "Update Label on Task"
         if: github.event.action == 'labeled'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateLabels.js')
@@ -41,7 +41,7 @@ jobs:
 
       - name: "Remove Label from Task"
         if: github.event.action == 'unlabeled'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/removeLabel.js')
@@ -49,7 +49,7 @@ jobs:
 
       - name: "Update Milestone"
         if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateMilestone.js')
@@ -57,7 +57,7 @@ jobs:
 
       - name: "Update Task Title"
         if: github.event.action == 'edited'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateTitle.js')
@@ -65,7 +65,7 @@ jobs:
 
       - name: "Update Task Assignee"
         if: github.event.action == 'assigned' || github.event.action == 'unassigned'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateAssignee.js')
@@ -73,7 +73,7 @@ jobs:
 
       - name: "Update Task Status"
         if: github.event.action == 'closed' || github.event.action == 'reopened'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateState.js')
@@ -81,7 +81,7 @@ jobs:
 
       - name: "Handle Notify Workflow Event"
         if: github.event.inputs.event_type == 'NotifyWorkflow'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/handleNotifyWorkflow.js')
