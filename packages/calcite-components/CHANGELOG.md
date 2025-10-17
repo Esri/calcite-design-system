@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.30...@esri/calcite-components@4.0.0-next.31) (2025-10-17)
+
+### Bug Fixes
+
+- **combobox-item:** emit `calciteComboboxItemChange` event on `Enter` key ([#13051](https://github.com/Esri/calcite-design-system/issues/13051)) ([0c27b47](https://github.com/Esri/calcite-design-system/commit/0c27b47fa4a7f000198705605d9e85a81a4e114b)), closes [#12647](https://github.com/Esri/calcite-design-system/issues/12647)
+
 ## [4.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.29...@esri/calcite-components@4.0.0-next.30) (2025-10-15)
 
 **Note:** Version bump only for package @esri/calcite-components
