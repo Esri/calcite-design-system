@@ -5,6 +5,7 @@ export const CSS = {
   actionBarContainer: "action-bar-container",
   contentContainer: "content-container",
   content: "content",
+  panel: "panel",
   contentHeader: "content__header",
   contentBody: "content__body",
   contentOverlay: "content--overlay",
@@ -18,7 +19,19 @@ export const CSS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
-  header: "header",
+  panelActionBar: "panel-action-bar",
+  alerts: "alerts",
+  customContent: "custom-content",
+  contentTop: "content-top",
+  contentBottom: "content-bottom",
+  headerActionsStart: "header-actions-start",
+  headerActionsEnd: "header-actions-end",
+  headerMenuActions: "header-menu-actions",
+  headerContent: "header-content",
+  fab: "fab",
+  footer: "footer",
+  footerStart: "footer-start",
+  footerEnd: "footer-end",
 };
 
 export const ICONS: Record<string, IconName> = {
