@@ -71,7 +71,7 @@
         "none": {
           "value": "{core.size.default.none}",
           "type": "spacing",
-          "description": "deprecated, use --calcite-space-none instead",
+          "description": "deprecated, use `--calcite-space-none` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -79,7 +79,7 @@
         "px": {
           "value": "{core.size.default.1}",
           "type": "spacing",
-          "description": "deprecated, use --calcite-space-px instead",
+          "description": "deprecated, use `--calcite-space-px` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -87,7 +87,7 @@
         "base": {
           "value": "{core.size.default.2}",
           "type": "spacing",
-          "description": "deprecated, use --calcite-space-base instead",
+          "description": "deprecated, use `--calcite-space-base` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -95,7 +95,7 @@
         "xxs": {
           "value": "{core.size.default.4}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-2xs instead",
+          "description": "deprecated, use `--calcite-space-2xs` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -103,7 +103,7 @@
         "xs": {
           "value": "{core.size.default.6}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-xs instead",
+          "description": "deprecated, use `--calcite-space-xs` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -111,7 +111,7 @@
         "sm": {
           "value": "{core.size.default.8}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-sm instead",
+          "description": "deprecated, use `--calcite-space-sm` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -119,7 +119,7 @@
         "sm+": {
           "value": "{core.size.default.10}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-sm-plus instead",
+          "description": "deprecated, use `--calcite-space-sm-plus` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -127,7 +127,7 @@
         "md": {
           "value": "{core.size.default.12}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-md instead",
+          "description": "deprecated, use `--calcite-space-md` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -135,7 +135,7 @@
         "md+": {
           "value": "{core.size.default.14}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-md-plus instead",
+          "description": "deprecated, use `--calcite-space-md-plus` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -143,7 +143,7 @@
         "lg": {
           "value": "{core.size.default.16}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-lg instead",
+          "description": "deprecated, use `--calcite-space-lg` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -151,7 +151,7 @@
         "xl": {
           "value": "{core.size.default.20}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-xl instead",
+          "description": "deprecated, use `--calcite-space-xl` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -159,7 +159,7 @@
         "xxl": {
           "value": "{core.size.default.24}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-2xl instead",
+          "description": "deprecated, use `--calcite-space-2xl` instead",
           "attributes": {
             "category": "spacing"
           }
@@ -167,7 +167,7 @@
         "xxxl": {
           "value": "{core.size.default.32}",
           "type": "dimension",
-          "description": "deprecated, use --calcite-space-3xl instead",
+          "description": "deprecated, use `--calcite-space-3xl` instead",
           "attributes": {
             "category": "spacing"
           }
