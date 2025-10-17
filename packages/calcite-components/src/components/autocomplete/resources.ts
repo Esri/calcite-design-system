@@ -13,6 +13,15 @@ export const CSS = {
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
   screenReadersOnly: "screen-readers-only",
+  clearButton: "clear-button",
+  inputWrapper: "wrapper",
+  prefix: "prefix",
+  suffix: "suffix",
+  hasSuffix: "has-suffix",
+  hasPrefix: "has-prefix",
+  wrapper: "element-wrapper",
+  loader: "loader",
+  inputIcon: "icon",
 } as const;
 
 const idPrefix = "autocomplete";

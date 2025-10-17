@@ -45,11 +45,10 @@ import {
   disconnectForm,
   submitForm,
 } from "../../utils/form";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { getElementDir, slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
-import type { Input } from "../input/input";
 import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
 import type { AutocompleteItemGroup } from "../autocomplete-item-group/autocomplete-item-group";
 import type { Label } from "../label/label";
@@ -57,6 +56,8 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { getIconScale } from "../../utils/component";
+import { CSS_UTILITY } from "../../utils/resources";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -126,7 +127,7 @@ export class Autocomplete
 
   transitionProp = "opacity" as const;
 
-  referenceEl: Input["el"];
+  referenceEl: HTMLInputElement;
 
   transitionEl: HTMLDivElement;
 
@@ -147,6 +148,8 @@ export class Autocomplete
   private cancelable = useCancelable<this>()(this);
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
+
+  private requestedIcon: IconName;
 
   //#endregion
 
@@ -389,7 +392,7 @@ export class Autocomplete
    */
   @method()
   async selectText(): Promise<void> {
-    return this.referenceEl.selectText();
+    return this.referenceEl.select();
   }
 
   /**
@@ -452,6 +455,7 @@ export class Autocomplete
 
   async load(): Promise<void> {
     this.getAllItemsDebounced();
+    this.setRequestedIcon();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -671,7 +675,7 @@ export class Autocomplete
     this.updateGroups();
   }
 
-  private setReferenceEl(el: Input["el"]): void {
+  private setReferenceEl(el: HTMLInputElement): void {
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
     connectFloatingUI(this);
@@ -697,6 +701,9 @@ export class Autocomplete
         if (open) {
           this.open = false;
           event.preventDefault();
+          if (this.isClearable) {
+            this.clearInputValue();
+          }
         }
         break;
       case "Tab":
@@ -756,9 +763,9 @@ export class Autocomplete
     this.activeDescendantElement = this.enabledItems[this.activeIndex];
   }
 
-  private changeHandler(event: CustomEvent): void {
+  private changeHandler(event: Event): void {
     event.stopPropagation();
-    this.inputValue = (event.target as Input["el"]).value;
+    this.inputValue = (event.target as HTMLInputElement).value;
     this.calciteAutocompleteTextChange.emit();
   }
 
@@ -770,9 +777,9 @@ export class Autocomplete
     this.open = true;
   }
 
-  private inputHandler(event: CustomEvent): void {
+  private inputHandler(event: InputEvent): void {
     event.stopPropagation();
-    this.inputValue = (event.target as Input["el"]).value;
+    this.inputValue = (event.target as HTMLInputElement).value;
     this.open = this.inputValue?.length > 0;
     this.calciteAutocompleteTextInput.emit();
   }
@@ -791,6 +798,22 @@ export class Autocomplete
     this.transitionEl = el;
   }
 
+  get isClearable(): boolean {
+    return this.inputValue?.length > 0;
+  }
+
+  private clearInputValue(): void {
+    this.inputValue = "";
+  }
+
+  private setRequestedIcon(): void {
+    if (typeof this.icon === "string") {
+      this.requestedIcon = (this.icon as string) !== "" ? this.icon : "search";
+    } else {
+      this.requestedIcon = undefined;
+    }
+  }
+
   //#endregion
 
   //#region Rendering
@@ -798,9 +821,43 @@ export class Autocomplete
   override render(): JsxNode {
     const { disabled, listId, inputId, isOpen } = this;
 
+    const dir = getElementDir(this.el);
+
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
     const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
+
+    const inputClearButton = (
+      <button
+        ariaLabel={this.messages.clear}
+        class={CSS.clearButton}
+        disabled={this.disabled || this.readOnly}
+        onClick={this.clearInputValue}
+        tabIndex={-1}
+        title={this.messages.clear}
+        type="button"
+      >
+        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
+      </button>
+    );
+
+    const iconEl = (
+      <calcite-icon
+        class={CSS.inputIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.requestedIcon}
+        scale={getIconScale(this.scale)}
+      />
+    );
+
+    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
+    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+
+    const loader = (
+      <div class={CSS.loader}>
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
+      </div>
+    );
 
     return (
       <InteractiveContainer disabled={disabled}>
@@ -812,80 +869,85 @@ export class Autocomplete
             tooltipText={this.messages.required}
           />
         )}
-        <div class={CSS.inputContainer}>
-          <calcite-input
-            alignment={this.alignment}
-            aria={{
-              role: "combobox",
-              controls: listId,
-              activeDescendantElement: this.activeDescendantElement,
-              expanded: isOpen,
-              hasPopup: "listbox",
-              labelledby: getLabelText(this),
-              autoComplete: "list",
-              controlsElements: [this.autocompleteListContainerRef],
-            }}
-            autocomplete={this.autocomplete}
-            autofocus={autofocus}
-            class={CSS.input}
-            clearable={true}
-            disabled={disabled}
-            enterKeyHint={enterKeyHint}
-            form={this.form}
-            icon={this.icon ?? true}
-            iconFlipRtl={this.iconFlipRtl}
-            inputId={inputId}
-            inputMode={inputMode}
-            loading={this.loading}
-            maxLength={this.maxLength}
-            messageOverrides={this.messages}
-            minLength={this.minLength}
-            name={this.name}
-            onClick={this.inputClickHandler}
-            onKeyDown={this.keyDownHandler}
-            oncalciteInputChange={this.changeHandler}
-            oncalciteInputInput={this.inputHandler}
-            oncalciteInternalInputFocus={this.handleInputFocus}
-            pattern={this.pattern}
-            placeholder={this.placeholder}
-            prefixText={this.prefixText}
-            readOnly={this.readOnly}
-            ref={this.setReferenceEl}
-            required={this.required}
-            scale={this.scale}
-            status={this.status}
-            suffixText={this.suffixText}
-            type="search"
-            value={this.inputValue}
-          />
-          {this.renderListBox()}
-          <div
-            class={{
-              [CSS.contentContainer]: true,
-              [CSS.floatingUIContainer]: true,
-              [CSS.floatingUIContainerActive]: isOpen,
-            }}
-            popover="manual"
-            ref={this.setFloatingEl}
-          >
+        <div
+          class={{
+            [CSS.inputWrapper]: true,
+            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
+          }}
+        >
+          {this.prefixText ? prefixText : null}
+          <div class={CSS.wrapper}>
+            <div class={CSS.inputContainer}>
+              <input
+                aria-activedescendant={this.activeDescendant}
+                aria-autocomplete="list"
+                aria-controls={listId}
+                aria-errormessage={IDS.validationMessage}
+                aria-expanded={isOpen}
+                aria-haspopup="listbox"
+                aria-label={getLabelText(this)}
+                ariaInvalid={this.status === "invalid"}
+                autocomplete={this.autocomplete}
+                autofocus={autofocus}
+                class={CSS.input}
+                disabled={disabled}
+                enterKeyHint={enterKeyHint}
+                form={this.form}
+                id={inputId}
+                inputMode={inputMode}
+                maxLength={this.maxLength}
+                minLength={this.minLength}
+                name={this.name}
+                onChange={this.changeHandler}
+                onClick={this.inputClickHandler}
+                onFocus={this.handleInputFocus}
+                onInput={this.inputHandler}
+                onKeyDown={this.keyDownHandler}
+                pattern={this.pattern}
+                placeholder={this.placeholder || ""}
+                readOnly={this.readOnly}
+                ref={this.setReferenceEl}
+                required={this.required}
+                role="combobox"
+                type="search"
+                value={this.inputValue}
+              />
+            </div>
+            {this.isClearable ? inputClearButton : null}
+            {this.requestedIcon ? iconEl : null}
+            {this.loading ? loader : null}
+            {this.renderListBox()}
             <div
               class={{
-                [CSS.contentAnimation]: true,
-                [FloatingCSS.animation]: true,
-                [FloatingCSS.animationActive]: isOpen,
+                [CSS.contentContainer]: true,
+                [CSS.floatingUIContainer]: true,
+                [CSS.floatingUIContainerActive]: isOpen,
               }}
-              ref={this.setTransitionEl}
+              popover="manual"
+              ref={this.setFloatingEl}
             >
-              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
-                <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
-                <slot ariaHidden="true" />
-                <slot
-                  name={SLOTS.contentBottom}
-                  onSlotChange={this.handleContentBottomSlotChange}
-                />
+              <div
+                class={{
+                  [CSS.contentAnimation]: true,
+                  [FloatingCSS.animation]: true,
+                  [FloatingCSS.animationActive]: isOpen,
+                }}
+                ref={this.setTransitionEl}
+              >
+                <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+                  <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+                  <slot ariaHidden="true" />
+                  <slot
+                    name={SLOTS.contentBottom}
+                    onSlotChange={this.handleContentBottomSlotChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
+          {this.suffixText ? suffixText : null}
         </div>
         <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
