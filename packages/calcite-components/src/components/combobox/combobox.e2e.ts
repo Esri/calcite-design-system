@@ -2203,7 +2203,7 @@ describe("calcite-combobox", () => {
       await element.press("Enter");
       const chips = await findAll(page, "calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(eventSpy).toHaveReceivedEventTimes(1);
     });
 
     it("should fire calciteComboboxChange when entering new unknown tag", async () => {
