@@ -129,8 +129,8 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
 
     if (value) {
-      this.removeEventListener("keydown", this.panelKeyDownHandler);
-      this.removeEventListener("calcitePanelClose", this.panelCloseHandler);
+      this.el.removeEventListener("keydown", this.panelKeyDownHandler);
+      this.el.removeEventListener("calcitePanelClose", this.panelCloseHandler);
     } else {
       this.listen("keydown", this.panelKeyDownHandler);
       this.listen("calcitePanelClose", this.panelCloseHandler);
