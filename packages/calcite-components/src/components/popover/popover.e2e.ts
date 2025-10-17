@@ -758,7 +758,7 @@ describe("calcite-popover", () => {
 
   describe("setFocus", () => {
     const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
+      `<calcite-popover open ${attrs} reference-element="ref" focus-trap-disabled>${contentHTML}</calcite-popover><button id="ref">Button</button>`;
 
     const contentButtonClass = "my-button";
     const contentHTML = "Hello World!";
