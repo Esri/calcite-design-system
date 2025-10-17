@@ -131,65 +131,63 @@ export const darkModeRTL_TestOnly = (): string =>
   </calcite-menu>`;
 
 export const verticalComplexUseCase_TestOnly = (): string =>
-  html`<calcite-shell-panel width-scale="l">
-    <calcite-panel heading="Extreme nested vertical menu">
-      <calcite-menu layout="vertical">
-        <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"></calcite-menu-item>
-        <calcite-menu-item
-          icon-start="layer"
-          icon-end="layer"
-          href="#"
-          text="Example nested"
-          icon-start="layer"
-          breadcrumb
-        >
-          <calcite-menu-item icon-end="layer" icon-start="layer" slot="submenu-item" text="Capabilities">
+  html`<calcite-shell-panel width-scale="l" heading="Extreme nested vertical menu">
+    <calcite-menu layout="vertical">
+      <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"></calcite-menu-item>
+      <calcite-menu-item
+        icon-start="layer"
+        icon-end="layer"
+        href="#"
+        text="Example nested"
+        icon-start="layer"
+        breadcrumb
+      >
+        <calcite-menu-item icon-end="layer" icon-start="layer" slot="submenu-item" text="Capabilities">
+        </calcite-menu-item>
+        <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
+          <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities">
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
-            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities">
-              <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
-              <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
-              <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer" breadcrumb open>
+        <calcite-menu-item slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
+          <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" breadcrumb>
+          </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Capabilities" open>
+            <calcite-menu-item slot="submenu-item" text="Capabilities" icon-end="layer"></calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Something else"></calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Another thing">
+            <calcite-menu-item slot="submenu-item" text="Great examples">
+              <calcite-menu-item slot="submenu-item" text="Great examples" breadcrumb></calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"></calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
             </calcite-menu-item>
           </calcite-menu-item>
         </calcite-menu-item>
-        <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer" breadcrumb open>
-          <calcite-menu-item slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
-            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" breadcrumb>
-            </calcite-menu-item>
-            <calcite-menu-item slot="submenu-item" text="Capabilities" open>
-              <calcite-menu-item slot="submenu-item" text="Capabilities" icon-end="layer"></calcite-menu-item>
-              <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"></calcite-menu-item>
-            </calcite-menu-item>
-            <calcite-menu-item slot="submenu-item" text="Something else"></calcite-menu-item>
-            <calcite-menu-item slot="submenu-item" text="Another thing">
-              <calcite-menu-item slot="submenu-item" text="Great examples">
-                <calcite-menu-item slot="submenu-item" text="Great examples" breadcrumb></calcite-menu-item>
-                <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"></calcite-menu-item>
+        <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous" open>
+          <calcite-menu-item slot="submenu-item" text="Very nice example"></calcite-menu-item>
+          <calcite-menu-item icon-start="layer" slot="submenu-item" text="Short one" open>
+            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Another thing" open>
+              <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" open>
+                <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
                 <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
               </calcite-menu-item>
             </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous" open>
-            <calcite-menu-item slot="submenu-item" text="Very nice example"></calcite-menu-item>
-            <calcite-menu-item icon-start="layer" slot="submenu-item" text="Short one" open>
-              <calcite-menu-item icon-start="layer" slot="submenu-item" text="Another thing" open>
-                <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" open>
-                  <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
-                  <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
-                  <calcite-menu-item slot="submenu-item" text="Great examples"></calcite-menu-item>
-                </calcite-menu-item>
-              </calcite-menu-item>
-            </calcite-menu-item>
-          </calcite-menu-item>
-          <calcite-menu-item slot="submenu-item" text="Capabilities"></calcite-menu-item>
         </calcite-menu-item>
         <calcite-menu-item slot="submenu-item" text="Capabilities"></calcite-menu-item>
-        <calcite-menu-item text="Reference" active></calcite-menu-item>
-        <calcite-menu-item text="Reference"></calcite-menu-item>
-        <calcite-menu-item text="Reference"></calcite-menu-item>
-      </calcite-menu>
-    </calcite-panel>
+      </calcite-menu-item>
+      <calcite-menu-item slot="submenu-item" text="Capabilities"></calcite-menu-item>
+      <calcite-menu-item text="Reference" active></calcite-menu-item>
+      <calcite-menu-item text="Reference"></calcite-menu-item>
+      <calcite-menu-item text="Reference"></calcite-menu-item>
+    </calcite-menu>
   </calcite-shell-panel>`;
 
 export const verticalLayoutInDarkModeRTL_TestOnly = (): string =>
