@@ -190,9 +190,7 @@ describe("calcite-shell", () => {
       await page.setContent(
         html` <calcite-shell>
           <calcite-shell-panel slot="panel-start">
-            <calcite-panel heading="Example">
-              <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
-            </calcite-panel>
+            <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
           </calcite-shell-panel>
           <calcite-panel heading="Content">
             <calcite-shell style="position:relative">

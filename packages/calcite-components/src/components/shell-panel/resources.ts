@@ -6,8 +6,6 @@ export const CSS = {
   contentContainer: "content-container",
   content: "content",
   panel: "panel",
-  contentHeader: "content__header",
-  contentBody: "content__body",
   contentOverlay: "content--overlay",
   float: "float",
   floatAll: "float-all",

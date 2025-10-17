@@ -352,15 +352,13 @@ describe("calcite-action", () => {
     await page.waitForChanges();
 
     const action = await page.find("calcite-action");
-    const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
-
-    expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-    expect(liveRegion.getAttribute("role")).toBe("region");
-    expect(liveRegion.textContent).toBe("");
+    let liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
+    expect(liveRegion).toBeNull();
 
     action.setProperty("indicator", true);
     await page.waitForChanges();
 
+    liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
     expect(liveRegion.textContent).toBe("Indicator present");

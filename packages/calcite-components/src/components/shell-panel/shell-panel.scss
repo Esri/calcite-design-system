@@ -373,21 +373,6 @@
   }
 }
 
-.content__header {
-  @apply flex
-  flex-initial
-  flex-col
-  flex-nowrap
-  items-stretch;
-}
-
-.content__body {
-  @apply flex
-  flex-auto
-  flex-col
-  overflow-hidden;
-}
-
 .content--overlay {
   @apply absolute;
   --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);

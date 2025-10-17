@@ -12,10 +12,8 @@ describe("stacked focus-trap components", () => {
 
   const componentStack = html`
     <calcite-sheet id="sheet">
-      <calcite-panel>
-        <calcite-block open></calcite-block>
-        <calcite-button id="sheet-button">Open Modal from Sheet</calcite-button>
-      </calcite-panel>
+      <calcite-block open></calcite-block>
+      <calcite-button id="sheet-button">Open Modal from Sheet</calcite-button>
     </calcite-sheet>
 
     <calcite-dialog id="dialog" width-scale="s" scale="s" heading="small scale dialog" description="My description">
@@ -99,10 +97,7 @@ describe("stacked focus-trap components", () => {
           const activeElementIdAfterTab = await page.evaluate(() => document.activeElement?.id);
 
           // sheet itself is not focusable, so we check for `sheet-button` as the element focus returns to it after closing the previous component
-          const expectedElementId =
-            focusTrapOrderElements[i].id === "sheet"
-              ? "sheet-button"
-              : focusTrapOrderElements[i].id || document.body.id;
+          const expectedElementId = focusTrapOrderElements[i].id || document.body.id;
           expect(activeElementIdAfterTab).toBe(expectedElementId);
 
           await page.keyboard.press("Escape");
