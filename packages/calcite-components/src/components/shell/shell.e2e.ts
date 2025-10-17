@@ -208,7 +208,7 @@ describe("calcite-shell", () => {
       await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
     });
 
     it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -234,7 +234,7 @@ describe("calcite-shell", () => {
       await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
     });
 
     it("deprecated modal embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -262,7 +262,7 @@ describe("calcite-shell", () => {
       await openEventSpy.next();
 
       expect(await block.getProperty("expanded")).toBe(true);
-      expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+      expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
     });
   });
 
