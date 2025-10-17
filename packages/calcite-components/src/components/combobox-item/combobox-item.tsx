@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -167,6 +167,27 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   //#endregion
 
+  //#region Public Methods
+
+  /**
+   * Toggle selection of the component.
+   *
+   * @private
+   */
+  @method()
+  toggleSelection(): void {
+    const isSinglePersistSelect = this.selectionMode === "single-persist";
+
+    if (this.disabled || (isSinglePersistSelect && this.selected)) {
+      return;
+    }
+
+    this.selected = !this.selected;
+    this.calciteComboboxItemChange.emit();
+  }
+
+  //#endregion
+
   //#region Events
 
   /** Fires whenever the component is selected or unselected. */
@@ -219,19 +240,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.hasContent = slotChangeHasContent(event);
   }
 
-  private toggleSelected(): Promise<void> {
-    const isSinglePersistSelect = this.selectionMode === "single-persist";
-
-    if (this.disabled || (isSinglePersistSelect && this.selected)) {
-      return;
-    }
-
-    this.selected = !this.selected;
-    this.calciteComboboxItemChange.emit();
-  }
-
   private itemClickHandler(): void {
-    this.toggleSelected();
+    this.toggleSelection();
   }
 
   //#endregion

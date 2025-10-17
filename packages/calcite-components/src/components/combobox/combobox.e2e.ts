@@ -1063,15 +1063,18 @@ describe("calcite-combobox", () => {
           await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const itemChangeEventSpy = await item1.spyOnEvent("calciteComboboxItemChange");
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(1);
 
           await combobox.click();
           await openEventSpy.next();
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("");
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(2);
         });
 
         it("single-persist-selection mode does not allow toggling selection once the selected item is selected", async () => {
@@ -1088,9 +1091,11 @@ describe("calcite-combobox", () => {
           await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const itemChangeEventSpy = await item1.spyOnEvent("calciteComboboxItemChange");
 
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(1);
 
           await combobox.click();
           await openEventSpy.next();
@@ -1098,6 +1103,7 @@ describe("calcite-combobox", () => {
           await selectItem(item1);
           expect(await combobox.getProperty("value")).toBe("one");
           expect(await combobox.getProperty("open")).toBe(true);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(1);
         });
 
         it("single-persist-selection mode correctly selects different items with the same value", async () => {
@@ -1116,7 +1122,9 @@ describe("calcite-combobox", () => {
           await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[heading=one]");
+          const item1ChangeEventSpy = await item1.spyOnEvent("calciteComboboxItemChange");
           const item2 = await combobox.find("calcite-combobox-item[heading=two]");
+          const item2ChangeEventSpy = await item2.spyOnEvent("calciteComboboxItemChange");
 
           await item1.click();
           await page.waitForChanges();
@@ -1124,6 +1132,7 @@ describe("calcite-combobox", () => {
           expect(await item1.getProperty("selected")).toBe(true);
           expect(await item2.getProperty("selected")).toBe(false);
           expect(await combobox.getProperty("open")).toBe(false);
+          expect(item1ChangeEventSpy).toHaveReceivedEventTimes(1);
 
           await combobox.click();
           await openEventSpy.next();
@@ -1134,6 +1143,7 @@ describe("calcite-combobox", () => {
           expect(await item1.getProperty("selected")).toBe(false);
           expect(await item2.getProperty("selected")).toBe(true);
           expect(await combobox.getProperty("open")).toBe(false);
+          expect(item2ChangeEventSpy).toHaveReceivedEventTimes(1);
         });
 
         it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
@@ -1150,14 +1160,18 @@ describe("calcite-combobox", () => {
           await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const itemChangeEventSpy = await item1.spyOnEvent("calciteComboboxItemChange");
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(1);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(2);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(3);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
         });
 
@@ -1177,14 +1191,18 @@ describe("calcite-combobox", () => {
           await openEventSpy.next();
 
           const item1 = await combobox.find("calcite-combobox-item[value=one]");
+          const itemChangeEventSpy = await item1.spyOnEvent("calciteComboboxItemChange");
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(1);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(2);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
 
           await selectItem(item1);
+          expect(itemChangeEventSpy).toHaveReceivedEventTimes(3);
           expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
         });
       }
