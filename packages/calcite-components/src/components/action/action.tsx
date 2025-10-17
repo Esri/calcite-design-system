@@ -269,7 +269,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private renderIndicatorText(): JsxNode {
     const { indicator, messages, buttonId } = this;
-    return (
+    return indicator ? (
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
@@ -277,9 +277,9 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         ref={this.storeIndicatorEl}
         role="region"
       >
-        {indicator ? messages.indicator : null}
+        {messages.indicator}
       </div>
-    );
+    ) : null;
   }
 
   private renderIconContainer(): JsxNode {
