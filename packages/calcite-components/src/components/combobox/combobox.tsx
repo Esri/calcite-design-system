@@ -799,7 +799,6 @@ export class Combobox
       // TODO: we may need to handle updating each item's selected property here in response to a direct change on any item element.
       this.syncSelectedItems();
       this.value = this.getValue();
-      console.log("calciteInternalComboboxItemSelectedDirectChangeHandler", event.target);
     }
   }
 
