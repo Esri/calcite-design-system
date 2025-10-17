@@ -33,9 +33,8 @@ npm test
 # try deploying storybook, but still release next if it fails with "|| true"
 if [ "$BRANCH" = "dev" ]; then
     { npm run --workspace=@esri/calcite-components build-storybook &&
-        npx --workspace=@esri/calcite-components storybook-to-ghpages \
-            --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK \
-            --existing-output-dir=docs --ci; } || true
+        npm run --workspace=@esri/calcite-components gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history;
+    } || true
 
     # remove the built docs after storybook deploys to gh-pages
     git reset --hard
