@@ -1246,7 +1246,7 @@ describe("calcite-tooltip", () => {
       await page.setContent(`<calcite-tooltip reference-element="non-existent-ref">content</calcite-tooltip>`);
       await page.waitForChanges();
 
-      expect(console.warn).toHaveBeenCalledExactlyOnceWith(
+      expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
     });

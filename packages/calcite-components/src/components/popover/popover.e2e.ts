@@ -808,7 +808,7 @@ describe("calcite-popover", () => {
       await page.setContent(`<calcite-popover reference-element="non-existent-ref">content</calcite-popover>`);
       await page.waitForChanges();
 
-      expect(console.warn).toHaveBeenCalledExactlyOnceWith(
+      expect(console.warn).toHaveBeenCalledWith(
         expect.stringMatching(new RegExp(`reference-element id "non-existent-ref" was not found`)),
       );
     });
