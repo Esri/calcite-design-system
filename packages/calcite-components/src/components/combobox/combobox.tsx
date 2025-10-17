@@ -942,7 +942,7 @@ export class Combobox
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
           const item = this.keyboardNavItems[this.activeItemIndex];
-          item.toggleSelected();
+          item.toggleSelection();
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
