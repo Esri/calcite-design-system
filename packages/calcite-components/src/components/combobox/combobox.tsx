@@ -800,6 +800,7 @@ export class Combobox
       this.syncSelectedItems();
       this.value = this.getValue();
     }
+    this.updateItems();
   }
 
   private clearValue(): void {

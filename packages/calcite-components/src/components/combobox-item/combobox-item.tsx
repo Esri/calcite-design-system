@@ -110,8 +110,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     const oldValue = this._selected;
     if (value !== oldValue) {
       this._selected = value;
-      // we emit directly to avoid delays updating the parent combobox
-      this.emitItemChange();
       if (this.hasUpdated && this.valueController.valueSetDirectly) {
         this.calciteInternalComboboxItemSelectedDirectChange.emit();
       }
