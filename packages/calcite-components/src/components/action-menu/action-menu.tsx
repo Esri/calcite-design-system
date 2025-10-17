@@ -345,7 +345,6 @@ export class ActionMenu extends LitElement {
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
     this.defaultMenuButtonEl = el;
-    this.connectMenuButtonEl();
   }
 
   private setPopoverEl(el: Popover["el"]): void {
