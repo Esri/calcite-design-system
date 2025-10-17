@@ -580,6 +580,10 @@ export class Combobox
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteComboboxItemChange", this.calciteComboboxItemChangeHandler);
     this.listen("calciteInternalComboboxItemChange", this.calciteInternalComboboxItemChangeHandler);
+    this.listen(
+      "calciteInternalComboboxItemSelectedDirectChange",
+      this.calciteInternalComboboxItemSelectedDirectChangeHandler,
+    );
     this.listen("click", this.comboboxFocusHandler);
   }
 
@@ -711,7 +715,7 @@ export class Combobox
   private valueHandler(value: string | string[]): void {
     if (this.valueController.valueSetDirectly) {
       this.getItems().forEach((item) => {
-        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+        item.setSelected(Array.isArray(value) ? value.includes(item.value) : value === item.value);
       });
 
       this.updateItems();
@@ -774,7 +778,6 @@ export class Combobox
     const newIndex = this.keyboardNavItems.indexOf(target);
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
-
     this.syncSelectedItems();
   }
 
@@ -787,9 +790,22 @@ export class Combobox
     }
   }
 
+  private calciteInternalComboboxItemSelectedDirectChangeHandler(
+    event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
+  ) {
+    event.stopPropagation();
+    // TODO: update the other selection modes
+    if (this.selectionMode === "single") {
+      // TODO: we may need to handle updating each item's selected property here in response to a direct change on any item element.
+      this.syncSelectedItems();
+      this.value = this.getValue();
+      console.log("calciteInternalComboboxItemSelectedDirectChangeHandler", event.target);
+    }
+  }
+
   private clearValue(): void {
     this.ignoreSelectedEventsFlag = true;
-    this.items.forEach((el) => (el.selected = false));
+    this.items.forEach((el) => el.setSelected(false));
     this.ignoreSelectedEventsFlag = false;
     this.selectedItems = [];
     this.commitValue();
@@ -832,7 +848,7 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.items.forEach((item) => (item.selected = toggledValue));
+    this.items.forEach((item) => item.setSelected(toggledValue));
     this.selectedItems = toggledValue ? this.items : [];
     this.commitValue();
   }
@@ -1294,7 +1310,7 @@ export class Combobox
 
   private handleSingleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     this.ignoreSelectedEventsFlag = true;
-    this.items.forEach((el) => (el.selected = el === item ? value : false));
+    this.items.forEach((el) => el.setSelected(el === item ? value : false));
     this.ignoreSelectedEventsFlag = false;
     this.syncSelectedItems();
     this.commitValue();

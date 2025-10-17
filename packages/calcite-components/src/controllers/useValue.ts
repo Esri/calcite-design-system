@@ -85,8 +85,8 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       if (this.valueSetDirectly) {
         this.handleDirectValueChange(this.component[valueProperty]);
       }
-      this.valueSetDirectly = true;
     }
+    this.valueSetDirectly = true;
   }
 
   //#endregion
@@ -174,6 +174,22 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
       if (value === this.component[valueProperty]) {
         this.component[valueProperty] = this.previousValue;
       }
+    }
+  }
+
+  /**
+   * Sets the component's value directly without triggering an input or change event.
+   * This should be used when the component's value needs to be updated directly as a result of user input when the commit or input value operation has already been performed.
+   *
+   * @param value
+   */
+  setValue(value): void {
+    const valueProperty = this.getComponentValueProperty();
+    if (value !== this.component[valueProperty]) {
+      this.previousValue = this.component[valueProperty];
+      this.valueSetDirectly = false;
+      this.component[valueProperty] = value;
+      this.lastCommittedValue = this.component[valueProperty];
     }
   }
 

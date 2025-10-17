@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import {
   InteractiveComponent,
@@ -112,6 +112,9 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
       this._selected = value;
       // we emit directly to avoid delays updating the parent combobox
       this.emitItemChange();
+      if (this.valueController.valueSetDirectly) {
+        this.calciteInternalComboboxItemSelectedDirectChange.emit();
+      }
     }
   }
 
@@ -172,6 +175,15 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
 
   //#endregion
 
+  //#region Public Methods
+
+  @method()
+  async setSelected(value: any): Promise<void> {
+    this.valueController.setValue(value);
+  }
+
+  //#endregion
+
   //#region Events
 
   /** Fires whenever the component is selected or unselected. */
@@ -183,6 +195,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    * @private
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
+
+  calciteInternalComboboxItemSelectedDirectChange = createEvent({ cancelable: false });
 
   //#endregion
 
