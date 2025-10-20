@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.1...@esri/calcite-ui-icons@4.4.0-next.2) (2025-10-17)
+
+### Bug Fixes
+
+- fixed inverted font icons ([#13153](https://github.com/Esri/calcite-design-system/issues/13153)) ([48ca926](https://github.com/Esri/calcite-design-system/commit/48ca926cf3bb7d3a3d2fbd903f9e017546e4b09c))
+
 ## [4.4.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.0...@esri/calcite-ui-icons@4.4.0-next.1) (2025-10-03)
 
 ### Features

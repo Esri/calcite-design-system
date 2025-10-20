@@ -29,7 +29,6 @@ jobs:
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
-          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
