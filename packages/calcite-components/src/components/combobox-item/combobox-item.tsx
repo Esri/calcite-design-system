@@ -180,6 +180,25 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.valueController.setValue(value);
   }
 
+  /**
+   * Toggle selection of the component.
+   *
+   * @private
+   */
+  @method()
+  toggleSelection(): void {
+    const isSinglePersistSelect = this.selectionMode === "single-persist";
+
+    if (this.disabled || (isSinglePersistSelect && this.selected)) {
+      return;
+    }
+
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteComboboxItemChange,
+      value: !this.selected,
+    });
+  }
+
   //#endregion
 
   //#region Events
@@ -236,21 +255,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.hasContent = slotChangeHasContent(event);
   }
 
-  private toggleSelected(): Promise<void> {
-    const isSinglePersistSelect = this.selectionMode === "single-persist";
-
-    if (this.disabled || (isSinglePersistSelect && this.selected)) {
-      return;
-    }
-
-    this.valueController.commitValue({
-      changeEventEmitter: this.calciteComboboxItemChange,
-      value: !this.selected,
-    });
-  }
-
   private itemClickHandler(): void {
-    this.toggleSelected();
+    this.toggleSelection();
   }
 
   //#endregion
