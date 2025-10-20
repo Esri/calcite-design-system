@@ -80,6 +80,9 @@ export class TableHeader extends LitElement {
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
+  @property() parentRowPositionInSection: number;
+
+  /** @private */
   @property() parentRowIsSelected: boolean;
 
   /** @private */
@@ -105,6 +108,15 @@ export class TableHeader extends LitElement {
 
   /** @private */
   @property() selectionMode: SelectionMode;
+
+  /** @private */
+  @property() stickyHeader: boolean;
+
+  /** @private */
+  @property() stickyHeaderDistance: number | string;
+
+  /** @private */
+  @property() isScrolled: boolean;
 
   //#endregion
 
@@ -200,6 +212,8 @@ export class TableHeader extends LitElement {
           [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
           [this.parentRowAlignment]:
             this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
+          [CSS.stickyHeader]: this.stickyHeader,
+          [CSS.isScrolled]: this.stickyHeader && this.isScrolled,
         }}
         colSpan={this.colSpan}
         onBlur={this.onContainerBlur}
@@ -208,6 +222,12 @@ export class TableHeader extends LitElement {
         role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
         rowSpan={this.rowSpan}
         scope={scope}
+        style={{
+          top: this.stickyHeader
+            ? `${Number(this.stickyHeaderDistance) - this.parentRowPositionInSection}px`
+            : undefined,
+          zIndex: this.stickyHeader ? Math.max(0, 9 - this.parentRowPositionInSection) : undefined,
+        }}
         tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
       >
         {this.heading && <div class={CSS.heading}>{this.heading}</div>}

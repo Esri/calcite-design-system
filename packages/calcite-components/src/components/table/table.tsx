@@ -53,6 +53,8 @@ export class Table extends LitElement {
 
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
+  private tableContainerRef = createRef<HTMLDivElement>();
+
   private tableFootSlotRef = createRef<HTMLSlotElement>();
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
@@ -64,11 +66,26 @@ export class Table extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private handleScroll = (): void => {
+    if (this.tableContainerRef.value) {
+      const scrollTop = this.tableContainerRef.value.scrollTop;
+      const scrollLeft = this.tableContainerRef.value.scrollLeft;
+      const hasScrolled = scrollTop > 0 || scrollLeft > 0;
+
+      if (this.isScrolled !== hasScrolled) {
+        this.isScrolled = hasScrolled;
+        this.updateRows();
+      }
+    }
+  };
+
   //#endregion
 
   //#region State Properties
 
   @state() colCount = 0;
+
+  @state() isScrolled = false;
 
   @state() pageStartRow = 1;
 
@@ -147,6 +164,9 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
+  /** When `true`, `calcite-table-rows` in the `table-head` slot will display as sticky */
+  @property({ reflect: true }) stickyHeader = false;
+
   /** When `true`, displays striped styling in the component. */
   @property({ reflect: true }) striped = false;
 
@@ -196,10 +216,18 @@ export class Table extends LitElement {
       (changes.has("pageSize") && (this.hasUpdated || this.pageSize !== 0)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
-      (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
+      (changes.has("currentPage") &&
+        (this.hasUpdated || this.currentPage > 1) &&
+        this.pageSize > 0) ||
+      (changes.has("stickyHeader") && this.hasUpdated)
     ) {
       this.updateRows();
     }
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeScrollListener();
   }
 
   //#endregion
@@ -208,6 +236,20 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
+    this.setupScrollListener();
+  }
+
+  private setupScrollListener(): void {
+    if (this.tableContainerRef.value) {
+      this.removeScrollListener();
+      this.tableContainerRef.value.addEventListener("scroll", this.handleScroll);
+    }
+  }
+
+  private removeScrollListener(): void {
+    if (this.tableContainerRef.value) {
+      this.tableContainerRef.value.removeEventListener("scroll", this.handleScroll);
+    }
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {
@@ -292,9 +334,20 @@ export class Table extends LitElement {
 
     headRows?.forEach((row) => {
       const position = headRows?.indexOf(row);
+
+      const prevRows = headRows.slice(0, position).filter((r) => !isHidden(r));
+
+      const stickyHeaderDistance =
+        prevRows.reduce((acc, prev) => {
+          const tr = (prev as HTMLElement)?.shadowRoot?.querySelector("tr");
+          return acc + (tr?.offsetHeight || 0);
+        }, 0) || 0;
+
       row.rowType = "head";
       row.positionSection = position;
+      row.stickyHeader = this.stickyHeader;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
+      row.stickyHeaderDistance = this.stickyHeader ? stickyHeaderDistance || 0 : undefined;
     });
 
     bodyRows?.forEach((row) => {
@@ -320,6 +373,7 @@ export class Table extends LitElement {
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
+      row.isScrolled = this.isScrolled;
     });
 
     const colCount =
@@ -517,6 +571,7 @@ export class Table extends LitElement {
             [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
           }}
+          ref={this.tableContainerRef}
         >
           <table
             ariaColCount={this.colCount}

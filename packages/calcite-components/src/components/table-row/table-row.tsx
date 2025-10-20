@@ -131,6 +131,15 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
+  /** @private */
+  @property() stickyHeader: boolean;
+
+  /** @private */
+  @property() stickyHeaderDistance: number;
+
+  /** @private */
+  @property() isScrolled: boolean;
+
   //#endregion
 
   //#region Events
@@ -169,7 +178,9 @@ export class TableRow extends LitElement implements InteractiveComponent {
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
+      changes.has("stickyHeaderDistance") ||
       changes.has("selectedRowCount") ||
+      changes.has("isScrolled") ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive"))
     ) {
@@ -345,10 +356,15 @@ export class TableRow extends LitElement implements InteractiveComponent {
         cell.parentRowType = this.rowType;
         cell.positionInRow = index + 1;
         cell.scale = this.scale;
-
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
+        }
+        if (cell.nodeName === "CALCITE-TABLE-HEADER") {
+          (cell as TableHeader["el"]).stickyHeaderDistance = this.stickyHeaderDistance;
+          (cell as TableHeader["el"]).stickyHeader = this.stickyHeader;
+          (cell as TableHeader["el"]).parentRowPositionInSection = this.positionSection;
+          (cell as TableHeader["el"]).isScrolled = this.isScrolled;
         }
       });
     }
@@ -396,6 +412,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
         selectionMode={this.selectionMode}
+        stickyHeaderDistance={this.stickyHeaderDistance}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -427,6 +444,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        stickyHeaderDistance={this.stickyHeaderDistance}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -453,7 +471,10 @@ export class TableRow extends LitElement implements InteractiveComponent {
         <tr
           ariaRowIndex={this.positionAll + 1}
           ariaSelected={this.selected}
-          class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
+          class={{
+            [CSS.lastVisibleRow]: this.lastVisibleRow,
+            [CSS.stickyHeader]: this.stickyHeader,
+          }}
           onKeyDown={this.keyDownHandler}
           ref={(el) => {
             if (!el) {

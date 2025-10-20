@@ -49,6 +49,43 @@ th {
   }
 }
 
+th.sticky-header {
+  position: sticky;
+  inset-block-start: 0;
+  background-clip: padding-box;
+}
+
+th.sticky-header:focus {
+  z-index: 9999;
+}
+
+th.sticky-header::after,
+th.sticky-header:not(.last-cell)::before {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+th.sticky-header::after {
+  inset-inline: 0;
+  inset-block-end: -1px;
+  block-size: 1px;
+  background-color: var(
+    --calcite-table-cell-border-color,
+    var(--calcite-table-border-color, var(--calcite-color-border-3))
+  );
+}
+
+th.sticky-header:not(.last-cell)::before {
+  inset-inline-end: -1px;
+  inset-block-start: 0;
+  block-size: 100%;
+  inline-size: 1px;
+  background-color: var(
+    --calcite-table-cell-border-color,
+    var(--calcite-table-border-color, var(--calcite-color-border-3))
+  );
+}
+
 th:not(.center):not(.end).content-cell {
   @apply align-top;
 }

@@ -14,6 +14,8 @@ export const CSS = {
   selectedCell: "selected-cell",
   lastCell: "last-cell",
   staticCell: "static-cell",
+  stickyHeader: "sticky-header",
+  isScrolled: "is-scrolled",
 };
 
 export const ICONS: Record<string, IconName> = {
