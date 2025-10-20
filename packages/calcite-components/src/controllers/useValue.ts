@@ -81,10 +81,8 @@ class ValueController extends GenericController<UseValue, UseValueComponent> {
 
   hostUpdate(changes: PropertyValues): void {
     const valueProperty = this.getComponentValueProperty();
-    if (changes.has(valueProperty)) {
-      if (this.valueSetDirectly) {
-        this.handleDirectValueChange(this.component[valueProperty]);
-      }
+    if (changes.has(valueProperty) && this.valueSetDirectly) {
+      this.handleDirectValueChange(this.component[valueProperty]);
     }
     this.valueSetDirectly = true;
   }
