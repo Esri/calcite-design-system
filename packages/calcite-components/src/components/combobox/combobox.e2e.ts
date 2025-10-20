@@ -1406,6 +1406,37 @@ describe("calcite-combobox", () => {
 
       expect(immediateValueAfterSelected).toBe("1");
     });
+
+    it("updates the value after selecting an item programmatically when there is already a selected item", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item value="1" text-label="first"></calcite-combobox-item>
+          <calcite-combobox-item value="2" text-label="second"></calcite-combobox-item>
+          <calcite-combobox-item value="3" text-label="third" selected></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+
+      const combobox = await page.find("calcite-combobox");
+      const comboboxItems = await findAll(page, "calcite-combobox-item");
+
+      expect(await combobox.getProperty("value")).toBe("3");
+      expect(await comboboxItems[0].getProperty("selected")).toBe(false);
+      expect(await comboboxItems[1].getProperty("selected")).toBe(false);
+      expect(await comboboxItems[2].getProperty("selected")).toBe(true);
+
+      const immediateValueAfterSelected = await page.evaluate(async () => {
+        const combobox = document.querySelector("calcite-combobox");
+        const firstItem = document.querySelector("calcite-combobox-item");
+        firstItem.selected = true;
+        return combobox.value;
+      });
+
+      expect(immediateValueAfterSelected).toBe("1");
+      expect(await comboboxItems[0].getProperty("selected")).toBe(true);
+      expect(await comboboxItems[1].getProperty("selected")).toBe(false);
+      expect(await comboboxItems[2].getProperty("selected")).toBe(false);
+    });
   });
 
   describe("clearing values", () => {
