@@ -140,7 +140,7 @@ describe("calcite-sheet", () => {
 
   describe("setFocus", () => {
     const createSheetHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-sheet open ${attrs}>${contentHTML}</calcite-sheet>`;
+      `<calcite-sheet open ${attrs} focus-trap-disabled>${contentHTML}</calcite-sheet>`;
 
     const focusableContentTargetClass = "test";
 
