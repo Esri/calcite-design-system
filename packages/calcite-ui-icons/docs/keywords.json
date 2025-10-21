@@ -10087,5 +10087,15 @@
     "alias": ["4.4.0", "gis", "list", "field", "maps", "feature", "manage"],
     "category": "GIS",
     "release": "4.4.0"
+  },
+  "group-content": {
+    "alias": ["4.4.0", "generic", "collaborate", "organize", "layers", "related", "join"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "signal-health": {
+    "alias": ["4.4.0", "gis", "workflow", "maintenance", "ips", "beacon", "connectivity"],
+    "category": "GIS",
+    "release": "4.4.0"
   }
 }
