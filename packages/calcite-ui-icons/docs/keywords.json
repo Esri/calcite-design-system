@@ -10099,7 +10099,18 @@
     "release": "4.4.0"
   },
   "metadata": {
-    "alias": ["4.4.0", "files", "information", "attribute", "type", "object", "schema"],
+    "alias": [
+      "4.4.0",
+      "files",
+      "information",
+      "attribute",
+      "type",
+      "object",
+      "schema",
+      "technology",
+      "publishing",
+      "workflow"
+    ],
     "category": "Files",
     "release": "4.4.0"
   }
