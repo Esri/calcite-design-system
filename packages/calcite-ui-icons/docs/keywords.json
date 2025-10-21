@@ -10097,5 +10097,10 @@
     "alias": ["4.4.0", "gis", "workflow", "maintenance", "ips", "beacon", "connectivity"],
     "category": "GIS",
     "release": "4.4.0"
+  },
+  "metadata": {
+    "alias": ["4.4.0", "files", "information", "attribute", "type", "object", "schema"],
+    "category": "Files",
+    "release": "4.4.0"
   }
 }
