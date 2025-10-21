@@ -23,7 +23,7 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
-  const regressionRegex = /(?<=### Regression Version\?[\r\n|\r|\n]{2}).+$/m;
+  const regressionRegex = /(?<=### Regression\?[\r\n|\r|\n]{2}).+$/m;
   const regressionRegexMatch = body.match(regressionRegex);
   const regressionVersionResponse = (regressionRegexMatch?.[0] || "").trim();
 
@@ -42,4 +42,12 @@ module.exports = async ({ github, context }) => {
     console.log("No valid version (e.g., 1.0.0 or 1.0.0-next.13) found, not adding regression label.");
     return;
   }
+
+  // Found a version; add the regression label.
+  await github.rest.issues.addLabels({
+    issue_number,
+    owner,
+    repo,
+    labels: [bug.regression],
+  });
 };
