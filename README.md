@@ -142,10 +142,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/ManahariDahal">
-      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="ManahariDahal"/>
+    <a href="https://github.com/maxdahal">
+      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="maxdahal"/>
       <br />
-      <sub><b>Manahari Dahal</b></sub>
+      <sub><b>Max Dahal</b></sub>
     </a>
   </td>
 </tr>
