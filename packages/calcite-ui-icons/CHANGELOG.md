@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.3...@esri/calcite-ui-icons@4.4.0-next.4) (2025-10-21)
+
+### Features
+
+- add metadata ([#13170](https://github.com/Esri/calcite-design-system/issues/13170)) ([aee53ef](https://github.com/Esri/calcite-design-system/commit/aee53ef54b5cfff65de729736184f0fca9ff04ce))
+
+## [4.4.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.2...@esri/calcite-ui-icons@4.4.0-next.3) (2025-10-21)
+
+### Features
+
+- add group content and signal health ([#13160](https://github.com/Esri/calcite-design-system/issues/13160)) ([80d8293](https://github.com/Esri/calcite-design-system/commit/80d82935b68492c7e0a6e37acf58a2a912c20026))
+
 ## [4.4.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.1...@esri/calcite-ui-icons@4.4.0-next.2) (2025-10-17)
 
 ### Bug Fixes

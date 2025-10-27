@@ -1283,6 +1283,9 @@
     "number-set": 61820,
     "integer-set": 61821,
     "organize-template": 61822,
-    "group-template": 61823
+    "group-template": 61823,
+    "signal-health": 61824,
+    "group-content": 61825,
+    "metadata": 61826
   }
 }

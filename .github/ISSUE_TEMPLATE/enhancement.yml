@@ -13,11 +13,12 @@ body:
   - type: dropdown
     id: component
     validations:
-      required: false
+      required: true
     attributes:
       label: Which Component
       description: Which component(s) are related to this issue? (Select all that apply).
       multiple: true
+      default: 0
       options:
         - N/A
         - Unknown / Not Sure
