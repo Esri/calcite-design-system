@@ -38,7 +38,7 @@ export default defineConfig({
         wrappers: [
           {
             type: "react18",
-            proxiesFile: "../calcite-components-react/src/components.ts",
+            proxiesFile: "../components-react/src/components.ts",
           },
         ],
         preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,

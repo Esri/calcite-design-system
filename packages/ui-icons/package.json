@@ -18,7 +18,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
-    "directory": "packages/calcite-ui-icons"
+    "directory": "packages/ui-icons"
   },
   "license": "SEE LICENSE.md",
   "main": "index.js",

@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
-    "directory": "packages/calcite-components"
+    "directory": "packages/components"
   },
   "license": "SEE LICENSE.md",
   "type": "module",
