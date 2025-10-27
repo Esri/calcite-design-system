@@ -1067,19 +1067,19 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-spacing-fixed-xl: 16px; /** deprecated */
   --calcite-spacing-fixed-xxl: 20px; /** deprecated */
   --calcite-spacing-fixed-xxxl: 32px; /** deprecated */
-  --calcite-spacing-none: 0; /** deprecated, use --calcite-space-none instead */
-  --calcite-spacing-px: 1px; /** deprecated, use --calcite-space-px instead */
-  --calcite-spacing-base: 2px; /** deprecated, use --calcite-space-base instead */
-  --calcite-spacing-xxs: 0.25rem; /** deprecated, use --calcite-space-2xs instead */
-  --calcite-spacing-xs: 0.375rem; /** deprecated, use --calcite-space-xs instead */
-  --calcite-spacing-sm: 0.5rem; /** deprecated, use --calcite-space-sm instead */
-  --calcite-spacing-sm-plus: 0.625rem; /** deprecated, use --calcite-space-sm-plus instead */
-  --calcite-spacing-md: 0.75rem; /** deprecated, use --calcite-space-md instead */
-  --calcite-spacing-md-plus: 0.875rem; /** deprecated, use --calcite-space-md-plus instead */
-  --calcite-spacing-lg: 1rem; /** deprecated, use --calcite-space-lg instead */
-  --calcite-spacing-xl: 1.25rem; /** deprecated, use --calcite-space-xl instead */
-  --calcite-spacing-xxl: 1.5rem; /** deprecated, use --calcite-space-2xl instead */
-  --calcite-spacing-xxxl: 2rem; /** deprecated, use --calcite-space-3xl instead */
+  --calcite-spacing-none: 0; /** deprecated, use \`--calcite-space-none\` instead */
+  --calcite-spacing-px: 1px; /** deprecated, use \`--calcite-space-px\` instead */
+  --calcite-spacing-base: 2px; /** deprecated, use \`--calcite-space-base\` instead */
+  --calcite-spacing-xxs: 0.25rem; /** deprecated, use \`--calcite-space-2xs\` instead */
+  --calcite-spacing-xs: 0.375rem; /** deprecated, use \`--calcite-space-xs\` instead */
+  --calcite-spacing-sm: 0.5rem; /** deprecated, use \`--calcite-space-sm\` instead */
+  --calcite-spacing-sm-plus: 0.625rem; /** deprecated, use \`--calcite-space-sm-plus\` instead */
+  --calcite-spacing-md: 0.75rem; /** deprecated, use \`--calcite-space-md\` instead */
+  --calcite-spacing-md-plus: 0.875rem; /** deprecated, use \`--calcite-space-md-plus\` instead */
+  --calcite-spacing-lg: 1rem; /** deprecated, use \`--calcite-space-lg\` instead */
+  --calcite-spacing-xl: 1.25rem; /** deprecated, use \`--calcite-space-xl\` instead */
+  --calcite-spacing-xxl: 1.5rem; /** deprecated, use \`--calcite-space-2xl\` instead */
+  --calcite-spacing-xxxl: 2rem; /** deprecated, use \`--calcite-space-3xl\` instead */
   --calcite-space-none: 0;
   --calcite-space-px: 1px;
   --calcite-space-base: 2px;
@@ -1515,19 +1515,19 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-spacing-fixed-xl: 16px; /** deprecated */
   --calcite-spacing-fixed-xxl: 20px; /** deprecated */
   --calcite-spacing-fixed-xxxl: 32px; /** deprecated */
-  --calcite-spacing-none: 0; /** deprecated, use --calcite-space-none instead */
-  --calcite-spacing-px: 1px; /** deprecated, use --calcite-space-px instead */
-  --calcite-spacing-base: 2px; /** deprecated, use --calcite-space-base instead */
-  --calcite-spacing-xxs: 0.25rem; /** deprecated, use --calcite-space-2xs instead */
-  --calcite-spacing-xs: 0.375rem; /** deprecated, use --calcite-space-xs instead */
-  --calcite-spacing-sm: 0.5rem; /** deprecated, use --calcite-space-sm instead */
-  --calcite-spacing-sm-plus: 0.625rem; /** deprecated, use --calcite-space-sm-plus instead */
-  --calcite-spacing-md: 0.75rem; /** deprecated, use --calcite-space-md instead */
-  --calcite-spacing-md-plus: 0.875rem; /** deprecated, use --calcite-space-md-plus instead */
-  --calcite-spacing-lg: 1rem; /** deprecated, use --calcite-space-lg instead */
-  --calcite-spacing-xl: 1.25rem; /** deprecated, use --calcite-space-xl instead */
-  --calcite-spacing-xxl: 1.5rem; /** deprecated, use --calcite-space-2xl instead */
-  --calcite-spacing-xxxl: 2rem; /** deprecated, use --calcite-space-3xl instead */
+  --calcite-spacing-none: 0; /** deprecated, use \`--calcite-space-none\` instead */
+  --calcite-spacing-px: 1px; /** deprecated, use \`--calcite-space-px\` instead */
+  --calcite-spacing-base: 2px; /** deprecated, use \`--calcite-space-base\` instead */
+  --calcite-spacing-xxs: 0.25rem; /** deprecated, use \`--calcite-space-2xs\` instead */
+  --calcite-spacing-xs: 0.375rem; /** deprecated, use \`--calcite-space-xs\` instead */
+  --calcite-spacing-sm: 0.5rem; /** deprecated, use \`--calcite-space-sm\` instead */
+  --calcite-spacing-sm-plus: 0.625rem; /** deprecated, use \`--calcite-space-sm-plus\` instead */
+  --calcite-spacing-md: 0.75rem; /** deprecated, use \`--calcite-space-md\` instead */
+  --calcite-spacing-md-plus: 0.875rem; /** deprecated, use \`--calcite-space-md-plus\` instead */
+  --calcite-spacing-lg: 1rem; /** deprecated, use \`--calcite-space-lg\` instead */
+  --calcite-spacing-xl: 1.25rem; /** deprecated, use \`--calcite-space-xl\` instead */
+  --calcite-spacing-xxl: 1.5rem; /** deprecated, use \`--calcite-space-2xl\` instead */
+  --calcite-spacing-xxxl: 2rem; /** deprecated, use \`--calcite-space-3xl\` instead */
   --calcite-space-none: 0;
   --calcite-space-px: 1px;
   --calcite-space-base: 2px;
@@ -22099,6 +22099,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -22135,6 +22136,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -22171,6 +22173,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -22207,6 +22210,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -22243,6 +22247,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -22279,6 +22284,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -22315,6 +22321,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -22351,6 +22358,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -22384,20 +22392,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "key": "{semantic.spacing.default.none}",
       "value": "0",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-none instead",
+      "description": "deprecated, use \`--calcite-space-none\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "none",
         "value": "0",
-        "description": "deprecated, use --calcite-space-none instead",
+        "description": "deprecated, use \`--calcite-space-none\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.none}",
         "name": "calcite-semantic-spacing-default-none",
         "path": ["semantic", "spacing", "default", "none"],
-        "comment": "deprecated, use --calcite-space-none instead",
+        "comment": "deprecated, use \`--calcite-space-none\` instead",
         "names": {
           "scss": "$calcite-spacing-none",
           "css": "var(--calcite-spacing-none)",
@@ -22414,26 +22423,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing None",
       "path": ["semantic", "spacing", "default", "none"],
-      "comment": "deprecated, use --calcite-space-none instead"
+      "comment": "deprecated, use \`--calcite-space-none\` instead"
     },
     {
       "key": "{semantic.spacing.default.px}",
       "value": "1px",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-px instead",
+      "description": "deprecated, use \`--calcite-space-px\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "px",
         "value": "1px",
-        "description": "deprecated, use --calcite-space-px instead",
+        "description": "deprecated, use \`--calcite-space-px\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.px}",
         "name": "calcite-semantic-spacing-default-px",
         "path": ["semantic", "spacing", "default", "px"],
-        "comment": "deprecated, use --calcite-space-px instead",
+        "comment": "deprecated, use \`--calcite-space-px\` instead",
         "names": {
           "scss": "$calcite-spacing-px",
           "css": "var(--calcite-spacing-px)",
@@ -22450,26 +22460,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Px",
       "path": ["semantic", "spacing", "default", "px"],
-      "comment": "deprecated, use --calcite-space-px instead"
+      "comment": "deprecated, use \`--calcite-space-px\` instead"
     },
     {
       "key": "{semantic.spacing.default.base}",
       "value": "2px",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-base instead",
+      "description": "deprecated, use \`--calcite-space-base\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "base",
         "value": "2px",
-        "description": "deprecated, use --calcite-space-base instead",
+        "description": "deprecated, use \`--calcite-space-base\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.base}",
         "name": "calcite-semantic-spacing-default-base",
         "path": ["semantic", "spacing", "default", "base"],
-        "comment": "deprecated, use --calcite-space-base instead",
+        "comment": "deprecated, use \`--calcite-space-base\` instead",
         "names": {
           "scss": "$calcite-spacing-base",
           "css": "var(--calcite-spacing-base)",
@@ -22486,26 +22497,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Base",
       "path": ["semantic", "spacing", "default", "base"],
-      "comment": "deprecated, use --calcite-space-base instead"
+      "comment": "deprecated, use \`--calcite-space-base\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxs}",
       "value": "0.25rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-2xs instead",
+      "description": "deprecated, use \`--calcite-space-2xs\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxs",
         "value": "4px",
-        "description": "deprecated, use --calcite-space-2xs instead",
+        "description": "deprecated, use \`--calcite-space-2xs\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxs}",
         "name": "calcite-semantic-spacing-default-xxs",
         "path": ["semantic", "spacing", "default", "xxs"],
-        "comment": "deprecated, use --calcite-space-2xs instead",
+        "comment": "deprecated, use \`--calcite-space-2xs\` instead",
         "names": {
           "scss": "$calcite-spacing-xxs",
           "css": "var(--calcite-spacing-xxs)",
@@ -22522,26 +22534,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxs",
       "path": ["semantic", "spacing", "default", "xxs"],
-      "comment": "deprecated, use --calcite-space-2xs instead"
+      "comment": "deprecated, use \`--calcite-space-2xs\` instead"
     },
     {
       "key": "{semantic.spacing.default.xs}",
       "value": "0.375rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-xs instead",
+      "description": "deprecated, use \`--calcite-space-xs\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xs",
         "value": "6px",
-        "description": "deprecated, use --calcite-space-xs instead",
+        "description": "deprecated, use \`--calcite-space-xs\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xs}",
         "name": "calcite-semantic-spacing-default-xs",
         "path": ["semantic", "spacing", "default", "xs"],
-        "comment": "deprecated, use --calcite-space-xs instead",
+        "comment": "deprecated, use \`--calcite-space-xs\` instead",
         "names": {
           "scss": "$calcite-spacing-xs",
           "css": "var(--calcite-spacing-xs)",
@@ -22558,26 +22571,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xs",
       "path": ["semantic", "spacing", "default", "xs"],
-      "comment": "deprecated, use --calcite-space-xs instead"
+      "comment": "deprecated, use \`--calcite-space-xs\` instead"
     },
     {
       "key": "{semantic.spacing.default.sm}",
       "value": "0.5rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-sm instead",
+      "description": "deprecated, use \`--calcite-space-sm\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "sm",
         "value": "8px",
-        "description": "deprecated, use --calcite-space-sm instead",
+        "description": "deprecated, use \`--calcite-space-sm\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.sm}",
         "name": "calcite-semantic-spacing-default-sm",
         "path": ["semantic", "spacing", "default", "sm"],
-        "comment": "deprecated, use --calcite-space-sm instead",
+        "comment": "deprecated, use \`--calcite-space-sm\` instead",
         "names": {
           "scss": "$calcite-spacing-sm",
           "css": "var(--calcite-spacing-sm)",
@@ -22594,26 +22608,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Sm",
       "path": ["semantic", "spacing", "default", "sm"],
-      "comment": "deprecated, use --calcite-space-sm instead"
+      "comment": "deprecated, use \`--calcite-space-sm\` instead"
     },
     {
       "key": "{semantic.spacing.default.sm+}",
       "value": "0.625rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-sm-plus instead",
+      "description": "deprecated, use \`--calcite-space-sm-plus\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "sm+",
         "value": "10px",
-        "description": "deprecated, use --calcite-space-sm-plus instead",
+        "description": "deprecated, use \`--calcite-space-sm-plus\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.sm+}",
         "name": "calcite-semantic-spacing-default-sm",
         "path": ["semantic", "spacing", "default", "sm+"],
-        "comment": "deprecated, use --calcite-space-sm-plus instead",
+        "comment": "deprecated, use \`--calcite-space-sm-plus\` instead",
         "names": {
           "scss": "$calcite-spacing-sm-plus",
           "css": "var(--calcite-spacing-sm-plus)",
@@ -22630,26 +22645,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Sm Plus",
       "path": ["semantic", "spacing", "default", "sm+"],
-      "comment": "deprecated, use --calcite-space-sm-plus instead"
+      "comment": "deprecated, use \`--calcite-space-sm-plus\` instead"
     },
     {
       "key": "{semantic.spacing.default.md}",
       "value": "0.75rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-md instead",
+      "description": "deprecated, use \`--calcite-space-md\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "md",
         "value": "12px",
-        "description": "deprecated, use --calcite-space-md instead",
+        "description": "deprecated, use \`--calcite-space-md\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.md}",
         "name": "calcite-semantic-spacing-default-md",
         "path": ["semantic", "spacing", "default", "md"],
-        "comment": "deprecated, use --calcite-space-md instead",
+        "comment": "deprecated, use \`--calcite-space-md\` instead",
         "names": {
           "scss": "$calcite-spacing-md",
           "css": "var(--calcite-spacing-md)",
@@ -22666,26 +22682,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Md",
       "path": ["semantic", "spacing", "default", "md"],
-      "comment": "deprecated, use --calcite-space-md instead"
+      "comment": "deprecated, use \`--calcite-space-md\` instead"
     },
     {
       "key": "{semantic.spacing.default.md+}",
       "value": "0.875rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-md-plus instead",
+      "description": "deprecated, use \`--calcite-space-md-plus\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "md+",
         "value": "14px",
-        "description": "deprecated, use --calcite-space-md-plus instead",
+        "description": "deprecated, use \`--calcite-space-md-plus\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.md+}",
         "name": "calcite-semantic-spacing-default-md",
         "path": ["semantic", "spacing", "default", "md+"],
-        "comment": "deprecated, use --calcite-space-md-plus instead",
+        "comment": "deprecated, use \`--calcite-space-md-plus\` instead",
         "names": {
           "scss": "$calcite-spacing-md-plus",
           "css": "var(--calcite-spacing-md-plus)",
@@ -22702,26 +22719,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Md Plus",
       "path": ["semantic", "spacing", "default", "md+"],
-      "comment": "deprecated, use --calcite-space-md-plus instead"
+      "comment": "deprecated, use \`--calcite-space-md-plus\` instead"
     },
     {
       "key": "{semantic.spacing.default.lg}",
       "value": "1rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-lg instead",
+      "description": "deprecated, use \`--calcite-space-lg\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "lg",
         "value": "16px",
-        "description": "deprecated, use --calcite-space-lg instead",
+        "description": "deprecated, use \`--calcite-space-lg\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.lg}",
         "name": "calcite-semantic-spacing-default-lg",
         "path": ["semantic", "spacing", "default", "lg"],
-        "comment": "deprecated, use --calcite-space-lg instead",
+        "comment": "deprecated, use \`--calcite-space-lg\` instead",
         "names": {
           "scss": "$calcite-spacing-lg",
           "css": "var(--calcite-spacing-lg)",
@@ -22738,26 +22756,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Lg",
       "path": ["semantic", "spacing", "default", "lg"],
-      "comment": "deprecated, use --calcite-space-lg instead"
+      "comment": "deprecated, use \`--calcite-space-lg\` instead"
     },
     {
       "key": "{semantic.spacing.default.xl}",
       "value": "1.25rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-xl instead",
+      "description": "deprecated, use \`--calcite-space-xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xl",
         "value": "20px",
-        "description": "deprecated, use --calcite-space-xl instead",
+        "description": "deprecated, use \`--calcite-space-xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xl}",
         "name": "calcite-semantic-spacing-default-xl",
         "path": ["semantic", "spacing", "default", "xl"],
-        "comment": "deprecated, use --calcite-space-xl instead",
+        "comment": "deprecated, use \`--calcite-space-xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xl",
           "css": "var(--calcite-spacing-xl)",
@@ -22774,26 +22793,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xl",
       "path": ["semantic", "spacing", "default", "xl"],
-      "comment": "deprecated, use --calcite-space-xl instead"
+      "comment": "deprecated, use \`--calcite-space-xl\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxl}",
       "value": "1.5rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-2xl instead",
+      "description": "deprecated, use \`--calcite-space-2xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxl",
         "value": "24px",
-        "description": "deprecated, use --calcite-space-2xl instead",
+        "description": "deprecated, use \`--calcite-space-2xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxl}",
         "name": "calcite-semantic-spacing-default-xxl",
         "path": ["semantic", "spacing", "default", "xxl"],
-        "comment": "deprecated, use --calcite-space-2xl instead",
+        "comment": "deprecated, use \`--calcite-space-2xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xxl",
           "css": "var(--calcite-spacing-xxl)",
@@ -22810,26 +22830,27 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxl",
       "path": ["semantic", "spacing", "default", "xxl"],
-      "comment": "deprecated, use --calcite-space-2xl instead"
+      "comment": "deprecated, use \`--calcite-space-2xl\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxxl}",
       "value": "2rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-3xl instead",
+      "description": "deprecated, use \`--calcite-space-3xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxxl",
         "value": "32px",
-        "description": "deprecated, use --calcite-space-3xl instead",
+        "description": "deprecated, use \`--calcite-space-3xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxxl}",
         "name": "calcite-semantic-spacing-default-xxxl",
         "path": ["semantic", "spacing", "default", "xxxl"],
-        "comment": "deprecated, use --calcite-space-3xl instead",
+        "comment": "deprecated, use \`--calcite-space-3xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xxxl",
           "css": "var(--calcite-spacing-xxxl)",
@@ -22846,7 +22867,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxxl",
       "path": ["semantic", "spacing", "default", "xxxl"],
-      "comment": "deprecated, use --calcite-space-3xl instead"
+      "comment": "deprecated, use \`--calcite-space-3xl\` instead"
     },
     {
       "key": "{semantic.space.none}",
@@ -28352,6 +28373,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxs",
@@ -28388,6 +28410,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xs",
@@ -28424,6 +28447,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "sm",
@@ -28460,6 +28484,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "md",
@@ -28496,6 +28521,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "lg",
@@ -28532,6 +28558,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xl",
@@ -28568,6 +28595,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxl",
@@ -28604,6 +28632,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "description": "deprecated",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "fixed",
         "subitem": "xxxl",
@@ -28637,20 +28666,21 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "key": "{semantic.spacing.default.none}",
       "value": "0",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-none instead",
+      "description": "deprecated, use \`--calcite-space-none\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "none",
         "value": "0",
-        "description": "deprecated, use --calcite-space-none instead",
+        "description": "deprecated, use \`--calcite-space-none\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.none}",
         "name": "calcite-semantic-spacing-default-none",
         "path": ["semantic", "spacing", "default", "none"],
-        "comment": "deprecated, use --calcite-space-none instead",
+        "comment": "deprecated, use \`--calcite-space-none\` instead",
         "names": {
           "scss": "$calcite-spacing-none",
           "css": "var(--calcite-spacing-none)",
@@ -28667,26 +28697,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing None",
       "path": ["semantic", "spacing", "default", "none"],
-      "comment": "deprecated, use --calcite-space-none instead"
+      "comment": "deprecated, use \`--calcite-space-none\` instead"
     },
     {
       "key": "{semantic.spacing.default.px}",
       "value": "1px",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-px instead",
+      "description": "deprecated, use \`--calcite-space-px\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "px",
         "value": "1px",
-        "description": "deprecated, use --calcite-space-px instead",
+        "description": "deprecated, use \`--calcite-space-px\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.px}",
         "name": "calcite-semantic-spacing-default-px",
         "path": ["semantic", "spacing", "default", "px"],
-        "comment": "deprecated, use --calcite-space-px instead",
+        "comment": "deprecated, use \`--calcite-space-px\` instead",
         "names": {
           "scss": "$calcite-spacing-px",
           "css": "var(--calcite-spacing-px)",
@@ -28703,26 +28734,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Px",
       "path": ["semantic", "spacing", "default", "px"],
-      "comment": "deprecated, use --calcite-space-px instead"
+      "comment": "deprecated, use \`--calcite-space-px\` instead"
     },
     {
       "key": "{semantic.spacing.default.base}",
       "value": "2px",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-base instead",
+      "description": "deprecated, use \`--calcite-space-base\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "base",
         "value": "2px",
-        "description": "deprecated, use --calcite-space-base instead",
+        "description": "deprecated, use \`--calcite-space-base\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.base}",
         "name": "calcite-semantic-spacing-default-base",
         "path": ["semantic", "spacing", "default", "base"],
-        "comment": "deprecated, use --calcite-space-base instead",
+        "comment": "deprecated, use \`--calcite-space-base\` instead",
         "names": {
           "scss": "$calcite-spacing-base",
           "css": "var(--calcite-spacing-base)",
@@ -28739,26 +28771,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Base",
       "path": ["semantic", "spacing", "default", "base"],
-      "comment": "deprecated, use --calcite-space-base instead"
+      "comment": "deprecated, use \`--calcite-space-base\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxs}",
       "value": "0.25rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-2xs instead",
+      "description": "deprecated, use \`--calcite-space-2xs\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxs",
         "value": "4px",
-        "description": "deprecated, use --calcite-space-2xs instead",
+        "description": "deprecated, use \`--calcite-space-2xs\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxs}",
         "name": "calcite-semantic-spacing-default-xxs",
         "path": ["semantic", "spacing", "default", "xxs"],
-        "comment": "deprecated, use --calcite-space-2xs instead",
+        "comment": "deprecated, use \`--calcite-space-2xs\` instead",
         "names": {
           "scss": "$calcite-spacing-xxs",
           "css": "var(--calcite-spacing-xxs)",
@@ -28775,26 +28808,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxs",
       "path": ["semantic", "spacing", "default", "xxs"],
-      "comment": "deprecated, use --calcite-space-2xs instead"
+      "comment": "deprecated, use \`--calcite-space-2xs\` instead"
     },
     {
       "key": "{semantic.spacing.default.xs}",
       "value": "0.375rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-xs instead",
+      "description": "deprecated, use \`--calcite-space-xs\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xs",
         "value": "6px",
-        "description": "deprecated, use --calcite-space-xs instead",
+        "description": "deprecated, use \`--calcite-space-xs\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xs}",
         "name": "calcite-semantic-spacing-default-xs",
         "path": ["semantic", "spacing", "default", "xs"],
-        "comment": "deprecated, use --calcite-space-xs instead",
+        "comment": "deprecated, use \`--calcite-space-xs\` instead",
         "names": {
           "scss": "$calcite-spacing-xs",
           "css": "var(--calcite-spacing-xs)",
@@ -28811,26 +28845,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xs",
       "path": ["semantic", "spacing", "default", "xs"],
-      "comment": "deprecated, use --calcite-space-xs instead"
+      "comment": "deprecated, use \`--calcite-space-xs\` instead"
     },
     {
       "key": "{semantic.spacing.default.sm}",
       "value": "0.5rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-sm instead",
+      "description": "deprecated, use \`--calcite-space-sm\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "sm",
         "value": "8px",
-        "description": "deprecated, use --calcite-space-sm instead",
+        "description": "deprecated, use \`--calcite-space-sm\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.sm}",
         "name": "calcite-semantic-spacing-default-sm",
         "path": ["semantic", "spacing", "default", "sm"],
-        "comment": "deprecated, use --calcite-space-sm instead",
+        "comment": "deprecated, use \`--calcite-space-sm\` instead",
         "names": {
           "scss": "$calcite-spacing-sm",
           "css": "var(--calcite-spacing-sm)",
@@ -28847,26 +28882,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Sm",
       "path": ["semantic", "spacing", "default", "sm"],
-      "comment": "deprecated, use --calcite-space-sm instead"
+      "comment": "deprecated, use \`--calcite-space-sm\` instead"
     },
     {
       "key": "{semantic.spacing.default.sm+}",
       "value": "0.625rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-sm-plus instead",
+      "description": "deprecated, use \`--calcite-space-sm-plus\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "sm+",
         "value": "10px",
-        "description": "deprecated, use --calcite-space-sm-plus instead",
+        "description": "deprecated, use \`--calcite-space-sm-plus\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.sm+}",
         "name": "calcite-semantic-spacing-default-sm",
         "path": ["semantic", "spacing", "default", "sm+"],
-        "comment": "deprecated, use --calcite-space-sm-plus instead",
+        "comment": "deprecated, use \`--calcite-space-sm-plus\` instead",
         "names": {
           "scss": "$calcite-spacing-sm-plus",
           "css": "var(--calcite-spacing-sm-plus)",
@@ -28883,26 +28919,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Sm Plus",
       "path": ["semantic", "spacing", "default", "sm+"],
-      "comment": "deprecated, use --calcite-space-sm-plus instead"
+      "comment": "deprecated, use \`--calcite-space-sm-plus\` instead"
     },
     {
       "key": "{semantic.spacing.default.md}",
       "value": "0.75rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-md instead",
+      "description": "deprecated, use \`--calcite-space-md\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "md",
         "value": "12px",
-        "description": "deprecated, use --calcite-space-md instead",
+        "description": "deprecated, use \`--calcite-space-md\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.md}",
         "name": "calcite-semantic-spacing-default-md",
         "path": ["semantic", "spacing", "default", "md"],
-        "comment": "deprecated, use --calcite-space-md instead",
+        "comment": "deprecated, use \`--calcite-space-md\` instead",
         "names": {
           "scss": "$calcite-spacing-md",
           "css": "var(--calcite-spacing-md)",
@@ -28919,26 +28956,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Md",
       "path": ["semantic", "spacing", "default", "md"],
-      "comment": "deprecated, use --calcite-space-md instead"
+      "comment": "deprecated, use \`--calcite-space-md\` instead"
     },
     {
       "key": "{semantic.spacing.default.md+}",
       "value": "0.875rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-md-plus instead",
+      "description": "deprecated, use \`--calcite-space-md-plus\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "md+",
         "value": "14px",
-        "description": "deprecated, use --calcite-space-md-plus instead",
+        "description": "deprecated, use \`--calcite-space-md-plus\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.md+}",
         "name": "calcite-semantic-spacing-default-md",
         "path": ["semantic", "spacing", "default", "md+"],
-        "comment": "deprecated, use --calcite-space-md-plus instead",
+        "comment": "deprecated, use \`--calcite-space-md-plus\` instead",
         "names": {
           "scss": "$calcite-spacing-md-plus",
           "css": "var(--calcite-spacing-md-plus)",
@@ -28955,26 +28993,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Md Plus",
       "path": ["semantic", "spacing", "default", "md+"],
-      "comment": "deprecated, use --calcite-space-md-plus instead"
+      "comment": "deprecated, use \`--calcite-space-md-plus\` instead"
     },
     {
       "key": "{semantic.spacing.default.lg}",
       "value": "1rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-lg instead",
+      "description": "deprecated, use \`--calcite-space-lg\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "lg",
         "value": "16px",
-        "description": "deprecated, use --calcite-space-lg instead",
+        "description": "deprecated, use \`--calcite-space-lg\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.lg}",
         "name": "calcite-semantic-spacing-default-lg",
         "path": ["semantic", "spacing", "default", "lg"],
-        "comment": "deprecated, use --calcite-space-lg instead",
+        "comment": "deprecated, use \`--calcite-space-lg\` instead",
         "names": {
           "scss": "$calcite-spacing-lg",
           "css": "var(--calcite-spacing-lg)",
@@ -28991,26 +29030,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Lg",
       "path": ["semantic", "spacing", "default", "lg"],
-      "comment": "deprecated, use --calcite-space-lg instead"
+      "comment": "deprecated, use \`--calcite-space-lg\` instead"
     },
     {
       "key": "{semantic.spacing.default.xl}",
       "value": "1.25rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-xl instead",
+      "description": "deprecated, use \`--calcite-space-xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xl",
         "value": "20px",
-        "description": "deprecated, use --calcite-space-xl instead",
+        "description": "deprecated, use \`--calcite-space-xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xl}",
         "name": "calcite-semantic-spacing-default-xl",
         "path": ["semantic", "spacing", "default", "xl"],
-        "comment": "deprecated, use --calcite-space-xl instead",
+        "comment": "deprecated, use \`--calcite-space-xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xl",
           "css": "var(--calcite-spacing-xl)",
@@ -29027,26 +29067,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xl",
       "path": ["semantic", "spacing", "default", "xl"],
-      "comment": "deprecated, use --calcite-space-xl instead"
+      "comment": "deprecated, use \`--calcite-space-xl\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxl}",
       "value": "1.5rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-2xl instead",
+      "description": "deprecated, use \`--calcite-space-2xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxl",
         "value": "24px",
-        "description": "deprecated, use --calcite-space-2xl instead",
+        "description": "deprecated, use \`--calcite-space-2xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxl}",
         "name": "calcite-semantic-spacing-default-xxl",
         "path": ["semantic", "spacing", "default", "xxl"],
-        "comment": "deprecated, use --calcite-space-2xl instead",
+        "comment": "deprecated, use \`--calcite-space-2xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xxl",
           "css": "var(--calcite-spacing-xxl)",
@@ -29063,26 +29104,27 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxl",
       "path": ["semantic", "spacing", "default", "xxl"],
-      "comment": "deprecated, use --calcite-space-2xl instead"
+      "comment": "deprecated, use \`--calcite-space-2xl\` instead"
     },
     {
       "key": "{semantic.spacing.default.xxxl}",
       "value": "2rem",
       "type": "dimension",
-      "description": "deprecated, use --calcite-space-3xl instead",
+      "description": "deprecated, use \`--calcite-space-3xl\` instead",
       "attributes": {
         "category": "spacing",
+        "status": "deprecated",
         "type": "dimension",
         "item": "default",
         "subitem": "xxxl",
         "value": "32px",
-        "description": "deprecated, use --calcite-space-3xl instead",
+        "description": "deprecated, use \`--calcite-space-3xl\` instead",
         "filePath": "src/tokens/semantic/space.json",
         "isSource": true,
         "key": "{semantic.spacing.default.xxxl}",
         "name": "calcite-semantic-spacing-default-xxxl",
         "path": ["semantic", "spacing", "default", "xxxl"],
-        "comment": "deprecated, use --calcite-space-3xl instead",
+        "comment": "deprecated, use \`--calcite-space-3xl\` instead",
         "names": {
           "scss": "$calcite-spacing-xxxl",
           "css": "var(--calcite-spacing-xxxl)",
@@ -29099,7 +29141,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Spacing Xxxl",
       "path": ["semantic", "spacing", "default", "xxxl"],
-      "comment": "deprecated, use --calcite-space-3xl instead"
+      "comment": "deprecated, use \`--calcite-space-3xl\` instead"
     },
     {
       "key": "{semantic.space.none}",
@@ -31230,19 +31272,19 @@ export const calciteSpacingFixedLg = "14px"; // deprecated
 export const calciteSpacingFixedXl = "16px"; // deprecated
 export const calciteSpacingFixedXxl = "20px"; // deprecated
 export const calciteSpacingFixedXxxl = "32px"; // deprecated
-export const calciteSpacingNone = "0"; // deprecated, use --calcite-space-none instead
-export const calciteSpacingPx = "1px"; // deprecated, use --calcite-space-px instead
-export const calciteSpacingBase = "2px"; // deprecated, use --calcite-space-base instead
-export const calciteSpacingXxs = "0.25rem"; // deprecated, use --calcite-space-2xs instead
-export const calciteSpacingXs = "0.375rem"; // deprecated, use --calcite-space-xs instead
-export const calciteSpacingSm = "0.5rem"; // deprecated, use --calcite-space-sm instead
-export const calciteSpacingSmPlus = "0.625rem"; // deprecated, use --calcite-space-sm-plus instead
-export const calciteSpacingMd = "0.75rem"; // deprecated, use --calcite-space-md instead
-export const calciteSpacingMdPlus = "0.875rem"; // deprecated, use --calcite-space-md-plus instead
-export const calciteSpacingLg = "1rem"; // deprecated, use --calcite-space-lg instead
-export const calciteSpacingXl = "1.25rem"; // deprecated, use --calcite-space-xl instead
-export const calciteSpacingXxl = "1.5rem"; // deprecated, use --calcite-space-2xl instead
-export const calciteSpacingXxxl = "2rem"; // deprecated, use --calcite-space-3xl instead
+export const calciteSpacingNone = "0"; // deprecated, use \`--calcite-space-none\` instead
+export const calciteSpacingPx = "1px"; // deprecated, use \`--calcite-space-px\` instead
+export const calciteSpacingBase = "2px"; // deprecated, use \`--calcite-space-base\` instead
+export const calciteSpacingXxs = "0.25rem"; // deprecated, use \`--calcite-space-2xs\` instead
+export const calciteSpacingXs = "0.375rem"; // deprecated, use \`--calcite-space-xs\` instead
+export const calciteSpacingSm = "0.5rem"; // deprecated, use \`--calcite-space-sm\` instead
+export const calciteSpacingSmPlus = "0.625rem"; // deprecated, use \`--calcite-space-sm-plus\` instead
+export const calciteSpacingMd = "0.75rem"; // deprecated, use \`--calcite-space-md\` instead
+export const calciteSpacingMdPlus = "0.875rem"; // deprecated, use \`--calcite-space-md-plus\` instead
+export const calciteSpacingLg = "1rem"; // deprecated, use \`--calcite-space-lg\` instead
+export const calciteSpacingXl = "1.25rem"; // deprecated, use \`--calcite-space-xl\` instead
+export const calciteSpacingXxl = "1.5rem"; // deprecated, use \`--calcite-space-2xl\` instead
+export const calciteSpacingXxxl = "2rem"; // deprecated, use \`--calcite-space-3xl\` instead
 export const calciteSpaceNone = "0";
 export const calciteSpacePx = "1px";
 export const calciteSpaceBase = "2px";
@@ -31765,31 +31807,31 @@ export const calciteSpacingFixedXl: string;
 export const calciteSpacingFixedXxl: string;
 /** deprecated */
 export const calciteSpacingFixedXxxl: string;
-/** deprecated, use --calcite-space-none instead */
+/** deprecated, use \`--calcite-space-none\` instead */
 export const calciteSpacingNone: string;
-/** deprecated, use --calcite-space-px instead */
+/** deprecated, use \`--calcite-space-px\` instead */
 export const calciteSpacingPx: string;
-/** deprecated, use --calcite-space-base instead */
+/** deprecated, use \`--calcite-space-base\` instead */
 export const calciteSpacingBase: string;
-/** deprecated, use --calcite-space-2xs instead */
+/** deprecated, use \`--calcite-space-2xs\` instead */
 export const calciteSpacingXxs: string;
-/** deprecated, use --calcite-space-xs instead */
+/** deprecated, use \`--calcite-space-xs\` instead */
 export const calciteSpacingXs: string;
-/** deprecated, use --calcite-space-sm instead */
+/** deprecated, use \`--calcite-space-sm\` instead */
 export const calciteSpacingSm: string;
-/** deprecated, use --calcite-space-sm-plus instead */
+/** deprecated, use \`--calcite-space-sm-plus\` instead */
 export const calciteSpacingSmPlus: string;
-/** deprecated, use --calcite-space-md instead */
+/** deprecated, use \`--calcite-space-md\` instead */
 export const calciteSpacingMd: string;
-/** deprecated, use --calcite-space-md-plus instead */
+/** deprecated, use \`--calcite-space-md-plus\` instead */
 export const calciteSpacingMdPlus: string;
-/** deprecated, use --calcite-space-lg instead */
+/** deprecated, use \`--calcite-space-lg\` instead */
 export const calciteSpacingLg: string;
-/** deprecated, use --calcite-space-xl instead */
+/** deprecated, use \`--calcite-space-xl\` instead */
 export const calciteSpacingXl: string;
-/** deprecated, use --calcite-space-2xl instead */
+/** deprecated, use \`--calcite-space-2xl\` instead */
 export const calciteSpacingXxl: string;
-/** deprecated, use --calcite-space-3xl instead */
+/** deprecated, use \`--calcite-space-3xl\` instead */
 export const calciteSpacingXxxl: string;
 export const calciteSpaceNone: string;
 export const calciteSpacePx: string;
@@ -32201,19 +32243,19 @@ export const calciteSpacingFixedLg = "14px"; // deprecated
 export const calciteSpacingFixedXl = "16px"; // deprecated
 export const calciteSpacingFixedXxl = "20px"; // deprecated
 export const calciteSpacingFixedXxxl = "32px"; // deprecated
-export const calciteSpacingNone = "0"; // deprecated, use --calcite-space-none instead
-export const calciteSpacingPx = "1px"; // deprecated, use --calcite-space-px instead
-export const calciteSpacingBase = "2px"; // deprecated, use --calcite-space-base instead
-export const calciteSpacingXxs = "0.25rem"; // deprecated, use --calcite-space-2xs instead
-export const calciteSpacingXs = "0.375rem"; // deprecated, use --calcite-space-xs instead
-export const calciteSpacingSm = "0.5rem"; // deprecated, use --calcite-space-sm instead
-export const calciteSpacingSmPlus = "0.625rem"; // deprecated, use --calcite-space-sm-plus instead
-export const calciteSpacingMd = "0.75rem"; // deprecated, use --calcite-space-md instead
-export const calciteSpacingMdPlus = "0.875rem"; // deprecated, use --calcite-space-md-plus instead
-export const calciteSpacingLg = "1rem"; // deprecated, use --calcite-space-lg instead
-export const calciteSpacingXl = "1.25rem"; // deprecated, use --calcite-space-xl instead
-export const calciteSpacingXxl = "1.5rem"; // deprecated, use --calcite-space-2xl instead
-export const calciteSpacingXxxl = "2rem"; // deprecated, use --calcite-space-3xl instead
+export const calciteSpacingNone = "0"; // deprecated, use \`--calcite-space-none\` instead
+export const calciteSpacingPx = "1px"; // deprecated, use \`--calcite-space-px\` instead
+export const calciteSpacingBase = "2px"; // deprecated, use \`--calcite-space-base\` instead
+export const calciteSpacingXxs = "0.25rem"; // deprecated, use \`--calcite-space-2xs\` instead
+export const calciteSpacingXs = "0.375rem"; // deprecated, use \`--calcite-space-xs\` instead
+export const calciteSpacingSm = "0.5rem"; // deprecated, use \`--calcite-space-sm\` instead
+export const calciteSpacingSmPlus = "0.625rem"; // deprecated, use \`--calcite-space-sm-plus\` instead
+export const calciteSpacingMd = "0.75rem"; // deprecated, use \`--calcite-space-md\` instead
+export const calciteSpacingMdPlus = "0.875rem"; // deprecated, use \`--calcite-space-md-plus\` instead
+export const calciteSpacingLg = "1rem"; // deprecated, use \`--calcite-space-lg\` instead
+export const calciteSpacingXl = "1.25rem"; // deprecated, use \`--calcite-space-xl\` instead
+export const calciteSpacingXxl = "1.5rem"; // deprecated, use \`--calcite-space-2xl\` instead
+export const calciteSpacingXxxl = "2rem"; // deprecated, use \`--calcite-space-3xl\` instead
 export const calciteSpaceNone = "0";
 export const calciteSpacePx = "1px";
 export const calciteSpaceBase = "2px";
@@ -32403,31 +32445,31 @@ export const calciteSpacingFixedXl: string;
 export const calciteSpacingFixedXxl: string;
 /** deprecated */
 export const calciteSpacingFixedXxxl: string;
-/** deprecated, use --calcite-space-none instead */
+/** deprecated, use \`--calcite-space-none\` instead */
 export const calciteSpacingNone: string;
-/** deprecated, use --calcite-space-px instead */
+/** deprecated, use \`--calcite-space-px\` instead */
 export const calciteSpacingPx: string;
-/** deprecated, use --calcite-space-base instead */
+/** deprecated, use \`--calcite-space-base\` instead */
 export const calciteSpacingBase: string;
-/** deprecated, use --calcite-space-2xs instead */
+/** deprecated, use \`--calcite-space-2xs\` instead */
 export const calciteSpacingXxs: string;
-/** deprecated, use --calcite-space-xs instead */
+/** deprecated, use \`--calcite-space-xs\` instead */
 export const calciteSpacingXs: string;
-/** deprecated, use --calcite-space-sm instead */
+/** deprecated, use \`--calcite-space-sm\` instead */
 export const calciteSpacingSm: string;
-/** deprecated, use --calcite-space-sm-plus instead */
+/** deprecated, use \`--calcite-space-sm-plus\` instead */
 export const calciteSpacingSmPlus: string;
-/** deprecated, use --calcite-space-md instead */
+/** deprecated, use \`--calcite-space-md\` instead */
 export const calciteSpacingMd: string;
-/** deprecated, use --calcite-space-md-plus instead */
+/** deprecated, use \`--calcite-space-md-plus\` instead */
 export const calciteSpacingMdPlus: string;
-/** deprecated, use --calcite-space-lg instead */
+/** deprecated, use \`--calcite-space-lg\` instead */
 export const calciteSpacingLg: string;
-/** deprecated, use --calcite-space-xl instead */
+/** deprecated, use \`--calcite-space-xl\` instead */
 export const calciteSpacingXl: string;
-/** deprecated, use --calcite-space-2xl instead */
+/** deprecated, use \`--calcite-space-2xl\` instead */
 export const calciteSpacingXxl: string;
-/** deprecated, use --calcite-space-3xl instead */
+/** deprecated, use \`--calcite-space-3xl\` instead */
 export const calciteSpacingXxxl: string;
 export const calciteSpaceNone: string;
 export const calciteSpacePx: string;
@@ -33220,19 +33262,19 @@ $calcite-spacing-fixed-lg: 14px; // deprecated
 $calcite-spacing-fixed-xl: 16px; // deprecated
 $calcite-spacing-fixed-xxl: 20px; // deprecated
 $calcite-spacing-fixed-xxxl: 32px; // deprecated
-$calcite-spacing-none: 0; // deprecated, use --calcite-space-none instead
-$calcite-spacing-px: 1px; // deprecated, use --calcite-space-px instead
-$calcite-spacing-base: 2px; // deprecated, use --calcite-space-base instead
-$calcite-spacing-xxs: 0.25rem; // deprecated, use --calcite-space-2xs instead
-$calcite-spacing-xs: 0.375rem; // deprecated, use --calcite-space-xs instead
-$calcite-spacing-sm: 0.5rem; // deprecated, use --calcite-space-sm instead
-$calcite-spacing-sm-plus: 0.625rem; // deprecated, use --calcite-space-sm-plus instead
-$calcite-spacing-md: 0.75rem; // deprecated, use --calcite-space-md instead
-$calcite-spacing-md-plus: 0.875rem; // deprecated, use --calcite-space-md-plus instead
-$calcite-spacing-lg: 1rem; // deprecated, use --calcite-space-lg instead
-$calcite-spacing-xl: 1.25rem; // deprecated, use --calcite-space-xl instead
-$calcite-spacing-xxl: 1.5rem; // deprecated, use --calcite-space-2xl instead
-$calcite-spacing-xxxl: 2rem; // deprecated, use --calcite-space-3xl instead
+$calcite-spacing-none: 0; // deprecated, use \`--calcite-space-none\` instead
+$calcite-spacing-px: 1px; // deprecated, use \`--calcite-space-px\` instead
+$calcite-spacing-base: 2px; // deprecated, use \`--calcite-space-base\` instead
+$calcite-spacing-xxs: 0.25rem; // deprecated, use \`--calcite-space-2xs\` instead
+$calcite-spacing-xs: 0.375rem; // deprecated, use \`--calcite-space-xs\` instead
+$calcite-spacing-sm: 0.5rem; // deprecated, use \`--calcite-space-sm\` instead
+$calcite-spacing-sm-plus: 0.625rem; // deprecated, use \`--calcite-space-sm-plus\` instead
+$calcite-spacing-md: 0.75rem; // deprecated, use \`--calcite-space-md\` instead
+$calcite-spacing-md-plus: 0.875rem; // deprecated, use \`--calcite-space-md-plus\` instead
+$calcite-spacing-lg: 1rem; // deprecated, use \`--calcite-space-lg\` instead
+$calcite-spacing-xl: 1.25rem; // deprecated, use \`--calcite-space-xl\` instead
+$calcite-spacing-xxl: 1.5rem; // deprecated, use \`--calcite-space-2xl\` instead
+$calcite-spacing-xxxl: 2rem; // deprecated, use \`--calcite-space-3xl\` instead
 $calcite-space-none: 0;
 $calcite-space-px: 1px;
 $calcite-space-base: 2px;
@@ -33848,19 +33890,19 @@ $calcite-spacing-fixed-lg: 14px; // deprecated
 $calcite-spacing-fixed-xl: 16px; // deprecated
 $calcite-spacing-fixed-xxl: 20px; // deprecated
 $calcite-spacing-fixed-xxxl: 32px; // deprecated
-$calcite-spacing-none: 0; // deprecated, use --calcite-space-none instead
-$calcite-spacing-px: 1px; // deprecated, use --calcite-space-px instead
-$calcite-spacing-base: 2px; // deprecated, use --calcite-space-base instead
-$calcite-spacing-xxs: 0.25rem; // deprecated, use --calcite-space-2xs instead
-$calcite-spacing-xs: 0.375rem; // deprecated, use --calcite-space-xs instead
-$calcite-spacing-sm: 0.5rem; // deprecated, use --calcite-space-sm instead
-$calcite-spacing-sm-plus: 0.625rem; // deprecated, use --calcite-space-sm-plus instead
-$calcite-spacing-md: 0.75rem; // deprecated, use --calcite-space-md instead
-$calcite-spacing-md-plus: 0.875rem; // deprecated, use --calcite-space-md-plus instead
-$calcite-spacing-lg: 1rem; // deprecated, use --calcite-space-lg instead
-$calcite-spacing-xl: 1.25rem; // deprecated, use --calcite-space-xl instead
-$calcite-spacing-xxl: 1.5rem; // deprecated, use --calcite-space-2xl instead
-$calcite-spacing-xxxl: 2rem; // deprecated, use --calcite-space-3xl instead
+$calcite-spacing-none: 0; // deprecated, use \`--calcite-space-none\` instead
+$calcite-spacing-px: 1px; // deprecated, use \`--calcite-space-px\` instead
+$calcite-spacing-base: 2px; // deprecated, use \`--calcite-space-base\` instead
+$calcite-spacing-xxs: 0.25rem; // deprecated, use \`--calcite-space-2xs\` instead
+$calcite-spacing-xs: 0.375rem; // deprecated, use \`--calcite-space-xs\` instead
+$calcite-spacing-sm: 0.5rem; // deprecated, use \`--calcite-space-sm\` instead
+$calcite-spacing-sm-plus: 0.625rem; // deprecated, use \`--calcite-space-sm-plus\` instead
+$calcite-spacing-md: 0.75rem; // deprecated, use \`--calcite-space-md\` instead
+$calcite-spacing-md-plus: 0.875rem; // deprecated, use \`--calcite-space-md-plus\` instead
+$calcite-spacing-lg: 1rem; // deprecated, use \`--calcite-space-lg\` instead
+$calcite-spacing-xl: 1.25rem; // deprecated, use \`--calcite-space-xl\` instead
+$calcite-spacing-xxl: 1.5rem; // deprecated, use \`--calcite-space-2xl\` instead
+$calcite-spacing-xxxl: 2rem; // deprecated, use \`--calcite-space-3xl\` instead
 $calcite-space-none: 0;
 $calcite-space-px: 1px;
 $calcite-space-base: 2px;
