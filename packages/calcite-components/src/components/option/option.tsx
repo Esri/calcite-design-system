@@ -3,7 +3,6 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { trim } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
-import { styles } from "./option.scss";
 
 declare global {
   interface DeclareElements {
@@ -14,10 +13,6 @@ declare global {
 const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 
 export class Option extends LitElement {
-  // #region Static Members
-
-  static override styles = styles;
-
   // #endregion
 
   // #region Private Properties
