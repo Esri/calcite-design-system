@@ -7,16 +7,19 @@
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <title>Calcite Components - Vite</title>
+    <script type="module" src="/main.ts"></script>
   </head>
 
-  <script type="module" src="/main.ts"></script>
   <body>
-    <h1>
-      Hello, Vite
-      <calcite-icon icon="banana"></calcite-icon>
-    </h1>
-
-    <calcite-date-picker range></calcite-date-picker>
-    <calcite-button>My button</calcite-button>
+    <calcite-form>
+      <form name="element-internals-form">
+        <h1>Lit + ElementInternals</h1>
+        <label>
+          Type a value and hit submit to see this input component participating in its parent form.
+          <calcite-input-text name="element-internals-test"></calcite-input-text>
+        </label>
+        <calcite-button type="submit">Submit</calcite-button>
+      </form>
+    </calcite-form>
   </body>
 </html>

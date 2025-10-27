@@ -18,7 +18,6 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  internalHiddenInputInputEvent,
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
@@ -88,17 +87,6 @@ export class InputText
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedValue: string;
 
@@ -352,10 +340,6 @@ export class InputText
 
     connectLabel(this);
     connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -377,10 +361,6 @@ export class InputText
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
