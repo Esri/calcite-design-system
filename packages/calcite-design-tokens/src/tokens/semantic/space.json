@@ -8,7 +8,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xs": {
@@ -17,7 +17,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "sm": {
@@ -26,7 +26,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "md": {
@@ -35,7 +35,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "lg": {
@@ -44,7 +44,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xl": {
@@ -53,7 +53,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xxl": {
@@ -62,7 +62,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xxxl": {
@@ -71,7 +71,7 @@
           "description": "deprecated",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         }
       },
@@ -82,7 +82,7 @@
           "description": "deprecated, use `--calcite-space-none` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "px": {
@@ -91,7 +91,7 @@
           "description": "deprecated, use `--calcite-space-px` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "base": {
@@ -100,7 +100,7 @@
           "description": "deprecated, use `--calcite-space-base` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xxs": {
@@ -109,7 +109,7 @@
           "description": "deprecated, use `--calcite-space-2xs` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xs": {
@@ -118,7 +118,7 @@
           "description": "deprecated, use `--calcite-space-xs` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "sm": {
@@ -127,7 +127,7 @@
           "description": "deprecated, use `--calcite-space-sm` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "sm+": {
@@ -136,7 +136,7 @@
           "description": "deprecated, use `--calcite-space-sm-plus` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "md": {
@@ -145,7 +145,7 @@
           "description": "deprecated, use `--calcite-space-md` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "md+": {
@@ -154,7 +154,7 @@
           "description": "deprecated, use `--calcite-space-md-plus` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "lg": {
@@ -163,7 +163,7 @@
           "description": "deprecated, use `--calcite-space-lg` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xl": {
@@ -172,7 +172,7 @@
           "description": "deprecated, use `--calcite-space-xl` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xxl": {
@@ -181,7 +181,7 @@
           "description": "deprecated, use `--calcite-space-2xl` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         },
         "xxxl": {
@@ -190,7 +190,7 @@
           "description": "deprecated, use `--calcite-space-3xl` instead",
           "attributes": {
             "category": "spacing",
-            "group": "deprecated"
+            "status": "deprecated"
           }
         }
       }
