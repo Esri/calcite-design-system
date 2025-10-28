@@ -66,6 +66,12 @@ export class Table extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  private handleScroll = (): void => {
+    if (this.tableContainerRef.value) {
+      this.updateRows();
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -212,6 +218,7 @@ export class Table extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.removeScrollListener();
   }
 
   //#endregion
@@ -220,6 +227,20 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
+    this.setupScrollListener();
+  }
+
+  private setupScrollListener(): void {
+    if (this.tableContainerRef.value) {
+      this.removeScrollListener();
+      this.tableContainerRef.value.addEventListener("scroll", this.handleScroll);
+    }
+  }
+
+  private removeScrollListener(): void {
+    if (this.tableContainerRef.value) {
+      this.tableContainerRef.value.removeEventListener("scroll", this.handleScroll);
+    }
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {

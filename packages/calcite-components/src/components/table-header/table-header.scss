@@ -55,10 +55,6 @@ th.sticky-header {
   background-clip: padding-box;
 }
 
-th.sticky-header:focus {
-  z-index: 9999;
-}
-
 th.sticky-header::after,
 th.sticky-header:not(.last-cell)::before {
   position: absolute;

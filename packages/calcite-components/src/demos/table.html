@@ -329,6 +329,107 @@
 
   <body>
     <demo-dom-swapper>
+      <calcite-panel
+        heading="Table"
+        style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3); height: auto"
+      >
+        <calcite-table
+          sticky-header
+          selection-mode="multiple"
+          caption="Simple"
+          style="width: calc(100% - 1rem); margin: 0.5rem; height: 400px"
+        >
+          <calcite-table-row slot="table-header">
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          </calcite-table-row>
+          <calcite-table-row id="top-row">
+            <calcite-table-cell>cell content 1</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 2</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 3</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 4</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 5</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell content 6</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>cell content 7</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 8</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 9 </calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 10</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 11</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>cell content 12</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row id="bottom-row">
+            <calcite-table-cell id="bottom-row-cell">cell content 13</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+            <calcite-table-cell>cell content</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>
+      </calcite-panel>
+      <calcite-button
+        onclick="document.getElementById('bottom-row-cell').setFocus()"
+        style="display: block; margin: 2rem auto"
+        >Open Dialog</calcite-button
+      >
       <calcite-dialog id="dialog" modal open>
         <calcite-table sticky-header selection-mode="multiple" caption="Simple" open="true" page-size="10">
           <calcite-table-row slot="table-header">

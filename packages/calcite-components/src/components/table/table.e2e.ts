@@ -3392,14 +3392,12 @@ describe("keyboard navigation", () => {
       await page.setContent(
         html` <calcite-panel
           heading="Table"
-          style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
+          style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3);height: 400px;"
         >
           <calcite-table
             sticky-header
             selection-mode="multiple"
             caption="Simple"
-            open="true"
-            page-size="10"
             style="width: calc(100% - 1rem); margin: 0.5rem; height: 400px"
           >
             <calcite-table-row slot="table-header">
@@ -3474,14 +3472,14 @@ describe("keyboard navigation", () => {
               <calcite-table-cell>cell content</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
             </calcite-table-row>
-            <calcite-table-row>
+            <calcite-table-row id="bottom-row">
               <calcite-table-cell>cell content 12</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
             </calcite-table-row>
-            <calcite-table-row id="bottom-row">
-              <calcite-table-cell>cell content 13</calcite-table-cell>
+            <calcite-table-row>
+              <calcite-table-cell id="bottom-row-cell">cell content 13</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
               <calcite-table-cell>cell content</calcite-table-cell>
@@ -3490,14 +3488,15 @@ describe("keyboard navigation", () => {
         </calcite-panel>`,
       );
 
-      // const topRow = await page.find("#top-row");
-      //  const bottomRow = await page.find("#bottom-row");
+      const topRow = await page.find("#top-row");
+      const bottomRow = await page.find("#bottom-row");
+      const bottomRowCell = await page.find("#bottom-row-cell");
 
-      //  await bottomRow.callMethod("setFocus");
-      //  await page.waitForChanges();
+      await bottomRowCell.callMethod("setFocus");
+      await page.waitForChanges();
 
-      //    expect(await topRow.isIntersectingViewport()).toBe(false);
-      //    expect(await bottomRow.isIntersectingViewport()).toBe(true);
+      expect(await topRow.isIntersectingViewport()).toBe(false);
+      expect(await bottomRow.isIntersectingViewport()).toBe(true);
     });
   });
 });
