@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.35...@esri/calcite-components@4.0.0-next.36) (2025-10-28)
+
+### Bug Fixes
+
+- **tab-title:** fix timing issue when emitting internal and public tab close events ([#12935](https://github.com/Esri/calcite-design-system/issues/12935)) ([6f05ba1](https://github.com/Esri/calcite-design-system/commit/6f05ba14ae6918676ae8d949a96ed3b3ca624511)), closes [#11789](https://github.com/Esri/calcite-design-system/issues/11789)
+
 ## [4.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.34...@esri/calcite-components@4.0.0-next.35) (2025-10-27)
 
 **Note:** Version bump only for package @esri/calcite-components
