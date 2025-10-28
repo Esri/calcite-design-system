@@ -51,36 +51,338 @@
     flex-nowrap;
 }
 
-.input {
-  @apply w-full;
+input {
+  @apply block;
+}
 
-  --calcite-input-prefix-size: var(--calcite-autocomplete-input-prefix-size);
-  --calcite-input-suffix-size: var(--calcite-autocomplete-input-suffix-size);
+// scales
+:host([scale="s"]) {
+  & input,
+  & .prefix,
+  & .suffix {
+    @apply text-n2h h-6 px-2;
+  }
+  & .clear-button {
+    min-block-size: theme("spacing.6");
+    min-inline-size: theme("spacing.6");
+  }
 
-  --calcite-input-background-color: var(--calcite-autocomplete-input-background-color);
-  --calcite-input-border-color: var(--calcite-autocomplete-input-border-color);
-  --calcite-input-corner-radius: var(--calcite-autocomplete-input-corner-radius);
-  --calcite-input-shadow: var(--calcite-autocomplete-input-shadow);
+  & input {
+    padding-inline-start: theme("padding.8");
+  }
+}
 
-  --calcite-input-icon-color: var(--calcite-autocomplete-input-icon-color);
-  --calcite-input-text-color: var(--calcite-autocomplete-input-text-color);
-  --calcite-input-placeholder-text-color: var(--calcite-autocomplete-input-placeholder-text-color);
+:host([scale="m"]) {
+  & input,
+  & .prefix,
+  & .suffix {
+    @apply text-n1h h-8 px-3;
+  }
+  & .clear-button {
+    min-block-size: theme("spacing.8");
+    min-inline-size: theme("spacing.8");
+  }
 
-  --calcite-input-actions-background-color: var(--calcite-autocomplete-input-actions-background-color);
-  --calcite-input-actions-background-color-hover: var(--calcite-autocomplete-input-actions-background-color-hover);
-  --calcite-input-actions-background-color-press: var(--calcite-autocomplete-input-actions-background-color-press);
-  --calcite-input-actions-icon-color: var(--calcite-autocomplete-input-actions-icon-color);
-  --calcite-input-actions-icon-color-hover: var(--calcite-autocomplete-input-actions-icon-color-hover);
-  --calcite-input-actions-icon-color-press: var(--calcite-autocomplete-input-actions-icon-color-press);
+  & input {
+    padding-inline-start: theme("padding.10");
+  }
+}
 
-  --calcite-input-loading-background-color: var(--calcite-autocomplete-input-loading-background-color);
-  --calcite-input-loading-fill-color: var(--calcite-autocomplete-input-loading-fill-color);
+:host([scale="l"]) {
+  & input,
+  & .prefix,
+  & .suffix {
+    @apply text-0h h-11 px-4;
+  }
+  & .clear-button {
+    min-block-size: theme("spacing.11");
+    min-inline-size: theme("spacing.11");
+  }
+  & input {
+    padding-inline-start: theme("padding.14");
+  }
+}
 
-  --calcite-input-prefix-background-color: var(--calcite-autocomplete-input-prefix-background-color);
-  --calcite-input-prefix-text-color: var(--calcite-autocomplete-input-prefix-text-color);
+input {
+  @apply font-inherit
+    relative
+    m-0
+    box-border
+    flex
+    max-h-full
+    w-full
+    max-w-full
+    flex-1
+    font-normal
+    border
+    border-solid
+    text-ellipsis
+    order-2;
+  background-color: var(--calcite-autocomplete-input-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-autocomplete-input-border-color, var(--calcite-color-border-input));
+  color: var(--calcite-autocomplete-input-text-color, var(--calcite-color-text-1));
+  transition:
+    var(--calcite-animation-timing),
+    block-size 0,
+    outline-offset 0s;
+  -webkit-appearance: none;
 
-  --calcite-input-suffix-background-color: var(--calcite-autocomplete-input-suffix-background-color);
-  --calcite-input-suffix-text-color: var(--calcite-autocomplete-input-suffix-text-color);
+  &:placeholder-shown {
+    @apply text-ellipsis;
+  }
+}
+
+input {
+  border-start-start-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-end-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+.has-prefix input {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.has-suffix input,
+.element-wrapper:has(.clear-button) input {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.has-prefix .prefix:first-child {
+  border-start-start-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+.has-suffix .suffix,
+:host([clearable]) .clear-button {
+  border-end-end-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([clearable]) .has-suffix .clear-button {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+}
+
+input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+// states
+
+input:focus {
+  @apply border-color-brand;
+  color: var(--calcite-autocomplete-input-text-color, var(--calcite-color-text-1));
+}
+input[readonly] {
+  @apply font-medium;
+  background-color: var(--calcite-autocomplete-input-background-color, var(--calcite-color-background));
+}
+input[readonly]:focus {
+  color: var(--calcite-autocomplete-input-text-color, var(--calcite-color-text-1));
+}
+
+//focus
+input {
+  @apply focus-base;
+}
+
+input:focus {
+  @apply focus-inset;
+}
+
+:host([status="invalid"]) {
+  & input {
+    @apply border-color-danger;
+  }
+  & input:focus {
+    @apply focus-inset-danger;
+  }
+}
+
+// ICONS
+
+// position icons
+
+:host([scale="s"]) .icon {
+  inset-inline-start: theme("spacing.2");
+}
+
+:host([scale="m"]) .icon {
+  inset-inline-start: theme("spacing.3");
+}
+
+:host([scale="l"]) .icon {
+  inset-inline-start: theme("spacing.4");
+}
+
+// positioning wrapper for icon and loader
+
+.element-wrapper {
+  @apply relative
+    order-3
+    inline-flex
+    flex-1
+    items-center;
+  isolation: isolate;
+}
+
+.icon {
+  @apply transition-default
+    pointer-events-none
+    absolute
+    block
+    z-default;
+  color: var(--calcite-autocomplete-input-icon-color, var(--calcite-color-text-3));
+}
+
+.icon {
+  @apply z-default; // needed for firefox to display the icon properly
+}
+
+// hide browser default clear
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  @apply hidden;
+}
+
+.clear-button {
+  pointer-events: initial;
+  @apply focus-base
+    order-4
+    m-0
+    box-border
+    flex
+    min-h-full
+    cursor-pointer
+    items-center
+    justify-center
+    self-stretch
+    border
+    border-solid
+    transition-default;
+  border-color: var(--calcite-autocomplete-input-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-autocomplete-input-actions-background-color, var(--calcite-color-foreground-1));
+  border-inline-start-width: theme("borderWidth.0");
+
+  calcite-icon {
+    @apply transition-default;
+    color: var(--calcite-autocomplete-input-actions-icon-color, var(--calcite-color-text-3));
+  }
+
+  &:hover {
+    background-color: var(
+      --calcite-autocomplete-input-actions-background-color-hover,
+      var(--calcite-color-foreground-2)
+    );
+    calcite-icon {
+      color: var(--calcite-autocomplete-input-actions-icon-color-hover, var(--calcite-color-text-1));
+    }
+  }
+  &:active {
+    background-color: var(
+      --calcite-autocomplete-input-actions-background-color-press,
+      var(--calcite-color-foreground-3)
+    );
+    calcite-icon {
+      color: var(--calcite-autocomplete-input-actions-icon-color-press, var(--calcite-color-text-1));
+    }
+  }
+  &:focus {
+    @apply focus-inset;
+  }
+  &:disabled {
+    @apply opacity-disabled;
+  }
+}
+
+// loading
+.loader {
+  inset-block-start: 1px;
+  inset-inline: 1px;
+  @apply pointer-events-none
+    absolute
+    block;
+  --calcite-progress-background-color: var(--calcite-autocomplete-input-loading-background-color);
+  --calcite-progress-fill-color: var(--calcite-autocomplete-input-loading-fill-color);
+}
+
+// prefix and suffix
+.prefix,
+.suffix {
+  @apply box-border
+    flex
+    h-auto
+    min-h-full
+    select-none
+    content-center
+    items-center
+    break-words
+    border
+    border-solid
+    font-medium
+    leading-none;
+  border-color: var(--calcite-autocomplete-input-border-color, var(--calcite-color-border-input));
+}
+
+.prefix {
+  @apply order-2;
+  border-inline-end-width: theme("borderWidth.0");
+  inline-size: var(--calcite-autocomplete-input-prefix-size, auto);
+  background-color: var(--calcite-autocomplete-input-prefix-background-color, var(--calcite-color-background));
+  color: var(--calcite-autocomplete-input-prefix-text-color, var(--calcite-color-text-2));
+}
+
+.suffix {
+  @apply order-5;
+  border-inline-start-width: theme("borderWidth.0");
+  inline-size: var(--calcite-autocomplete-input-suffix-size, auto);
+  background-color: var(--calcite-autocomplete-input-suffix-background-color, var(--calcite-color-background));
+  color: var(--calcite-autocomplete-input-suffix-text-color, var(--calcite-color-text-2));
+}
+
+// alignment type
+:host([alignment="start"]) {
+  & input {
+    text-align: start;
+  }
+}
+
+:host([alignment="end"]) {
+  & input {
+    text-align: end;
+  }
+}
+
+.wrapper {
+  @apply relative
+    flex
+    flex-row
+    items-center;
+  border-radius: var(--calcite-autocomplete-input-corner-radius, var(--calcite-corner-radius-sharp));
+  box-shadow: var(--calcite-autocomplete-input-shadow, var(--calcite-shadow-none));
+}
+
+// input needed for higher specificity of these overrides
+input {
+  &.inline-child {
+    @apply transition-default bg-transparent;
+    .editing-enabled {
+      background-color: inherit;
+    }
+  }
+
+  &.inline-child:not(.editing-enabled) {
+    @apply border-color-transparent
+      flex
+      cursor-pointer text-ellipsis;
+    padding-inline-start: 0;
+  }
 }
 
 @include includes.disabled();
@@ -123,3 +425,4 @@
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();
+@include includes.input-placeholder-text();

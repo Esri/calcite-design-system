@@ -134,7 +134,8 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
 
   override render(): JsxNode {
     const { active, description, heading, disabled, inputValueMatchPattern } = this;
-
+    this.el.ariaLabel = this.label || heading;
+    this.el.id = this.guid;
     return (
       <InteractiveContainer disabled={disabled}>
         <div
