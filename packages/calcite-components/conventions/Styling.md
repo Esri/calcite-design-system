@@ -72,12 +72,12 @@ These design tokens are provided as CSS custom props through `calicte.css` or im
 There are some edge cases where you may wish to isolate and use only the values of a specific mode. In that case you can import a set of mode tokens directly.
 
 ```scss
-@import "~@esri/calcite-design-tokens/dist/scss/dark";
+@use "@esri/calcite-design-tokens/dist/scss/dark";
 
 // 🙅‍♀️ However, it will not correctly inherit or change it's value when swapping light/dark mode
 :host {
-  /* The color property of this component will always be #007ac2 */
-  color: $calcite-color-brand;
+  /* The color property of this component will always be #009af2 */
+  color: dark.$calcite-color-brand;
 }
 ```
 
