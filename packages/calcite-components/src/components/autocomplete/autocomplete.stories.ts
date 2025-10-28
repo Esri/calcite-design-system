@@ -201,7 +201,6 @@ const kitchenSinkHTML = html`
       flex: 1 0 15%;
       margin: 0 25px;
       color: var(--calcite-color-text-3);
-
       font-size: var(--calcite-font-size-0);
       font-weight: var(--calcite-font-weight-medium);
     }
