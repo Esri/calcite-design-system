@@ -447,6 +447,30 @@ describe("calcite-tabs", () => {
         expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeDefined();
       });
     });
+
+    it("should emit close event when tabs has synced", async () => {
+      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
+        // using browser listeners to remove async aspect from e2e test
+        tabs.addEventListener("calciteTabsClose", (event) => {
+          const closedTitle = event.target;
+          const closedId = closedTitle.id;
+          const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`);
+
+          closedTitle.remove();
+          closedTab.remove();
+        });
+      });
+      const tabCloseSpy = await tabs.spyOnEvent("calciteTabsClose");
+      const allExceptLast = allTabTitles.slice(0, 3);
+
+      for (const tabTitle of allExceptLast) {
+        const closeButton = await tabTitle.find(`:scope >>> .${XButtonCSS.button}`);
+        await closeButton.click();
+        await tabCloseSpy.next();
+      }
+
+      expect(await allTabTitles.at(-1).getProperty("selected")).toBe(true);
+    });
   });
 
   describe("theme", () => {
