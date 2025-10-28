@@ -28,9 +28,23 @@ function formatSVG(svg) {
  * @return {array} - Array of paths
  */
 function getPaths(svg) {
-  const bbPaths = ["M0 0h16v16H0z", "M0 0h24v24H0z", "M0 0h32v32H0z"];
+  const topLeftClockwiseBoundingBoxPaths = [
+    "M0 0h16v16H0z",
+    "M0 0h24v24H0z",
+    "M0 0h32v32H0z"
+  ];
+  const bottomRightCounterClockwiseBoundingBoxPaths = [
+    "M16 16H0V0h16z",
+    "M24 24H0V0h24z",
+    "M32 32H0V0h32z"
+  ];
+  const boundingBoxPaths = [
+    ...topLeftClockwiseBoundingBoxPaths,
+    ...bottomRightCounterClockwiseBoundingBoxPaths
+  ];
+
   return svg.children
-    .filter((child) => child.name === "path" && bbPaths.indexOf(child.attributes.d) === -1) // filter out bounding box paths
+    .filter((child) => child.name === "path" && !boundingBoxPaths.includes(child.attributes.d)) // filter out bounding box paths
     .map((child) => ({
       opacity: child.attributes.opacity,
       d: child.attributes.d,

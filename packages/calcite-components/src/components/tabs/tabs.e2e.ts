@@ -318,6 +318,7 @@ describe("calcite-tabs", () => {
     let tabChangeSpy: EventSpy;
     let allTabTitles: E2EElement[];
     let allTabs: E2EElement[];
+    let tabs: E2EElement;
 
     beforeEach(async (): Promise<void> => {
       page = await newE2EPage();
@@ -340,7 +341,7 @@ describe("calcite-tabs", () => {
       allTabs = await findAll(page, "calcite-tab");
 
       const tabNav = await page.find("calcite-tab-nav");
-      const tabs = await page.find("calcite-tabs");
+      tabs = await page.find("calcite-tabs");
 
       tabsActivateSpy = await tabNav.spyOnEvent("calciteTabsActivate");
       tabChangeSpy = await tabs.spyOnEvent("calciteTabChange");
@@ -446,6 +447,30 @@ describe("calcite-tabs", () => {
         expect(await tab4.getProperty("closable")).toBe(true);
         expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeDefined();
       });
+    });
+
+    it("should emit close event when tabs has synced", async () => {
+      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
+        // using browser listeners to remove async aspect from e2e test
+        tabs.addEventListener("calciteTabsClose", (event) => {
+          const closedTitle = event.target as TabTitle["el"];
+          const closedId = closedTitle.id;
+          const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`);
+
+          closedTitle.remove();
+          closedTab.remove();
+        });
+      });
+      const tabCloseSpy = await tabs.spyOnEvent("calciteTabsClose");
+      const allExceptLast = allTabTitles.slice(0, 3);
+
+      for (const tabTitle of allExceptLast) {
+        const closeButton = await tabTitle.find(`:scope >>> .${XButtonCSS.button}`);
+        await closeButton.click();
+        await tabCloseSpy.next();
+      }
+
+      expect(await allTabTitles.at(-1).getProperty("selected")).toBe(true);
     });
   });
 
