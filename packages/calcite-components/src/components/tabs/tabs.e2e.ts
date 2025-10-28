@@ -318,6 +318,7 @@ describe("calcite-tabs", () => {
     let tabChangeSpy: EventSpy;
     let allTabTitles: E2EElement[];
     let allTabs: E2EElement[];
+    let tabs: E2EElement;
 
     beforeEach(async (): Promise<void> => {
       page = await newE2EPage();
@@ -340,7 +341,7 @@ describe("calcite-tabs", () => {
       allTabs = await findAll(page, "calcite-tab");
 
       const tabNav = await page.find("calcite-tab-nav");
-      const tabs = await page.find("calcite-tabs");
+      tabs = await page.find("calcite-tabs");
 
       tabsActivateSpy = await tabNav.spyOnEvent("calciteTabsActivate");
       tabChangeSpy = await tabs.spyOnEvent("calciteTabChange");
@@ -452,7 +453,7 @@ describe("calcite-tabs", () => {
       await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
         // using browser listeners to remove async aspect from e2e test
         tabs.addEventListener("calciteTabsClose", (event) => {
-          const closedTitle = event.target;
+          const closedTitle = event.target as TabTitle["el"];
           const closedId = closedTitle.id;
           const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`);
 
