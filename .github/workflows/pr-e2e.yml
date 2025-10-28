@@ -27,7 +27,7 @@ jobs:
             echo "SKIP=false" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.diff-check.outputs.SKIP == 'false'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - if: steps.diff-check.outputs.SKIP == 'false'

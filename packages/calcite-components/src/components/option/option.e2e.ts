@@ -106,14 +106,23 @@ describe("calcite-option", () => {
         <calcite-option><br />breaks<br /></calcite-option>
         <calcite-option>&nbsp;non-breaking-space&nbsp;</calcite-option>
 
+        <!-- the following options disable prettier to preserve newlines -->
+
         <!-- prettier-ignore -->
-        <!-- need to preserve newlines -->
-        <calcite-option> newlines </calcite-option>
+        <calcite-option> 
+          newlines
+        </calcite-option>
+
+        <!-- prettier-ignore -->
+        <calcite-option>multi
+        line
+        breaks
+        </calcite-option>
       `);
       const options = await findAll(page, "calcite-option");
       const labels = await Promise.all(options.map((option) => option.getProperty("label")));
 
-      expect(labels).toEqual(["spaces", "breaks", "\u00A0non-breaking-space\u00A0", "newlines"]);
+      expect(labels).toEqual(["spaces", "breaks", "\u00A0non-breaking-space\u00A0", "newlines", "multi line breaks"]);
     });
 
     it("preserves all whitespace when provided via label", async () => {
@@ -127,6 +136,12 @@ describe("calcite-option", () => {
 newlines (label)
 "
         ></calcite-option>
+        <calcite-option
+          label="multi
+line
+breaks (label)
+"
+        ></calcite-option>
       `);
       const options = await findAll(page, "calcite-option");
       const labels = await Promise.all(options.map((option) => option.getProperty("label")));
@@ -136,6 +151,7 @@ newlines (label)
         "<br>breaks (label)<br>",
         "\u00A0non-breaking-space (label)\u00A0",
         "\nnewlines (label)\n",
+        "multi\nline\nbreaks (label)\n",
       ]);
     });
   });
