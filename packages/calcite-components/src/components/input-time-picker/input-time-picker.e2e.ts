@@ -439,7 +439,7 @@ describe("calcite-input-time-picker", () => {
         expect(changeEvent).toHaveReceivedEventTimes(4);
       });
 
-      it("directly setting value in calciteInputTimePickerChange event listener without calling event.preventDefault will not interfere with subsequent user-initiated change events (#12889)", async () => {
+      it("directly setting value once does not interfere with subsequent user-initiated change events (#12889)", async () => {
         const page = await newE2EPage();
         await page.setContent(
           `<calcite-input-time-picker value="14:30"></calcite-input-time-picker><button>Change Time</button>`,
