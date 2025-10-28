@@ -9,6 +9,7 @@ import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lu
 import {
   Direction,
   filterDirectChildren,
+  focusElement,
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
@@ -560,7 +561,7 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      tabTitles[this.selectedTabId].focus();
+      focusElement(tabTitles[this.selectedTabId]);
     });
   }
 
