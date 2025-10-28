@@ -10113,5 +10113,10 @@
     ],
     "category": "Files",
     "release": "4.4.0"
+  },
+  "relative-direction-arrows": {
+    "alias": ["4.4.0", "directions", "line", "features", "symbology", "data"],
+    "category": "Directions",
+    "release": "4.4.0"
   }
 }
