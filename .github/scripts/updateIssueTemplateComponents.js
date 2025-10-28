@@ -39,7 +39,7 @@ async function main() {
   const allFiles = fs.readdirSync(templateDir);
 
   // Only update these template types
-  const targetPattern = /bug|accessibility|documentation|enhancement/i;
+  const targetPattern = /bug|accessibility|documentation|enhancement|refactor|test/i;
   const files = allFiles.filter((f) => targetPattern.test(f));
   if (files.length === 0) {
     console.log("No templates for bug, accessibility, documentation, or enhancement found in", templateDir);

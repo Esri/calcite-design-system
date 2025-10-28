@@ -13,7 +13,7 @@ const {
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
   const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (context.payload);
-  const { labels: issueLabels, assignee } = issue;
+  const { labels: issueLabels, assignee, state } = issue;
   const [labelName] = assertRequired([label?.name]);
 
   if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
@@ -32,6 +32,7 @@ module.exports = async ({ context }) => {
 
   if (
     assignee &&
+    state === "open" &&
     notInLifecycle({ labels: issueLabels, skip: [newLabel, assignedLabel, needsTriage, needsMilestone] })
   ) {
     monday.addLabel(assignedLabel);
