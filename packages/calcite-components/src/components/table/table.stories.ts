@@ -17,6 +17,7 @@ type TableStoryArgs = Pick<
   | "numbered"
   | "bordered"
   | "striped"
+  | "stickyHeader"
 >;
 
 export default {
@@ -32,6 +33,7 @@ export default {
     numbered: false,
     bordered: false,
     striped: false,
+    stickyHeader: false,
   },
   argTypes: {
     interactionMode: {
@@ -79,6 +81,7 @@ export const simple = (args: TableStoryArgs): string => html`
     layout="${args.layout}"
     caption="${args.caption}"
     ${boolean("numbered", args.numbered)}
+    ${boolean("sticky-header", args.stickyHeader)}
     ${boolean("bordered", args.bordered)}
     ${boolean("striped", args.striped)}
   >

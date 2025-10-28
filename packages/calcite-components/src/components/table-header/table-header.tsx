@@ -115,9 +115,6 @@ export class TableHeader extends LitElement {
   /** @private */
   @property() stickyHeaderDistance: number | string;
 
-  /** @private */
-  @property() isScrolled: boolean;
-
   //#endregion
 
   //#region Public Methods
@@ -213,7 +210,6 @@ export class TableHeader extends LitElement {
           [this.parentRowAlignment]:
             this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
           [CSS.stickyHeader]: this.stickyHeader,
-          [CSS.isScrolled]: this.stickyHeader && this.isScrolled,
         }}
         colSpan={this.colSpan}
         onBlur={this.onContainerBlur}

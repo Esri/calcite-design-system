@@ -66,26 +66,11 @@ export class Table extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private handleScroll = (): void => {
-    if (this.tableContainerRef.value) {
-      const scrollTop = this.tableContainerRef.value.scrollTop;
-      const scrollLeft = this.tableContainerRef.value.scrollLeft;
-      const hasScrolled = scrollTop > 0 || scrollLeft > 0;
-
-      if (this.isScrolled !== hasScrolled) {
-        this.isScrolled = hasScrolled;
-        this.updateRows();
-      }
-    }
-  };
-
   //#endregion
 
   //#region State Properties
 
   @state() colCount = 0;
-
-  @state() isScrolled = false;
 
   @state() pageStartRow = 1;
 
@@ -227,7 +212,6 @@ export class Table extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    this.removeScrollListener();
   }
 
   //#endregion
@@ -236,20 +220,6 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
-    this.setupScrollListener();
-  }
-
-  private setupScrollListener(): void {
-    if (this.tableContainerRef.value) {
-      this.removeScrollListener();
-      this.tableContainerRef.value.addEventListener("scroll", this.handleScroll);
-    }
-  }
-
-  private removeScrollListener(): void {
-    if (this.tableContainerRef.value) {
-      this.tableContainerRef.value.removeEventListener("scroll", this.handleScroll);
-    }
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {
@@ -373,7 +343,6 @@ export class Table extends LitElement {
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
-      row.isScrolled = this.isScrolled;
     });
 
     const colCount =

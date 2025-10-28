@@ -137,9 +137,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
   /** @private */
   @property() stickyHeaderDistance: number;
 
-  /** @private */
-  @property() isScrolled: boolean;
-
   //#endregion
 
   //#region Events
@@ -180,7 +177,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
       changes.has("scale") ||
       changes.has("stickyHeaderDistance") ||
       changes.has("selectedRowCount") ||
-      changes.has("isScrolled") ||
       (changes.has("interactionMode") &&
         (this.hasUpdated || this.interactionMode !== "interactive"))
     ) {
@@ -364,7 +360,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
           (cell as TableHeader["el"]).stickyHeaderDistance = this.stickyHeaderDistance;
           (cell as TableHeader["el"]).stickyHeader = this.stickyHeader;
           (cell as TableHeader["el"]).parentRowPositionInSection = this.positionSection;
-          (cell as TableHeader["el"]).isScrolled = this.isScrolled;
         }
       });
     }

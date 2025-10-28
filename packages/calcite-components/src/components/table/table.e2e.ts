@@ -3385,4 +3385,119 @@ describe("keyboard navigation", () => {
       expect(await table.getProperty("currentPage")).toBe(1);
     });
   });
+
+  describe("sticky header", () => {
+    it("pins to top successfully", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-panel
+          heading="Table"
+          style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
+        >
+          <calcite-table
+            sticky-header
+            selection-mode="multiple"
+            caption="Simple"
+            open="true"
+            page-size="10"
+            style="width: calc(100% - 1rem); margin: 0.5rem; height: 400px"
+          >
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row id="top-row">
+              <calcite-table-cell>cell content 1</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 2</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 3</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 4</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 5</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell content 6</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell content 7</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 8</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 9 </calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 10</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 11</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell content 12</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="bottom-row">
+              <calcite-table-cell>cell content 13</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+              <calcite-table-cell>cell content</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>
+        </calcite-panel>`,
+      );
+
+      // const topRow = await page.find("#top-row");
+      //  const bottomRow = await page.find("#bottom-row");
+
+      //  await bottomRow.callMethod("setFocus");
+      //  await page.waitForChanges();
+
+      //    expect(await topRow.isIntersectingViewport()).toBe(false);
+      //    expect(await bottomRow.isIntersectingViewport()).toBe(true);
+    });
+  });
 });
