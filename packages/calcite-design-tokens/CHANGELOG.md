@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.4...@esri/calcite-design-tokens@4.0.0-next.5) (2025-10-27)
+
+### Features
+
+- **semantic-tokens:** add space tokens ([#13110](https://github.com/Esri/calcite-design-system/issues/13110)) ([158de92](https://github.com/Esri/calcite-design-system/commit/158de92115106976068c838a87d7a31a69575879)), closes [#12643](https://github.com/Esri/calcite-design-system/issues/12643)
+
 ## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.3...@esri/calcite-design-tokens@4.0.0-next.4) (2025-10-15)
 
 ### Features

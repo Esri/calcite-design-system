@@ -7,18 +7,26 @@ const options = {
   plugins: [
     {
       name: "preset-default",
-      overrides: {
-        cleanupIDs: { remove: false },
-        removeUselessStrokeAndFill: false,
-        convertShapeToPath: { convertArcs: true },
-        convertPathData: { noSpaceAfterFlags: false },
-        mergePaths: false,
-        removeAttrs: { attrs: ["class", "(stroke)"] },
-      },
+      params: {
+        overrides: {
+          convertPathData: { noSpaceAfterFlags: false },
+          convertShapeToPath: { convertArcs: true },
+          mergePaths: false,
+          removeUselessStrokeAndFill: false,
+        },
+      }
     },
+    {
+      name: "cleanupIds",
+      params: { remove: false },
+    },
+    {
+      name: "removeAttrs",
+      params: { attrs: ["class", "(stroke)"] },
+    },
+    "removeDimensions",
     "removeStyleElement",
     "removeTitle",
-    "removeDimensions",
   ],
   multipass: true,
 };
@@ -46,7 +54,7 @@ export default (function (files, remove = false) {
   if (!files) {
     return Promise.resolve(true);
   }
-  options.plugins.find(({ name }) => name === "preset-default").overrides.cleanupIDs.remove = remove;
+  options.plugins.find(({ name }) => name === "cleanupIds").remove = remove;
   return globby(files).then((iconPaths) => {
     const format = "  \x1b[32m {bar} {percentage}% | {value}/{total} \x1b[0m";
     const bar = new progress.SingleBar({ format }, progress.Presets.shades_classic);
