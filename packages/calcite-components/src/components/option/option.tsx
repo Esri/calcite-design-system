@@ -12,6 +12,7 @@ declare global {
 }
 
 const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
+const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
 export class Option extends LitElement {
   // #region Static Members
@@ -115,7 +116,10 @@ export class Option extends LitElement {
 
   private ensureTextContentDependentProps(): void {
     const { el, internallySetLabel, internallySetValue, label, value } = this;
-    const trimmedContent = trim(el.textContent, whitespaceCharsToTrim);
+    const trimmedContent = trim(el.textContent, whitespaceCharsToTrim).replaceAll(
+      whitespaceToReplaceRegexp,
+      " ",
+    );
     const trimmedLabel = label;
 
     if (!trimmedLabel || trimmedLabel === internallySetLabel) {
