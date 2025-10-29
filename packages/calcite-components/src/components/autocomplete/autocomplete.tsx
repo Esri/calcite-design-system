@@ -144,6 +144,8 @@ export class Autocomplete
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
+  autocompleteListContainerRef: HTMLUListElement;
+
   //#endregion
 
   //#region State Properties
@@ -659,6 +661,10 @@ export class Autocomplete
     this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
+  private setAutocompleteListContainerRef(el: HTMLUListElement): void {
+    this.autocompleteListContainerRef = el;
+  }
+
   private getAllItems(): void {
     const { el } = this;
     this.groups = Array.from(el.querySelectorAll(groupItemSelector));
@@ -806,6 +812,15 @@ export class Autocomplete
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
+            aria={{
+              role: "combobox",
+              activedescendant: this.activeDescendant,
+              expanded: isOpen,
+              hasPopup: "listbox",
+              labelledby: getLabelText(this),
+              autoComplete: "list",
+              controlsElements: [this.autocompleteListContainerRef],
+            }}
             aria-activedescendant={this.activeDescendant}
             aria-controls={listId}
             aria-label={getLabelText(this)}
@@ -823,6 +838,7 @@ export class Autocomplete
             icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
             id={inputId}
+            inputId={inputId}
             inputMode={inputMode}
             label={this.label}
             loading={this.loading}
@@ -898,6 +914,7 @@ export class Autocomplete
         ariaLive="polite"
         class={CSS.screenReadersOnly}
         id={this.listId}
+        ref={this.setAutocompleteListContainerRef}
         role="listbox"
         tabIndex={-1}
       >

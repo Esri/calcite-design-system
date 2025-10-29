@@ -540,5 +540,68 @@
         </div>
       </div>
     </div>
+
+    <form class="locate-form" style="padding: 1rem">
+      <calcite-label layout="inline">
+        Where in the world is Carmen Sandiego? 🌎
+        <calcite-autocomplete
+          scale="m"
+          class="locator-autocomplete"
+          name="location"
+          style="width: 50%"
+        ></calcite-autocomplete>
+      </calcite-label>
+    </form>
+
+    <script type="module">
+      import { suggestLocations } from "https://js.arcgis.com/4.31/@arcgis/core/rest/locator.js";
+      async function getSuggestions(locatorAutocomplete, controller) {
+        locatorAutocomplete.open = true;
+        const response = await suggestLocations(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+          {
+            text: locatorAutocomplete.inputValue,
+          },
+          {
+            signal: controller.signal,
+          },
+        );
+        if (controller.aborted) return;
+        locatorAutocomplete.querySelectorAll(".temporary").forEach((el) => el.remove());
+        if (!response.length) {
+          const noResults = document.createElement("calcite-notice");
+          noResults.className = "temporary";
+          noResults.open = true;
+          noResults.kind = "danger";
+          noResults.icon = "exclamation-mark-triangle";
+          noResults.innerHTML = `<div slot="title">No results</div><div slot="message">Try something else</div>`;
+          noResults.slot = "content-top";
+          locatorAutocomplete.appendChild(noResults);
+        } else {
+          response.slice(0, 5).forEach((location) => {
+            const item = document.createElement("calcite-autocomplete-item");
+            item.className = "temporary";
+            item.value = location.magicKey;
+            item.heading = location.text;
+            locatorAutocomplete.appendChild(item);
+          });
+        }
+      }
+      document.querySelectorAll(".locator-autocomplete").forEach((locatorAutocomplete) => {
+        let controller;
+        locatorAutocomplete.addEventListener("calciteAutocompleteTextInput", async (event) => {
+          if (!event.target.inputValue) return;
+          if (controller) controller.abort();
+          controller = new AbortController();
+          await getSuggestions(locatorAutocomplete, controller);
+        });
+        locatorAutocomplete.addEventListener("calciteAutocompleteChange", (event) => {
+          const selected = [...locatorAutocomplete.querySelectorAll("calcite-autocomplete-item")].find(
+            (item) => item.value === event.target.value,
+          );
+          locatorAutocomplete.inputValue = selected?.heading;
+        });
+      });
+    </script>
   </body>
 </html>

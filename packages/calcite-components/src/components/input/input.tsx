@@ -15,7 +15,7 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../interfaces";
+import { Alignment, Scale, Status, AriaAttributesCamelCased } from "../interfaces";
 import {
   connectForm,
   disconnectForm,
@@ -409,6 +409,23 @@ export class Input
       }
     }
   }
+
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased & { role?: LuminaJsx.AriaAttributes["role"] },
+      | "role"
+      | "controlsElements"
+      | "activedescendant"
+      | "expanded"
+      | "hasPopup"
+      | "labelledby"
+      | "ownsElements"
+      | "controls"
+      | "autoComplete"
+    >
+  >;
+
+  @property() inputId: string;
 
   //#endregion
 
@@ -1100,9 +1117,14 @@ export class Input
       this.type !== "number" ? (
         <DynamicHtmlTag
           accept={this.accept}
+          aria-activedescendant={this.aria?.activedescendant ?? undefined}
+          aria-autocomplete={this.aria?.autoComplete}
+          aria-controls={this.aria?.controlsElements[0].id}
           aria-errormessage={IDS.validationMessage}
+          aria-expanded={this.aria?.expanded}
+          aria-haspopup={this.aria?.hasPopup}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.aria?.labelledby ?? getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1112,6 +1134,7 @@ export class Input
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
           enterKeyHint={enterKeyHint}
+          id={this.inputId}
           inputMode={inputMode}
           max={this.maxString}
           maxLength={this.maxLength}
@@ -1132,6 +1155,7 @@ export class Input
             this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
           }
           required={this.required ? true : null}
+          role={this.aria?.role}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
