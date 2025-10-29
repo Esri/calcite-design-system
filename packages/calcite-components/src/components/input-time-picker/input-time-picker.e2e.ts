@@ -366,6 +366,111 @@ describe("calcite-input-time-picker", () => {
       expect(await inputTimePicker.getProperty("value")).toBe("01:02");
       await assertDisplayedTime(page, "01:02 AM");
     });
+
+    describe("direct value setting", async () => {
+      it("directly setting value in calciteInputTimePickerChange event listener without calling event.preventDefault will not interfere with subsequent user-initiated change events (#12391)", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-input-time-picker value="14:30"></calcite-input-time-picker>`);
+
+        const inputTimePicker = await page.find("calcite-input-time-picker");
+        const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+        await inputTimePicker.handle.evaluate((picker) => {
+          picker.addEventListener("calciteInputTimePickerChange", (event) => {
+            (event.target as HTMLInputElement).value = "10:00";
+          });
+        });
+
+        await inputTimePicker.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("15:30");
+        await assertDisplayedTime(page, "03:30 PM");
+        expect(changeEvent).toHaveReceivedEventTimes(0);
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("10:00");
+        await assertDisplayedTime(page, "10:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("11:00");
+        await assertDisplayedTime(page, "11:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("10:00");
+        await assertDisplayedTime(page, "10:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(2);
+
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("09:00");
+        await assertDisplayedTime(page, "09:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(2);
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("10:00");
+        await assertDisplayedTime(page, "10:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(3);
+
+        await page.keyboard.press("ArrowDown");
+        await page.keyboard.press("ArrowDown");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("08:00");
+        await assertDisplayedTime(page, "08:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(3);
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(await inputTimePicker.getProperty("value")).toBe("10:00");
+        await assertDisplayedTime(page, "10:00 AM");
+        expect(changeEvent).toHaveReceivedEventTimes(4);
+      });
+
+      it("directly setting value once does not interfere with subsequent user-initiated change events (#12889)", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-input-time-picker value="14:30"></calcite-input-time-picker>`);
+
+        const inputTimePicker = await page.find("calcite-input-time-picker");
+        const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+        inputTimePicker.setProperty("value", "15:00");
+        await page.waitForChanges();
+
+        expect(changeEvent).toHaveReceivedEventTimes(0);
+        expect(await inputTimePicker.getProperty("value")).toBe("15:00");
+        await assertDisplayedTime(page, "03:00 PM");
+
+        await inputTimePicker.callMethod("setFocus");
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        expect(changeEvent).toHaveReceivedEventTimes(0);
+        expect(await inputTimePicker.getProperty("value")).toBe("16:00");
+        await assertDisplayedTime(page, "04:00 PM");
+
+        await page.keyboard.press("Enter");
+        await page.waitForChanges();
+
+        expect(changeEvent).toHaveReceivedEventTimes(1);
+        expect(await inputTimePicker.getProperty("value")).toBe("16:00");
+        await assertDisplayedTime(page, "04:00 PM");
+      });
+    });
   });
 
   describe("l10n", () => {
