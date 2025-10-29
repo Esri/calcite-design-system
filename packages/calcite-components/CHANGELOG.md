@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.36...@esri/calcite-components@4.0.0-next.37) (2025-10-29)
+
+### Bug Fixes
+
+- **tile:** center text content for short headings ([#13213](https://github.com/Esri/calcite-design-system/issues/13213)) ([b207c63](https://github.com/Esri/calcite-design-system/commit/b207c63ddbd4926d56bd19380017e7fbaf4d00bc)), closes [#12606](https://github.com/Esri/calcite-design-system/issues/12606) [#12606](https://github.com/Esri/calcite-design-system/issues/12606)
+
 ## [4.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.35...@esri/calcite-components@4.0.0-next.36) (2025-10-28)
 
 ### Bug Fixes
