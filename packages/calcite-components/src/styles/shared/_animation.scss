@@ -1,102 +1,13 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-animation-timing-fast
+// --calcite-internal-animation-timing-medium
+// --calcite-internal-animation-timing-slow
+// --calcite-internal-duration-factor
+
 $easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
-
-@mixin animation-helper-classes() {
-  @keyframes in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes in-down {
-    0% {
-      opacity: 0;
-      transform: translate3D(0, -5px, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3D(0, 0, 0);
-    }
-  }
-
-  @keyframes in-up {
-    0% {
-      opacity: 0;
-      transform: translate3D(0, 5px, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3D(0, 0, 0);
-    }
-  }
-
-  @keyframes in-right {
-    0% {
-      opacity: 0;
-      transform: translate3D(-5px, 0, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3D(0, 0, 0);
-    }
-  }
-
-  @keyframes in-left {
-    0% {
-      opacity: 0;
-      transform: translate3D(5px, 0, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3D(0, 0, 0);
-    }
-  }
-
-  @keyframes in-scale {
-    0% {
-      opacity: 0;
-      transform: scale3D(0.95, 0.95, 1);
-    }
-    100% {
-      opacity: 1;
-      transform: scale3D(1, 1, 1);
-    }
-  }
-
-  // allows animation trigger via JS by adding class to element
-  .calcite-animate {
-    opacity: 0;
-    animation-fill-mode: both;
-    animation-duration: var(--calcite-animation-timing);
-  }
-
-  // specify animation
-  .calcite-animate__in {
-    animation-name: in;
-  }
-
-  .calcite-animate__in-down {
-    animation-name: in-down;
-  }
-
-  .calcite-animate__in-up {
-    animation-name: in-up;
-  }
-
-  .calcite-animate__in-right {
-    animation-name: in-right;
-  }
-
-  .calcite-animate__in-left {
-    animation-name: in-left;
-  }
-
-  .calcite-animate__in-scale {
-    animation-name: in-scale;
-  }
-}
 
 @mixin animation-base() {
   --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));
