@@ -1,6 +1,15 @@
 // @ts-check
 const {
-  labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff },
+  labels: {
+    bug,
+    issueWorkflow,
+    issueType,
+    priority,
+    devEstimate,
+    designEstimate,
+    planning,
+    handoff,
+  },
   milestone,
   packages,
 } = require("./resources");
@@ -26,7 +35,16 @@ module.exports = function Monday(issue) {
     throw new Error("No GitHub issue provided.");
   }
 
-  const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
+  const {
+    title,
+    body,
+    number: issueNumber,
+    milestone: issueMilestone,
+    labels,
+    assignee,
+    assignees,
+    html_url,
+  } = issue;
 
   /**
    * Monday.com column value options
@@ -429,17 +447,20 @@ module.exports = function Monday(issue) {
       return;
     }
 
+    let role = info.role;
     const notInstalledOrVerified = labels?.every(
-      (label) => label.name !== issueWorkflow.installed && label.name !== issueWorkflow.verified,
+      (label) =>
+        label.name !== issueWorkflow.installed &&
+        label.name !== issueWorkflow.verified,
     );
-    if (info.role === columnIds.productEngineers && notInstalledOrVerified) {
-      info.role = columnIds.developers;
+    if (role === columnIds.productEngineers && notInstalledOrVerified) {
+      role = columnIds.developers;
     }
 
-    if (columnUpdates[info.role]) {
-      columnUpdates[info.role] += `, ${info.id}`;
+    if (columnUpdates[role]) {
+      columnUpdates[role] += `, ${info.id}`;
     } else {
-      columnUpdates[info.role] = `${info.id}`;
+      columnUpdates[role] = `${info.id}`;
     }
   }
 
@@ -489,10 +510,10 @@ module.exports = function Monday(issue) {
       return { error: "No Monday ID found, cannot update columns." };
     }
 
-    const query = `mutation ChangeMultipleColumnValues($board_id: ID!, $item_id: ID!, $column_values: JSON!) { 
+    const query = `mutation ChangeMultipleColumnValues($board_id: ID!, $item_id: ID!, $column_values: JSON!) {
       change_multiple_column_values(
-        board_id: $board_id, 
-        item_id: $item_id, 
+        board_id: $board_id,
+        item_id: $item_id,
         column_values: $column_values
       ) {
         id
@@ -508,7 +529,9 @@ module.exports = function Monday(issue) {
 
     const response = await runQuery(query, queryVariables);
     if (!response?.data?.change_multiple_column_values?.id) {
-      return { error: `Failed to update columns for item ID ${mondayId}. Response: ${JSON.stringify(response)}` };
+      return {
+        error: `Failed to update columns for item ID ${mondayId}. Response: ${JSON.stringify(response)}`,
+      };
     }
     return { error: null };
   }
@@ -554,7 +577,9 @@ module.exports = function Monday(issue) {
     }
 
     if (items.length > 1) {
-      throw new Error(`Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`);
+      throw new Error(
+        `Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`,
+      );
     }
 
     const [{ id }] = items;
@@ -581,13 +606,19 @@ module.exports = function Monday(issue) {
    */
   function createDropdownValues(labelInfo, action) {
     if (action !== "add" && action !== "remove") {
-      throw new Error(`Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`);
+      throw new Error(
+        `Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`,
+      );
     }
 
     const labelValue = `${labelInfo.value}`;
     const currentValue = columnUpdates[labelInfo.column];
     const existingLabels =
-      currentValue && typeof currentValue === "object" && "labels" in currentValue ? currentValue.labels : [];
+      currentValue &&
+      typeof currentValue === "object" &&
+      "labels" in currentValue
+        ? currentValue.labels
+        : [];
 
     if (existingLabels.length === 0 && labels?.length) {
       for (const { name } of labels) {
@@ -629,9 +660,15 @@ module.exports = function Monday(issue) {
 
     const isDropdown = info.column === columnIds.typeDropdown;
     if (action === "add") {
-      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "add") : info.value);
+      setColumnValue(
+        info.column,
+        isDropdown ? createDropdownValues(info, "add") : info.value,
+      );
     } else if (info.clearable) {
-      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "");
+      setColumnValue(
+        info.column,
+        isDropdown ? createDropdownValues(info, "remove") : "",
+      );
     }
   }
 
@@ -697,7 +734,11 @@ module.exports = function Monday(issue) {
       if (
         notInLifecycle({
           labels,
-          skip: [issueWorkflow.new, issueWorkflow.needsTriage, issueWorkflow.needsMilestone],
+          skip: [
+            issueWorkflow.new,
+            issueWorkflow.needsTriage,
+            issueWorkflow.needsMilestone,
+          ],
         })
       ) {
         addLabel(issueWorkflow.assigned);
@@ -709,7 +750,9 @@ module.exports = function Monday(issue) {
     }
 
     if (syncId) {
-      console.log(`Sync ID ${syncId} provided, updating existing item instead of creating new.`);
+      console.log(
+        `Sync ID ${syncId} provided, updating existing item instead of creating new.`,
+      );
       setColumnValue(columnIds.title, issue.title);
       handleState();
 
@@ -784,7 +827,14 @@ module.exports = function Monday(issue) {
       setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
 
-      const { new: newLabel, assigned, needsTriage, needsMilestone, readyForDev, installed } = issueWorkflow;
+      const {
+        new: newLabel,
+        assigned,
+        needsTriage,
+        needsMilestone,
+        readyForDev,
+        installed,
+      } = issueWorkflow;
       if (
         assignee &&
         notInLifecycle({
@@ -794,7 +844,11 @@ module.exports = function Monday(issue) {
       ) {
         addLabel(assigned);
       }
-      if (!assignee && !includesLabel(labels, installed) && !includesLabel(labels, readyForDev)) {
+      if (
+        !assignee &&
+        !includesLabel(labels, installed) &&
+        !includesLabel(labels, readyForDev)
+      ) {
         addLabel(newLabel);
       }
     } else {
@@ -831,11 +885,19 @@ module.exports = function Monday(issue) {
   }
 
   /**
-   * Assign each of the current assignees to columnUpdates.
+   * Handle assignment and removal of assignees. Add all assignees to their respective roles.
+   * If there are no more developers or product engineers assigned, clear those columns.
+   * @returns {void}
    */
-  function addAllAssignees() {
+  function handleAssignees() {
     assignees.forEach((assignee) => {
       addAssignee(assignee);
+    });
+
+    [columnIds.developers, columnIds.productEngineers].forEach((role) => {
+      if (!(role in columnUpdates)) {
+        setColumnValue(role, "");
+      }
     });
   }
 
@@ -850,7 +912,9 @@ module.exports = function Monday(issue) {
 
     const { needsMilestone, readyForDev } = issueWorkflow;
     if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      console.log(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`);
+      console.log(
+        `Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`,
+      );
       return;
     }
 
@@ -886,7 +950,9 @@ module.exports = function Monday(issue) {
    * @returns {boolean} - True if in a status milestone, false otherwise
    */
   function inMilestoneStatus() {
-    return [milestone.backlog, milestone.freezer].includes(issueMilestone?.title || "");
+    return [milestone.backlog, milestone.freezer].includes(
+      issueMilestone?.title || "",
+    );
   }
 
   return {
@@ -897,7 +963,7 @@ module.exports = function Monday(issue) {
     setColumnValue,
     handleMilestone,
     handleState,
-    addAllAssignees,
+    handleAssignees,
     addLabel,
     clearLabel,
     addSyncLine,
