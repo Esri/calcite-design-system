@@ -29,10 +29,8 @@
  * @prop --calcite-autocomplete-input-loading-background-color: Specifies the background color of the Input's `loading` element, when present.
  * @prop --calcite-autocomplete-input-loading-fill-color: Specifies the fill color of the Input's `loading` element, when present.
  *
- * @prop --calcite-autocomplete-input-prefix-background-color:  Specifies the background color of the Input's prefix, when present.
  * @prop --calcite-autocomplete-input-prefix-text-color:  Specifies the text color of the Input's prefix, when present.
  *
- * @prop --calcite-autocomplete-input-suffix-background-color:  Specifies the background color of the Input's suffix, when present.
  * @prop --calcite-autocomplete-input-suffix-text-color:  Specifies the text color of the Input's suffix, when present.
  */
 
@@ -76,10 +74,8 @@
   --calcite-input-loading-background-color: var(--calcite-autocomplete-input-loading-background-color);
   --calcite-input-loading-fill-color: var(--calcite-autocomplete-input-loading-fill-color);
 
-  --calcite-input-prefix-background-color: var(--calcite-autocomplete-input-prefix-background-color);
   --calcite-input-prefix-text-color: var(--calcite-autocomplete-input-prefix-text-color);
 
-  --calcite-input-suffix-background-color: var(--calcite-autocomplete-input-suffix-background-color);
   --calcite-input-suffix-text-color: var(--calcite-autocomplete-input-suffix-text-color);
 }
 

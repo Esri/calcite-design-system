@@ -25,10 +25,8 @@
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element, when present.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element, when present.
 
- * @prop --calcite-input-prefix-background-color:  Specifies the component's prefix background color, when present.
  * @prop --calcite-input-prefix-text-color:  Specifies the component's prefix text color, when present.
 
- * @prop --calcite-input-suffix-background-color:  Specifies the component's suffix background color, when present.
  * @prop --calcite-input-suffix-text-color:  Specifies the component's suffix text color, when present.
  *
  */
@@ -44,7 +42,22 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6 px-2;
+    @apply text-n2h h-6;
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-sm);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xxs);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
   & input[type="file"],
   & textarea {
@@ -70,7 +83,22 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8 px-3;
+    @apply text-n1h h-8;
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-md);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xs);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-xs);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-xs) var(--calcite-spacing-md);
   }
   & textarea,
   & input[type="file"] {
@@ -96,7 +124,22 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11 px-4;
+    @apply text-0h h-11;
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-lg);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-lg);
   }
   & textarea,
   & input[type="file"] {
@@ -167,6 +210,16 @@ input {
 .has-prefix input {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
+}
+
+:host(:not([status="invalid"])) {
+  .has-prefix input {
+    border-inline-start: none;
+  }
+
+  .has-suffix input {
+    border-inline-end: none;
+  }
 }
 
 .has-suffix input,
@@ -401,8 +454,8 @@ input[type="time"]::-webkit-clear-button {
     break-words
     border
     border-solid
-    font-medium
     leading-none;
+  font-weight: var(--calcite-font-weight-regular);
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
 }
 
@@ -410,16 +463,16 @@ input[type="time"]::-webkit-clear-button {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
-  background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-3));
 }
 
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
-  background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-3));
 }
 
 // alignment type

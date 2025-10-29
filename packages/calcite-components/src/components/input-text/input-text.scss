@@ -11,10 +11,8 @@
  * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` & icon elements when pressed.
  * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
  * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
- * @prop --calcite-input-prefix-background-color: When `prefixText` is provided, specifies the background color of the component's prefix element.
  * @prop --calcite-input-prefix-size-x: When `prefixText` is provided, specifies the width of the component's prefix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
- * @prop --calcite-input-suffix-background-color: When `suffixText` is provided, specifies the background color of the component's suffix element.
  * @prop --calcite-input-suffix-size-x: When `suffixText` is provided, specifies the width of the component's suffix element.
  * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the color of the component's suffix element.
  * @prop --calcite-input-text-background-color: Specifies the component's background color.
@@ -41,8 +39,8 @@
 // scales
 :host([scale="s"]) {
   & input {
-    padding-inline-start: theme("spacing.2");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.2"));
+    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
   }
 
   & input,
@@ -51,9 +49,19 @@
     @apply text-n2h h-6;
   }
 
-  & .prefix,
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xxs);
+  }
+  & .prefix {
+    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-xxs));
+  }
   & .suffix {
-    @apply px-2;
+    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-end: var(--calcite-spacing-sm);
   }
 
   & .action-wrapper {
@@ -68,8 +76,8 @@
 
 :host([scale="m"]) {
   & input {
-    padding-inline-start: theme("spacing.3");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.3"));
+    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
   }
 
   & input,
@@ -78,9 +86,19 @@
     @apply text-n1h h-8;
   }
 
-  & .prefix,
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xs);
+  }
+  & .prefix {
+    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-spacing-xs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-xs));
+  }
   & .suffix {
-    @apply px-3;
+    padding-inline-start: var(--calcite-spacing-xs);
+    padding-inline-end: var(--calcite-spacing-md);
   }
 
   & .action-wrapper {
@@ -95,8 +113,8 @@
 
 :host([scale="l"]) {
   & input {
-    padding-inline-start: theme("spacing.4");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.4"));
+    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
   }
 
   & input,
@@ -105,9 +123,19 @@
     @apply text-0h h-11;
   }
 
-  & .prefix,
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
+  & .prefix {
+    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
+  }
   & .suffix {
-    @apply px-4;
+    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-spacing-lg);
   }
 
   & .action-wrapper {
@@ -149,6 +177,16 @@ input {
 
   &:placeholder-shown {
     @apply text-ellipsis;
+  }
+}
+
+:host(:not([status="invalid"])) {
+  .has-prefix input {
+    border-inline-start: none;
+  }
+
+  .has-suffix input {
+    border-inline-end: none;
   }
 }
 
@@ -325,8 +363,8 @@ input[type="text"]::-ms-reveal {
     break-words
     border
     border-solid
-    font-medium
     leading-none;
+  font-weight: var(--calcite-font-weight-regular);
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
 }
 
@@ -334,8 +372,8 @@ input[type="text"]::-ms-reveal {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size-x, auto);
-  background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-3));
   border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
   border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
@@ -343,8 +381,8 @@ input[type="text"]::-ms-reveal {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size-x, auto);
-  background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-3));
   border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
   border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }

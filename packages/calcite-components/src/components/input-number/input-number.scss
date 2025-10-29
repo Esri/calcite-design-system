@@ -19,10 +19,8 @@
  * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
  * @prop --calcite-input-number-text-color: Specifies the text color of the component.
  * @prop --calcite-input-number-text-color-focus: Specifies the text color of the component when focused.
- * @prop --calcite-input-prefix-background-color: Specifies the background color of the prefix element.
  * @prop --calcite-input-prefix-size: Specifies the width of the prefix element.
  * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
- * @prop --calcite-input-suffix-background-color: Specifies the background color of the suffix element.
  * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
  * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
  */
@@ -44,8 +42,23 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h px-2;
+    @apply text-n2h;
     block-size: var(--calcite-input-number-height, 1.5rem);
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-sm);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xxs);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -61,8 +74,23 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h px-3;
+    @apply text-n1h;
     block-size: var(--calcite-input-number-height, 2rem);
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-md);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-xs);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xs);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-xs);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-xs) var(--calcite-spacing-md);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -78,8 +106,23 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h  px-4;
+    @apply text-0h;
     block-size: var(--calcite-input-number-height, 2.75rem);
+  }
+  & input {
+    padding-inline: var(--calcite-spacing-lg);
+  }
+  .has-prefix input {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
+  & .prefix {
+    padding-inline: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
+  }
+  .has-suffix input {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+  & .suffix {
+    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-lg);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -288,8 +331,8 @@ input:focus {
     break-words
     border
     border-solid
-    font-medium
     leading-none;
+  font-weight: var(--calcite-font-weight-regular);
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
 }
 
@@ -297,15 +340,15 @@ input:focus {
   @apply order-2;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
-  background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-3));
 }
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
-  background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-3));
 }
 
 // alignment type
@@ -447,6 +490,16 @@ input:focus {
 .has-prefix input {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
+}
+
+:host(:not([status="invalid"])) {
+  .has-prefix input {
+    border-inline-start: none;
+  }
+
+  .has-suffix input {
+    border-inline-end: none;
+  }
 }
 
 .has-suffix input,
