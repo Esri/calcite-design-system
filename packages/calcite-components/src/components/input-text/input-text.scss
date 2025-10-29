@@ -182,11 +182,11 @@ input {
 
 :host(:not([status="invalid"])) {
   .has-prefix input {
-    border-inline-start: none;
+    border-inline-start-width: 0;
   }
 
   .has-suffix input {
-    border-inline-end: none;
+    border-inline-end-width: 0;
   }
 }
 
