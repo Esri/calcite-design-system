@@ -15,6 +15,8 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
+  const OPTION_NA = "N/A";
+  const OPTION_UNKNOWN = "Unknown / Not Sure";
   const whichComponentRegex = /### Which Component(?:\r\n|\r|\n){1,2}([^\r\n]+)/m;
   const whichComponentRegexMatch = body.match(whichComponentRegex);
 
@@ -26,7 +28,9 @@ module.exports = async ({ github, context }) => {
       .split(",")
       .map((component) => component.trim())
       .filter((component) => {
-        return component !== "N/A" && component !== "Unknown / Not Sure" && component !== "N/A, Unknown / Not Sure";
+        return (
+          component !== OPTION_NA && component !== OPTION_UNKNOWN && component !== `${OPTION_NA}, ${OPTION_UNKNOWN}`
+        );
       });
 
     if (filteredComponents.length > 0) {
