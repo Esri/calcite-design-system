@@ -45,7 +45,7 @@ sassFiles.forEach(filePath => {
   }
 });
 
-const stylelintConfigPath = path.join(__dirname, "..", "packages", "calcite-components", ".stylelintrc.cjs");
+const stylelintConfigPath = path.join(__dirname, "..", "packages", "components", ".stylelintrc.cjs");
 
 try {
   const stylelintConfigContent = fs.readFileSync(stylelintConfigPath, 'utf8');
