@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.37...@esri/calcite-components@4.0.0-next.38) (2025-10-29)
+
+### Bug Fixes
+
+- **input-time-picker:** always emit change event when user commits changes even when the value is directly set before or after the user commits the change ([#13216](https://github.com/Esri/calcite-design-system/issues/13216)) ([5332461](https://github.com/Esri/calcite-design-system/commit/5332461b74f0b2aeb1a0f3db29899c139ea50b41)), closes [#12391](https://github.com/Esri/calcite-design-system/issues/12391) [#12889](https://github.com/Esri/calcite-design-system/issues/12889)
+
 ## [4.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.36...@esri/calcite-components@4.0.0-next.37) (2025-10-29)
 
 ### Bug Fixes
