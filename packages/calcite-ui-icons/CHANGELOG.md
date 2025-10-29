@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.6...@esri/calcite-ui-icons@4.4.0-next.7) (2025-10-29)
+
+### Features
+
+- add relative direction arrows ([#13215](https://github.com/Esri/calcite-design-system/issues/13215)) ([c2790f1](https://github.com/Esri/calcite-design-system/commit/c2790f157698e6d773048199321a669c36edde1d))
+
 ## [4.4.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.5...@esri/calcite-ui-icons@4.4.0-next.6) (2025-10-28)
 
 ### Bug Fixes
