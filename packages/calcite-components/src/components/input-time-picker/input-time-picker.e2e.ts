@@ -367,21 +367,19 @@ describe("calcite-input-time-picker", () => {
       await assertDisplayedTime(page, "01:02 AM");
     });
 
-    describe("value", async () => {
+    describe("direct value setting", async () => {
       it("directly setting value in calciteInputTimePickerChange event listener without calling event.preventDefault will not interfere with subsequent user-initiated change events (#12391)", async () => {
         const page = await newE2EPage();
-        await page.setContent(`<calcite-input-time-picker value="14:30"></calcite-input-time-picker>`);
-
-        await page.evaluate(() => {
-          document
-            .querySelector("calcite-input-time-picker")
-            .addEventListener("calciteInputTimePickerChange", (event) => {
-              (event.target as HTMLInputElement).value = "10:00";
-            });
-        });
+        await page.setContent(html`<calcite-input-time-picker value="14:30"></calcite-input-time-picker>`);
 
         const inputTimePicker = await page.find("calcite-input-time-picker");
         const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+        await inputTimePicker.handle.evaluate((picker) => {
+          picker.addEventListener("calciteInputTimePickerChange", (event) => {
+            (event.target as HTMLInputElement).value = "10:00";
+          });
+        });
 
         await inputTimePicker.callMethod("setFocus");
         await page.waitForChanges();
@@ -389,6 +387,7 @@ describe("calcite-input-time-picker", () => {
         await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("15:30");
+        assertDisplayedTime(page, "03:30 PM");
         expect(changeEvent).toHaveReceivedEventTimes(0);
 
         await page.keyboard.press("Enter");
@@ -402,6 +401,7 @@ describe("calcite-input-time-picker", () => {
         await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("11:00");
+        await assertDisplayedTime(page, "11:00 AM");
         expect(changeEvent).toHaveReceivedEventTimes(1);
 
         await page.keyboard.press("Enter");
@@ -415,6 +415,7 @@ describe("calcite-input-time-picker", () => {
         await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("09:00");
+        await assertDisplayedTime(page, "09:00 AM");
         expect(changeEvent).toHaveReceivedEventTimes(2);
 
         await page.keyboard.press("Enter");
@@ -429,6 +430,7 @@ describe("calcite-input-time-picker", () => {
         await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("08:00");
+        await assertDisplayedTime(page, "08:00 AM");
         expect(changeEvent).toHaveReceivedEventTimes(3);
 
         await page.keyboard.press("Enter");
@@ -442,22 +444,17 @@ describe("calcite-input-time-picker", () => {
       it("directly setting value once does not interfere with subsequent user-initiated change events (#12889)", async () => {
         const page = await newE2EPage();
         await page.setContent(
-          `<calcite-input-time-picker value="14:30"></calcite-input-time-picker><button>Change Time</button>`,
+          html`<calcite-input-time-picker value="14:30"></calcite-input-time-picker><button>Change Time</button>`,
         );
-
-        await page.evaluate(() => {
-          document.querySelector("button").addEventListener("click", () => {
-            document.querySelector("calcite-input-time-picker").value = "15:00";
-          });
-        });
 
         const inputTimePicker = await page.find("calcite-input-time-picker");
         const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-        const directChangeButton = await page.find("button");
 
-        await directChangeButton.click();
+        inputTimePicker.setProperty("value", "15:00");
+        await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("15:00");
+        assertDisplayedTime(page, "05:00 PM");
         expect(changeEvent).toHaveReceivedEventTimes(0);
 
         await inputTimePicker.callMethod("setFocus");
@@ -465,6 +462,7 @@ describe("calcite-input-time-picker", () => {
         await page.waitForChanges();
 
         expect(await inputTimePicker.getProperty("value")).toBe("16:00");
+        assertDisplayedTime(page, "06:00 PM");
         expect(changeEvent).toHaveReceivedEventTimes(0);
 
         await page.keyboard.press("Enter");
