@@ -43,9 +43,11 @@ describe("stacked focus-trap components", () => {
     </calcite-dialog>
   `;
 
-  it.each(["calcite-input-date-picker", "calcite-input-time-picker"] as const)(
+  it.for(["calcite-input-date-picker", "calcite-input-time-picker"] as const)(
     "closes a stack of open components sequentially in visual order (%s)",
-    async (pickerType) => {
+    async (pickerType, context) => {
+      context.skip("depends on https://github.com/Esri/calcite-design-system/issues/13225");
+
       const page = await newE2EPage();
       await page.setContent(componentStack);
       await skipAnimations(page);
