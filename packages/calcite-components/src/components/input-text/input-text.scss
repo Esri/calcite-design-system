@@ -332,6 +332,10 @@ input[type="text"]::-ms-reveal {
   }
 }
 
+.has-suffix .clear-button {
+  border-inline-end-width: 0;
+}
+
 // loading
 .loader {
   inset-block-start: 1px;
