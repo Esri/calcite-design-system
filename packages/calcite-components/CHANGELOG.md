@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.39...@esri/calcite-components@4.0.0-next.40) (2025-10-30)
+
+### ⚠ BREAKING CHANGES
+
+- **modal, shell-center-row, tile-select, tile-select-group, tip, tip-group, tip-manager:** deprecated components were removed, please update usage
+  to the following components:
+
+- `calcite-modal` ➡️ `calcite-dialog`
+- `calcite-shell-center-row` ➡️ `calcite-shell-panel` (use in the
+  Shell’s `"panel-bottom"` slot)
+- `calcite-tile-select` / `calcite-tile-select-group` ➡️ `calcite-tile`
+  / `calcite-tile-group`
+- `calcite-tip` / `calcite-tip-group` / `calcite-tip-manager` ➡️
+  `calcite-carousel` / `calcite-carousel-item` (optionally `calcite-panel`
+  – see [example](https://codepen.io/jcfranco/pen/raxYqyK?editors=1000))
+
+- drop undocumented util classes (#13223)
+
+### Code Refactoring
+
+- drop undocumented util classes ([#13223](https://github.com/Esri/calcite-design-system/issues/13223)) ([6e8b324](https://github.com/Esri/calcite-design-system/commit/6e8b3245a59d7337c995eb2255533a281958f9f2))
+- **modal, shell-center-row, tile-select, tile-select-group, tip, tip-group, tip-manager:** drop deprecated components ([#13074](https://github.com/Esri/calcite-design-system/issues/13074)) ([64d5460](https://github.com/Esri/calcite-design-system/commit/64d54601cf1cb5bd9440d18b29e4a9789860ca53)), closes [#13078](https://github.com/Esri/calcite-design-system/issues/13078)
+
 ## [4.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.38...@esri/calcite-components@4.0.0-next.39) (2025-10-29)
 
 **Note:** Version bump only for package @esri/calcite-components
