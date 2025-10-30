@@ -483,7 +483,17 @@ export class InputTimePicker
   }
 
   private async setFocusPart(target: TimePart): Promise<void> {
-    this[`${target || "hour"}El`]?.focus();
+    const ref =
+      target === "hour"
+        ? this.hourRef
+        : target === "minute"
+          ? this.minuteRef
+          : target === "second"
+            ? this.secondRef
+            : target === "fractionalSecond"
+              ? this.fractionalSecondRef
+              : this.meridiemRef;
+    ref.value?.focus();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {

@@ -733,6 +733,10 @@ export class Slider
   }
 
   private setThumbEl(el: HTMLDivElement): void {
+    if (!el) {
+      return;
+    }
+
     const valueProp = el.getAttribute("data-value-prop") as ActiveSliderProperty;
     if (valueProp === "minValue") {
       this.minHandle = el;

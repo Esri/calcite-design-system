@@ -105,6 +105,10 @@ export class ActionBar extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private setExpandToggleEl = (el: Action["el"]): void => {
+    this.expandToggleEl = el;
+  };
+
   //#endregion
 
   //#region State Properties
@@ -305,10 +309,6 @@ export class ActionBar extends LitElement {
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
     entries.forEach(this.resizeHandler);
-  }
-
-  private setExpandToggleEl(el: Action["el"]): void {
-    this.expandToggleEl = el;
   }
 
   private updateGroups(): void {

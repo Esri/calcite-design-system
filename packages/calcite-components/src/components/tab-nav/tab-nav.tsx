@@ -266,6 +266,11 @@ export class TabNav extends LitElement {
     requestAnimationFrame(() => {
       const isLTR = this.effectiveDir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
+
+      if (!tabTitleContainer) {
+        return;
+      }
+
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
@@ -428,6 +433,11 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
+
+      if (!tabTitleContainer) {
+        return;
+      }
+
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
       const { effectiveDir } = this;
