@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.40...@esri/calcite-components@4.0.0-next.41) (2025-10-30)
+
+### Features
+
+- **table-cell:** remove border styling from selected cell ([#13231](https://github.com/Esri/calcite-design-system/issues/13231)) ([ee6d1cc](https://github.com/Esri/calcite-design-system/commit/ee6d1cce53be5ab5abbe03a398eebf84422bde25)), closes [#10770](https://github.com/Esri/calcite-design-system/issues/10770)
+
 ## [4.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.39...@esri/calcite-components@4.0.0-next.40) (2025-10-30)
 
 ### ⚠ BREAKING CHANGES
