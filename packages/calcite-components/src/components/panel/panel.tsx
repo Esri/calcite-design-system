@@ -310,8 +310,8 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.emitCloseEvent();
       event.preventDefault();
+      this.emitCloseEvent();
     }
   }
 

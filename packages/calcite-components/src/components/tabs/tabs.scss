@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-background-color: When `bordered`, specifies the component's background color.
+ * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  */
 
@@ -11,6 +11,7 @@
 
 :host {
   @apply flex flex-col;
+  background-color: var(--calcite-tab-background-color, var(--calcite-color-transparent));
 }
 
 :host([bordered]) {

@@ -9,6 +9,7 @@ import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lu
 import {
   Direction,
   filterDirectChildren,
+  focusElement,
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
@@ -264,7 +265,6 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      const isLTR = this.effectiveDir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
 
       if (!tabTitleContainer) {
@@ -274,28 +274,12 @@ export class TabNav extends LitElement {
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
-      const overflowingStartTabTitle = isLTR
-        ? this.hasOverflowingStartTabTitle
-        : this.hasOverflowingEndTabTitle;
-      const overflowingEndTabTitle = isLTR
-        ? this.hasOverflowingEndTabTitle
-        : this.hasOverflowingStartTabTitle;
 
-      if (
-        tabTitleBounds.left <
-        containerBounds.left + (overflowingStartTabTitle ? this.scrollerButtonWidth : 0)
-      ) {
-        const left =
-          scrollPosition + (tabTitleBounds.left - containerBounds.left) - this.scrollerButtonWidth;
+      if (tabTitleBounds.left < containerBounds.left) {
+        const left = scrollPosition + (tabTitleBounds.left - containerBounds.left);
         tabTitleContainer.scrollTo({ left, behavior });
-      } else if (
-        tabTitleBounds.right >
-        containerBounds.right - (overflowingEndTabTitle ? this.scrollerButtonWidth : 0)
-      ) {
-        const left =
-          scrollPosition +
-          (tabTitleBounds.right - containerBounds.right) +
-          this.scrollerButtonWidth;
+      } else if (tabTitleBounds.right > containerBounds.right) {
+        const left = scrollPosition + (tabTitleBounds.right - containerBounds.right);
         tabTitleContainer.scrollTo({ left, behavior });
       }
     });
@@ -452,7 +436,6 @@ export class TabNav extends LitElement {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
         const containerEndX = containerBounds.x + containerBounds.width;
         const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
-
         if (
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
@@ -464,7 +447,6 @@ export class TabNav extends LitElement {
           } else {
             const crossingContainerEnd =
               tabTitleEndX > containerEndX && tabTitleBounds.x > containerBounds.x;
-
             if (crossingContainerEnd) {
               closestToEdge = tabTitle;
             }
@@ -476,7 +458,7 @@ export class TabNav extends LitElement {
             closestToEdge = tabTitle;
           } else {
             const crossingContainerStart =
-              tabTitleEndX < containerEndX && tabTitleBounds.x < containerBounds.x;
+              tabTitleBounds.x < containerBounds.x && tabTitleEndX > containerBounds.x;
 
             if (crossingContainerStart) {
               closestToEdge = tabTitle;
@@ -485,20 +467,30 @@ export class TabNav extends LitElement {
         }
       });
 
+      let scrollTo: number;
       if (closestToEdge) {
-        const { scrollerButtonWidth } = this;
+        const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
-            ? -scrollerButtonWidth
-            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + scrollerButtonWidth;
-        const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
-
-        tabTitleContainer.scrollTo({
-          left: scrollTo,
-          behavior: "smooth",
-        });
+            ? -scrollerButtonContainerWidth
+            : closestToEdge.offsetWidth -
+              (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
+        scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
+      } else {
+        const scrollPosition = tabTitleContainer.scrollLeft;
+        const containerWidth = containerBounds.width;
+        const totalContentWidth = tabTitleContainer.scrollWidth;
+        const hiddenContentWidth = totalContentWidth - (containerWidth + Math.abs(scrollPosition));
+        if (hiddenContentWidth > 0) {
+          const directionMultiplier = effectiveDir === "ltr" ? 1 : -1;
+          scrollTo = scrollPosition + directionMultiplier * hiddenContentWidth;
+        }
       }
+      tabTitleContainer.scrollTo({
+        left: scrollTo,
+        behavior: "smooth",
+      });
     });
   }
 
@@ -574,7 +566,7 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      tabTitles[this.selectedTabId].focus();
+      focusElement(tabTitles[this.selectedTabId]);
     });
   }
 
@@ -589,14 +581,11 @@ export class TabNav extends LitElement {
       <div
         class={{
           [CSS.container]: true,
-          [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
-          [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
           [CSS.scale(this.scale)]: true,
           [CSS.position(this.position)]: true,
           [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
         }}
       >
-        {this.renderScrollButton("start")}
         <div
           class={{
             [CSS.tabTitleSlotWrapper]: true,
@@ -607,32 +596,35 @@ export class TabNav extends LitElement {
         >
           <slot onSlotChange={this.onSlotChange} />
         </div>
-        {this.renderScrollButton("end")}
+
+        <div
+          class={CSS.scrollButtonContainer}
+          hidden={!this.hasOverflowingEndTabTitle && !this.hasOverflowingStartTabTitle}
+        >
+          {this.renderScrollButton("start")}
+          {this.renderScrollButton("end")}
+        </div>
       </div>
     );
   }
 
   private renderScrollButton(overflowDirection: "start" | "end"): JsxNode {
-    const { bordered, messages, hasOverflowingStartTabTitle, hasOverflowingEndTabTitle, scale } =
-      this;
+    const { messages, scale, hasOverflowingEndTabTitle, hasOverflowingStartTabTitle } = this;
     const isEnd = overflowDirection === "end";
 
     return (
       <div
         class={{
-          [CSS.scrollButtonContainer]: true,
-          [CSS.scrollBackwardContainerButton]: !isEnd,
-          [CSS.scrollForwardContainerButton]: isEnd,
+          [CSS.scrollButton]: true,
+          [CSS.scrollBackwardButton]: !isEnd,
+          [CSS.scrollForwardButton]: isEnd,
         }}
-        hidden={(isEnd && !hasOverflowingEndTabTitle) || (!isEnd && !hasOverflowingStartTabTitle)}
         key={overflowDirection}
       >
         <calcite-button
-          appearance={bordered ? "outline-fill" : "transparent"}
+          appearance="transparent"
           ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
-          class={{
-            [CSS.scrollButton]: true,
-          }}
+          disabled={isEnd ? !hasOverflowingEndTabTitle : !hasOverflowingStartTabTitle}
           iconFlipRtl="both"
           iconStart={isEnd ? ICON.chevronRight : ICON.chevronLeft}
           kind="neutral"

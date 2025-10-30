@@ -72,22 +72,14 @@ These design tokens are provided as CSS custom props through `calicte.css` or im
 There are some edge cases where you may wish to isolate and use only the values of a specific mode. In that case you can import a set of mode tokens directly.
 
 ```scss
-@import "~@esri/calcite-design-tokens/dist/scss/dark";
+@use "@esri/calcite-design-tokens/dist/scss/dark";
 
 // 🙅‍♀️ However, it will not correctly inherit or change it's value when swapping light/dark mode
 :host {
-  /* The color property of this component will always be #007ac2 */
-  color: $calcite-color-brand;
+  /* The color property of this component will always be #009af2 */
+  color: dark.$calcite-color-brand;
 }
 ```
-
-## Legacy Tokens
-
-In Calcite's [2.0.0](https://github.com/Esri/calcite-design-system/releases/tag/%40esri%2Fcalcite-design-tokens%402.0.0) release, design tokens were refactored, which included the removal and refactoring of legacy CSS custom properties. Refer to the [map of token changes from 2.0.0](https://github.com/Esri/calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes) for a more comprehensive list of changes.
-
-In the release of 2.0 Calcite Component styles got a major refactor which included the removal and reassignment of legacy CSS Custom Properties originally introduced through calcite-styles/calcite-colors. To see a full list of CSS Custom Property additions, deletions, and renamed tokens please refer to the [Calcite Design Tokens 2.0 Changelog > Map of token changes](../../calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes).
-
-For backwards compatibility, deprecated tokens will continue to be provided until the next major release via [\_legacy.scss](../src/assets/styles/_legacy.scss)
 
 ## Custom Themes
 

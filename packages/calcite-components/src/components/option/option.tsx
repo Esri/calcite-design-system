@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { trim } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
 import { styles } from "./option.scss";
 
@@ -9,6 +10,9 @@ declare global {
     "calcite-option": Option;
   }
 }
+
+const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
+const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
 export class Option extends LitElement {
   // #region Static Members
@@ -111,25 +115,24 @@ export class Option extends LitElement {
   }
 
   private ensureTextContentDependentProps(): void {
-    const {
-      el: { textContent },
-      internallySetLabel,
-      internallySetValue,
-      label,
-      value,
-    } = this;
+    const { el, internallySetLabel, internallySetValue, label, value } = this;
+    const trimmedContent = trim(el.textContent, whitespaceCharsToTrim).replaceAll(
+      whitespaceToReplaceRegexp,
+      " ",
+    );
+    const trimmedLabel = label;
 
-    if (!label || label === internallySetLabel) {
-      this.label = textContent;
-      this.internallySetLabel = textContent;
+    if (!trimmedLabel || trimmedLabel === internallySetLabel) {
+      this.label = trimmedContent;
+      this.internallySetLabel = trimmedContent;
     }
 
     if (
       value == null /* intentional loose equals to handle both undefined & null */ ||
       value === internallySetValue
     ) {
-      this.value = textContent;
-      this.internallySetValue = textContent;
+      this.value = trimmedContent;
+      this.internallySetValue = trimmedContent;
     }
   }
 

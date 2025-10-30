@@ -370,7 +370,7 @@ export class InputTimePicker
         event.preventDefault();
       }
       this.changeEventHandler();
-    } else if (this.open && this.focusTrapDisabled && key === "Escape") {
+    } else if (this.open && key === "Escape") {
       this.open = false;
       event.preventDefault();
     } else {

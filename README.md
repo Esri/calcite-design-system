@@ -98,26 +98,19 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/alisonailea">
-      <img src="https://avatars.githubusercontent.com/u/3362490?v=4" width="100;" alt="alisonailea"/>
-      <br />
-      <sub><b>Ali Stump</b></sub>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
-    <a href="https://github.com/caripizza">
-      <img src="https://avatars.githubusercontent.com/u/42423180?v=4" width="100;" alt="caripizza"/>
+    <a href="https://github.com/alisonailea">
+      <img src="https://avatars.githubusercontent.com/u/3362490?v=4" width="100;" alt="alisonailea"/>
       <br />
-      <sub><b>Cari Palazzolo</b></sub>
+      <sub><b>Ali Stump</b></sub>
     </a>
   </td>
   <td align="center">
@@ -125,6 +118,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
       <br />
       <sub><b>Ashley Rowles</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/caripizza">
+      <img src="https://avatars.githubusercontent.com/u/42423180?v=4" width="100;" alt="caripizza"/>
+      <br />
+      <sub><b>Cari Palazzolo</b></sub>
     </a>
   </td>
   <td align="center">
@@ -142,14 +142,21 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/ManahariDahal">
-      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="ManahariDahal"/>
+    <a href="https://github.com/maxdahal">
+      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="maxdahal"/>
       <br />
-      <sub><b>Manahari Dahal</b></sub>
+      <sub><b>Max Dahal</b></sub>
     </a>
   </td>
 </tr>
 <tr>
+  <td align="center">
+    <a href="https://github.com/isaacbraun">
+      <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
+      <br />
+      <sub><b>Isaac Braun</b></sub>
+    </a>
+  </td>
   <td align="center">
     <a href="https://github.com/josercarcamo">
       <img src="https://avatars.githubusercontent.com/u/138070439?v=4" width="100;" alt="josercarcamo"/>
@@ -179,13 +186,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/isaacbraun">
-      <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
-      <br />
-      <sub><b>Isaac Braun</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/matgalla">
       <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
@@ -195,17 +195,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/justinhough">
-      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
-      <br />
-      <sub><b>Justin Hough</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/Amretasre002762670">
       <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
       <br />
       <sub><b>Amretasre Rengarajan</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/justinhough">
+      <img src="https://avatars.githubusercontent.com/u/9469422?v=4" width="100;" alt="justinhough"/>
+      <br />
+      <sub><b>Justin Hough</b></sub>
     </a>
   </td>
   <td align="center">
@@ -283,13 +283,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/MikeTschudi">
-      <img src="https://avatars.githubusercontent.com/u/2125181?v=4" width="100;" alt="MikeTschudi"/>
-      <br />
-      <sub><b>Mike Tschudi</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/brandentheintern">
       <img src="https://avatars.githubusercontent.com/u/158607603?v=4" width="100;" alt="brandentheintern"/>
       <br />
@@ -324,8 +317,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Tom Wayson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/cosbyr">
       <img src="https://avatars.githubusercontent.com/u/11748268?v=4" width="100;" alt="cosbyr"/>
@@ -333,11 +324,20 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Ryan Cosby</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/rpanichakit9541">
       <img src="https://avatars.githubusercontent.com/u/44479773?v=4" width="100;" alt="rpanichakit9541"/>
       <br />
       <sub><b>Rachapong Panichakit</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/DintaMel">
+      <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
+      <br />
+      <sub><b>Mel Dintaman</b></sub>
     </a>
   </td>
   <td align="center">

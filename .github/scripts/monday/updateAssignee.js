@@ -1,22 +1,21 @@
 // @ts-check
-const { notInLifecycle, assertRequired } = require("../support/utils");
 const Monday = require("../support/monday");
+const { notInLifecycle } = require("../support/utils");
 const {
   labels: {
-    issueWorkflow: { new: newLabel, assigned: assignedLabel, needsTriage, needsMilestone },
+    issueWorkflow: { new: newLabel, assigned: assignedLabel },
   },
 } = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context }) => {
-  const { issue, assignee, action } =
+  const { issue, action } =
     /** @type {import('@octokit/webhooks-types').IssuesAssignedEvent | import('@octokit/webhooks-types').IssuesUnassignedEvent } */ (
       context.payload
     );
-  const { assignees: currentAssignees, labels } = issue;
-  assertRequired([assignee]);
   const monday = Monday(issue);
-  const skippedLabels = [newLabel, assignedLabel, needsTriage, needsMilestone];
+  const { labels, assignees: currentAssignees } = issue;
+  const skippedLabels = [newLabel, assignedLabel];
 
   if (
     action === "unassigned" &&
@@ -25,15 +24,16 @@ module.exports = async ({ context }) => {
     !monday.inMilestoneStatus()
   ) {
     monday.addLabel(newLabel);
-    console.info("Set status to unassigned, no assignees updated.");
-  } else if (action === "assigned" && notInLifecycle({ labels, skip: skippedLabels }) && !monday.inMilestoneStatus()) {
+    console.info("Set status to unassigned.");
+  } else if (
+    action === "assigned" &&
+    notInLifecycle({ labels, skip: skippedLabels }) &&
+    !monday.inMilestoneStatus()
+  ) {
     monday.addLabel(assignedLabel);
-    monday.addAllAssignees();
-    console.info("Update assignees, set status to assigned.");
-  } else if (currentAssignees.length > 0) {
-    monday.addAllAssignees();
-    console.info("Update assignees, no status change.");
+    console.info("Set status to assigned.");
   }
 
+  monday.handleAssignees();
   await monday.commit();
 };

@@ -7,5 +7,6 @@
   "removeTag": "Fjern nøgleord",
   "required": "Obligatorisk",
   "selectAll": "Vælg alle",
-  "selected": "valgt"
+  "selected": "valgt",
+  "nonEditable": "Read-only {value}"
 }

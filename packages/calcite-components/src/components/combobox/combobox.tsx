@@ -668,6 +668,20 @@ export class Combobox
 
   //#region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
   }
@@ -685,6 +699,7 @@ export class Combobox
     }
 
     this.setMaxScrollerHeight();
+    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -762,7 +777,9 @@ export class Combobox
       this.handleSelectAll(isSelectAllTarget);
     }
 
-    const newIndex = this.keyboardNavItems.indexOf(target);
+    const newIndex = this.keyboardNavItems.indexOf(
+      isSelectAllTarget ? this.selectAllComboboxItemRef.value : target,
+    );
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
 
@@ -935,12 +952,8 @@ export class Combobox
       case "Enter":
         if (this.open && this.activeItemIndex > -1) {
           const item = this.keyboardNavItems[this.activeItemIndex];
-          this.toggleSelection(item, !item.selected);
+          item.toggleSelection();
           event.preventDefault();
-
-          if (this.selectAllEnabled) {
-            this.handleSelectAll(item === this.selectAllComboboxItemRef.value);
-          }
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
@@ -1159,6 +1172,7 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({
@@ -1539,6 +1553,12 @@ export class Combobox
     }
   }
 
+  private getDescriptionMessage(): string {
+    const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
+
+    return this.readOnly ? this.messages.nonEditable?.replace("{value}", `${value}`) : value;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -1738,6 +1758,7 @@ export class Combobox
           aria-errormessage={IDS.validationMessage}
           aria-owns={`${IDS.listbox(guid)}`}
           ariaAutoComplete="list"
+          ariaDescription={this.getDescriptionMessage()}
           ariaExpanded={open}
           ariaHasPopup="listbox"
           ariaInvalid={this.status === "invalid"}
@@ -1807,7 +1828,7 @@ export class Combobox
     const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
-      <div ariaHidden="true" class={CSS.floatingUIContainer} ref={setFloatingEl}>
+      <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
           <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             {this.selectAllEnabled &&

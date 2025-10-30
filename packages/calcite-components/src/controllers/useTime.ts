@@ -488,6 +488,8 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     if (updateValue) {
       this.setValue(this.component.value);
     }
+
+    this.userChangedValue = false;
   }
 
   private decrementMinuteOrSecond(key: MinuteOrSecond): void {

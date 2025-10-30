@@ -307,6 +307,20 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
 
   // #region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private openHandler(): void {
     toggleOpenClose(this);
 
@@ -315,6 +329,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     }
 
     this.reposition(true);
+    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -516,6 +531,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -629,6 +645,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
               this.width || this.widthScale
             ),
           }}
+          popover="manual"
           ref={this.setFloatingEl}
         >
           <div

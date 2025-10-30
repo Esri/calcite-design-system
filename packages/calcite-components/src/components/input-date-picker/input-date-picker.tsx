@@ -545,6 +545,20 @@ export class InputDatePicker
 
   //#region Private Methods
 
+  private async handlePopover(): Promise<void> {
+    await this.componentOnReady();
+
+    if (!this.floatingEl) {
+      return;
+    }
+
+    if (this.open) {
+      this.floatingEl.showPopover();
+    } else {
+      this.floatingEl.hidePopover();
+    }
+  }
+
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -606,6 +620,7 @@ export class InputDatePicker
     }
 
     this.reposition(true);
+    this.handlePopover();
   }
 
   private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
@@ -807,6 +822,7 @@ export class InputDatePicker
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+    this.handlePopover();
   }
 
   private setStartWrapper(el: HTMLDivElement): void {
@@ -1142,9 +1158,10 @@ export class InputDatePicker
               ariaHidden={!this.open}
               ariaLabel={messages.chooseDate}
               ariaLive="polite"
-              ariaModal="true"
+              ariaModal={false}
               class={CSS.menu}
               id={this.dialogId}
+              popover="manual"
               ref={this.setFloatingEl}
               role="dialog"
             >
