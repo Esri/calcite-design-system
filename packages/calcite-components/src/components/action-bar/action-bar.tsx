@@ -107,6 +107,10 @@ export class ActionBar extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private setExpandToggleEl = (el: Action["el"]): void => {
+    this.expandToggleEl = el;
+  };
+
   //#endregion
 
   //#region State Properties
@@ -393,7 +397,7 @@ export class ActionBar extends LitElement {
         expandText={messages.expand}
         expanded={expanded}
         position={position}
-        ref={(el: Action["el"]) => (this.expandToggleEl = el)}
+        ref={this.setExpandToggleEl}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}

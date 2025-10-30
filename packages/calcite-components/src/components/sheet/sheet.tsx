@@ -14,7 +14,7 @@ import {
 } from "@arcgis/lumina";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { toggleOpenClose, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -37,7 +37,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class Sheet extends LitElement implements OpenCloseComponent {
+export class Sheet extends LitElement {
   //#region Static Members
 
   static override styles = styles;
