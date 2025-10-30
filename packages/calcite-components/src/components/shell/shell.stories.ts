@@ -152,7 +152,7 @@ const headerHTML = html`
 
 const footerHTML = `<footer slot="footer">My Shell Footer</footer>`;
 
-const contentHTML = html(`
+const contentHTML = html`
   <div
     style="
     width:100%;
@@ -165,45 +165,45 @@ const contentHTML = html(`
     background-position: 0 0, 0 10px, 10px -10px, -10px 0;
   "
   ></div>
-`);
+`;
 
-const advancedLeadingPanelHTML = html(`
+const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
   <calcite-panel heading="Advanced panel example">
-  <calcite-block collapsible open heading="Start Content" description="This is the primary.">
-    <calcite-block-content>
-      <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
-      <calcite-action text="Extent" text-enabled icon="extent"></calcite-action>
-      <calcite-action text="Chart" text-enabled icon="arrow-up-right"></calcite-action>
-    </calcite-block-content>
-  </calcite-block>
-  <calcite-block collapsible open heading="Another Block" description="This is the primary.">
-    <calcite-block-content>
-      <div style="height: 300px;">
-        <p>Cool thing.</p>
-      </div>
-    </calcite-block-content>
-  </calcite-block>
-  <calcite-block collapsible open heading="Additional Block" description="This is the primary.">
-    <calcite-block-content>
-      <div style="height: 300px;">
-        <p>Cool thing.</p>
-      </div>
-    </calcite-block-content>
-  </calcite-block>
-  <calcite-block collapsible open heading="More Block" description="This is the primary.">
-    <calcite-block-content>
-      <div style="height: 300px;">
-        <p>Cool thing.</p>
-        <p>Cool thing.</p>
-      </div>
-    </calcite-block-content>
-  </calcite-block>
+    <calcite-block collapsible open heading="Start Content" description="This is the primary.">
+      <calcite-block-content>
+        <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
+        <calcite-action text="Extent" text-enabled icon="extent"></calcite-action>
+        <calcite-action text="Chart" text-enabled icon="arrow-up-right"></calcite-action>
+      </calcite-block-content>
+    </calcite-block>
+    <calcite-block collapsible open heading="Another Block" description="This is the primary.">
+      <calcite-block-content>
+        <div style="height: 300px;">
+          <p>Cool thing.</p>
+        </div>
+      </calcite-block-content>
+    </calcite-block>
+    <calcite-block collapsible open heading="Additional Block" description="This is the primary.">
+      <calcite-block-content>
+        <div style="height: 300px;">
+          <p>Cool thing.</p>
+        </div>
+      </calcite-block-content>
+    </calcite-block>
+    <calcite-block collapsible open heading="More Block" description="This is the primary.">
+      <calcite-block-content>
+        <div style="height: 300px;">
+          <p>Cool thing.</p>
+          <p>Cool thing.</p>
+        </div>
+      </calcite-block-content>
+    </calcite-block>
   </calcite-panel>
-`);
+`;
 
 // TODO: UPDATE
-const advancedTrailingPanelHTMl = html(`
+const advancedTrailingPanelHTMl = html`
   ${actionBarEndHTML}
   <calcite-flow>
     <calcite-flow-item heading="Layer settings">
@@ -263,7 +263,7 @@ const advancedTrailingPanelHTMl = html(`
       <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
-`);
+`;
 
 export const simple = (args: ShellStoryArgs): string => html`
   <calcite-shell>
@@ -313,7 +313,7 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 const closedPanelsHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
-  closedPanelsHtml[i] = html(`<calcite-shell content-behind>
+  closedPanelsHtml[i] = html`<calcite-shell content-behind>
     <calcite-shell-panel slot="panel-start" display-mode="${d}">
       <calcite-action-bar slot="action-bar">
         <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
@@ -338,14 +338,14 @@ const closedPanelsHtml: string[] = [];
         <div id="print-container"></div>
       </calcite-panel>
     </calcite-shell-panel>
-  </calcite-shell>`);
+  </calcite-shell>`;
 });
 export const closedPanelsFloat = (): string => closedPanelsHtml[0];
 export const closedPanelsFloatContent = (): string => closedPanelsHtml[1];
 
 const endPanelHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
-  endPanelHtml[i] = html(`<calcite-shell content-behind>
+  endPanelHtml[i] = html`<calcite-shell content-behind>
     <header slot="header">
       <h2>My Shell Header</h2>
     </header>
@@ -361,7 +361,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end"  display-mode="${d}">
+    <calcite-shell-panel slot="panel-end" display-mode="${d}">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
@@ -425,24 +425,10 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
               </calcite-block-section>
             </calcite-block-content>
           </calcite-block>
-          <calcite-button
-            slot="footer"
-            width="half"
-            appearance="outline"
-            alignment="center"
-            kind="brand"
-            scale="m"
-          >
+          <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
             Cancel
           </calcite-button>
-          <calcite-button
-            slot="footer"
-            width="half"
-            alignment="center"
-            appearance="solid"
-            kind="brand"
-            scale="m"
-          >
+          <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
             Save
           </calcite-button>
         </calcite-flow-item>
@@ -485,45 +471,30 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
               </calcite-block-section>
             </calcite-block-content>
           </calcite-block>
-          <calcite-button
-            slot="footer"
-            width="half"
-            appearance="outline"
-            alignment="center"
-            kind="brand"
-            scale="m"
-          >
+          <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
             Cancel
           </calcite-button>
-          <calcite-button
-            slot="footer"
-            width="half"
-            alignment="center"
-            appearance="solid"
-            kind="brand"
-            scale="m"
-          >
+          <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
             Save
           </calcite-button>
         </calcite-flow-item>
       </calcite-flow>
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
-  </calcite-shell>`);
+  </calcite-shell>`;
 });
 export const endPanelFloat_TestOnly = (): string => endPanelHtml[0];
 export const endPanelFloatContent_TestOnly = (): string => endPanelHtml[1];
 
 export const slottedDialogAndAlert = (): string =>
-  html(`
-  <main>
+  html` <main>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
       style="
@@ -534,11 +505,13 @@ export const slottedDialogAndAlert = (): string =>
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-dialog open modal slot="dialogs"><span slot="header-content">Dialog slotted in Shell</span></calcite-dialog>
+      <calcite-dialog open modal slot="dialogs"
+        ><span slot="header-content">Dialog slotted in Shell</span></calcite-dialog
+      >
       <calcite-alert open slot="alerts" placement="top-end"
         ><span slot="title">Alert slotted in Shell</span>
       </calcite-alert>
-      <calcite-shell-panel id="primary-panel" slot="panel-start" >
+      <calcite-shell-panel id="primary-panel" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
             <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -556,7 +529,7 @@ export const slottedDialogAndAlert = (): string =>
           <div class="padded-content">Panel content<br />Padding is fake.</div>
         </calcite-panel>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-end" >
+      <calcite-shell-panel slot="panel-end">
         <calcite-action-bar slot="action-bar">
           <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
           <calcite-action-group>
@@ -586,113 +559,113 @@ export const slottedDialogAndAlert = (): string =>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur.
     </p>
-  </main>`);
+  </main>`;
 
-export const slottedSheetOverlay = (): string =>
-  html(`
-    <p class="padded-content">
-      <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-    </p>
-    <calcite-shell
-      style="
+export const slottedSheetOverlay = (): string => html`
+  <p class="padded-content">
+    <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
+    dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+  </p>
+  <calcite-shell
+    style="
     width:100%;
     height:500px;
     max-height:80%;
     position:relative;
     "
-    >
-      <div class="global-nav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-      <calcite-shell-panel id="primary-panel" slot="panel-start" >
-        <calcite-action-bar slot="action-bar">
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" indicator> </calcite-action>
-            <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
-            <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action icon="layers" text="Layers" active> </calcite-action>
-            <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
-            <calcite-action icon="legend" text="Legend"> </calcite-action>
-            <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-        <calcite-panel heading="Panel">
-          <div class="padded-content">Panel content<br />Padding is fake.</div>
-        </calcite-panel>
-      </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-end" >
-        <calcite-action-bar slot="action-bar">
-          <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
-          <calcite-action-group>
-            <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
-            <calcite-action text="Styles" icon="shapes"> </calcite-action>
-            <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
-            <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
-            <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
-            </calcite-action>
-            <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-            <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-        <calcite-flow>
-          <calcite-flow-item heading="Flow 01">
-            <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
-          </calcite-flow-item>
-          <calcite-flow-item heading="Flow 02">
-            <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
-          </calcite-flow-item>
-        </calcite-flow>
-      </calcite-shell-panel>
-      <calcite-panel heading="Main content">
-        <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+  >
+    <div class="global-nav" slot="header">Header Example</div>
+    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+      <calcite-panel closable heading="Ultrices neque"
+        ><p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
+        </p>
+        <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+        <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
       </calcite-panel>
-      <footer slot="footer">Footer Example</footer>
-    </calcite-shell>
-    <p class="padded-content">
-      <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
-    </p>
-    <script>
+    </calcite-sheet>
+    <calcite-shell-panel id="primary-panel" slot="panel-start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+          <calcite-action icon="legend" text="Legend"> </calcite-action>
+          <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel">
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="panel-end">
+      <calcite-action-bar slot="action-bar">
+        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-action-group>
+          <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+          <calcite-action text="Styles" icon="shapes"> </calcite-action>
+          <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+          <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+          <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+          </calcite-action>
+          <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-flow>
+        <calcite-flow-item heading="Flow 01">
+          <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Flow 02">
+          <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+      </calcite-flow>
+    </calcite-shell-panel>
+    <calcite-panel heading="Main content">
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    </calcite-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+  <p class="padded-content">
+    <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
+  </p>
+  <script>
     document.addEventListener("calcitePanelClose", () => {
       document.querySelector("calcite-sheet").open = false;
     });
   </script>
-`);
+`;
 
 const slottedSheetHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
-  slottedSheetHtml[i] = html(`
+  slottedSheetHtml[i] = html`
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-      sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
-      dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
     </p>
     <calcite-shell
       style="
@@ -704,19 +677,19 @@ const slottedSheetHtml: string[] = [];
     >
       <div class="global-nav" slot="header">Header Example</div>
       <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
-            <calcite-panel closable heading="Ultrices neque"
-              ><p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-            </calcite-panel>
-          </calcite-sheet>
-      <calcite-shell-panel id="primary-panel" slot="panel-start" >
+        <calcite-panel closable heading="Ultrices neque"
+          ><p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+          <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+          <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+        </calcite-panel>
+      </calcite-sheet>
+      <calcite-shell-panel id="primary-panel" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
             <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -734,7 +707,7 @@ const slottedSheetHtml: string[] = [];
           <div class="padded-content">Panel content<br />Padding is fake.</div>
         </calcite-panel>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-end" >
+      <calcite-shell-panel slot="panel-end">
         <calcite-action-bar slot="action-bar">
           <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
           <calcite-action-group>
@@ -764,32 +737,33 @@ const slottedSheetHtml: string[] = [];
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      Excepteur.
     </p>
     <script>
-    document.addEventListener("calcitePanelClose", () => {
-      document.querySelector("calcite-sheet").open = false;
-    });
-  </script>
-`);
+      document.addEventListener("calcitePanelClose", () => {
+        document.querySelector("calcite-sheet").open = false;
+      });
+    </script>
+  `;
 });
 export const slottedSheetFloat = (): string => slottedSheetHtml[0];
 export const slottedSheetFloatContent = (): string => slottedSheetHtml[1];
 
 export const contentBehind = (): string =>
-  html(`<calcite-shell content-behind>
-  ${headerHTML}
-  <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-  ${contentHTML}
-  <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-  <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-  ${footerHTML}
-</calcite-shell>`);
+  html`<calcite-shell content-behind>
+    ${headerHTML}
+    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+    ${contentHTML}
+    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    ${footerHTML}
+  </calcite-shell>`;
 
 export const slottedPanelTop_TestOnly = (): string =>
-  html(`<calcite-shell
+  html`<calcite-shell
     style="
     width:100%;
     height:500px;
@@ -797,112 +771,6 @@ export const slottedPanelTop_TestOnly = (): string =>
     position:relative;
     "
   >
-      <div
-      style="
-      width:100%;
-      height:100%;
-      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"></div>
-    <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
-    <footer slot="footer">Footer Example</footer>
-  </calcite-shell>
-`);
-
-const contentBehindPanelBottomHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
-  contentBehindPanelBottomHtml[i] = html(`
-    <calcite-shell
-      content-behind
-      style="
-      width:700px;
-      height:700px;
-      position:relative;
-      "
-    >
-        <div
-        style="
-        width:100%;
-        height:100%;
-        background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-        linear-gradient(-45deg, #ccc 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #ccc 75%),
-        linear-gradient(-45deg, transparent 75%, #ccc 75%);
-        background-size: 20px 20px;
-        background-position: 0 0, 0 10px, 10px -10px, -10px 0;"></div>
-        <calcite-shell-panel slot="panel-bottom" display-mode="${d}">${bottomPanelHTML}</calcite-shell-panel>
-      </calcite-shell>
-    `);
-});
-export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
-export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
-
-export const slottedPanelBottom_TestOnly = (): string =>
-  html(`
-  <calcite-shell
-    style="
-    width:100%;
-    height:500px;
-    max-height:80%;
-    position:relative;
-    "
-  >
-      <div
-      style="
-      width:100%;
-      height:100%;
-      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"></div>
-      <div class="global-nav" slot="header">Header Example</div>
-      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-      <footer slot="footer">Footer Example</footer>
-    </calcite-shell>
-  `);
-
-export const slottedPanelTopAndBottom = (): string =>
-  html(`
-  <calcite-shell
-    style="
-    width:100%;
-    height:500px;
-    max-height:80%;
-    position:relative;
-    "
-  >
-      <div
-      style="
-      width:100%;
-      height:100%;
-      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"></div>
-    <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <footer slot="footer">Footer Example</footer>
-  </calcite-shell>
-`);
-
-export const slottedPanelTopAndBottomAndSides = (): string =>
-  html(`
-  <calcite-shell
-    style="
-    width:100%;
-    height:500px;
-    max-height:80%;
-    position:relative;
-    ">
     <div
       style="
       width:100%;
@@ -912,39 +780,137 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
       linear-gradient(45deg, transparent 75%, #ccc 75%),
       linear-gradient(-45deg, transparent 75%, #ccc 75%);
       background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"></div>
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
+    ></div>
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-panel
-      slot="panel-start"
-      display-mode="dock"
-      width-scale="m"
+    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell> `;
 
+const contentBehindPanelBottomHtml: string[] = [];
+["float", "float-content"].forEach((d, i) => {
+  contentBehindPanelBottomHtml[i] = html`
+    <calcite-shell
+      content-behind
+      style="
+      width:700px;
+      height:700px;
+      position:relative;
+      "
     >
+      <div
+        style="
+        width:100%;
+        height:100%;
+        background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
+      ></div>
+      <calcite-shell-panel slot="panel-bottom" display-mode="${d}">${bottomPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+  `;
+});
+export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
+export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
+
+export const slottedPanelBottom_TestOnly = (): string => html`
+  <calcite-shell
+    style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+  >
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
+    ></div>
+    <div class="global-nav" slot="header">Header Example</div>
+    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+`;
+
+export const slottedPanelTopAndBottom = (): string => html`
+  <calcite-shell
+    style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+  >
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
+    ></div>
+    <div class="global-nav" slot="header">Header Example</div>
+    <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+`;
+
+export const slottedPanelTopAndBottomAndSides = (): string => html`
+  <calcite-shell
+    style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+  >
+    <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
+    ></div>
+    <div class="global-nav" slot="header">Header Example</div>
+    <calcite-shell-panel slot="panel-start" display-mode="dock" width-scale="m">
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
-    <calcite-shell-panel
-      slot="panel-end"
-      display-mode="dock"
-      width-scale="m"
-
-    >
+    <calcite-shell-panel slot="panel-end" display-mode="dock" width-scale="m">
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
     <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
-`);
+`;
 
 export const shellCenterRowWithActionBar_TestOnly = (): string =>
-  html(`<calcite-shell content-behind>
-  ${headerHTML}
-  <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-  ${contentHTML}
-  <calcite-shell-panel slot="panel-bottom">${centerPanelWithActionBarHTML}</calcite-shell-panel>
-  <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-  ${footerHTML}
-</calcite-shell>`);
+  html`<calcite-shell content-behind>
+    ${headerHTML}
+    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+    ${contentHTML}
+    <calcite-shell-panel slot="panel-bottom">${centerPanelWithActionBarHTML}</calcite-shell-panel>
+    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    ${footerHTML}
+  </calcite-shell>`;
 
 export const shellPanelZIndex_TestOnly = (): string =>
   html` <calcite-shell
