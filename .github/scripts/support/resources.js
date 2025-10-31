@@ -28,7 +28,7 @@ const resources = {
       needsMilestone: "needs milestone",
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
-      installed: "3 - installed",
+      installed: "4 - installed",
       verified: "4 - verified",
     },
     planning: {
