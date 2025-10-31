@@ -26,7 +26,7 @@ const resources = {
       assigned: "1 - assigned",
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
-      readyForDev: "ready for dev",
+      readyForDev: "2 - ready for dev",
       inDevelopment: "2 - in development",
       installed: "3 - installed",
       verified: "4 - verified",
