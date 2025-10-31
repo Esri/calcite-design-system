@@ -220,6 +220,8 @@ export class Block extends LitElement implements InteractiveComponent, OpenClose
    */
   @property({ reflect: true }) status: Status;
 
+  @property() textTruncation: "wrap" | "truncate" | "clip" = "clip";
+
   //#endregion
 
   //#region Public Methods

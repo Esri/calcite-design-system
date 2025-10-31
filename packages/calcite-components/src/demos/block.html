@@ -34,21 +34,25 @@
         border-top: 1px solid var(--calcite-color-border-2);
       }
       calcite-block {
-        border: 2px dashed red;
-      }
-
-      calcite-label {
-        --calcite-label-margin-bottom: 0;
+        width: 300px;
+        max-height: 200px;
+        margin: 50px;
       }
     </style>
   </head>
 
   <body>
-    <calcite-block expanded calcite-hydrated>
-      <calcite-label layout="inline-space-between">
-        <div>Favorite vegetable</div>
-        <calcite-icon icon="information" />
-      </calcite-label>
+    <calcite-block
+      collapsible
+      expanded
+      heading="Hiking Trails Along the River, Mountains, Alpines & More"
+      description="Trail Hiking, Bushwhacking, Scrambling, Alpines, Mountain Routes"
+      text-truncate="truncate"
+      description-text-truncate="truncate"
+    >
+      Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience, from
+      shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including switchbacks and
+      rocky sections, and should be prepared for some elevation gain.
     </calcite-block>
   </body>
 </html>

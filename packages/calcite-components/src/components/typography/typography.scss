@@ -2,7 +2,7 @@
   display: block;
   overflow: hidden;
   white-space: nowrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 :host([ellipsis]) {

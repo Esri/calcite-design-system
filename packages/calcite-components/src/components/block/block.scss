@@ -314,4 +314,9 @@ calcite-action-menu {
   margin-block: var(--calcite-spacing-md);
 }
 
+:host([text-truncation="truncate"]) .content {
+  @apply overflow-hidden whitespace-nowrap;
+  text-overflow: ellipsis;
+}
+
 @include includes.base-component();
