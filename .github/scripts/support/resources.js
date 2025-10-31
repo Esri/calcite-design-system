@@ -22,8 +22,6 @@ const resources = {
       tooling: "tooling",
     },
     issueWorkflow: {
-      new: "0 - new",
-      assigned: "1 - assigned",
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
       inDesign: "1 - in design",
