@@ -29,7 +29,7 @@ const resources = {
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
       installed: "4 - installed",
-      verified: "4 - verified",
+      verified: "5 - verified",
     },
     planning: {
       needsInfo: "needs more info",
