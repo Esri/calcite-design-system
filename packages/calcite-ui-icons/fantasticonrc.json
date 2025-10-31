@@ -1287,6 +1287,10 @@
     "signal-health": 61824,
     "group-content": 61825,
     "metadata": 61826,
-    "relative-direction-arrows": 61827
+    "relative-direction-arrows": 61827,
+    "partnered-collaboration": 61828,
+    "open-data": 61829,
+    "arcgis-solutions": 61830,
+    "arcgis-living-atlas": 61831
   }
 }
