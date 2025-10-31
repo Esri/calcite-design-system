@@ -10118,5 +10118,25 @@
     "alias": ["4.4.0", "directions", "line", "features", "symbology", "data"],
     "category": "Directions",
     "release": "4.4.0"
+  },
+  "arcgis-living-atlas": {
+    "alias": ["4.4.0", "brand", "maps", "apps", "data-layers", "collection", "imagery"],
+    "category": "Brand",
+    "release": "4.4.0"
+  },
+  "open-data": {
+    "alias": ["4.4.0", "brand", "dashboards", "charts", "visualization", "feature"],
+    "category": "Brand",
+    "release": "4.4.0"
+  },
+  "arcgis-solutions": {
+    "alias": ["4.4.0", "brand", "data", "geospatial", "configurations", "location"],
+    "category": "Brand",
+    "release": "4.4.0"
+  },
+  "partnered-collaboration": {
+    "alias": ["4.4.0", "brand", "share", "edit", "content", "apps", "layers"],
+    "category": "Brand",
+    "release": "4.4.0"
   }
 }
