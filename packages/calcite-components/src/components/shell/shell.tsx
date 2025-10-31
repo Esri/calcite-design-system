@@ -5,7 +5,6 @@ import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
-import { Modal } from "../modal/modal";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
@@ -138,8 +137,8 @@ export class Shell extends LitElement {
   private handleModalsSlotChange(event: Event): void {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Modal["el"] => el?.matches("calcite-modal"))
-      .forEach((el) => {
+      ?.filter((el) => el?.matches("calcite-modal"))
+      .forEach((el: Dialog /* casting as dialog until slot is removed */) => {
         el.embedded = true;
       });
   }

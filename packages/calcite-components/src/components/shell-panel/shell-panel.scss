@@ -288,10 +288,6 @@
   max-inline-size: unset;
 }
 
-::slotted(.calcite-match-height) {
-  @apply flex flex-auto overflow-hidden;
-}
-
 .action-bar-container {
   @apply pointer-events-auto
   flex

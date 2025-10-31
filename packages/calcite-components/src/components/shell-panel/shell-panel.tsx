@@ -18,6 +18,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
+import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
@@ -36,7 +37,7 @@ declare global {
 export class ShellPanel extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, animationStyles];
 
   //#endregion
 

@@ -41,7 +41,6 @@
   justify-content: space-between;
 }
 
-.content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
   @apply flex-auto self-stretch;
@@ -65,7 +64,7 @@
     pointer-events-none;
 }
 
-::slotted(calcite-shell-center-row) {
+::slotted(calcite-shell-panel) {
   inline-size: unset;
 }
 
@@ -92,9 +91,8 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
   border-style: solid;
 }
 
-slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
-slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
-slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
+slot[name="panel-top"]::slotted(calcite-shell-panel:not([display-mode^="float"])),
+slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float"])) {
   border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-sm);
@@ -113,7 +111,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   justify-content: flex-end;
 }
 
-::slotted(calcite-shell-center-row) {
+::slotted(calcite-shell-panel) {
   flex: none;
   align-self: stretch;
 }
@@ -130,12 +128,10 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   inset-inline: var(--calcite-shell-tip-spacing, 26vw); // deprecated
 }
 
-slot[name="center-row"]::slotted(calcite-shell-center-row),
-slot[name="panel-bottom"]::slotted(calcite-shell-center-row) {
+slot[name="panel-bottom"]::slotted(calcite-shell-panel) {
   margin-block-start: auto;
 }
-
-slot[name="panel-top"]::slotted(calcite-shell-center-row) {
+slot[name="panel-top"]::slotted(calcite-shell-panel) {
   margin-block-end: auto;
 }
 
@@ -144,10 +140,6 @@ slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   position: absolute;
   pointer-events: none;
   inset: 0;
-}
-
-slot[name="modals"]::slotted(calcite-modal) {
-  position: absolute;
 }
 
 @include includes.base-component();

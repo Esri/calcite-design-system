@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
 import {
   afterConnectDefaultValueSet,
@@ -81,7 +82,7 @@ export class Select
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
-  private selectEl: HTMLSelectElement;
+  private selectRef = createRef<HTMLSelectElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -192,7 +193,7 @@ export class Select
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.selectEl, options);
+    return this.focusSetter(() => this.selectRef.value, options);
   }
 
   // #endregion
@@ -247,7 +248,7 @@ export class Select
 
     this.populateInternalSelect();
 
-    const selected = this.selectEl?.selectedOptions[0];
+    const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
@@ -263,7 +264,7 @@ export class Select
   // #region Private Methods
 
   private handleInternalSelectChange(): void {
-    const selected = this.selectEl.selectedOptions[0];
+    const selected = this.selectRef.value.selectedOptions[0];
     this.selectFromNativeOption(selected);
     requestAnimationFrame(() => this.emitChangeEvent());
   }
@@ -324,21 +325,13 @@ export class Select
     this.clearInternalSelect();
 
     optionsAndGroups.forEach((optionOrGroup) =>
-      this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+      this.selectRef.value?.append(this.toNativeElement(optionOrGroup)),
     );
   }
 
   private clearInternalSelect(): void {
     this.componentToNativeEl.forEach((value) => value.remove());
     this.componentToNativeEl.clear();
-  }
-
-  private storeSelectRef(el: HTMLSelectElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.selectEl = el;
   }
 
   private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
@@ -435,7 +428,7 @@ export class Select
             class={CSS.select}
             disabled={disabled}
             onChange={this.handleInternalSelectChange}
-            ref={this.storeSelectRef}
+            ref={this.selectRef}
             required={this.required}
           >
             <slot />

@@ -25,7 +25,7 @@ interface FocusTrapOptions {
  *
  * @example
  * describe("focus-trap", () => {
- *   focusTrap("calcite-modal", {
+ *   focusTrap("calcite-dialog", {
  *    toggleProp: "open"
  *   });
  * });
