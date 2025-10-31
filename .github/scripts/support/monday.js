@@ -132,6 +132,13 @@ module.exports = function Monday(issue) {
       },
     ],
     [
+      issueWorkflow.inDesign,
+      {
+        column: columnIds.status,
+        value: "In Design",
+      },
+    ],
+    [
       issueWorkflow.readyForDev,
       {
         column: columnIds.status,
