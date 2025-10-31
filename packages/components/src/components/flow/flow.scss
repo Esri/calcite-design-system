@@ -40,12 +40,6 @@
     @apply flex;
   }
 
-  ::slotted(.calcite-match-height:last-child) {
-    @apply flex
-    flex-auto
-    overflow-hidden;
-  }
-
   .frame--advancing {
     animation-name: calcite-frame-advance;
   }

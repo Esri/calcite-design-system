@@ -9,6 +9,7 @@ import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lu
 import {
   Direction,
   filterDirectChildren,
+  focusElement,
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
@@ -265,6 +266,11 @@ export class TabNav extends LitElement {
 
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
+
+      if (!tabTitleContainer) {
+        return;
+      }
+
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
       const scrollPosition = tabTitleContainer.scrollLeft;
@@ -366,16 +372,20 @@ export class TabNav extends LitElement {
     this.calciteInternalTabNavSlotChange.emit(tabTitles);
   }
 
-  private storeTabTitleWrapperRef(el: HTMLDivElement) {
-    if (!el) {
-      return;
-    }
-
+  private setTabTitleContainerEl(el: HTMLDivElement) {
     this.tabTitleContainerEl = el;
-    this.intersectionObserver = createObserver("intersection", () => this.updateScrollingState(), {
-      root: el,
-      threshold: [0, 0.5, 1],
-    });
+    this.intersectionObserver?.disconnect();
+
+    if (el) {
+      this.intersectionObserver = createObserver(
+        "intersection",
+        () => this.updateScrollingState(),
+        {
+          root: el,
+          threshold: [0, 0.5, 1],
+        },
+      );
+    }
   }
 
   private updateScrollingState(): void {
@@ -407,6 +417,11 @@ export class TabNav extends LitElement {
   private scrollToTabTitles(direction: "forward" | "backward"): void {
     requestAnimationFrame(() => {
       const tabTitleContainer = this.tabTitleContainerEl;
+
+      if (!tabTitleContainer) {
+        return;
+      }
+
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
       const { effectiveDir } = this;
@@ -551,7 +566,7 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      tabTitles[this.selectedTabId].focus();
+      focusElement(tabTitles[this.selectedTabId]);
     });
   }
 
@@ -577,7 +592,7 @@ export class TabNav extends LitElement {
           }}
           onScroll={this.onTabTitleScroll}
           onWheel={this.onTabTitleWheel}
-          ref={this.storeTabTitleWrapperRef}
+          ref={this.setTabTitleContainerEl}
         >
           <slot onSlotChange={this.onSlotChange} />
         </div>

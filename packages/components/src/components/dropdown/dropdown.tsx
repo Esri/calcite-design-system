@@ -24,7 +24,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { OpenCloseComponent, toggleOpenClose } from "../../utils/openCloseComponent";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, SingleItemSlotArray, Width } from "../interfaces";
@@ -45,10 +45,7 @@ declare global {
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
-export class Dropdown
-  extends LitElement
-  implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent
-{
+export class Dropdown extends LitElement implements InteractiveComponent, FloatingUIComponent {
   // #region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };

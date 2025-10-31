@@ -91,7 +91,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
+  /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion

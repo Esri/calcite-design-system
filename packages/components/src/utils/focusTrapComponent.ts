@@ -148,11 +148,11 @@ export function deactivateFocusTrap(
  * @param {FocusTrapComponent} component The FocusTrap component.
  *
  * @example
- * const modal = document.querySelector("calcite-modal");
+ * const dialog = document.querySelector("calcite-dialog");
  * const input = document.createElement("calcite-input");
  * content.appendChild(input);
  * await input.componentOnReady();
- * await modal.updateFocusTrapElements();
+ * await dialog.updateFocusTrapElements();
  * requestAnimationFrame(() => input.setFocus());
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {

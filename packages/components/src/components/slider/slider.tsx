@@ -732,7 +732,7 @@ export class Slider
     this.emitInput();
   }
 
-  private storeThumbRef(el: HTMLDivElement): void {
+  private setThumbEl(el: HTMLDivElement): void {
     if (!el) {
       return;
     }
@@ -1315,7 +1315,7 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
-        ref={this.storeThumbRef}
+        ref={this.setThumbEl}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
