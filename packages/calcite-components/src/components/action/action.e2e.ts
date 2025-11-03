@@ -367,8 +367,8 @@ describe("calcite-action", () => {
   });
 
   describe("themed", () => {
-    describe("default", () => {
-      themed(html`calcite-action`, {
+    describe("solid", () => {
+      themed(html`<calcite-action appearance="solid"></calcite-action>`, {
         "--calcite-action-background-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
@@ -480,7 +480,7 @@ describe("calcite-action", () => {
       });
     });
     describe("deprecated", () => {
-      themed(html`calcite-action`, {
+      themed(html`<calcite-action appearance="solid"></calcite-action>`, {
         "--calcite-action-corner-radius-end-end": [
           {
             shadowSelector: `.${CSS.button}`,
@@ -613,8 +613,8 @@ describe("calcite-action", () => {
         },
       });
     });
-    describe("transparent", () => {
-      themed(html`<calcite-action appearance="transparent"></calcite-action>`, {
+    describe("default", () => {
+      themed(html`calcite-action`, {
         "--calcite-action-background-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
