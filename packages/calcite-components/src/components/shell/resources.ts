@@ -11,7 +11,6 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  centerRow: "center-row",
   panelStart: "panel-start",
   panelEnd: "panel-end",
   panelTop: "panel-top",

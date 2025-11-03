@@ -287,30 +287,8 @@ export const footerPadding_TestOnly = (): string =>
       <calcite-button type="button" slot="footer-start">4</calcite-button>
       <calcite-button type="button" slot="footer-end">5</calcite-button>
       <calcite-button type="button" slot="footer-end">6</calcite-button>
-      <calcite-button type="button" slot="footer-actions">7</calcite-button>
-      <calcite-button type="button" slot="footer-actions">8</calcite-button>
     </calcite-panel>
   </div>`;
-
-export const footerActions = (): string =>
-  html`<h2>footer-actions (Deprecated): Auto width</h2>
-    <div style="width: 300px;">
-      <calcite-panel height-scale="s">
-        <div slot="header-content">Header!</div>
-        <p>Slotted content!</p>
-        <calcite-button type="button" slot="footer-actions">1</calcite-button>
-        <calcite-button type="button" slot="footer-actions">2</calcite-button>
-      </calcite-panel>
-    </div>
-    <h2>footer-actions (Deprecated): Full width</h2>
-    <div style="width: 300px;">
-      <calcite-panel height-scale="s">
-        <div slot="header-content">Header!</div>
-        <p>Slotted content!</p>
-        <calcite-button width="full" type="button" slot="footer-actions">1</calcite-button>
-        <calcite-button width="full" type="button" slot="footer-actions">2</calcite-button>
-      </calcite-panel>
-    </div>`;
 
 export const footerVariations = (): string =>
   html`<h2>footer</h2>

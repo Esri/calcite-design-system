@@ -6,7 +6,6 @@ import {
   disabled,
   hidden,
   renders,
-  slots,
   t9n,
   defaults,
   themed,
@@ -14,7 +13,7 @@ import {
   focusable,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-action", () => {
   describe("defaults", () => {
@@ -212,10 +211,6 @@ describe("calcite-action", () => {
     focusable("calcite-action");
   });
 
-  describe("slots", () => {
-    slots("calcite-action", SLOTS);
-  });
-
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world" text-enabled></calcite-action>`);
@@ -325,21 +320,15 @@ describe("calcite-action", () => {
   });
 
   describe("accessible", () => {
-    accessible(`<calcite-action text="hello world"></calcite-action>`);
-    accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
-    accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
-  });
+    accessible(html` <calcite-action text="hello world"></calcite-action>`);
 
-  it("should have a tooltip", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`,
-    );
-    await page.waitForChanges();
+    describe("disabled and text-enabled", () => {
+      accessible(html` <calcite-action text="hello world" disabled text-enabled></calcite-action>`);
+    });
 
-    const tooltip = await page.find("calcite-tooltip");
-    const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
-    expect(referenceElement).toBeDefined();
+    describe("indicator", () => {
+      accessible(html` <calcite-action indicator text="hello world"></calcite-action>`);
+    });
   });
 
   describe("translation support", () => {
