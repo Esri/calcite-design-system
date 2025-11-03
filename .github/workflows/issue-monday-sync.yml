@@ -5,10 +5,13 @@ on:
   workflow_dispatch:
     inputs:
       issue_number:
+        description: "The issue number to sync changes for."
         required: true
       event_type:
+        description: "The type of event."
         required: true
       added_label:
+        description: "An label that was added to the issue through another action."
         required: false
 env:
   MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
@@ -32,7 +35,7 @@ jobs:
             await action({github, context})
 
       - name: "Update Label on Task"
-        if: github.event.action == 'labeled'
+        if: github.event.action == 'labeled' && github.event.label.name != 'monday.com sync'
         uses: actions/github-script@v8
         with:
           script: |
