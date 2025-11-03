@@ -64,7 +64,7 @@
 }
 
 .button {
-  border-radius: inherit;
+  border-radius: var(--calcite-action-corner-radius, 2px);
 }
 
 @mixin action-indicator() {
@@ -216,33 +216,33 @@
 :host([scale="s"]) {
   .button {
     @apply text-n2h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.2"));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
   }
   .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.2");
+    margin-inline-end: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.4"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-md));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
   }
   .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.3");
+    margin-inline-end: var(--calcite-spacing-sm);
   }
 }
 
 :host([scale="l"]) {
   .button {
     @apply text-0h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.5"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xl));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
   }
   .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.4");
+    margin-inline-end: var(--calcite-spacing-sm-plus);
   }
 }
 
