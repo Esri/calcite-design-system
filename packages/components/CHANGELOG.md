@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.43...@esri/calcite-components@4.0.0-next.44) (2025-11-03)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker:** Removed the deprecated `allowEmpty` property, use
+  `clearable` instead.
+
+### Code Refactoring
+
+- **color-picker:** remove deprecated `allowEmpty` property ([#13246](https://github.com/Esri/calcite-design-system/issues/13246)) ([cd38674](https://github.com/Esri/calcite-design-system/commit/cd38674958c4368732f435681a3586e7c8e0d9cc)), closes [#13086](https://github.com/Esri/calcite-design-system/issues/13086)
+
 ## [4.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.42...@esri/calcite-components@4.0.0-next.43) (2025-11-03)
 
 ### ⚠ BREAKING CHANGES
