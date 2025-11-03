@@ -929,6 +929,8 @@ module.exports = function Monday(issue) {
    * @returns {void}
    */
   function setAssignedStatus({ assignedCondition, unassignedCondition } = {}) {
+    const ASSIGNED = "Assigned";
+    const UNASSIGNED = "Unassigned";
     const defaultCondition =
       issue.state === "open" &&
       notInLifecycle({ labels }) &&
@@ -941,10 +943,10 @@ module.exports = function Monday(issue) {
         : defaultCondition;
 
     if (shouldSetAssigned && assignee) {
-      setColumnValue(columnIds.status, "Assigned");
+      setColumnValue(columnIds.status, ASSIGNED);
       console.log("Status set to 'Assigned'.");
     } else if (shouldSetUnassigned && !assignee) {
-      setColumnValue(columnIds.status, "Unassigned");
+      setColumnValue(columnIds.status, UNASSIGNED);
       console.log("Status set to 'Unassigned'.");
     }
   }
