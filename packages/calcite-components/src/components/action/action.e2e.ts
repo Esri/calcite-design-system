@@ -25,7 +25,7 @@ describe("calcite-action", () => {
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid",
+        defaultValue: "transparent",
       },
       {
         propertyName: "compact", // (deprecated)
@@ -316,12 +316,12 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
-  it("should have appearance=solid", async () => {
+  it("should have appearance=transparent", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
 
     const action = await page.find("calcite-action");
-    expect(action.getAttribute("appearance")).toBe("solid");
+    expect(action.getAttribute("appearance")).toBe("transparent");
   });
 
   describe("accessible", () => {

@@ -34,10 +34,10 @@
 
   border-radius: var(
     --calcite-action-corner-radius,
-    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius), 2px)
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius), 2px)
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius), 2px)
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius), 2px)
   );
 }
 
@@ -64,7 +64,7 @@
 }
 
 .button {
-  border-radius: var(--calcite-action-corner-radius, 2px);
+  border-radius: inherit;
 }
 
 @mixin action-indicator() {
