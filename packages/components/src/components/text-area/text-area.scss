@@ -79,13 +79,12 @@
 }
 
 .text-area {
-  @apply relative font-sans block box-border w-full m-0;
+  @apply relative block box-border w-full m-0;
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
-  font-family: var(--calcite-sans-family);
-
+  font-family: inherit;
   max-block-size: var(--calcite-text-area-max-height);
   min-block-size: calc(
     var(--calcite-text-area-min-height, 0px) - var(--calcite-internal-text-area-footer-min-height, 0px)

@@ -334,7 +334,7 @@
 .label,
 .description,
 .content-bottom {
-  @apply word-break font-sans font-normal;
+  @apply word-break font-normal;
 }
 
 :host([selected]) {
