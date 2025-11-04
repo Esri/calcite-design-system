@@ -215,33 +215,27 @@
 :host([scale="s"]) {
   .button {
     @apply text-n2h font-normal;
+    gap: var(--calcite-spacing-xxs);
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
-  }
-  .button--text-visible .icon-container {
-    margin-inline-end: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
+    gap: var(--calcite-spacing-sm);
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
-  }
-  .button--text-visible .icon-container {
-    margin-inline-end: var(--calcite-spacing-sm);
   }
 }
 
 :host([scale="l"]) {
   .button {
     @apply text-0h font-normal;
+    gap: var(--calcite-spacing-sm-plus);
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
-  }
-  .button--text-visible .icon-container {
-    margin-inline-end: var(--calcite-spacing-sm-plus);
   }
 }
 
