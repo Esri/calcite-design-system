@@ -1,0 +1,34 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-animation-timing-fast
+// --calcite-internal-animation-timing-medium
+// --calcite-internal-animation-timing-slow
+// --calcite-internal-duration-factor
+
+$easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
+
+@mixin animation-base() {
+  --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));
+  --calcite-internal-duration-factor: var(--calcite-duration-factor, 1);
+  --calcite-internal-animation-timing-fast: calc(100ms * var(--calcite-internal-duration-factor));
+  --calcite-internal-animation-timing-medium: calc(200ms * var(--calcite-internal-duration-factor));
+  --calcite-internal-animation-timing-slow: calc(300ms * var(--calcite-internal-duration-factor));
+}
+
+@mixin animation-reduced-motion() {
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --calcite-internal-duration-factor: 0;
+    }
+  }
+}
+
+/* helper to properly scale internal durations */
+@function scale-duration($animation-var, $factor) {
+  @return calc(
+    calc(var($animation-var) / var(--calcite-internal-duration-factor)) *
+      calc($factor / var(--calcite-internal-duration-factor))
+  );
+}

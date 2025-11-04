@@ -19,7 +19,7 @@ module.exports = async ({ github, context }) => {
 
   const monday = Monday(issue);
   monday.handleMilestone();
-  monday.addAllAssignees();
+  monday.handleAssignees();
 
   if (context.payload.inputs.added_label) {
     monday.addLabel(context.payload.inputs.added_label);

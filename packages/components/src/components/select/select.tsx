@@ -1,0 +1,453 @@
+// @ts-strict-ignore
+import { PropertyValues } from "lit";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  JsxNode,
+  stringOrBoolean,
+} from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { useT9n } from "../../controllers/useT9n";
+import {
+  afterConnectDefaultValueSet,
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+} from "../../utils/form";
+import {
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { createObserver } from "../../utils/observers";
+import { Scale, Status, Width } from "../interfaces";
+import { getIconScale } from "../../utils/component";
+import { InternalLabel } from "../functional/InternalLabel";
+import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
+import type { Option } from "../option/option";
+import type { OptionGroup } from "../option-group/option-group";
+import type { Label } from "../label/label";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { styles } from "./select.scss";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { CSS, IDS } from "./resources";
+
+declare global {
+  interface DeclareElements {
+    "calcite-select": Select;
+  }
+}
+
+type OptionOrGroup = Option["el"] | OptionGroup["el"];
+type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
+
+function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is Option["el"] {
+  return optionOrGroup.tagName === "CALCITE-OPTION";
+}
+
+function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGroup["el"] {
+  return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
+}
+
+/**
+ * @slot - A slot for adding `calcite-option`s.
+ * @slot label-content - A slot for rendering content next to the component's `labelText`.
+ */
+export class Select
+  extends LitElement
+  implements LabelableComponent, FormComponent, InteractiveComponent
+{
+  // #region Static Members
+
+  static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
+
+  defaultValue: Select["value"];
+
+  formEl: HTMLFormElement;
+
+  labelEl: Label["el"];
+
+  private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
+
+  private selectRef = createRef<HTMLSelectElement>();
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  // #endregion
+
+  // #region Public Properties
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /**
+   * The `id` of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @property({ reflect: true }) form: string;
+
+  /**
+   * Accessible name for the component.
+   *
+   * @required
+   */
+  @property() label: string;
+
+  /** When provided, displays label text on the component. */
+  @property() labelText: string;
+
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
+  @property({ reflect: true }) name: string;
+
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
+  @property({ reflect: true }) required = false;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * The component's selected option `HTMLElement`.
+   *
+   * @readonly
+   */
+  @property() selectedOption: Option["el"];
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation icon to display under the component. */
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+    | IconName
+    | boolean;
+
+  /** Specifies the validation message to display under the component. */
+  @property() validationMessage: string;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property() validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
+  /** The component's `selectedOption` value. */
+  @property() value: string = null;
+
+  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  // #endregion
+
+  // #region Public Methods
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.selectRef.value, options);
+  }
+
+  // #endregion
+
+  // #region Events
+
+  /** Fires when the `selectedOption` changes. */
+  calciteSelectChange = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalOptionChange", this.handleOptionOrGroupChange);
+    this.listen("calciteInternalOptionGroupChange", this.handleOptionOrGroupChange);
+  }
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, {
+      subtree: true,
+      childList: true,
+    });
+
+    connectLabel(this);
+    connectForm(this);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+      this.updateItemsFromValue(this.value);
+    }
+
+    if (changes.has("selectedOption")) {
+      this.value = this.selectedOption?.value;
+    }
+  }
+
+  override updated(): void {
+    updateHostInteraction(this);
+  }
+
+  loaded(): void {
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
+
+    this.populateInternalSelect();
+
+    const selected = this.selectRef.value?.selectedOptions[0];
+    this.selectFromNativeOption(selected);
+    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+    disconnectLabel(this);
+    disconnectForm(this);
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private handleInternalSelectChange(): void {
+    const selected = this.selectRef.value.selectedOptions[0];
+    this.selectFromNativeOption(selected);
+    requestAnimationFrame(() => this.emitChangeEvent());
+  }
+
+  protected handleOptionOrGroupChange(event: CustomEvent): void {
+    event.stopPropagation();
+
+    const optionOrGroup = event.target as OptionOrGroup;
+    const nativeEl = this.componentToNativeEl.get(optionOrGroup);
+
+    if (!nativeEl) {
+      return;
+    }
+
+    this.updateNativeElement(optionOrGroup, nativeEl);
+
+    if (isOption(optionOrGroup) && optionOrGroup.selected) {
+      this.deselectAllExcept(optionOrGroup);
+      this.selectedOption = optionOrGroup;
+    }
+  }
+
+  onLabelClick(): void {
+    this.setFocus();
+  }
+
+  private updateItemsFromValue(value: string): void {
+    this.el
+      .querySelectorAll("calcite-option")
+      .forEach((item) => (item.selected = item.value === value));
+  }
+
+  private updateNativeElement(
+    optionOrGroup: OptionOrGroup,
+    nativeOptionOrGroup: NativeOptionOrGroup,
+  ): void {
+    nativeOptionOrGroup.disabled = optionOrGroup.disabled;
+    nativeOptionOrGroup.label = optionOrGroup.label;
+
+    if (isOption(optionOrGroup)) {
+      const option = nativeOptionOrGroup as HTMLOptionElement;
+      option.selected = optionOrGroup.selected;
+      option.value = optionOrGroup.value;
+
+      // need to set innerText for mobile
+      // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
+      option.innerText = optionOrGroup.label;
+    }
+  }
+
+  private populateInternalSelect(): void {
+    const optionsAndGroups = Array.from(
+      this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
+    ).filter(
+      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
+    ) as OptionOrGroup[];
+
+    this.clearInternalSelect();
+
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectRef.value?.append(this.toNativeElement(optionOrGroup)),
+    );
+  }
+
+  private clearInternalSelect(): void {
+    this.componentToNativeEl.forEach((value) => value.remove());
+    this.componentToNativeEl.clear();
+  }
+
+  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+    if (!nativeOption) {
+      return;
+    }
+
+    let futureSelected: Option["el"];
+
+    this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
+      if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
+        optionOrGroup.selected = true;
+        futureSelected = optionOrGroup;
+        this.deselectAllExcept(optionOrGroup);
+      }
+    });
+
+    if (futureSelected) {
+      this.selectedOption = futureSelected;
+    }
+  }
+
+  private toNativeElement(optionOrGroup: Option["el"] | OptionGroup["el"]): NativeOptionOrGroup {
+    if (isOption(optionOrGroup)) {
+      const option = document.createElement("option");
+      this.updateNativeElement(optionOrGroup, option);
+      this.componentToNativeEl.set(optionOrGroup, option);
+
+      return option;
+    }
+
+    if (isOptionGroup(optionOrGroup)) {
+      const group = document.createElement("optgroup");
+      this.updateNativeElement(optionOrGroup, group);
+
+      Array.from(optionOrGroup.children as HTMLCollectionOf<Option["el"]>).forEach((option) => {
+        const nativeOption = this.toNativeElement(option);
+        group.append(nativeOption);
+        this.componentToNativeEl.set(optionOrGroup, nativeOption);
+      });
+
+      this.componentToNativeEl.set(optionOrGroup, group);
+
+      return group;
+    }
+
+    throw new Error("unsupported element child provided");
+  }
+
+  private deselectAllExcept(except: Option["el"]): void {
+    this.el.querySelectorAll<Option["el"]>("calcite-option").forEach((option) => {
+      if (option === except) {
+        return;
+      }
+
+      option.selected = false;
+    });
+  }
+
+  private emitChangeEvent(): void {
+    this.calciteSelectChange.emit();
+  }
+
+  // #endregion
+
+  // #region Rendering
+
+  private renderChevron(): JsxNode {
+    return (
+      <div class={CSS.iconContainer}>
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={getIconScale(this.scale)} />
+      </div>
+    );
+  }
+
+  override render(): JsxNode {
+    const { disabled } = this;
+
+    return (
+      <InteractiveContainer disabled={disabled}>
+        {this.labelText && (
+          <InternalLabel
+            labelText={this.labelText}
+            onClick={this.onLabelClick}
+            required={this.required}
+            tooltipText={this.messages.required}
+          />
+        )}
+        <div class={CSS.wrapper}>
+          <select
+            aria-errormessage={IDS.validationMessage}
+            ariaInvalid={this.status === "invalid"}
+            ariaLabel={getLabelText(this)}
+            class={CSS.select}
+            disabled={disabled}
+            onChange={this.handleInternalSelectChange}
+            ref={this.selectRef}
+            required={this.required}
+          >
+            <slot />
+          </select>
+          {this.renderChevron()}
+          <HiddenFormInputSlot component={this} />
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            id={IDS.validationMessage}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
+      </InteractiveContainer>
+    );
+  }
+
+  // #endregion
+}
