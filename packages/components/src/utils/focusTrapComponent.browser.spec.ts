@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as focusTrap from "focus-trap";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
-import { waitForAnimationFrame } from "../tests/utils/timing";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -158,6 +157,12 @@ describe("focusTrapComponent", () => {
     }
 
     describe("setReturnFocus option", () => {
+      async function waitForFocusShift() {
+        // focus-trap delays focus changes until the next execution frame - see https://github.com/focus-trap/focus-trap/#delayinitialfocus
+        // wait for one timeout
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+
       it("should use custom setReturnFocus function if provided", async () => {
         setUpTest({
           focusTrapOptions: {
@@ -166,14 +171,12 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(nextFocusedEl);
       });
@@ -186,14 +189,12 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(insideButton);
       });
@@ -206,14 +207,12 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await waitForFocusShift();
 
         expect(document.activeElement).toStrictEqual(previousFocusedEl);
       });
