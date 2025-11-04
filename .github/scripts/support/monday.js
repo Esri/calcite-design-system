@@ -936,19 +936,15 @@ module.exports = function Monday(issue) {
       issue.state === "open" &&
       notInLifecycle({ labels }) &&
       !inMilestoneStatus();
-    const shouldSetAssigned =
-      assignedCondition !== undefined ? assignedCondition : defaultCondition;
-    const shouldSetUnassigned =
-      unassignedCondition !== undefined
-        ? unassignedCondition
-        : defaultCondition;
+    const shouldSetAssigned = assignedCondition ?? defaultCondition;
+    const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
 
-    if (shouldSetAssigned && assignee) {
+    if (assignee && shouldSetAssigned) {
       setColumnValue(columnIds.status, ASSIGNED);
-      console.log("Status set to 'Assigned'.");
-    } else if (shouldSetUnassigned && !assignee) {
+      console.log(`Status set to '${ASSIGNED}'.`);
+    } else if (!assignee && shouldSetUnassigned) {
       setColumnValue(columnIds.status, UNASSIGNED);
-      console.log("Status set to 'Unassigned'.");
+      console.log(`Status set to '${UNASSIGNED}'.`);
     }
   }
 

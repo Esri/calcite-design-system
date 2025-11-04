@@ -23,10 +23,12 @@ module.exports = async ({ context }) => {
     process.exit(0);
   }
 
-  const tokensLabels = [designTokens, tokensPackage];
   const remainingTokenLabel =
-    tokensLabels.includes(labelName) &&
-    tokensLabels.find((l) => l !== labelName);
+    labelName === designTokens
+      ? tokensPackage
+      : labelName === tokensPackage
+        ? designTokens
+        : null;
   if (remainingTokenLabel && includesLabel(issueLabels, remainingTokenLabel)) {
     console.error(
       "Issue is still marked as a design token issue. Skipping label removal.",
