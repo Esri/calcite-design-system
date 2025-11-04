@@ -437,10 +437,10 @@
   button,
   a {
     &:hover {
-      --calcite-internal-button-background-color: var(--calcite-color-border-3);
+      --calcite-internal-button-background-color: var(--calcite-color-border-2);
     }
     &:active {
-      --calcite-internal-button-background-color: var(--calcite-color-border-2);
+      --calcite-internal-button-background-color: var(--calcite-color-border-1);
     }
   }
 }
