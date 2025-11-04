@@ -3,13 +3,13 @@ import { SetOptional } from "type-fest";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
 import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
-import { type CalciteConfig, defaultConfig, setCalciteConfig } from "./config";
+import { type CalciteConfig, clearConfig } from "./config";
 
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
 
   beforeEach(async () => {
-    setCalciteConfig(defaultConfig);
+    clearConfig();
     loggedDeprecations.clear();
   });
 

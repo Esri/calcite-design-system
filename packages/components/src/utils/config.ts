@@ -22,20 +22,40 @@ export interface CalciteConfig {
   version?: string;
 }
 
-let effectiveConfig: CalciteConfig;
+let effectiveConfig: CalciteConfig | undefined = undefined;
 
-export const defaultConfig: CalciteConfig = {
-  focusTrapStack: [],
-  logLevel: "info",
-};
-
-export function setCalciteConfig(config: CalciteConfig): void {
-  effectiveConfig = config;
+function initConfig(): CalciteConfig {
+  return {
+    ...{
+      focusTrapStack: [],
+      logLevel: "info",
+    },
+    ...(globalThis["calciteConfig"] ?? {}),
+  };
 }
 
-export function getCalciteConfig(): CalciteConfig {
-  const globalConfig = globalThis["calciteConfig"] as CalciteConfig | undefined;
-  return { ...effectiveConfig, ...globalConfig };
+/**
+ * Clears the effective config so it will be recomputed on next getConfig().
+ *
+ * This is primarily intended for testing purposes.
+ *
+ * @internal
+ */
+export function clearConfig(): void {
+  effectiveConfig = undefined;
+}
+
+/**
+ * Returns the effective config.
+ *
+ * @internal
+ */
+export function getConfig(): CalciteConfig {
+  if (!effectiveConfig) {
+    effectiveConfig = initConfig();
+  }
+
+  return effectiveConfig;
 }
 
 // the following placeholders are replaced by the build
@@ -45,20 +65,18 @@ const revision = __CALCITE_REVISION__;
 
 /** Stamp the version onto the global config. */
 export function stampVersion(): void {
-  const effectiveConfig = getCalciteConfig();
+  const config = getConfig();
 
-  if (effectiveConfig && effectiveConfig.version) {
+  if (config && config.version) {
     return;
   }
 
   console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
-  const target = effectiveConfig || globalThis["calciteConfig"] || {};
-
-  Object.defineProperty(target, "version", {
+  Object.defineProperty(config, "version", {
     value: version,
     writable: false,
   });
 
-  globalThis["calciteConfig"] = target;
+  globalThis["calciteConfig"] = config;
 }

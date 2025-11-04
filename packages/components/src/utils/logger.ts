@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { LuminaJsx } from "@arcgis/lumina";
-import { getCalciteConfig } from "./config";
+import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
 
@@ -35,7 +35,7 @@ const logLevels = {
 } as const;
 
 function willLog(level: LogLevel): boolean {
-  return logLevels[level] >= logLevels[getCalciteConfig().logLevel];
+  return logLevels[level] >= logLevels[getConfig().logLevel];
 }
 
 function forwardToConsole(level: LogLevel, ...data: any[]): void {

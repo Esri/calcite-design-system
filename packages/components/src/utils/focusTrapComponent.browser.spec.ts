@@ -8,7 +8,7 @@ import {
   FocusTrapComponent,
   updateFocusTrapElements,
 } from "./focusTrapComponent";
-import { CalciteConfig } from "./config";
+import { CalciteConfig, clearConfig } from "./config";
 
 describe("focusTrapComponent", () => {
   it("focusTrapComponent lifecycle", () => {
@@ -62,6 +62,7 @@ describe("focusTrapComponent", () => {
 
   describe("configuration", () => {
     beforeEach(() => {
+      clearConfig();
       vi.resetModules();
     });
 

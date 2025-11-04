@@ -1,13 +1,13 @@
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
-import { defaultConfig, setCalciteConfig, getCalciteConfig, stampVersion } from "./config";
+import { clearConfig, getConfig, stampVersion } from "./config";
 
 describe("config", () => {
   beforeEach(() => {
-    setCalciteConfig(defaultConfig);
+    clearConfig();
   });
 
   it("has defaults", async () => {
-    const config = getCalciteConfig();
+    const config = getConfig();
     expect(config.focusTrapStack).toHaveLength(0);
     expect(config.logLevel).toBe("info");
   });
@@ -19,7 +19,7 @@ describe("config", () => {
       focusTrapStack: customFocusTrapStack,
     };
 
-    const config = getCalciteConfig();
+    const config = getConfig();
 
     expect(config.focusTrapStack).toBe(customFocusTrapStack);
   });
