@@ -81,10 +81,21 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
     });
     await page.waitForChanges();
 
+    let receivedFocusOptions = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+      return testWindow.receivedFocusOptions;
+    });
+
+    if (receivedFocusOptions?.length > 0) {
+      throw new Error(
+        `unexpected focus calls before setFocus() was called, if testing a focus-trapping component, please disable for proper testing.`,
+      );
+    }
+
     await element.callMethod("setFocus", fakeFocusOptions);
     await page.waitForChanges();
 
-    const receivedFocusOptions = await page.evaluate(() => {
+    receivedFocusOptions = await page.evaluate(() => {
       const testWindow = window as TestWindow;
       return testWindow.receivedFocusOptions;
     });

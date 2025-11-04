@@ -706,7 +706,7 @@ describe("calcite-dialog", () => {
 
   describe("focusable", () => {
     const createDialogHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
+      `<calcite-dialog heading="Title" open ${attrs} focus-trap-disabled>${contentHTML}</calcite-dialog>`;
 
     const focusableContentTargetClass = "test";
     const shadowFocusTargetSelector = `.${CSS.panel}`;

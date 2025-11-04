@@ -90,7 +90,7 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("should focus the input when setFocus is called", () => {
-    focusable(`calcite-input-date-picker`, {
+    focusable(`<calcite-input-date-picker focus-trap-disabled></calcite-input-date-picker>`, {
       shadowFocusTargetSelector: "calcite-input-text",
     });
   });
