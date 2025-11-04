@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  text-align: start;
+}
+
+h2 {
+  color: #333;
+  margin-block: 48px;
+  margin-inline: 24px;
+}
+
+h3 {
+  color: #555;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-block: 48px;
+  margin-inline: 24px;
+}
+
+h4 {
+  margin-block: 0 24px;
+  margin-inline: 24px;
+  font-weight: 400;
+}
+
+h4:only-of-type {
+  margin-block: 48px;
+  margin-inline: 24px;
+}
+
+h4:last-of-type {
+  margin-block-end: 48px;
+}
+
+calcite-chip {
+  align-self: center;
+  margin-block: 0;
+  margin-inline: 8px;
+}
+
+calcite-tab-nav {
+  padding-block: 0;
+  padding-inline: 24px;
+}
+
+.text-box {
+  max-inline-size: 80vh;
+  inline-size: 100%;
+  margin-block: 0;
+  margin-inline: auto;
+}
+
+.footer-container {
+  padding: 12px;
+  inline-size: 100%;
+  background-color: #f8f8f8;
+  border-block-start: 1px solid #e0e0e0;
+}
+
+calcite-shell {
+  block-size: auto;
+  position: relative;
+  overflow: visible;
+  margin-block-end: 48px;
+}
+
+.shell-demo {
+  block-size: 60vh;
+}
+
+.content-shell {
+  block-size: 100%;
+  background-color: #f9f9f9;
+  position: fixed;
+}
+
+h3 code {
+  background-color: #eee;
+  border: 8px solid #eee;
+}
