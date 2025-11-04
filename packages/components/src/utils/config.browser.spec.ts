@@ -30,14 +30,12 @@ describe("config", () => {
     beforeEach(() => delete globalThis.calciteConfig);
 
     it("creates global config and stamps the version onto it", async () => {
-      // const config = getCalciteConfig();
       stampVersion();
       expect(globalThis.calciteConfig.version).toBe(buildVersion);
     });
 
     it("stamps the version onto existing config if there's no version present", async () => {
       globalThis.calciteConfig = {};
-      // const config = getCalciteConfig();
       stampVersion();
       expect(globalThis.calciteConfig.version).toBe(buildVersion);
     });
@@ -45,7 +43,6 @@ describe("config", () => {
     it("bails if version is already stamped onto existing config", async () => {
       const testVersion = "1.33.7";
       globalThis.calciteConfig = { version: testVersion };
-      // const config = getCalciteConfig();
       stampVersion();
       expect(globalThis.calciteConfig.version).toBe(testVersion);
     });
@@ -62,7 +59,6 @@ describe("config", () => {
 
     it("logs info with registered version", async () => {
       expect(console.info).not.toHaveBeenCalled();
-      // const config = getCalciteConfig();
       stampVersion();
       expect(console.info).toHaveBeenCalled();
     });
