@@ -37,6 +37,21 @@
   @apply block;
 }
 
+@mixin input-affix-spacing($main-padding, $affix-padding) {
+  .has-prefix input {
+    padding-inline-start: $affix-padding;
+  }
+  & .prefix {
+    padding-inline: $main-padding $affix-padding;
+  }
+  .has-suffix input {
+    padding-inline-end: $affix-padding;
+  }
+  & .suffix {
+    padding-inline: $affix-padding $main-padding;
+  }
+}
+
 // scales
 :host([scale="s"]) {
   & input,
@@ -47,18 +62,7 @@
   & input {
     padding-inline: var(--calcite-spacing-sm);
   }
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-xxs);
-  }
-  & .prefix {
-    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-xxs);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-  & .suffix {
-    padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
-  }
+  @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
   & input[type="file"],
   & textarea {
     min-block-size: theme("spacing.6");
@@ -88,18 +92,7 @@
   & input {
     padding-inline: var(--calcite-spacing-md);
   }
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-xs);
-  }
-  & .prefix {
-    padding-inline: var(--calcite-spacing-md) var(--calcite-spacing-xs);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-spacing-xs);
-  }
-  & .suffix {
-    padding-inline: var(--calcite-spacing-xs) var(--calcite-spacing-md);
-  }
+  @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
   & textarea,
   & input[type="file"] {
     min-block-size: theme("spacing.8");
@@ -129,18 +122,7 @@
   & input {
     padding-inline: var(--calcite-spacing-lg);
   }
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-sm);
-  }
-  & .prefix {
-    padding-inline: var(--calcite-spacing-lg) var(--calcite-spacing-sm);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
-  & .suffix {
-    padding-inline: var(--calcite-spacing-sm) var(--calcite-spacing-lg);
-  }
+  @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
   & textarea,
   & input[type="file"] {
     min-block-size: theme("spacing.11");

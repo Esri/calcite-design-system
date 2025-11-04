@@ -36,6 +36,21 @@
   @apply block;
 }
 
+@mixin input-affix-spacing($main-padding, $affix-padding, $custom-padding) {
+  .has-prefix input {
+    padding-inline-start: $affix-padding;
+  }
+  & .prefix {
+    padding-inline: $main-padding $affix-padding;
+  }
+  .has-suffix input {
+    padding-inline-end: var($custom-padding, var($affix-padding));
+  }
+  & .suffix {
+    padding-inline: $affix-padding $main-padding;
+  }
+}
+
 // scales
 :host([scale="s"]) {
   & input {
@@ -49,20 +64,11 @@
     @apply text-n2h h-6;
   }
 
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-xxs);
-  }
-  & .prefix {
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-xxs));
-  }
-  & .suffix {
-    padding-inline-start: var(--calcite-spacing-xxs);
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
+  @include input-affix-spacing(
+    var(--calcite-spacing-sm),
+    var(--calcite-spacing-xxs),
+    var(--calcite-internal-input-text-input-padding-inline-end)
+  );
 
   & .action-wrapper {
     @apply h-6;
@@ -86,20 +92,11 @@
     @apply text-n1h h-8;
   }
 
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-xs);
-  }
-  & .prefix {
-    padding-inline-start: var(--calcite-spacing-md);
-    padding-inline-end: var(--calcite-spacing-xs);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-xs));
-  }
-  & .suffix {
-    padding-inline-start: var(--calcite-spacing-xs);
-    padding-inline-end: var(--calcite-spacing-md);
-  }
+  @include input-affix-spacing(
+    var(--calcite-spacing-md),
+    var(--calcite-spacing-xs),
+    var(--calcite-internal-input-text-input-padding-inline-end)
+  );
 
   & .action-wrapper {
     @apply h-8;
@@ -123,20 +120,11 @@
     @apply text-0h h-11;
   }
 
-  .has-prefix input {
-    padding-inline-start: var(--calcite-spacing-sm);
-  }
-  & .prefix {
-    padding-inline-start: var(--calcite-spacing-lg);
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
-  .has-suffix input {
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
-  }
-  & .suffix {
-    padding-inline-start: var(--calcite-spacing-sm);
-    padding-inline-end: var(--calcite-spacing-lg);
-  }
+  @include input-affix-spacing(
+    var(--calcite-spacing-lg),
+    var(--calcite-spacing-sm),
+    var(--calcite-internal-input-text-input-padding-inline-end)
+  );
 
   & .action-wrapper {
     @apply h-11;
