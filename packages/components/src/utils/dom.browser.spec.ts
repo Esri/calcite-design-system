@@ -1045,16 +1045,15 @@ describe("dom", () => {
     });
   });
 
-  const myButtonId = "my.id";
-  const myButtonClass = "my-class";
-  const insideHost = "Inside Host";
-  const outsideHost = "Outside Host";
-  const insideShadow = "Inside Shadow";
-  const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
-  const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
-  const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
-
   describe("queries", () => {
+    const myButtonId = "my.id";
+    const myButtonClass = "my-class";
+    const insideHost = "Inside Host";
+    const outsideHost = "Outside Host";
+    const insideShadow = "Inside Shadow";
+    const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
+    const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
+    const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
     let componentTag: string;
 
     beforeEach(async () => {
@@ -1072,7 +1071,7 @@ describe("dom", () => {
 
       const testComponent = document.createElement(componentTag);
       testComponent.innerHTML = insideHostHTML;
-      document.body.appendChild(testComponent);
+      document.body.append(testComponent);
     });
 
     it("queryElementRoots: should query from inside host element", async () => {
