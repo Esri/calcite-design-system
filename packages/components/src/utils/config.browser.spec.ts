@@ -1,5 +1,5 @@
-import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
-import { clearConfig, getConfig, stampVersion } from "./config";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { clearConfig, defaultConfig, getConfig, stampVersion } from "./config";
 
 describe("config", () => {
   beforeEach(() => {
@@ -8,8 +8,9 @@ describe("config", () => {
 
   it("has defaults", async () => {
     const config = getConfig();
-    expect(config.focusTrapStack).toHaveLength(0);
-    expect(config.logLevel).toBe("info");
+
+    expect(config.focusTrapStack).toEqual(defaultConfig.focusTrapStack);
+    expect(config.logLevel).toBe(defaultConfig.logLevel);
   });
 
   it("allows custom configuration", async () => {

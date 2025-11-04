@@ -9,6 +9,10 @@ describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
 
   beforeEach(async () => {
+    globalThis.calciteConfig = {
+      // non-test default log level
+      logLevel: "info",
+    };
     clearConfig();
     loggedDeprecations.clear();
   });

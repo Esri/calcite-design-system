@@ -1,3 +1,4 @@
+import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
 
@@ -24,12 +25,19 @@ export interface CalciteConfig {
 
 let effectiveConfig: CalciteConfig | undefined = undefined;
 
+/**
+ * Exporting for testing purposes only
+ *
+ * @internal
+ */
+export const defaultConfig: CalciteConfig = {
+  focusTrapStack: [],
+  logLevel: !isServer && import.meta.env.MODE === "test" ? "error" : "info",
+};
+
 function initConfig(): CalciteConfig {
   return {
-    ...{
-      focusTrapStack: [],
-      logLevel: "info",
-    },
+    ...defaultConfig,
     ...(globalThis["calciteConfig"] ?? {}),
   };
 }
