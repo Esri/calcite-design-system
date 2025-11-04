@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
-    "directory": "packages/eslint-config-calcite"
+    "directory": "packages/eslint-config"
   },
   "license": "SEE LICENSE.md",
   "files": [

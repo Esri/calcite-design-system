@@ -1,41 +1,33 @@
 {
-  "name": "@esri/calcite-components-react",
-  "version": "4.0.0-next.43",
-  "description": "A set of React components that wrap calcite components",
-  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "name": "@esri/calcite-tailwind-preset",
+  "version": "1.0.2-next.7",
+  "description": "Tailwind CSS preset for the Calcite Design System",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
-    "directory": "packages/calcite-components-react"
+    "directory": "packages/tailwind-preset"
   },
   "license": "SEE LICENSE.md",
-  "sideEffects": false,
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/",
     "THIRD-PARTY-LICENSES.md"
   ],
   "scripts": {
-    "build": "rimraf dist && npm run compile",
+    "build": "vite build",
     "clean": "rimraf dist node_modules .turbo",
-    "compile": "npm run tsc",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
-    "tsc": "tsc",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "dependencies": {
-    "@arcgis/lumina": ">=5.0.0-next.24 <6.0.0",
-    "@esri/calcite-components": "4.0.0-next.43",
-    "@lit/react": "^1.0.8",
-    "lit": "^3.3.0"
+    "@esri/calcite-design-tokens": "4.0.0-next.5"
   },
   "peerDependencies": {
-    "react": ">=18.3",
-    "react-dom": ">=18.3"
+    "@esri/calcite-design-tokens": "^4.0.0-next.1",
+    "tailwindcss": "^3.0.0 < 4.0.0"
   },
   "volta": {
     "extends": "../../package.json"

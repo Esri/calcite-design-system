@@ -13,7 +13,7 @@ import {
   IconType,
   CollapseDirection,
   SelectionAppearance,
-} from "../../calcite-components/src/components/interfaces.ts";
+} from "../../components/src/components/interfaces.ts";
 import { ArrowType } from "../src/components/carousel/interfaces.ts";
 import { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
 import { TileSelectType } from "../src/components/tile-select/interfaces.ts";

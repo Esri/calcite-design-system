@@ -1,11 +1,12 @@
 body {
   margin: 0;
-  text-align: left;
+  text-align: start;
 }
 
 h2 {
   color: #333;
-  margin: 48px 24px;
+  margin-block: 48px;
+  margin-inline: 24px;
 }
 
 h3 {
@@ -13,57 +14,63 @@ h3 {
   font-size: 18px;
   font-weight: 500;
   line-height: 1.6;
-  margin: 48px 24px;
+  margin-block: 48px;
+  margin-inline: 24px;
 }
 
 h4 {
-  margin: 0 24px 24px;
+  margin-block: 0 24px;
+  margin-inline: 24px;
   font-weight: 400;
 }
 
 h4:only-of-type {
-  margin: 48px 24px;
+  margin-block: 48px;
+  margin-inline: 24px;
 }
 
 h4:last-of-type {
-  margin-bottom: 48px;
+  margin-block-end: 48px;
 }
 
 calcite-chip {
   align-self: center;
-  margin: 0 8px;
+  margin-block: 0;
+  margin-inline: 8px;
 }
 
 calcite-tab-nav {
-  padding: 0 24px;
+  padding-block: 0;
+  padding-inline: 24px;
 }
 
 .text-box {
-  max-width: 80vh;
-  width: 100%;
-  margin: 0 auto;
+  max-inline-size: 80vh;
+  inline-size: 100%;
+  margin-block: 0;
+  margin-inline: auto;
 }
 
 .footer-container {
   padding: 12px;
-  width: 100%;
+  inline-size: 100%;
   background-color: #f8f8f8;
-  border-top: 1px solid #e0e0e0;
+  border-block-start: 1px solid #e0e0e0;
 }
 
 calcite-shell {
-  height: auto;
+  block-size: auto;
   position: relative;
   overflow: visible;
-  margin-bottom: 48px;
+  margin-block-end: 48px;
 }
 
 .shell-demo {
-  height: 60vh;
+  block-size: 60vh;
 }
 
 .content-shell {
-  height: 100%;
+  block-size: 100%;
   background-color: #f9f9f9;
   position: fixed;
 }
