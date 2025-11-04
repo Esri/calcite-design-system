@@ -70,7 +70,7 @@
     "axe-core": "4.11.0",
     "change-case": "5.4.4",
     "chokidar": "4.0.3",
-    "chromatic": "13.3.0",
+    "chromatic": "13.3.3",
     "concurrently": "9.2.1",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "12.0.1",
@@ -92,7 +92,7 @@
     "husky": "9.1.7",
     "jest-axe": "10.0.0",
     "lerna": "8.2.4",
-    "lint-staged": "16.2.4",
+    "lint-staged": "16.2.6",
     "markdownlint-cli2": "0.18.1",
     "postcss": "8.5.6",
     "prettier": "3.6.2",
@@ -103,7 +103,7 @@
     "semver": "7.7.3",
     "shell-quote": "1.8.3",
     "storybook": "9.1.13",
-    "storybook-addon-rtl": "2.0.0",
+    "storybook-addon-rtl": "2.0.1",
     "style-dictionary": "5.1.1",
     "stylelint": "16.25.0",
     "stylelint-config-recommended-scss": "15.0.1",
@@ -127,8 +127,8 @@
     "patch-package": "8.0.1"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "21.6.5",
-    "@nx/nx-linux-x64-gnu": "21.6.5",
-    "@nx/nx-win32-x64-msvc": "21.6.5"
+    "@nx/nx-darwin-arm64": "21.6.8",
+    "@nx/nx-linux-x64-gnu": "21.6.8",
+    "@nx/nx-win32-x64-msvc": "21.6.8"
   }
 }
