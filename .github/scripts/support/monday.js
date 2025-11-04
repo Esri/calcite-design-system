@@ -382,6 +382,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.stalled,
         value: "Stalled",
+        clearable: true,
       },
     ],
   ]);

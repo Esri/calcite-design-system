@@ -87,10 +87,6 @@ describe("calcite-color-picker", () => {
   describe("defaults", () => {
     defaults("calcite-color-picker", [
       {
-        propertyName: "allowEmpty",
-        defaultValue: false,
-      },
-      {
         propertyName: "alphaChannel",
         defaultValue: false,
       },

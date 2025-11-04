@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.43...@esri/calcite-components@4.0.0-next.44) (2025-11-03)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker:** Removed the deprecated `allowEmpty` property, use
+  `clearable` instead.
+
+### Code Refactoring
+
+- **color-picker:** remove deprecated `allowEmpty` property ([#13246](https://github.com/Esri/calcite-design-system/issues/13246)) ([cd38674](https://github.com/Esri/calcite-design-system/commit/cd38674958c4368732f435681a3586e7c8e0d9cc)), closes [#13086](https://github.com/Esri/calcite-design-system/issues/13086)
+
+## [4.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.42...@esri/calcite-components@4.0.0-next.43) (2025-11-03)
+
+### ⚠ BREAKING CHANGES
+
+- **tokens:** Updates components to honor the [recommended way of
+  setting font
+  family](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/conventions/Styling.md#typography).
+  Developers can also use a plain css `font-family` declaration to target
+  desired components.
+
+### Features
+
+- **tokens:** Ensure components inherit font-family css overrides ([#13209](https://github.com/Esri/calcite-design-system/issues/13209)) ([ef30113](https://github.com/Esri/calcite-design-system/commit/ef3011337f2c2d310b2a3ae39ca60bb9e47bdc9a)), closes [#7175](https://github.com/Esri/calcite-design-system/issues/7175)
+
+## [4.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.41...@esri/calcite-components@4.0.0-next.42) (2025-10-31)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [4.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.40...@esri/calcite-components@4.0.0-next.41) (2025-10-30)
 
 ### Features

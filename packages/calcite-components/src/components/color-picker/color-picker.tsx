@@ -100,8 +100,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private isActiveChannelInputEmpty: boolean = false;
 
-  private isClearable: boolean;
-
   private mode: SupportedMode = CSSColorMode.HEX;
 
   private opacityScopeRef = createRef<HTMLDivElement>();
@@ -278,15 +276,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   //#region Public Properties
 
-  /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
-   *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-   *
-   * @deprecated Use `clearable` instead
-   */
-  @property({ reflect: true }) allowEmpty = false;
-
   /** When `true`, the component will allow updates to the color's alpha value. */
   @property() alphaChannel = false;
 
@@ -419,14 +408,12 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
     }
 
-    this.handleAllowEmptyOrClearableChange();
-
-    const { isClearable, color, format, value } = this;
-    const willSetNoColor = isClearable && !value;
+    const { clearable, color, format, value } = this;
+    const willSetNoColor = clearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
-    const initialColor = valueIsCompatible ? colorFromValue(value, isClearable, parsedMode) : color;
+    const initialColor = valueIsCompatible ? colorFromValue(value, clearable, parsedMode) : color;
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
@@ -449,13 +436,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (
-      (changes.has("allowEmpty") && (this.hasUpdated || this.allowEmpty !== false)) ||
-      (changes.has("clearable") && (this.hasUpdated || this.clearable !== false))
-    ) {
-      this.handleAllowEmptyOrClearableChange();
-    }
-
     if (changes.has("alphaChannel") && (this.hasUpdated || this.alphaChannel !== false)) {
       this.handleAlphaChannelChange(this.alphaChannel);
     }
@@ -516,10 +496,6 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     this.resizeObserver?.observe(this.el);
   }
 
-  private handleAllowEmptyOrClearableChange(): void {
-    this.isClearable = this.clearable || this.allowEmpty;
-  }
-
   private handleAlphaChannelChange(alphaChannel: boolean): void {
     const { format } = this;
 
@@ -553,8 +529,8 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { isClearable, format } = this;
-    const checkMode = !isClearable || value;
+    const { clearable, format } = this;
+    const checkMode = !clearable || value;
     let modeChanged = false;
 
     if (checkMode) {
@@ -585,7 +561,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
       return;
     }
 
-    const color = colorFromValue(value, isClearable, this.mode);
+    const color = colorFromValue(value, clearable, this.mode);
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
@@ -647,11 +623,11 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
   private handleHexInputChange(event: Event): void {
     event.stopPropagation();
-    const { isClearable, color } = this;
+    const { clearable, color } = this;
     const input = event.target as ColorPickerHexInput["el"];
     const hex = input.value;
 
-    if (isClearable && !hex) {
+    if (clearable && !hex) {
       this.internalColorSet(null);
       return;
     }
@@ -708,7 +684,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const input = event.currentTarget as InputNumber["el"];
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
-    const restoreValueDueToEmptyInput = !input.value && !this.isClearable;
+    const restoreValueDueToEmptyInput = !input.value && !this.clearable;
 
     if (restoreValueDueToEmptyInput) {
       input.value = channels[channelIndex]?.toString();
@@ -770,7 +746,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
-    const shouldClearChannels = this.isClearable && !input.value;
+    const shouldClearChannels = this.clearable && !input.value;
 
     if (shouldClearChannels) {
       this.channels = [null, null, null, null];
@@ -1585,7 +1561,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
                 {hexDisabled ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
-                      allowEmpty={this.isClearable}
+                      allowEmpty={this.clearable}
                       alphaChannel={alphaChannel}
                       class={CSS.control}
                       messages={messages}
@@ -1691,7 +1667,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
   }
 
   private renderChannelsTab(channelMode: this["channelMode"]): JsxNode {
-    const { isClearable, channelMode: activeChannelMode, channels, messages, alphaChannel } = this;
+    const { clearable, channelMode: activeChannelMode, channels, messages, alphaChannel } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelAriaLabels = isRgb
@@ -1709,7 +1685,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
 
             if (isAlphaChannel) {
               channelValue =
-                isClearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */

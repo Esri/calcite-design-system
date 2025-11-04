@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.7...@esri/calcite-ui-icons@4.4.0-next.8) (2025-10-31)
+
+### Features
+
+- add item and group badges icons ([#13244](https://github.com/Esri/calcite-design-system/issues/13244)) ([b50aad6](https://github.com/Esri/calcite-design-system/commit/b50aad6528e466c0834c35e691ed6e8fd535344e))
+
 ## [4.4.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.6...@esri/calcite-ui-icons@4.4.0-next.7) (2025-10-29)
 
 ### Features
