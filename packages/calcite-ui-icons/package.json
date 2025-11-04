@@ -58,6 +58,7 @@
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
+    "test": "vitest run",
     "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
   },
   "devDependencies": {
