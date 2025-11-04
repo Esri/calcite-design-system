@@ -20,6 +20,7 @@ import {
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
   nextFrame,
+  queryElementRoots,
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeGetAssignedNodes,
@@ -1041,6 +1042,67 @@ describe("dom", () => {
       expect(getStylePixelValue("abc")).toBe(0);
       expect(getStylePixelValue("")).toBe(0);
       expect(getStylePixelValue("10")).toBe(0);
+    });
+  });
+
+  const myButtonId = "my.id";
+  const myButtonClass = "my-class";
+  const insideHost = "Inside Host";
+  const outsideHost = "Outside Host";
+  const insideShadow = "Inside Shadow";
+  const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
+  const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
+  const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
+
+  describe("queries", () => {
+    let componentTag: string;
+
+    beforeEach(async () => {
+      document.body.innerHTML = outsideHostHTML;
+      class TestComponent extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = insideShadowHTML;
+        }
+      }
+
+      componentTag = `test-component-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      customElements.define(componentTag, TestComponent);
+
+      const testComponent = document.createElement(componentTag);
+      testComponent.innerHTML = insideHostHTML;
+      document.body.appendChild(testComponent);
+    });
+
+    it("queryElementRoots: should query from inside host element", async () => {
+      const testComponent = document.querySelector(componentTag)!;
+      const queryEl = testComponent.shadowRoot!.querySelector("div")!;
+      const resultEl: HTMLElement = queryElementRoots(queryEl, { selector: `button.${myButtonClass}` })!;
+
+      expect(resultEl.textContent).toBe(insideHost);
+    });
+
+    it("queryElementRoots: should query id from inside shadow element", async () => {
+      const testComponent = document.querySelector(componentTag)!;
+      const queryEl = testComponent.shadowRoot!.querySelector("div")!;
+      const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
+
+      expect(resultEl.textContent).toBe(insideShadow);
+    });
+
+    it("queryElementRoots: should query from outside host element", async () => {
+      const queryEl = document.body.querySelector("span")!;
+      const resultEl: HTMLElement = queryElementRoots(queryEl, { selector: "button" })!;
+
+      expect(resultEl.textContent).toBe(outsideHost);
+    });
+
+    it("queryElementRoots: should query id from outside host element", async () => {
+      const queryEl = document.body.querySelector("span")!;
+      const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
+
+      expect(resultEl.textContent).toBe(outsideHost);
     });
   });
 });
