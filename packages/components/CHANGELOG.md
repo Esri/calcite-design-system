@@ -20,7 +20,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **tokens:** Updates components to honor the [recommended way of
   setting font
-  family](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/conventions/Styling.md#typography).
+  family](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/conventions/Styling.md#typography).
   Developers can also use a plain css `font-family` declaration to target
   desired components.
 
@@ -167,7 +167,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   to migrate, upgrade to the CSS variables [introduced in version
   2](https://developers.arcgis.com/calcite-design-system/releases/changelogs/2.0.0/#css-variable-comparison-tables),
   or include the [legacy CSS
-  props](https://github.com/Esri/calcite-design-system/blob/b0f063e213adaa31bc5fed124b7f29381735ccf5/packages/calcite-components/src/assets/styles/_legacy.scss)
+  props](https://github.com/Esri/calcite-design-system/blob/b0f063e213adaa31bc5fed124b7f29381735ccf5/packages/components/src/assets/styles/_legacy.scss)
   locally.
 
 ### Features
@@ -321,7 +321,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818) [/github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx#L35](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/8cc130d4bc496809d53ee4bd31da204ceb9a26b8/packages/calcite-components/src/components/list-item/list-item.tsx/issues/L35)
+- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818)
 
 ## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.3...@esri/calcite-components@4.0.0-next.4) (2025-09-24)
 
@@ -1512,7 +1512,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **tabs:** Emit selection-related events when selection is modified after closing the selected tab ([#8582](https://github.com/Esri/calcite-design-system/issues/8582)) ([b15c940](https://github.com/Esri/calcite-design-system/commit/b15c940777c6a3ae503a904377d65d80d9a8855b))
 - **tile:** Add visual scales ([#8496](https://github.com/Esri/calcite-design-system/issues/8496)) ([7638ec4](https://github.com/Esri/calcite-design-system/commit/7638ec43caf4f443514ca89f678076f91c6d0730))
 - Use input-message to display validation messages for invalid fields after form submission ([#8574](https://github.com/Esri/calcite-design-system/issues/8574)) ([fd392fe](https://github.com/Esri/calcite-design-system/commit/fd392fe5658bf1b08c0bbcbdb74b4e3e47a1d360))
-- **segmented-control-item:** Allow displaying an icon when items are empty with a start/end icon ([#9300](https://github.com/Esri/calcite-design-system/issues/9300)) ([9fc610d](https://github.com/Esri/calcite-design-system/commit/9fc610df63e1d8c78cde1affda2ecc942573e8cd)), closes [#6413](https://github.com/Esri/calcite-design-system/issues/6413) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/segmented-control-item/segmented-control-item.e2e.ts#L38-L46](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/components/segmented-control-item/segmented-control-item.e2e.ts/issues/L38-L46)
+- **segmented-control-item:** Allow displaying an icon when items are empty with a start/end icon ([#9300](https://github.com/Esri/calcite-design-system/issues/9300)) ([9fc610d](https://github.com/Esri/calcite-design-system/commit/9fc610df63e1d8c78cde1affda2ecc942573e8cd)), closes [#6413](https://github.com/Esri/calcite-design-system/issues/6413)
 
 ### Bug Fixes
 
@@ -1590,7 +1590,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- **tokens:** Changes to `@esri/calcite-design-tokens`, including the names of CSS variables used to customize component styling. See the [breaking changes section](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02) of the `@esri/calcite-design-tokens` changelog. ([#8311](https://github.com/Esri/calcite-design-system/issues/8311)) ([8d7cf3f](https://github.com/Esri/calcite-design-system/commit/8d7cf3f9bca3e908c1b0383209b348640c623084)), ([#8299](https://github.com/Esri/calcite-design-system/issues/8299)) ([4050a91](https://github.com/Esri/calcite-design-system/commit/4050a913d37fca76b79dfe97956a9ce2beef948c)), ([#8215](https://github.com/Esri/calcite-design-system/issues/8215)) ([335d010](https://github.com/Esri/calcite-design-system/commit/335d0106ef0f9d0ce71bda8d2c826bccfedc4995))
+- **tokens:** Changes to `@esri/calcite-design-tokens`, including the names of CSS variables used to customize component styling. See the [breaking changes section](https://github.com/Esri/calcite-design-system/blob/dev/packages/design-tokens/CHANGELOG.md#200-2023-12-02) of the `@esri/calcite-design-tokens` changelog. ([#8311](https://github.com/Esri/calcite-design-system/issues/8311)) ([8d7cf3f](https://github.com/Esri/calcite-design-system/commit/8d7cf3f9bca3e908c1b0383209b348640c623084)), ([#8299](https://github.com/Esri/calcite-design-system/issues/8299)) ([4050a91](https://github.com/Esri/calcite-design-system/commit/4050a913d37fca76b79dfe97956a9ce2beef948c)), ([#8215](https://github.com/Esri/calcite-design-system/issues/8215)) ([335d010](https://github.com/Esri/calcite-design-system/commit/335d0106ef0f9d0ce71bda8d2c826bccfedc4995))
 - **button, list, pick-list, value-list:** Setting `loading` prop to true no longer prevents interaction nor applies disabled styles. If you'd like to block interaction when loading, please set `disabled` along with `loading`. ([#8292](https://github.com/Esri/calcite-design-system/issues/8292)) ([db3c5c7](https://github.com/Esri/calcite-design-system/commit/db3c5c7c881f3e13a5b6992ba7fa8889a56ece8a))
 - **dropdown:** Dropdown's default `display` was changed from `inline-flex` to `inline-block` to make it easier to prompt truncation in trigger button text with minimal impact to layout (by setting an explicit width **or** setting `width: 100%` or `display: block` on the dropdown of a width-constrained parent). ([#8253](https://github.com/Esri/calcite-design-system/issues/8253)) ([7c96e9f](https://github.com/Esri/calcite-design-system/commit/7c96e9ff87590b74121450e37f5843f1ee851d54))
 - **dropdown, modal:** For consistency, renames the `width` property to `widthScale`. ([#8251](https://github.com/Esri/calcite-design-system/issues/8251)) ([ab12968](https://github.com/Esri/calcite-design-system/commit/ab12968f6d7d4f46d4d42859e29ae6906d203397)), ([#8252](https://github.com/Esri/calcite-design-system/issues/8252)) ([6b09245](https://github.com/Esri/calcite-design-system/commit/6b092455aa714900d74c1831c66aa954ef2f1b3d))

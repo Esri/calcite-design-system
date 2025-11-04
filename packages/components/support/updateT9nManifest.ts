@@ -5,7 +5,7 @@ import { globby } from "globby";
 (async () => {
   const bundleFile = "messages.json";
   const bundlePattern = `src/components/**/assets/t9n/${bundleFile}`;
-  const rootManifestFilePath = "packages/calcite-components/";
+  const rootManifestFilePath = "packages/components/";
 
   const bundlePath = resolve(rootManifestFilePath, bundlePattern);
   const bundles = await globby([bundlePath]);
