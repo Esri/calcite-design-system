@@ -1,5 +1,3 @@
-// @ts-strict-ignore
-import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
 
@@ -24,12 +22,21 @@ export interface CalciteConfig {
   version?: string;
 }
 
-const existingConfig: CalciteConfig = globalThis["calciteConfig"];
+let effectiveConfig: CalciteConfig;
 
-export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
+export const defaultConfig: CalciteConfig = {
+  focusTrapStack: [],
+  logLevel: "info",
+};
 
-const runningInE2ETest = import.meta.env.MODE === "test" && !isServer;
-export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
+export function setCalciteConfig(config: CalciteConfig): void {
+  effectiveConfig = config;
+}
+
+export function getCalciteConfig(): CalciteConfig {
+  const globalConfig = globalThis["calciteConfig"] as CalciteConfig | undefined;
+  return { ...effectiveConfig, ...globalConfig };
+}
 
 // the following placeholders are replaced by the build
 const version = __CALCITE_VERSION__;
@@ -38,13 +45,15 @@ const revision = __CALCITE_REVISION__;
 
 /** Stamp the version onto the global config. */
 export function stampVersion(): void {
-  if (existingConfig && existingConfig.version) {
+  const effectiveConfig = getCalciteConfig();
+
+  if (effectiveConfig && effectiveConfig.version) {
     return;
   }
 
   console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
-  const target = existingConfig || globalThis["calciteConfig"] || {};
+  const target = effectiveConfig || globalThis["calciteConfig"] || {};
 
   Object.defineProperty(target, "version", {
     value: version,

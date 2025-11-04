@@ -1,6 +1,6 @@
 import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions } from "focus-trap";
 import { FocusableElement, focusElement, tabbableOptions } from "./dom";
-import { focusTrapStack } from "./config";
+import { getCalciteConfig } from "./config";
 
 /** Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface. */
 export interface FocusTrapComponent {
@@ -95,7 +95,7 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: FocusTrapO
     // the following options are not overridable
     document: hostEl.ownerDocument,
     tabbableOptions,
-    trapStack: focusTrapStack,
+    trapStack: getCalciteConfig().focusTrapStack,
     clickOutsideDeactivates: (event) => {
       if (!outsideClickDeactivated.has(hostEl)) {
         outsideClickDeactivated.add(hostEl);

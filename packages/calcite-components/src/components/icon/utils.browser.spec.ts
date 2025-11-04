@@ -13,7 +13,7 @@ describe("utils", () => {
   describe("fetchIcon", () => {
     beforeAll(() => {
       // we mock fetch since we are not testing the icon data itself
-      (global.fetch as Mock) = vi.fn(async () =>
+      (globalThis.fetch as Mock) = vi.fn(async () =>
         Promise.resolve({
           json: () =>
             Promise.resolve({
@@ -24,7 +24,7 @@ describe("utils", () => {
     });
 
     afterAll(() => {
-      (global.fetch as Mock).mockReset();
+      (globalThis.fetch as Mock).mockReset();
     });
 
     it("avoids fetching if icon data is available", async () => {

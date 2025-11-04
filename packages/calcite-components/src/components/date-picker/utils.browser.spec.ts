@@ -17,7 +17,7 @@ describe("utils", () => {
 
     beforeEach(() => {
       const fakeData = { fake: "fake data not meant to be checked" };
-      global.fetch = vi.fn().mockImplementation(fetchFakeData(fakeData));
+      globalThis.fetch = vi.fn().mockImplementation(fetchFakeData(fakeData));
     });
 
     afterEach(() => {

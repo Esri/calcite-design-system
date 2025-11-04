@@ -66,8 +66,7 @@ describe("repositioning", () => {
     referenceEl = document.createElement("button");
     floatingEl = document.createElement("div");
 
-    document.body.append(floatingEl);
-    document.body.append(referenceEl);
+    document.body.append(floatingEl, referenceEl);
 
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
 
@@ -100,10 +99,10 @@ describe("repositioning", () => {
 
   function assertOpenPositioning(floatingEl: HTMLElement): void {
     expect(floatingEl.style.display).toBe("block");
-    expect(floatingEl.style.pointerEvents).toBe("none");
+    expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).not.toBe("");
     expect(floatingEl.style.transform).not.toBe("");
-    expect(floatingEl.style.visibility).toBe("hidden");
+    expect(floatingEl.style.visibility).toBe("");
   }
 
   it("repositions only for open components", async () => {
@@ -169,8 +168,7 @@ describe("connect/disconnect helpers", () => {
     referenceEl = document.createElement("button");
     floatingEl = document.createElement("div");
 
-    document.body.append(floatingEl);
-    document.body.append(referenceEl);
+    document.body.append(floatingEl, referenceEl);
 
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
   });
@@ -186,26 +184,30 @@ describe("connect/disconnect helpers", () => {
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("absolute");
-    expect(floatingEl.style.visibility).toBe("hidden");
-    expect(floatingEl.style.pointerEvents).toBe("none");
+    expect(floatingEl.style.visibility).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
 
     disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("absolute");
+    expect(floatingEl.style.visibility).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
 
     fakeFloatingUiComponent.overlayPositioning = "fixed";
     await connectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(true);
     expect(floatingEl.style.position).toBe("fixed");
-    expect(floatingEl.style.visibility).toBe("hidden");
-    expect(floatingEl.style.pointerEvents).toBe("none");
+    expect(floatingEl.style.visibility).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
 
     disconnectFloatingUI(fakeFloatingUiComponent);
 
     expect(autoUpdatingComponentMap.has(fakeFloatingUiComponent)).toBe(false);
     expect(floatingEl.style.position).toBe("fixed");
+    expect(floatingEl.style.visibility).toBe("");
+    expect(floatingEl.style.pointerEvents).toBe("");
   });
 });
 

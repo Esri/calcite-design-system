@@ -5,7 +5,7 @@ import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { IconName } from "../components/icon/interfaces";
-import { guidPattern } from "./guid.spec";
+import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,
   focusElement,
