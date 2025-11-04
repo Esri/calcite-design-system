@@ -70,7 +70,7 @@ GitHub labels are used for organizing issues and providing context. You can fami
 
 ### Lifecycle
 
-There are 5 issue lifecycle labels:
+There are five issue lifecycle labels:
 
 - `1 - in design`: Issue that are actively undergoing design work.
 - `2 - ready for dev`: Issues that are fully designed, have acceptance criteria defined, and are ready for a developer to pick up.
