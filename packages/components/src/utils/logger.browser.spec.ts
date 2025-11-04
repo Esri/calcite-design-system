@@ -2,22 +2,19 @@ import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { SetOptional } from "type-fest";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
 import { mockConsole } from "../tests/utils/logging";
-import { LogLevel } from "./logger";
-import { CalciteConfig } from "./config";
+import { type LogLevel, loggedDeprecations, logger } from "./logger";
+import { type CalciteConfig, clearConfig } from "./config";
 
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
 
-  type LoggerModule = typeof import("./logger");
-
-  let loggerModule: LoggerModule;
-  let logger: LoggerModule["logger"];
-
   beforeEach(async () => {
-    vi.resetModules();
-    loggerModule = await import("./logger");
-    logger = loggerModule.logger;
-    loggerModule.loggedDeprecations.clear();
+    globalThis.calciteConfig = {
+      // non-test default log level
+      logLevel: "info",
+    };
+    clearConfig();
+    loggedDeprecations.clear();
   });
 
   afterEach(() => {
@@ -112,14 +109,9 @@ describe("logger", () => {
     }
 
     async function setLogLevel(level: LogLevel): Promise<void> {
-      vi.resetModules();
-
       (globalThis as TestGlobal).calciteConfig = {
         logLevel: level,
       };
-
-      loggerModule = await import("./logger");
-      logger = loggerModule.logger;
     }
 
     afterEach(() => {
