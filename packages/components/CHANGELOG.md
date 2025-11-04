@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.44...@esri/calcite-components@4.0.0-next.45) (2025-11-04)
+
+### Bug Fixes
+
+- **tile-group:** make horizontal layout always go horizontal ([#13260](https://github.com/Esri/calcite-design-system/issues/13260)) ([f915c8e](https://github.com/Esri/calcite-design-system/commit/f915c8e1f57ea2bb60832e56ea29d6e1ce59ba3b)), closes [#12606](https://github.com/Esri/calcite-design-system/issues/12606)
+
 ## [4.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.43...@esri/calcite-components@4.0.0-next.44) (2025-11-03)
 
 ### ⚠ BREAKING CHANGES
