@@ -2,22 +2,13 @@ import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
 import { getLocaleData, requestCache } from "./utils";
 
-function fetchFakeData(data: any): () => Promise<any> {
-  return () =>
-    new Promise((resolve) => {
-      resolve({
-        json: () => Promise.resolve({ data }),
-      });
-    });
-}
-
 describe("utils", () => {
   describe("getLocaleData", () => {
     mockConsole();
 
     beforeEach(() => {
       const fakeData = { fake: "fake data not meant to be checked" };
-      globalThis.fetch = vi.fn().mockImplementation(fetchFakeData(fakeData));
+      globalThis.fetch = vi.fn().mockResolvedValue({ json: async () => fakeData });
     });
 
     afterEach(() => {
