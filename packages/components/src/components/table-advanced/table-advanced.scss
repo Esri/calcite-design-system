@@ -10,6 +10,8 @@
  * @prop --calcite-table-advanced-font-size: Specifies the component's font size.
  */
 
+@use "../../styles/includes";
+
 :host {
   @apply flex;
 }
@@ -61,5 +63,5 @@
   }
 }
 
-@include base-component();
+@include includes.base-component();
 @import "../../../../../node_modules/tabulator-tables/dist/css/tabulator.min.css";
