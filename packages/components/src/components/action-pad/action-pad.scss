@@ -1,0 +1,58 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-pad-corner-radius: Specifies the component's border radius.
+ * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width when `expanded`.
+ * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @extend %component-host;
+  @apply animate-in block;
+
+  border-radius: var(--calcite-action-pad-corner-radius, 0.125rem /* 2px */);
+  background: transparent;
+}
+
+:host([expanded][layout="vertical"]) .container {
+  max-inline-size: var(--calcite-action-pad-expanded-max-width, auto);
+}
+
+:host([layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    @apply border-b;
+  }
+}
+
+.container {
+  @apply shadow-2
+  inline-flex
+  flex-col
+  overflow-hidden;
+
+  gap: var(--calcite-action-pad-items-space, 0);
+  border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+}
+
+.action-group--bottom {
+  @apply flex-grow justify-end pb-0;
+}
+
+:host([layout="horizontal"]) {
+  .container {
+    @apply flex-row;
+    .action-group--bottom {
+      @apply p-0;
+    }
+    ::slotted(calcite-action-group:not(:last-of-type)) {
+      border-inline-end-width: theme("borderWidth.DEFAULT");
+    }
+  }
+}
+
+@include includes.base-component();
