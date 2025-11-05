@@ -6,7 +6,7 @@ export type FlowDirection = "advancing" | "retreating" | "standby";
  * Interface for defining the structure of a flow item.
  *
  * See the following examples for a custom flow item implementation:
- * https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/demos/flow.html
+ * https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/demos/flow.html
  * https://codepen.io/driskull/pen/gOVzLbx?editors=0010
  *
  * @example

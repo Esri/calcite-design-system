@@ -12,6 +12,7 @@
 .container {
   display: grid;
   grid-auto-rows: minmax(auto, 1fr);
+  grid-auto-flow: column;
 }
 :host([scale="s"]) {
   .container {

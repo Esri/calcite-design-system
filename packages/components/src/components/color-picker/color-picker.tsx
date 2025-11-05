@@ -345,7 +345,7 @@ export class ColorPicker extends LitElement implements InteractiveComponent {
    * @default
    *
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/components/color-picker/interfaces.ts#L10).
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
    */
   @property()
   get value(): ColorValue | null {

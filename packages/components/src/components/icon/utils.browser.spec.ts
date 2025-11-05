@@ -1,4 +1,4 @@
-import { describe, expect, it, afterAll, beforeAll, vi, Mock } from "vitest";
+import { describe, expect, it, afterAll, beforeAll, vi } from "vitest";
 import { fetchIcon, FetchIconProps, iconCache, normalizeIconName, requestCache, scaleToPx } from "./utils";
 
 describe("utils", () => {
@@ -13,19 +13,10 @@ describe("utils", () => {
   describe("fetchIcon", () => {
     beforeAll(() => {
       // we mock fetch since we are not testing the icon data itself
-      (global.fetch as Mock) = vi.fn(async () =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              /* intentionally empty */
-            }),
-        }),
-      );
+      globalThis.fetch = vi.fn().mockResolvedValue({ json: async () => ({}) });
     });
 
-    afterAll(() => {
-      (global.fetch as Mock).mockReset();
-    });
+    afterAll(() => vi.fn().mockClear());
 
     it("avoids fetching if icon data is available", async () => {
       expect(Object.keys(requestCache)).toHaveLength(0);

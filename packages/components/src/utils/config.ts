@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit-html/is-server.js";
 import { FocusTrap } from "./focusTrapComponent";
 import { LogLevel } from "./logger";
@@ -24,12 +23,48 @@ export interface CalciteConfig {
   version?: string;
 }
 
-const existingConfig: CalciteConfig = globalThis["calciteConfig"];
+let effectiveConfig: CalciteConfig | undefined = undefined;
 
-export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
+/**
+ * Exporting for testing purposes only
+ *
+ * @internal
+ */
+export const defaultConfig: CalciteConfig = {
+  focusTrapStack: [],
+  logLevel: !isServer && import.meta.env.MODE === "test" ? "error" : "info",
+};
 
-const runningInE2ETest = import.meta.env.MODE === "test" && !isServer;
-export const logLevel: LogLevel = existingConfig?.logLevel || (runningInE2ETest ? "error" : "info");
+function initConfig(): CalciteConfig {
+  return {
+    ...defaultConfig,
+    ...(globalThis["calciteConfig"] ?? {}),
+  };
+}
+
+/**
+ * Clears the effective config so it will be recomputed on next getConfig().
+ *
+ * This is primarily intended for testing purposes.
+ *
+ * @internal
+ */
+export function clearConfig(): void {
+  effectiveConfig = undefined;
+}
+
+/**
+ * Returns the effective config.
+ *
+ * @internal
+ */
+export function getConfig(): CalciteConfig {
+  if (!effectiveConfig) {
+    effectiveConfig = initConfig();
+  }
+
+  return effectiveConfig;
+}
 
 // the following placeholders are replaced by the build
 const version = __CALCITE_VERSION__;
@@ -38,18 +73,18 @@ const revision = __CALCITE_REVISION__;
 
 /** Stamp the version onto the global config. */
 export function stampVersion(): void {
-  if (existingConfig && existingConfig.version) {
+  const config = getConfig();
+
+  if (config && config.version) {
     return;
   }
 
   console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
-  const target = existingConfig || globalThis["calciteConfig"] || {};
-
-  Object.defineProperty(target, "version", {
+  Object.defineProperty(config, "version", {
     value: version,
     writable: false,
   });
 
-  globalThis["calciteConfig"] = target;
+  globalThis["calciteConfig"] = config;
 }
