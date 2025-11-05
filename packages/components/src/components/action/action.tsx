@@ -252,13 +252,8 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   private renderTextContainer(): JsxNode {
     const { text, textEnabled } = this;
 
-    const textContainerClasses = {
-      [CSS.textContainer]: true,
-      [CSS.textContainerVisible]: textEnabled,
-    };
-
-    return text ? (
-      <div class={textContainerClasses} key="text-container">
+    return text && textEnabled ? (
+      <div class={CSS.textContainer} key="text-container">
         {text}
       </div>
     ) : null;

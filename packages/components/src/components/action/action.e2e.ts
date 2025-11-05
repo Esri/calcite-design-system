@@ -231,9 +231,8 @@ describe("calcite-action", () => {
     await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
 
     const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
-    const isVisible = await textContainer.isVisible();
 
-    expect(isVisible).toBe(false);
+    expect(textContainer).toBeFalsy();
   });
 
   it("should have icon container with icon prop", async () => {

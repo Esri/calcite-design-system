@@ -51,7 +51,7 @@
   .button {
     justify-content: center;
 
-    .text-container--visible {
+    .text-container {
       flex: none;
     }
   }
@@ -141,7 +141,7 @@
   transition-property: inline-size;
 }
 
-.text-container--visible {
+.text-container {
   @apply w-auto flex-auto opacity-100;
 }
 
@@ -249,7 +249,7 @@
 
 :host([alignment="center"]),
 :host([alignment="end"]) {
-  .button .text-container--visible {
+  .button .text-container {
     @apply flex-initial;
   }
 }
