@@ -1,7 +1,5 @@
-// @ts-strict-ignore
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { DetachedWindowAPI, Window as HappyDOMWindow } from "happy-dom";
-import { GlobalThis } from "type-fest";
+import * as focusTrap from "focus-trap";
 import { GlobalTestProps } from "../tests/utils/puppeteer";
 import {
   activateFocusTrap,
@@ -10,7 +8,7 @@ import {
   FocusTrapComponent,
   updateFocusTrapElements,
 } from "./focusTrapComponent";
-import { CalciteConfig } from "./config";
+import { CalciteConfig, clearConfig } from "./config";
 
 describe("focusTrapComponent", () => {
   it("focusTrapComponent lifecycle", () => {
@@ -64,6 +62,7 @@ describe("focusTrapComponent", () => {
 
   describe("configuration", () => {
     beforeEach(() => {
+      clearConfig();
       vi.resetModules();
     });
 
@@ -80,16 +79,9 @@ describe("focusTrapComponent", () => {
         focusTrapStack: customFocusTrapStack,
       };
 
-      vi.mock("focus-trap", async () => {
-        const actual = await vi.importActual<typeof import("focus-trap")>("focus-trap");
-        return {
-          ...actual,
-          createFocusTrap: vi.fn(actual.createFocusTrap),
-        };
-      });
+      vi.mock("focus-trap", { spy: true });
 
-      const focusTrap = await import("focus-trap");
-      const createFocusTrapSpy = vi.spyOn(focusTrap, "createFocusTrap");
+      const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
 
       const focusTrapComponent = await import("./focusTrapComponent");
       const fakeComponent = {} as FocusTrapComponent;
@@ -146,7 +138,6 @@ describe("focusTrapComponent", () => {
   });
 
   describe("focusTrapOptions", () => {
-    let happyDOM: DetachedWindowAPI;
     let fakeComponent: FocusTrapComponent;
     let insideButton: HTMLButtonElement;
     let previousFocusedEl: HTMLInputElement;
@@ -166,11 +157,13 @@ describe("focusTrapComponent", () => {
       connectFocusTrap(fakeComponent, options);
     }
 
-    beforeEach(() => {
-      happyDOM = (globalThis as GlobalThis & HappyDOMWindow).happyDOM;
-    });
-
     describe("setReturnFocus option", () => {
+      async function waitForFocusShift() {
+        // focus-trap delays focus changes until the next execution frame - see https://github.com/focus-trap/focus-trap/#delayinitialfocus
+        // wait for one timeout
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+
       it("should use custom setReturnFocus function if provided", async () => {
         setUpTest({
           focusTrapOptions: {
@@ -179,14 +172,14 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(insideButton);
+        expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(nextFocusedEl);
+        expect(document.activeElement).toStrictEqual(nextFocusedEl);
       });
 
       it("allows disabling return focus behavior", async () => {
@@ -197,14 +190,14 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(insideButton);
+        expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(insideButton);
+        expect(document.activeElement).toStrictEqual(insideButton);
       });
 
       it("should use default setReturnFocus if custom function is not provided", async () => {
@@ -215,14 +208,14 @@ describe("focusTrapComponent", () => {
         });
 
         activateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(insideButton);
+        expect(document.activeElement).toStrictEqual(insideButton);
 
         deactivateFocusTrap(fakeComponent);
-        await happyDOM.waitUntilComplete();
+        await waitForFocusShift();
 
-        expect(document.activeElement).toBe(previousFocusedEl);
+        expect(document.activeElement).toStrictEqual(previousFocusedEl);
       });
     });
   });
