@@ -5,16 +5,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import '@esri/calcite-components/dist/components/calcite-button';
-import '@esri/calcite-components/dist/components/calcite-icon';
-import '@esri/calcite-components/dist/components/calcite-loader';
-import '@esri/calcite-components/dist/components/calcite-slider';
+import '@esri/calcite-components/components/calcite-button';
+import '@esri/calcite-components/components/calcite-icon';
+import '@esri/calcite-components/components/calcite-loader';
+import '@esri/calcite-components/components/calcite-slider';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

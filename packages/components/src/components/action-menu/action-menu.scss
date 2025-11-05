@@ -1,0 +1,48 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-menu-items-space: Specifies the space between actions in the menu.
+ *
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @apply text-1
+  box-border
+  flex
+  flex-col;
+}
+
+::slotted(calcite-action-group:not(:last-of-type)) {
+  border-block-end-width: var(--calcite-border-width-sm);
+}
+
+.default-trigger {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+@include includes.slotted("trigger", "calcite-action") {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+.menu {
+  @apply flex
+  flex-col
+  flex-nowrap
+  outline-none
+  overflow-y-auto
+  overflow-x-hidden
+  max-h-menu;
+  gap: var(--calcite-action-menu-items-space, 0);
+}
+
+@include includes.base-component();

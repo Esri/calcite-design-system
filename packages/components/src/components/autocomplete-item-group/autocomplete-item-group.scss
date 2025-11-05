@@ -1,0 +1,98 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
+ * @prop --calcite-autocomplete-border-color: Specifies the border color of the component.
+ * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-autocomplete-item-group-horizontal-spacing-unit
+// --calcite-internal-autocomplete-item-group-vertical-spacing-unit
+
+@use "../../styles/includes";
+
+.scale--s {
+  @apply text-n2h;
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-sm);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xxs);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-sm);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
+}
+
+.scale--m {
+  @apply text-n1h;
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-md);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-xs);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-md);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
+}
+
+.scale--l {
+  @apply text-0h;
+  --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(--calcite-spacing-lg);
+  --calcite-internal-autocomplete-item-group-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
+
+  .first-title {
+    padding-block-start: var(--calcite-spacing-xl);
+  }
+
+  .separator {
+    margin-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+    margin-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+  }
+}
+
+:host {
+  @apply m-0
+    flex
+    flex-col;
+}
+
+.container {
+  @apply flex
+    flex-col;
+  background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
+}
+
+.container--no-spacing {
+  padding-block-start: 0;
+}
+
+.separator {
+  block-size: var(--calcite-spacing-px);
+  background-color: var(--calcite-autocomplete-border-color, var(--calcite-color-border-3));
+}
+
+.heading {
+  @apply box-border
+    w-full
+    min-w-0
+    max-w-full
+    word-break
+    font-bold;
+  color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
+  padding-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
+  padding-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
+}
+
+@include includes.base-component();
