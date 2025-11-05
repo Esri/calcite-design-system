@@ -238,30 +238,23 @@ export const adjacentTooltipsOpenQuickly = (): string => html`
   <div style="display:flex; height:500px; width: 200px;">
     <calcite-action-bar>
       <calcite-action-group>
-        <calcite-action text="Add" icon="plus">
-          <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
-        </calcite-action>
-        <calcite-action text="Save" icon="save"
-          ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
-        >
-        <calcite-action text="Layers" icon="layers"
-          ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
-        >
+        <calcite-action text="Add" icon="plus" id="add"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="add">Add</calcite-tooltip>
+        <calcite-action text="Save" icon="save" id="save"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="save">Save</calcite-tooltip>
+        <calcite-action text="Layers" icon="layers" id="layers"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="layers">Layers</calcite-tooltip>
       </calcite-action-group>
       <calcite-action-group>
-        <calcite-action text="Add" icon="plus"
-          ><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action
-        >
-        <calcite-action text="Save" active icon="save"
-          ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
-        >
-        <calcite-action text="Layers" icon="layers"
-          ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
-        >
+        <calcite-action text="Add" icon="plus" id="add-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="add-2">Add</calcite-tooltip>
+        <calcite-action text="Save" active icon="save" id="save-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="save-2">Save</calcite-tooltip>
+        <calcite-action text="Layers" icon="layers" id="layers-2"></calcite-action>
+        <calcite-tooltip placement="right" reference-element="layers-2">Layers</calcite-tooltip>
       </calcite-action-group>
-      <calcite-action slot="actions-end" text="hello world" icon="layers"
-        ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
-      >
+      <calcite-action slot="actions-end" text="hello world" icon="layers" id="hello-world"></calcite-action>
+      <calcite-tooltip placement="right" reference-element="hello-world">hello world</calcite-tooltip>
     </calcite-action-bar>
   </div>
 `;

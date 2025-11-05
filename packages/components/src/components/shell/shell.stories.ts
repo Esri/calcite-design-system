@@ -1285,7 +1285,7 @@ position:relative;
           <calcite-sortable-list>
             <calcite-block drag-handle heading="Attributes" description="2/98" collapsible>
               <calcite-icon icon="feature-details" scale="m" slot="icon-start"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <calcite-list drag-enabled>
                 <calcite-list-item
                   label="2018 Total Households (Esri)"
@@ -1306,7 +1306,7 @@ position:relative;
             </calcite-block>
             <calcite-block drag-handle heading="Image" collapsible>
               <calcite-icon icon="image" scale="m" slot="icon-start"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <section class="form-section">
                 <label>
                   URL
@@ -1356,7 +1356,7 @@ position:relative;
             </calcite-block>
             <calcite-block drag-handle heading="Text" description="Cool. he {expression/..." collapsible>
               <calcite-icon icon="image" scale="m" slot="icon-start"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <button class="multiline-button">Cool. he {expression/expr1} population is {expression/expr2}%...</button>
             </calcite-block>
           </calcite-sortable-list>
