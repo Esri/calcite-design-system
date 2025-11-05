@@ -327,7 +327,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818)
+- **list-item:** fix memory leak caused by focusing before disconnecting ([#12956](https://github.com/Esri/calcite-design-system/issues/12956)) ([de813f3](https://github.com/Esri/calcite-design-system/commit/de813f3075bc0f7bc120ac0dba944ce9b1780c34)), closes [#12818](https://github.com/Esri/calcite-design-system/issues/12818) [/github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/list-item/list-item.tsx#L35](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/list-item/list-item.tsx#L35)
 
 ## [4.0.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.3...@esri/calcite-components@4.0.0-next.4) (2025-09-24)
 
@@ -1518,7 +1518,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **tabs:** Emit selection-related events when selection is modified after closing the selected tab ([#8582](https://github.com/Esri/calcite-design-system/issues/8582)) ([b15c940](https://github.com/Esri/calcite-design-system/commit/b15c940777c6a3ae503a904377d65d80d9a8855b))
 - **tile:** Add visual scales ([#8496](https://github.com/Esri/calcite-design-system/issues/8496)) ([7638ec4](https://github.com/Esri/calcite-design-system/commit/7638ec43caf4f443514ca89f678076f91c6d0730))
 - Use input-message to display validation messages for invalid fields after form submission ([#8574](https://github.com/Esri/calcite-design-system/issues/8574)) ([fd392fe](https://github.com/Esri/calcite-design-system/commit/fd392fe5658bf1b08c0bbcbdb74b4e3e47a1d360))
-- **segmented-control-item:** Allow displaying an icon when items are empty with a start/end icon ([#9300](https://github.com/Esri/calcite-design-system/issues/9300)) ([9fc610d](https://github.com/Esri/calcite-design-system/commit/9fc610df63e1d8c78cde1affda2ecc942573e8cd)), closes [#6413](https://github.com/Esri/calcite-design-system/issues/6413)
+- **segmented-control-item:** Allow displaying an icon when items are empty with a start/end icon ([#9300](https://github.com/Esri/calcite-design-system/issues/9300)) ([9fc610d](https://github.com/Esri/calcite-design-system/commit/9fc610df63e1d8c78cde1affda2ecc942573e8cd)), closes [#6413](https://github.com/Esri/calcite-design-system/issues/6413) [/github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/segmented-control-item/segmented-control-item.e2e.ts#L38-L46](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/segmented-control-item/segmented-control-item.e2e.ts#L38-L46)
 
 ### Bug Fixes
 
