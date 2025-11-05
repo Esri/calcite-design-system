@@ -19,9 +19,8 @@ import {
   GlobalTestProps,
   newProgrammaticE2EPage,
   selectText,
-  toBeInteger,
-  toBeNumber,
 } from "../../tests/utils/puppeteer";
+import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
