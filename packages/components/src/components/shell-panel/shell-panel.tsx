@@ -2,7 +2,7 @@
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   getElementDir,
@@ -10,11 +10,11 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { clamp } from "../../utils/math";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useSizeOverride, SizeAxis } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
@@ -137,6 +137,39 @@ export class ShellPanel extends LitElement {
 
   //#endregion
 
+  //#region Public Methods
+
+  @method()
+  async updateSize(size: number | null, axis: SizeAxis): Promise<void> {
+    const el = this.contentRef.value;
+    console.log("el", el);
+    if (!el) {
+      return;
+    }
+
+    useSizeOverride(
+      {
+        targetElement: el,
+        getMin: (sizeAxis) => {
+          const key = sizeAxis === "block" ? "minBlockSize" : "minInlineSize";
+          return this.resizeValues[key];
+        },
+        getMax: (sizeAxis) => {
+          const key = sizeAxis === "block" ? "maxBlockSize" : "maxInlineSize";
+          return this.resizeValues[key];
+        },
+        setInternalState: (sizeAxis, appliedSize) => {
+          const key = sizeAxis === "block" ? "blockSize" : "inlineSize";
+          this.resizeValues = { ...this.resizeValues, [key]: appliedSize };
+        },
+      },
+      size,
+      axis,
+    );
+  }
+
+  //#endregion
+
   //#region Events
 
   /** @private */
@@ -210,88 +243,50 @@ export class ShellPanel extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize({
-          size:
-            rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
-          type: "blockSize",
-        });
+        this.updateSize(
+          rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
+          "block",
+        );
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize({
-          size:
-            rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
-          type: "blockSize",
-        });
+        this.updateSize(
+          rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
+          "block",
+        );
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize({
-          size:
-            rect.width +
+        this.updateSize(
+          rect.width +
             (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
-          type: "inlineSize",
-        });
+          "inline",
+        );
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize({
-          size:
-            rect.width +
+        this.updateSize(
+          rect.width +
             (layout === "vertical" && position === "end" ? -stepValue : stepValue) * invertRTL,
-          type: "inlineSize",
-        });
+          "inline",
+        );
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize({
-          size: layout === "horizontal" ? minBlockSize : minInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSize(
+          layout === "horizontal" ? minBlockSize : minInlineSize,
+          layout === "horizontal" ? "block" : "inline",
+        );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize({
-          size: layout === "horizontal" ? maxBlockSize : maxInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSize(
+          layout === "horizontal" ? maxBlockSize : maxInlineSize,
+          layout === "horizontal" ? "block" : "inline",
+        );
         event.preventDefault();
         break;
     }
-  }
-
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { contentRef, resizeValues } = this;
-
-    if (!contentRef.value) {
-      return;
-    }
-
-    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
-    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
-
-    const clamped =
-      resizeValues[resizeMin] && resizeValues[resizeMax]
-        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
-        : size;
-
-    const rounded = Math.round(clamped);
-
-    this.resizeValues = {
-      ...resizeValues,
-      [type]: rounded,
-    };
-
-    const property =
-      type === "blockSize" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
-
-    this.el.style.setProperty(property, size !== null ? `${rounded}px` : null);
   }
 
   private cleanupInteractions(): void {
@@ -356,10 +351,7 @@ export class ShellPanel extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
-          this.updateSize({
-            size: isBlock ? rect.height : rect.width,
-            type: isBlock ? "blockSize" : "inlineSize",
-          });
+          this.updateSize(isBlock ? rect.height : rect.width, isBlock ? "block" : "inline");
         },
       },
     });
