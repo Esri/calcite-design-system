@@ -251,7 +251,7 @@
   py-0;
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-internal-stepper-item-spacing-unit-l);
-  border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-2));
+  border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-2));
 
   & .stepper-item-icon {
     @apply order-3 mt-px mb-0;
