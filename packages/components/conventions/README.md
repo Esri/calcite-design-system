@@ -342,7 +342,7 @@ There are utilities for common workflows in [`src/utils`](../src/utils).
 
 ### BigDecimal
 
-`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/dev/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.browser.spec.ts`](../src/utils/number.browser.spec.ts).
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.browser.spec.ts`](../src/utils/number.browser.spec.ts).
 
 ### Custom child element support
 
