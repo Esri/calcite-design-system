@@ -7,17 +7,19 @@ const resources = {
       figmaChanges: "figma changes",
     },
     issueType: {
+      a11y: "a11y",
       bug: "bug",
       chore: "chore",
+      design: "design",
+      designTokens: "design-tokens",
       docs: "docs",
       enhancement: "enhancement",
+      newComponent: "new component",
       perf: "perf",
       refactor: "refactor",
+      research: "research",
       test: "testing",
       tooling: "tooling",
-      a11y: "a11y",
-      newComponent: "new component",
-      design: "design",
     },
     issueWorkflow: {
       new: "0 - new",
@@ -77,6 +79,7 @@ const resources = {
     translationReviewers: "calcite-translation-reviewers",
   },
   packages: {
+    tokens: "calcite-design-tokens",
     icons: "calcite-ui-icons",
   },
 };

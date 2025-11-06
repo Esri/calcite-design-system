@@ -1,0 +1,150 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
+ * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
+ * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered.
+ * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
+ * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
+ * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
+*/
+
+@use "../../styles/includes";
+
+@mixin item-styling {
+  @apply relative
+    flex
+    flex-grow
+    cursor-pointer
+    items-center
+    no-underline;
+
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
+}
+
+:host {
+  @apply relative
+    flex
+    flex-grow
+    focus-base
+    items-center;
+}
+
+.container {
+  @include item-styling;
+  @apply focus-base text-start;
+
+  & a {
+    outline: none;
+    @include item-styling;
+  }
+}
+
+.dropdown-item-content {
+  @apply flex-auto py-0.5;
+}
+
+// item icon
+.dropdown-item-icon {
+  @apply relative
+    opacity-0
+    ease-in-out;
+  transform: scale(0.9);
+}
+
+:host([scale="s"]) {
+  .container {
+    @apply text-n2h py-1 px-2;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-sm);
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    @apply text-n1h py-2 px-3;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-md);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-md);
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    @apply text-0h py-2.5 px-4;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-lg);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-lg);
+  }
+}
+
+//focus
+:host(:focus) {
+  .container {
+    @apply focus-inset no-underline;
+  }
+}
+
+:host(:hover:not([disabled])) {
+  .container {
+    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-foreground-2));
+  }
+}
+
+:host(:active:not([disabled])) .container {
+  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-foreground-3));
+}
+
+:host(:hover:not([disabled])),
+:host(:active:not([disabled])) {
+  .container {
+    @apply no-underline;
+    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+  }
+
+  .dropdown-link {
+    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+  }
+}
+
+:host([selected]) .container:not(.container--none-selection),
+:host([selected]) .dropdown-link {
+  @apply font-medium;
+  color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+
+  calcite-icon {
+    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+  }
+}
+
+:host(:hover:not([disabled])) .dropdown-item-icon {
+  color: var(--calcite-dropdown-item-icon-color-hover);
+}
+
+:host([selected]) .dropdown-item-icon {
+  @apply opacity-100;
+}
+
+@include includes.base-component();
+@include includes.disabled();

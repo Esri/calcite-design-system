@@ -1,7 +1,7 @@
 {
   "name": "calcite-react-starter",
   "private": true,
-  "description": "Starter application for @esri/calcite-commponents-react with TypeScript",
+  "description": "Starter application for @esri/calcite-components-react with TypeScript",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components-react": "3.3.0",
+    "@esri/calcite-components-react": "3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

@@ -14,13 +14,13 @@ jobs:
       id-token: write
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - name: Sync dev to main
@@ -47,13 +47,13 @@ jobs:
           target-branch: main
       - name: Checkout Repository
         if: steps.release.outputs.releases_created == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
       - name: Setup Node
         if: steps.release.outputs.releases_created == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
