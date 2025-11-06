@@ -3,6 +3,8 @@ export const CSS = {
   clearable: "clearable",
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
+  hasPrefix: "has-prefix",
+  hasSuffix: "has-suffix",
   inlineChild: "inline-child",
   inputIcon: "icon",
   prefix: "prefix",

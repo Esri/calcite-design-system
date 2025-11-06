@@ -426,17 +426,9 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.input}`,
         targetProp: "--calcite-input-loading-fill-color",
       },
-      "--calcite-autocomplete-input-prefix-background-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-prefix-background-color",
-      },
       "--calcite-autocomplete-input-prefix-text-color": {
         shadowSelector: `.${CSS.input}`,
         targetProp: "--calcite-input-prefix-text-color",
-      },
-      "--calcite-autocomplete-input-suffix-background-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-suffix-background-color",
       },
       "--calcite-autocomplete-input-suffix-text-color": {
         shadowSelector: `.${CSS.input}`,
