@@ -56,8 +56,6 @@ export default createRule({
 
     return {
       // Inspect common declaration nodes that may carry JSDoc
-      FunctionDeclaration: inspectCommentsOnNode,
-      VariableDeclaration: inspectCommentsOnNode,
       ClassDeclaration: inspectCommentsOnNode,
       MethodDefinition: inspectCommentsOnNode,
       PropertyDefinition: inspectCommentsOnNode,

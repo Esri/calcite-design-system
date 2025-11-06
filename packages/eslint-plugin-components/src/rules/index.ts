@@ -7,5 +7,5 @@ export default {
   "ban-events": banEvents,
   "no-dynamic-createelement": noDynamicCreateelement,
   "strict-boolean-attributes": strictBooleanAttributes,
-  "require-deprecation-version-and-removal-versions": requireDeprecationAndRemovalVersions,
+  "require-deprecation-and-removal-versions": requireDeprecationAndRemovalVersions,
 };
