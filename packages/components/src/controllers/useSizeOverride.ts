@@ -8,10 +8,10 @@
 export type SizeAxis = "inline" | "block";
 
 export interface SizeOverrideContext {
-  targetElement: HTMLElement;
-  getMin?: (axis: SizeAxis) => number | null;
-  getMax?: (axis: SizeAxis) => number | null;
-  setInternalState?: (axis: SizeAxis, value: number | null) => void;
+  readonly getMax?: (axis: SizeAxis) => number | null;
+  readonly getMin?: (axis: SizeAxis) => number | null;
+  readonly setInternalState?: (axis: SizeAxis, value: number | null) => void;
+  readonly targetElement: HTMLElement;
 }
 
 export const useSizeOverride = (
@@ -34,8 +34,9 @@ export const useSizeOverride = (
 
   const applied = next == null ? null : Math.round(next);
   const cssProp = axis === "block" ? "height" : "width";
+  const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
-  (targetElement.style as any)[cssProp] = applied == null ? "" : `${applied}px`;
+  (targetElement.style as any)[cssPropKey] = applied == null ? "" : `${applied}px`;
 
   context.setInternalState?.(axis, applied);
 
