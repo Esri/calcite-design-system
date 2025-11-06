@@ -1,9 +1,8 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 
-const execAsync = promisify(exec);
-
 (async function (): Promise<void> {
+  const execAsync = promisify(exec);
   const localSetup =
     // see https://docs.npmjs.com/cli/v8/using-npm/scripts#:~:text=Scripts%20are%20run%20from,you%20ran%20npm%20run
     process.env.INIT_CWD !== process.cwd();

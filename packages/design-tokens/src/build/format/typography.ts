@@ -4,9 +4,9 @@ import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
-import { state } from "../shared/state.js";
-import { FlattenedTransformedToken } from "../../types/extensions.js";
+import type { RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import { state } from "../shared/state.ts";
+import type { FlattenedTransformedToken } from "../../types/extensions.d.ts";
 
 function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
   if (!dictionary.unfilteredTokens) {

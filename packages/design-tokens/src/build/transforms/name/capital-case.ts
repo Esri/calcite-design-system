@@ -1,7 +1,7 @@
 import type { NameTransform } from "style-dictionary/types";
 import { capitalCase } from "change-case";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../../types/interfaces.js";
+import type { RegisterFn } from "../../../types/interfaces.d.ts";
 
 export const transformNameCapitalCase: NameTransform["transform"] = (token) => {
   return capitalCase(token.name);

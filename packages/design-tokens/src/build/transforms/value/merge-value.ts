@@ -1,10 +1,10 @@
 import type { Dictionary, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { PlatformConfig } from "../../../types/extensions.js";
-import { RegisterFn } from "../../../types/interfaces.js";
-import { dark, light } from "../../dictionaries/index.js";
-import { isLightOrDarkColorToken } from "../../filter/light-or-dark.js";
-import { state } from "../../shared/state.js";
+import type { PlatformConfig } from "../../../types/extensions.d.ts";
+import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import { dark, light } from "../../dictionaries/index.ts";
+import { isLightOrDarkColorToken } from "../../filter/light-or-dark.ts";
+import { state } from "../../shared/state.ts";
 
 let dictionaries: {
   light: Dictionary;

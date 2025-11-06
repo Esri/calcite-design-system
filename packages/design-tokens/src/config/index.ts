@@ -6,11 +6,10 @@ import {
 } from "style-dictionary/enums";
 import type { OutputReferences } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../types/extensions.js";
-import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.js";
-import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.js";
-import { Platform } from "../build/utils/enums.js";
-import { primitiveValueOutputReferences } from "../build/utils/output-references.js";
+import type { Config } from "../types/extensions.d.ts";
+import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
+import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.ts";
+import { primitiveValueOutputReferences } from "../build/utils/output-references.ts";
 
 const commonExpand = {
   typesMap: {
@@ -32,7 +31,7 @@ const config: Config = {
     preprocessors.PreprocessorStoreSameValueThemeTokens,
   ],
   platforms: {
-    [Platform.scss]: {
+    scss: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
@@ -81,13 +80,13 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.scss,
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    [Platform.css]: {
+    css: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
@@ -141,13 +140,13 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.css,
+        platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
         outputReferences: stylesheetOutputReferences,
       },
     },
-    [Platform.es6]: {
+    es6: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         ...transformers.platformTransforms.es6,
@@ -163,7 +162,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.es6,
+        platform: "es6",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
       },
@@ -216,7 +215,7 @@ const config: Config = {
         },
       ],
     },
-    [Platform.docs]: {
+    docs: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [
         transformers.TransformNameRemovePrefix,
@@ -233,7 +232,7 @@ const config: Config = {
         },
       },
       options: {
-        platform: Platform.docs,
+        platform: "docs",
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },

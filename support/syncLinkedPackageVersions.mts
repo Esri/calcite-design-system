@@ -1,11 +1,12 @@
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+import { readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { gt } from "semver";
+
 (async function (): Promise<void> {
   try {
-    const childProcess = await import("child_process");
-    const { promisify } = await import("util");
-    const { promises: fs } = await import("fs");
-    const { default: semver } = await import("semver");
-    const { resolve } = await import("path");
-    const exec = promisify(childProcess.exec);
+    const execAsync = promisify(exec);
 
     const releaseTarget = process.argv[2];
     if (!["latest", "next", "rc", "hotfix"].includes(releaseTarget)) {
@@ -25,7 +26,7 @@
       location: string;
     }
 
-    const packagesData: Array<PackageData> = JSON.parse((await exec("npx lerna ls --json")).stdout.trim());
+    const packagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna ls --json")).stdout.trim());
     const headPackageData = packagesData.find((data: PackageData) => data.name === LINKED_VERSIONS_HEAD_PACKAGE);
 
     if (!headPackageData) {
@@ -37,7 +38,7 @@
 
       if (!trackingPackageData) {
         throw new Error(`Unable to find data for a TRACKING linked package: ${pkg}`);
-      } else if (semver.gt(trackingPackageData.version, headPackageData.version)) {
+      } else if (gt(trackingPackageData.version, headPackageData.version)) {
         /*
          * NOTE: this blocks next releases for ALL packages and may require a refactor in
          * the future if a TRACKING linked package with frequent deployable changes is added.
@@ -45,7 +46,7 @@
         throw new Error(
           `A TRACKING linked package's version (${trackingPackageData.name}@${trackingPackageData.version}) cannot be greater than the HEAD linked package's version (${headPackageData.name}@${headPackageData.version}). Blocking next releases until HEAD catches up.`,
         );
-      } else if (semver.gt(headPackageData.version, trackingPackageData.version)) {
+      } else if (gt(headPackageData.version, trackingPackageData.version)) {
         console.log(
           "Bumping",
           trackingPackageData.name,
@@ -56,11 +57,11 @@
         );
 
         // update to HEAD version in package.json and package-lock.json
-        await exec(`npm version ${headPackageData.version} --no-commit-hooks --no-git-tag-version --workspace=${pkg}`);
+        await execAsync(`npm version ${headPackageData.version} --no-commit-hooks --no-git-tag-version --workspace=${pkg}`);
 
         // update version in changelog
         const packageChangelogPath = resolve(trackingPackageData.location, "CHANGELOG.md");
-        const packageChangelogContent = await fs.readFile(packageChangelogPath, "utf8");
+        const packageChangelogContent = await readFile(packageChangelogPath, "utf8");
 
         const updatedChangelogContent = packageChangelogContent
           /*
@@ -75,25 +76,25 @@
             `...${trackingPackageData.name}@${headPackageData.version}`,
           );
 
-        await fs.writeFile(packageChangelogPath, updatedChangelogContent);
+        await writeFile(packageChangelogPath, updatedChangelogContent);
       }
     }
 
     // get updated data for deployable packages
-    const changedPackagesData: Array<PackageData> = JSON.parse((await exec("npx lerna changed --json")).stdout.trim());
+    const changedPackagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna changed --json")).stdout.trim());
 
     console.log("Deployable packages:", changedPackagesData);
 
-    await exec("markdownlint-cli2 packages/{*}/CHANGELOG.md --fix --config \".markdownlint-cli2.jsonc\"");
+    await execAsync("markdownlint-cli2 packages/{*}/CHANGELOG.md --fix --config \".markdownlint-cli2.jsonc\"");
 
     // add/commit changed files
-    await exec(
+    await execAsync(
       `git add --all && git commit -m 'chore: release ${releaseTarget === "latest" ? "main" : releaseTarget}'`,
     );
 
     // create git tags with the updated versions
     for (const pkg of changedPackagesData) {
-      await exec(`git tag -a "${pkg.name}@${pkg.version}" HEAD -m "${pkg.name}@${pkg.version}"`);
+      await execAsync(`git tag -a "${pkg.name}@${pkg.version}" HEAD -m "${pkg.name}@${pkg.version}"`);
     }
   } catch (error) {
     console.error(error);
