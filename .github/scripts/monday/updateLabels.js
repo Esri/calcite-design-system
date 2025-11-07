@@ -2,7 +2,6 @@
 const Monday = require("../support/monday");
 const {
   labels: {
-    planning,
     issueWorkflow,
     issueType: { design },
   },
@@ -15,12 +14,6 @@ module.exports = async ({ context }) => {
   const [labelName] = assertRequired([label?.name]);
 
   const monday = Monday(issue);
-
-  const skippedLabels = [planning.monday, issueWorkflow.new, issueWorkflow.assigned];
-  if (skippedLabels.includes(labelName)) {
-    console.log(`Label "${labelName}" is skipped. Not adding to Monday.com`);
-    return;
-  }
 
   const isVerified = labelName === issueWorkflow.verified;
   if (isVerified && issue.state === "closed" && !includesLabel(issue.labels, design)) {
