@@ -10158,5 +10158,10 @@
     "alias": ["4.4.0", "list", "tool", "data", "table", "properties", "attribute", "dialog"],
     "category": "List",
     "release": "4.4.0"
+  },
+  "update-table": {
+    "alias": ["4.4.0", "generic", "edit", "cells", "values", "attribute", "data"],
+    "category": "Generic",
+    "release": "4.4.0"
   }
 }
