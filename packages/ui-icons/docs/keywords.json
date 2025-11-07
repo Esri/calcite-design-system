@@ -10138,5 +10138,25 @@
     "alias": ["4.4.0", "brand", "share", "edit", "content", "apps", "layers"],
     "category": "Brand",
     "release": "4.4.0"
+  },
+  "star-values": {
+    "alias": ["4.4.0", "generic", "unique", "analysis", "attribute", "field", "mapping"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "duplicate-values": {
+    "alias": ["4.4.0", "generic", "tool", "attribute", "identify", "features"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "sort-ascending-view": {
+    "alias": ["4.4.0", "list", "table", "sort", "data", "view", "tool"],
+    "category": "List",
+    "release": "4.4.0"
+  },
+  "sort-descending-view": {
+    "alias": ["4.4.0", "list", "tool", "data", "table", "properties", "attribute", "dialog"],
+    "category": "List",
+    "release": "4.4.0"
   }
 }

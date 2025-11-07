@@ -1291,6 +1291,10 @@
     "partnered-collaboration": 61828,
     "open-data": 61829,
     "arcgis-solutions": 61830,
-    "arcgis-living-atlas": 61831
+    "arcgis-living-atlas": 61831,
+    "star-values": 61832,
+    "sort-descending-view": 61833,
+    "sort-ascending-view": 61834,
+    "duplicate-values": 61835
   }
 }
