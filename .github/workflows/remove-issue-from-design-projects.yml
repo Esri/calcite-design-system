@@ -6,7 +6,7 @@ on:
 
 jobs:
   process-labeled-issue:
-    if: github.event.label.name == 'ready for dev'
+    if: github.event.label.name == '2 - ready for dev'
     runs-on: ubuntu-latest
 
     steps:

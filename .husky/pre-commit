@@ -9,7 +9,7 @@ check_ui_icon_name_consistency() {
   invalid_pattern="\-[a-z0-9]+-f-"
 
   staged_files="$(
-    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/calcite-ui-icons/icons/.*\.svg" || true
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/ui-icons/icons/.*\.svg" || true
   )"
 
   if [ -n "$staged_files" ]; then
@@ -39,12 +39,12 @@ check_ui_icon_name_consistency() {
 
 update_t9n_manifest() {
   staged_files="$(
-    git diff --cached --name-only --diff-filter=ACD | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
+    git diff --cached --name-only --diff-filter=ACD | grep -E "packages/components/src/components/.*/assets/t9n/messages.json" || true
   )"
 
   if [ -n "$staged_files" ]; then
     # Run the script to update the t9nmanifest
-    npx tsx ./packages/calcite-components/support/updateT9nManifest.ts || {
+    npx tsx ./packages/components/support/updateT9nManifest.ts || {
       echo "Error: Failed to update T9n manifest."
       exit 1
     }
@@ -55,7 +55,7 @@ update_t9n_manifest() {
 
 sync_en_t9n_bundles() {
   staged_files="$(
-    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/calcite-components/src/components/.*/assets/t9n/messages.json" || true
+    git diff --cached --name-only --diff-filter=ACM | grep -E "packages/components/src/components/.*/assets/t9n/messages.json" || true
   )"
 
   files_to_sync=""
@@ -72,7 +72,7 @@ sync_en_t9n_bundles() {
     done
 
     if [ -n "$files_to_sync" ]; then
-      npx tsx ./packages/calcite-components/support/syncEnT9nBundles.ts $files_to_sync || {
+      npx tsx ./packages/components/support/syncEnT9nBundles.ts $files_to_sync || {
         echo "Error: Failed to sync En T9n bundles."
         exit 1
       }
@@ -87,11 +87,11 @@ sync_en_t9n_bundles() {
 
 update_internal_custom_prop_doc() {
   staged_scss_files="$(
-    git diff --cached --name-only --diff-filter=ACM | grep -E "^packages/calcite-components/.*\.scss$" || true
+    git diff --cached --name-only --diff-filter=ACM | grep -E "^packages/components/.*\.scss$" || true
   )"
 
   if [ -n "$staged_scss_files" ]; then
-    npx tsx packages/calcite-components/support/addInternalCustomPropDoc.ts $staged_scss_files
+    npx tsx packages/components/support/addInternalCustomPropDoc.ts $staged_scss_files
     git add $staged_scss_files
   fi
 

@@ -19,9 +19,8 @@ import {
   GlobalTestProps,
   newProgrammaticE2EPage,
   selectText,
-  toBeInteger,
-  toBeNumber,
 } from "../../tests/utils/puppeteer";
+import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
@@ -2543,17 +2542,9 @@ describe("calcite-color-picker", () => {
           shadowSelector: `.${CSS.container} >>> calcite-input-number`,
           targetProp: "--calcite-input-number-text-color",
         },
-        "--calcite-color-picker-input-prefix-background-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-text`,
-          targetProp: "--calcite-input-prefix-background-color",
-        },
         "--calcite-color-picker-input-prefix-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-input-text`,
           targetProp: "--calcite-input-prefix-text-color",
-        },
-        "--calcite-color-picker-input-suffix-background-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-          targetProp: "--calcite-input-suffix-background-color",
         },
         "--calcite-color-picker-input-suffix-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-input-number`,
