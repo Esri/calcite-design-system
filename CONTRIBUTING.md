@@ -70,21 +70,19 @@ GitHub labels are used for organizing issues and providing context. You can fami
 
 ### Lifecycle
 
-There are four issue lifecycle labels:
+Lifecycle labels are used to communicate the state of an issue. Each issue can only be assigned one lifecycle label at any time. Please make sure to keep the lifecycle label up to date.
 
-- `0 - new`: Issues that are up for grabs.
-- `1 - assigned`: Issues that someone will work on soon.
-- `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
-- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
-
-An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
+- `1 - in design`: Issues that are actively undergoing design expertise.
+- `2 - ready for dev`: Issues that are fully designed, have acceptance criteria defined, and are ready for a developer to pick up.
+- `3 - in development`: Issues that are actively under development.
+- `4 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `5 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
 ### Issues that cannot be worked on
 
 There are four labels that mean an issue is not ready for development:
 
-- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
+- `1 - in design`: Issues that are going through design consultation. Once designers complete the effort, the `2 - ready for dev` label will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
 - `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).

@@ -1,6 +1,6 @@
 name: Tooling
 description: Request improvements to our component or repo workflows
-labels: ["tooling", "0 - new", "needs triage"]
+labels: ["tooling", "needs triage"]
 body:
   - type: markdown
     attributes:
