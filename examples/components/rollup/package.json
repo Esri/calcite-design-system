@@ -27,5 +27,8 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-postcss": "^4.0.2",
     "serve": "^14.2.3"
+  },
+  "volta": {
+    "node": "24.11.0"
   }
 }
