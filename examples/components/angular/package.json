@@ -42,5 +42,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
+  },
+  "volta": {
+    "node": "24.11.0"
   }
 }

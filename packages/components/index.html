@@ -6,533 +6,517 @@
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
     <style>
-      a {
-        text-decoration: none;
+      .parent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 3rem;
+      }
+
+      .title-text {
+        margin-bottom: 0.5rem;
+      }
+
+      .child {
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
       }
     </style>
   </head>
 
   <body>
-    <!--
-      **************************************************
-      * NAVIGATION
-      **************************************************
-    -->
-    <div class="navigation body-margin">
-      <div>
-        <h1 id="calcite-demo">Calcite demo</h1>
-      </div>
+    <demo-dom-swapper>
+      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
 
-      <div class="examples-github-storybook">
-        <div>
-          <calcite-button href="https://esri.github.io/calcite-ui-icons/#?" appearance="solid" kind="inverse"
-            >Calcite UI Icons</calcite-button
-          >
-        </div>
+      <h1 style="margin: 0 auto; text-align: center">Table-advanced</h1>
 
-        <div>
-          <calcite-button href="https://github.com/Esri/calcite-design-system" appearance="solid" kind="inverse"
-            >GitHub</calcite-button
-          >
-        </div>
-
-        <div>
-          <calcite-button href="https://esri.github.io/calcite-design-system" appearance="solid" kind="inverse"
-            >Storybook</calcite-button
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- calcite components -->
-    <div class="calcite-comp">Calcite Components</div>
-
-    <!--
-      **************************************************
-      * CALCITE COMPONENTS
-      **************************************************
-    -->
-    <div class="calcite-components">
-      <div>
-        <div>
-          <a href="/src/demos/accordion.html">
-            <calcite-action scale="s" text="Accordion" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/action.html">
-            <calcite-action scale="s" text="Action" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/alert.html">
-            <calcite-action scale="s" text="Alert" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/animation/animation.html">
-            <calcite-action scale="s" text="Animation" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/autocomplete.html">
-            <calcite-action scale="s" text="Autocomplete" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/avatar.html">
-            <calcite-action scale="s" text="Avatar" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/block.html">
-            <calcite-action scale="s" text="Block" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/button.html">
-            <calcite-action scale="s" text="Button" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/card.html">
-            <calcite-action scale="s" text="Card / Card Group" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/carousel.html">
-            <calcite-action scale="s" text="Carousel" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/checkbox.html">
-            <calcite-action scale="s" text="Checkbox" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/chip.html">
-            <calcite-action scale="s" text="Chip" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/chip-group.html">
-            <calcite-action scale="s" text="Chip Group" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-        <div>
-          <a href="/src/demos/color-picker.html">
-            <calcite-action scale="s" text="Color-picker" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/combobox.html">
-            <calcite-action scale="s" text="Combobox" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/date-picker.html">
-            <calcite-action scale="s" text="Date-picker" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/dialog.html">
-            <calcite-action scale="s" text="Dialog" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/dropdown.html">
-            <calcite-action scale="s" text="Dropdown" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/fab.html">
-            <calcite-action scale="s" text="Fab" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/flow.html">
-            <calcite-action scale="s" text="Flow" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/form.html">
-            <calcite-action scale="s" text="Form" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/validation.html">
-            <calcite-action scale="s" text="Form Validation" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/graph.html">
-            <calcite-action scale="s" text="Graph" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/handle/basic.html">
-            <calcite-action scale="s" text="Handle" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/icon.html">
-            <calcite-action scale="s" text="Icon" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/inline-editable.html">
-            <calcite-action scale="s" text="Inline-editable" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/input.html">
-            <calcite-action scale="s" text="Input" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/input-date-picker.html">
-            <calcite-action scale="s" text="Input Date Picker" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
+      <!-- Table advanced -->
+      <div class="parent">
+        <div class="child title-text">Table Advanced</div>
+        <div class="child" style="width: 600px">
+          <calcite-table-advanced scale="s" height="200px"></calcite-table-advanced>
+          <button onclick="triggerScrollToRow()">Scroll To Row</button>
+          <button onclick="triggerStyleRow()">Style Row</button>
+          <button onclick="triggerStyleCell()">Style Cell</button>
         </div>
       </div>
 
-      <!-- second column -->
-      <div>
-        <div>
-          <a href="/src/demos/input-number.html">
-            <calcite-action scale="s" text="Input Number" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/input-text.html">
-            <calcite-action scale="s" text="Input Text" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/input-time-picker.html">
-            <calcite-action scale="s" text="Input Time Picker" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/input-time-zone.html">
-            <calcite-action scale="s" text="Input Time Zone" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/label.html">
-            <calcite-action scale="s" text="Label" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/link.html">
-            <calcite-action scale="s" text="Link" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/list.html">
-            <calcite-action scale="s" text="List" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/loader.html">
-            <calcite-action scale="s" text="Loader" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/menu.html">
-            <calcite-action scale="s" text="Menu / Menu Item" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/meter.html">
-            <calcite-action scale="s" text="Meter" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/navigation.html">
-            <calcite-action scale="s" text="Navigation" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/notice.html">
-            <calcite-action scale="s" text="Notice" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/pagination.html">
-            <calcite-action scale="s" text="Pagination" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/panel.html">
-            <calcite-action scale="s" text="Panel" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/popover.html">
-            <calcite-action scale="s" text="Popover" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/progress.html">
-            <calcite-action scale="s" text="Progress" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/radio-button.html">
-            <calcite-action scale="s" text="Radio-button" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/radio-button-group.html">
-            <calcite-action scale="s" text="Radio Button Group" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/rating.html">
-            <calcite-action scale="s" text="Rating" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/scrim.html">
-            <calcite-action scale="s" text="Scrim" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/segmented-control.html">
-            <calcite-action scale="s" text="Segmented Control" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
+      <!-- Column groups -->
+      <div class="parent">
+        <div class="child title-text">Column Groups</div>
+        <div class="child">
+          <calcite-table-advanced scale="m"></calcite-table-advanced>
+          <button onclick="triggerSetFilter()">Set Filter</button>
+          <button onclick="triggerClearFilter()">Clear Filter</button>
         </div>
       </div>
 
-      <!-- third column -->
-      <div>
-        <div>
-          <a href="/src/demos/select.html">
-            <calcite-action scale="s" text="Select" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/shell/">
-            <calcite-action scale="s" text="Shell" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/shell-panel.html">
-            <calcite-action scale="s" text="Shell Panel" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/sheet.html">
-            <calcite-action scale="s" text="Sheet" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/slider.html">
-            <calcite-action scale="s" text="Slider" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/sortable-list.html">
-            <calcite-action scale="s" text="Sortable-list" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/sort-handle.html">
-            <calcite-action scale="s" text="Sort Handle" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/split-button.html">
-            <calcite-action scale="s" text="Split-Button" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/stack.html">
-            <calcite-action scale="s" text="Stack" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/stepper.html">
-            <calcite-action scale="s" text="Stepper" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-        <div>
-          <a href="/src/demos/swatch-group.html">
-            <calcite-action scale="s" text="Swatch Group / Swatch" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-        <div>
-          <a href="/src/demos/switch.html">
-            <calcite-action scale="s" text="Switch" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/table.html">
-            <calcite-action scale="s" text="Table" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/table-advanced.html">
-            <calcite-action scale="s" text="Table Advanced" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/text-area.html">
-            <calcite-action scale="s" text="TextArea" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tabs.html">
-            <calcite-action scale="s" text="Tabs" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/theme/auto.html">
-            <calcite-action scale="s" text="Theme" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tile.html">
-            <calcite-action scale="s" text="Tile" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tile-group.html">
-            <calcite-action scale="s" text="Tile Group" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tooltip.html">
-            <calcite-action scale="s" text="Tooltip" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tree.html">
-            <calcite-action scale="s" text="Tree" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tree-scales.html">
-            <calcite-action scale="s" text="Tree Scales" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tip/basic.html">
-            <calcite-action scale="s" text="Tip" alignment="start" text-enabled appearance="solid"> </calcite-action>
-          </a>
-        </div>
-
-        <div>
-          <a href="/src/demos/tip-manager.html">
-            <calcite-action scale="s" text="Tip Manager" alignment="start" text-enabled appearance="solid">
-            </calcite-action>
-          </a>
+      <!-- Fit to width -->
+      <div class="parent">
+        <div class="child title-text">Fit To Width</div>
+        <div class="child">
+          <calcite-table-advanced scale="l"></calcite-table-advanced>
         </div>
       </div>
-    </div>
+
+      <!-- Custom slot -->
+      <div class="parent">
+        <div class="child title-text">Custom slot</div>
+        <div class="child" style="width: 400px">
+          <calcite-table-advanced scale="s" height="100px">
+            <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>rating</th>
+                  <th>gender</th>
+                  <th>color</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>John Doe</td>
+                  <td>0</td>
+                  <td>10</td>
+                  <td>male</td>
+                  <td>black</td>
+                </tr>
+                <tr>
+                  <td>Mary Jane</td>
+                  <td>4</td>
+                  <td>20</td>
+                  <td>female</td>
+                  <td>green</td>
+                </tr>
+                <tr>
+                  <td>Neil Young</td>
+                  <td>65</td>
+                  <td>99</td>
+                  <td>male</td>
+                  <td>yellow</td>
+                </tr>
+                <tr>
+                  <td>Juan Carlos Franco</td>
+                  <td>25</td>
+                  <td>100</td>
+                  <td>male</td>
+                  <td>blue</td>
+                </tr>
+                <tr>
+                  <td>Oli Bob</td>
+                  <td>30</td>
+                  <td>NaN</td>
+                  <td>male</td>
+                  <td>red</td>
+                </tr>
+              </tbody>
+            </table>
+          </calcite-table-advanced>
+          <button onclick="triggerScrollToRowCustomSlot()">Scroll To Row</button>
+          <button onclick="triggerSetFilterCustomSlot()">Set filter</button>
+          <button onclick="triggerClearFilterCustomSlot()">Clear filter</button>
+          <button onclick="triggerStyleRowCustomSlot()">Style row</button>
+          <button onclick="triggerStyleCellCustomSlot()">Style cell</button>
+        </div>
+      </div>
+
+      <!-- Custom slot with widths -->
+      <div class="parent">
+        <div class="child title-text">Custom slot with widths</div>
+        <div class="child">
+          <calcite-table-advanced scale="m">
+            <table>
+              <thead>
+                <tr>
+                  <th width="200">Heading</th>
+                  <th width="150">Heading 1</th>
+                  <th width="110">Heading 2</th>
+                  <th width="250">Heading 3</th>
+                  <th>Heading 4</th>
+                  <th>Heading 5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+              </tbody>
+            </table>
+          </calcite-table-advanced>
+        </div>
+      </div>
+
+      <!-- Custom slot with tabulator props -->
+      <div class="parent">
+        <div class="child title-text">Custom slot with tabulator center align prop</div>
+        <div class="child">
+          <calcite-table-advanced scale="l">
+            <table>
+              <thead>
+                <tr>
+                  <th tabulator-hozAlign="center">Heading</th>
+                  <th tabulator-hozAlign="center">Heading 1</th>
+                  <th tabulator-hozAlign="center">Heading 2</th>
+                  <th tabulator-hozAlign="center">Heading 3</th>
+                  <th tabulator-hozAlign="center">Heading 4</th>
+                  <th tabulator-hozAlign="center">Heading 5</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+                <tr>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                  <td>cell</td>
+                </tr>
+              </tbody>
+            </table>
+          </calcite-table-advanced>
+        </div>
+      </div>
+    </demo-dom-swapper>
+    <script>
+      var tableAdvanced = document.querySelectorAll("calcite-table-advanced")[0];
+      var tableAdvancedColumnGroups = document.querySelectorAll("calcite-table-advanced")[1];
+      var tableAdvancedFitToWidth = document.querySelectorAll("calcite-table-advanced")[2];
+      var tableAdvancedCustomSlot = document.querySelectorAll("calcite-table-advanced")[3];
+
+      var data = [
+        { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
+        {
+          id: 2,
+          name: "Mary May",
+          progress: 1,
+          gender: "female",
+          rating: 2,
+          col: "blue",
+          dob: "14/05/1982",
+          car: true,
+        },
+        {
+          id: 3,
+          name: "Christine Lobowski",
+          progress: 42,
+          gender: "female",
+          rating: 0,
+          col: "green",
+          dob: "22/05/1982",
+          car: true,
+        },
+        {
+          id: 4,
+          name: "Brendon Philips",
+          progress: 100,
+          gender: "male",
+          rating: 1,
+          col: "orange",
+          dob: "01/08/1980",
+        },
+        {
+          id: 5,
+          name: "Margret Marmajuke",
+          progress: 16,
+          gender: "female",
+          rating: 5,
+          col: "yellow",
+          dob: "31/01/1999",
+        },
+        {
+          id: 6,
+          name: "Frank Harbours",
+          progress: 38,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+          car: 1,
+        },
+        {
+          id: 7,
+          name: "Claudia Vaughan",
+          progress: 39,
+          gender: "female",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+        },
+        {
+          id: 8,
+          name: "Ronny Ford",
+          progress: 39,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+        },
+        {
+          id: 9,
+          name: "Josef Glass",
+          progress: 39,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+        },
+        {
+          id: 10,
+          name: "Saul Huffman",
+          progress: 39,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+        },
+      ];
+
+      var columns = [
+        { title: "Name", field: "name", editor: "input", width: 200 },
+        { title: "Task Progress", field: "progress", hozAlign: "left", formatter: "progress", editor: true },
+        {
+          title: "Gender",
+          field: "gender",
+          width: 95,
+          editor: "select",
+          editorParams: { values: ["male", "female"] },
+        },
+        { title: "Rating", field: "rating", formatter: "star", hozAlign: "center", width: 100, editor: true },
+        { title: "Color", field: "col", width: 130, editor: "input" },
+        { title: "Date Of Birth", field: "dob", width: 130, sorter: "date", hozAlign: "center" },
+        {
+          title: "Driver",
+          field: "car",
+          width: 90,
+          hozAlign: "center",
+          formatter: "tickCross",
+          sorter: "boolean",
+          editor: true,
+        },
+      ];
+
+      tableAdvanced.data = data;
+      tableAdvanced.columns = columns;
+      tableAdvanced.frozenColumnProp = "title";
+      tableAdvanced.frozenColumns = ["name", "task progress"];
+
+      function triggerScrollToRow() {
+        tableAdvanced.scrollToRow(3);
+      }
+
+      function triggerStyleRow() {
+        tableAdvanced.styleRow(0, "backgroundColor", "blue");
+      }
+
+      function triggerStyleCell() {
+        tableAdvanced.styleCell(2, "name", "backgroundColor", "blue");
+      }
+
+      var dataColumnGroups = [
+        {
+          id: 1,
+          name: "Brendon Philips",
+          progress: 100,
+          gender: "male",
+          rating: 1,
+          col: "orange",
+          dob: "01/08/1980",
+        },
+        {
+          id: 2,
+          name: "Margret Marmajuke",
+          progress: 16,
+          gender: "female",
+          rating: 5,
+          col: "yellow",
+          dob: "31/01/1999",
+        },
+        {
+          id: 3,
+          name: "Frank Harbours",
+          progress: 38,
+          gender: "male",
+          rating: 4,
+          col: "red",
+          dob: "12/05/1966",
+          car: 1,
+        },
+        {
+          id: 4,
+          name: "Oli Bob",
+          progress: 11,
+          gender: "male",
+          rating: 1,
+          col: "yellow",
+          dob: "31/01/1998",
+        },
+        {
+          id: 5,
+          name: "Mary May",
+          progress: 12,
+          gender: "female",
+          rating: 2,
+          col: "yellow",
+          dob: "31/01/1997",
+        },
+        {
+          id: 6,
+          name: "Brendon Philips",
+          progress: 13,
+          gender: "male",
+          rating: 3,
+          col: "yellow",
+          dob: "31/01/1996",
+        },
+      ];
+
+      var columnGroups = [
+        { title: "Name", field: "name", width: 160 },
+        {
+          //create column group
+          title: "Work Info",
+          columns: [
+            { title: "Progress", field: "progress", hozAlign: "right", sorter: "number", width: 100 },
+            { title: "Rating", field: "rating", hozAlign: "center", width: 80 },
+            { title: "Driver", field: "car", hozAlign: "center", width: 80 },
+          ],
+        },
+        {
+          //create column group
+          title: "Personal Info",
+          columns: [
+            { title: "Gender", field: "gender", width: 90 },
+            { title: "Favorite Color", field: "col", width: 140 },
+            { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date", width: 130 },
+          ],
+        },
+      ];
+
+      tableAdvancedColumnGroups.data = dataColumnGroups;
+      tableAdvancedColumnGroups.columns = columnGroups;
+
+      const customFilterFunction = (data, filterParams) => {
+        return data.name === filterParams.name || data.rating <= filterParams.rating;
+      };
+
+      const filterParams = { name: "Frank Harbours", rating: 1 };
+
+      function triggerSetFilter() {
+        tableAdvancedColumnGroups.setFilter(customFilterFunction, filterParams);
+      }
+
+      function triggerClearFilter() {
+        tableAdvancedColumnGroups.clearFilter();
+      }
+
+      var dataFitToWidth = [
+        { id: 1, name: "Oli Bob", progress: 12, gender: "male", rating: 1, col: "red", dob: "19/02/1984", car: 1 },
+        {
+          id: 2,
+          name: "Mary May",
+          progress: 1,
+          gender: "female",
+          rating: 2,
+          col: "blue",
+          dob: "14/05/1982",
+          car: true,
+        },
+        {
+          id: 3,
+          name: "Christine Lobowski",
+          progress: 42,
+          gender: "female",
+          rating: 0,
+          col: "green",
+          dob: "22/05/1982",
+          car: true,
+        },
+      ];
+
+      var columnsFitToWidth = [
+        { title: "Name", field: "name", width: 200 },
+        { title: "Progress", field: "progress", hozAlign: "right", sorter: "number" },
+        { title: "Gender", field: "gender", widthGrow: 2 },
+        { title: "Rating", field: "rating", hozAlign: "center" },
+        { title: "Favourite Color", field: "col", widthGrow: 3 },
+        { title: "Date Of Birth", field: "dob", hozAlign: "center", sorter: "date", widthGrow: 2 },
+        { title: "Driver", field: "car", hozAlign: "center" },
+      ];
+
+      tableAdvancedFitToWidth.data = dataFitToWidth;
+      tableAdvancedFitToWidth.columns = columnsFitToWidth;
+
+      function triggerScrollToRowCustomSlot() {
+        tableAdvancedCustomSlot.scrollToRow(2);
+      }
+
+      const customFilterFunctionCustomSlot = (data, filterParams) => {
+        return data.name === filterParams.name;
+      };
+
+      const filterParamsCustomSlot = { name: "Mary Jane" };
+
+      function triggerSetFilterCustomSlot() {
+        tableAdvancedCustomSlot.setFilter(customFilterFunctionCustomSlot, filterParamsCustomSlot);
+      }
+
+      function triggerClearFilterCustomSlot() {
+        tableAdvancedCustomSlot.clearFilter();
+      }
+
+      // set frozen columns
+      tableAdvancedCustomSlot.columns = [
+        { title: "name", field: "name", frozen: true },
+        { title: "age", field: "age", frozen: true },
+      ];
+
+      function triggerStyleRowCustomSlot() {
+        tableAdvancedCustomSlot.styleRow(0, "backgroundColor", "blue");
+      }
+
+      function triggerStyleCellCustomSlot() {
+        tableAdvancedCustomSlot.styleCell(2, "name", "backgroundColor", "blue");
+      }
+    </script>
   </body>
 </html>

@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.48...@esri/calcite-components@5.0.0-next.0) (2025-11-08)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.47...@esri/calcite-components@4.0.0-next.48) (2025-11-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.46...@esri/calcite-components@4.0.0-next.47) (2025-11-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [4.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.45...@esri/calcite-components@4.0.0-next.46) (2025-11-05)
+
+### ⚠ BREAKING CHANGES
+
+- **input, input-number, input-text:** Removed support for the following css tokens as they
+  are no longer needed:
+
+- `--calcite-autocomplete-input-prefix-background-color`
+- `--calcite-autocomplete-input-suffix-background-color`
+- `--calcite-color-picker-input-prefix-background-color`
+- `--calcite-color-picker-input-suffix-background-color`
+- `--calcite-input-prefix-background-color`
+- `--calcite-input-suffix-background-color`.
+
+Use the following tokens to style prefix, suffix and input's background
+color:
+
+- `--calcite-input-background-color`
+- `--calcite-input-number-background-color`
+- `--calcite-input-text-background-color`
+- `--calcite-color-picker-input-background-color`
+- `--calcite-autocomplete-input-background-color`.
+
+### Features
+
+- **input, input-number, input-text:** update prefix and suffix visuals for 4.0 ([#13226](https://github.com/Esri/calcite-design-system/issues/13226)) ([b24c754](https://github.com/Esri/calcite-design-system/commit/b24c754219450d3997250d82b3b475ee36ffe1c8)), closes [#10784](https://github.com/Esri/calcite-design-system/issues/10784)
+
 ## [4.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.44...@esri/calcite-components@4.0.0-next.45) (2025-11-04)
 
 ### Bug Fixes

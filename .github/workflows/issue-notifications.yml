@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: "Installed notification"
-        if: github.event.label.name == '3 - installed'
+        if: github.event.label.name == '4 - installed'
         uses: actions/github-script@v8
         env:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
@@ -32,7 +32,7 @@ jobs:
             await action({github, context, core})
 
       - name: "Ready for dev notification"
-        if: github.event.label.name == 'ready for dev'
+        if: github.event.label.name == '2 - ready for dev'
         uses: actions/github-script@v8
         env:
           MANAGERS: ${{secrets.CALCITE_MANAGERS}}
