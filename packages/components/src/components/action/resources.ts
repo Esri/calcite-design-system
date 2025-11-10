@@ -1,5 +1,6 @@
 export const CSS = {
   button: "button",
+  buttonContainer: "button-container",
   buttonTextVisible: "button--text-visible",
   buttonCompact: "button--compact",
   indicatorText: "indicator-text",
