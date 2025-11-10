@@ -38,13 +38,4 @@
 
   CSS.forEach(loadCss);
   SCRIPTS.forEach(loadScript);
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
-    if (darkThemeMq.matches) {
-      document.body.classList.add("calcite-mode-dark");
-    } else {
-      document.body.classList.remove("calcite-mode-dark");
-    }
-  });
 })();
