@@ -1295,6 +1295,7 @@
     "star-values": 61832,
     "sort-descending-view": 61833,
     "sort-ascending-view": 61834,
-    "duplicate-values": 61835
+    "duplicate-values": 61835,
+    "update-table": 61836
   }
 }
