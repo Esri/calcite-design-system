@@ -53,7 +53,7 @@ This rule ensures that calls to `document.createElement()` use string literals t
 
 This rule catches boolean props that are initialized in a way that does not conform to the HTML5 spec.
 
-- [`@esri/calcite-components/require-deprecation-and-removal-versions`](./docs/require-deprecation-and-removal-versions.md)
+- [`@esri/calcite-components/require-deprecation-details`](./docs/require-deprecation-details.md)
 
 This rule catches deprecation tags that are missing deprecation and removal target versions
 

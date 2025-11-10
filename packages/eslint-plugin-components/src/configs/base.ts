@@ -18,7 +18,7 @@ export default {
       rules: {
         "@esri/calcite-components/no-dynamic-createelement": 1,
         "@esri/calcite-components/strict-boolean-attributes": 1,
-        "@esri/calcite-components/require-deprecation-and-removal-versions": 1,
+        "@esri/calcite-components/require-deprecation-details": 1,
       },
     },
   ],

@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import rule from "../../../../src/rules/require-deprecation-and-removal-versions";
+import rule from "../../../../src/rules/require-deprecation-details";
 import good from "./require-deprecation-and-removal-version.good.tsx?raw";
 import wrongMissingDeprecation from "./require-deprecation-version.wrong.tsx?raw";
 import wrongMissingRemoval from "./require-removal-version.wrong.tsx?raw";

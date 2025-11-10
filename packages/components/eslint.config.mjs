@@ -75,7 +75,7 @@ export default tseslint.config(
 
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
-      "@esri/calcite-components/require-deprecation-and-removal-versions": "warn",
+      "@esri/calcite-components/require-deprecation-details": "warn",
       "@esri/calcite-components/ban-events": [
         "warn",
         {

@@ -3,7 +3,7 @@ import { ESLintUtils, TSESTree } from "@typescript-eslint/utils";
 const createRule = ESLintUtils.RuleCreator((name) => name);
 
 export default createRule({
-  name: "require-deprecation-and-removal-versions",
+  name: "require-deprecation-details",
   defaultOptions: [],
   meta: {
     docs: {
@@ -29,33 +29,33 @@ export default createRule({
         if (comment.type !== "Block") continue;
 
         const raw = comment.value || "";
-        // Only inspect comments that contain an @deprecated tag.
-        if (!/@deprecated\b/i.test(raw)) continue;
-
         const deprecatedTagRegex = /@deprecated\b([\s\S]*?)(?=(?:\n\s*\*\s*@)|$)/gi;
         const deprecationVersionRegex = /^\s*in\s+v?\d+(?:\.\d+){0,2}\b/i;
         const removalTargetRegex = /\bremoval\s+target\s+v?\d+(?:\.\d+){0,2}\b/i;
-        let match: RegExpExecArray | null;
 
-        while ((match = deprecatedTagRegex.exec(raw))) {
-          const tagContent = match[1] || "";
-
+        for (const match of raw.matchAll(deprecatedTagRegex)) {
+          const tagContent = (match[1] as string) || "";
           const hasDeprecationVersion = deprecationVersionRegex.test(tagContent);
           const hasRemovalTarget = removalTargetRegex.test(tagContent);
 
+          let messageId: "missingDeprecation" | "missingRemoval" | "missingBoth" | undefined;
+
           if (!hasDeprecationVersion && !hasRemovalTarget) {
-            context.report({ loc: comment.loc, messageId: "missingBoth" });
+            messageId = "missingBoth";
           } else if (!hasDeprecationVersion) {
-            context.report({ loc: comment.loc, messageId: "missingDeprecation" });
+            messageId = "missingDeprecation";
           } else if (!hasRemovalTarget) {
-            context.report({ loc: comment.loc, messageId: "missingRemoval" });
+            messageId = "missingRemoval";
+          }
+
+          if (messageId) {
+            context.report({ loc: comment.loc, messageId });
           }
         }
       }
     }
 
     return {
-      // Inspect common declaration nodes that may carry JSDoc
       ClassDeclaration: inspectCommentsOnNode,
       MethodDefinition: inspectCommentsOnNode,
       PropertyDefinition: inspectCommentsOnNode,
