@@ -21,38 +21,43 @@ const { assertRequired } = require("../support/utils");
  * 4. If `label_name` and `label_action` are provided: Adds or removes the label through `addLabel()` or `clearLabel()`
  */
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
-  const [issueNumber] = assertRequired([context.payload.inputs.issue_number]);
+module.exports = async ({ github, context, core }) => {
+  const /** @type {SyncActionChangesInputs} */ {
+    issue_number: issue_number_input,
+    milestone_updated,
+    assignee_updated,
+    state_updated,
+    label_name,
+    label_action,
+  } = context.payload.inputs;
 
+  const [issue_number] = assertRequired([issue_number_input]);
   const { data: issue } = await github.rest.issues.get({
     ...context.repo,
-    issue_number: issueNumber,
+    issue_number,
   });
-
-  const /** @type {SyncActionChangesInputs} */ {
-      milestone_updated,
-      assignee_updated,
-      state_updated,
-      label_name,
-      label_action,
-    } = context.payload.inputs;
 
   const monday = Monday(issue);
 
   if (milestone_updated) {
     monday.handleMilestone();
+    core.info("Milestone handled.")
   }
   if (assignee_updated) {
     monday.handleAssignees();
+    core.info("Assignees handled.")
   }
   if (state_updated) {
     monday.handleState(state_updated);
+    core.info("State handled.")
   }
   if (label_name && label_action) {
     if (label_action === "added") {
       monday.addLabel(label_name);
+      core.info(`Label '${label_name}' added.`)
     } else {
       monday.clearLabel(label_name);
+      core.info(`Label '${label_name}' cleared.`)
     }
   }
 
