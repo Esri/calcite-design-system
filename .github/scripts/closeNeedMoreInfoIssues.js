@@ -22,24 +22,37 @@ module.exports = async ({ github, context }) => {
   const now = new Date();
 
   for (const issue of issues) {
+    const issue_number = issue.number;
     const lastUpdated = new Date(issue.updated_at);
     const daysSinceUpdate = Math.round((now.getTime() - lastUpdated.getTime()) / MILLISECONDS_IN_A_DAY);
 
     if (daysSinceUpdate >= DAYS_BEFORE_CLOSE) {
-      console.log(`Closing issue #${issue.number} - No updates for ${Math.round(daysSinceUpdate)} days`);
+      console.log(`Closing issue #${issue_number} - No updates for ${Math.round(daysSinceUpdate)} days`);
 
       await github.rest.issues.createComment({
-        owner: owner,
-        repo: repo,
-        issue_number: issue.number,
+        owner,
+        repo,
+        issue_number,
         body: "Closing this issue due to inactivity. If the issue persists, feel free to reopen it with additional details.",
       });
 
       await github.rest.issues.update({
-        issue_number: issue.number,
-        owner: owner,
-        repo: repo,
+        issue_number,
+        owner,
+        repo,
         state: "closed",
+      });
+
+      await github.rest.actions.createWorkflowDispatch({
+        owner,
+        repo,
+        workflow_id: "issue-monday-sync.yml",
+        ref: "dev",
+        inputs: {
+          issue_number: issue_number.toString(),
+          event_type: "SyncActionChanges",
+          state_updated: "closed",
+        },
       });
     }
   }
