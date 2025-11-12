@@ -40,7 +40,7 @@ elif [ "$BRANCH" = "dev" ]; then
 
       # try deploying storybook, but still release next if it fails with "|| true"
       { npm run --workspace=@esri/calcite-components build-storybook &&
-          npm run --workspace=@esri/calcite-components gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history;
+          npx --workspace=@esri/calcite-components gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history;
       } || true
 
       # remove the built docs after storybook deploys to gh-pages
