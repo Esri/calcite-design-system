@@ -58,6 +58,18 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private sizeOverride = useSizeOverride({
+    targetElement: () => this.contentRef.value,
+    getMin: (axis) =>
+      axis === "block" ? this.resizeValues.minBlockSize : this.resizeValues.minInlineSize,
+    getMax: (axis) =>
+      axis === "block" ? this.resizeValues.maxBlockSize : this.resizeValues.maxInlineSize,
+    setInternalState: (axis, appliedSize) => {
+      const key = axis === "block" ? "blockSize" : "inlineSize";
+      this.resizeValues = { ...this.resizeValues, [key]: appliedSize };
+    },
+  });
+
   //#endregion
 
   //#region State Properties
@@ -141,31 +153,10 @@ export class ShellPanel extends LitElement {
 
   @method()
   async updateSize(size: number | null, axis: SizeAxis): Promise<void> {
-    const el = this.contentRef.value;
-    console.log("el", el);
-    if (!el) {
+    if (!this.contentRef.value) {
       return;
     }
-
-    useSizeOverride(
-      {
-        targetElement: el,
-        getMin: (sizeAxis) => {
-          const key = sizeAxis === "block" ? "minBlockSize" : "minInlineSize";
-          return this.resizeValues[key];
-        },
-        getMax: (sizeAxis) => {
-          const key = sizeAxis === "block" ? "maxBlockSize" : "maxInlineSize";
-          return this.resizeValues[key];
-        },
-        setInternalState: (sizeAxis, appliedSize) => {
-          const key = sizeAxis === "block" ? "blockSize" : "inlineSize";
-          this.resizeValues = { ...this.resizeValues, [key]: appliedSize };
-        },
-      },
-      size,
-      axis,
-    );
+    this.sizeOverride.apply(size, axis);
   }
 
   //#endregion

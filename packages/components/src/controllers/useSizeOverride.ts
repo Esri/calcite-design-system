@@ -1,3 +1,5 @@
+import { makeController } from "@arcgis/lumina/controllers";
+
 /**
  * Applies (or clears) an inline width/height override without mutating tokens.
  * Pass size = null to clear and allow token cascade to reassert.
@@ -11,34 +13,37 @@ export interface SizeOverrideContext {
   readonly getMax?: (axis: SizeAxis) => number | null;
   readonly getMin?: (axis: SizeAxis) => number | null;
   readonly setInternalState?: (axis: SizeAxis, value: number | null) => void;
-  readonly targetElement: HTMLElement;
+  readonly targetElement: () => HTMLElement | null;
 }
 
 export const useSizeOverride = (
   context: SizeOverrideContext,
-  requestedSize: number | null,
-  axis: SizeAxis,
-): number | null => {
-  const { targetElement } = context;
-  if (!targetElement) {
-    return null;
-  }
+): {
+  apply: (requestedSize: number | null, axis: SizeAxis) => void;
+} =>
+  makeController(() => {
+    return {
+      apply(requestedSize: number | null, axis: SizeAxis): void {
+        const el = context.targetElement();
+        if (!el) {
+          return null;
+        }
 
-  let next = requestedSize;
+        let next = requestedSize;
 
-  const min = context.getMin?.(axis);
-  const max = context.getMax?.(axis);
-  if (next != null && min != null && max != null) {
-    next = Math.min(Math.max(next, min), max);
-  }
+        const min = context.getMin?.(axis);
+        const max = context.getMax?.(axis);
+        if (next != null && min != null && max != null) {
+          next = Math.min(Math.max(next, min), max);
+        }
 
-  const applied = next == null ? null : Math.round(next);
-  const cssProp = axis === "block" ? "height" : "width";
-  const cssPropKey = cssProp as keyof CSSStyleDeclaration;
+        const applied = next == null ? null : Math.round(next);
+        const cssProp = axis === "block" ? "height" : "width";
+        const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
-  (targetElement.style as any)[cssPropKey] = applied == null ? "" : `${applied}px`;
+        (el.style as any)[cssPropKey] = applied == null ? "" : `${applied}px`;
 
-  context.setInternalState?.(axis, applied);
-
-  return applied;
-};
+        context.setInternalState?.(axis, applied);
+      },
+    };
+  });

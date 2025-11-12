@@ -1,52 +1,65 @@
-import { it, expect, describe, beforeEach, vi } from "vitest";
-import { useSizeOverride, SizeOverrideContext } from "./useSizeOverride";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { LitElement } from "@arcgis/lumina";
+import { useSizeOverride, SizeAxis } from "./useSizeOverride";
+
+class Test extends LitElement {
+  elRef = document.createElement("div");
+  resizeValues: Record<string, number | null> = { inlineSize: null, blockSize: null };
+  setInternalStateSpy = vi.fn((axis: SizeAxis, value: number | null) => {
+    this.resizeValues[axis === "inline" ? "inlineSize" : "blockSize"] = value;
+  });
+  sizeOverride = useSizeOverride({
+    targetElement: () => this.elRef,
+    getMin: (axis) => (axis === "inline" ? 100 : 60),
+    getMax: (axis) => (axis === "inline" ? 500 : 400),
+    setInternalState: this.setInternalStateSpy,
+  });
+  override connectedCallback(): void {
+    super.connectedCallback();
+    document.body.appendChild(this.elRef);
+  }
+}
 
 describe("useSizeOverride", () => {
-  let el: HTMLElement;
-  let context: SizeOverrideContext;
+  let component: Test;
 
-  beforeEach(() => {
-    el = document.createElement("div");
-    context = {
-      targetElement: el,
-      getMin: () => 100,
-      getMax: () => 500,
-      setInternalState: vi.fn(),
-    };
+  beforeEach(async () => {
+    ({ component } = await mount(Test));
   });
 
   it("applies clamped size within min/max", () => {
-    const result = useSizeOverride(context, 200, "inline");
-    expect(result).toBe(200);
-    expect(el.style.width).toBe("200px");
+    component.sizeOverride.apply(200, "inline");
+    expect(component.elRef.style.width).toBe("200px");
+    expect(component.resizeValues.inlineSize).toBe(200);
   });
 
   it("clamps size below min", () => {
-    const result = useSizeOverride(context, 50, "inline");
-    expect(result).toBe(100);
-    expect(el.style.width).toBe("100px");
+    component.sizeOverride.apply(50, "inline");
+    expect(component.elRef.style.width).toBe("100px");
+    expect(component.resizeValues.inlineSize).toBe(100);
   });
 
   it("clamps size above max", () => {
-    const result = useSizeOverride(context, 600, "inline");
-    expect(result).toBe(500);
-    expect(el.style.width).toBe("500px");
+    component.sizeOverride.apply(600, "inline");
+    expect(component.elRef.style.width).toBe("500px");
+    expect(component.resizeValues.inlineSize).toBe(500);
   });
 
   it("clears override when size is null", () => {
-    const result = useSizeOverride(context, null, "inline");
-    expect(result).toBeNull();
-    expect(el.style.width).toBe("");
+    component.sizeOverride.apply(null, "inline");
+    expect(component.elRef.style.width).toBe("");
+    expect(component.resizeValues.inlineSize).toBeNull();
   });
 
   it("applies block axis", () => {
-    const result = useSizeOverride(context, 300, "block");
-    expect(result).toBe(300);
-    expect(el.style.height).toBe("300px");
+    component.sizeOverride.apply(300, "block");
+    expect(component.elRef.style.height).toBe("300px");
+    expect(component.resizeValues.blockSize).toBe(300);
   });
 
   it("calls setInternalState with applied value", () => {
-    useSizeOverride(context, 400, "inline");
-    expect(context.setInternalState).toHaveBeenCalledWith("inline", 400);
+    component.sizeOverride.apply(400, "inline");
+    expect(component.setInternalStateSpy).toHaveBeenCalledWith("inline", 400);
   });
 });
