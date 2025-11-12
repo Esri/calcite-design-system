@@ -1,14 +1,9 @@
+import { StorybookConfig } from "@storybook/web-components-vite";
 import { UserConfig } from "vite";
 import { html } from "../support/formatting";
 
-module.exports = {
-  addons: [
-    "@storybook/addon-a11y",
-    "@storybook/addon-docs",
-    "@storybook/addon-themes",
-    "@whitespace/storybook-addon-html",
-    "storybook-addon-rtl",
-  ],
+const config: StorybookConfig = {
+  addons: ["@storybook/addon-a11y", "@storybook/addon-docs", "@storybook/addon-themes", "storybook-addon-rtl"],
   core: {
     builder: "@storybook/builder-vite",
   },
@@ -26,8 +21,7 @@ module.exports = {
   },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
   staticDirs: ["./static"],
-  previewHead: (head: string): string =>
-    `
+  previewHead: (head) => `
     ${head}
     ${
       process.env.STORYBOOK_SCREENSHOT_TEST_BUILD
@@ -40,7 +34,8 @@ module.exports = {
     }
     ${
       !process.env.STORYBOOK_SCREENSHOT_TEST_BUILD && !process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD
-        ? html`<template id="internalStorybookNotice">
+        ? html`
+            <template id="internalStorybookNotice">
               <calcite-notice
                 open
                 icon="exclamation-mark-triangle"
@@ -69,8 +64,11 @@ module.exports = {
                 () => document.body.append(document.getElementById("internalStorybookNotice").content.cloneNode(true)),
                 { once: true },
               );
-            </script> `
+            </script>
+          `
         : ""
     }
   `,
 };
+
+export default config;
