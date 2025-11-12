@@ -30,7 +30,26 @@ module.exports = async ({ github, context }) => {
   // If issue has "_No response_" under the regression section or regressionVersion is an empty string then log and exit, otherwise add regression label.
   if (regressionVersionResponse === "_No response_" || regressionVersionResponse === "") {
     console.log("No regression version provided, not adding regression label.");
-    return;
+  } else {
+    await github.rest.issues.addLabels({
+      issue_number,
+      owner,
+      repo,
+      labels: [bug.regression],
+    });
+
+    await github.rest.actions.createWorkflowDispatch({
+      owner,
+      repo,
+      workflow_id: "issue-monday-sync.yml",
+      ref: "dev",
+      inputs: {
+        issue_number: issue_number.toString(),
+        event_type: "SyncActionChanges",
+        label_name: bug.regression,
+        label_action: "added",
+      },
+    });
   }
 
   // Match x.y.z with an optional prerelease extension of "-next.N".

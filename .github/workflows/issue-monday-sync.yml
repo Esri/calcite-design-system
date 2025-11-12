@@ -5,11 +5,39 @@ on:
   workflow_dispatch:
     inputs:
       issue_number:
+        type: number
+        description: "The target issue number for syncing changes."
         required: true
       event_type:
+        type: string
+        description: "The type of event. Currently only 'SyncActionChanges' is supported."
         required: true
-      added_label:
+      milestone_updated:
+        type: boolean
+        description: "Indicates if the milestone was updated."
         required: false
+      assignee_updated:
+        type: boolean
+        description: "Indicates if the assignee was updated."
+        required: false
+      state_updated:
+        type: choice
+        description: "Indicates if the state (open/closed) was updated."
+        required: false
+        options:
+          - open
+          - closed
+      label_name:
+        type: string
+        description: "The label name added or removed from the issue."
+        required: false
+      label_action:
+        type: choice
+        description: "The action taken on the label."
+        required: false
+        options:
+          - added
+          - removed
 env:
   MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
   MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
@@ -32,7 +60,7 @@ jobs:
             await action({github, context})
 
       - name: "Update Label on Task"
-        if: github.event.action == 'labeled'
+        if: github.event.action == 'labeled' && github.event.label.name != 'monday.com sync'
         uses: actions/github-script@v8
         with:
           script: |
@@ -79,10 +107,10 @@ jobs:
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateState.js')
             await action({github, context})
 
-      - name: "Handle Notify Workflow Event"
-        if: github.event.inputs.event_type == 'NotifyWorkflow'
+      - name: "Sync Action Changes"
+        if: github.event.inputs.event_type == 'SyncActionChanges'
         uses: actions/github-script@v8
         with:
           script: |
-            const action = require('${{ github.workspace }}/.github/scripts/monday/handleNotifyWorkflow.js')
-            await action({github, context})
+            const action = require('${{ github.workspace }}/.github/scripts/monday/syncActionChanges.js')
+            await action({github, context, core})

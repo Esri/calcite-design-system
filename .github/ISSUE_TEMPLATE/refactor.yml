@@ -1,6 +1,6 @@
 name: Refactor
 description: Propose a code rework that does not effect functionality
-labels: ["refactor", "0 - new", "needs triage"]
+labels: ["refactor", "needs triage"]
 body:
   - type: markdown
     attributes:

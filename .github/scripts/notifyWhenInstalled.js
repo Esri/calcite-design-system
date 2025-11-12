@@ -34,7 +34,6 @@ module.exports = async ({ github, context }) => {
     body: `Installed for verification:${verifiers}`,
   });
 
-  // Emit event to trigger Monday.com syncing actions
   await github.rest.actions.createWorkflowDispatch({
     owner,
     repo,
@@ -42,7 +41,8 @@ module.exports = async ({ github, context }) => {
     ref: "dev",
     inputs: {
       issue_number: number.toString(),
-      event_type: "NotifyWorkflow",
+      event_type: "SyncActionChanges",
+      assignee_updated: true
     },
   });
 };

@@ -20,7 +20,8 @@
     { "type": "ci", "section": "Continuous Integration", "hidden": true }
   ],
   "packages": {
-    "packages/calcite-components": {
+    "packages/components": {
+      "release-as": "5.0.0",
       "component": "@esri/calcite-components",
       "extra-files": [
         "README.md",
@@ -61,8 +62,9 @@
         }
       ]
     },
-    "packages/calcite-components-react": {
+    "packages/components-react": {
       "component": "@esri/calcite-components-react",
+      "release-as": "5.0.0",
       "extra-files": [
         {
           "type": "json",
@@ -71,17 +73,17 @@
         }
       ]
     },
-    "packages/calcite-design-tokens": {
+    "packages/design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
-    "packages/calcite-tailwind-preset": {
+    "packages/tailwind-preset": {
       "component": "@esri/calcite-tailwind-preset"
     },
-    "packages/calcite-ui-icons": {
+    "packages/ui-icons": {
       "component": "@esri/calcite-ui-icons",
       "extra-files": ["docs/index.html"]
     },
-    "packages/eslint-plugin-calcite-components": {
+    "packages/eslint-plugin-components": {
       "component": "@esri/eslint-plugin-calcite-components"
     }
   },

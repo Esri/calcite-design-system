@@ -15,16 +15,26 @@ module.exports = async ({ github, context }) => {
     return;
   }
 
+  const OPTION_NA = "N/A";
+  const OPTION_UNKNOWN = "Unknown / Not Sure";
   const whichComponentRegex = /### Which Component(?:\r\n|\r|\n){1,2}([^\r\n]+)/m;
   const whichComponentRegexMatch = body.match(whichComponentRegex);
 
   if (whichComponentRegexMatch) {
     const componentsString = (whichComponentRegexMatch[1] || "").trim();
 
-    if (componentsString !== "N/A" && componentsString !== "Unknown / Not Sure") {
-      const componentsList = componentsString
-        .split(", ")
-        .map((component) => `c-${component}`.replace(" ", "-").toLowerCase());
+    // Filter out "N/A" and "Unknown / Not Sure" so we don't create labels for those.
+    const filteredComponents = componentsString
+      .split(",")
+      .map((component) => component.trim())
+      .filter((component) => {
+        return (
+          component !== OPTION_NA && component !== OPTION_UNKNOWN && component !== `${OPTION_NA}, ${OPTION_UNKNOWN}`
+        );
+      });
+
+    if (filteredComponents.length > 0) {
+      const componentsList = filteredComponents.map((component) => `c-${component.replace(/\s+/g, "-").toLowerCase()}`);
       for (const component of componentsList) {
         await createLabelIfMissing({
           github,
@@ -41,6 +51,8 @@ module.exports = async ({ github, context }) => {
           labels: [component],
         });
       }
+    } else {
+      console.log(`No valid components to label on issue #${issue_number}`);
     }
   } else {
     console.log(`No components listed on issue #${issue_number}`);
