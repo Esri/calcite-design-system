@@ -1,8 +1,8 @@
 import StyleDictionary from "style-dictionary";
 import type { DesignToken } from "style-dictionary/types";
-import { dark, light } from "../dictionaries/index.js";
-import { isThemed } from "../utils/token-types.js";
-import { state } from "../shared/state.js";
+import { dark, light } from "../dictionaries/index.ts";
+import { isThemed } from "../utils/token-types.ts";
+import { state } from "../shared/state.ts";
 
 const mergeInclusions = [
   // excluded to match test output – we can remove for a breaking change release

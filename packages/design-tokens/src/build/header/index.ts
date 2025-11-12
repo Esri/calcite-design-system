@@ -1,10 +1,10 @@
-import { registerDefaultFileHeader } from "./default.js";
-import { registerDeprecateFileHeader } from "./deprecate.js";
+import { registerDefaultFileHeader } from "./default.ts";
+import { registerDeprecateFileHeader } from "./deprecate.ts";
 
 export function registerFileHeaders(): void {
   registerDefaultFileHeader();
   registerDeprecateFileHeader();
 }
 
-export { HeaderDefault } from "./default.js";
-export { HeaderDeprecate } from "./deprecate.js";
+export { HeaderDefault } from "./default.ts";
+export { HeaderDeprecate } from "./deprecate.ts";
