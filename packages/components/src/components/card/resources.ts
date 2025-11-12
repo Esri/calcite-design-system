@@ -21,8 +21,6 @@ export const SLOTS = {
   description: "description",
   footerStart: "footer-start",
   footerEnd: "footer-end",
-  title: "title",
-  subtitle: "subtitle",
 };
 
 export const ICONS: Record<string, IconName> = {

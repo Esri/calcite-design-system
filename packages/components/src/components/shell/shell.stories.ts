@@ -1273,8 +1273,7 @@ position:relative;
           width-scale="m"
         >
           <calcite-action slot="header-actions-end" icon="x" text="Close"> </calcite-action>
-          <calcite-block heading="Title" description="County: {NAME}" collapsible>
-            <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+          <calcite-block heading="Title" description="County: {NAME}" collapsible icon-start="title">
             <div class="combo-control">
               <div class="combo-button">
                 <button class="combo-button__main">County: {NAME}</button>
@@ -1283,9 +1282,8 @@ position:relative;
             </div>
           </calcite-block>
           <calcite-sortable-list>
-            <calcite-block drag-handle heading="Attributes" description="2/98" collapsible>
-              <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+            <calcite-block drag-handle heading="Attributes" description="2/98" collapsible icon-start="feature-details">
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <calcite-list drag-enabled>
                 <calcite-list-item
                   label="2018 Total Households (Esri)"
@@ -1304,9 +1302,8 @@ position:relative;
                 >
               </div>
             </calcite-block>
-            <calcite-block drag-handle heading="Image" collapsible>
-              <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+            <calcite-block drag-handle heading="Image" collapsible icon-start="image">
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <section class="form-section">
                 <label>
                   URL
@@ -1354,9 +1351,14 @@ position:relative;
                 </section>
               </calcite-block-section>
             </calcite-block>
-            <calcite-block drag-handle heading="Text" description="Cool. he {expression/..." collapsible>
-              <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-              <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+            <calcite-block
+              drag-handle
+              heading="Text"
+              description="Cool. he {expression/..."
+              collapsible
+              icon-start="image"
+            >
+              <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <button class="multiline-button">Cool. he {expression/expr1} population is {expression/expr2}%...</button>
             </calcite-block>
           </calcite-sortable-list>
@@ -1440,14 +1442,22 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
       </calcite-action-bar>
       <calcite-panel heading="Map Options">
         <calcite-button width="half" slot="footer"> Next </calcite-button>
-        <calcite-block collapsible heading="Layer effects" description="Adjust blur, highlight, and more">
-          <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
+        <calcite-block
+          collapsible
+          heading="Layer effects"
+          description="Adjust blur, highlight, and more"
+          icon-start="effects"
+        >
           <calcite-notice open>
             <div slot="message">Use layer effects sparingly, for emphasis</div>
           </calcite-notice>
         </calcite-block>
-        <calcite-block collapsible heading="Symbology" description="Select type, color, and transparency">
-          <calcite-icon scale="s" slot="icon" icon="map-pin"></calcite-icon>
+        <calcite-block
+          collapsible
+          heading="Symbology"
+          description="Select type, color, and transparency"
+          icon-start="map-pin"
+        >
           <calcite-notice open>
             <div slot="message">The viewers are going to love this</div>
           </calcite-notice>
@@ -1599,7 +1609,7 @@ export const shellPanelWithTabs = (): string =>
           <calcite-action text="Redo" indicator icon="redo"></calcite-action>
           <calcite-action text="Save" disabled icon="save"></calcite-action>
         </calcite-action-group>
-        <calcite-action-group slot="bottom-actions">
+        <calcite-action-group slot="actions-end">
           <calcite-action text="Tips" icon="question"></calcite-action>
           <calcite-action text="Settings" indicator icon="gear"></calcite-action>
         </calcite-action-group>

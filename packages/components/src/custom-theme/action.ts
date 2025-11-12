@@ -25,9 +25,8 @@ export const actionBar = html`<calcite-action-bar layout="horizontal" style="wid
     <calcite-action text="Save" active icon="save"> </calcite-action>
     <calcite-action text="Layers" icon="layers"> </calcite-action>
   </calcite-action-group>
-  <calcite-action slot="actions-end" text="hello world" icon="layers"> </calcite-action>
-  <!-- The "bottom-actions" slot is deprecated -->
-  <calcite-action slot="bottom-actions" text="hello world 2" icon="information"> </calcite-action>
+  <calcite-action slot="actions-end" text="hello world" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text="hello world 2" icon="information"></calcite-action>
 </calcite-action-bar>`;
 
 export const actionGroupTokens = {

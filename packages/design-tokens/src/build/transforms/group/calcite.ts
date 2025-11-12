@@ -1,19 +1,18 @@
 import { transforms } from "style-dictionary/enums";
 import StyleDictionary from "style-dictionary";
-import { TransformValueSizePxToRem } from "../value/px-to-rem.js";
-import { TransformNameRemoveTier } from "../name/remove-tier.js";
-import { TransformNameRemoveDefault } from "../name/remove-default.js";
-import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.js";
-import { TransformAttributePlatformNames } from "../attribute/platform-names.js";
-import { TransformAttributeSchema } from "../attribute/schema.js";
-import { RegisterFn } from "../../../types/interfaces.js";
-import { TransformValueEnsureType } from "../value/ensure-type.js";
-import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.js";
-import { Platform } from "../../utils/enums.js";
-import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.js";
+import { TransformValueSizePxToRem } from "../value/px-to-rem.ts";
+import { TransformNameRemoveTier } from "../name/remove-tier.ts";
+import { TransformNameRemoveDefault } from "../name/remove-default.ts";
+import { TransformNameIncludePlusMinus } from "../name/include-plus-minus.ts";
+import { TransformAttributePlatformNames } from "../attribute/platform-names.ts";
+import { TransformAttributeSchema } from "../attribute/schema.ts";
+import type { Platform, RegisterFn } from "../../../types/interfaces.d.ts";
+import { TransformValueEnsureType } from "../value/ensure-type.ts";
+import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.ts";
+import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.ts";
 
-export const platformTransforms = {
-  [Platform.css]: [
+export const platformTransforms: Record<Extract<Platform, "css" | "es6">, string[]> = {
+  css: [
     TransformNameRemoveTier,
     TransformNameRemoveDefault,
     TransformNameIncludePlusMinus,
@@ -22,12 +21,7 @@ export const platformTransforms = {
     "ts/color/css/hexrgba",
     "shadow/css/shorthand",
   ],
-  [Platform.es6]: [
-    transforms.nameCamel,
-    TransformNameRemoveTier,
-    TransformNameRemoveDefault,
-    TransformNameIncludePlusMinus,
-  ],
+  es6: [transforms.nameCamel, TransformNameRemoveTier, TransformNameRemoveDefault, TransformNameIncludePlusMinus],
 };
 
 export function getTransforms(): string[] {
@@ -45,7 +39,7 @@ export function getTransforms(): string[] {
     TransformValueCorrectPostprocessValue,
   ];
 
-  return [...agnosticTransforms, ...platformTransforms[Platform.css]];
+  return [...agnosticTransforms, ...platformTransforms.css];
 }
 
 export const TransformCalciteGroup = "calcite";

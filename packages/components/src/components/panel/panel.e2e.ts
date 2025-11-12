@@ -449,28 +449,30 @@ describe("calcite-panel", () => {
         <div slot="${SLOTS.headerContent}">test content</div>
         <div slot="${SLOTS.headerActionsEnd}">test end</div>
         <p>Content</p>
-        <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
-        <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
+        <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
+        <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
       </calcite-panel>
     `);
 
-    accessible(html`
-      <calcite-panel collapsible closable>
-        <calcite-action-bar slot="${SLOTS.actionBar}">
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Save" icon="save"></calcite-action>
-            <calcite-action text="Layers" icon="layers"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-        <div slot="${SLOTS.headerActionsStart}">test start</div>
-        <div slot="${SLOTS.headerContent}">test content</div>
-        <div slot="${SLOTS.headerActionsEnd}">test end</div>
-        <p>Content</p>
-        <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
-        <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
-      </calcite-panel>
-    `);
+    describe("collapsible and closable", () => {
+      accessible(html`
+        <calcite-panel collapsible closable>
+          <calcite-action-bar slot="${SLOTS.actionBar}">
+            <calcite-action-group>
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action text="Save" icon="save"></calcite-action>
+              <calcite-action text="Layers" icon="layers"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <div slot="${SLOTS.headerActionsStart}">test start</div>
+          <div slot="${SLOTS.headerContent}">test content</div>
+          <div slot="${SLOTS.headerActionsEnd}">test end</div>
+          <p>Content</p>
+          <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
+          <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
+        </calcite-panel>
+      `);
+    });
   });
 
   describe("focusable", () => {

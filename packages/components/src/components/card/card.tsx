@@ -34,8 +34,6 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot title - [Deprecated] use `heading` instead. A slot for adding a heading.
- * @slot subtitle - [Deprecated] use `description` instead. A slot for adding a description.
  * @slot thumbnail - A slot for adding a thumbnail.
  * @slot heading - A slot for adding a heading.
  * @slot description - A slot for adding a description.
@@ -76,11 +74,7 @@ export class Card extends LitElement implements InteractiveComponent {
 
   @state() hasHeading = false;
 
-  @state() hasSubtitle = false;
-
   @state() hasThumbnail = false;
-
-  @state() hasTitle = false;
 
   //#endregion
 
@@ -173,14 +167,6 @@ export class Card extends LitElement implements InteractiveComponent {
 
   private handleDescriptionSlotChange(event: Event): void {
     this.hasDescription = slotChangeHasAssignedElement(event);
-  }
-
-  private handleTitleSlotChange(event: Event): void {
-    this.hasTitle = slotChangeHasAssignedElement(event);
-  }
-
-  private handleSubtitleSlotChange(event: Event): void {
-    this.hasSubtitle = slotChangeHasAssignedElement(event);
   }
 
   private handleFooterStartSlotChange(event: Event): void {
@@ -276,9 +262,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private renderHeader(): JsxNode {
-    const hasHeader = this.hasHeading || this.hasDescription;
-    const hasDeprecatedHeader = this.hasSubtitle || this.hasTitle;
-    const showHeader = hasHeader || hasDeprecatedHeader;
+    const showHeader = this.hasHeading || this.hasDescription;
 
     return (
       <header class={CSS.header} hidden={!showHeader}>
@@ -286,8 +270,6 @@ export class Card extends LitElement implements InteractiveComponent {
         <div class={CSS.headerTextContainer}>
           <slot name={SLOTS.heading} onSlotChange={this.handleHeadingSlotChange} />
           <slot name={SLOTS.description} onSlotChange={this.handleDescriptionSlotChange} />
-          <slot name={SLOTS.title} onSlotChange={this.handleTitleSlotChange} />
-          <slot name={SLOTS.subtitle} onSlotChange={this.handleSubtitleSlotChange} />
         </div>
         {this.selectionMode !== "none" && this.renderSelectionIcon()}
       </header>

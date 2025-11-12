@@ -3,7 +3,7 @@
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
 // 3. Generates a notification to the Calcite project manager(s)
-// 4. Emits "NotifyWorkflow" event to trigger the Monday.com sync
+// 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
@@ -45,6 +45,12 @@ module.exports = async ({ github, context }) => {
     label: issueWorkflow.needsTriage,
   });
 
+  await removeLabel({
+    github,
+    context,
+    label: issueWorkflow.inDesign,
+  });
+
   await github.rest.issues.addLabels({
     ...issueProps,
     labels: [issueWorkflow.needsMilestone],
@@ -65,7 +71,6 @@ module.exports = async ({ github, context }) => {
     body: `cc ${calcite_managers}`,
   });
 
-  // Emit event to trigger Monday.com syncing actions
   await github.rest.actions.createWorkflowDispatch({
     owner,
     repo,
@@ -73,7 +78,9 @@ module.exports = async ({ github, context }) => {
     ref: "dev",
     inputs: {
       issue_number: number.toString(),
-      event_type: "NotifyWorkflow",
+      event_type: "SyncActionChanges",
+      milestone_updated: true,
+      assignee_updated: true,
     },
   });
 };

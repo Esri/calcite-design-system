@@ -51,7 +51,7 @@
     @apply cursor-pointer;
   }
   &:not(.non-interactive):hover {
-    box-shadow: 0 0 0 var(--calcite-border-width-md) var(--calcite-color-border-2);
+    box-shadow: 0 0 0 var(--calcite-border-width-md) var(--calcite-color-border-1);
   }
   &.selectable {
     @apply cursor-pointer;

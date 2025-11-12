@@ -1,10 +1,11 @@
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+
 (async function (): Promise<void> {
   try {
-    const childProcess = await import("child_process");
-    const { promisify } = await import("util");
-    const { promises: fs } = await import("fs");
-    const { resolve } = await import("path");
-    const exec = promisify(childProcess.exec);
+    const execAsync = promisify(exec);
 
     // https://github.com/googleapis/release-please-action#outputs
     const releasedPackages = JSON.parse(process.argv[2]);
@@ -14,7 +15,7 @@
     }
 
     for (const packagePath of releasedPackages) {
-      const packageJson = JSON.parse(await fs.readFile(resolve(packagePath, "package.json"), "utf8"));
+      const packageJson = JSON.parse(await readFile(resolve(packagePath, "package.json"), "utf8"));
       const packageName = packageJson?.name;
       const packageVersion = packageJson?.version;
 
@@ -26,8 +27,8 @@
       const tagName = `${packageName}@${packageVersion}`;
       const assetName = `${packageName.replace("@", "").replace("/", "-")}-${packageVersion}.tgz`;
 
-      await exec(`npm pack --workspace ${packagePath} >/dev/null 2>&1`);
-      await exec(`gh release upload ${tagName} ${assetName}`);
+      await execAsync(`npm pack --workspace ${packagePath} >/dev/null 2>&1`);
+      await execAsync(`gh release upload ${tagName} ${assetName}`);
     }
   } catch (error) {
     console.error(error);

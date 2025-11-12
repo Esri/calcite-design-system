@@ -39,9 +39,7 @@ declare global {
 /**
  * @slot - A slot for adding custom content.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
- * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 export class Block extends LitElement implements InteractiveComponent {
@@ -76,11 +74,7 @@ export class Block extends LitElement implements InteractiveComponent {
 
   @state() hasContentStart = false;
 
-  @state() hasControl = false;
-
   @state() hasEndActions = false;
-
-  @state() hasIcon = false;
 
   @state() hasMenuActions = false;
 
@@ -390,16 +384,8 @@ export class Block extends LitElement implements InteractiveComponent {
     this.calciteBlockToggle.emit();
   }
 
-  private controlSlotChangeHandler(event: Event): void {
-    this.hasControl = slotChangeHasAssignedElement(event);
-  }
-
   private menuActionsSlotChangeHandler(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
-  }
-
-  private iconSlotChangeHandler(event: Event): void {
-    this.hasIcon = slotChangeHasAssignedElement(event);
   }
 
   private actionsEndSlotChangeHandler(event: Event): void {
@@ -451,11 +437,7 @@ export class Block extends LitElement implements InteractiveComponent {
           scale={getIconScale(this.scale)}
         />
       </div>
-    ) : (
-      <div class={CSS.icon} hidden={!this.hasIcon} key="icon-slot">
-        <slot key="icon-slot" name={SLOTS.icon} onSlotChange={this.iconSlotChangeHandler} />
-      </div>
-    );
+    ) : null;
   }
 
   private renderActionsEnd(): JsxNode {
@@ -607,9 +589,6 @@ export class Block extends LitElement implements InteractiveComponent {
         {iconEnd && !collapsible ? (
           <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
         ) : null}
-        <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
-          <slot name={SLOTS.control} onSlotChange={this.controlSlotChangeHandler} />
-        </div>
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}

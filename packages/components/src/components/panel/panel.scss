@@ -270,11 +270,6 @@ calcite-action-menu {
   @apply flex flex-row items-center justify-center flex-1;
 }
 
-.footer-actions {
-  @apply flex flex-row items-center justify-evenly flex-1;
-  gap: var(--calcite-internal-panel-default-space);
-}
-
 .footer-start {
   @apply flex flex-row items-center justify-start flex-1;
   margin-inline-end: auto;

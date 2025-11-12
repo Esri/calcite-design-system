@@ -32,7 +32,6 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot content - [Deprecated] Use `custom-content` slot instead.
  * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
@@ -799,41 +798,39 @@ export class Dialog extends LitElement {
             </div>
           ) : null}
           <slot name={SLOTS.customContent}>
-            <slot name={SLOTS.content}>
-              <calcite-panel
-                class={CSS.panel}
-                closable={!this.closeDisabled}
-                description={description}
-                heading={heading}
-                headingLevel={this.headingLevel}
-                hidden={!this.opened}
-                icon={icon}
-                iconFlipRtl={iconFlipRtl}
-                loading={this.loading}
-                menuOpen={this.menuOpen}
-                messageOverrides={this.messageOverrides}
-                onKeyDown={this.handlePanelKeyDown}
-                oncalcitePanelClose={this.handleInternalPanelCloseClick}
-                oncalcitePanelScroll={this.handleInternalPanelScroll}
-                overlayPositioning={this.overlayPositioning}
-                ref={this.panelRef}
-                scale={this.scale}
-              >
-                <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-                <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
-                <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-                <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-                <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-                <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-                <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-                <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
-                <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                <slot />
-              </calcite-panel>
-            </slot>
+            <calcite-panel
+              class={CSS.panel}
+              closable={!this.closeDisabled}
+              description={description}
+              heading={heading}
+              headingLevel={this.headingLevel}
+              hidden={!this.opened}
+              icon={icon}
+              iconFlipRtl={iconFlipRtl}
+              loading={this.loading}
+              menuOpen={this.menuOpen}
+              messageOverrides={this.messageOverrides}
+              onKeyDown={this.handlePanelKeyDown}
+              oncalcitePanelClose={this.handleInternalPanelCloseClick}
+              oncalcitePanelScroll={this.handleInternalPanelScroll}
+              overlayPositioning={this.overlayPositioning}
+              ref={this.panelRef}
+              scale={this.scale}
+            >
+              <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+              <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
+              <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+              <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+              <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+              <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+              <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+              <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+              <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+              <slot />
+            </calcite-panel>
           </slot>
         </div>
       </div>

@@ -138,7 +138,7 @@
 :host([appearance="solid"]) {
   &:host([kind="neutral"]) {
     --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-3);
-    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-border-3);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-border-2);
   }
 
   &:host([kind="inverse"]) {

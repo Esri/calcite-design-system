@@ -22,8 +22,6 @@ declare global {
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
- * @slot content-start - [Deprecated] use `content-top` slot instead.  A slot for adding non-actionable elements before the component's content.
- * @slot content-end - [Deprecated] use `content-bottom` slot instead. A slot for adding non-actionable elements after the component's content.
  */
 export class Tile extends LitElement implements InteractiveComponent, SelectableComponent {
   // #region Static Members
@@ -43,10 +41,6 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   // #region State Properties
 
   @state() hasContentBottom = false;
-
-  @state() hasContentEnd = false;
-
-  @state() hasContentStart = false;
 
   @state() hasContentTop = false;
 
@@ -271,8 +265,6 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
       description,
       disabled,
       hasContentBottom,
-      hasContentEnd,
-      hasContentStart,
       hasContentTop,
       heading,
       icon,
@@ -290,7 +282,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
           : interactive
             ? "button"
             : undefined;
-    const hasContent = !!(description || hasContentEnd || hasContentStart || heading || icon);
+    const hasContent = !!(description || heading || icon);
     const hasOnlyContentTopAndBottom = !hasContent && hasContentTop && hasContentBottom;
     return (
       <div
@@ -321,12 +313,10 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
           <slot name={SLOTS.contentTop} onSlotChange={this.handleSlotChange} />
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
-            <slot name={SLOTS.contentStart} onSlotChange={this.handleSlotChange} />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot name={SLOTS.contentEnd} onSlotChange={this.handleSlotChange} />
           </div>
           <slot name={SLOTS.contentBottom} onSlotChange={this.handleSlotChange} />
         </div>
