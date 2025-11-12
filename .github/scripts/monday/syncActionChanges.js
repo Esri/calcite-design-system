@@ -37,27 +37,22 @@ module.exports = async ({ github, context, core }) => {
     issue_number,
   });
 
-  const monday = Monday(issue);
+  const monday = Monday(issue, core);
 
   if (milestone_updated) {
     monday.handleMilestone();
-    core.info("Milestone handled.")
   }
   if (assignee_updated) {
     monday.handleAssignees();
-    core.info("Assignees handled.")
   }
   if (state_updated) {
     monday.handleState(state_updated);
-    core.info("State handled.")
   }
   if (label_name && label_action) {
     if (label_action === "added") {
       monday.addLabel(label_name);
-      core.info(`Label '${label_name}' added.`)
     } else {
       monday.clearLabel(label_name);
-      core.info(`Label '${label_name}' cleared.`)
     }
   }
 
