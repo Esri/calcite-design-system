@@ -57,7 +57,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   /**
    * When `true`, the component is active.
    *
-   * @deprecated
+   * @deprecated  in v2.8.0, removal target v6.0 - No longer necessary.
    */
   @property({ reflect: true }) active = false;
 
@@ -75,7 +75,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
    *
    * When `true`, renders without a border and padding for use by other components.
    *
-   * @deprecated No longer necessary.
+   * @deprecated  in v2.6.0, removal target v6.0 - No longer necessary.
    */
   @property({ reflect: true }) embed = false;
 

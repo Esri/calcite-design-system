@@ -179,7 +179,7 @@ export class Stepper extends LitElement {
   /**
    * Fires when the active `calcite-stepper-item` changes.
    *
-   * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
+   * @deprecated in v2.8.4, removal target v6.0 -  Use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
    */
   calciteStepperItemChange = createEvent({ cancelable: false });
 

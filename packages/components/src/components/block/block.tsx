@@ -103,7 +103,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component displays a draggable button.
    *
-   * @deprecated No longer necessary. Use Block Group for draggable functionality.
+   * @deprecated in v3.0, removal target v6.0 - No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
@@ -169,7 +169,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * When `true`, expands the component and its contents.
    *
-   * @deprecated Use `expanded` prop instead.
+   * @deprecated in v3.1.0, removal target v6.0 - Use `expanded` prop instead.
    */
   @property({ reflect: true })
   get open(): boolean {
@@ -216,7 +216,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * Displays a status-related indicator icon.
    *
-   * @deprecated Use `icon-start` instead.
+   * @deprecated in v3.0, removal target v6.0 - Use `icon-start` instead.
    */
   @property({ reflect: true }) status: Status;
 
@@ -279,7 +279,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * Fires when the component's header is clicked.
    *
-   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
+   * @deprecated in v3.0, removal target v6.0 - Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
 

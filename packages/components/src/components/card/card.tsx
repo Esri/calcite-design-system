@@ -101,7 +101,7 @@ export class Card extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is selectable.
    *
-   * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
+   * @deprecated in v3.0, removal target v6.0 - Use `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @property({ reflect: true }) selectable = false;
 
