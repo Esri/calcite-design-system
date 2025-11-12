@@ -723,7 +723,9 @@ module.exports = function Monday(issue, core) {
     if (error) {
       const log = error.expected ? core.warning : core.setFailed;
       log(`Error committing updates: ${error.message}`);
+      return;
     }
+
     core.notice("Updates committed successfully.", logParams);
     columnUpdates = {};
   }
