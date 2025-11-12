@@ -2,12 +2,11 @@ import prettierSync from "@prettier/sync";
 import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
-import { Config, PlatformConfig } from "../../types/extensions.js";
-import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
-import { fromTokens } from "../utils/dictionary.js";
-import { light } from "../dictionaries/index.js";
-import { Platform } from "../utils/enums.js";
-import { createVarList } from "./utils/index.js";
+import type { Config, PlatformConfig } from "../../types/extensions.d.ts";
+import type { RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import { fromTokens } from "../utils/dictionary.ts";
+import { light } from "../dictionaries/index.ts";
+import { createVarList } from "./utils/index.ts";
 
 export const FormatComponent = "calcite/format/component";
 
@@ -22,7 +21,7 @@ export const formatComponentFile: FormatFn = async (args) => {
   const { file, options, platform } = args;
   const platformConfig = platform as PlatformConfig;
 
-  if (platformConfig.options.platform !== Platform.css) {
+  if (platformConfig.options.platform !== "css") {
     throw new Error("Only css platform is supported.");
   }
 

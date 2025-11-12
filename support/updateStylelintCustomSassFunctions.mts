@@ -3,21 +3,21 @@
  * This helps stylelint flag unknown functions that may be unintentionally used.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
-console.info('Scanning custom functions for Stylelint config update.');
+console.info("Scanning custom functions for Stylelint config update.");
 
-const rootDirectory = path.join(__dirname, '..');
+const rootDirectory = join(import.meta.dirname, "..");
 
 function collectSassFiles(dir: string): string[] {
   const sassFiles: string[] = [];
 
   try {
-    fs.readdirSync(dir, { recursive: true, withFileTypes: true }).forEach(dirent => {
-      const fullPath = path.join(dirent.parentPath, dirent.name);
+    readdirSync(dir, { recursive: true, withFileTypes: true }).forEach((dirent) => {
+      const fullPath = join(dirent.parentPath, dirent.name);
 
-      if (dirent.isFile() && fullPath.endsWith('.scss')) {
+      if (dirent.isFile() && fullPath.endsWith(".scss")) {
         sassFiles.push(fullPath);
       }
     });
@@ -32,9 +32,9 @@ const customFunctionPattern = /@function\s+([a-zA-Z0-9_-]+)/g;
 const customFunctions = new Set<string>();
 const sassFiles = collectSassFiles(rootDirectory);
 
-sassFiles.forEach(filePath => {
+sassFiles.forEach((filePath) => {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = readFileSync(filePath, "utf8");
     let match: RegExpExecArray | null;
 
     while ((match = customFunctionPattern.exec(content)) !== null) {
@@ -45,19 +45,19 @@ sassFiles.forEach(filePath => {
   }
 });
 
-const stylelintConfigPath = path.join(__dirname, "..", "packages", "components", ".stylelintrc.cjs");
+const stylelintConfigPath = join(import.meta.dirname, "..", "packages", "components", ".stylelintrc.cjs");
 
 try {
-  const stylelintConfigContent = fs.readFileSync(stylelintConfigPath, 'utf8');
+  const stylelintConfigContent = readFileSync(stylelintConfigPath, "utf8");
   const customFunctionsPattern = /const customFunctions = \[[\s\S]*?\];/;
 
   const updatedConfigContent = stylelintConfigContent.replace(
     customFunctionsPattern,
-    `const customFunctions = ${JSON.stringify(Array.from(customFunctions).sort(), null, 2)};`
+    `const customFunctions = ${JSON.stringify(Array.from(customFunctions).sort(), null, 2)};`,
   );
 
-  fs.writeFileSync(stylelintConfigPath, updatedConfigContent);
-  console.info('Stylelint configuration updated successfully');
+  writeFileSync(stylelintConfigPath, updatedConfigContent);
+  console.info("Stylelint configuration updated successfully");
 } catch (err) {
   console.error(`Error updating Stylelint configuration: ${stylelintConfigPath}`, err);
 }

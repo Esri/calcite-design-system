@@ -1,6 +1,6 @@
 {
   "name": "@esri/eslint-plugin-calcite-components",
-  "version": "2.0.4-next.1",
+  "version": "2.0.4-next.2",
   "description": "ESLint rules for @esri/calcite-components",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "clean": "rimraf node_modules dist .turbo",
-    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
+    "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",

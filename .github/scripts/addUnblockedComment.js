@@ -1,6 +1,13 @@
 // @ts-check
-// When a blocking issue is closed:
-// 1. Leaves a comment on all the issues listed as blocked in body,
+const {
+  labels: {
+    planning: { blocked },
+  },
+} = require("./support/resources");
+// When a blocking issue is closed, the following is done on each blocked issue:
+// 1. Creates a comment notifying that the blocking issue has been closed,
+// 2. Removes the "blocked" label,
+// 3. Emits "SyncActionChanges" event to trigger the Monday.com sync.
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
@@ -59,7 +66,20 @@ module.exports = async ({ github, context }) => {
       try {
         await github.rest.issues.removeLabel({
           ...issueProps,
-          name: "blocked",
+          name: blocked,
+        });
+
+        await github.rest.actions.createWorkflowDispatch({
+          owner,
+          repo,
+          workflow_id: "issue-monday-sync.yml",
+          ref: "dev",
+          inputs: {
+            issue_number: issueNumber,
+            event_type: "SyncActionChanges",
+            label_name: blocked,
+            label_action: "removed",
+          },
         });
       } catch (error) {
         if (error.status === 404) {

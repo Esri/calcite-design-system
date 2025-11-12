@@ -145,7 +145,7 @@
 .header-container {
   @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto auto auto;
-  grid-template-areas: "handle header icon-end control menu actions-end";
+  grid-template-areas: "handle header icon-end menu actions-end";
 }
 
 .icon--start,
@@ -270,11 +270,6 @@ calcite-sort-handle {
 
   // Deprecated
   color: var(--calcite-block-text-color, var(--calcite-color-text-3));
-}
-
-.control-container {
-  @apply m-0 flex;
-  grid-area: control;
 }
 
 calcite-action-menu {

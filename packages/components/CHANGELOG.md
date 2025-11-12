@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.0...@esri/calcite-components@5.0.0-next.1) (2025-11-12)
+
+### ⚠ BREAKING CHANGES
+
+- **action-bar, action, block, card, dialog, flow-item, panel, shell, tile:** drop deprecated slots (#13255)
+
+### Code Refactoring
+
+- **action-bar, action, block, card, dialog, flow-item, panel, shell, tile:** drop deprecated slots ([#13255](https://github.com/Esri/calcite-design-system/issues/13255)) ([97e3c8b](https://github.com/Esri/calcite-design-system/commit/97e3c8b26f65a1c9fa8e9f752f18f6327849ee62)), closes [#13265](https://github.com/Esri/calcite-design-system/issues/13265)
+
 ## [5.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@4.0.0-next.48...@esri/calcite-components@5.0.0-next.0) (2025-11-08)
 
 **Note:** Version bump only for package @esri/calcite-components

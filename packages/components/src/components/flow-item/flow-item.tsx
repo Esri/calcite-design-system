@@ -39,7 +39,6 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
@@ -349,7 +348,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot />
         </calcite-panel>
       </InteractiveContainer>

@@ -1,17 +1,17 @@
-import { registerNameRemoveTier } from "./name/remove-tier.js";
-import { registerNameIncludePlusMinus } from "./name/include-plus-minus.js";
-import { registerValueSizePxToRem } from "./value/px-to-rem.js";
-import { registerNameRemoveDefault } from "./name/remove-default.js";
-import { registerTransformCalciteGroup } from "./group/calcite.js";
-import { registerAttributePlatformNames } from "./attribute/platform-names.js";
-import { registerAttributeSchema } from "./attribute/schema.js";
-import { registerNameCapitalCase } from "./name/capital-case.js";
-import { registerNameRemovePrefix } from "./name/remove-prefix.js";
-import { registerValueMergeValues } from "./value/merge-value.js";
-import { registerValueEnsureType } from "./value/ensure-type.js";
-import { registerValueCorrectPreprocessValue } from "./value/correct-pretransform-value.js";
-import { registerValueCorrectPropName } from "./value/correct-prop-name.js";
-import { registerValueCorrectPostprocessValue } from "./value/correct-posttransform-value.js";
+import { registerNameRemoveTier } from "./name/remove-tier.ts";
+import { registerNameIncludePlusMinus } from "./name/include-plus-minus.ts";
+import { registerValueSizePxToRem } from "./value/px-to-rem.ts";
+import { registerNameRemoveDefault } from "./name/remove-default.ts";
+import { registerTransformCalciteGroup } from "./group/calcite.ts";
+import { registerAttributePlatformNames } from "./attribute/platform-names.ts";
+import { registerAttributeSchema } from "./attribute/schema.ts";
+import { registerNameCapitalCase } from "./name/capital-case.ts";
+import { registerNameRemovePrefix } from "./name/remove-prefix.ts";
+import { registerValueMergeValues } from "./value/merge-value.ts";
+import { registerValueEnsureType } from "./value/ensure-type.ts";
+import { registerValueCorrectPreprocessValue } from "./value/correct-pretransform-value.ts";
+import { registerValueCorrectPropName } from "./value/correct-prop-name.ts";
+import { registerValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
 
 export function registerTransformers(): void {
   registerValueMergeValues();
@@ -30,17 +30,17 @@ export function registerTransformers(): void {
   registerTransformCalciteGroup();
 }
 
-export { TransformValueSizePxToRem } from "./value/px-to-rem.js";
-export { TransformValueMergeValues } from "./value/merge-value.js";
-export { TransformValueEnsureType } from "./value/ensure-type.js";
-export { TransformValueCorrectPreprocessValue } from "./value/correct-pretransform-value.js";
-export { TransformValueCorrectPostprocessValue } from "./value/correct-posttransform-value.js";
-export { TransformValueCorrectPropName } from "./value/correct-prop-name.js";
-export { TransformNameRemoveTier } from "./name/remove-tier.js";
-export { TransformNameRemoveDefault } from "./name/remove-default.js";
-export { TransformNameRemovePrefix } from "./name/remove-prefix.js";
-export { TransformNameIncludePlusMinus } from "./name/include-plus-minus.js";
-export { TransformNameCapitalCase } from "./name/capital-case.js";
-export { TransformCalciteGroup, platformTransforms } from "./group/calcite.js";
-export { TransformAttributePlatformNames } from "./attribute/platform-names.js";
-export { TransformAttributeSchema } from "./attribute/schema.js";
+export { TransformValueSizePxToRem } from "./value/px-to-rem.ts";
+export { TransformValueMergeValues } from "./value/merge-value.ts";
+export { TransformValueEnsureType } from "./value/ensure-type.ts";
+export { TransformValueCorrectPreprocessValue } from "./value/correct-pretransform-value.ts";
+export { TransformValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
+export { TransformValueCorrectPropName } from "./value/correct-prop-name.ts";
+export { TransformNameRemoveTier } from "./name/remove-tier.ts";
+export { TransformNameRemoveDefault } from "./name/remove-default.ts";
+export { TransformNameRemovePrefix } from "./name/remove-prefix.ts";
+export { TransformNameIncludePlusMinus } from "./name/include-plus-minus.ts";
+export { TransformNameCapitalCase } from "./name/capital-case.ts";
+export { TransformCalciteGroup, platformTransforms } from "./group/calcite.ts";
+export { TransformAttributePlatformNames } from "./attribute/platform-names.ts";
+export { TransformAttributeSchema } from "./attribute/schema.ts";
