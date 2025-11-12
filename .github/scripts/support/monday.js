@@ -461,6 +461,7 @@ module.exports = function Monday(issue, core) {
     } else {
       columnUpdates[role] = `${info.id}`;
     }
+    core.notice(`Added assignee ${person.login} to ${role} column.`, logParams);
   }
 
   /** @typedef {Record<string, string | string[]>} QueryVariables
@@ -875,17 +876,23 @@ module.exports = function Monday(issue, core) {
    * @returns {void}
    */
   function handleState(action = "open") {
+    const CLOSED = "Closed";
+    const DONE = "Done";
+    const logParams = { title: "Handle State" };
     if (!issue.state) {
       core.warning("No Issue state provided.", { title: "Handle State" });
       return;
     }
     setColumnValue(columnIds.open, stateMap[issue.state]);
+    core.notice(`Set Open column to '${stateMap[issue.state]}'.`, logParams);
 
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
-        setColumnValue(columnIds.status, "Closed");
+        setColumnValue(columnIds.status, CLOSED);
+        core.notice(`Set Status column to '${CLOSED}'.`, logParams);
       } else if (!includesLabel(issue.labels, issueType.design)) {
-        setColumnValue(columnIds.status, "Done");
+        setColumnValue(columnIds.status, DONE);
+        core.notice(`Set Status column to '${DONE}'.`, logParams);
       }
     }
   }
