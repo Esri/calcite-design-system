@@ -118,17 +118,10 @@ module.exports = function Monday(issue) {
       },
     ],
     [
-      issueWorkflow.new,
+      issueWorkflow.inDesign,
       {
         column: columnIds.status,
-        value: "Unassigned",
-      },
-    ],
-    [
-      issueWorkflow.assigned,
-      {
-        column: columnIds.status,
-        value: "Assigned",
+        value: "In Design",
       },
     ],
     [
@@ -389,6 +382,7 @@ module.exports = function Monday(issue) {
       {
         column: columnIds.stalled,
         value: "Stalled",
+        clearable: true,
       },
     ],
   ]);
@@ -722,27 +716,13 @@ module.exports = function Monday(issue) {
       labels.forEach((label) => addLabel(label.name));
     }
 
-    if (notInLifecycle({ labels, skip: [issueWorkflow.new] })) {
+    if (notInLifecycle({ labels })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
     if (assignees.length) {
       assignees.forEach((person) => addAssignee(person));
-
-      // Set to "assigned" if no lifecycle labels were applied
-      // Overrides the default "needs triage" label
-      if (
-        notInLifecycle({
-          labels,
-          skip: [
-            issueWorkflow.new,
-            issueWorkflow.needsTriage,
-            issueWorkflow.needsMilestone,
-          ],
-        })
-      ) {
-        addLabel(issueWorkflow.assigned);
-      }
+      setAssignedStatus();
     }
 
     if (issueMilestone) {
@@ -826,31 +806,17 @@ module.exports = function Monday(issue) {
     if (milestoneDate) {
       setColumnValue(columnIds.date, milestoneDate);
       clearLabel(milestone.stalled);
-
-      const {
-        new: newLabel,
-        assigned,
-        needsTriage,
-        needsMilestone,
-        readyForDev,
-        installed,
-      } = issueWorkflow;
-      if (
-        assignee &&
-        notInLifecycle({
+      const { needsTriage, needsMilestone, installed, readyForDev } =
+        issueWorkflow;
+      setAssignedStatus({
+        assignedCondition: notInLifecycle({
           labels,
-          skip: [newLabel, assigned, needsTriage, needsMilestone],
-        })
-      ) {
-        addLabel(assigned);
-      }
-      if (
-        !assignee &&
-        !includesLabel(labels, installed) &&
-        !includesLabel(labels, readyForDev)
-      ) {
-        addLabel(newLabel);
-      }
+          skip: [needsTriage, needsMilestone],
+        }),
+        unassignedCondition:
+          !includesLabel(labels, installed) &&
+          !includesLabel(labels, readyForDev),
+      });
     } else {
       setColumnValue(columnIds.date, "");
 
@@ -955,12 +921,40 @@ module.exports = function Monday(issue) {
     );
   }
 
+  /**
+   * Set the issue status to "Unassigned" or "Assigned" based on assigned status.
+   * Default condition is: if issue is open, not in lifecycle, and not in a milestone status.
+   * @param {object} [params]
+   * @param {boolean} [params.assignedCondition] - Condition to set status to "Assigned"
+   * @param {boolean} [params.unassignedCondition] - Condition to set status to "Unassigned"
+   * @returns {void}
+   */
+  function setAssignedStatus({ assignedCondition, unassignedCondition } = {}) {
+    const ASSIGNED = "Assigned";
+    const UNASSIGNED = "Unassigned";
+    const defaultCondition =
+      issue.state === "open" &&
+      notInLifecycle({ labels }) &&
+      !inMilestoneStatus();
+    const shouldSetAssigned = assignedCondition ?? defaultCondition;
+    const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
+
+    if (assignee && shouldSetAssigned) {
+      setColumnValue(columnIds.status, ASSIGNED);
+      console.log(`Status set to '${ASSIGNED}'.`);
+    } else if (!assignee && shouldSetUnassigned) {
+      setColumnValue(columnIds.status, UNASSIGNED);
+      console.log(`Status set to '${UNASSIGNED}'.`);
+    }
+  }
+
   return {
     columnIds,
     getId,
     commit,
     createTask,
     setColumnValue,
+    setAssignedStatus,
     handleMilestone,
     handleState,
     handleAssignees,

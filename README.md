@@ -2,11 +2,11 @@
 
 This is a monorepo containing [Calcite Design System](https://developers.arcgis.com/calcite-design-system/) packages. Please see the package-specific READMEs for more information:
 
-- [`@esri/calcite-components`](./packages/calcite-components/README.md)
-- [`@esri/calcite-components-react`](./packages/calcite-components-react/README.md)
-- [`@esri/calcite-design-tokens`](./packages/calcite-design-tokens/README.md)
-- [`@esri/calcite-ui-icons`](./packages/calcite-ui-icons/README.md)
-- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-calcite-components/README.md)
+- [`@esri/calcite-components`](./packages/components/README.md)
+- [`@esri/calcite-components-react`](./packages/components-react/README.md)
+- [`@esri/calcite-design-tokens`](./packages/design-tokens/README.md)
+- [`@esri/calcite-ui-icons`](./packages/ui-icons/README.md)
+- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-components/README.md)
 
 ## Contributing
 
@@ -151,17 +151,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/josercarcamo">
-      <img src="https://avatars.githubusercontent.com/u/138070439?v=4" width="100;" alt="josercarcamo"/>
-      <br />
-      <sub><b>Jose Carcamo</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/isaacbraun">
       <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
       <br />
       <sub><b>Isaac Braun</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/josercarcamo">
+      <img src="https://avatars.githubusercontent.com/u/138070439?v=4" width="100;" alt="josercarcamo"/>
+      <br />
+      <sub><b>Jose Carcamo</b></sub>
     </a>
   </td>
   <td align="center">
@@ -334,6 +334,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/DintaMel">
+      <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
+      <br />
+      <sub><b>Mel Dintaman</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/allieorth">
       <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
@@ -361,6 +368,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>anvesh mekala</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/timmorey">
       <img src="https://avatars.githubusercontent.com/u/2340894?v=4" width="100;" alt="timmorey"/>
@@ -368,8 +377,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Timothy Morey</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/timsun123">
       <img src="https://avatars.githubusercontent.com/u/5298143?v=4" width="100;" alt="timsun123"/>
@@ -405,20 +412,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Nathan Whittaker</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/oknoway">
       <img src="https://avatars.githubusercontent.com/u/354970?v=4" width="100;" alt="oknoway"/>
       <br />
       <sub><b>Nate Bedortha</b></sub>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td align="center">
-    <a href="https://github.com/DintaMel">
-      <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
-      <br />
-      <sub><b>Mel Dintaman</b></sub>
     </a>
   </td>
   <td align="center">
