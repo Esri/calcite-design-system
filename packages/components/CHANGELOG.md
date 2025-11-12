@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.1...@esri/calcite-components@5.0.0-next.2) (2025-11-12)
+
+### Features
+
+- **button, chip, stepper-item, swatch, table:** Adjust border color for consistency ([#13263](https://github.com/Esri/calcite-design-system/issues/13263)) ([733a632](https://github.com/Esri/calcite-design-system/commit/733a632fa07daa5a5cfdb99bb23c7355e6831b9a)), closes [#10769](https://github.com/Esri/calcite-design-system/issues/10769) [#10755](https://github.com/Esri/calcite-design-system/issues/10755)
+
 ## [5.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.0...@esri/calcite-components@5.0.0-next.1) (2025-11-12)
 
 ### ⚠ BREAKING CHANGES
