@@ -112,20 +112,6 @@
   padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
-@include includes.slotted("title", "*") {
-  @apply text-color-1
-    text-n1-wrap
-    m-0
-    font-medium;
-}
-
-@include includes.slotted("subtitle", "*") {
-  @apply text-color-2
-    text-n2-wrap
-    m-0 mt-0.5
-    font-normal;
-}
-
 @include includes.slotted("heading", "*") {
   @apply text-color-1
     text-n1-wrap

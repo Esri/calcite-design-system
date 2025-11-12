@@ -26,7 +26,5 @@ export const ICONS: Record<string, IconName> = {
 
 export const SLOTS = {
   contentBottom: "content-bottom",
-  contentEnd: "content-end",
-  contentStart: "content-start",
   contentTop: "content-top",
 };

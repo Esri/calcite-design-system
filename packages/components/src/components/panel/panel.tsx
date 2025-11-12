@@ -47,7 +47,6 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
@@ -90,8 +89,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @state() hasEndActions = false;
 
   @state() hasFab = false;
-
-  @state() hasFooterActions = false;
 
   @state() hasFooterContent = false;
 
@@ -362,10 +359,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     this.hasFab = slotChangeHasAssignedElement(event);
   }
 
-  private handleFooterActionsSlotChange(event: Event): void {
-    this.hasFooterActions = slotChangeHasAssignedElement(event);
-  }
-
   private handleFooterEndSlotChange(event: Event): void {
     this.hasFooterEndContent = slotChangeHasAssignedElement(event);
   }
@@ -610,10 +603,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private renderFooterNode(): JsxNode {
-    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
+    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent } = this;
 
-    const showFooter =
-      hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
+    const showFooter = hasFooterStartContent || hasFooterEndContent || hasFooterContent;
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
@@ -625,13 +617,6 @@ export class Panel extends LitElement implements InteractiveComponent {
         </div>
         <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
           <slot name={SLOTS.footerEnd} onSlotChange={this.handleFooterEndSlotChange} />
-        </div>
-        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
-          <slot
-            key="footer-actions-slot"
-            name={SLOTS.footerActions}
-            onSlotChange={this.handleFooterActionsSlotChange}
-          />
         </div>
       </footer>
     );

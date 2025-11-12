@@ -23,7 +23,7 @@ export default {
   },
 };
 
-const titleHtml = html`
+const headingAndDescriptionHtml = html`
   <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
   <span slot="description">
     A great example of a study description that might wrap to a line or two, but isn't overly verbose.
@@ -65,7 +65,7 @@ export const simple = (args: CardStoryArgs): string => html`
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
-      ${titleHtml}
+      ${headingAndDescriptionHtml}
     </calcite-card>
   </div>
 `;
@@ -77,7 +77,7 @@ export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
-      ${titleHtml}${footerLinksHtml}
+      ${headingAndDescriptionHtml}${footerLinksHtml}
     </calcite-card>
   </div>
 `;
@@ -89,7 +89,7 @@ export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
-      ${titleHtml}${footerButtonHtml}
+      ${headingAndDescriptionHtml}${footerButtonHtml}
     </calcite-card>
   </div>
 `;
@@ -160,21 +160,6 @@ export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string =>
   </calcite-card>
 `;
 
-export const deprecatedSlotsSelectable_TestOnly = (): string => html`
-  <calcite-card selectable style="width:260px">
-    <h3 slot="title">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
-    <span slot="subtitle"
-      >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</span
-    >
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </calcite-card>
-`;
-
 export const slottedFooterItems_TestOnly = (): string => html`
   <div id="card-container" style="width:260px;">
     <calcite-card>
@@ -199,7 +184,9 @@ export const slottedFooterItems_TestOnly = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
-    <calcite-card>${thumbnailHtml}${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card>
+    <calcite-card
+      >${thumbnailHtml}${headingAndDescriptionHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card
+    >
   </div>
 `;
 
