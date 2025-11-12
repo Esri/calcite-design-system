@@ -336,20 +336,20 @@ export const withCustomHeader = (): string => html`
 
 export const withCustomContent = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
-    <div slot="${SLOTS.content}">Custom Content!</div>
+    <div slot="${SLOTS.customContent}">Custom Content!</div>
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
 export const withCustomContentPanel = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
-    <calcite-panel heading="Custom Panel" slot="${SLOTS.content}">Custom Panel Content!</calcite-panel>
+    <calcite-panel heading="Custom Panel" slot="${SLOTS.customContent}">Custom Panel Content!</calcite-panel>
   </calcite-dialog>
 `;
 
 export const withCustomContentDivPanel = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
-    <div slot="${SLOTS.content}"><calcite-panel heading="Custom Panel">Custom Panel Content!</calcite-panel></div>
+    <div slot="${SLOTS.customContent}"><calcite-panel heading="Custom Panel">Custom Panel Content!</calcite-panel></div>
   </calcite-dialog>
 `;
 

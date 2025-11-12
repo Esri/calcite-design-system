@@ -31,7 +31,7 @@
 th {
   @apply text-start font-medium align-top whitespace-normal;
   border-block-end: var(--calcite-border-width-sm) solid
-    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
   padding-inline: var(--calcite-internal-table-cell-padding);
   background-color: var(
@@ -40,7 +40,7 @@ th {
   );
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: var(--calcite-border-width-sm) solid
-    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   &:not(.static-cell) {
     @apply focus-base;
     &:not(.static-cell):focus-within {
@@ -69,7 +69,7 @@ th.footer-row {
 
 th.footer-row {
   border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }
 
 th.last-cell {

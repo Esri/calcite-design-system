@@ -19,11 +19,10 @@ import {
 } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -34,7 +33,6 @@ declare global {
 
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 export class Action extends LitElement implements InteractiveComponent, FormOwner {
   //#region Static Members
@@ -228,20 +226,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       submitForm(this);
     } else if (type === "reset") {
       resetForm(this);
-    }
-  }
-
-  private handleTooltipSlotChange(event: Event): void {
-    const tooltips = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
-
-    const tooltip = tooltips[0];
-
-    if (tooltip) {
-      tooltip.referenceElement = this.buttonRef.value;
     }
   }
 

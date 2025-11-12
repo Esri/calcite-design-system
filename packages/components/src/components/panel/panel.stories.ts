@@ -287,30 +287,8 @@ export const footerPadding_TestOnly = (): string =>
       <calcite-button type="button" slot="footer-start">4</calcite-button>
       <calcite-button type="button" slot="footer-end">5</calcite-button>
       <calcite-button type="button" slot="footer-end">6</calcite-button>
-      <calcite-button type="button" slot="footer-actions">7</calcite-button>
-      <calcite-button type="button" slot="footer-actions">8</calcite-button>
     </calcite-panel>
   </div>`;
-
-export const footerActions = (): string =>
-  html`<h2>footer-actions (Deprecated): Auto width</h2>
-    <div style="width: 300px;">
-      <calcite-panel height-scale="s">
-        <div slot="header-content">Header!</div>
-        <p>Slotted content!</p>
-        <calcite-button type="button" slot="footer-actions">1</calcite-button>
-        <calcite-button type="button" slot="footer-actions">2</calcite-button>
-      </calcite-panel>
-    </div>
-    <h2>footer-actions (Deprecated): Full width</h2>
-    <div style="width: 300px;">
-      <calcite-panel height-scale="s">
-        <div slot="header-content">Header!</div>
-        <p>Slotted content!</p>
-        <calcite-button width="full" type="button" slot="footer-actions">1</calcite-button>
-        <calcite-button width="full" type="button" slot="footer-actions">2</calcite-button>
-      </calcite-panel>
-    </div>`;
 
 export const footerVariations = (): string =>
   html`<h2>footer</h2>
@@ -420,9 +398,10 @@ export const actionBarZIndex_TestOnly = (): string =>
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
-        <calcite-action text="Save" icon="save">
-          <calcite-tooltip open overlay-positioning="fixed" placement="top" slot="tooltip">test</calcite-tooltip>
-        </calcite-action>
+        <calcite-action id="save-action" text="Save" icon="save"> </calcite-action>
+        <calcite-tooltip open overlay-positioning="fixed" placement="top" reference-element="save-action"
+          >test</calcite-tooltip
+        >
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
     </calcite-action-bar>

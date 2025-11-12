@@ -93,8 +93,8 @@ describe("calcite-card", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-card label="example-label" selectable>
-          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-          <span slot="subtitle">
+          <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="description">
             A great example of a study description that might wrap to a line or two, but isn't overly verbose.
           </span>
         </calcite-card>
@@ -147,8 +147,8 @@ describe("calcite-card", () => {
       describe("default", () => {
         themed(
           html`<calcite-card label="example-label" selectable>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle">
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description">
               A great example of a study description that might wrap to a line or two, but isn't overly verbose.
             </span>
           </calcite-card>`,
@@ -178,8 +178,8 @@ describe("calcite-card", () => {
       describe("selected", () => {
         themed(
           html`<calcite-card label="example-label" selectable selected>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle">
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description">
               A great example of a study description that might wrap to a line or two, but isn't overly verbose.
             </span>
           </calcite-card>`,

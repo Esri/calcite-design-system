@@ -1,6 +1,6 @@
-import fs from "fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import postcss, { Root } from "postcss";
-import scss from "postcss-scss";
+import * as scss from "postcss-scss";
 import dedent from "dedent";
 import { globby } from "globby";
 
@@ -75,14 +75,14 @@ function insertNoticeAfterComments(content: string, noticeBlock: string): string
 }
 
 async function updateFileWithInternalProps(filePath: string): Promise<void> {
-  const source = fs.readFileSync(filePath, "utf8");
+  const source = readFileSync(filePath, "utf8");
   const root = postcss().process(source, { from: filePath, syntax: scss }).root;
   const internalProps = extractInternalProps(root, internalPropPrefix);
   const contentWithoutNotice = stripExistingNoticeBlock(source);
 
   if (!internalProps.length) {
     if (contentWithoutNotice !== source) {
-      fs.writeFileSync(filePath, contentWithoutNotice);
+      writeFileSync(filePath, contentWithoutNotice);
     }
     return;
   }
@@ -91,7 +91,7 @@ async function updateFileWithInternalProps(filePath: string): Promise<void> {
   const updatedContent = insertNoticeAfterComments(contentWithoutNotice, noticeBlock);
 
   if (updatedContent !== source) {
-    fs.writeFileSync(filePath, updatedContent);
+    writeFileSync(filePath, updatedContent);
   }
 }
 

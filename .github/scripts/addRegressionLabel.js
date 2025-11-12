@@ -37,5 +37,18 @@ module.exports = async ({ github, context }) => {
       repo,
       labels: [bug.regression],
     });
+
+    await github.rest.actions.createWorkflowDispatch({
+      owner,
+      repo,
+      workflow_id: "issue-monday-sync.yml",
+      ref: "dev",
+      inputs: {
+        issue_number: issue_number.toString(),
+        event_type: "SyncActionChanges",
+        label_name: bug.regression,
+        label_action: "added"
+      },
+    });
   }
 };

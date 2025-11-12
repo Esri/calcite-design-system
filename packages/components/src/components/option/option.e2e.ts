@@ -8,7 +8,7 @@ import type { Option } from "./option";
 
 describe("calcite-option", () => {
   describe("renders", () => {
-    renders("calcite-option", { display: "block" });
+    renders("calcite-option", { display: "inline" });
   });
 
   describe("honors hidden attribute", () => {

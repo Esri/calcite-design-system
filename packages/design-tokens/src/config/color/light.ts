@@ -5,17 +5,16 @@ import {
   logVerbosityLevels,
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
-import type { Config } from "../../types/extensions.js";
-import { transformers, filters, headers, formats } from "../../build/registry/index.js";
-import { Platform } from "../../build/utils/enums.js";
-import { primitiveValueOutputReferences } from "../../build/utils/output-references.js";
+import type { Config } from "../../types/extensions.d.ts";
+import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
+import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/light.json"],
   include: ["src/tokens/semantic/color/light.json", "src/tokens/core/[!$]*.json"],
   preprocessors: ["tokens-studio"],
   platforms: {
-    [Platform.scss]: {
+    scss: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/scss/",
       prefix: "calcite",
@@ -27,13 +26,13 @@ const config: Config = {
         },
       ],
       options: {
-        platform: Platform.scss,
+        platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
         outputReferences: primitiveValueOutputReferences,
       },
     },
-    [Platform.css]: {
+    css: {
       transformGroup: transformers.TransformCalciteGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
@@ -45,19 +44,19 @@ const config: Config = {
         },
       ],
       options: {
-        platform: Platform.css,
+        platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
         outputReferences: primitiveValueOutputReferences,
       },
     },
-    [Platform.es6]: {
+    es6: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: transformers.platformTransforms.es6,
       buildPath: "dist/es6/",
       prefix: "calcite",
       options: {
-        platform: Platform.es6,
+        platform: "es6",
         fileExtension: ".js",
         fileHeader: headers.HeaderDefault,
         outputReferences: primitiveValueOutputReferences,
@@ -75,13 +74,13 @@ const config: Config = {
         },
       ],
     },
-    [Platform.docs]: {
+    docs: {
       transformGroup: transformers.TransformCalciteGroup,
       transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
       buildPath: "dist/docs/",
       prefix: "calcite",
       options: {
-        platform: Platform.docs,
+        platform: "docs",
         fileExtension: ".json",
         fileHeader: headers.HeaderDefault,
       },

@@ -1,9 +1,8 @@
 import StyleDictionary from "style-dictionary";
 import type { Config, Transform, TransformedToken, ValueTransform } from "style-dictionary/types";
 import { alignTypes, excludeParentKeys } from "@tokens-studio/sd-transforms";
-import { PlatformConfig } from "../../types/extensions.js";
-import { isBreakpoint, isBreakpointRelated, isFontRelated } from "../utils/token-types.js";
-import { Platform } from "../utils/enums.js";
+import type { PlatformConfig } from "../../types/extensions.d.ts";
+import { isBreakpoint, isBreakpointRelated, isFontRelated } from "../utils/token-types.ts";
 
 /**
  * This function helps override the behavior of 3rd-party transforms that will help the output match tests.
@@ -28,7 +27,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
     overrideTransform("fontFamily/css", sd, (ogTransform) => ({
       transform: (token, config, options) => {
         const { platform } = (config as PlatformConfig).options;
-        const isStylesheet = platform === Platform.scss || platform === Platform.css;
+        const isStylesheet = platform === "scss" || platform === "css";
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -42,7 +41,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
     overrideTransform("shadow/css/shorthand", sd, (ogTransform) => ({
       transform: (token, config, options) => {
         const { platform } = (config as PlatformConfig).options;
-        const isStylesheet = platform === Platform.scss || platform === Platform.css;
+        const isStylesheet = platform === "scss" || platform === "css";
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
@@ -155,7 +154,7 @@ function overrideTokenStudioTransforms(): void {
 
       if (shouldSkip) {
         const { platform } = config.options as PlatformConfig;
-        const isStylesheet = platform === Platform.scss || platform === Platform.css;
+        const isStylesheet = platform === "scss" || platform === "css";
         return isStylesheet ? `"${token.value}"` : token.value;
       }
 

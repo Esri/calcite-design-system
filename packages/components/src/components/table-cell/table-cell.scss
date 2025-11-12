@@ -38,7 +38,7 @@ td {
   );
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: var(--calcite-border-width-sm) solid
-    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding: var(--calcite-internal-table-cell-padding);
 
   &:not(.static-cell) {
@@ -70,14 +70,14 @@ td.last-cell {
   );
 
   border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }
 
 .number-cell,
 .selection-cell {
   @apply text-center;
   border-inline-end: var(--calcite-border-width-sm) solid
-    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   inline-size: 2rem;
   min-inline-size: 2rem;
 }

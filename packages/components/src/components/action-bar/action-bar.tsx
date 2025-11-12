@@ -28,7 +28,6 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
- * @slot bottom-actions - [Deprecated] Use the `"actions-end"` slot instead. A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
@@ -67,9 +66,7 @@ export class ActionBar extends LitElement {
     this.updateGroups();
 
     const groupCount =
-      this.hasActionsEnd || this.hasBottomActions || !expandDisabled
-        ? actionGroups.length + 1
-        : actionGroups.length;
+      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
     const overflowCount = getOverflowCount({
       bufferSize: groupCount, // 1px border for each group
@@ -118,8 +115,6 @@ export class ActionBar extends LitElement {
   @state() expandTooltip: Tooltip["el"];
 
   @state() hasActionsEnd = false;
-
-  @state() hasBottomActions = false;
 
   //#endregion
 
@@ -348,10 +343,6 @@ export class ActionBar extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
-  private handleBottomActionsSlotChange(event: Event): void {
-    this.hasBottomActions = slotChangeHasAssignedElement(event);
-  }
-
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
       el?.matches("calcite-tooltip"),
@@ -407,14 +398,13 @@ export class ActionBar extends LitElement {
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        hidden={this.expandDisabled && !this.hasActionsEnd}
         label={actionsEndGroupLabel}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.bottomActions} onSlotChange={this.handleBottomActionsSlotChange} />
         <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>

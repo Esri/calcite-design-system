@@ -20,7 +20,6 @@ export const SLOTS = {
   headerContent: "header-content",
   fab: "fab",
   footer: "footer",
-  footerActions: "footer-actions",
   footerEnd: "footer-end",
   footerStart: "footer-start",
 };

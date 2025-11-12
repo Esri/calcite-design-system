@@ -23,7 +23,6 @@ declare global {
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
  * @slot panel-top - A slot for adding the top `calcite-shell-panel`.
  * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
- * @slot center-row - [Deprecated] Use the `"panel-bottom"` slot instead. A slot for adding the bottom `calcite-shell-center-row`.
  * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the `calcite-shell`.
  * @slot dialogs - A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
@@ -250,9 +249,6 @@ export class Shell extends LitElement {
     ) : (
       defaultSlotNode
     );
-    const deprecatedCenterRowSlotNode: JsxNode = (
-      <slot key="center-row-slot" name={SLOTS.centerRow} />
-    );
     const panelBottomSlotNode: JsxNode = (
       <slot
         key="panel-bottom-slot"
@@ -285,7 +281,6 @@ export class Shell extends LitElement {
           >
             {panelTopSlotNode}
             {panelBottomSlotNode}
-            {deprecatedCenterRowSlotNode}
           </div>,
         ]
       : [
@@ -296,7 +291,6 @@ export class Shell extends LitElement {
             {panelTopSlotNode}
             {defaultSlotContainerNode}
             {panelBottomSlotNode}
-            {deprecatedCenterRowSlotNode}
           </div>,
         ];
 

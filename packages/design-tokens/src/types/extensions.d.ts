@@ -1,6 +1,6 @@
-import type { Config as SDConfig, PlatformConfig as SDPlatformConfig, TransformedToken } from "style-dictionary/types";
-import { SetRequired } from "type-fest";
-import { Platform } from "../build/utils/enums.js";
+import type { Config as SDConfig, PlatformConfig as SDPlatformConfig, TransformedToken } from "style-dictionary/types/index.js";
+import type { SetRequired } from "type-fest";
+import type { Platform } from "../types/interfaces.d.ts";
 
 // convenience type per https://styledictionary.com/reference/utils/tokens/#converttokendata
 export type FlattenedTransformedToken = SetRequired<TransformedToken, "key">;
