@@ -10,17 +10,21 @@ const {
 } = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context }) => {
+module.exports = async ({ context, core }) => {
   const { issue, label } =
     /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (
       context.payload
     );
   const { labels: issueLabels } = issue;
   const [labelName] = assertRequired([label?.name]);
+  const logParams = { title: "Remove Label" };
 
   if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
-    console.log("Issue is marked as a spike complete. Skipping label removal.");
-    process.exit(0);
+    core.warning(
+      "Issue is marked as a spike complete. Skipping label removal.",
+      logParams,
+    );
+    return;
   }
 
   const remainingTokenLabel =
@@ -30,13 +34,14 @@ module.exports = async ({ context }) => {
         ? designTokens
         : null;
   if (remainingTokenLabel && includesLabel(issueLabels, remainingTokenLabel)) {
-    console.error(
+    core.warning(
       "Issue is still marked as a design token issue. Skipping label removal.",
+      logParams,
     );
-    process.exit(0);
+    return;
   }
 
-  const monday = Monday(issue);
+  const monday = Monday(issue, core);
   monday.setAssignedStatus();
   monday.clearLabel(labelName);
   await monday.commit();

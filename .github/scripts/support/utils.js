@@ -97,12 +97,9 @@ module.exports = {
    * @returns {{ [K in keyof T]: NonNullable<T[K]> }} The validated array with non-nullable types
    */
   assertRequired: (array, errorMessage) => {
-    for (const item of array) {
-      if (item === undefined || item === null) {
-        const message = errorMessage || `${String(item)} is required but is not defined, exiting.`;
-        console.error(message);
-        process.exit(0);
-      }
+    if (array.some((item) => item === undefined || item === null)) {
+      console.error(errorMessage || `One or more required items are not defined, exiting.`);
+      process.exit(0);
     }
 
     return /** @type {{ [K in keyof T]: NonNullable<T[K]> }} */ (array);
