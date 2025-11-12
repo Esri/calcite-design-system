@@ -1,7 +1,7 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
-import { isThemed } from "../utils/token-types.js";
+import type { RegisterFn } from "../../types/interfaces.d.ts";
+import { isThemed } from "../utils/token-types.ts";
 
 export const filterDarkColorTokens: Filter["filter"] = (token) => isThemed(token, { theme: "dark" });
 

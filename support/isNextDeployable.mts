@@ -1,3 +1,6 @@
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  * It throws an error if there are not release-worthy (deployable) changes.
@@ -5,9 +8,7 @@
  * Based on https://github.com/conventional-changelog/standard-version/issues/192#issuecomment-610494804
  */
 (async function runner(): Promise<void> {
-  const childProcess = await import("child_process");
-  const { promisify } = await import("util");
-  const exec = promisify(childProcess.exec);
+  const execAsync = promisify(exec);
 
   async function isNextDeployable(): Promise<void> {
     console.log("Determining @next deployability 🔍");
@@ -62,7 +63,7 @@
   }
 
   async function runGit(command: string, ...args: string[]): Promise<string> {
-    return (await exec(`git ${command} ${args.join(" ")}`, { encoding: "utf-8" })).stdout.trim();
+    return (await execAsync(`git ${command} ${args.join(" ")}`, { encoding: "utf-8" })).stdout.trim();
   }
 
   try {

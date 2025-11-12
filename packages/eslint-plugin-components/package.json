@@ -21,7 +21,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "clean": "rimraf node_modules dist .turbo",
-    "util:update-3rd-party-licenses": "tsx ../../support/createThirdPartyLicenses.ts"
+    "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
   },
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.0.0",

@@ -2,13 +2,12 @@ import prettierSync from "@prettier/sync";
 import type { FormatFn } from "style-dictionary/types";
 import { fileHeader } from "style-dictionary/utils";
 import StyleDictionary from "style-dictionary";
-import { PlatformConfig } from "../../types/extensions.js";
-import { RegisterFn, Stylesheet } from "../../types/interfaces.js";
-import { fromTokens } from "../utils/dictionary.js";
-import { isThemed } from "../utils/token-types.js";
-import { dark, light } from "../dictionaries/index.js";
-import { Platform } from "../utils/enums.js";
-import { createVarList } from "./utils/index.js";
+import type { PlatformConfig } from "../../types/extensions.d.ts";
+import type { Platform, RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import { fromTokens } from "../utils/dictionary.ts";
+import { isThemed } from "../utils/token-types.ts";
+import { dark, light } from "../dictionaries/index.ts";
+import { createVarList } from "./utils/index.ts";
 
 export const registerFormatIndex: RegisterFn = () => {
   StyleDictionary.registerFormat({
@@ -21,7 +20,7 @@ export const formatIndexFile: FormatFn = async (args) => {
   const { file, options } = args;
   const platform = args.platform as PlatformConfig;
 
-  if (platform.options.platform !== Platform.css && platform.options.platform !== Platform.scss) {
+  if (platform.options.platform !== "css" && platform.options.platform !== "scss") {
     throw new Error("Only css and scss platforms are supported.");
   }
 
@@ -34,7 +33,7 @@ export const formatIndexFile: FormatFn = async (args) => {
     light.getPlatformTokens(options.platform, { cache: true }),
   ]);
 
-  const commonVarFormat = Platform.css;
+  const commonVarFormat: Extract<Platform, "css"> = "css";
   const varLists = {
     light: createVarList(
       commonVarFormat,
@@ -52,11 +51,11 @@ export const formatIndexFile: FormatFn = async (args) => {
     ),
   } as const;
 
-  const classGroupStrategy = format === Platform.css ? "." : "@mixin ";
+  const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
-  const root = format === Platform.css ? `:root {${varLists.light}}` : "";
+  const root = format === "css" ? `:root {${varLists.light}}` : "";
   const atMedia =
-    format === Platform.css
+    format === "css"
       ? themes
           .map((theme) => `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}}`)
           .join("")

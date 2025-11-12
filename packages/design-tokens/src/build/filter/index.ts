@@ -1,14 +1,14 @@
-import { registerFilterSemanticTokens } from "./semantic.js";
-import { registerFilterLightColorTokens } from "./light.js";
-import { registerFilterDarkColorTokens } from "./dark.js";
-import { registerFilterBreakpointTokens } from "./breakpoints.js";
-import { registerFilterTypographyTokens } from "./typography.js";
-import { registerFilterCoreTokens } from "./core.js";
-import { registerFilterSourceTokens } from "./source.js";
-import { registerFilterIncludeTokens } from "./include.js";
-import { registerFilterGlobalTokens } from "./global.js";
-import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.js";
-import { registerFilterGlobalTokensJs } from "./global-js.js";
+import { registerFilterSemanticTokens } from "./semantic.ts";
+import { registerFilterLightColorTokens } from "./light.ts";
+import { registerFilterDarkColorTokens } from "./dark.ts";
+import { registerFilterBreakpointTokens } from "./breakpoints.ts";
+import { registerFilterTypographyTokens } from "./typography.ts";
+import { registerFilterCoreTokens } from "./core.ts";
+import { registerFilterSourceTokens } from "./source.ts";
+import { registerFilterIncludeTokens } from "./include.ts";
+import { registerFilterGlobalTokens } from "./global.ts";
+import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.ts";
+import { registerFilterGlobalTokensJs } from "./global-js.ts";
 
 export function registerFilters(): void {
   registerFilterBreakpointTokens();
@@ -24,14 +24,14 @@ export function registerFilters(): void {
   registerFilterIncludeTokens();
 }
 
-export { FilterGlobalTokens } from "./global.js";
-export { FilterGlobalTokensJs } from "./global-js.js";
-export { FilterSemanticTokens } from "./semantic.js";
-export { FilterBreakpointTokens } from "./breakpoints.js";
-export { FilterCoreTokens } from "./core.js";
-export { FilterLightColorTokens } from "./light.js";
-export { FilterDarkColorTokens } from "./dark.js";
-export { FilterLightOrDarkColorTokens } from "./light-or-dark.js";
-export { FilterSourceTokens } from "./source.js";
-export { FilterIncludeTokens } from "./include.js";
-export { FilterTypographyTokens } from "./typography.js";
+export { FilterGlobalTokens } from "./global.ts";
+export { FilterGlobalTokensJs } from "./global-js.ts";
+export { FilterSemanticTokens } from "./semantic.ts";
+export { FilterBreakpointTokens } from "./breakpoints.ts";
+export { FilterCoreTokens } from "./core.ts";
+export { FilterLightColorTokens } from "./light.ts";
+export { FilterDarkColorTokens } from "./dark.ts";
+export { FilterLightOrDarkColorTokens } from "./light-or-dark.ts";
+export { FilterSourceTokens } from "./source.ts";
+export { FilterIncludeTokens } from "./include.ts";
+export { FilterTypographyTokens } from "./typography.ts";
