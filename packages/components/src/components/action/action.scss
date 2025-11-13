@@ -61,10 +61,6 @@
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
-.button {
-  border-radius: inherit;
-}
-
 @mixin action-indicator() {
   position: relative;
   &::after {
@@ -80,6 +76,7 @@
 }
 
 .button-container {
+  border-radius: inherit;
   padding: var(--calcite-spacing-xxs);
 
   &:hover {
@@ -121,7 +118,7 @@
     font-medium;
   font-family: inherit;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-  border-radius: 2px;
+  border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
   text-align: unset;
   flex: 1 0 auto;
