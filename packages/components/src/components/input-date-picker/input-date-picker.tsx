@@ -52,7 +52,6 @@ import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from 
 import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
-  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
@@ -656,7 +655,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
+      getDateFormatSupportedLocale(this.messages._lang),
       formattingOptions,
     );
   }

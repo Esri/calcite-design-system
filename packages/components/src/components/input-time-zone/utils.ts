@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import { normalizeLocale, SupportedLocale } from "@arcgis/toolkit/intl";
+import { getDateTimeFormat } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
@@ -78,13 +79,14 @@ export async function createTimeZoneItems(
       .sort();
   }
 
-  const effectiveLocale =
+  const effectiveLocale = normalizeLocale(
     standardTime === "user"
       ? locale
       : // we use locales that will always yield a short offset that matches `standardTime`
         standardTime === "utc"
         ? "fr"
-        : "en-GB";
+        : "en-GB",
+  );
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {
@@ -249,7 +251,7 @@ function createTimeZoneOffsetLabel(
 
 function getTimeZoneShortOffset(
   timeZone: TimeZone,
-  locale: SupportedLocale,
+  locale: HTMLElement["lang"],
   referenceDateInMs: number = Date.now(),
 ): string {
   // workaround for https://issues.chromium.org/issues/381620359

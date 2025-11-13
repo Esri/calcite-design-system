@@ -1,13 +1,11 @@
 // @ts-strict-ignore
 import { describe, expect, it, beforeEach } from "vitest";
-import { mockConsole } from "../tests/utils/logging";
 import {
   dateTimeFormatCache,
   defaultLocale,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
   getDateTimeFormat,
-  getSupportedLocale,
   locales,
   numberingSystems,
   NumberStringFormatOptions,
@@ -197,58 +195,6 @@ describe("getDateTimeFormat()", () => {
     expect(customizedEsDateTimeFormat).toBe(getDateTimeFormat("es", options));
     expect(simpleEsDateTimeFormat).not.toBe(customizedEsDateTimeFormat);
     expect(dateTimeFormatCache.size).toBe(2);
-  });
-});
-
-describe("getSupportedLocale", () => {
-  mockConsole();
-
-  function assertAllContexts(locale: string, expectedLocale: string): void {
-    expect(getSupportedLocale(locale)).toBe(expectedLocale);
-  }
-
-  it("returns `en` if there is no locale", () => {
-    assertAllContexts(null, "en");
-  });
-
-  it("falls back to `en` if the language tag or language + region tag isn't supported", () => {
-    assertAllContexts("zz", "en");
-    expect(console.warn).toHaveBeenCalledTimes(1);
-
-    assertAllContexts("zz-ZZ", "en");
-    expect(console.warn).toHaveBeenCalledTimes(2);
-  });
-
-  it("falls back to the language tag if the language + region tag isn't supported", () => {
-    assertAllContexts("es-AR", "es");
-    assertAllContexts("es-AR", "es");
-  });
-
-  it("matches locale with subregion if supported", () => {
-    // using pt-PT since it is supported in both cldr and t9n locale lists
-    assertAllContexts("pt-PT", "pt-PT");
-  });
-
-  it("matches regardless of casing", () => {
-    assertAllContexts("pt-pt", "pt-PT");
-    assertAllContexts("PT-PT", "pt-PT");
-
-    assertAllContexts("es-ar", "es");
-    assertAllContexts("ES-AR", "es");
-  });
-
-  describe("locale mappings", () => {
-    it("maps `nb` to `no`", () => {
-      assertAllContexts("nb", "no");
-    });
-
-    it("maps `nn` to `no`", () => {
-      assertAllContexts("nn", "no");
-    });
-
-    it("maps `zh` to `zh-CN`", () => {
-      assertAllContexts("zh", "zh-CN");
-    });
   });
 });
 

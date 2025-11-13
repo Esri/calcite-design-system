@@ -26,7 +26,7 @@ import {
 import { decimalPlaces, getDecimals } from "../utils/math";
 import { isValidNumber } from "../utils/number";
 import { capitalizeWord } from "../utils/text";
-import { NumberingSystem, SupportedLocale } from "../utils/locale";
+import { NumberingSystem } from "../utils/locale";
 import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
@@ -84,7 +84,7 @@ type TimeProperties = {
   /**
    * The language and region code to localize the time value.
    */
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   /**
    * The decimal separator used by the locale.
    */
@@ -151,7 +151,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   hourFormat: EffectiveHourFormat;
 
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
 
   localizedDecimalSeparator = ".";
 
@@ -510,14 +510,12 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   private setHourFormat(): void {
     const { hourFormat, messages } = this.component;
-    const locale = messages._lang as SupportedLocale;
-    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(locale) : hourFormat;
+    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(messages._lang as string) : hourFormat;
   }
 
   private setMeridiemOrder(): void {
     const { messages } = this.component;
-    const locale = messages._lang as SupportedLocale;
-    this.meridiemOrder = getMeridiemOrder(locale);
+    this.meridiemOrder = getMeridiemOrder(messages._lang as string);
   }
 
   setValue(value: string, userChangedValue: boolean = false): void {

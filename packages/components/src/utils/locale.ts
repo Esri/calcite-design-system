@@ -95,8 +95,6 @@ export const supportedLocales = [...locales] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
-export type SupportedLocale = (typeof supportedLocales)[number];
-
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
 
@@ -111,49 +109,6 @@ export const defaultNumberingSystem =
 
 export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
-
-/**
- * Gets the locale that best matches the context.
- *
- * @param locale – the BCP 47 locale code
- */
-export function getSupportedLocale(locale: string): SupportedLocale {
-  if (!locale) {
-    return defaultLocale;
-  }
-
-  if (supportedLocales.includes(locale)) {
-    return locale;
-  }
-
-  locale = locale.toLowerCase();
-  if (locale.includes("-")) {
-    locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!supportedLocales.includes(locale)) {
-      locale = locale.split("-")[0];
-    }
-  }
-
-  // we support 'nn', 'nb' and 'no' (BCP 47) for Norwegian but only `no` includes corresponding bundle
-  if (locale === "nb" || locale === "nn") {
-    return "no";
-  }
-
-  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
-  if (locale === "zh") {
-    return "zh-CN";
-  }
-
-  if (!supportedLocales.includes(locale)) {
-    console.warn(
-      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
-    );
-    return defaultLocale;
-  }
-
-  return locale;
-}
 
 /**
  * Gets the locale that best matches the context for date formatting.
@@ -231,7 +186,6 @@ export class NumberStringFormat {
 
   /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
-    options.locale = getSupportedLocale(options?.locale);
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
 
     if (
@@ -344,8 +298,6 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * @private
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-  locale = getSupportedLocale(locale);
-
   if (!dateTimeFormatCache) {
     dateTimeFormatCache = new Map();
   }

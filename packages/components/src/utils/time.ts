@@ -5,7 +5,6 @@ import {
   localizedTwentyFourHourMeridiems,
   NumberingSystem,
   numberStringFormatter,
-  SupportedLocale,
 } from "./locale";
 import { decimalPlaces } from "./math";
 import { isValidNumber } from "./number";
@@ -55,7 +54,7 @@ export type TimePart =
 export const maxTenthForMinuteAndSecond = 5;
 
 interface DateTimeFormatterOptions {
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   numberingSystem?: NumberingSystem;
   includeSeconds?: boolean;
   fractionalSecondDigits?: FractionalSecondDigits;
@@ -120,7 +119,7 @@ function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): numbe
   return parseInt((parseFloat(`0.${fractionalSecondPart}`) / 0.001).toFixed(3));
 }
 
-export function getLocaleHourFormat(locale: SupportedLocale): EffectiveHourFormat {
+export function getLocaleHourFormat(locale: HTMLElement["lang"]): EffectiveHourFormat {
   const options: DateTimeFormatterOptions = { locale };
   if (locale === "mk") {
     // Chromium's Intl.DateTimeFormat incorrectly formats mk time to 12-hour cycle so we need to force hour12 to false
@@ -153,7 +152,7 @@ export function getLocalizedMeridiem({
   meridiem,
   parts: fromParts,
 }: {
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   meridiem?: Meridiem;
   parts?: Intl.DateTimeFormatPart[];
 }): string {
@@ -194,7 +193,7 @@ export function getLocalizedMeridiem({
   return localizedMeridiem;
 }
 
-export function getLocalizedDecimalSeparator(locale: SupportedLocale, numberingSystem: NumberingSystem): string {
+export function getLocalizedDecimalSeparator(locale: HTMLElement["lang"], numberingSystem: NumberingSystem): string {
   numberStringFormatter.numberFormatOptions = {
     locale,
     numberingSystem,
@@ -204,7 +203,7 @@ export function getLocalizedDecimalSeparator(locale: SupportedLocale, numberingS
 
 export function getLocalizedTimePartSuffix(
   part: "hour" | "minute" | "second",
-  locale: SupportedLocale,
+  locale: HTMLElement["lang"],
   numberingSystem: NumberingSystem = "latn",
 ): string {
   const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
@@ -215,7 +214,7 @@ export function getLocalizedTimePartSuffix(
 function getLocalizedTimePart(
   part: TimePart,
   parts: Intl.DateTimeFormatPart[],
-  locale: SupportedLocale = "en",
+  locale: HTMLElement["lang"] = "en",
 ): string {
   if (!part || !parts) {
     return null;
@@ -264,7 +263,7 @@ export function getMeridiem(hour: string): Meridiem {
   return hourAsNumber >= 0 && hourAsNumber <= 11 ? "AM" : "PM";
 }
 
-export function getMeridiemOrder(locale: SupportedLocale): number {
+export function getMeridiemOrder(locale: HTMLElement["lang"]): number {
   const formatter = new Intl.DateTimeFormat(locale, {
     hour: "2-digit",
     hour12: true,
@@ -332,7 +331,7 @@ function isValidTimePart(value: string, part: TimePart): boolean {
 interface LocalizeTimePartParameters {
   value: string;
   part: TimePart;
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   numberingSystem?: NumberingSystem;
   hour12?: boolean;
 }
@@ -392,7 +391,7 @@ export function localizeTimePart({
 interface LocalizeTimeStringParameters {
   hour12?: boolean;
   includeSeconds?: boolean;
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   numberingSystem?: NumberingSystem;
   parts?: boolean;
   step?: number;
@@ -473,7 +472,7 @@ export function localizeTimeString({
 
 interface LocalizeTimeStringToPartsParameters {
   hour12?: boolean;
-  locale: SupportedLocale;
+  locale: HTMLElement["lang"];
   numberingSystem?: NumberingSystem;
   step: number;
   value: string;

@@ -1,6 +1,7 @@
 // @ts-strict-ignore
+import { normalizeLocale } from "@arcgis/toolkit/intl";
 import { dateFromISO } from "../../utils/date";
-import { getSupportedLocale } from "../../utils/locale";
+import { defaultLocale } from "../../utils/locale";
 import { getAssetPath } from "../../runtime";
 
 /**
@@ -54,7 +55,7 @@ export const requestCache: Record<string, Promise<DateLocaleData>> = {};
  * @public
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {
-  const locale = getSupportedLocale(lang);
+  const locale = normalizeLocale(lang);
   if (translationCache[locale]) {
     return translationCache[locale];
   }
@@ -63,7 +64,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
-        return getLocaleData("en");
+        return getLocaleData(defaultLocale);
       });
   }
 

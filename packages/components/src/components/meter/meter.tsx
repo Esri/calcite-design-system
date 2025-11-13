@@ -9,12 +9,7 @@ import {
   disconnectForm,
   FormComponent,
 } from "../../utils/form";
-import {
-  getSupportedLocale,
-  NumberingSystem,
-  numberStringFormatter,
-  SupportedLocale,
-} from "../../utils/locale";
+import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
@@ -66,7 +61,7 @@ export class Meter extends LitElement implements FormComponent {
 
   private percentFormatting: {
     formatter: Intl.NumberFormat;
-    locale: SupportedLocale;
+    locale: HTMLElement["lang"];
   };
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
@@ -261,7 +256,7 @@ export class Meter extends LitElement implements FormComponent {
   private formatLabel(value: number, labelType: MeterLabelType): string {
     if (labelType === "percent") {
       if (!this.percentFormatting) {
-        const locale = getSupportedLocale(this.messages._lang);
+        const locale = this.messages._lang;
         const formatter = new Intl.NumberFormat(locale, {
           useGrouping: this.groupSeparator,
           style: "percent",
