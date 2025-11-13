@@ -8,7 +8,7 @@ module.exports = async ({ context, core }) => {
     /** @type {import('@octokit/webhooks-types').IssuesEditedEvent} */ (
       context.payload
     );
-  assertRequired([changes?.title?.from]);
+  assertRequired([changes?.title?.from], core, "Title unedited: no previous title found in payload.");
 
   const monday = Monday(issue, core);
   monday.setColumnValue(monday.mondayColumns.title, issue.title, {

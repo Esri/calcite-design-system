@@ -93,12 +93,13 @@ module.exports = {
    *
    * @template {readonly unknown[]} T - Tuple type of the input array
    * @param {T} array - Array of values to validate
+   * @param {import('@actions/core')} core - The GitHub Actions core module for logging
    * @param {string} [errorMessage] - Optional custom error message to log
    * @returns {{ [K in keyof T]: NonNullable<T[K]> }} The validated array with non-nullable types
    */
-  assertRequired: (array, errorMessage) => {
+  assertRequired: (array, core, errorMessage) => {
     if (array.some((item) => item === undefined || item === null)) {
-      console.error(errorMessage || `One or more required items are not defined, exiting.`);
+      core.warning(errorMessage || `One or more required items are not defined, exiting.`, { title: "Assert Required" });
       process.exit(0);
     }
 

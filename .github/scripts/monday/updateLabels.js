@@ -14,7 +14,7 @@ module.exports = async ({ context, core }) => {
     /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
       context.payload
     );
-  const [labelName] = assertRequired([label?.name]);
+  const [labelName] = assertRequired([label?.name], core, "No label found in payload.");
 
   const monday = Monday(issue, core);
 
