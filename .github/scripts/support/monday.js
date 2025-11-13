@@ -58,8 +58,8 @@ module.exports = function Monday(issue, core) {
   let columnUpdates = {};
 
   /** @typedef {object} MondayColumn
-   * @param {string} id - The Monday.com column ID
-   * @param {string} title - The Monday.com column title. Used for logging, not critical to functionality.
+   * @property {string} id - The Monday.com column ID
+   * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality.
    */
   /** @type {Record<string, MondayColumn>} */
   const mondayColumns = {
@@ -86,9 +86,9 @@ module.exports = function Monday(issue, core) {
   };
 
   /** @typedef {object} MondayLabel
-   * @param {MondayColumn} column - The Monday.com column the label is synced to.
-   * @param {string | number} value - The value to set in the column.
-   * @param {boolean} [clearable] - Whether the label can be cleared from the column.
+   * @property {MondayColumn} column - The Monday.com column the label is synced to.
+   * @property {string | number} value - The value to set in the column.
+   * @property {boolean} [clearable] - Whether the label can be cleared from the column.
    */
   /** @type {Map<string, MondayLabel>} */
   const labelMap = new Map([
