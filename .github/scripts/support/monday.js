@@ -649,7 +649,7 @@ module.exports = function Monday(issue, core) {
     if (existingLabels.length === 0 && labels?.length) {
       for (const { name } of labels) {
         const info = labelMap.get(name);
-        if (info?.column === labelInfo.column && info.value) {
+        if (info?.column.id === labelInfo.column.id && info.value) {
           existingLabels.push(`${info.value}`);
         }
       }
