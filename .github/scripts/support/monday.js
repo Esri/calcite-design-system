@@ -464,7 +464,10 @@ module.exports = function Monday(issue, core) {
         label.name !== issueWorkflow.installed &&
         label.name !== issueWorkflow.verified,
     );
-    if (role.id === mondayColumns.productEngineers.id && notInstalledOrVerified) {
+    if (
+      role.id === mondayColumns.productEngineers.id &&
+      notInstalledOrVerified
+    ) {
       role = mondayColumns.developers;
     }
 
@@ -929,13 +932,11 @@ module.exports = function Monday(issue, core) {
       addAssignee(assignee);
     });
 
-    [mondayColumns.developers, mondayColumns.productEngineers].forEach(
-      (role) => {
-        if (!(role.id in columnUpdates)) {
-          setColumnValue(role, "");
-        }
-      },
-    );
+    [mondayColumns.developers, mondayColumns.productEngineers]
+      .filter((role) => !(role.id in columnUpdates))
+      .forEach((role) => {
+        setColumnValue(role, "");
+      });
   }
 
   /**
