@@ -511,7 +511,7 @@ module.exports = function Monday(issue, core) {
       }
       return { response: await response.json(), error: null };
     } catch (error) {
-      return { response: null, error: error.message };
+      return { response: null, error: error?.message || String(error) };
     }
   }
 
