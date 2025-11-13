@@ -77,7 +77,6 @@
 
 .button {
   @apply focus-base
-    text-n2h
     relative
     m-0
     flex
@@ -86,13 +85,15 @@
     justify-start
     border-none
     font-medium;
-  font-family: inherit;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
-  text-align: unset;
-  flex: 1 0 auto;
   cursor: inherit;
+  flex: 1 0 auto;
+  font-family: inherit;
+  font-size: var(--calcite-font-size--2);
+  line-height: var(--calcite-font-line-height-relative-base);
+  text-align: unset;
 
   &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
@@ -120,24 +121,17 @@
     flex
     items-center
     justify-center;
-  min-inline-size: theme("spacing.4");
-  min-block-size: theme("spacing.6");
 }
 
 .text-container {
-  @apply m-0
-    w-0
-    truncate
-    leading-6
-    opacity-0
-    transition-opacity
-    ease-in-out;
-
+  @apply truncate;
+  flex: 1 1 auto;
+  inline-size: auto;
+  margin: 0;
+  opacity: 1;
   transition-property: inline-size;
-}
-
-.text-container {
-  @apply w-auto flex-auto opacity-100;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--calcite-animation-timing);
 }
 
 :host([active]) {
@@ -208,28 +202,36 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h font-normal;
+    font-size: var(--calcite-font-size--2);
+    font-weight: var(--calcite-font-weight-normal);
     gap: var(--calcite-spacing-xxs);
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
+    min-block-size: 24px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
   }
 }
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h font-normal;
+    font-size: var(--calcite-font-size--1);
+    font-weight: var(--calcite-font-weight-normal);
     gap: var(--calcite-spacing-sm);
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
+    line-height: var(--calcite-font-line-height-relative-base);
+    min-block-size: 32px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
   }
 }
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h font-normal;
+    font-size: var(--calcite-font-size-0);
+    font-weight: var(--calcite-font-weight-normal);
     gap: var(--calcite-spacing-sm-plus);
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
+    line-height: var(--calcite-font-line-height-relative-tight);
+    min-block-size: 44px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
   }
 }
 
