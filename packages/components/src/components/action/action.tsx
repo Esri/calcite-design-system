@@ -385,7 +385,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.buttonContainer}>{this.renderButton()}</div>
-        <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
         {this.renderIndicatorText()}
       </InteractiveContainer>
     );
