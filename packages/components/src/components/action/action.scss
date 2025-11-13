@@ -75,36 +75,6 @@
   }
 }
 
-.button-container {
-  border-radius: inherit;
-  padding: var(--calcite-spacing-xxs);
-
-  &:hover {
-    .button {
-      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
-      color: var(
-        --calcite-action-text-color-press,
-        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-      );
-    }
-  }
-
-  &:focus {
-    .button {
-      @apply focus-inset;
-    }
-  }
-
-  &:active {
-    .button {
-      background-color: var(
-        --calcite-action-background-color-press,
-        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
-      );
-    }
-  }
-}
-
 .button {
   @apply focus-base
     text-n2h
@@ -123,6 +93,25 @@
   text-align: unset;
   flex: 1 0 auto;
   cursor: inherit;
+
+  &:hover {
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+  }
+
+  &:focus {
+    @apply focus-inset;
+  }
+
+  &:active {
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+    );
+  }
 }
 
 .icon-container {
@@ -198,22 +187,12 @@
     @apply bg-transparent
       transition-shadow
       ease-in-out;
-  }
 
-  &:host([active]) .button {
-    background-color: var(--calcite-color-transparent-press);
-  }
-
-  .button-container {
     &:hover {
-      .button {
-        background-color: var(--calcite-color-transparent-hover);
-      }
+      background-color: var(--calcite-color-transparent-hover);
     }
     &:active {
-      .button {
-        background-color: var(--calcite-color-transparent-press);
-      }
+      background-color: var(--calcite-color-transparent-press);
     }
   }
 }
