@@ -1,12 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday");
-const {
-  labels: {
-    issueWorkflow,
-    issueType: { design },
-  },
-} = require("../support/resources");
-const { assertRequired, includesLabel } = require("../support/utils");
+const { assertRequired } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ context, core }) => {
@@ -14,22 +8,13 @@ module.exports = async ({ context, core }) => {
     /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
       context.payload
     );
-  const [labelName] = assertRequired([label?.name], core, "No label found in payload.");
+  const [labelName] = assertRequired(
+    [label?.name],
+    core,
+    "No label found in payload.",
+  );
 
   const monday = Monday(issue, core);
-
-  const isVerified = labelName === issueWorkflow.verified;
-  if (
-    isVerified &&
-    issue.state === "closed" &&
-    !includesLabel(issue.labels, design)
-  ) {
-    monday.setColumnValue(monday.mondayColumns.status, "Done", {
-      title: "Issue Verified and Closed",
-    });
-  } else {
-    monday.addLabel(labelName);
-  }
-
+  monday.addLabel(labelName);
   await monday.commit();
 };
