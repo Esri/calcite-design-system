@@ -384,7 +384,8 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   override render(): JsxNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
-        {this.renderButton()}
+        <div class={CSS.buttonContainer}>{this.renderButton()}</div>
+        <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
         {this.renderIndicatorText()}
       </InteractiveContainer>
     );
