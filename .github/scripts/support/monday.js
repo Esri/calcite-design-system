@@ -990,12 +990,16 @@ module.exports = function Monday(issue, core) {
     const shouldSetAssigned = assignedCondition ?? defaultCondition;
     const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
 
+    /** @param {string} status */
+    const setAndLog = (status) => {
+      setColumnValue(columnIds.status, status);
+      core.notice(`Status set to '${status}'.`, logParams);
+    };
+
     if (assignee && shouldSetAssigned) {
-      setColumnValue(columnIds.status, ASSIGNED);
-      core.notice(`Status set to '${ASSIGNED}'.`, logParams);
+      setAndLog(ASSIGNED);
     } else if (!assignee && shouldSetUnassigned) {
-      setColumnValue(columnIds.status, UNASSIGNED);
-      core.notice(`Status set to '${UNASSIGNED}'.`, logParams);
+      setAndLog(UNASSIGNED);
     } else {
       core.notice("Status not changed based on assignment.", logParams);
     }
