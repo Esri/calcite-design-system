@@ -55,6 +55,9 @@ export class TableAdvanced extends LitElement {
   /** Specifies the property to be used to find frozen columns. Default is `name` */
   @property() frozenColumnProp: string = "name";
 
+  /** Specifies if the component's columns can be movable. Default is `false`. */
+  @property() movableColumns: boolean = false;
+
   //#endregion
 
   //#region Public Methods
@@ -194,6 +197,7 @@ export class TableAdvanced extends LitElement {
           columns: this.columns || [],
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
+          movableColumns: this.movableColumns,
         })
       : new Tabulator(this.tableEl, {
           data: this.data || [],
@@ -201,6 +205,7 @@ export class TableAdvanced extends LitElement {
           index: this.rowIndexProp,
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
+          movableColumns: this.movableColumns,
         });
 
     // Log cell, column and row that is being clicked
