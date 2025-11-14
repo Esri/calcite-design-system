@@ -5,6 +5,7 @@ import "../shell/shell";
 import "./shell-panel";
 import "../panel/panel";
 import { CSS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
 
 describe("shell-panel updateSize public method", () => {
   it("should update default vertical size via token, manual resize, method, and reset to token", async () => {
