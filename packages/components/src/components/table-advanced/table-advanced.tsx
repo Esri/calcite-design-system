@@ -63,18 +63,6 @@ export class TableAdvanced extends LitElement {
   //#region Public Methods
 
   /**
-   * Triggers clear filter.
-   *
-   * @example
-   *
-   * myTable.clearFilter()
-   */
-  @method()
-  async clearFilter(): Promise<void> {
-    this.tabulator.clearFilter(false);
-  }
-
-  /**
    * Triggers scroll to row animation.
    *
    * @example
@@ -117,6 +105,18 @@ export class TableAdvanced extends LitElement {
     if (typeof customFilterFunction === "function") {
       this.tabulator.setFilter(customFilterFunction, filterParams);
     }
+  }
+
+  /**
+   * Triggers clear filter.
+   *
+   * @example
+   *
+   * myTable.clearFilter()
+   */
+  @method()
+  async clearFilter(): Promise<void> {
+    this.tabulator.clearFilter(false);
   }
 
   /**
@@ -167,6 +167,43 @@ export class TableAdvanced extends LitElement {
     if (row) {
       row.getElement().style[rowClass] = rowClassValue;
     }
+  }
+
+  /**
+   * Triggers set sort.
+   *
+   * @example
+   *
+   * myTable.setSort("name", "asc") // single sort, takes column name (field prop) and sort direction = "asc" or "desc"
+   * myTable.setSort([{ column: "name", dir: "asc" }]) // multi sort, takes array of objects with column name (field prop) and dir props
+   *
+   * @param columnNameOrArray Value used to find a column name (field prop) for single column sort, or an array of objects for multi-column sort
+   * @param sortDirection Value used to set sort direction, can be "asc" or "desc"
+   */
+  @method()
+  async setSort(
+    columnNameOrArray?: string | Array<{ column: string; dir: "asc" | "desc" }>,
+    sortDirection?: "asc" | "desc",
+  ): Promise<void> {
+    if (Array.isArray(columnNameOrArray)) {
+      // multi-column sort
+      this.tabulator.setSort(columnNameOrArray);
+    } else if (columnNameOrArray && sortDirection) {
+      // single-column sort
+      this.tabulator.setSort(columnNameOrArray, sortDirection);
+    }
+  }
+
+  /**
+   * Triggers clear sort.
+   *
+   * @example
+   *
+   * myTable.clearSort()
+   */
+  @method()
+  async clearSort(): Promise<void> {
+    this.tabulator.clearSort();
   }
 
   //#endregion

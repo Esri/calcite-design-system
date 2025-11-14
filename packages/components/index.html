@@ -41,6 +41,9 @@
           <button onclick="triggerScrollToRow()">Scroll To Row</button>
           <button onclick="triggerStyleRow()">Style Row</button>
           <button onclick="triggerStyleCell()">Style Cell</button>
+          <button onclick="triggerSetSort()">Set Sort</button>
+          <button onclick="triggerSetSortMultiple()">Set Sort Multiple</button>
+          <button onclick="triggerClearSort()">Clear Sort</button>
         </div>
       </div>
 
@@ -121,6 +124,9 @@
           <button onclick="triggerClearFilterCustomSlot()">Clear filter</button>
           <button onclick="triggerStyleRowCustomSlot()">Style row</button>
           <button onclick="triggerStyleCellCustomSlot()">Style cell</button>
+          <button onclick="triggerSetSortCustomSlot()">Set Sort</button>
+          <button onclick="triggerSetSortMultipleCustomSlot()">Set Sort Multiple</button>
+          <button onclick="triggerClearSortCustomSlot()">Clear Sort</button>
         </div>
       </div>
 
@@ -281,7 +287,7 @@
           progress: 39,
           gender: "female",
           rating: 4,
-          col: "red",
+          col: "gray",
           dob: "12/05/1966",
         },
         {
@@ -290,7 +296,7 @@
           progress: 39,
           gender: "male",
           rating: 4,
-          col: "red",
+          col: "teal",
           dob: "12/05/1966",
         },
         {
@@ -299,7 +305,7 @@
           progress: 39,
           gender: "male",
           rating: 4,
-          col: "red",
+          col: "crimson",
           dob: "12/05/1966",
         },
         {
@@ -308,7 +314,7 @@
           progress: 39,
           gender: "male",
           rating: 4,
-          col: "red",
+          col: "coral",
           dob: "12/05/1966",
         },
       ];
@@ -352,6 +358,21 @@
 
       function triggerStyleCell() {
         tableAdvanced.styleCell(2, "name", "backgroundColor", "blue");
+      }
+
+      function triggerSetSort() {
+        tableAdvanced.setSort("name", "asc");
+      }
+
+      function triggerSetSortMultiple() {
+        tableAdvanced.setSort([
+          { column: "name", dir: "asc" }, // sort by this first
+          { column: "col", dir: "asc" }, // then sort by this second
+        ]);
+      }
+
+      function triggerClearSort() {
+        tableAdvanced.clearSort();
       }
 
       // Column groups
@@ -521,6 +542,21 @@
 
       function triggerStyleCellCustomSlot() {
         tableAdvancedCustomSlot.styleCell(2, "name", "backgroundColor", "blue");
+      }
+
+      function triggerSetSortCustomSlot() {
+        tableAdvancedCustomSlot.setSort("name", "asc");
+      }
+
+      function triggerSetSortMultipleCustomSlot() {
+        tableAdvancedCustomSlot.setSort([
+          { column: "name", dir: "asc" }, // sort by this first
+          { column: "color", dir: "asc" }, // then sort by this second
+        ]);
+      }
+
+      function triggerClearSortCustomSlot() {
+        tableAdvancedCustomSlot.clearSort();
       }
 
       tableAdvancedCustomSlot.movableColumns = true;
