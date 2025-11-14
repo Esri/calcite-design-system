@@ -71,7 +71,7 @@ async function main() {
       let componentsListEndIdx = optionsLineIndex + 1;
       while (componentsListEndIdx < lines.length) {
         // Stop when we hit the next input marker '- type:'
-        if (/^\s*\-\s*type:/.test(lines[componentsListEndIdx])) break;
+        if (/^\s*-\s*type:/.test(lines[componentsListEndIdx])) break;
         componentsListEndIdx++;
       }
 
