@@ -1,65 +1,68 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
-import { LitElement } from "@arcgis/lumina";
+import { mount, wrapController } from "@arcgis/lumina-compiler/testing";
 import { useSizeOverride, SizeAxis } from "./useSizeOverride";
 
-class Test extends LitElement {
-  elRef = document.createElement("div");
-  resizeValues: Record<string, number | null> = { inlineSize: null, blockSize: null };
-  setInternalStateSpy = vi.fn((axis: SizeAxis, value: number | null) => {
-    this.resizeValues[axis === "inline" ? "inlineSize" : "blockSize"] = value;
-  });
-  sizeOverride = useSizeOverride({
-    targetElement: () => this.elRef,
-    getMin: (axis) => (axis === "inline" ? 100 : 60),
-    getMax: (axis) => (axis === "inline" ? 500 : 400),
-    setInternalState: this.setInternalStateSpy,
-  });
-  override connectedCallback(): void {
-    super.connectedCallback();
-    document.body.appendChild(this.elRef);
-  }
-}
-
-describe("useSizeOverride", () => {
-  let component: Test;
+describe("useSizeOverride (wrapController)", () => {
+  let targetEl: HTMLDivElement;
+  let resizeValues: { inlineSize: number | null; blockSize: number | null };
+  let setInternalStateSpy: ReturnType<typeof vi.fn>;
+  let controller: ReturnType<typeof useSizeOverride>;
 
   beforeEach(async () => {
-    ({ component } = await mount(Test));
+    targetEl = document.createElement("div");
+    document.body.appendChild(targetEl);
+
+    resizeValues = { inlineSize: null, blockSize: null };
+    setInternalStateSpy = vi.fn((axis: SizeAxis, value: number | null) => {
+      resizeValues[axis === "inline" ? "inlineSize" : "blockSize"] = value;
+    });
+
+    const Host = wrapController(() =>
+      useSizeOverride({
+        targetElement: () => targetEl,
+        getMin: (axis) => (axis === "inline" ? 100 : 60),
+        getMax: (axis) => (axis === "inline" ? 500 : 400),
+        setInternalState: setInternalStateSpy,
+      }),
+    );
+
+    const { component } = await mount(Host);
+    controller = component.controller;
   });
 
   it("applies clamped size within min/max", () => {
-    component.sizeOverride.apply(200, "inline");
-    expect(component.elRef.style.width).toBe("200px");
-    expect(component.resizeValues.inlineSize).toBe(200);
+    controller.apply(200, "inline");
+    expect(targetEl.style.width).toBe("200px");
+    expect(resizeValues.inlineSize).toBe(200);
   });
 
   it("clamps size below min", () => {
-    component.sizeOverride.apply(50, "inline");
-    expect(component.elRef.style.width).toBe("100px");
-    expect(component.resizeValues.inlineSize).toBe(100);
+    controller.apply(50, "inline");
+    expect(targetEl.style.width).toBe("100px");
+    expect(resizeValues.inlineSize).toBe(100);
   });
 
   it("clamps size above max", () => {
-    component.sizeOverride.apply(600, "inline");
-    expect(component.elRef.style.width).toBe("500px");
-    expect(component.resizeValues.inlineSize).toBe(500);
+    controller.apply(600, "inline");
+    expect(targetEl.style.width).toBe("500px");
+    expect(resizeValues.inlineSize).toBe(500);
   });
 
   it("clears override when size is null", () => {
-    component.sizeOverride.apply(null, "inline");
-    expect(component.elRef.style.width).toBe("");
-    expect(component.resizeValues.inlineSize).toBeNull();
+    // eslint-disable-next-line prefer-spread
+    controller.apply(null, "inline");
+    expect(targetEl.style.width).toBe("");
+    expect(resizeValues.inlineSize).toBeNull();
   });
 
   it("applies block axis", () => {
-    component.sizeOverride.apply(300, "block");
-    expect(component.elRef.style.height).toBe("300px");
-    expect(component.resizeValues.blockSize).toBe(300);
+    controller.apply(300, "block");
+    expect(targetEl.style.height).toBe("300px");
+    expect(resizeValues.blockSize).toBe(300);
   });
 
   it("calls setInternalState with applied value", () => {
-    component.sizeOverride.apply(400, "inline");
-    expect(component.setInternalStateSpy).toHaveBeenCalledWith("inline", 400);
+    controller.apply(400, "inline");
+    expect(setInternalStateSpy).toHaveBeenCalledWith("inline", 400);
   });
 });

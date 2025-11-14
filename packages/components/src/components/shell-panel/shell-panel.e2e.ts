@@ -800,7 +800,7 @@ describe("calcite-shell-panel", () => {
       const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
       const handle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
 
-      expect((await content.getComputedStyle()).width).toBe(`${initialToken}px`);
+      expect(parseFloat((await content.getComputedStyle()).width)).toBe(initialToken);
 
       await handle.press("ArrowRight");
       await page.waitForChanges();
@@ -810,12 +810,12 @@ describe("calcite-shell-panel", () => {
       const panel = await page.find("calcite-shell-panel");
       await panel.callMethod("updateSize", methodResize, "inline");
       await page.waitForChanges();
-      expect((await content.getComputedStyle()).width).toBe(`${methodResize}px`);
+      expect(parseFloat((await content.getComputedStyle()).width)).toBe(methodResize);
 
       // Remove the inline override so the token can take over
-      await page.$eval("calcite-shell-panel", (el: any) => el.updateSize(null, "inline"));
+      await panel.callMethod("updateSize", null, "inline");
       await page.waitForChanges();
-      expect((await content.getComputedStyle()).width).toBe(`${initialToken}px`);
+      expect(parseFloat((await content.getComputedStyle()).width)).toBe(initialToken);
     });
 
     it("should update horizontal size via token, manual resize, method, and reset to token", async () => {
@@ -838,7 +838,7 @@ describe("calcite-shell-panel", () => {
       const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
       const handle = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
 
-      expect((await content.getComputedStyle()).height).toBe(`${initialToken}px`);
+      expect(parseFloat((await content.getComputedStyle()).height)).toBe(initialToken);
 
       await handle.press("ArrowDown");
       await page.waitForChanges();
@@ -848,12 +848,12 @@ describe("calcite-shell-panel", () => {
       const panel = await page.find("calcite-shell-panel");
       await panel.callMethod("updateSize", methodResize, "block");
       await page.waitForChanges();
-      expect((await content.getComputedStyle()).height).toBe(`${methodResize}px`);
+      expect(parseFloat((await content.getComputedStyle()).height)).toBe(methodResize);
 
       // Remove the inline override so the token can take over
-      await page.$eval("calcite-shell-panel", (el: any) => el.updateSize(null, "block"));
+      await panel.callMethod("updateSize", null, "block");
       await page.waitForChanges();
-      expect((await content.getComputedStyle()).height).toBe(`${initialToken}px`);
+      expect(parseFloat((await content.getComputedStyle()).height)).toBe(initialToken);
     });
   });
 });
