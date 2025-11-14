@@ -159,13 +159,6 @@ module.exports = function Monday(issue, core) {
       },
     ],
     [
-      issueWorkflow.verified,
-      {
-        column: mondayColumns.status,
-        value: "Verified",
-      },
-    ],
-    [
       issueType.design,
       {
         column: mondayColumns.designIssue,
@@ -906,17 +899,22 @@ module.exports = function Monday(issue, core) {
   function handleState(action = "open") {
     const CLOSED = "Closed";
     const DONE = "Done";
+    const ADDING_TO_KIT = "Adding to Kit";
     const logParams = { title: "Handle State" };
+
     if (!issue.state) {
       core.warning("No Issue state provided.", logParams);
       return;
     }
+
     setColumnValue(mondayColumns.open, stateMap[issue.state], logParams);
 
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
         setColumnValue(mondayColumns.status, CLOSED, logParams);
-      } else if (!includesLabel(issue.labels, issueType.design)) {
+      } else if (includesLabel(issue.labels, issueType.design)) {
+        setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);
+      } else {
         setColumnValue(mondayColumns.status, DONE, logParams);
       }
     }
