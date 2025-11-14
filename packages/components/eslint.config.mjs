@@ -6,6 +6,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
 import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
+import unicornPlugin from "eslint-plugin-unicorn";
 
 export default tseslint.config(
   {
@@ -107,6 +108,23 @@ export default tseslint.config(
         ...globals.browser,
         ...vitestPlugin.environments?.env.globals,
       },
+    },
+  },
+
+  {
+    plugins: {
+      unicorn: unicornPlugin,
+    },
+    files: [
+      // scoped to allow for progressive adoption
+      ".storybook/**/*",
+      "src/custom-theme/**/*",
+      "src/demos/**/*",
+      "src/internal-label/**/*",
+      "src/tests/commonTests/browser/**/*",
+    ],
+    rules: {
+      "unicorn/filename-case": ["error"],
     },
   },
 );
