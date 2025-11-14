@@ -97,6 +97,7 @@ export default tseslint.config(
       ],
       radix: ["error", "as-needed"],
 
+      "unicorn/filename-case": ["error"],
       "unicorn/prefer-ternary": "error",
       "unicorn/prevent-abbreviations": [
         "error",

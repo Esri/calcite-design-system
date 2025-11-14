@@ -74,6 +74,8 @@ export default tseslint.config(
 
       "unused-imports/no-unused-imports": "error",
 
+      "unicorn/filename-case": "off",
+
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
       "@esri/calcite-components/ban-events": [
