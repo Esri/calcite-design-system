@@ -23,8 +23,26 @@
   @apply inline-flex
   flex-col
   flex-auto;
-  gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+}
+
+:host([scale="s"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+    padding: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="m"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+    padding: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="l"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+    padding: var(--calcite-spacing-sm-plus);
+  }
 }
 
 :host([floating]) {
