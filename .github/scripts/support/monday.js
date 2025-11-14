@@ -782,13 +782,13 @@ module.exports = function Monday(issue, core) {
       handleState();
 
       const { error } = await updateMultipleColumns(syncId);
+
       if (error) {
-        error.expected
-          ? core.warning(
-              `Expected error syncing item ${syncId}: ${error.message}`,
-              logParams,
-            )
-          : core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
+        if (error.expected) {
+          core.warning(`Expected error syncing item ${syncId}: ${error.message}`, logParams);
+        } else {
+          core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
+        }
         return;
       }
 
