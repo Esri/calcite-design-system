@@ -2542,17 +2542,9 @@ describe("calcite-color-picker", () => {
           shadowSelector: `.${CSS.container} >>> calcite-input-number`,
           targetProp: "--calcite-input-number-text-color",
         },
-        "--calcite-color-picker-input-prefix-background-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-text`,
-          targetProp: "--calcite-input-prefix-background-color",
-        },
         "--calcite-color-picker-input-prefix-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-input-text`,
           targetProp: "--calcite-input-prefix-text-color",
-        },
-        "--calcite-color-picker-input-suffix-background-color": {
-          shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-          targetProp: "--calcite-input-suffix-background-color",
         },
         "--calcite-color-picker-input-suffix-text-color": {
           shadowSelector: `.${CSS.container} >>> calcite-input-number`,

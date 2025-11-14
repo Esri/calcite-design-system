@@ -1,6 +1,6 @@
 name: Documentation
 description: Report issues with documentation
-labels: ["docs", "0 - new", "needs triage"]
+labels: ["docs", "needs triage"]
 body:
   - type: markdown
     attributes:

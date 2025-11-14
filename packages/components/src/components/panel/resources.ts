@@ -22,7 +22,6 @@ export const CSS = {
   fabContainer: "fab-container",
   footer: "footer",
   footerContent: "footer-content",
-  footerActions: "footer-actions",
   footerStart: "footer-start",
   footerEnd: "footer-end",
   headerSlottedContent: "header--slotted-content",
@@ -57,7 +56,6 @@ export const SLOTS = {
   footer: "footer",
   footerEnd: "footer-end",
   footerStart: "footer-start",
-  footerActions: "footer-actions",
 };
 
 export const HEADING_LEVEL = 3;

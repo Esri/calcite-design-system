@@ -1,6 +1,6 @@
 name: Bug
 description: Report a bug in a component
-labels: ["bug", "0 - new", "needs triage"]
+labels: ["bug", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues

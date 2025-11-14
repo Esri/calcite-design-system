@@ -134,9 +134,7 @@ describe("calcite-block", () => {
   describe("accessible", () => {
     accessible(html`
       <calcite-block heading="heading" description="description" expanded collapsible>
-        <div slot=${SLOTS.icon}>✅</div>
         <div>content</div>
-        <label slot=${SLOTS.control}>test <input placeholder="control" /></label>
       </calcite-block>
     `);
   });
@@ -328,79 +326,6 @@ describe("calcite-block", () => {
 
       const description = await page.find(`calcite-block >>> .${CSS.description}`);
       expect(description.innerText).toBe("test-description");
-    });
-
-    it("allows users to add a control in a collapsible block", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-block heading="test-heading" collapsible>
-          <div class="nested-control" tabindex="0" slot=${SLOTS.control}>fake space/enter-bubbling control</div>
-        </calcite-block>
-      `);
-      await skipAnimations(page);
-      const control = await page.find(".nested-control");
-      expect(await control.isVisible()).toBe(true);
-
-      const controlSlot = await page.find(`calcite-block >>> slot[name=${SLOTS.control}]`);
-      expect(await controlSlot.isVisible()).toBe(true);
-
-      const block = await page.find("calcite-block");
-      const blockToggleSpy = await block.spyOnEvent("calciteBlockToggle");
-      const blockOpenSpy = await block.spyOnEvent("calciteBlockOpen");
-      const blockCloseSpy = await block.spyOnEvent("calciteBlockClose");
-
-      await control.press("Space");
-      await control.press("Enter");
-      await control.click();
-
-      expect(blockOpenSpy).toHaveReceivedEventTimes(0);
-      expect(blockToggleSpy).toHaveReceivedEventTimes(0);
-      expect(blockCloseSpy).toHaveReceivedEventTimes(0);
-
-      const openEventSpy = await page.spyOnEvent("calciteBlockOpen");
-      const closeEventSpy = await page.spyOnEvent("calciteBlockClose");
-      await block.click();
-      await openEventSpy.next();
-      await block.click();
-      await closeEventSpy.next();
-
-      expect(blockToggleSpy).toHaveReceivedEventTimes(2);
-      expect(blockOpenSpy).toHaveReceivedEventTimes(1);
-      expect(blockCloseSpy).toHaveReceivedEventTimes(1);
-    });
-
-    it("displays a status icon instead of a header icon when `status` is an accepted value", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block status="invalid">
-          <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`,
-      );
-
-      const headerIcon = await page.find("calcite-block >>> .header-icon");
-      expect(headerIcon).toBeNull();
-
-      const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
-      expect(statusIcon).not.toBeNull();
-    });
-
-    it("displays a loading icon  when `loading` is set to true and `expanded` is set to false", async () => {
-      const headerIcon = "header-icon";
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-block status="invalid" loading>
-          <div class="${headerIcon}" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`,
-      );
-
-      const headerIconEle = await page.find(`calcite-block >>> .${headerIcon}`);
-      expect(headerIconEle).toBeNull();
-
-      const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
-      const loader = await page.find(`calcite-block >>> calcite-loader`);
-
-      expect(statusIcon).toBeNull();
-      expect(loader).not.toBeNull();
     });
 
     it("allows users to slot in actions in a header menu", async () => {

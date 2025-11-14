@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { Platform } from "../../src/build/utils/enums";
+import type { Platform } from "../../src/types/interfaces.d.ts";
 
 const platforms: {
   name: Platform;
@@ -9,12 +9,12 @@ const platforms: {
   internal?: boolean;
 }[] = [
   {
-    name: Platform.css,
+    name: "css",
     files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
   },
-  { name: Platform.scss, files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
-  { name: Platform.es6, files: ["breakpoints", "core", "global", "semantic"] },
-  { name: Platform.docs, files: ["core", "global", "semantic"], internal: true },
+  { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
+  { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },
+  { name: "docs", files: ["core", "global", "semantic"], internal: true },
 ];
 
 describe("generated tokens", () => {

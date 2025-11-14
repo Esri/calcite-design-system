@@ -6,7 +6,6 @@ import { html } from "../../../support/formatting";
 import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
-import { SLOTS as BLOCK_SLOTS } from "../block/resources";
 import { Block } from "../block/block";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
@@ -14,9 +13,7 @@ import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 
 const blockHTML = html`<calcite-block heading="heading" description="description" open collapsible>
-  <div slot=${BLOCK_SLOTS.icon}>✅</div>
   <div>content</div>
-  <label slot=${BLOCK_SLOTS.control}>test <input placeholder="control" /></label>
 </calcite-block>`;
 
 describe("calcite-block-group", () => {

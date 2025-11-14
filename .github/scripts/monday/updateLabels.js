@@ -2,7 +2,6 @@
 const Monday = require("../support/monday");
 const {
   labels: {
-    planning,
     issueWorkflow,
     issueType: { design },
   },
@@ -10,21 +9,24 @@ const {
 const { assertRequired, includesLabel } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context }) => {
-  const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
-  const [labelName] = assertRequired([label?.name]);
+module.exports = async ({ context, core }) => {
+  const { issue, label } =
+    /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
+      context.payload
+    );
+  const [labelName] = assertRequired([label?.name], core, "No label found in payload.");
 
-  const monday = Monday(issue);
-
-  const skippedLabels = [planning.monday, issueWorkflow.new, issueWorkflow.assigned];
-  if (skippedLabels.includes(labelName)) {
-    console.log(`Label "${labelName}" is skipped. Not adding to Monday.com`);
-    return;
-  }
+  const monday = Monday(issue, core);
 
   const isVerified = labelName === issueWorkflow.verified;
-  if (isVerified && issue.state === "closed" && !includesLabel(issue.labels, design)) {
-    monday.setColumnValue(monday.columnIds.status, "Done");
+  if (
+    isVerified &&
+    issue.state === "closed" &&
+    !includesLabel(issue.labels, design)
+  ) {
+    monday.setColumnValue(monday.mondayColumns.status, "Done", {
+      title: "Issue Verified and Closed",
+    });
   } else {
     monday.addLabel(labelName);
   }

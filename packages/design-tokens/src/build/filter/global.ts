@@ -1,9 +1,9 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import { RegisterFn } from "../../types/interfaces.js";
-import { isBreakpoint } from "../utils/token-types.js";
-import { state } from "../shared/state.js";
-import { isLightOrDarkColorToken } from "./light-or-dark.js";
+import type { RegisterFn } from "../../types/interfaces.d.ts";
+import { isBreakpoint } from "../utils/token-types.ts";
+import { state } from "../shared/state.ts";
+import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
   return (

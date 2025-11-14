@@ -627,6 +627,8 @@ export class InputText
             [CSS.inputWrapper]: true,
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.clearable]: this.isClearable,
+            [CSS.hasSuffix]: this.suffixText,
+            [CSS.hasPrefix]: this.prefixText,
           }}
           ref={this.inputWrapperRef}
         >
