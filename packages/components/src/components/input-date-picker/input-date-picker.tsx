@@ -460,13 +460,6 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     this.setFilteredPlacements();
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: normalizeDatePickerLang(this.messages._lang),
-      useGrouping: false,
-    };
-
     connectFloatingUI(this);
   }
 
