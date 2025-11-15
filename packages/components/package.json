@@ -87,6 +87,7 @@
     "focus-trap": "^7.6.5",
     "interactjs": "^1.10.27",
     "lit": "^3.3.0",
+    "luxon": "3.7.2",
     "sortablejs": "^1.15.6",
     "timezone-groups": "^0.10.4",
     "type-fest": "^4.30.1"

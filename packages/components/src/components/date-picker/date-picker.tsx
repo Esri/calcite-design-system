@@ -301,7 +301,7 @@ export class DatePicker extends LitElement {
       useGrouping: false,
     };
 
-    this.localeData = await getLocaleData(this.messages._lang);
+    this.localeData = getLocaleData(this.messages._lang);
     this.dateTimeFormat = getDateTimeFormat(this.messages._lang, DATE_PICKER_FORMAT_OPTIONS);
   }
 

@@ -852,7 +852,7 @@ export class InputDatePicker
       locale: this.messages._lang,
       useGrouping: false,
     };
-    this.localeData = await getLocaleData(this.messages._lang);
+    this.localeData = getLocaleData(this.messages._lang);
     this.localizeInputValues();
   }
 

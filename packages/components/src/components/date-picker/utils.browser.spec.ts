@@ -1,68 +1,62 @@
-import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
+import { describe, expect, it, afterEach } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { getLocaleData, requestCache } from "./utils";
+import { getLocaleData, translationCache } from "./utils";
 
 describe("utils", () => {
   describe("getLocaleData", () => {
     mockConsole();
 
-    beforeEach(() => {
-      const fakeData = { fake: "fake data not meant to be checked" };
-      globalThis.fetch = vi.fn().mockResolvedValue({ json: async () => fakeData });
-    });
-
     afterEach(() => {
-      vi.fn().mockClear();
-      Object.keys(requestCache).forEach((key) => delete requestCache[key]);
+      Object.keys(translationCache).forEach((key) => delete translationCache[key]);
     });
 
     it("defaults to en locale if lang code is invalid", async () => {
       const locale = "invalid-locale";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("en");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("en");
     });
 
     it("falls to lang code locale if regional code is not found", async () => {
       const locale = "pt-UnsupportedRegion";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("pt");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("pt");
     });
 
     it("fetches locale with conventional-cased lang code", async () => {
       const locale = "es";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("es");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("es");
     });
 
     it("fetches locale with uppercased lang code", async () => {
       const locale = "AR";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("ar");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("ar");
     });
 
     it("fetches locale with lowercased region code", async () => {
       const locale = "zh-cn";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("zh-CN");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("zh-CN");
     });
 
     it("fetches locale with uppercased region code", async () => {
       const locale = "ES-MX";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("es-MX");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("es-MX");
     });
 
     it("fetches locale with conventional-cased lang and region code", async () => {
       const locale = "pt-PT";
 
-      await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("pt-PT");
+      getLocaleData(locale);
+      expect(translationCache).toHaveProperty("pt-PT");
     });
   });
 });
