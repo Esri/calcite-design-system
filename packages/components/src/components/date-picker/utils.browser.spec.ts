@@ -1,6 +1,6 @@
 import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { getLocaleData, requestCache } from "./utils";
+import { getLocaleData, requestCache, translationCache } from "./utils";
 
 describe("utils", () => {
   describe("getLocaleData", () => {
@@ -12,8 +12,9 @@ describe("utils", () => {
     });
 
     afterEach(() => {
-      vi.fn().mockClear();
+      vi.restoreAllMocks();
       Object.keys(requestCache).forEach((key) => delete requestCache[key]);
+      Object.keys(translationCache).forEach((key) => delete translationCache[key]);
     });
 
     it("defaults to en locale if lang code is invalid", async () => {
@@ -24,10 +25,17 @@ describe("utils", () => {
     });
 
     it("falls to lang code locale if regional code is not found", async () => {
+      const locale = "es-UnsupportedRegion";
+
+      await getLocaleData(locale);
+      expect(requestCache).toHaveProperty("es");
+    });
+
+    it("falls to pt-PT lang code locale if regional code is not found", async () => {
       const locale = "pt-UnsupportedRegion";
 
       await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("pt");
+      expect(requestCache).toHaveProperty("pt-PT");
     });
 
     it("fetches locale with conventional-cased lang code", async () => {

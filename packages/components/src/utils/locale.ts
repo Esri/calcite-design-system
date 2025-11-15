@@ -1,60 +1,6 @@
 // @ts-strict-ignore
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
-
-export const defaultLocale = "en";
-
-export const locales = [
-  "ar",
-  "bg",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de",
-  "de-AT",
-  "de-CH",
-  "el",
-  defaultLocale,
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "es",
-  "es-MX",
-  "et",
-  "fi",
-  "fr",
-  "fr-CH",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "it-CH",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "no",
-  "nl",
-  "pl",
-  "pt",
-  "pt-PT",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW",
-];
 
 /**
  * To reference the CLDR meridiems for each supported locale navigate to:
@@ -91,7 +37,6 @@ export const localizedTwentyFourHourMeridiems = new Map(
 );
 
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
-export const supportedLocales = [...locales] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
@@ -132,8 +77,8 @@ export function getDateFormatSupportedLocale(locale: string): string {
 }
 
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
-  numberingSystem: NumberingSystem;
-  locale: string;
+  numberingSystem?: NumberingSystem;
+  locale?: string;
 }
 
 /** This util formats and parses numbers for localization */
@@ -187,6 +132,7 @@ export class NumberStringFormat {
   /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
+    options.locale = options?.locale || defaultLocale;
 
     if (
       // No need to create the formatter if `locale` and `numberingSystem`

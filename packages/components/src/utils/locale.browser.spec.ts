@@ -1,14 +1,13 @@
 // @ts-strict-ignore
 import { describe, expect, it, beforeEach } from "vitest";
+import { defaultLocale } from "@arcgis/toolkit/intl";
+import { supportedNlsLocales } from "../components/date-picker/utils";
 import {
   dateTimeFormatCache,
-  defaultLocale,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
   getDateTimeFormat,
-  locales,
   numberingSystems,
-  NumberStringFormatOptions,
   numberStringFormatter,
 } from "./locale";
 
@@ -33,14 +32,14 @@ describe("NumberStringFormat", () => {
     // with the default locale/numberingSystem values
     numberStringFormatter.numberFormatOptions = {
       useGrouping: true,
-    } as NumberStringFormatOptions;
+    };
 
     expect(numberStringFormatter.numberFormatter).toBeDefined();
     expect(numberStringFormatter.numberFormatOptions.numberingSystem).toBe(defaultNumberingSystem);
     expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
   });
 
-  describe.each(locales)("locales", (locale) => {
+  describe.each(supportedNlsLocales)("locales", (locale) => {
     const localesWithBrokenFormatting = ["bs", "mk"];
     const shouldSkip = localesWithBrokenFormatting.includes(locale);
     const skipMessage = `Skipped: Chromium does not format ${locale} correctly.`;

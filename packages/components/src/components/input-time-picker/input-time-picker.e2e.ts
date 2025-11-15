@@ -21,7 +21,7 @@ import {
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { supportedLocales } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
@@ -541,7 +541,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    supportedLocales.forEach((locale: SupportedLocale) => {
+    supportedNlsLocales.forEach((locale) => {
       if (locale !== "es") {
         return;
       }
