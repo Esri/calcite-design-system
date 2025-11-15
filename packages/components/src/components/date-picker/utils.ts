@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { normalizeLocale } from "@arcgis/toolkit/intl";
 import { dateFromISO } from "../../utils/date";
 import { defaultLocale } from "../../utils/locale";
 import { getAssetPath } from "../../runtime";
@@ -38,7 +37,7 @@ export interface DateLocaleData {
  *
  * @private
  */
-export const translationCache: Record<string, DateLocaleData> = {};
+export const translationCache: Record<HTMLElement["lang"], DateLocaleData> = {};
 
 /**
  * CLDR request cache.
@@ -46,7 +45,7 @@ export const translationCache: Record<string, DateLocaleData> = {};
  *
  * @private
  */
-export const requestCache: Record<string, Promise<DateLocaleData>> = {};
+export const requestCache: Record<HTMLElement["lang"], Promise<DateLocaleData>> = {};
 
 /**
  * Fetch calendar data for a given locale from list of supported languages
@@ -55,23 +54,32 @@ export const requestCache: Record<string, Promise<DateLocaleData>> = {};
  * @public
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {
-  const locale = normalizeLocale(lang);
-  if (translationCache[locale]) {
-    return translationCache[locale];
+  if (translationCache[lang]) {
+    return translationCache[lang];
   }
-  if (!requestCache[locale]) {
-    requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
+
+  if (!requestCache[lang]) {
+    requestCache[lang] = fetch(getAssetPath(`./assets/date-picker/nls/${lang}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
+        console.error(`Native Language Support data for "${lang}" not found or invalid, falling back to english`);
         return getLocaleData(defaultLocale);
       });
   }
 
-  const data = await requestCache[locale];
-  translationCache[locale] = data;
+  const data = await requestCache[lang];
+  translationCache[lang] = data;
 
   return data;
+}
+
+export function normalizeDatePickerLang(lang: string): string {
+  // some locales require special mapping, see https://github.com/Esri/calcite-design-system/issues/11399
+  const specialMappings: Record<HTMLElement["lang"], HTMLElement["lang"]> = {
+    "ar-SA": "ar",
+  };
+
+  return specialMappings[lang] || lang;
 }
 
 /**
