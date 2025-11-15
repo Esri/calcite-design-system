@@ -126,7 +126,12 @@ export default tseslint.config(
       "src/tests/commonTests/browser/**/*",
     ],
     rules: {
-      "unicorn/filename-case": ["error"],
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
     },
   },
 );
