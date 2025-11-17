@@ -12,7 +12,7 @@ module.exports = async ({ github, context, core }) => {
   } = payload;
 
   if (!body) {
-    core.notice("could not determine the issue body", logParams);
+    core.notice("Could not determine the issue body", logParams);
     return;
   }
 
