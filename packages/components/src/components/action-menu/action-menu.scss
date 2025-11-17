@@ -42,7 +42,25 @@
   overflow-y-auto
   overflow-x-hidden
   max-h-menu;
-  gap: var(--calcite-action-menu-items-space, 0);
+}
+
+:host([scale="s"]) {
+  .menu {
+    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
+    padding: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="m"]) {
+  .menu {
+    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm));
+    padding: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="l"]) {
+  .menu {
+    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm-plus));
+    padding: var(--calcite-spacing-sm-plus);
+  }
 }
 
 @include includes.base-component();
