@@ -36,6 +36,37 @@
   @apply flex flex-col flex-grow;
 }
 
+:host([scale="s"]) {
+  .container {
+    gap: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="grid"]) {
+  .container {
+    gap: var(--calcite-action-group-gap, var(--calcite-spacing-xxs));
+  }
+}
+:host([scale="m"]) {
+  .container {
+    gap: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="grid"]) {
+  .container {
+    gap: var(--calcite-action-group-gap, var(--calcite-spacing-sm));
+  }
+}
+:host([scale="l"]) {
+  .container {
+    gap: var(--calcite-spacing-sm-plus);
+  }
+}
+:host([scale="l"][layout="grid"]) {
+  .container {
+    gap: var(--calcite-action-group-gap, var(--calcite-spacing-sm-plus));
+  }
+}
+
 :host([columns="1"]) {
   --calcite-internal-action-group-columns: 1;
 }
@@ -75,8 +106,6 @@
       var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
       auto
     );
-    gap: var(--calcite-action-group-gap, 1px);
-    padding: var(--calcite-action-group-gap, 1px);
   }
 }
 
