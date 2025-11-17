@@ -140,7 +140,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /**
    * The component's text.
    *
-   * @deprecated in v2.12.0, removal target v5.0.0 - Use `heading` instead.
+   * @deprecated in v2.12.0, removal target v5.0.0 - Use the `heading` property instead.
    */
   @property({ reflect: true }) textLabel: string;
 

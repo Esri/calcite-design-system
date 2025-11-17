@@ -163,7 +163,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * When `true`, expands the component and its contents.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
   @property({ reflect: true })
   get open(): boolean {
@@ -210,7 +210,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * Displays a status-related indicator icon.
    *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use `icon-start` instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
   @property({ reflect: true }) status: Status;
 

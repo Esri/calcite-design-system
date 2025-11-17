@@ -78,7 +78,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   /**
    * Accessible name for the component.
    *
-   * @deprecated  in v1.5.0, removal target v6.0 - No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.
+   * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
   @property() label: string;
 

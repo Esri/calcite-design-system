@@ -193,7 +193,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /**
    * When `true`, the item is open to show child components.
    *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
   @property({ reflect: true })
   get open(): boolean {
