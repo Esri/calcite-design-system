@@ -165,7 +165,7 @@ export class Sheet extends LitElement {
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
    *
-   * @deprecated in v3.0, removal target v6.0 - Use the `height` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
@@ -214,7 +214,7 @@ export class Sheet extends LitElement {
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
-   * @deprecated in v3.0, removal target v6.0 - Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 

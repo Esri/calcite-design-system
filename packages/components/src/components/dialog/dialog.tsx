@@ -235,7 +235,7 @@ export class Dialog extends LitElement {
   /**
    * Specifies the width of the component.
    *
-   * @deprecated in v3.0, removal target v6.0 - Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 

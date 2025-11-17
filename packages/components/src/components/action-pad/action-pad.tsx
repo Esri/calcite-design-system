@@ -23,7 +23,7 @@ declare global {
 }
 
 /**
- * @deprecated in v5.0, removal target v6.0 - Use the `calcite-action-bar` component instead.
+ * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-action-bar` component instead.
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */

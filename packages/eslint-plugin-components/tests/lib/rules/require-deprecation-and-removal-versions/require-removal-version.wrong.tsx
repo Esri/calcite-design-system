@@ -12,7 +12,7 @@ export class TestComponent extends LitElement {
 
   /**
    * A boolean property
-   * @deprecated in v1.2.3. Use `anotherProperty` instead.
+   * @deprecated in v1.2.3 - Use `anotherProperty` instead.
    */
   @property() aProperty: boolean = false;
 
