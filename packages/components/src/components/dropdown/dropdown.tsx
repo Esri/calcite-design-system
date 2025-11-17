@@ -155,7 +155,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   /**
    * Specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale;
 

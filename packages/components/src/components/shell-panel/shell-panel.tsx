@@ -98,14 +98,14 @@ export class ShellPanel extends LitElement {
   /**
    * When `layout` is `horizontal`, specifies the maximum height of the component.
    *
-   * @deprecated Use the `height` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale;
 
   /**
    * The direction of the component.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -115,7 +115,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
@@ -128,7 +128,7 @@ export class ShellPanel extends LitElement {
   /**
    * When `layout` is `vertical`, specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 

@@ -104,7 +104,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /**
    * When `true`, the side padding of the component is reduced.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 

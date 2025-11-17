@@ -349,7 +349,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /**
    * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
    */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
