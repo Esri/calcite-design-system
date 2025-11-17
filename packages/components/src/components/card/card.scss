@@ -117,13 +117,15 @@
     text-n1-wrap
     m-0
     font-medium;
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 @include includes.slotted("description", "*") {
   @apply text-color-2
     text-n2-wrap
-    m-0 mt-0.5
+    m-0
     font-normal;
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 @include includes.slotted("thumbnail", "img") {
