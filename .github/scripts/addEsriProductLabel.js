@@ -18,7 +18,7 @@ module.exports = async ({ github, context, core }) => {
     return;
   }
 
-  const productRegex = /### Esri team[\r|\n]+(.+)$/m;
+  const productRegex = /### Esri team(?:\r|\n)+(.+)$/m;
   const productRegexMatch = body.match(productRegex);
   const product = (productRegexMatch?.[1] || "").trim();
 
