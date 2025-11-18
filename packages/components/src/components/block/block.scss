@@ -196,8 +196,6 @@ calcite-sort-handle {
 
 .header .title .heading {
   @apply word-break
-    transition-color
-    ease-in-out
     p-0;
 
   color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
@@ -288,6 +286,7 @@ calcite-action-menu {
       --calcite-block-heading-text-color,
       var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1))
     );
+    font-weight: var(--calcite-font-weight-medium);
   }
 
   .description {
