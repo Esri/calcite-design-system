@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, describe } from "vitest";
+import { it, expect, describe, beforeEach, afterEach, vi } from "vitest";
 import "../shell/shell";
 import "./shell-panel";
 import "../panel/panel";
@@ -8,6 +8,16 @@ import { CSS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
 describe("shell-panel updateSize public method", () => {
+  // mock known Lit nested menu warn so failOnConsole doesn’t fail
+  let warnSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    warnSpy.mockRestore();
+  });
   it("should update default vertical size via token, manual resize, method, and reset to token", async () => {
     const initialToken = 320;
     const methodResize = 400;

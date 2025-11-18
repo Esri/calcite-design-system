@@ -58,7 +58,7 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private sizeOverride = useSizeOverride({
+  private sizeOverrideController = useSizeOverride({
     targetElement: () => this.contentRef.value,
     getMin: (axis) =>
       axis === "block" ? this.resizeValues.minBlockSize : this.resizeValues.minInlineSize,
@@ -156,7 +156,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.apply(size, axis);
+    this.sizeOverrideController.setSizeOverride(size, axis);
   }
 
   //#endregion

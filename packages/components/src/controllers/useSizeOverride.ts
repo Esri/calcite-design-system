@@ -63,10 +63,10 @@ export interface UseSizeOverride {
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
     return {
-      apply(requestedSize: number | null, axis: SizeAxis): void {
+      setSizeOverride(requestedSize: number | null, axis: SizeAxis): void {
         const el = context.targetElement();
         if (!el) {
-          return null;
+          return;
         }
 
         let next = requestedSize;
@@ -74,7 +74,14 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         const min = context.getMin?.(axis);
         const max = context.getMax?.(axis);
         if (next != null && min != null && max != null) {
-          next = Math.min(Math.max(next, min), max);
+          if (next != null) {
+            if (min != null) {
+              next = Math.max(next, min);
+            }
+            if (max != null) {
+              next = Math.min(next, max);
+            }
+          }
         }
 
         const applied = next == null ? null : Math.round(next);
