@@ -67,13 +67,12 @@ const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
 /**
  * Default behavior for returning focus when the FocusTrap is deactivated.
  *
- * @param hostEl
- * @param el
+ * @see https://github.com/focus-trap/focus-trap#setreturnfocus
  */
 function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
-  const noPreviousRelatedFocusedEl = !el || el === document.body || el === document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value
+  const hasPreviousRelatedFocusedEl = el && el !== document.body && el !== document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value
 
-  if (!outsideClickDeactivated.has(hostEl) && noPreviousRelatedFocusedEl) {
+  if (!outsideClickDeactivated.has(hostEl) && hasPreviousRelatedFocusedEl) {
     focusElement(el as FocusableElement);
   }
 
