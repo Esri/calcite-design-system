@@ -48,7 +48,7 @@ export interface UseSizeOverride {
    * @param requestedSize - Pixel value to apply. Null clears any existing override.
    * @param axis - "inline" for width or "block" for height.
    */
-  apply: (requestedSize: number | null, axis: SizeAxis) => void;
+  setSizeOverride: (requestedSize: number | null, axis: SizeAxis) => void;
 }
 
 /**
@@ -73,14 +73,12 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
         const min = context.getMin?.(axis);
         const max = context.getMax?.(axis);
-        if (next != null && min != null && max != null) {
-          if (next != null) {
-            if (min != null) {
-              next = Math.max(next, min);
-            }
-            if (max != null) {
-              next = Math.min(next, max);
-            }
+        if (next != null) {
+          if (min != null) {
+            next = Math.max(next, min);
+          }
+          if (max != null) {
+            next = Math.min(next, max);
           }
         }
 

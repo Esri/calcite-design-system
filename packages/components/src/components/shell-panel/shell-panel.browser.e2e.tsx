@@ -77,7 +77,6 @@ describe("shell-panel updateSize public method", () => {
     expect(panel).toBeTruthy();
 
     await panel.updateComplete;
-    await panel.updateComplete;
 
     const content = panel.shadowRoot.querySelector(`.${CSS.content}`) as HTMLElement;
     const handle = panel.shadowRoot.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
