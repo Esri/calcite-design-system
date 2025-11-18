@@ -71,7 +71,9 @@ const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
  * @param el
  */
 function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
-  if (!outsideClickDeactivated.has(hostEl)) {
+  const noPreviousRelatedFocusedEl = !el || el === document.body || el === document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value
+
+  if (!outsideClickDeactivated.has(hostEl) && noPreviousRelatedFocusedEl) {
     focusElement(el as FocusableElement);
   }
 
