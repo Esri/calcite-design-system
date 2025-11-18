@@ -2,7 +2,7 @@
 import { E2EPage, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils/puppeteer";
-import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./utils";
+import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./puppeteer/utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 
 type CollapseAxis = "horizontal" | "vertical";

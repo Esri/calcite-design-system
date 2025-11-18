@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { expect, it } from "vitest";
-import { getTag, simplePageSetup } from "./utils";
+import { getTag, simplePageSetup } from "./puppeteer/utils";
 import { TagOrHTML } from "./interfaces";
 
 /**
