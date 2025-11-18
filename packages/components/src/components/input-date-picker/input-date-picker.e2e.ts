@@ -7,7 +7,6 @@ import {
   floatingUIOwner,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   openClose,
@@ -33,10 +32,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("renders", () => {
     renders("calcite-input-date-picker", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-date-picker");
   });
 
   describe("labelable", () => {

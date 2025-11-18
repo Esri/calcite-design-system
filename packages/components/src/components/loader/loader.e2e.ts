@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { hidden, renders, themed } from "../../tests/commonTests";
+import { renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -9,10 +9,6 @@ describe("calcite-loader", () => {
   describe("renders", () => {
     renders(`<calcite-loader></calcite-loader>`, { display: "flex", visible: true });
     renders(`<calcite-loader inline></calcite-loader>`, { display: "flex", visible: true });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-loader");
   });
 
   it("displays label from text prop", async () => {

@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
+import { accessible, renders, disabled } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-swatch-group", () => {
@@ -9,10 +9,6 @@ describe("calcite-swatch-group", () => {
     renders("<calcite-swatch-group><calcite-swatch></calcite-swatch></calcite-swatch-group>", {
       display: "flex",
     });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-swatch-group");
   });
 
   describe("disabled", () => {

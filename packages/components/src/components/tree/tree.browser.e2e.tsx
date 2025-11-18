@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults } from "../../tests/commonTests/browser";
+import { defaults, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-tree", () => {
@@ -24,5 +24,9 @@ describe("calcite-tree", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-tree"));
   });
 });

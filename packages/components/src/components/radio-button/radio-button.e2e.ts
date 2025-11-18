@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -31,10 +30,6 @@ describe("calcite-radio-button", () => {
 
   describe("accessible without calcite-label", () => {
     accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-radio-button");
   });
 
   describe("labelable", () => {

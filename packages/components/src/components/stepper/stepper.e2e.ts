@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
@@ -83,10 +83,6 @@ describe("calcite-stepper", () => {
       expect(await item.getProperty("scale")).toBe("l");
       expect(await item.getProperty("numbered")).toBe(true);
     }
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-stepper");
   });
 
   it("adds selected attribute to requested item", async () => {

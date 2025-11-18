@@ -5,7 +5,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -20,10 +19,6 @@ describe("calcite-rating", () => {
   describe("common tests", () => {
     describe("renders", () => {
       renders("<calcite-rating></calcite-rating>", { display: "flex" });
-    });
-
-    describe("honors hidden attribute", () => {
-      hidden("calcite-rating");
     });
 
     describe("accessible", () => {

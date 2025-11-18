@@ -1,15 +1,11 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { hidden, renders, themed } from "../../tests/commonTests";
+import { renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-autocomplete-item-group", () => {
   describe("renders", () => {
     renders("calcite-autocomplete-item-group", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-autocomplete-item-group");
   });
 
   describe("theme", () => {

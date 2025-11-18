@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -29,10 +29,6 @@ describe("calcite-tabs", () => {
 
   describe("renders", () => {
     renders(tabsSnippet, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tabs");
   });
 
   describe("accessible: checked", () => {

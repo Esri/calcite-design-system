@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { disabled, focusable, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -13,10 +13,6 @@ describe("calcite-list-item", () => {
     focusable("<calcite-list-item active></calcite-list-item>", {
       shadowFocusTargetSelector: `.${CSS.container}`,
     });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-list-item");
   });
 
   describe("slots", () => {

@@ -1,4 +1,6 @@
 import { describe } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input-time-zone", () => {
   // describe("defaults", () => {
@@ -27,4 +29,8 @@ describe("calcite-input-time-zone", () => {
   //     { propertyName: "validationIcon", value: true },
   //   ]);
   // });
+
+  describe("hidden", () => {
+    hidden(() => mount("calcite-input-time-zone"));
+  });
 });

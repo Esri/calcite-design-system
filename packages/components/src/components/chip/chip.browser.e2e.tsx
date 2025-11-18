@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-chip", () => {
   describe("defaults", () => {
@@ -40,5 +40,9 @@ describe("calcite-chip", () => {
         { propertyName: "selected", value: true },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-chip"));
   });
 });

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   getFocusedElementProp,
@@ -40,10 +40,6 @@ describe("calcite-table", () => {
       </calcite-table>`,
       { display: "flex" },
     );
-  });
-
-  describe("hidden", () => {
-    hidden("calcite-table");
   });
 
   describe("accessible", () => {

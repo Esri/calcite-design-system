@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-autocomplete-item", () => {
   describe("defaults", () => {
@@ -31,5 +31,9 @@ describe("calcite-autocomplete-item", () => {
         { propertyName: "iconStart", value: "banana" },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-autocomplete-item"));
   });
 });

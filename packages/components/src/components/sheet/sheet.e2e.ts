@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, openClose, renders, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
@@ -15,10 +15,6 @@ describe("calcite-sheet", () => {
 
   describe("renders", () => {
     renders("calcite-sheet", { display: "flex", visible: false });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-sheet");
   });
 
   describe("accessible", () => {

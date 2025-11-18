@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, floatingUIOwner, focusable, hidden, openClose, renders } from "../../tests/commonTests";
+import { accessible, disabled, floatingUIOwner, focusable, openClose, renders } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -36,10 +36,6 @@ describe("calcite-dropdown", () => {
 
   describe("renders", () => {
     renders(simpleDropdownHTML, { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-dropdown");
   });
 
   describe("disabled", () => {

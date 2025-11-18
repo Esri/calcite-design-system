@@ -1,16 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, renders, hidden, t9n, themed, focusable } from "../../tests/commonTests";
+import { disabled, renders, t9n, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-stepper-item", () => {
   describe("renders", () => {
     renders("calcite-stepper-item", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-stepper-item");
   });
 
   describe("disabled", () => {

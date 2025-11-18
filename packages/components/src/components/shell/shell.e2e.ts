@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -9,10 +9,6 @@ import { CSS, SLOTS } from "./resources";
 describe("calcite-shell", () => {
   describe("renders", () => {
     renders("calcite-shell", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-shell");
   });
 
   describe("slots", () => {

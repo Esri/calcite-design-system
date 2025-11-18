@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-radio-button", () => {
   describe("defaults", () => {
@@ -20,5 +20,9 @@ describe("calcite-radio-button", () => {
         { propertyName: "scale", value: "m" },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-radio-button"));
   });
 });

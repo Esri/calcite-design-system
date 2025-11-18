@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
@@ -27,10 +27,6 @@ describe("calcite-tree", () => {
 
   describe("renders", () => {
     renders("calcite-tree", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tree");
   });
 
   describe("accessible", () => {

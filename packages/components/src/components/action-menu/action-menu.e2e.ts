@@ -6,7 +6,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  hidden,
   renders,
   slots,
   themed,
@@ -22,10 +21,6 @@ describe("calcite-action-menu", () => {
 
   describe("renders", () => {
     renders("calcite-action-menu", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-menu");
   });
 
   describe("accessible", () => {

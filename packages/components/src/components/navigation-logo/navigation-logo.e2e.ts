@@ -1,16 +1,12 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, renders } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
     renders("calcite-navigation-logo", { display: "inline-flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-navigation-logo");
   });
 
   describe("accessible", () => {

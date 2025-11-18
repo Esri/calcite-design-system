@@ -1,14 +1,10 @@
 import { describe } from "vitest";
-import { disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { disabled, renders, slots, themed } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-autocomplete-item", () => {
   describe("renders", () => {
     renders("calcite-autocomplete-item", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-autocomplete-item");
   });
 
   describe("slots", () => {

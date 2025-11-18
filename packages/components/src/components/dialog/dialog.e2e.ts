@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, focusable, hidden, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -41,10 +41,6 @@ describe("calcite-dialog", () => {
 
   describe("renders", () => {
     renders("calcite-dialog", { display: "flex", visible: true });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-dialog");
   });
 
   describe("openClose", () => {

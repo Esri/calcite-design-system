@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
 
 describe("calcite-table", () => {
   describe("defaults", () => {
@@ -41,6 +41,10 @@ describe("calcite-table", () => {
         },
       ],
     );
+  });
+
+  describe("hidden", () => {
+    hidden(() => mount("calcite-table"));
   });
 
   describe("reflects", () => {

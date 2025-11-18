@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -14,10 +14,6 @@ describe("calcite-filter", () => {
 
   describe("renders", () => {
     renders("calcite-filter", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-filter");
   });
 
   describe("accessible", () => {

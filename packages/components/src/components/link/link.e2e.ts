@@ -1,17 +1,13 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-link", () => {
   describe("renders", () => {
     renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-link");
   });
 
   describe("accessible", () => {

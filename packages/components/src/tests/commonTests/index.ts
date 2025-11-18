@@ -2,7 +2,6 @@ export { accessible } from "./accessible";
 export { openClose } from "./openClose";
 export { renders } from "./renders";
 export { disabled } from "./disabled";
-export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floatingUI";
 export { focusable } from "./focusable";
 export { formAssociated } from "./formAssociated";

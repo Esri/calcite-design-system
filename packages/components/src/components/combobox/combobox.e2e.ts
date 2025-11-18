@@ -7,7 +7,6 @@ import {
   floatingUIOwner,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   openClose,
@@ -52,10 +51,6 @@ describe("calcite-combobox", () => {
 
   describe("InternalLabel", () => {
     internalLabel(`calcite-combobox`);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-combobox");
   });
 
   describe("accessible", () => {

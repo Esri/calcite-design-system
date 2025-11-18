@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { renders, hidden, themed } from "../../tests/commonTests";
+import { renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-tab", () => {
@@ -9,10 +9,6 @@ describe("calcite-tab", () => {
   describe("renders", () => {
     renders(tabHtml, { display: "none", visible: false });
     renders(tabHtmlSelected, { display: "flex", visible: true });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tab");
   });
 
   describe("theme", () => {
