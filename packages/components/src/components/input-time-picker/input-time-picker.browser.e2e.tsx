@@ -1,8 +1,10 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-input-time-picker", () => {
+  mockConsole();
   describe("defaults", () => {
     defaults(
       () => mount("calcite-input-time-picker"),
