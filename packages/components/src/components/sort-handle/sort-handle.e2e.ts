@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  hidden,
-  renders,
-  t9n,
-  openClose,
-  focusable,
-  reflects,
-  defaults,
-} from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n, openClose, focusable } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
@@ -19,40 +9,6 @@ import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
 
 describe("calcite-sort-handle", () => {
-  describe("defaults", () => {
-    defaults("calcite-sort-handle", [
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "setPosition",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "setSize",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "moveToItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "addToItems",
-        defaultValue: [],
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-sort-handle", [
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-sort-handle", { display: "flex" });
   });

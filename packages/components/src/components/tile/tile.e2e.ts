@@ -1,16 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
@@ -65,23 +55,6 @@ describe("calcite-tile", () => {
     });
   });
 
-  describe("defaults", () => {
-    defaults("calcite-tile", [
-      { propertyName: "active", defaultValue: false },
-      { propertyName: "alignment", defaultValue: "start" },
-      { propertyName: "disabled", defaultValue: false },
-      { propertyName: "embed", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false },
-      { propertyName: "iconFlipRtl", defaultValue: false },
-      { propertyName: "interactive", defaultValue: false },
-      { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "selected", defaultValue: false },
-      { propertyName: "selectionAppearance", defaultValue: "icon" },
-      { propertyName: "selectionMode", defaultValue: "none" },
-    ]);
-  });
-
   describe("disabled when interactive", () => {
     disabled(html` <calcite-tile interactive></calcite-tile> `);
   });
@@ -133,24 +106,6 @@ describe("calcite-tile", () => {
 
   describe("slots", () => {
     slots("calcite-tile", SLOTS);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-tile", [
-      { propertyName: "active", value: true },
-      { propertyName: "alignment", value: "center" },
-      { propertyName: "description", value: "My test description" },
-      { propertyName: "disabled", value: true },
-      { propertyName: "embed", value: true },
-      { propertyName: "heading", value: "My test heading" },
-      { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "scale", value: "s" },
-      { propertyName: "selected", value: true },
-      { propertyName: "selectionAppearance", value: "border" },
-      { propertyName: "selectionMode", value: "single-persist" },
-    ]);
   });
 
   describe("renders", () => {

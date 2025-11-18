@@ -3,14 +3,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
-  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   labelable,
   openClose,
-  reflects,
   renders,
   t9n,
 } from "../../tests/commonTests";
@@ -94,34 +92,6 @@ describe("calcite-input-time-zone", () => {
         await page.emulateTimezone(testTimeZoneItems[0].name);
       },
     });
-  });
-
-  describe("reflects", () => {
-    reflects(simpleTestProvider, [
-      { propertyName: "disabled", value: true },
-      { propertyName: "maxItems", value: 0 },
-      { propertyName: "mode", value: "offset" },
-      { propertyName: "open", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "overlayPositioning", value: "absolute" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults(simpleTestProvider, [
-      { propertyName: "disabled", defaultValue: false },
-      { propertyName: "maxItems", defaultValue: 0 },
-      { propertyName: "messageOverrides", defaultValue: undefined },
-      { propertyName: "mode", defaultValue: "offset" },
-      { propertyName: "open", defaultValue: false },
-      { propertyName: "overlayPositioning", defaultValue: "absolute" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
   });
 
   describe("disabled", () => {

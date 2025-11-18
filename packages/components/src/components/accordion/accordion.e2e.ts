@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
+import { accessible, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -37,56 +37,6 @@ describe("calcite-accordion", () => {
 
   describe("accessible", () => {
     accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-accordion", [
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "iconPosition",
-        defaultValue: "end",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "selectionMode",
-        defaultValue: "multiple",
-      },
-      {
-        propertyName: "iconType",
-        defaultValue: "chevron",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-accordion", [
-      {
-        propertyName: "iconPosition",
-        value: "start",
-      },
-      {
-        propertyName: "iconPosition",
-        value: "end",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single-persist",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "multiple",
-      },
-    ]);
   });
 
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {

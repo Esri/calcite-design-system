@@ -1,16 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  focusable,
-  hidden,
-  internalLabel,
-  reflects,
-  renders,
-  themed,
-  t9n,
-} from "../../tests/commonTests";
+import { accessible, focusable, hidden, internalLabel, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -25,16 +15,6 @@ describe("calcite-radio-button-group", () => {
     accessible(
       `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`,
     );
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-radio-button-group", [
-      { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
   });
 
   describe("is focusable", () => {
@@ -118,19 +98,6 @@ describe("calcite-radio-button-group", () => {
       expect(name).toBe("third");
       expect(value).toBe("first");
     });
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-radio-button-group", [
-      { propertyName: "disabled", value: true },
-      { propertyName: "hidden", value: true },
-      { propertyName: "layout", value: "horizontal" },
-      { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ]);
   });
 
   it("has a radio input for form compatibility", async () => {

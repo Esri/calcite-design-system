@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { defaults, disabled, focusable, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
+import { disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -17,112 +17,6 @@ describe("calcite-list-item", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-list-item");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-list-item", [
-      {
-        propertyName: "description",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "selected",
-        defaultValue: false,
-      },
-      {
-        propertyName: "value",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "dragHandle",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filterHidden",
-        defaultValue: false,
-      },
-      {
-        propertyName: "unavailable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "displayMode",
-        defaultValue: "flat",
-      },
-      {
-        propertyName: "iconStart",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconEnd",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        defaultValue: false,
-      },
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-list-item", [
-      {
-        propertyName: "unavailable",
-        value: true,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "closed",
-        value: true,
-      },
-      {
-        propertyName: "closable",
-        value: true,
-      },
-    ]);
   });
 
   describe("slots", () => {

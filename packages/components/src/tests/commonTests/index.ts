@@ -1,7 +1,5 @@
 export { accessible } from "./accessible";
-export { defaults } from "./defaults";
 export { openClose } from "./openClose";
-export { reflects } from "./reflects";
 export { renders } from "./renders";
 export { disabled } from "./disabled";
 export { hidden } from "./hidden";

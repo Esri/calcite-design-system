@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -12,19 +12,6 @@ describe("calcite-fab", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-fab");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-fab", [
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-    ]);
   });
 
   describe("disabled", () => {

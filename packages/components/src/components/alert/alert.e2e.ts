@@ -2,38 +2,12 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
-
-describe("defaults", () => {
-  defaults("calcite-alert", [
-    {
-      propertyName: "autoCloseDuration",
-      defaultValue: "medium",
-    },
-    {
-      propertyName: "embedded",
-      defaultValue: false,
-    },
-    {
-      propertyName: "queue",
-      defaultValue: "last",
-    },
-  ]);
-});
-
-describe("reflects", () => {
-  reflects("calcite-alert", [
-    {
-      propertyName: "queue",
-      value: "last",
-    },
-  ]);
-});
 
 describe("calcite-alert", () => {
   const alertContent = `

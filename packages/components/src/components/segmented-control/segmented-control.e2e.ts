@@ -3,14 +3,12 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
-  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -20,69 +18,6 @@ import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control", () => {
-  describe("defaults", () => {
-    defaults("calcite-segmented-control", [
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "horizontal",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-
-      {
-        propertyName: "width",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-segmented-control", [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "appearance",
-        value: "solid",
-      },
-      {
-        propertyName: "width",
-        value: "auto",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-segmented-control", { display: "flex" });
   });

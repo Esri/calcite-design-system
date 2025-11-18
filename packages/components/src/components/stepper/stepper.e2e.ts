@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { defaults, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
+import { hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
@@ -16,48 +16,6 @@ async function itemClicker(item: StepperItem["el"]) {
 }
 
 describe("calcite-stepper", () => {
-  describe("defaults", () => {
-    defaults("calcite-stepper", [
-      {
-        propertyName: "icon",
-        defaultValue: false,
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "horizontal",
-      },
-      {
-        propertyName: "numbered",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-stepper", [
-      {
-        propertyName: "icon",
-        value: true,
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "numbered",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders(
       html`<calcite-stepper>

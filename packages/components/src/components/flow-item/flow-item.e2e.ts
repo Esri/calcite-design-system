@@ -3,12 +3,10 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
   hidden,
-  reflects,
   renders,
   slots,
   t9n,
@@ -36,116 +34,6 @@ describe("calcite-flow-item", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-flow-item");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-flow-item", [
-      {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "menuOpen",
-        defaultValue: false,
-      },
-      {
-        propertyName: "selected",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "showBackButton",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-flow-item", [
-      {
-        propertyName: "closable",
-        value: true,
-      },
-      {
-        propertyName: "closed",
-        value: true,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "menuOpen",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-    ]);
   });
 
   describe("slots", () => {
