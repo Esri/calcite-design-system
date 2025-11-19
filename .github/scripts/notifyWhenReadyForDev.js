@@ -17,7 +17,10 @@ const { removeLabel } = require("./support/utils");
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
+  const payload =
+    /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
+      context.payload
+    );
   const {
     issue: { number },
   } = payload;

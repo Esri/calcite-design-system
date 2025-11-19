@@ -46,7 +46,7 @@ module.exports = async ({ github, context, core }) => {
         issue_number: issue_number.toString(),
         event_type: "SyncActionChanges",
         label_name: package,
-        label_action: "added",
+        label_action: "added"
       },
     });
   }

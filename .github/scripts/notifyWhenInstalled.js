@@ -42,7 +42,7 @@ module.exports = async ({ github, context }) => {
     inputs: {
       issue_number: number.toString(),
       event_type: "SyncActionChanges",
-      assignee_updated: true,
+      assignee_updated: true
     },
   });
 };
