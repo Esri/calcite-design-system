@@ -5,7 +5,7 @@ beforeAll(() => {
   style.innerHTML = `
     :root {
     --calcite-duration-factor: 0;
-    }      
+    }
   `;
   document.head.append(style);
 });
