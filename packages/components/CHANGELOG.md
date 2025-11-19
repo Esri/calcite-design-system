@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.5...@esri/calcite-components@5.0.0-next.6) (2025-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- **stepper:** Deprecated event has been removed, use the following
+  event instead:
+
+`calciteStepperChange`
+
+### Code Refactoring
+
+- **stepper:** remove calciteStepperItemChange deprecated event ([#13329](https://github.com/Esri/calcite-design-system/issues/13329)) ([668da6f](https://github.com/Esri/calcite-design-system/commit/668da6fb147c6a5404bc89ab20a5f3ac95266867)), closes [#13080](https://github.com/Esri/calcite-design-system/issues/13080)
+
 ## [5.0.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.4...@esri/calcite-components@5.0.0-next.5) (2025-11-19)
 
 ### Bug Fixes
