@@ -1,16 +1,6 @@
 // @ts-check
 const {
-  labels: {
-    bug,
-    issueWorkflow,
-    issueType,
-    priority,
-    devEstimate,
-    designEstimate,
-    planning,
-    handoff,
-    productColor
-  },
+  labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff, productColor },
   milestone,
   packages,
 } = require("./resources");
@@ -40,16 +30,7 @@ module.exports = function Monday(issue, core) {
     process.exit(1);
   }
 
-  const {
-    title,
-    body,
-    number: issueNumber,
-    milestone: issueMilestone,
-    labels,
-    assignee,
-    assignees,
-    html_url,
-  } = issue;
+  const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;
@@ -454,23 +435,15 @@ module.exports = function Monday(issue, core) {
 
     const info = peopleMap.get(person.login);
     if (!info) {
-      core.warning(
-        `Assignee "${person.login}" not found in peopleMap.`,
-        logParams,
-      );
+      core.warning(`Assignee "${person.login}" not found in peopleMap.`, logParams);
       return;
     }
 
     let role = info.role;
     const notInstalledOrVerified = labels?.every(
-      (label) =>
-        label.name !== issueWorkflow.installed &&
-        label.name !== issueWorkflow.verified,
+      (label) => label.name !== issueWorkflow.installed && label.name !== issueWorkflow.verified,
     );
-    if (
-      role.id === mondayColumns.productEngineers.id &&
-      notInstalledOrVerified
-    ) {
+    if (role.id === mondayColumns.productEngineers.id && notInstalledOrVerified) {
       role = mondayColumns.developers;
     }
 
@@ -479,10 +452,7 @@ module.exports = function Monday(issue, core) {
     } else {
       columnUpdates[role.id] = `${info.id}`;
     }
-    core.notice(
-      `Added assignee "${person.login}" to "${role.title}" column.`,
-      logParams,
-    );
+    core.notice(`Added assignee "${person.login}" to "${role.title}" column.`, logParams);
   }
 
   /** @typedef {Record<string, string | string[]>} QueryVariables
@@ -609,9 +579,7 @@ module.exports = function Monday(issue, core) {
     }
 
     if (items.length > 1) {
-      core.setFailed(
-        `Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`,
-      );
+      core.setFailed(`Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`);
       return;
     }
 
@@ -639,19 +607,13 @@ module.exports = function Monday(issue, core) {
    */
   function createDropdownValues(labelInfo, action) {
     if (action !== "add" && action !== "remove") {
-      throw new Error(
-        `Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`,
-      );
+      throw new Error(`Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`);
     }
 
     const labelValue = `${labelInfo.value}`;
     const currentValue = columnUpdates[labelInfo.column.id];
     const existingLabels =
-      currentValue &&
-      typeof currentValue === "object" &&
-      "labels" in currentValue
-        ? currentValue.labels
-        : [];
+      currentValue && typeof currentValue === "object" && "labels" in currentValue ? currentValue.labels : [];
 
     if (existingLabels.length === 0 && labels?.length) {
       for (const { name, color } of labels) {
@@ -683,35 +645,21 @@ module.exports = function Monday(issue, core) {
   function updateLabel(label, action) {
     const logParams = { title: "Update Label" };
     if (!labelMap.has(label)) {
-      core.notice(
-        `Label "${label}" not found in Monday Labels map.`,
-        logParams,
-      );
+      core.notice(`Label "${label}" not found in Monday Labels map.`, logParams);
       return;
     }
 
     const info = labelMap.get(label);
     if (!info?.column || !info?.value) {
-      core.warning(
-        `Label "${label}" is missing column or title information.`,
-        logParams,
-      );
+      core.warning(`Label "${label}" is missing column or title information.`, logParams);
       return;
     }
 
     const isDropdown = info.column.type === "dropdown";
     if (action === "add") {
-      setColumnValue(
-        info.column,
-        isDropdown ? createDropdownValues(info, "add") : info.value,
-        logParams,
-      );
+      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "add") : info.value, logParams);
     } else if (info.clearable) {
-      setColumnValue(
-        info.column,
-        isDropdown ? createDropdownValues(info, "remove") : "",
-        logParams,
-      );
+      setColumnValue(info.column, isDropdown ? createDropdownValues(info, "remove") : "", logParams);
     }
   }
 
@@ -786,10 +734,7 @@ module.exports = function Monday(issue, core) {
     }
 
     if (syncId) {
-      core.notice(
-        `Sync ID "${syncId}" provided, updating existing item instead of creating new.`,
-        logParams,
-      );
+      core.notice(`Sync ID "${syncId}" provided, updating existing item instead of creating new.`, logParams);
       setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
@@ -797,10 +742,7 @@ module.exports = function Monday(issue, core) {
 
       if (error) {
         if (error.expected) {
-          core.warning(
-            `Expected error syncing item ${syncId}: ${error.message}`,
-            logParams,
-          );
+          core.warning(`Expected error syncing item ${syncId}: ${error.message}`, logParams);
         } else {
           core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
         }
@@ -843,11 +785,7 @@ module.exports = function Monday(issue, core) {
    * @param {ColumnValue} value
    * @param {import('@actions/core').AnnotationProperties} [logParams] - Optional logging parameters
    */
-  function setColumnValue(
-    column,
-    value,
-    logParams = { title: "Set Column Value" },
-  ) {
+  function setColumnValue(column, value, logParams = { title: "Set Column Value" }) {
     if (!column) {
       core.warning("No column provided.", logParams);
       return;
@@ -859,9 +797,7 @@ module.exports = function Monday(issue, core) {
 
     columnUpdates[column.id] = value;
     core.notice(
-      value === ""
-        ? `Cleared "${column.title}" column.`
-        : `Set "${column.title}" column to: ${JSON.stringify(value)}.`,
+      value === "" ? `Cleared "${column.title}" column.` : `Set "${column.title}" column to: ${JSON.stringify(value)}.`,
       logParams,
     );
   }
@@ -883,16 +819,13 @@ module.exports = function Monday(issue, core) {
     if (milestoneDate) {
       setColumnValue(mondayColumns.date, milestoneDate, logParams);
       clearLabel(milestone.stalled);
-      const { needsTriage, needsMilestone, installed, readyForDev } =
-        issueWorkflow;
+      const { needsTriage, needsMilestone, installed, readyForDev } = issueWorkflow;
       setAssignedStatus({
         assignedCondition: notInLifecycle({
           labels,
           skip: [needsTriage, needsMilestone],
         }),
-        unassignedCondition:
-          !includesLabel(labels, installed) &&
-          !includesLabel(labels, readyForDev),
+        unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
       });
     } else {
       setColumnValue(mondayColumns.date, "", logParams);
@@ -964,10 +897,7 @@ module.exports = function Monday(issue, core) {
 
     const { needsMilestone, readyForDev } = issueWorkflow;
     if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      core.notice(
-        `Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`,
-        { title: "Add Label" },
-      );
+      core.notice(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`, { title: "Add Label" });
       return;
     }
 
@@ -1032,9 +962,7 @@ module.exports = function Monday(issue, core) {
    * @returns {boolean} - True if in a status milestone, false otherwise
    */
   function inMilestoneStatus() {
-    return [milestone.backlog, milestone.freezer].includes(
-      issueMilestone?.title || "",
-    );
+    return [milestone.backlog, milestone.freezer].includes(issueMilestone?.title || "");
   }
 
   /**
@@ -1049,10 +977,7 @@ module.exports = function Monday(issue, core) {
     const ASSIGNED = "Assigned";
     const UNASSIGNED = "Unassigned";
     const logParams = { title: "Set Assigned Status" };
-    const defaultCondition =
-      issue.state === "open" &&
-      notInLifecycle({ labels }) &&
-      !inMilestoneStatus();
+    const defaultCondition = issue.state === "open" && notInLifecycle({ labels }) && !inMilestoneStatus();
     const shouldSetAssigned = assignedCondition ?? defaultCondition;
     const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
 

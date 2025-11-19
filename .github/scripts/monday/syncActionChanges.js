@@ -34,11 +34,7 @@ module.exports = async ({ github, context, core }) => {
     label_action,
   } = context.payload.inputs;
 
-  const [issue_number] = assertRequired(
-    [issue_number_input],
-    core,
-    "Required issue number not provided.",
-  );
+  const [issue_number] = assertRequired([issue_number_input], core, "Required issue number not provided.");
   const { data: issue } = await github.rest.issues.get({
     ...context.repo,
     issue_number,
