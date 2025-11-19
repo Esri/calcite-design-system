@@ -1,31 +1,13 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown-group", () => {
-  describe("defaults", () => {
-    defaults("calcite-dropdown-group", [
-      {
-        propertyName: "selectionMode",
-        defaultValue: "single",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-dropdown-group", [
-      {
-        propertyName: "selectionMode",
-        value: "single",
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-dropdown-group", { display: "block" });
   });

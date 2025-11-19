@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, beforeEach } from "vitest";
-import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, hidden, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Graph } from "./graph";
 import { CSS } from "./resources";
@@ -48,15 +48,6 @@ describe("calcite-graph", () => {
     });
 
     accessible(() => ({ tag: "calcite-graph", page }));
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-graph", [
-      {
-        propertyName: "data",
-        defaultValue: [],
-      },
-    ]);
   });
 
   describe("theme", () => {

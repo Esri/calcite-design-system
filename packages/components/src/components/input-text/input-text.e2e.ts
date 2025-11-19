@@ -3,14 +3,12 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
-  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -37,56 +35,6 @@ describe("calcite-input-text", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-input-text");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-input-text", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-text", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {

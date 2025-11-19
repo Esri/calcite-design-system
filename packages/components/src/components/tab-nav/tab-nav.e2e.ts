@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
-  describe("defaults", () => {
-    defaults("calcite-tab-nav", [{ propertyName: "scale", defaultValue: "m" }]);
-  });
-
   describe("renders", () => {
     renders("calcite-tab-nav", { display: "flex" });
   });

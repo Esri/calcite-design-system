@@ -3,13 +3,11 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
-  defaults,
   disabled,
   formAssociated,
   hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -27,79 +25,6 @@ describe("calcite-slider", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-slider");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-slider", [
-      {
-        propertyName: "mirrored",
-        defaultValue: false,
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "hasHistogram",
-        defaultValue: false,
-      },
-      {
-        propertyName: "fillPlacement",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "labelFormatter",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "max",
-        defaultValue: 100,
-      },
-      {
-        propertyName: "min",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "mirrored",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "snap",
-        defaultValue: false,
-      },
-      {
-        propertyName: "step",
-        defaultValue: 1,
-      },
-      {
-        propertyName: "value",
-        defaultValue: 0,
-      },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-slider", [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
   });
 
   describe("labelable", () => {

@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
-  defaults,
   floatingUIOwner,
   focusable,
   hidden,
@@ -52,47 +51,6 @@ describe("calcite-popover", () => {
 
   describe("honors hidden attribute", () => {
     hidden(`<calcite-popover open></calcite-popover>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-popover", [
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "offsetDistance",
-        defaultValue: 6,
-      },
-      {
-        propertyName: "offsetSkidding",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "pointerDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-    ]);
   });
 
   describe("openClose", () => {

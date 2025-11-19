@@ -3,14 +3,12 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   themed,
 } from "../../tests/commonTests";
@@ -33,10 +31,6 @@ describe("calcite-radio-button", () => {
 
   describe("accessible without calcite-label", () => {
     accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]);
   });
 
   describe("honors hidden attribute", () => {
@@ -233,18 +227,6 @@ describe("calcite-radio-button", () => {
 
   describe("InternalLabel", () => {
     internalLabel(`calcite-radio-button`);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-radio-button", [
-      { propertyName: "checked", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "focused", value: true },
-      { propertyName: "hidden", value: true },
-      { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-    ]);
   });
 
   it("does not require an item to be checked", async () => {

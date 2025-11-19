@@ -1,0 +1,73 @@
+import { describe } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { cancelable, defaults, reflects } from "../../tests/commonTests/browser";
+
+describe("calcite-text-area", () => {
+  describe("cancelable", () => {
+    cancelable("calcite-text-area");
+  });
+
+  describe("defaults", () => {
+    defaults(
+      () => mount("calcite-text-area"),
+      [
+        {
+          propertyName: "limitText",
+          defaultValue: false,
+        },
+        {
+          propertyName: "scale",
+          defaultValue: "m",
+        },
+        {
+          propertyName: "status",
+          defaultValue: "idle",
+        },
+        {
+          propertyName: "validationIcon",
+          defaultValue: undefined,
+        },
+        {
+          propertyName: "validationMessage",
+          defaultValue: undefined,
+        },
+        {
+          propertyName: "wrap",
+          defaultValue: "soft",
+        },
+      ],
+    );
+  });
+
+  describe("reflects", () => {
+    reflects(
+      () => mount("calcite-text-area"),
+      [
+        {
+          propertyName: "columns",
+          value: "10",
+        },
+        {
+          propertyName: "limitText",
+          value: true,
+        },
+        {
+          propertyName: "rows",
+          value: "50",
+        },
+        {
+          propertyName: "scale",
+          value: "s",
+        },
+        {
+          propertyName: "status",
+          value: "invalid",
+        },
+        {
+          propertyName: "validationIcon",
+          value: true,
+        },
+      ],
+    );
+  });
+});

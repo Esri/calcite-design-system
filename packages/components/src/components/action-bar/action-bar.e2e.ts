@@ -4,11 +4,9 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   focusable,
   hidden,
-  reflects,
   renders,
   slots,
   t9n,
@@ -30,64 +28,6 @@ describe("calcite-action-bar", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-action-bar");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-action-bar", [
-      {
-        propertyName: "expandDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "floating",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "selectionAppearance",
-        defaultValue: "neutral",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-bar", [
-      {
-        propertyName: "expandDisabled",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "floating",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "neutral",
-      },
-    ]);
   });
 
   describe("delegates to floating-ui-owner component", () => {

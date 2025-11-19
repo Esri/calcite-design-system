@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
@@ -17,58 +17,8 @@ describe("calcite-navigation-logo", () => {
     accessible("calcite-navigation-logo");
   });
 
-  describe("reflects", () => {
-    reflects("calcite-navigation-logo", [
-      {
-        propertyName: "active",
-        value: "true",
-      },
-      {
-        propertyName: "href",
-        value: "#logo",
-      },
-      {
-        propertyName: "rel",
-        value: "external",
-      },
-      {
-        propertyName: "target",
-        value: "_self",
-      },
-      {
-        propertyName: "headingLevel",
-        value: 1,
-      },
-    ]);
-  });
-
   describe("is focusable", () => {
     focusable(html`<calcite-navigation-logo href=" " heading="esri"></calcite-navigation-logo>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-navigation-logo", [
-      {
-        propertyName: "active",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "href",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "rel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "target",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("theme", () => {

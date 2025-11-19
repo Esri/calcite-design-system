@@ -3,14 +3,12 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -47,36 +45,6 @@ describe("calcite-select", () => {
 
   describe("InternalLabel", () => {
     internalLabel(`calcite-select`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-select", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects(simpleTestMarkup, [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
   });
 
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {

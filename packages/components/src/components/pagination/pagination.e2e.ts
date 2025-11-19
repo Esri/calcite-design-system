@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n, themed, defaults } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -33,19 +33,6 @@ describe("calcite-pagination", () => {
 
   describe("translation support", () => {
     t9n("calcite-pagination");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-pagination", [
-      {
-        propertyName: "totalItems",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "startItem",
-        defaultValue: 1,
-      },
-    ]);
   });
 
   describe("page links", () => {

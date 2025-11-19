@@ -4,11 +4,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   focusable,
   hidden,
-  reflects,
   renders,
   slots,
   themed,
@@ -49,56 +47,6 @@ describe("calcite-action-menu", () => {
 
   describe("slots", () => {
     slots("calcite-action-menu", SLOTS);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-action-menu", [
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-menu", [
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "auto",
-      },
-    ]);
   });
 
   describe("delegates to floating-ui-owner component", () => {

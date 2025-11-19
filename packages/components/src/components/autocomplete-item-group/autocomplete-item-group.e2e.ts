@@ -1,18 +1,9 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { hidden, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-autocomplete-item-group", () => {
-  describe("defaults", () => {
-    defaults("calcite-autocomplete-item-group", [
-      { propertyName: "disableSpacing", defaultValue: false },
-      { propertyName: "heading", defaultValue: undefined },
-      { propertyName: "label", defaultValue: undefined },
-      { propertyName: "scale", defaultValue: "m" },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-autocomplete-item-group", { display: "flex" });
   });

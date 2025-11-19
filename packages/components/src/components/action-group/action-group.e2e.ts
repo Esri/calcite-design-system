@@ -2,11 +2,9 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   focusable,
   handlesActionMenuPlacements,
   hidden,
-  reflects,
   renders,
   slots,
   t9n,
@@ -23,40 +21,6 @@ const actionGroupHTML = `<calcite-action-group scale="l">
 
 describe("calcite-action-group", () => {
   mockConsole();
-
-  describe("defaults", () => {
-    defaults("calcite-action-group", [
-      {
-        propertyName: "layout",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "menuPlacement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "menuFlipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-group", [
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-    ]);
-  });
 
   describe("renders", () => {
     renders("calcite-action-group", { display: "flex" });

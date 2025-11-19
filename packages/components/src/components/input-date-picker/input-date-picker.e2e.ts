@@ -3,7 +3,6 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   disabled,
   floatingUIOwner,
   focusable,
@@ -38,35 +37,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-input-date-picker");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-date-picker", [
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "calendars",
-        defaultValue: 2,
-      },
-    ]);
   });
 
   describe("labelable", () => {

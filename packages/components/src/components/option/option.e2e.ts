@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import type { Option } from "./option";
@@ -17,28 +17,6 @@ describe("calcite-option", () => {
 
   describe("accessible", () => {
     accessible("calcite-option");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-option", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-option", [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "selected",
-        value: true,
-      },
-    ]);
   });
 
   it("falls back to the text content when value/label is not specified", async () => {
