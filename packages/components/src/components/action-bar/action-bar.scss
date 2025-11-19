@@ -10,6 +10,12 @@
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-group-dividing-border-margin
+
 @use "../../styles/includes";
 
 :host {
@@ -17,6 +23,8 @@
   @apply inline-flex
     self-stretch;
   background: transparent;
+
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-action-corner-radius, 2px) + 1px);
 }
 
 .container {
@@ -24,77 +32,6 @@
   flex-col
   flex-auto;
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
-}
-
-:host([scale="s"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
-    padding: var(--calcite-spacing-xxs);
-  }
-}
-:host([scale="s"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-xxs);
-  }
-}
-:host([scale="s"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    border-image: linear-gradient(
-      transparent 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 21px,
-      transparent 21px
-    );
-    border-image-slice: 1;
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-}
-
-:host([scale="m"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
-    padding: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="m"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="m"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    border-image: linear-gradient(
-      transparent 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 29px,
-      transparent 29px
-    );
-    border-image-slice: 1;
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="l"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-    padding: var(--calcite-spacing-sm-plus);
-  }
-}
-:host([scale="l"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm-plus);
-  }
-}
-:host([scale="l"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    border-image: linear-gradient(
-      transparent 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
-      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 41px,
-      transparent 41px
-    );
-    border-image-slice: 1;
-    padding-inline-end: var(--calcite-spacing-sm-plus);
-  }
 }
 
 :host([floating]) {
@@ -128,6 +65,16 @@
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
     border-block-end-width: var(--calcite-border-width-sm);
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
   }
 }
 
@@ -147,12 +94,71 @@
   }
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
     border-inline-end-width: var(--calcite-border-width-sm);
   }
 }
 
 .action-group--end {
   @apply justify-end;
+}
+
+:host([scale="s"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+    padding: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+    padding: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="l"]) {
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+    padding: var(--calcite-spacing-sm-plus);
+  }
+}
+:host([scale="l"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-sm-plus);
+  }
+}
+:host([scale="l"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-sm-plus);
+  }
 }
 
 @include includes.base-component();
