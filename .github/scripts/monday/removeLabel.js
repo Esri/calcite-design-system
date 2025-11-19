@@ -16,7 +16,11 @@ module.exports = async ({ context, core }) => {
       context.payload
     );
   const { labels: issueLabels } = issue;
-  const [labelName] = assertRequired([label?.name], core, "No label found in payload.");
+  const [labelName, labelColor] = assertRequired(
+    [label?.name, label?.color],
+    core,
+    "No label found in payload.",
+  );
   const logParams = { title: "Remove Label" };
 
   if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
@@ -43,6 +47,6 @@ module.exports = async ({ context, core }) => {
 
   const monday = Monday(issue, core);
   monday.setAssignedStatus();
-  monday.clearLabel(labelName);
+  monday.clearLabel(labelName, labelColor);
   await monday.commit();
 };

@@ -1,5 +1,6 @@
 // @ts-check
 const { createLabelIfMissing } = require("./support/utils");
+const { labels: { productColor } } = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context }) => {
@@ -37,7 +38,7 @@ module.exports = async ({ github, context }) => {
         github,
         context,
         label: product,
-        color: "006B75",
+        color: productColor,
         description: `Issues logged by ${product} team members.`,
       });
 
@@ -57,6 +58,7 @@ module.exports = async ({ github, context }) => {
           issue_number: issue_number.toString(),
           event_type: "SyncActionChanges",
           label_name: product,
+          label_color: productColor,
           label_action: "added"
         },
       });
