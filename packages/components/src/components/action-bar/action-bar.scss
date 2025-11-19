@@ -39,6 +39,13 @@
 }
 :host([scale="s"][layout="horizontal"]) {
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 21px,
+      transparent 21px
+    );
+    border-image-slice: 1;
     padding-inline-end: var(--calcite-spacing-xxs);
   }
 }
@@ -56,6 +63,13 @@
 }
 :host([scale="m"][layout="horizontal"]) {
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 29px,
+      transparent 29px
+    );
+    border-image-slice: 1;
     padding-inline-end: var(--calcite-spacing-sm);
   }
 }
@@ -72,6 +86,13 @@
 }
 :host([scale="l"][layout="horizontal"]) {
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 3px,
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3)) 41px,
+      transparent 41px
+    );
+    border-image-slice: 1;
     padding-inline-end: var(--calcite-spacing-sm-plus);
   }
 }
