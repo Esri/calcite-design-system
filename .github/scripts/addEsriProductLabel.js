@@ -1,14 +1,15 @@
 // @ts-check
 const { createLabelIfMissing } = require("./support/utils");
+const {
+  labels: { productColor },
+} = require("./support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
   const logParams = { title: "Add Esri Product Label" };
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (
-    context.payload
-  );
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
     issue: { body, number: issue_number },
   } = payload;
@@ -30,7 +31,7 @@ module.exports = async ({ github, context, core }) => {
       github,
       context,
       label: product,
-      color: "006B75",
+      color: productColor,
       description: `Issues logged by ${product} team members.`,
     });
 
@@ -50,6 +51,7 @@ module.exports = async ({ github, context, core }) => {
         issue_number: issue_number.toString(),
         event_type: "SyncActionChanges",
         label_name: product,
+        label_color: productColor,
         label_action: "added",
       },
     });

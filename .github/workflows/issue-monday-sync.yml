@@ -31,6 +31,10 @@ on:
         type: string
         description: "The label name added or removed from the issue."
         required: false
+      label_color:
+        type: string
+        description: "The hex code color (without '#' prefix) associated with the label."
+        required: false
       label_action:
         type: choice
         description: "The action taken on the label."

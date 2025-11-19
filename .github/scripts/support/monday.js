@@ -9,6 +9,7 @@ const {
     designEstimate,
     planning,
     handoff,
+    productColor
   },
   milestone,
   packages,
@@ -50,6 +51,9 @@ module.exports = function Monday(issue, core) {
     html_url,
   } = issue;
 
+  /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
+  let createLabelsIfMissing = false;
+
   /**
    * Monday.com column value options
    * @typedef {string | number | { url: string, text: string } | { labels: string[] }} ColumnValue
@@ -59,7 +63,8 @@ module.exports = function Monday(issue, core) {
 
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
-   * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality.
+   * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality
+   * @property {"dropdown"} [type] - The type of the column, used for special handling
    */
   /** @type {Record<string, MondayColumn>} */
   const mondayColumns = {
@@ -73,7 +78,12 @@ module.exports = function Monday(issue, core) {
     status: { id: "dup__of_overall_status__1", title: "Status" },
     date: { id: "date6", title: "Milestone" },
     priority: { id: "priority", title: "Priority" },
-    typeDropdown: { id: "dropdown_mkwhjde2", title: "Issue Type" },
+    typeDropdown: {
+      id: "dropdown_mkwhjde2",
+      title: "Issue Type",
+      type: "dropdown",
+    },
+    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "dropdown" },
     designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
@@ -515,7 +525,7 @@ module.exports = function Monday(issue, core) {
    * Creates and runs a query to update columns in a Monday.com item
    * @private
    * @param {string} id - The ID of the Monday.com item to update
-   * @returns {Promise<{ error: null | { message: string, expected?: boolean } }>} -
+   * @returns {Promise<{ error: null | { message: string, expected?: boolean } }>}
    */
   async function updateMultipleColumns(id = "") {
     const mondayId = id || (await getId())?.id;
@@ -533,6 +543,7 @@ module.exports = function Monday(issue, core) {
         board_id: $board_id,
         item_id: $item_id,
         column_values: $column_values
+        ${createLabelsIfMissing ? ", create_labels_if_missing: true" : ""}
       ) {
         id
       }
@@ -643,8 +654,9 @@ module.exports = function Monday(issue, core) {
         : [];
 
     if (existingLabels.length === 0 && labels?.length) {
-      for (const { name } of labels) {
-        const info = labelMap.get(name);
+      for (const { name, color } of labels) {
+        const labelName = createProductLabelIfNeeded(name, color);
+        const info = labelMap.get(labelName);
         if (info?.column.id === labelInfo.column.id && info.value) {
           existingLabels.push(`${info.value}`);
         }
@@ -687,7 +699,7 @@ module.exports = function Monday(issue, core) {
       return;
     }
 
-    const isDropdown = info.column.id === mondayColumns.typeDropdown.id;
+    const isDropdown = info.column.type === "dropdown";
     if (action === "add") {
       setColumnValue(
         info.column,
@@ -757,7 +769,7 @@ module.exports = function Monday(issue, core) {
     };
 
     if (labels?.length) {
-      labels.forEach((label) => addLabel(label.name));
+      labels.forEach((label) => addLabel(label.name, label.color));
     }
 
     if (notInLifecycle({ labels })) {
@@ -785,7 +797,10 @@ module.exports = function Monday(issue, core) {
 
       if (error) {
         if (error.expected) {
-          core.warning(`Expected error syncing item ${syncId}: ${error.message}`, logParams);
+          core.warning(
+            `Expected error syncing item ${syncId}: ${error.message}`,
+            logParams,
+          );
         } else {
           core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
         }
@@ -939,9 +954,10 @@ module.exports = function Monday(issue, core) {
 
   /**
    * Add a label to columnUpdates
-   * @param {string} label
+   * @param {string} label - The label name to add
+   * @param {string} [color] - The hex (without '#' prefix) color of the label. Used to create Esri Product labels.
    */
-  function addLabel(label) {
+  function addLabel(label, color = "") {
     if (label === planning.monday) {
       return;
     }
@@ -955,16 +971,45 @@ module.exports = function Monday(issue, core) {
       return;
     }
 
-    updateLabel(label, "add");
+    updateLabel(createProductLabelIfNeeded(label, color), "add");
   }
 
   /**
    * Clear a column value in columnUpdates based on the label
    * @param {string} label - The label name to clear
+   * @param {string} [color] - The hex (without '#' prefix) color of the label. Used to create Esri Product labels.
    * @returns {void}
    */
-  function clearLabel(label) {
-    updateLabel(label, "remove");
+  function clearLabel(label, color = "") {
+    updateLabel(createProductLabelIfNeeded(label, color), "remove");
+  }
+
+  /**
+   * If the label qualifies, create a Esri Product label in `labelMap` and set `createLabelsIfMissing` to `true`
+   * @param {string} label - The label name
+   * @param {string | undefined} color - The color of the label
+   * @returns {string} - The new key for the label in `labelMap`, or the original label name if not created
+   */
+  function createProductLabelIfNeeded(label, color) {
+    if (color !== productColor) {
+      return label;
+    }
+
+    const labelName = label.replace(/(for )?ArcGIS/g, "").trim();
+    /** @type {MondayLabel} */
+    const labelInfo = {
+      column: mondayColumns.product,
+      value: labelName,
+      clearable: true,
+    };
+
+    labelMap.set(labelName, labelInfo);
+    createLabelsIfMissing = true;
+
+    core.notice(`Created label "${labelInfo.value}" in label map.`, {
+      title: "Create Esri Product Label",
+    });
+    return labelName;
   }
 
   /**
