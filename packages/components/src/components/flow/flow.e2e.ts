@@ -2,7 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, focusable, renders, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -23,10 +23,6 @@ describe("calcite-flow", () => {
 
   describe("renders", () => {
     renders("calcite-flow", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-flow");
   });
 
   describe("is focusable", () => {

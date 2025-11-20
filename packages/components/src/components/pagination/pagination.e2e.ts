@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -21,10 +21,6 @@ describe("calcite-pagination", () => {
     focusable('<calcite-pagination page-size="1" start-item="1" total-items="10"></calcite-pagination>', {
       shadowFocusTargetSelector: `.${CSS.page}`,
     });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-pagination");
   });
 
   describe("accessible", () => {

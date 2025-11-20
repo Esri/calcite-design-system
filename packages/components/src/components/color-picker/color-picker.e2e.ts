@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import {
   findAll,
   getElementRect,
@@ -50,10 +50,6 @@ describe("calcite-color-picker", () => {
   describe("accessible", () => {
     accessible("calcite-color-picker");
     accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-color-picker");
   });
 
   describe("renders", () => {

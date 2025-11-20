@@ -6,7 +6,6 @@ import {
   floatingUIOwner,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   openClose,
@@ -128,10 +127,6 @@ describe("calcite-autocomplete", () => {
 
   describe("translation support", () => {
     t9n("calcite-autocomplete");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-autocomplete");
   });
 
   describe("slots", () => {

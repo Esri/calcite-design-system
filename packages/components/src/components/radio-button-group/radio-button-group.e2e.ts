@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, hidden, internalLabel, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, internalLabel, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -35,69 +35,6 @@ describe("calcite-radio-button-group", () => {
 
   describe("InternalLabel", () => {
     internalLabel(`calcite-radio-button-group`);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-radio-button");
-
-    it("honors hidden attribute when navigating", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-radio-button-group name="first">
-          <calcite-label>
-            1-1
-            <calcite-radio-button value="first"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            1-2
-            <calcite-radio-button value="second"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            1-3
-            <calcite-radio-button value="third"></calcite-radio-button>
-          </calcite-label>
-        </calcite-radio-button-group>
-        <calcite-radio-button-group name="second" hidden>
-          <calcite-label>
-            2-1
-            <calcite-radio-button value="first"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            2-2
-            <calcite-radio-button value="second"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            2-3
-            <calcite-radio-button value="third"></calcite-radio-button>
-          </calcite-label>
-        </calcite-radio-button-group>
-        <calcite-radio-button-group name="third">
-          <calcite-label>
-            3-1
-            <calcite-radio-button value="first"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            3-2
-            <calcite-radio-button value="second"></calcite-radio-button>
-          </calcite-label>
-          <calcite-label>
-            3-3
-            <calcite-radio-button value="third"></calcite-radio-button>
-          </calcite-label>
-        </calcite-radio-button-group>
-      `);
-
-      const firstElement = await page.find("calcite-radio-button");
-      await firstElement.click();
-      await firstElement.press("Tab");
-      await page.waitForChanges();
-
-      const selected = await page.find("calcite-radio-button[focused]");
-      const name = await selected.getProperty("name");
-      const value = await selected.getProperty("value");
-      expect(name).toBe("third");
-      expect(value).toBe("first");
-    });
   });
 
   it("has a radio input for form compatibility", async () => {

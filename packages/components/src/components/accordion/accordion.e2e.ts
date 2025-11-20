@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -29,10 +29,6 @@ describe("calcite-accordion", () => {
 
   describe("renders", () => {
     renders("calcite-accordion", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-accordion");
   });
 
   describe("accessible", () => {

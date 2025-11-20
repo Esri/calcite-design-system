@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
@@ -87,10 +87,6 @@ describe("calcite-tile", () => {
 
   describe("focusable", () => {
     focusable(html` <calcite-tile interactive></calcite-tile> `);
-  });
-
-  describe("hidden", () => {
-    hidden("calcite-tile");
   });
 
   describe("keyboard", () => {

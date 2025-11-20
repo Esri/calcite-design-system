@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-stepper", () => {
   describe("defaults", () => {
@@ -49,5 +49,9 @@ describe("calcite-stepper", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-stepper"));
   });
 });

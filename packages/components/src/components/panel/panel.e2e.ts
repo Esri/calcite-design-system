@@ -7,7 +7,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  hidden,
   renders,
   slots,
   t9n,
@@ -93,10 +92,6 @@ describe("calcite-panel", () => {
 
   describe("renders", () => {
     renders("calcite-panel", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-panel");
   });
 
   describe("handles action-menu placement and flipPlacements", () => {

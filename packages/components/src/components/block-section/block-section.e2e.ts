@@ -1,17 +1,13 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, hidden, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
   describe("renders", () => {
     renders("calcite-block-section", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-block-section");
   });
 
   describe("translation support", () => {

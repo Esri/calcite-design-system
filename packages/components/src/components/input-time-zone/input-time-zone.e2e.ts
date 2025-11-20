@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   labelable,
   openClose,
   renders,
@@ -75,10 +74,6 @@ describe("calcite-input-time-zone", () => {
         clearable: false,
       },
     );
-  });
-
-  describe("hidden", () => {
-    hidden(simpleTestProvider);
   });
 
   describe("renders", () => {

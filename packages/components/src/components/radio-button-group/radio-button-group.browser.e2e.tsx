@@ -1,6 +1,10 @@
-import { describe } from "vitest";
+import { Fragment, h } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { userEvent } from "@vitest/browser/context";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { RadioButton } from "../radio-button/radio-button";
+import { RadioButtonGroup } from "./radio-button-group";
 
 describe("calcite-radio-button-group", () => {
   describe("defaults", () => {
@@ -30,5 +34,68 @@ describe("calcite-radio-button-group", () => {
         { propertyName: "validationIcon", value: true },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-radio-button-group"));
+
+    it("honors hidden attribute when navigating", async () => {
+      const { container } = await mount<RadioButtonGroup>(
+        <Fragment>
+          <calcite-radio-button-group name="first">
+            <calcite-label>
+              1-1
+              <calcite-radio-button value="first" />
+            </calcite-label>
+            <calcite-label>
+              1-2
+              <calcite-radio-button value="second" />
+            </calcite-label>
+            <calcite-label>
+              1-3
+              <calcite-radio-button value="third" />
+            </calcite-label>
+          </calcite-radio-button-group>
+          <calcite-radio-button-group hidden name="second">
+            <calcite-label>
+              2-1
+              <calcite-radio-button value="first" />
+            </calcite-label>
+            <calcite-label>
+              2-2
+              <calcite-radio-button value="second" />
+            </calcite-label>
+            <calcite-label>
+              2-3
+              <calcite-radio-button value="third" />
+            </calcite-label>
+          </calcite-radio-button-group>
+          <calcite-radio-button-group name="third">
+            <calcite-label>
+              3-1
+              <calcite-radio-button value="first" />
+            </calcite-label>
+            <calcite-label>
+              3-2
+              <calcite-radio-button value="second" />
+            </calcite-label>
+            <calcite-label>
+              3-3
+              <calcite-radio-button value="third" />
+            </calcite-label>
+          </calcite-radio-button-group>
+        </Fragment>,
+      );
+
+      const firstElement = container.querySelector("calcite-radio-button")!;
+      await userEvent.click(firstElement);
+      await userEvent.tab();
+
+      const selected = container.querySelector<RadioButton["el"]>("calcite-radio-button[focused]")!;
+      const { name, value } = selected;
+
+      expect(name).toBe("third");
+      expect(value).toBe("first");
+    });
   });
 });

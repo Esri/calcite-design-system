@@ -1,16 +1,12 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-swatch", () => {
   describe("renders", () => {
     renders("calcite-swatch", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-swatch");
   });
 
   describe("accessible", () => {

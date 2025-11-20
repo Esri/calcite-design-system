@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { GlobalTestProps } from "../../tests/utils/puppeteer";
-import { accessible, disabled, hidden, renders, t9n, themed, focusable } from "../../tests/commonTests";
+import { accessible, disabled, renders, t9n, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -73,10 +73,6 @@ describe("calcite-action", () => {
 
   describe("renders", () => {
     renders("calcite-action", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action");
   });
 
   describe("disabled", () => {

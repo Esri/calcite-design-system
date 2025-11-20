@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { disabled, renders, slots, themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
@@ -8,10 +8,6 @@ import { CSS } from "./resources";
 describe("calcite-combobox-item", () => {
   describe("renders", () => {
     renders("calcite-combobox-item", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-combobox-item");
   });
 
   describe("slots", () => {

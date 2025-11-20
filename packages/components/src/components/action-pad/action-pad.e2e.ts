@@ -4,7 +4,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  hidden,
   renders,
   slots,
   t9n,
@@ -20,10 +19,6 @@ describe("calcite-action-pad", () => {
 
   describe("renders", () => {
     renders("calcite-action-pad", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-pad");
   });
 
   describe("delegates to floating-ui-owner component", () => {

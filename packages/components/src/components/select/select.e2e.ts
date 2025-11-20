@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -29,10 +28,6 @@ describe("calcite-select", () => {
 
   describe("renders", () => {
     renders(simpleTestMarkup, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-select");
   });
 
   describe("accessible", () => {

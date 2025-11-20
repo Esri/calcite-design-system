@@ -6,7 +6,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  hidden,
   renders,
   slots,
   t9n,
@@ -30,10 +29,6 @@ describe("calcite-flow-item", () => {
 
   describe("renders", () => {
     renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-flow-item");
   });
 
   describe("slots", () => {

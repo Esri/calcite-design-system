@@ -1,15 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
-  describe("honors hidden attribute", () => {
-    hidden("calcite-icon");
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
   });

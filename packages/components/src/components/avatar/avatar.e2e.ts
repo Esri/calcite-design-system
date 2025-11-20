@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -14,10 +14,6 @@ const placeholderUrl = placeholderImage({
 describe("calcite-avatar", () => {
   describe("renders", () => {
     renders("calcite-avatar", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-avatar");
   });
 
   describe("accessible", () => {

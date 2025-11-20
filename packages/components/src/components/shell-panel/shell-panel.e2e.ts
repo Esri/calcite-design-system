@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -15,10 +15,6 @@ describe("calcite-shell-panel", () => {
 
   describe("renders", () => {
     renders("calcite-shell-panel", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-shell-panel");
   });
 
   describe("slots", () => {

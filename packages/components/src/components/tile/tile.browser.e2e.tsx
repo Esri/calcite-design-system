@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
 
 describe("calcite-tile", () => {
   describe("defaults", () => {
@@ -21,6 +21,10 @@ describe("calcite-tile", () => {
         { propertyName: "selectionMode", defaultValue: "none" },
       ],
     );
+  });
+
+  describe("hidden", () => {
+    hidden(() => mount("calcite-tile"));
   });
 
   describe("reflects", () => {

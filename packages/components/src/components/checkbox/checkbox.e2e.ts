@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   HYDRATED_ATTR,
   labelable,
@@ -20,10 +19,6 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
-  describe("honors hidden attribute", () => {
-    hidden("calcite-checkbox");
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,

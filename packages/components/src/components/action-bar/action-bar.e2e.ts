@@ -6,7 +6,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  hidden,
   renders,
   slots,
   t9n,
@@ -24,10 +23,6 @@ describe("calcite-action-bar", () => {
 
   describe("renders", () => {
     renders("calcite-action-bar", { display: "inline-flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-bar");
   });
 
   describe("delegates to floating-ui-owner component", () => {
