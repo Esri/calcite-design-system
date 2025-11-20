@@ -24,7 +24,7 @@
     self-stretch;
   background: transparent;
 
-  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-action-corner-radius, 2px) + 1px);
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base, 2px) + 1px);
 }
 
 .container {
