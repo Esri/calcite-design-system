@@ -83,6 +83,7 @@ export default defineConfig({
     include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,
+    setupFiles: "./src/tests/browser/setup.ts",
   },
   /*
    * While useLumina() pre-configures everything for you, you can still

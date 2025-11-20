@@ -31,6 +31,10 @@ on:
         type: string
         description: "The label name added or removed from the issue."
         required: false
+      label_color:
+        type: string
+        description: "The hex code color (without '#' prefix) associated with the label."
+        required: false
       label_action:
         type: choice
         description: "The action taken on the label."
@@ -57,7 +61,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/createTask.js')
-            await action({github, context})
+            await action({github, context, core})
 
       - name: "Update Label on Task"
         if: github.event.action == 'labeled' && github.event.label.name != 'monday.com sync'
@@ -65,7 +69,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateLabels.js')
-            await action({context})
+            await action({context, core})
 
       - name: "Remove Label from Task"
         if: github.event.action == 'unlabeled'
@@ -73,7 +77,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/removeLabel.js')
-            await action({context})
+            await action({context, core})
 
       - name: "Update Milestone"
         if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
@@ -81,7 +85,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateMilestone.js')
-            await action({github, context})
+            await action({context, core})
 
       - name: "Update Task Title"
         if: github.event.action == 'edited'
@@ -89,7 +93,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateTitle.js')
-            await action({github, context})
+            await action({context, core})
 
       - name: "Update Task Assignee"
         if: github.event.action == 'assigned' || github.event.action == 'unassigned'
@@ -97,7 +101,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateAssignee.js')
-            await action({github, context})
+            await action({context, core})
 
       - name: "Update Task Status"
         if: github.event.action == 'closed' || github.event.action == 'reopened'
@@ -105,7 +109,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateState.js')
-            await action({github, context})
+            await action({context, core})
 
       - name: "Sync Action Changes"
         if: github.event.inputs.event_type == 'SyncActionChanges'

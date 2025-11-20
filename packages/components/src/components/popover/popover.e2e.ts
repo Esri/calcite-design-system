@@ -2,17 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  floatingUIOwner,
-  focusable,
-  hidden,
-  openClose,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, floatingUIOwner, focusable, openClose, renders, t9n, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -48,51 +38,6 @@ describe("calcite-popover", () => {
     accessible(
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-popover open></calcite-popover>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-popover", [
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "offsetDistance",
-        defaultValue: 6,
-      },
-      {
-        propertyName: "offsetSkidding",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "pointerDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-    ]);
   });
 
   describe("openClose", () => {

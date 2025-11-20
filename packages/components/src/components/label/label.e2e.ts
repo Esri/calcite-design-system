@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden, themed } from "../../tests/commonTests";
+import { renders, themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -35,10 +35,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("layout", "inline-space-between");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-label");
   });
 
   describe("alignment prop", () => {

@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import {
   findAll,
   getElementRect,
@@ -62,66 +52,8 @@ describe("calcite-color-picker", () => {
     accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-color-picker");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-color-picker", [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "fieldDisabled",
-        value: true,
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-color-picker", { display: "inline-block" });
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-color-picker", [
-      {
-        propertyName: "alphaChannel",
-        defaultValue: false,
-      },
-      {
-        propertyName: "channelsDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "clearable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "fieldDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "format",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "hexDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "savedDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "#007ac2",
-      },
-    ]);
   });
 
   describe("disabled", () => {

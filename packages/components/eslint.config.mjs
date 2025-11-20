@@ -6,6 +6,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
 import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
+import unicornPlugin from "eslint-plugin-unicorn";
 
 export default tseslint.config(
   {
@@ -73,8 +74,11 @@ export default tseslint.config(
 
       "unused-imports/no-unused-imports": "error",
 
+      "unicorn/filename-case": "off",
+
       "@esri/calcite-components/no-dynamic-createelement": "warn",
       "@esri/calcite-components/strict-boolean-attributes": "error",
+      "@esri/calcite-components/require-deprecation-details": "warn",
       "@esri/calcite-components/ban-events": [
         "warn",
         {
@@ -107,6 +111,28 @@ export default tseslint.config(
         ...globals.browser,
         ...vitestPlugin.environments?.env.globals,
       },
+    },
+  },
+
+  {
+    plugins: {
+      unicorn: unicornPlugin,
+    },
+    files: [
+      // scoped to allow for progressive adoption
+      ".storybook/**/*",
+      "src/custom-theme/**/*",
+      "src/demos/**/*",
+      "src/internal-label/**/*",
+      "src/tests/commonTests/browser/**/*",
+    ],
+    rules: {
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
     },
   },
 );

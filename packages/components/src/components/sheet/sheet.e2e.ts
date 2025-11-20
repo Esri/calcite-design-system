@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, openClose, reflects, renders, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
@@ -13,91 +13,8 @@ import type { Sheet } from "./sheet";
 describe("calcite-sheet", () => {
   mockConsole();
 
-  describe("defaults", () => {
-    defaults("calcite-sheet", [
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "embedded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "displayMode",
-        defaultValue: "overlay",
-      },
-      {
-        propertyName: "focusTrapDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "outsideCloseDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "position",
-        defaultValue: "inline-start",
-      },
-      {
-        propertyName: "escapeDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "opened",
-        defaultValue: false,
-      },
-      {
-        propertyName: "resizable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "heightScale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-sheet", [
-      {
-        propertyName: "resizable",
-        value: true,
-      },
-    ]);
-
-    describe("reflects", () => {
-      reflects("calcite-sheet", [
-        {
-          propertyName: "height",
-          value: "m",
-        },
-        {
-          propertyName: "heightScale",
-          value: "m",
-        },
-        {
-          propertyName: "width",
-          value: "m",
-        },
-        {
-          propertyName: "widthScale",
-          value: "m",
-        },
-      ]);
-    });
-  });
-
   describe("renders", () => {
     renders("calcite-sheet", { display: "flex", visible: false });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-sheet");
   });
 
   describe("accessible", () => {

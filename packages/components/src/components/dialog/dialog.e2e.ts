@@ -1,18 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  accessible,
-  defaults,
-  focusable,
-  hidden,
-  openClose,
-  reflects,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -54,10 +43,6 @@ describe("calcite-dialog", () => {
     renders("calcite-dialog", { display: "flex", visible: true });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-dialog");
-  });
-
   describe("openClose", () => {
     openClose("calcite-dialog");
     openClose.initial("calcite-dialog");
@@ -69,172 +54,6 @@ describe("calcite-dialog", () => {
 
   describe("translation support", () => {
     t9n("calcite-dialog");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-dialog", [
-      {
-        propertyName: "closeDisabled",
-        value: true,
-      },
-      {
-        propertyName: "dragEnabled",
-        value: true,
-      },
-      {
-        propertyName: "escapeDisabled",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "center",
-      },
-      {
-        propertyName: "headingLevel",
-        value: 1,
-      },
-      {
-        propertyName: "kind",
-        value: "brand",
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "menuOpen",
-        value: true,
-      },
-      {
-        propertyName: "modal",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "outsideCloseDisabled",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "resizable",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "widthScale",
-        value: "s",
-      },
-      {
-        propertyName: "width",
-        value: "s",
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-dialog", [
-      {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "description",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "dragEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "escapeDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closeDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "center",
-      },
-      {
-        propertyName: "heading",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-      {
-        propertyName: "kind",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "menuOpen",
-        defaultValue: false,
-      },
-      {
-        propertyName: "messageOverrides",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "modal",
-        defaultValue: false,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "outsideCloseDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "resizable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: "m",
-      },
-    ]);
   });
 
   describe("accessible", () => {

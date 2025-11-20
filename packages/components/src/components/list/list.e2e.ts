@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -38,92 +28,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-list", () => {
-  describe("defaults", () => {
-    defaults("calcite-list", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "selectionMode",
-        defaultValue: "none",
-      },
-      {
-        propertyName: "interactionMode",
-        defaultValue: "interactive",
-      },
-      {
-        propertyName: "selectedItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "selectionAppearance",
-        defaultValue: "icon",
-      },
-      {
-        propertyName: "filterEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filterPredicate",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "filteredData",
-        defaultValue: [],
-      },
-      {
-        propertyName: "filteredItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "filterText",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "filterPlaceholder",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "dragEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filterProps",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "displayMode",
-        defaultValue: "flat",
-      },
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-list", [
-      {
-        propertyName: "displayMode",
-        value: "nested",
-      },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-    ]);
-  });
-
   describe("renders", () => {
     renders("calcite-list", { display: "block" });
   });
@@ -137,10 +41,6 @@ describe("calcite-list", () => {
         focusTargetSelector: "calcite-list-item",
       },
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-list");
   });
 
   describe("translation support", () => {

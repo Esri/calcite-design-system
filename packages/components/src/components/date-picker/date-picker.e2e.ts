@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { focusable, renders, t9n } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
@@ -14,27 +14,6 @@ import type { DatePicker } from "./date-picker";
 describe("calcite-date-picker", () => {
   describe("renders", () => {
     renders("calcite-date-picker", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-date-picker");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-date-picker", [
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "calendars",
-        defaultValue: 2,
-      },
-      {
-        propertyName: "monthStyle",
-        defaultValue: "wide",
-      },
-    ]);
   });
 
   describe("focusable", () => {

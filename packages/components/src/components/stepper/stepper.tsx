@@ -176,13 +176,6 @@ export class Stepper extends LitElement {
   /** Fires when the active `calcite-stepper-item` changes. */
   calciteStepperChange = createEvent({ cancelable: false });
 
-  /**
-   * Fires when the active `calcite-stepper-item` changes.
-   *
-   * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
-   */
-  calciteStepperItemChange = createEvent({ cancelable: false });
-
   //#endregion
 
   //#region Lifecycle
@@ -298,7 +291,6 @@ export class Stepper extends LitElement {
   }
 
   private emitItemSelect(): void {
-    this.calciteStepperItemChange.emit();
     this.calciteStepperChange.emit();
   }
 

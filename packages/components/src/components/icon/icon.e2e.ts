@@ -1,31 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
+import { accessible, renders, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
-  describe("honors hidden attribute", () => {
-    hidden("calcite-icon");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-icon", [
-      { propertyName: "flipRtl", defaultValue: false },
-      { propertyName: "preload", defaultValue: false },
-      { propertyName: "scale", defaultValue: "m" },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-icon", [
-      { propertyName: "flipRtl", value: true },
-      { propertyName: "preload", value: true },
-      { propertyName: "scale", value: "m" },
-    ]);
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
   });

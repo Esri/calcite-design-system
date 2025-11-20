@@ -2,17 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  hidden,
-  openClose,
-  reflects,
-  renders,
-} from "../../tests/commonTests";
+import { accessible, disabled, floatingUIOwner, focusable, openClose, renders } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -38,56 +28,6 @@ describe("calcite-dropdown", () => {
     </calcite-dropdown>
   `;
 
-  describe("defaults", () => {
-    defaults("calcite-dropdown", [
-      {
-        propertyName: "offsetDistance",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "offsetSkidding",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "bottom-start",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-dropdown", [
-      {
-        propertyName: "offsetDistance",
-        value: 10,
-      },
-      {
-        propertyName: "offsetSkidding",
-        value: 10,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "widthScale",
-        value: "m",
-      },
-      {
-        propertyName: "width",
-        value: "m",
-      },
-      {
-        propertyName: "placement",
-        value: "bottom-start",
-      },
-    ]);
-  });
-
   describe("focusable", () => {
     focusable(simpleDropdownHTML, {
       focusTargetSelector: '[slot="trigger"]',
@@ -96,10 +36,6 @@ describe("calcite-dropdown", () => {
 
   describe("renders", () => {
     renders(simpleDropdownHTML, { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-dropdown");
   });
 
   describe("disabled", () => {

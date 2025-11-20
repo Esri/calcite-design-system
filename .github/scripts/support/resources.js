@@ -66,6 +66,7 @@ const resources = {
       medium: "estimate - design - md",
       large: "estimate - design - lg",
     },
+    productColor: "006B75",
   },
   milestone: {
     backlog: "Dev Backlog",

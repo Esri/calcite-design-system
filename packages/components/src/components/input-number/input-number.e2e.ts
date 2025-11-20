@@ -4,14 +4,11 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import {
-  defaults,
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -55,68 +52,6 @@ describe("calcite-input-number", () => {
 
   describe("renders", () => {
     renders("calcite-input-number", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-number");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-input-number", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-number", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "numberButtonType",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {

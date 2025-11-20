@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { mockConsole } from "../../tests/utils/logging";
@@ -14,25 +14,12 @@ describe("calcite-scrim", () => {
     renders("<calcite-scrim></calcite-scrim>", { display: "flex" });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-scrim");
-  });
-
   describe("accessible", () => {
     accessible("<calcite-scrim>My content</calcite-scrim>");
   });
 
   describe("accessible when loading", () => {
     accessible("<calcite-scrim loading>My content</calcite-scrim>");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-scrim", [
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-    ]);
   });
 
   describe("translation support", () => {

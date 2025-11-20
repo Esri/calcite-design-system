@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedLocales } from "../../utils/locale";
@@ -44,24 +44,12 @@ describe("calcite-time-picker", () => {
     renders("calcite-time-picker", { display: "inline-block" });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-time-picker");
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-time-picker></calcite-time-picker>`);
   });
 
   describe("accessible using seconds", () => {
     accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-time-picker", [
-      { propertyName: "hourFormat", defaultValue: "user" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 },
-    ]);
   });
 
   describe("focusing", () => {

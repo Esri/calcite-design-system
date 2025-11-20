@@ -54,6 +54,7 @@ export default tseslint.config(
 
       "jsdoc/check-param-names": "off",
       "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
       "jsdoc/require-param-description": "off",
       "jsdoc/require-param-type": "off",
       "jsdoc/require-property-type": "off",
@@ -97,6 +98,9 @@ export default tseslint.config(
       ],
       radix: ["error", "as-needed"],
 
+      "unicorn/filename-case": ["error", {
+        case: "kebabCase",
+      }],
       "unicorn/prefer-ternary": "error",
       "unicorn/prevent-abbreviations": [
         "error",

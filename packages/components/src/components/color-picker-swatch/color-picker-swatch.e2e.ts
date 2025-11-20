@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
@@ -8,33 +8,11 @@ describe("calcite-color-picker-swatch", () => {
     renders("calcite-color-picker-swatch", { display: "inline-flex" });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-color-picker-swatch");
-  });
-
   describe("accessible", () => {
     accessible("calcite-color-picker-swatch");
     accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);
     accessible(`<calcite-color-picker-swatch color='#c0ffee'></calcite-color-picker-swatch>`);
     accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-color-picker-swatch", [
-      {
-        propertyName: "active",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-color-picker-swatch", [
-      {
-        propertyName: "active",
-        value: true,
-      },
-    ]);
   });
 
   describe("accepts CSS color strings", () => {

@@ -6,10 +6,11 @@ const { assertRequired } = require("../support/utils");
  * @typedef {object} SyncActionChangesInputs
  * Incoming inputs from the "SyncActionChanges" event dispatch
  * @property {number} issue_number - The target issue number for syncing changes.
- * @property {boolean} [milestone_updated] - Indicates if the milestone was updated.
- * @property {boolean} [assignee_updated] - Indicates if the assignees were updated.
+ * @property {"true" | "false"} milestone_updated - Indicates if the milestone was updated.
+ * @property {"true" | "false"} assignee_updated - Indicates if the assignees were updated.
  * @property {"open" | "closed"} [state_updated] - Indicates if the state (open/closed) was updated.
  * @property {string} [label_name] - The label name added or removed from the issue.
+ * @property {string} [label_color] - The hex code color (without '#' prefix) associated with the label.
  * @property {"added" | "removed"} [label_action] - The action taken on the label.
  */
 
@@ -22,42 +23,39 @@ const { assertRequired } = require("../support/utils");
  */
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
-  const /** @type {SyncActionChangesInputs} */ {
+  /** @type {SyncActionChangesInputs} */
+  const {
     issue_number: issue_number_input,
     milestone_updated,
     assignee_updated,
     state_updated,
     label_name,
+    label_color,
     label_action,
   } = context.payload.inputs;
 
-  const [issue_number] = assertRequired([issue_number_input]);
+  const [issue_number] = assertRequired([issue_number_input], core, "Required issue number not provided.");
   const { data: issue } = await github.rest.issues.get({
     ...context.repo,
     issue_number,
   });
 
-  const monday = Monday(issue);
+  const monday = Monday(issue, core);
 
-  if (milestone_updated) {
+  if (milestone_updated === "true") {
     monday.handleMilestone();
-    core.info("Milestone handled.")
   }
-  if (assignee_updated) {
+  if (assignee_updated === "true") {
     monday.handleAssignees();
-    core.info("Assignees handled.")
   }
   if (state_updated) {
     monday.handleState(state_updated);
-    core.info("State handled.")
   }
   if (label_name && label_action) {
     if (label_action === "added") {
-      monday.addLabel(label_name);
-      core.info(`Label '${label_name}' added.`)
+      monday.addLabel(label_name, label_color);
     } else {
-      monday.clearLabel(label_name);
-      core.info(`Label '${label_name}' cleared.`)
+      monday.clearLabel(label_name, label_color);
     }
   }
 

@@ -3,14 +3,11 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
-  defaults,
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -52,78 +49,6 @@ describe("calcite-input", () => {
 
   describe("renders", () => {
     renders("calcite-input", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input");
-  });
-
-  describe("reflects", () => {
-    mockConsole();
-
-    reflects("calcite-input", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "type",
-        value: "color",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "numberButtonType",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "type",
-        defaultValue: "text",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {

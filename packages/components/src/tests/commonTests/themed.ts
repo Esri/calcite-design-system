@@ -4,8 +4,8 @@ import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppe
 import { expect, it } from "vitest";
 import { getTokenValue } from "../utils/cssTokenValues";
 import { skipAnimations, toElementHandle } from "../utils/puppeteer";
+import { getTagAndPage } from "./puppeteer/utils";
 import type { ComponentTestSetup } from "./interfaces";
-import { getTagAndPage } from "./utils";
 
 interface TargetInfo {
   el: E2EElement;

@@ -2,14 +2,11 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
-  reflects,
   renders,
   t9n,
   themed,
@@ -22,10 +19,6 @@ describe("calcite-rating", () => {
   describe("common tests", () => {
     describe("renders", () => {
       renders("<calcite-rating></calcite-rating>", { display: "flex" });
-    });
-
-    describe("honors hidden attribute", () => {
-      hidden("calcite-rating");
     });
 
     describe("accessible", () => {
@@ -68,32 +61,6 @@ describe("calcite-rating", () => {
 
     describe("is form-associated", () => {
       formAssociated("calcite-rating", { testValue: 3 });
-    });
-
-    describe("defaults", () => {
-      defaults("calcite-rating", [
-        { propertyName: "scale", defaultValue: "m" },
-        { propertyName: "status", defaultValue: "idle" },
-        { propertyName: "validationIcon", defaultValue: undefined },
-        { propertyName: "validationMessage", defaultValue: undefined },
-      ]);
-    });
-
-    describe("reflects", () => {
-      reflects("calcite-rating", [
-        {
-          propertyName: "scale",
-          value: "m",
-        },
-        {
-          propertyName: "status",
-          value: "invalid",
-        },
-        {
-          propertyName: "validationIcon",
-          value: true,
-        },
-      ]);
     });
   });
 

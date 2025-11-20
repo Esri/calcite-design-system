@@ -4,12 +4,9 @@ import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  hidden,
-  reflects,
   renders,
   slots,
   t9n,
@@ -17,7 +14,6 @@ import {
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
@@ -98,102 +94,12 @@ describe("calcite-panel", () => {
     renders("calcite-panel", { display: "flex" });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-panel");
-  });
-
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`
       <calcite-panel>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
       </calcite-panel>
     `);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-panel", [
-      {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "menuPlacement",
-        defaultValue: defaultEndMenuPlacement,
-      },
-      {
-        propertyName: "menuFlipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-panel", [
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: "true",
-      },
-    ]);
   });
 
   describe("slots", () => {

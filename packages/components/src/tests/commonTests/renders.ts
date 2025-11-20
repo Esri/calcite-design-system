@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { getTagAndPage, HYDRATED_ATTR } from "./utils";
+import { getTagAndPage, HYDRATED_ATTR } from "./puppeteer/utils";
 import { ComponentTestSetup } from "./interfaces";
 
 /**

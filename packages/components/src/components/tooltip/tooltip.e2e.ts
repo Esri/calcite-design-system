@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, floatingUIOwner, hidden, openClose, renders, themed } from "../../tests/commonTests";
+import { accessible, floatingUIOwner, openClose, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -103,39 +103,6 @@ describe("calcite-tooltip", () => {
     accessible(
       `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-tooltip open></calcite-tooltip >`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-tooltip", [
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "offsetDistance",
-        defaultValue: 6,
-      },
-      {
-        propertyName: "offsetSkidding",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-    ]);
   });
 
   const simpleTooltipHtml = html`

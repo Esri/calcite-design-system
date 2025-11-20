@@ -1,111 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  HYDRATED_ATTR,
-  labelable,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-button", () => {
-  describe("defaults", () => {
-    defaults("calcite-button", [
-      {
-        propertyName: "alignment",
-        defaultValue: "center",
-      },
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "kind",
-        defaultValue: "brand",
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "download",
-        defaultValue: false,
-      },
-      {
-        propertyName: "href",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconEnd",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconStart",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "name",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "rel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "form",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "round",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "splitChild",
-        defaultValue: false,
-      },
-      {
-        propertyName: "target",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "type",
-        defaultValue: "button",
-      },
-      {
-        propertyName: "width",
-        defaultValue: "auto",
-      },
-    ]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-button");
-  });
-
   it("renders child element as disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-button disabled>Continue</calcite-button>`);
