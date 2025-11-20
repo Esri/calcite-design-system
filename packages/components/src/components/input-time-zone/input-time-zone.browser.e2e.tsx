@@ -1,8 +1,11 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { hidden } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-input-time-zone", () => {
+  mockConsole();
+
   // describe("defaults", () => {
   //   defaults(() => mount(simpleTestProvider), [
   //     { propertyName: "disabled", defaultValue: false },
