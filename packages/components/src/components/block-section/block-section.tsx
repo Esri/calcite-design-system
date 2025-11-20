@@ -84,8 +84,9 @@ export class BlockSection extends LitElement {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: "block-section",
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;

@@ -144,8 +144,9 @@ export class Handle extends LitElement implements InteractiveComponent {
 
   loaded(): void {
     logger.deprecated("component", {
+      component: "handle",
       name: "handle",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "sort-handle",
     });
   }

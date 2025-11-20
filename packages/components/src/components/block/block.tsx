@@ -171,8 +171,9 @@ export class Block extends LitElement implements InteractiveComponent {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: "block",
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;

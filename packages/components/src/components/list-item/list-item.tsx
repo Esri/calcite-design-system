@@ -201,8 +201,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: "list-item",
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;

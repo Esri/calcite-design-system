@@ -4,15 +4,14 @@ import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
 
-type Message = string;
 type MajorVersion = number;
 
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
 
 type DeprecatedParams = {
+  component: string;
   name: string;
   suggested?: string | string[];
-  component?: string;
   removalVersion: MajorVersion | "future";
 };
 
@@ -38,12 +37,20 @@ function willLog(level: LogLevel): boolean {
   return logLevels[level] >= logLevels[getConfig().logLevel];
 }
 
-function forwardToConsole(level: LogLevel, ...data: any[]): void {
+function forwardToConsole(level: LogLevel, component: string, ...data: any[]): void {
   if (!willLog(level)) {
     return;
   }
 
-  const badgeTemplate = "%ccalcite";
+  // Normalize component name for the badge. If caller passed a bare name
+  // (e.g. "block"), prefix with `calcite-`. If the caller passed the
+  // container badge ("calcite") leave as-is.
+  let badgeName = component || "calcite";
+  if (badgeName !== "calcite" && !badgeName.startsWith("calcite-")) {
+    badgeName = `calcite-${badgeName}`;
+  }
+
+  const badgeTemplate = `%c${badgeName}`;
   const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
   console[level].call(this, badgeTemplate, badgeStyle, ...data);
@@ -51,12 +58,19 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
 
 let listFormatter: Intl.ListFormat;
 
+function makeLogger(level: LogLevel) {
+  return (componentNameOrMessage: string, ...data: any[]) =>
+    data.length === 0
+      ? forwardToConsole(level, "calcite", componentNameOrMessage)
+      : forwardToConsole(level, componentNameOrMessage, ...data);
+}
+
 export const logger = {
-  debug: (message: Message) => forwardToConsole("debug", message),
-  info: (message: Message) => forwardToConsole("info", message),
-  warn: (message: Message) => forwardToConsole("warn", message),
-  error: (message: Message) => forwardToConsole("error", message),
-  trace: (message: Message) => forwardToConsole("trace", message),
+  debug: makeLogger("debug"),
+  info: makeLogger("info"),
+  warn: makeLogger("warn"),
+  error: makeLogger("error"),
+  trace: makeLogger("trace"),
 
   deprecated,
 } as const;
@@ -87,7 +101,7 @@ function deprecated(
     listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
   }
 
-  const message = `[${name}] ${context} is deprecated and will be removed in ${removalVersion === "future" ? `a future version` : `v${removalVersion}`}.${suggested ? ` Use ${multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`} instead.` : ""}`;
+  const message = `The [${name}] ${context} is deprecated and will be removed in ${removalVersion === "future" ? `a future version` : `v${removalVersion}`}.${suggested ? ` Use ${multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`} instead.` : ""}`;
 
-  forwardToConsole("warn", message);
+  forwardToConsole("warn", component, message);
 }
