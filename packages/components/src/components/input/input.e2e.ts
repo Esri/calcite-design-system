@@ -2,7 +2,7 @@
 import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { disabled, focusable, formAssociated, labelable, renders, t9n, themed } from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
@@ -36,10 +36,6 @@ describe("calcite-input", () => {
 
   describe("labelable", () => {
     labelable("calcite-input");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input", { display: "block" });
   });
 
   describe("disabled", () => {

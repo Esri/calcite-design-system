@@ -1,7 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-block-group", () => {
   mockConsole();
@@ -80,5 +81,9 @@ describe("calcite-block-group", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-block-group"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-block-group>content</calcite-block-group>), { display: "block" });
   });
 });

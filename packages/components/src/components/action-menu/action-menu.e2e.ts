@@ -2,14 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  focusable,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, focusable, slots, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -18,10 +11,6 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-menu", { display: "flex" });
-  });
 
   describe("accessible", () => {
     accessible(html`

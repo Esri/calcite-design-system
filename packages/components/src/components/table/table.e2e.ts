@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   getFocusedElementProp,
@@ -18,30 +18,6 @@ import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
-  describe("renders", () => {
-    renders(
-      html`<calcite-table caption="Simple table">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-      </calcite-table>`,
-      { display: "flex" },
-    );
-  });
-
   describe("accessible", () => {
     describe("is accessible simple", () => {
       accessible(

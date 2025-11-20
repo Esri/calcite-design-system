@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-pagination", () => {
   describe("defaults", () => {
@@ -21,5 +21,9 @@ describe("calcite-pagination", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-pagination"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-pagination"), { display: "flex" });
   });
 });

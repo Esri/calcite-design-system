@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-alert", () => {
   describe("defaults", () => {
@@ -38,5 +38,9 @@ describe("calcite-alert", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount(<calcite-alert open />));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-alert"), { visible: false, display: "block" });
   });
 });

@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-action-bar", () => {
@@ -76,5 +76,9 @@ describe("calcite-action-bar", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-action-bar"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
   });
 });

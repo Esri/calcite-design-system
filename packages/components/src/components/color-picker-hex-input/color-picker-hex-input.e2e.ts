@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, focusable, renders } from "../../tests/commonTests";
+import { accessible, focusable } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils/puppeteer";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
-  describe("renders", () => {
-    renders("calcite-color-picker-hex-input", { display: "block" });
-  });
-
   describe("accessible", () => {
     accessible("calcite-color-picker-hex-input");
     accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");

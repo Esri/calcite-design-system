@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { focusable, renders, disabled, themed } from "../../tests/commonTests";
+import { focusable, disabled, themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown-item", () => {
-  describe("renders", () => {
-    renders("calcite-dropdown-item", { display: "flex" });
-  });
-
   describe("can be focused", () => {
     focusable(`calcite-dropdown-item`);
   });

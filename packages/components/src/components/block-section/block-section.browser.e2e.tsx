@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-block-section", () => {
   describe("defaults", () => {
@@ -49,5 +49,9 @@ describe("calcite-block-section", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-block-section"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-block-section"), { display: "block" });
   });
 });

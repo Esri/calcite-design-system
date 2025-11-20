@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-accordion", () => {
   describe("defaults", () => {
@@ -61,5 +61,9 @@ describe("calcite-accordion", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-accordion"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-accordion"), { display: "block" });
   });
 });

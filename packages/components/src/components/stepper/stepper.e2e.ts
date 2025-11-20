@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { renders, t9n, themed } from "../../tests/commonTests";
+import { t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
@@ -16,26 +16,6 @@ async function itemClicker(item: StepperItem["el"]) {
 }
 
 describe("calcite-stepper", () => {
-  describe("renders", () => {
-    renders(
-      html`<calcite-stepper>
-        <calcite-stepper-item heading="Step 1" id="step-1">
-          <div>Step 1 content</div>
-        </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 2" id="step-2">
-          <div>Step 2 content</div>
-        </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 3" id="step-3">
-          <div>Step 3 content</div>
-        </calcite-stepper-item>
-        <calcite-stepper-item heading="Step 4" id="step-4">
-          <div>Step 4 content</div>
-        </calcite-stepper-item>
-      </calcite-stepper>`,
-      { display: "flex" },
-    );
-  });
-
   describe("translation support", () => {
     t9n("calcite-stepper");
   });

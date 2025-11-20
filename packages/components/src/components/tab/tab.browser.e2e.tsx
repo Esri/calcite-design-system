@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-tab", () => {
   describe("defaults", () => {
@@ -16,5 +17,9 @@ describe("calcite-tab", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-tab"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-tab>A tab</calcite-tab>), { display: "none", visible: false });
   });
 });

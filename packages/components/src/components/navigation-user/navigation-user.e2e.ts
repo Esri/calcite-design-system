@@ -1,15 +1,11 @@
 import { describe } from "vitest";
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, renders } from "../../tests/commonTests";
+import { accessible, focusable } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-navigation-user", () => {
-  describe("renders", () => {
-    renders("calcite-navigation-user", { display: "inline-flex" });
-  });
-
   describe("accessible", () => {
     accessible(html`<calcite-navigation-user label="user"></calcite-navigation-user>`);
   });

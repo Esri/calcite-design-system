@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
@@ -79,5 +80,17 @@ describe("calcite-segmented-control", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-segmented-control`));
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item checked icon-start="banana" value="test" />
+          </calcite-segmented-control>,
+        ),
+      { display: "flex" },
+    );
   });
 });

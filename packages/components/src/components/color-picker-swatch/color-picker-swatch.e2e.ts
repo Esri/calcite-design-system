@@ -1,13 +1,9 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
-  describe("renders", () => {
-    renders("calcite-color-picker-swatch", { display: "inline-flex" });
-  });
-
   describe("accessible", () => {
     accessible("calcite-color-picker-swatch");
     accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);

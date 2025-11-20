@@ -1,6 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { JsxNode } from "@arcgis/lumina";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-dropdown", () => {
   describe("defaults", () => {
@@ -46,5 +48,25 @@ describe("calcite-dropdown", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-dropdown"));
+  });
+
+  function createSimpleDropdownHTML(): JsxNode {
+    return (
+      <calcite-dropdown>
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            {" "}
+            Dropdown Item Content
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    );
+  }
+
+  describe("renders", () => {
+    renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
   });
 });

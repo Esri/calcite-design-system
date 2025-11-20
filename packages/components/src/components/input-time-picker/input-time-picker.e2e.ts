@@ -4,16 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -43,18 +34,6 @@ async function assertDisplayedTime(page: E2EPage, incomingValue, locale?: Suppor
 }
 
 describe("calcite-input-time-picker", () => {
-  describe("renders", () => {
-    renders("calcite-input-time-picker", { display: "inline-block" });
-
-    describe("renders with en-us lowercase locale code", () => {
-      renders(`<calcite-input-time-picker lang="en-us"></calcite-input-time-picker>`, { display: "inline-block" });
-    });
-
-    describe("renders with base lang when region code is unsupported", () => {
-      renders(`<calcite-input-time-picker lang="nl-nl"></calcite-input-time-picker>`, { display: "inline-block" });
-    });
-  });
-
   describe("accessible", () => {
     accessible(html`
       <calcite-label>

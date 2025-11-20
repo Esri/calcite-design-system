@@ -1,25 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
-    describe("renders", () => {
-      renders("<calcite-rating></calcite-rating>", { display: "flex" });
-    });
-
     describe("accessible", () => {
       accessible(`<calcite-rating></calcite-rating>`);
     });

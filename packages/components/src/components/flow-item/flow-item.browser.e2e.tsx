@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-flow-item", () => {
@@ -124,5 +125,11 @@ describe("calcite-flow-item", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-flow-item"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
+      display: "flex",
+    });
   });
 });

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
@@ -102,76 +102,6 @@ describe("calcite-tile", () => {
 
   describe("slots", () => {
     slots("calcite-tile", SLOTS);
-  });
-
-  describe("renders", () => {
-    renders("calcite-tile", { display: "inline-block" });
-
-    it("renders without a link by default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile></calcite-tile> `);
-      const link = await page.find("calcite-tile >>> calcite-link");
-      expect(link).toBeNull();
-    });
-
-    it("renders a link when href attribute is supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile href="http://www.esri.com"></calcite-tile> `);
-
-      const link = await page.find("calcite-tile >>> calcite-link");
-      const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
-      expect(link).toEqualAttribute("href", "http://www.esri.com");
-      expect(anchor).toEqualAttribute("href", "http://www.esri.com");
-    });
-
-    it("renders heading only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile heading="My Calcite Tile"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeNull();
-      expect(heading).toEqualText("My Calcite Tile");
-      expect(description).toBeNull();
-    });
-
-    it("renders icon only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeDefined();
-      expect(heading).toBeNull();
-      expect(description).toBeNull();
-    });
-
-    it("renders description only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile description="My Calcite Tile Description."></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeNull();
-      expect(heading).toBeNull();
-      expect(description).toEqualText("My Calcite Tile Description.");
-    });
-
-    it("renders large icon when only icon and heading are supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> calcite-icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toEqualAttribute("icon", "layers");
-      expect(icon).toEqualAttribute("scale", "l");
-      expect(heading).toEqualText("My Large Visual Calcite Tile");
-      expect(description).toBeNull();
-    });
   });
 
   describe("theme", () => {

@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-scrim", () => {
@@ -20,5 +21,9 @@ describe("calcite-scrim", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-scrim"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-scrim />), { display: "flex" });
   });
 });

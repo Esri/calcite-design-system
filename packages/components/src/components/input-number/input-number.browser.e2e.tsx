@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input-number", () => {
@@ -74,5 +74,9 @@ describe("calcite-input-number", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-input-number`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-input-number"), { display: "block" });
   });
 });

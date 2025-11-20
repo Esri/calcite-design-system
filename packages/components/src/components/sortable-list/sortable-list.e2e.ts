@@ -1,14 +1,10 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, renders } from "../../tests/commonTests";
+import { accessible, disabled } from "../../tests/commonTests";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {
-  describe("renders", () => {
-    renders("calcite-sortable-list", { display: "flex" });
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-sortable-list></calcite-sortable-list>`);
   });

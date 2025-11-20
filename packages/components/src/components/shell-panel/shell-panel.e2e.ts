@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -12,10 +12,6 @@ import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-shell-panel", { display: "flex" });
-  });
 
   describe("slots", () => {
     slots("calcite-shell-panel", SLOTS);

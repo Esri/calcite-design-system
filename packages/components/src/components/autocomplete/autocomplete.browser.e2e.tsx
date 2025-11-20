@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -227,5 +227,9 @@ describe("calcite-autocomplete", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-autocomplete`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-autocomplete"), { display: "block" });
   });
 });

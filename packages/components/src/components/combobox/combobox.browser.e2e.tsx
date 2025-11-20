@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -122,5 +122,9 @@ describe("calcite-combobox", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-combobox`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-combobox"), { display: "block" });
   });
 });

@@ -1,16 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-loader", () => {
-  describe("renders", () => {
-    renders(`<calcite-loader></calcite-loader>`, { display: "flex", visible: true });
-    renders(`<calcite-loader inline></calcite-loader>`, { display: "flex", visible: true });
-  });
-
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-loader text="testing"></calcite-loader>`);
