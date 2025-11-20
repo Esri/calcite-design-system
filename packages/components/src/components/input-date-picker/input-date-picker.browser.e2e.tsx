@@ -40,7 +40,7 @@ describe("calcite-input-date-picker", () => {
     hidden(() => mount("calcite-input-date-picker"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-input-date-picker`));
   });
 });

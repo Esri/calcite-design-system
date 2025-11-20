@@ -40,7 +40,7 @@ describe("calcite-rating", () => {
     hidden(() => mount("calcite-rating"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-rating`));
   });
 });

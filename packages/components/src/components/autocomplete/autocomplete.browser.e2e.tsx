@@ -225,7 +225,7 @@ describe("calcite-autocomplete", () => {
     hidden(() => mount("calcite-autocomplete"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-autocomplete`));
   });
 });

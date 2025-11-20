@@ -48,7 +48,7 @@ function expectRequiredIndicator(el: HTMLElement) {
  * Use within a describe block.
  *
  * @example
- * describe("InternalLabel", () => {
+ * describe("internal label", () => {
  *   internalLabel(`calcite-input`);
  * });
  */

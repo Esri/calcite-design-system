@@ -72,7 +72,7 @@ describe("calcite-input-number", () => {
     hidden(() => mount("calcite-input-number"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-input-number`));
   });
 });

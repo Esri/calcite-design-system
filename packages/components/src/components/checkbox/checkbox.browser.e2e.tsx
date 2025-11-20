@@ -8,7 +8,7 @@ describe("calcite-checkbox", () => {
     hidden(() => mount("calcite-checkbox"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-checkbox`));
   });
 });

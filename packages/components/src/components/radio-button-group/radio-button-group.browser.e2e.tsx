@@ -100,7 +100,7 @@ describe("calcite-radio-button-group", () => {
     });
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-radio-button-group`));
   });
 });

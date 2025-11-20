@@ -87,7 +87,7 @@ describe("calcite-slider", () => {
     hidden(() => mount("calcite-slider"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-slider`));
   });
 });

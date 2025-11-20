@@ -27,7 +27,7 @@ describe("calcite-radio-button", () => {
     hidden(() => mount("calcite-radio-button"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-radio-button`));
   });
 });

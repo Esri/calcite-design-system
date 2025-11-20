@@ -8,7 +8,7 @@ describe("calcite-switch", () => {
     hidden(() => mount("calcite-switch"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-switch`));
   });
 });

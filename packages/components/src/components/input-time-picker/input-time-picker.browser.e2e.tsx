@@ -38,7 +38,7 @@ describe("calcite-input-time-picker", () => {
     hidden(() => mount("calcite-input-time-picker"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-input-time-picker`));
   });
 });

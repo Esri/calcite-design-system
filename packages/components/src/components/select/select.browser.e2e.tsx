@@ -53,7 +53,7 @@ describe("calcite-select", () => {
     hidden(() => mount("calcite-select"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-select`));
   });
 });

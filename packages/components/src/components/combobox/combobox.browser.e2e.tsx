@@ -120,7 +120,7 @@ describe("calcite-combobox", () => {
     hidden(() => mount("calcite-combobox"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-combobox`));
   });
 });

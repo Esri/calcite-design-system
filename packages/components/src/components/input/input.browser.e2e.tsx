@@ -80,7 +80,7 @@ describe("calcite-input", () => {
     hidden(() => mount("calcite-input"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-input`));
   });
 });

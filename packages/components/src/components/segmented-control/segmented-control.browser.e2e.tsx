@@ -77,7 +77,7 @@ describe("calcite-segmented-control", () => {
     hidden(() => mount("calcite-segmented-control"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-segmented-control`));
   });
 });

@@ -76,7 +76,7 @@ describe("calcite-text-area", () => {
     hidden(() => mount("calcite-text-area"));
   });
 
-  describe("InternalLabel", () => {
+  describe("internal label", () => {
     internalLabel(() => mount(`calcite-text-area`));
   });
 });
