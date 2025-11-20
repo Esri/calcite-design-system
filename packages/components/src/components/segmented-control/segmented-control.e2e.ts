@@ -2,16 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
@@ -403,10 +394,6 @@ describe("calcite-segmented-control", () => {
         },
       );
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-segmented-control`);
   });
 
   describe("is form-associated", () => {

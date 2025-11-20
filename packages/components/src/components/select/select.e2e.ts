@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  internalLabel,
   labelable,
   renders,
   t9n,
@@ -36,10 +35,6 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-select`);
   });
 
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {

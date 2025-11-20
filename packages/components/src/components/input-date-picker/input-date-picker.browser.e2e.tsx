@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel } from "../../tests/commonTests/browser";
 import { defaults, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
@@ -37,5 +38,9 @@ describe("calcite-input-date-picker", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input-date-picker"));
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(() => mount(`calcite-input-date-picker`));
   });
 });

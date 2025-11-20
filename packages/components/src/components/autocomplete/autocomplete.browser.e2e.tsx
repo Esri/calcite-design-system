@@ -1,9 +1,13 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-autocomplete", () => {
+  mockConsole();
+
   describe("cancelable", () => {
     cancelable("calcite-autocomplete");
   });
@@ -219,5 +223,9 @@ describe("calcite-autocomplete", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-autocomplete"));
+  });
+
+  describe("InternalLabel", () => {
+    internalLabel(() => mount(`calcite-autocomplete`));
   });
 });

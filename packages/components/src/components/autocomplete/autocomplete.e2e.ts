@@ -6,7 +6,6 @@ import {
   floatingUIOwner,
   focusable,
   formAssociated,
-  internalLabel,
   labelable,
   openClose,
   renders,
@@ -258,10 +257,6 @@ describe("calcite-autocomplete", () => {
 
   describe("is focusable", () => {
     focusable("calcite-autocomplete");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-autocomplete`);
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, internalLabel, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, renders, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -31,10 +31,6 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>`,
       { focusTargetSelector: "calcite-radio-button" },
     );
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-radio-button-group`);
   });
 
   it("has a radio input for form compatibility", async () => {
