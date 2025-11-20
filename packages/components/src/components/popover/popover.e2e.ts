@@ -2,16 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  floatingUIOwner,
-  focusable,
-  hidden,
-  openClose,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, floatingUIOwner, focusable, openClose, renders, t9n, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -47,10 +38,6 @@ describe("calcite-popover", () => {
     accessible(
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-popover open></calcite-popover>`);
   });
 
   describe("openClose", () => {

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
+import { accessible, disabled, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { TileGroup } from "./tile-group";
@@ -58,10 +58,6 @@ describe("calcite-tile-group", () => {
       </calcite-tile-group>`,
       { focusTarget: "child" },
     );
-  });
-
-  describe("hidden", () => {
-    hidden("calcite-tile-group");
   });
 
   describe("renders", () => {

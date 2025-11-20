@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -70,5 +70,9 @@ describe("calcite-segmented-control", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-segmented-control"));
   });
 });

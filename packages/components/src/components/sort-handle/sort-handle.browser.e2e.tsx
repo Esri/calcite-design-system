@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-sort-handle", () => {
   describe("defaults", () => {
@@ -41,5 +41,9 @@ describe("calcite-sort-handle", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-sort-handle"));
   });
 });

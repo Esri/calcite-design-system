@@ -1,17 +1,13 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   describe("renders", () => {
     renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-chip");
   });
 
   describe("accessible with icon only", () => {

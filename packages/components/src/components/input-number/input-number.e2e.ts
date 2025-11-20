@@ -7,7 +7,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -53,10 +52,6 @@ describe("calcite-input-number", () => {
 
   describe("renders", () => {
     renders("calcite-input-number", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-number");
   });
 
   describe("disabled", () => {

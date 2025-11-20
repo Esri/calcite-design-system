@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -20,10 +19,6 @@ import { CSS } from "./resources";
 describe("calcite-segmented-control", () => {
   describe("renders", () => {
     renders("calcite-segmented-control", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-segmented-control");
   });
 
   describe("labelable", () => {

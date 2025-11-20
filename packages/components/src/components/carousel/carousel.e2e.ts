@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -21,17 +21,6 @@ describe("calcite-carousel", () => {
       {
         display: "flex",
       },
-    );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(
-      html`<calcite-carousel hidden label="Carousel example"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
     );
   });
 

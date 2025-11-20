@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults } from "../../tests/commonTests/browser";
+import { defaults, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-time-picker", () => {
@@ -15,5 +15,9 @@ describe("calcite-time-picker", () => {
         { propertyName: "step", defaultValue: 60 },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-time-picker"));
   });
 });

@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -18,10 +18,6 @@ describe("calcite-alert", () => {
 
   describe("renders", () => {
     renders("calcite-alert", { visible: false, display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("<calcite-alert open></calcite-alert>");
   });
 
   describe("accessible", () => {

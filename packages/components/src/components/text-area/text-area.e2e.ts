@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   internalLabel,
   labelable,
   renders,
@@ -20,10 +19,6 @@ import { CSS } from "./resources";
 describe("calcite-text-area", () => {
   describe("renders", () => {
     renders("calcite-text-area", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-text-area");
   });
 
   describe("labelable", () => {

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, focusable, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -16,10 +16,6 @@ describe("calcite-split-button", () => {
 
   describe("renders", () => {
     renders("calcite-split-button", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-split-button");
   });
 
   describe("focusable", () => {

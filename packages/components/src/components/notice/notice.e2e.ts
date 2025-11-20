@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, slots, hidden, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
@@ -14,10 +14,6 @@ describe("calcite-notice", () => {
 
   describe("renders", () => {
     renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-notice");
   });
 
   describe("accessible", () => {

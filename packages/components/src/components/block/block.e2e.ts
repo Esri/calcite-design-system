@@ -7,7 +7,6 @@ import {
   disabled,
   focusable,
   handlesActionMenuPlacements,
-  hidden,
   renders,
   slots,
   t9n,
@@ -24,10 +23,6 @@ describe("calcite-block", () => {
 
   describe("renders", () => {
     renders("calcite-block", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-block");
   });
 
   describe("openClose", () => {

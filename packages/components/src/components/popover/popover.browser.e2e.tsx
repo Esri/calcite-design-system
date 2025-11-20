@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults } from "../../tests/commonTests/browser";
+import { defaults, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-popover", () => {
@@ -48,5 +49,9 @@ describe("calcite-popover", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount(<calcite-popover open />));
   });
 });

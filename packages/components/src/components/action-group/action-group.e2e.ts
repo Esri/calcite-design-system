@@ -4,7 +4,6 @@ import {
   accessible,
   focusable,
   handlesActionMenuPlacements,
-  hidden,
   renders,
   slots,
   t9n,
@@ -28,10 +27,6 @@ describe("calcite-action-group", () => {
 
   describe("focusable", () => {
     focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-group");
   });
 
   describe("accessible", () => {

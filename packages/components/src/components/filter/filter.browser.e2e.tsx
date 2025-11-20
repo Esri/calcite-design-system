@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects } from "../../tests/commonTests/browser";
+import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-filter", () => {
@@ -45,5 +45,9 @@ describe("calcite-filter", () => {
         },
       ],
     );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount("calcite-filter"));
   });
 });

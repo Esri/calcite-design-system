@@ -2,16 +2,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, formAssociated, internalLabel, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
@@ -21,10 +12,6 @@ describe("calcite-slider", () => {
 
   describe("renders", () => {
     renders("calcite-slider", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-slider");
   });
 
   describe("labelable", () => {
