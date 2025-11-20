@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { expect, it } from "vitest";
-import { GlobalTestProps } from "../utils/puppeteer";
+import { GlobalTestProps } from "../utils/interfaces";
 import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup } from "./interfaces";
 

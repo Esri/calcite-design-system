@@ -1,7 +1,8 @@
 import { E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it, beforeEach } from "vitest";
 import { MessageBundle } from "../../utils/t9n";
-import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "../utils/puppeteer";
+import { newProgrammaticE2EPage } from "../utils/puppeteer";
+import { IntrinsicElementsWithProp } from "../utils/interfaces";
 import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTag, ComponentTestSetup } from "./interfaces";
 

@@ -1,17 +1,8 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS } from "../../../components/functional/InternalLabel";
+import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import { shadowQuery } from "./utils";
-
-type FilterPropsByPropertyName<T, PropName extends string> = {
-  [K in keyof T]: PropName extends keyof T[K] ? T[K] : never;
-};
-
-/** Helper to extract a type by filtering the type by the property name. */
-export type IntrinsicElementsWithProp<T extends string> = FilterPropsByPropertyName<
-  DeclareElements,
-  T
->[keyof FilterPropsByPropertyName<DeclareElements, T>];
 
 function hasLabelText(el: HTMLElement): el is IntrinsicElementsWithProp<"labelText"> & HTMLElement {
   return "labelText" in el;

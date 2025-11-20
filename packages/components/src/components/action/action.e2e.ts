@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { GlobalTestProps } from "../../tests/utils/puppeteer";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { accessible, disabled, renders, t9n, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";

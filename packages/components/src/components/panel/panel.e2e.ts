@@ -13,8 +13,9 @@ import {
   themed,
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
+import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
 

@@ -2,17 +2,11 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
-import {
-  findAll,
-  getElementRect,
-  getElementXY,
-  GlobalTestProps,
-  newProgrammaticE2EPage,
-  selectText,
-} from "../../tests/utils/puppeteer";
+import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getColorFieldDimensions, getSliderWidth } from "./utils";

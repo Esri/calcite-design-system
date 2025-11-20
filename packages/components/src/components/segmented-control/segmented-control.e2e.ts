@@ -3,7 +3,8 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { disabled, focusable, formAssociated, labelable, renders, t9n, themed } from "../../tests/commonTests";
-import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 
