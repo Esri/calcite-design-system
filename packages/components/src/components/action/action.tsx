@@ -98,7 +98,11 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
 
-  /** Specifies the appearance of the component. */
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
+   */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
 
@@ -236,8 +240,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   private renderTextContainer(): JsxNode {
     const { text, textEnabled } = this;
 
-    return text && textEnabled ? (
-      <div class={CSS.textContainer} key="text-container">
+    const textContainerClasses = {
+      [CSS.textContainer]: true,
+      [CSS.textContainerVisible]: textEnabled,
+    };
+
+    return text ? (
+      <div class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
