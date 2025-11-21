@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.6...@esri/calcite-components@5.0.0-next.7) (2025-11-21)
+
+### Features
+
+- **card:** Update selection state styling for 5.0 ([#13341](https://github.com/Esri/calcite-design-system/issues/13341)) ([bcf0def](https://github.com/Esri/calcite-design-system/commit/bcf0deff33d2ffbb7cc86081008ab636e7ff3747)), closes [#10771](https://github.com/Esri/calcite-design-system/issues/10771)
+
 ## [5.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.5...@esri/calcite-components@5.0.0-next.6) (2025-11-19)
 
 ### ⚠ BREAKING CHANGES
