@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -35,5 +36,9 @@ describe("calcite-input-time-picker", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("internal label", () => {
+    internalLabel(() => mount(`calcite-input-time-picker`));
   });
 });

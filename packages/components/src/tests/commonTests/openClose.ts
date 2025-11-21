@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 import { E2EPage, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils/puppeteer";
+import { newProgrammaticE2EPage, skipAnimations, toElementHandle } from "../utils/puppeteer";
+import { GlobalTestProps } from "../utils/interfaces";
 import { getBeforeContent, getTagAndPage, noopBeforeContent } from "./puppeteer/utils";
 import { ComponentTag, ComponentTestSetup, WithBeforeContent } from "./interfaces";
 

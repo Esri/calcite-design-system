@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-text-area", () => {
@@ -73,5 +74,9 @@ describe("calcite-text-area", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-text-area"));
+  });
+
+  describe("internal label", () => {
+    internalLabel(() => mount(`calcite-text-area`));
   });
 });

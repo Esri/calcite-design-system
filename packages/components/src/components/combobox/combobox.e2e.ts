@@ -7,7 +7,6 @@ import {
   floatingUIOwner,
   focusable,
   formAssociated,
-  internalLabel,
   labelable,
   openClose,
   renders,
@@ -47,10 +46,6 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
       </calcite-combobox>
     `);
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-combobox`);
   });
 
   describe("accessible", () => {

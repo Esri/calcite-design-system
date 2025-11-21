@@ -3,10 +3,11 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, openClose, renders, themed } from "../../tests/commonTests";
-import { GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
+import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, IDS } from "./resources";
 import type { Sheet } from "./sheet";
 

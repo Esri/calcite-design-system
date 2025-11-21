@@ -9,5 +9,4 @@ export { slots } from "./slots";
 export { labelable } from "./labelable";
 export { themed } from "./themed";
 export { t9n } from "./t9n";
-export { internalLabel } from "./internalLabel";
 export { HYDRATED_ATTR } from "./puppeteer/utils";

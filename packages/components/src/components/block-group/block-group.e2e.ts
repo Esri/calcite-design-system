@@ -3,12 +3,13 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, renders, focusable, disabled } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
+import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { Block } from "../block/block";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 

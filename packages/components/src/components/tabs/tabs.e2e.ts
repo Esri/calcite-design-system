@@ -3,11 +3,12 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, renders, themed } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS } from "./resources";
 import { TabPosition } from "./interfaces";
 import type { Tabs } from "./tabs";

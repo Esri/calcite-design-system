@@ -9,7 +9,6 @@ import {
   dragAndDrop,
   findAll,
   getFocusedElementProp,
-  GlobalTestProps,
   isElementFocused,
   newProgrammaticE2EPage,
 } from "../../tests/utils/puppeteer";
@@ -18,6 +17,7 @@ import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";

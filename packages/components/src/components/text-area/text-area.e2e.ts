@@ -6,7 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  internalLabel,
   labelable,
   renders,
   t9n,
@@ -40,10 +39,6 @@ describe("calcite-text-area", () => {
 
   describe("is focusable", () => {
     focusable("calcite-text-area");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-text-area`);
   });
 
   describe("is form associated", () => {

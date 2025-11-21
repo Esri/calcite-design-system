@@ -3,16 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, renders, t9n, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -167,10 +158,6 @@ describe("calcite-input-number", () => {
     focusable(`calcite-input-number`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-number`);
   });
 
   describe.skip("increment/decrement functionality", () => {
