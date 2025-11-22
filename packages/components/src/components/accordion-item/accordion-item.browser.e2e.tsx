@@ -29,7 +29,7 @@ describe("calcite-accordion-item", () => {
         },
         {
           propertyName: "scale",
-          value: "m ",
+          value: "m",
         },
       ],
     );
