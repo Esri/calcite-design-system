@@ -9,6 +9,8 @@ describe("calcite-input-message", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount(<calcite-input-message hidden />), { display: "none", visible: false });
+    renders(() => mount(<calcite-input-message>content</calcite-input-message>), {
+      display: "flex",
+    });
   });
 });

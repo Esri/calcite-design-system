@@ -57,7 +57,6 @@ describe("calcite-dropdown", () => {
         <calcite-dropdown-group id="group-1">
           <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
           <calcite-dropdown-item id="item-2" selected>
-            {" "}
             Dropdown Item Content
           </calcite-dropdown-item>
           <calcite-dropdown-item id="item-3"> Dropdown Item Content</calcite-dropdown-item>

@@ -9,6 +9,6 @@ describe("calcite-progress", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount(<calcite-progress value={20} />), { display: "block" });
+    renders(() => mount(<calcite-progress value={20} />), { display: "block", visible: false });
   });
 });

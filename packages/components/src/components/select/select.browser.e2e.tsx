@@ -1,11 +1,9 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { Select } from "./select";
-
-class JsxNode {}
 
 describe("calcite-select", () => {
   describe("defaults", () => {

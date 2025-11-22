@@ -10,5 +10,9 @@ describe("calcite-loader", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-loader />), { display: "flex", visible: true });
+
+    describe("inline", () => {
+      renders(() => mount(<calcite-loader inline />), { display: "flex", visible: true });
+    });
   });
 });

@@ -21,5 +21,9 @@ describe("calcite-tab", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-tab>A tab</calcite-tab>), { display: "none", visible: false });
+
+    describe("selected", () => {
+      renders(() => mount(<calcite-tab selected>A tab</calcite-tab>), { display: "flex" });
+    });
   });
 });
