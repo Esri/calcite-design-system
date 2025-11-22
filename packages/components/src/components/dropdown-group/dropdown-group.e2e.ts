@@ -1,17 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown-group", () => {
-  describe("renders", () => {
-    renders("calcite-dropdown-group", { display: "block" });
-  });
-
   it("sets selectionMode on slotted dropdown item children", async () => {
     const page = await newE2EPage();
 

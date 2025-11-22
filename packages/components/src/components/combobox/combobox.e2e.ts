@@ -9,7 +9,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  renders,
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -34,10 +33,6 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 describe("calcite-combobox", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-combobox", { display: "block" });
-  });
 
   describe("focusable", () => {
     focusable(html`

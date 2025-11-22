@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-meter", () => {
   describe("defaults", () => {
@@ -93,5 +93,9 @@ describe("calcite-meter", () => {
         },
       ],
     );
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-meter"), { display: "flex" });
   });
 });

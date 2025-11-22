@@ -4,7 +4,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  renders,
   slots,
   t9n,
   themed,
@@ -16,10 +15,6 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-pad", { display: "block" });
-  });
 
   describe("delegates to floating-ui-owner component", () => {
     delegatesToFloatingUiOwningComponent(

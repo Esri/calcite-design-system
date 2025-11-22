@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-list-item", () => {
   describe("defaults", () => {
@@ -117,5 +117,9 @@ describe("calcite-list-item", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-list-item"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-list-item"), { display: "flex" });
   });
 });

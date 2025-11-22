@@ -9,7 +9,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  renders,
   t9n,
   themed,
 } from "../../tests/commonTests";
@@ -27,10 +26,6 @@ const animationDurationInMs = 200;
 describe("calcite-input-date-picker", () => {
   describe("accessibility", () => {
     accessible(html` <calcite-input-date-picker label="Input Date Picker"></calcite-input-date-picker> `);
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-date-picker", { display: "inline-block" });
   });
 
   describe("labelable", () => {

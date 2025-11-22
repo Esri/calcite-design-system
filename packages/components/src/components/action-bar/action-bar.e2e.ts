@@ -6,7 +6,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  renders,
   slots,
   t9n,
   themed,
@@ -20,10 +19,6 @@ import type { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-bar", { display: "inline-flex" });
-  });
 
   describe("delegates to floating-ui-owner component", () => {
     delegatesToFloatingUiOwningComponent(

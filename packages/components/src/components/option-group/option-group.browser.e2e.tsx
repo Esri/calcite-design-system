@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-option-group", () => {
   describe("defaults", () => {
@@ -29,5 +29,9 @@ describe("calcite-option-group", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-option-group"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-option-group"), { display: "block", visible: false });
   });
 });

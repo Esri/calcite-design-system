@@ -7,7 +7,6 @@ import {
   disabled,
   focusable,
   handlesActionMenuPlacements,
-  renders,
   slots,
   t9n,
   themed,
@@ -20,10 +19,6 @@ import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-block", { display: "flex" });
-  });
 
   describe("openClose", () => {
     openClose("calcite-block");

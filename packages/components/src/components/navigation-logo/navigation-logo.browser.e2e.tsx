@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-navigation-logo", () => {
   describe("defaults", () => {
@@ -61,5 +62,9 @@ describe("calcite-navigation-logo", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-navigation-logo"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-navigation-logo heading="test" />), { display: "inline-flex" });
   });
 });

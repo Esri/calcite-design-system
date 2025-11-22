@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, t9n } from "../../tests/commonTests";
+import { accessible, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { mockConsole } from "../../tests/utils/logging";
@@ -9,10 +9,6 @@ import { BREAKPOINTS, CSS } from "./resources";
 
 describe("calcite-scrim", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("<calcite-scrim></calcite-scrim>", { display: "flex" });
-  });
 
   describe("accessible", () => {
     accessible("<calcite-scrim>My content</calcite-scrim>");

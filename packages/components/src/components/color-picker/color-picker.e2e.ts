@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
@@ -44,10 +44,6 @@ describe("calcite-color-picker", () => {
   describe("accessible", () => {
     accessible("calcite-color-picker");
     accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
-  });
-
-  describe("renders", () => {
-    renders("calcite-color-picker", { display: "inline-block" });
   });
 
   describe("disabled", () => {

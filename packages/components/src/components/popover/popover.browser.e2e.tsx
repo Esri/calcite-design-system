@@ -1,7 +1,7 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-popover", () => {
@@ -53,5 +53,39 @@ describe("calcite-popover", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount(<calcite-popover open />));
+  });
+
+  describe("renders", () => {
+    describe("when closed", () => {
+      renders(
+        () =>
+          mount(
+            <>
+              <calcite-popover label="test" reference-element="ref">
+                content
+              </calcite-popover>
+              <div id="ref">😄</div>
+            </>,
+          ),
+        { display: "contents", visible: false },
+      );
+    });
+
+    describe("when open", () => {
+      renders(
+        () =>
+          mount(
+            <>
+              <calcite-popover label="test" open reference-element="ref">
+                content
+              </calcite-popover>
+              <div id="ref">😄</div>
+            </>,
+          ),
+        {
+          display: "contents",
+        },
+      );
+    });
   });
 });

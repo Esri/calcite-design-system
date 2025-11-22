@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
@@ -24,10 +24,6 @@ async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
 
 describe("calcite-tree", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-tree", { display: "block" });
-  });
 
   describe("accessible", () => {
     accessible(`<calcite-tree></calcite-tree>`);

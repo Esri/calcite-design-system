@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -97,5 +98,9 @@ describe("calcite-panel", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-panel"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-panel>content</calcite-panel>), { display: "flex" });
   });
 });

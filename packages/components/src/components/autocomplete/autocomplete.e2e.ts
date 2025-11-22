@@ -8,7 +8,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  renders,
   slots,
   t9n,
   themed,
@@ -97,10 +96,6 @@ const simpleGroupHTML = html`
 `;
 
 describe("calcite-autocomplete", () => {
-  describe("renders", () => {
-    renders("calcite-autocomplete", { display: "block" });
-  });
-
   it("should emit calciteAutocompleteItemSelect", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);

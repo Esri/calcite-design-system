@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedLocales } from "../../utils/locale";
@@ -40,10 +40,6 @@ const letterKeys = [
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 describe("calcite-time-picker", () => {
-  describe("renders", () => {
-    renders("calcite-time-picker", { display: "inline-block" });
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-time-picker></calcite-time-picker>`);
   });

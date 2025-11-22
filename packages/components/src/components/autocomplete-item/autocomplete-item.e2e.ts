@@ -1,12 +1,8 @@
 import { describe } from "vitest";
-import { disabled, renders, slots, themed } from "../../tests/commonTests";
+import { disabled, slots, themed } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-autocomplete-item", () => {
-  describe("renders", () => {
-    renders("calcite-autocomplete-item", { display: "flex" });
-  });
-
   describe("slots", () => {
     slots("calcite-autocomplete-item", SLOTS);
   });

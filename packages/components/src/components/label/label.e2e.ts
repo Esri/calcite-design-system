@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-label", () => {
-  describe("renders", () => {
-    renders("calcite-label", { display: "flex" });
-  });
-
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

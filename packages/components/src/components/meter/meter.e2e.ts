@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-meter", () => {
-  describe("renders", () => {
-    renders("calcite-meter", { display: "flex" });
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-meter label="A great meter"></calcite-meter>`);
   });

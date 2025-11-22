@@ -1,14 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  focusable,
-  handlesActionMenuPlacements,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, handlesActionMenuPlacements, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -20,10 +12,6 @@ const actionGroupHTML = `<calcite-action-group scale="l">
 
 describe("calcite-action-group", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-group", { display: "flex" });
-  });
 
   describe("focusable", () => {
     focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" });

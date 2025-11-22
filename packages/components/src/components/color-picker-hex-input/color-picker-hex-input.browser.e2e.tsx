@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-color-picker-hex-input", () => {
   describe("defaults", () => {
@@ -37,5 +37,9 @@ describe("calcite-color-picker-hex-input", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-color-picker-hex-input"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-color-picker-hex-input"), { display: "block" });
   });
 });

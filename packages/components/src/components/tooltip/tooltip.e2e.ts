@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, floatingUIOwner, openClose, renders, themed } from "../../tests/commonTests";
+import { accessible, floatingUIOwner, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -86,13 +86,6 @@ describe("calcite-tooltip", () => {
   async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
     expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
   }
-
-  describe("renders", () => {
-    renders(`calcite-tooltip`, { display: "contents" });
-    renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
-      display: "contents",
-    });
-  });
 
   describe("accessible when closed", () => {
     accessible(

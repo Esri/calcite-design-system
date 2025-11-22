@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-radio-button", () => {
@@ -29,5 +29,9 @@ describe("calcite-radio-button", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-radio-button`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-radio-button"), { display: "block" });
   });
 });

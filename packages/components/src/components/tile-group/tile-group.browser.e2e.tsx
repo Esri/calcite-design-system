@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-tile-group", () => {
   describe("defaults", () => {
@@ -28,6 +29,18 @@ describe("calcite-tile-group", () => {
         { propertyName: "selectionAppearance", value: "icon" },
         { propertyName: "selectionMode", value: "none" },
       ],
+    );
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <calcite-tile-group>
+            <calcite-tile heading="test" />
+          </calcite-tile-group>,
+        ),
+      { display: "inline-block" },
     );
   });
 });

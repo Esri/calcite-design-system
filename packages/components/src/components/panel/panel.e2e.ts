@@ -7,7 +7,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  renders,
   slots,
   t9n,
   themed,
@@ -90,10 +89,6 @@ export const scrollingHeightStyle = "height: 200px;";
 
 describe("calcite-panel", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-panel", { display: "flex" });
-  });
 
   describe("handles action-menu placement and flipPlacements", () => {
     handlesActionMenuPlacements(html`

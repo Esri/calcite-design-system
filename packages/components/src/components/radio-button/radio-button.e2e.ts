@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, formAssociated, labelable, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -9,10 +9,6 @@ import type { RadioButton } from "./radio-button";
 import { CSS } from "./resources";
 
 describe("calcite-radio-button", () => {
-  describe("renders", () => {
-    renders("calcite-radio-button", { display: "block" });
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,

@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-icon", () => {
   describe("defaults", () => {
@@ -27,5 +27,9 @@ describe("calcite-icon", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-icon"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-icon"), { display: "inline-flex" });
   });
 });

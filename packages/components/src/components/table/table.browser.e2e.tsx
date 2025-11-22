@@ -1,6 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
   describe("defaults", () => {
@@ -64,6 +66,33 @@ describe("calcite-table", () => {
           value: "none",
         },
       ],
+    );
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <calcite-table caption="Simple table">
+            <calcite-table-row slot={SLOTS.tableHeader}>
+              <calcite-table-header description="Description" heading="Heading" />
+              <calcite-table-header description="Description" heading="Heading" />
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>,
+        ),
+      { display: "flex" },
     );
   });
 });
