@@ -58,7 +58,7 @@ describe("calcite-list", () => {
         },
         {
           propertyName: "filterText",
-          defaultValue: undefined,
+          defaultValue: "",
         },
         {
           propertyName: "filterPlaceholder",
