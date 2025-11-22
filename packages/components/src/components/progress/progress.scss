@@ -17,17 +17,17 @@
 
 .track,
 .bar {
-  @apply top-0;
+  @apply absolute top-0;
   block-size: 2px;
 }
 
 .track {
-  @apply relative z-default w-full overflow-hidden;
+  @apply z-default w-full overflow-hidden;
   background-color: var(--calcite-progress-background-color, var(--calcite-color-border-3));
 }
 
 .bar {
-  @apply absolute z-default;
+  @apply z-default;
 
   background-color: var(--calcite-progress-fill-color, var(--calcite-color-brand));
 }
