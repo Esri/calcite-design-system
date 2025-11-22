@@ -352,6 +352,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {
@@ -431,6 +432,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {

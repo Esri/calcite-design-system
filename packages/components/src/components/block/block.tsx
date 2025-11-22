@@ -39,6 +39,7 @@ declare global {
 /**
  * @slot - A slot for adding custom content.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+ * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
@@ -71,6 +72,8 @@ export class Block extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region State Properties
+
+  @state() hasContentEnd = false;
 
   @state() hasContentStart = false;
 
@@ -392,6 +395,10 @@ export class Block extends LitElement implements InteractiveComponent {
     this.hasEndActions = slotChangeHasAssignedElement(event);
   }
 
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  }
+
   private handleContentStartSlotChange(event: Event): void {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   }
@@ -444,6 +451,14 @@ export class Block extends LitElement implements InteractiveComponent {
     return (
       <div class={CSS.actionsEnd} hidden={!this.hasEndActions}>
         <slot name={SLOTS.actionsEnd} onSlotChange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderContentEnd(): JsxNode {
+    return (
+      <div class={CSS.contentEnd} hidden={!this.hasContentEnd}>
+        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
       </div>
     );
   }
@@ -512,6 +527,7 @@ export class Block extends LitElement implements InteractiveComponent {
       dragDisabled,
       sortDisabled,
       iconEnd,
+      hasContentEnd,
       hasContentStart,
       iconStart,
     } = this;
@@ -520,6 +536,7 @@ export class Block extends LitElement implements InteractiveComponent {
     const headerHasContent = !!(
       heading ||
       description ||
+      hasContentEnd ||
       hasContentStart ||
       iconStart ||
       loading ||
@@ -575,6 +592,7 @@ export class Block extends LitElement implements InteractiveComponent {
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
+              {this.renderContentEnd()}
               {this.renderIcon("end")}
               <calcite-icon
                 class={CSS.toggleIcon}
@@ -586,9 +604,17 @@ export class Block extends LitElement implements InteractiveComponent {
         ) : (
           headerContent
         )}
-        {iconEnd && !collapsible ? (
-          <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
-        ) : null}
+        {(() => {
+          const hasContentEndRendered = this.renderContentEnd();
+          const hasIconEnd = !!iconEnd;
+          const showIconEndContainer = (hasContentEndRendered || hasIconEnd) && !collapsible;
+          return showIconEndContainer ? (
+            <div class={CSS.iconEndContainer}>
+              {hasContentEndRendered}
+              {this.renderIcon("end")}
+            </div>
+          ) : null;
+        })()}
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}
