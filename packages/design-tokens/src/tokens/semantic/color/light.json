@@ -130,29 +130,27 @@
       },
       "brand": {
         "default": {
-          "default": {
-            "value": "{core.color.high-saturation.blue.h-bb-060}",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "brand"
-            }
-          },
-          "hover": {
-            "value": "{core.color.high-saturation.blue.h-bb-070}",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "brand"
-            }
-          },
-          "press": {
-            "value": "{core.color.high-saturation.blue.h-bb-080}",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "brand"
-            }
+          "value": "{core.color.high-saturation.blue.h-bb-060}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "brand"
+          }
+        },
+        "hover": {
+          "value": "{core.color.high-saturation.blue.h-bb-070}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "brand"
+          }
+        },
+        "press": {
+          "value": "{core.color.high-saturation.blue.h-bb-080}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "brand"
           }
         },
         "underline": {
@@ -410,7 +408,7 @@
       },
       "focus": {
         "default": {
-          "value": "{semantic.color.brand.default.default}",
+          "value": "{semantic.color.brand.default}",
           "type": "color",
           "attributes": {
             "category": "color",

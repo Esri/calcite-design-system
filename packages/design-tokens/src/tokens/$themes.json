@@ -72,9 +72,6 @@
       "semantic.color.transparent.inverse.press": "d5ad88e7cc07fe394bb6a0bd462d6c4230fe63d4",
       "semantic.color.transparent.scrim": "254dd7e27f9bfcdbea2335fef593831f3fa863c5",
       "semantic.color.transparent.tint": "96013140760e5d5bcc49c89a0a765f11db163afa",
-      "semantic.color.brand.default.default": "a3484d858a4aeec0ede7c13bfaf1567d621e2d7e",
-      "semantic.color.brand.default.hover": "f44c8eb0f995271f2a69da7b61259de4453f3ab6",
-      "semantic.color.brand.default.press": "439bd8d299430615fb3fe18404c24284a368865d",
       "semantic.color.brand.underline": "d6dd925818802627d2bd6a3b266766e8409e5a20",
       "semantic.color.status.info.default": "3fde35cd0a5cf1fbcaaa2c0c7d835177b46b2cd3",
       "semantic.color.status.info.hover": "67866c4f2fde628b01c534f906135cd210848c0b",
@@ -104,7 +101,10 @@
       "semantic.color.border.ghost": "eeaed0b12213dd90e042ade3d8b682509fa263d1",
       "semantic.color.border.white": "db4e0ae98b10bbb090f48628afe93273c60431b3",
       "semantic.color.focus.default": "b67eacb2f309f8cf8a87d75f2238a656c729648a",
-      "semantic.color.test.default": "0f0cc68e2b0fa98751dbf40c6e0c80dcbd7e126b"
+      "semantic.color.test.default": "0f0cc68e2b0fa98751dbf40c6e0c80dcbd7e126b",
+      "semantic.color.brand.default": "a3484d858a4aeec0ede7c13bfaf1567d621e2d7e",
+      "semantic.color.brand.hover": "f44c8eb0f995271f2a69da7b61259de4453f3ab6",
+      "semantic.color.brand.press": "439bd8d299430615fb3fe18404c24284a368865d"
     },
     "$figmaCollectionId": "VariableCollectionId:1814:1167",
     "$figmaModeId": "1814:2",
@@ -187,9 +187,6 @@
       "semantic.color.transparent.inverse.press": "d5ad88e7cc07fe394bb6a0bd462d6c4230fe63d4",
       "semantic.color.transparent.scrim": "254dd7e27f9bfcdbea2335fef593831f3fa863c5",
       "semantic.color.transparent.tint": "96013140760e5d5bcc49c89a0a765f11db163afa",
-      "semantic.color.brand.default.default": "a3484d858a4aeec0ede7c13bfaf1567d621e2d7e",
-      "semantic.color.brand.default.hover": "f44c8eb0f995271f2a69da7b61259de4453f3ab6",
-      "semantic.color.brand.default.press": "439bd8d299430615fb3fe18404c24284a368865d",
       "semantic.color.brand.underline": "d6dd925818802627d2bd6a3b266766e8409e5a20",
       "semantic.color.status.info.default": "3fde35cd0a5cf1fbcaaa2c0c7d835177b46b2cd3",
       "semantic.color.status.info.hover": "67866c4f2fde628b01c534f906135cd210848c0b",
@@ -219,7 +216,10 @@
       "semantic.color.border.ghost": "eeaed0b12213dd90e042ade3d8b682509fa263d1",
       "semantic.color.border.white": "db4e0ae98b10bbb090f48628afe93273c60431b3",
       "semantic.color.focus.default": "b67eacb2f309f8cf8a87d75f2238a656c729648a",
-      "semantic.color.test.default": "0f0cc68e2b0fa98751dbf40c6e0c80dcbd7e126b"
+      "semantic.color.test.default": "0f0cc68e2b0fa98751dbf40c6e0c80dcbd7e126b",
+      "semantic.color.brand.default": "a3484d858a4aeec0ede7c13bfaf1567d621e2d7e",
+      "semantic.color.brand.hover": "f44c8eb0f995271f2a69da7b61259de4453f3ab6",
+      "semantic.color.brand.press": "439bd8d299430615fb3fe18404c24284a368865d"
     },
     "$figmaCollectionId": "VariableCollectionId:1814:1167",
     "$figmaModeId": "1814:3",
