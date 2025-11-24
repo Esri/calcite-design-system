@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.7...@esri/calcite-components@5.0.0-next.8) (2025-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- drop deprecated CDN namespace (#12546)
+
+### Build System
+
+- drop deprecated CDN namespace ([#12546](https://github.com/Esri/calcite-design-system/issues/12546)) ([b8f4346](https://github.com/Esri/calcite-design-system/commit/b8f4346188f5b3677bea4553375aefb2b4e2b05f)), closes [#13266](https://github.com/Esri/calcite-design-system/issues/13266)
+
 ## [5.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.6...@esri/calcite-components@5.0.0-next.7) (2025-11-21)
 
 ### Features
