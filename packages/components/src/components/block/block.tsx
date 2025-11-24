@@ -457,8 +457,13 @@ export class Block extends LitElement implements InteractiveComponent {
 
   private renderContentEnd(): JsxNode {
     return (
-      <div class={CSS.contentEnd} hidden={!this.hasContentEnd}>
-        <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+      <div
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        hidden={!this.hasContentEnd}
+      >
+        <div class={CSS.contentEnd}>
+          <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+        </div>
       </div>
     );
   }
@@ -605,14 +610,13 @@ export class Block extends LitElement implements InteractiveComponent {
           headerContent
         )}
         {(() => {
-          const hasContentEndRendered = this.renderContentEnd();
-          const hasIconEnd = !!iconEnd;
-          const showIconEndContainer = (hasContentEndRendered || hasIconEnd) && !collapsible;
-          return showIconEndContainer ? (
+          return iconEnd && !collapsible ? (
             <div class={CSS.iconEndContainer}>
-              {hasContentEndRendered}
+              {this.renderContentEnd()}
               {this.renderIcon("end")}
             </div>
+          ) : !iconEnd && !collapsible ? (
+            this.renderContentEnd()
           ) : null;
         })()}
         <calcite-action-menu
