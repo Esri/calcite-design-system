@@ -128,20 +128,6 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const textarea_TestOnly = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input
-      id="input-with-text-area"
-      type="textarea"
-      scale="m"
-      status="idle"
-      placeholder="Placeholder text"
-      validation-message="My great input message"
-    >
-    </calcite-input>
-  </div>
-`;
-
 export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
