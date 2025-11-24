@@ -1,9 +1,11 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { createFocusTrap, FocusTrap, Options as Options } from "focus-trap";
+import { createFocusTrap, FocusTrap, Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { SetReturnType } from "type-fest";
 import { FocusableElement, focusElement, tabbableOptions } from "../utils/dom";
 import { getConfig } from "../utils/config";
+
+export { FocusTrap } from "focus-trap";
 
 export interface UseFocusTrap {
   /**
@@ -136,7 +138,12 @@ function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement
  * @param hostEl
  * @param options
  */
-export function createFocusTrapOptions(hostEl: HTMLElement, options?: Options): FocusTrapOptions {
+export function createFocusTrapOptions(
+  hostEl: HTMLElement,
+  options?: Omit<Options, "setReturnFocus"> & {
+    setReturnFocus?: FocusTrapOptions["setReturnFocus"];
+  },
+): Options {
   const fallbackFocus = options?.fallbackFocus || hostEl;
   const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
 
@@ -159,7 +166,7 @@ export function createFocusTrapOptions(hostEl: HTMLElement, options?: Options): 
     },
     setReturnFocus: (el) => {
       const returnFocusTarget =
-              typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
+        typeof options?.setReturnFocus === "function" ? options.setReturnFocus(el) : options?.setReturnFocus;
 
       return returnFocusTarget === undefined ? defaultSetReturnFocus(hostEl, el) : returnFocusTarget;
     },
@@ -217,13 +224,15 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
         }
 
         if (!focusTrap) {
-          const effectiveFocusTrapOptions = {
-            ...internalFocusTrapOptions,
-            ...component.focusTrapOptions,
-          };
           effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
 
-          focusTrap = createFocusTrap(effectiveContainers, createFocusTrapOptions(targetEl, effectiveFocusTrapOptions));
+          focusTrap = createFocusTrap(
+            effectiveContainers,
+            createFocusTrapOptions(targetEl, {
+              ...internalFocusTrapOptions,
+              ...component.focusTrapOptions,
+            }),
+          );
         }
 
         if (
