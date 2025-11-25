@@ -414,7 +414,7 @@ export async function createSelectedItemsAsserter(
 ): Promise<SelectedItemsAsserter> {
   await page.evaluate((eventName) => {
     document.addEventListener(
-      eventName,
+      eventName as any,
       ({ detail }: CustomEvent<Selection>) => ((window as SelectionEventTestWindow).eventDetail = detail),
     );
   }, selectionEventName);
