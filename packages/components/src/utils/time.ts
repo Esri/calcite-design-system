@@ -209,7 +209,7 @@ export function getLocalizedTimePartSuffix(
 ): string {
   const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
+  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
 }
 
 function getLocalizedTimePart(
@@ -239,7 +239,7 @@ function getLocalizedTimePart(
   if (part === "secondSuffix") {
     let secondSuffixPart;
     const fractionalSecondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "fractionalSecond"));
-    if (fractionalSecondIndex) {
+    if (fractionalSecondIndex !== -1) {
       secondSuffixPart = parts[fractionalSecondIndex + 1];
     } else {
       const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));

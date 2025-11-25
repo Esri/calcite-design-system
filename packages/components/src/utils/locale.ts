@@ -344,6 +344,8 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * @private
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  locale = locale === "fr-CA" ? locale : getSupportedLocale(locale);
+
   if (!dateTimeFormatCache) {
     dateTimeFormatCache = new Map();
   }
