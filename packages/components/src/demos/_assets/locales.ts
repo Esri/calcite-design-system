@@ -1,9 +1,9 @@
-import { Locale, NumberingSystem } from "../../utils/locale";
+import { Locale as LocaleCode, NumberingSystem } from "../../utils/locale";
 import { HourFormat } from "../../utils/time";
 
 interface Locale {
   name: string;
-  locale: Locale;
+  code: LocaleCode;
   dir?: "ltr" | "rtl";
   numberingSystem?: NumberingSystem;
   /*
@@ -19,278 +19,278 @@ interface Locale {
 export const locales: Locale[] = [
   {
     name: "Arabic",
-    locale: "ar",
+    code: "ar",
     dir: "rtl",
     hourFormat: "12",
   },
   {
     name: "Arabic",
-    locale: "ar",
+    code: "ar",
     dir: "rtl",
     numberingSystem: "arab",
     hourFormat: "12",
   },
   {
     name: "Arabic",
-    locale: "ar",
+    code: "ar",
     dir: "rtl",
     numberingSystem: "arabext",
     hourFormat: "12",
   },
   {
     name: "Bulgarian",
-    locale: "bg",
+    code: "bg",
     hourFormat: "24",
   },
   {
     name: "Bosnian",
-    locale: "bs",
+    code: "bs",
     hourFormat: "24",
   },
   {
     name: "Catalan",
-    locale: "ca",
+    code: "ca",
     hourFormat: "24",
   },
   {
     name: "Czech",
-    locale: "cs",
+    code: "cs",
     hourFormat: "24",
   },
   {
     name: "Danish",
-    locale: "da",
+    code: "da",
     hourFormat: "24",
   },
   {
     name: "German",
-    locale: "de",
+    code: "de",
     hourFormat: "24",
   },
   {
     name: "German - Austria",
-    locale: "de-AT",
+    code: "de-AT",
     hourFormat: "24",
   },
   {
     name: "German - Switzerland",
-    locale: "de-CH",
+    code: "de-CH",
     hourFormat: "24",
   },
   {
     name: "Greek",
-    locale: "el",
+    code: "el",
     hourFormat: "12",
   },
   {
     name: "English",
-    locale: "en",
+    code: "en",
     hourFormat: "12",
   },
   {
     name: "English - Australia",
-    locale: "en-AU",
+    code: "en-AU",
     hourFormat: "12",
   },
   {
     name: "English - Canada",
-    locale: "en-CA",
+    code: "en-CA",
     hourFormat: "12",
   },
   {
     name: "English - Great Britain",
-    locale: "en-GB",
+    code: "en-GB",
     hourFormat: "24",
   },
   {
     name: "English - United States",
-    locale: "en-US",
+    code: "en-US",
     hourFormat: "12",
   },
   {
     name: "Spanish",
-    locale: "es",
+    code: "es",
     hourFormat: "24",
   },
   {
     name: "Spanish - Mexico",
-    locale: "es-MX",
+    code: "es-MX",
     hourFormat: "12",
   },
   {
     name: "Estonian",
-    locale: "et",
+    code: "et",
     hourFormat: "24",
   },
   {
     name: "Finnish",
-    locale: "fi",
+    code: "fi",
     hourFormat: "24",
   },
   {
     name: "French",
-    locale: "fr",
+    code: "fr",
     hourFormat: "24",
   },
   {
     name: "French - Switzerland",
-    locale: "fr-CH",
+    code: "fr-CH",
     hourFormat: "24",
   },
   {
     name: "Hebrew",
-    locale: "he",
+    code: "he",
     dir: "rtl",
     hourFormat: "24",
   },
   {
     name: "Hindi",
-    locale: "hi",
+    code: "hi",
     hourFormat: "12",
   },
   {
     name: "Croatian",
-    locale: "hr",
+    code: "hr",
     hourFormat: "24",
   },
   {
     name: "Hungarian",
-    locale: "hu",
+    code: "hu",
     hourFormat: "24",
   },
   {
     name: "Indonesian",
-    locale: "id",
+    code: "id",
     hourFormat: "24",
   },
   {
     name: "Italian",
-    locale: "it",
+    code: "it",
     hourFormat: "24",
   },
   {
     name: "Italian - Switzerland",
-    locale: "it-CH",
+    code: "it-CH",
     hourFormat: "24",
   },
   {
     name: "Japanese",
-    locale: "ja",
+    code: "ja",
     hourFormat: "24",
   },
   {
     name: "Korean",
-    locale: "ko",
+    code: "ko",
     hourFormat: "12",
   },
   {
     name: "Lithuanian",
-    locale: "lt",
+    code: "lt",
     hourFormat: "24",
   },
   {
     name: "Latvian",
-    locale: "lv",
+    code: "lv",
     hourFormat: "24",
   },
   {
     name: "Macedonian",
-    locale: "mk",
+    code: "mk",
     hourFormat: "24",
   },
   {
     name: "Norwegian",
-    locale: "no",
+    code: "no",
     hourFormat: "24",
   },
   {
     name: "Dutch",
-    locale: "nl",
+    code: "nl",
     hourFormat: "24",
   },
   {
     name: "Polish",
-    locale: "pl",
+    code: "pl",
     hourFormat: "24",
   },
   {
     name: "Portuguese",
-    locale: "pt",
+    code: "pt",
     hourFormat: "24",
   },
   {
     name: "Portuguese - Brazil",
-    locale: "pt-BR",
+    code: "pt-BR",
     hourFormat: "24",
   },
   {
     name: "Portuguese",
-    locale: "pt-PT",
+    code: "pt-PT",
     hourFormat: "24",
   },
   {
     name: "Romanian",
-    locale: "ro",
+    code: "ro",
     hourFormat: "24",
   },
   {
     name: "Russian",
-    locale: "ru",
+    code: "ru",
     hourFormat: "24",
   },
   {
     name: "Slovak",
-    locale: "sk",
+    code: "sk",
     hourFormat: "24",
   },
   {
     name: "Slovenian",
-    locale: "sl",
+    code: "sl",
     hourFormat: "24",
   },
   {
     name: "Serbian",
-    locale: "sr",
+    code: "sr",
     hourFormat: "24",
   },
   {
     name: "Swedish",
-    locale: "sv",
+    code: "sv",
     hourFormat: "24",
   },
   {
     name: "Thai",
-    locale: "th",
+    code: "th",
     hourFormat: "24",
   },
   {
     name: "Turkish",
-    locale: "tr",
+    code: "tr",
     hourFormat: "24",
   },
   {
     name: "Ukrainian",
-    locale: "uk",
+    code: "uk",
     hourFormat: "24",
   },
   {
     name: "Vietnamese",
-    locale: "vi",
+    code: "vi",
     hourFormat: "24",
   },
   {
     name: "Chinese",
-    locale: "zh-CN",
+    code: "zh-CN",
     hourFormat: "24",
   },
   {
     name: "Chinese - Hong Kong",
-    locale: "zh-HK",
+    code: "zh-HK",
     hourFormat: "12",
   },
   {
     name: "Chinese - Taiwan",
-    locale: "zh-TW",
+    code: "zh-TW",
     hourFormat: "12",
   },
 ];
