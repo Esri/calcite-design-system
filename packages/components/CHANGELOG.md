@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.10...@esri/calcite-components@5.0.0-next.11) (2025-11-25)
+
+### Bug Fixes
+
+- **combobox, filter, list:** stop warning when filtering on empty data source ([#13352](https://github.com/Esri/calcite-design-system/issues/13352)) ([c46edb0](https://github.com/Esri/calcite-design-system/commit/c46edb0673941a9efb03305e834c2a58439e0ab9)), closes [#12264](https://github.com/Esri/calcite-design-system/issues/12264)
+
 ## [5.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.9...@esri/calcite-components@5.0.0-next.10) (2025-11-25)
 
 ### ⚠ BREAKING CHANGES
