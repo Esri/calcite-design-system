@@ -191,7 +191,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
-  @property({ reflect: true }) filterText: string;
+  @property({ reflect: true }) filterText: string = "";
 
   /**
    * The currently filtered `calcite-list-item` data.
