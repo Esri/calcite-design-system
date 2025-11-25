@@ -510,12 +510,12 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   private setHourFormat(): void {
     const { hourFormat, messages } = this.component;
-    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(messages._lang as string) : hourFormat;
+    this.hourFormat = hourFormat === "user" ? getLocaleHourFormat(messages._lang as Locale) : hourFormat;
   }
 
   private setMeridiemOrder(): void {
     const { messages } = this.component;
-    this.meridiemOrder = getMeridiemOrder(messages._lang as string);
+    this.meridiemOrder = getMeridiemOrder(messages._lang as Locale);
   }
 
   setValue(value: string, userChangedValue: boolean = false): void {
