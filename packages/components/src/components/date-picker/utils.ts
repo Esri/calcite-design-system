@@ -88,7 +88,7 @@ function normalizeNlsLocale(locale: Locale): (typeof supportedNlsLocales)[number
 /**
  * Fetch NLS data used for localized calendar rendering
  */
-export async function getNlsData(locale: Locale): Promise<DateLocaleData> {
+export async function getLocaleData(locale: Locale): Promise<DateLocaleData> {
   locale = normalizeNlsLocale(locale);
 
   if (translationCache[locale]) {
@@ -100,7 +100,7 @@ export async function getNlsData(locale: Locale): Promise<DateLocaleData> {
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
-        return getNlsData(defaultLocale);
+        return getLocaleData(defaultLocale);
       });
   }
 

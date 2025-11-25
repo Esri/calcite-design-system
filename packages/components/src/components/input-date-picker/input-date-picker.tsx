@@ -59,7 +59,7 @@ import {
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   DateLocaleData,
-  getNlsData,
+  getLocaleData,
   getValueAsDateRange,
   applyLocaleOverride,
 } from "../date-picker/utils";
@@ -853,7 +853,7 @@ export class InputDatePicker
       useGrouping: false,
     };
 
-    this.localeData = await getNlsData(locale);
+    this.localeData = await getLocaleData(locale);
     this.localizeInputValues();
   }
 
