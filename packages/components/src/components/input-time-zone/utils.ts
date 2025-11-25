@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { normalizeLocale, SupportedLocale } from "@arcgis/toolkit/intl";
 import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
@@ -52,7 +51,7 @@ export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: Time
 }
 
 export async function createTimeZoneItems(
-  locale: SupportedLocale,
+  locale: Locale,
   messages: InputTimeZone["messages"],
   mode: TimeZoneMode,
   referenceDate: Date,
@@ -79,14 +78,14 @@ export async function createTimeZoneItems(
       .sort();
   }
 
-  const effectiveLocale = normalizeLocale(
+  const effectiveLocale =
     standardTime === "user"
       ? locale
       : // we use locales that will always yield a short offset that matches `standardTime`
         standardTime === "utc"
         ? "fr"
-        : "en-GB",
-  );
+        : "en-GB";
+
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {

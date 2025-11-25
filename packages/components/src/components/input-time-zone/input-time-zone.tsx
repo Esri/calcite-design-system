@@ -10,7 +10,6 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
-import { normalizeLocale } from "@arcgis/toolkit/intl";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -474,7 +473,7 @@ export class InputTimeZone
     }
 
     return createTimeZoneItems(
-      normalizeLocale(this.messages._lang),
+      this.messages._lang,
       this.messages,
       this.mode,
       this.referenceDate instanceof Date
