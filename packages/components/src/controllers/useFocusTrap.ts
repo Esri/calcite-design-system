@@ -1,11 +1,11 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { createFocusTrap, FocusTrap, Options } from "focus-trap";
+import { createFocusTrap, type FocusTrap, type Options } from "focus-trap";
 import { LitElement } from "@arcgis/lumina";
 import { SetReturnType } from "type-fest";
 import { FocusableElement, focusElement, tabbableOptions } from "../utils/dom";
 import { getConfig } from "../utils/config";
 
-export { FocusTrap } from "focus-trap";
+export { type FocusTrap } from "focus-trap";
 
 export interface UseFocusTrap {
   /**

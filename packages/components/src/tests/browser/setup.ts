@@ -36,8 +36,4 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks();
-
-  while (document.body.firstChild) {
-    document.body.firstChild.remove();
-  }
 });
