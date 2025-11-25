@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.9...@esri/calcite-components@5.0.0-next.10) (2025-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **input:** The deprecated `textarea` type was removed. Developers
+  should use `calcite-text-area` instead.
+
+### Code Refactoring
+
+- **input:** drop `textarea` type ([#13359](https://github.com/Esri/calcite-design-system/issues/13359)) ([f350d50](https://github.com/Esri/calcite-design-system/commit/f350d50d90431facaa5557a125573fd740db2eca)), closes [#13079](https://github.com/Esri/calcite-design-system/issues/13079)
+
 ## [5.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.8...@esri/calcite-components@5.0.0-next.9) (2025-11-25)
 
 ### Features
