@@ -8,7 +8,7 @@ import { html } from "../../support/formatting";
 import { waitForNextTick } from "../tests/utils/timing";
 import { GlobalTestProps } from "../tests/utils/interfaces";
 import { CalciteConfig, clearConfig } from "../utils/config";
-import { useFocusTrap } from "./useFocusTrap";
+import { FocusTrap, useFocusTrap } from "./useFocusTrap";
 
 describe("useFocusTrap", () => {
   class Test extends LitElement {
@@ -50,21 +50,18 @@ describe("useFocusTrap", () => {
 
     el.open = true;
     await component.updateComplete;
-
-    const activateSpy = vi.fn();
-    component.focusTrap._instance!.activate = activateSpy;
-
-    const deactivateSpy = vi.fn();
-    component.focusTrap._instance!.deactivate = deactivateSpy;
-
-    const updateSpy = vi.fn();
-    component.focusTrap._instance!.updateContainerElements = updateSpy;
+    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+    const deactivateSpy = vi.spyOn(component.focusTrap._instance!, "deactivate");
+    const updateContainerElsSpy = vi.spyOn(
+      component.focusTrap._instance!,
+      "updateContainerElements",
+    );
 
     component.focusTrap.activate();
     expect(activateSpy).toHaveBeenCalledTimes(1);
 
     component.focusTrap.updateContainerElements();
-    expect(updateSpy).toHaveBeenCalledTimes(1);
+    expect(updateContainerElsSpy).toHaveBeenCalledTimes(1);
 
     component.focusTrap.deactivate();
     expect(deactivateSpy).toHaveBeenCalledTimes(1);
@@ -81,17 +78,14 @@ describe("useFocusTrap", () => {
     });
 
     it("supports custom global trap stack", async () => {
-      const customFocusTrapStack = [];
-
+      vi.mock("focus-trap", { spy: true });
+      const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
+      const customFocusTrapStack: FocusTrap[] = [];
       type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
 
       (globalThis as TestGlobal).calciteConfig = {
         focusTrapStack: customFocusTrapStack,
       };
-
-      vi.mock("focus-trap", { spy: true });
-
-      const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
 
       const { el, component } = await mount(Test);
 
@@ -158,10 +152,7 @@ describe("useFocusTrap", () => {
       const { el, component } = await mount(Test);
       el.open = true;
       await component.updateComplete;
-
-      const activateSpy = vi.fn();
-      component.focusTrap._instance!.activate = activateSpy;
-
+      const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
       override = false;
 
       component.focusTrap.activate();
@@ -173,10 +164,7 @@ describe("useFocusTrap", () => {
       const { el, component } = await mount(Test);
       el.open = true;
       await component.updateComplete;
-
-      const activateSpy = vi.fn();
-      component.focusTrap._instance!.activate = activateSpy;
-
+      const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
       override = true;
 
       component.focusTrap.activate();
@@ -295,18 +283,17 @@ describe("useFocusTrap", () => {
 
   it("does not try to restore focus to the document when there was no previously focused element", async () => {
     document.body.innerHTML = html`<a href="/">should not focus here</a>`;
-
     const { el, component } = await mount(Test);
     el.open = true;
     await component.updateComplete;
     await waitForFocusShift();
 
-    expect(document.activeElement?.tagName).toBe(el.tagName);
+    expect(document.activeElement!.tagName).toBe(el.tagName);
 
     el.open = false;
     await component.updateComplete;
     await waitForFocusShift();
 
-    expect(document.activeElement?.tagName).toBe("BODY");
+    expect(document.activeElement!.tagName).toBe("BODY");
   });
 });
