@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, Fragment, h, JsxNode } from "@arcgis/lumina";
-import { styles } from "./option-group.scss";
 
 declare global {
   interface DeclareElements {
@@ -10,12 +9,6 @@ declare global {
 }
 /** @slot - A slot for adding `calcite-option`s. */
 export class OptionGroup extends LitElement {
-  //#region Static Members
-
-  static override styles = styles;
-
-  //#endregion
-
   //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
