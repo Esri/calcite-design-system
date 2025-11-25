@@ -3,19 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -52,72 +40,6 @@ describe("calcite-input-number", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-number");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-number", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-number");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-input-number", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-number", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "numberButtonType",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {
@@ -233,10 +155,6 @@ describe("calcite-input-number", () => {
     focusable(`calcite-input-number`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-number`);
   });
 
   describe.skip("increment/decrement functionality", () => {

@@ -1,0 +1,91 @@
+import { h, Fragment } from "@arcgis/lumina";
+import { describe } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+
+describe("calcite-popover", () => {
+  mockConsole();
+
+  describe("defaults", () => {
+    defaults(
+      () => mount("calcite-popover"),
+      [
+        {
+          propertyName: "placement",
+          defaultValue: "auto",
+        },
+        {
+          propertyName: "referenceElement",
+          defaultValue: undefined,
+        },
+        {
+          propertyName: "offsetDistance",
+          defaultValue: 6,
+        },
+        {
+          propertyName: "offsetSkidding",
+          defaultValue: 0,
+        },
+        {
+          propertyName: "open",
+          defaultValue: false,
+        },
+        {
+          propertyName: "closable",
+          defaultValue: false,
+        },
+        {
+          propertyName: "flipDisabled",
+          defaultValue: false,
+        },
+        {
+          propertyName: "pointerDisabled",
+          defaultValue: false,
+        },
+        {
+          propertyName: "overlayPositioning",
+          defaultValue: "absolute",
+        },
+      ],
+    );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount(<calcite-popover open />));
+  });
+
+  describe("renders", () => {
+    describe("when closed", () => {
+      renders(
+        () =>
+          mount(
+            <>
+              <calcite-popover label="test" reference-element="ref">
+                content
+              </calcite-popover>
+              <div id="ref">😄</div>
+            </>,
+          ),
+        { display: "contents", visible: false },
+      );
+    });
+
+    describe("when open", () => {
+      renders(
+        () =>
+          mount(
+            <>
+              <calcite-popover label="test" open reference-element="ref">
+                content
+              </calcite-popover>
+              <div id="ref">😄</div>
+            </>,
+          ),
+        {
+          display: "contents",
+        },
+      );
+    });
+  });
+});

@@ -5,9 +5,7 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
   HYDRATED_ATTR,
-  internalLabel,
   labelable,
   themed,
 } from "../../tests/commonTests";
@@ -24,10 +22,6 @@ describe("calcite-switch", () => {
 
     expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
     expect(calciteSwitch).toHaveAttribute("checked");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-switch");
   });
 
   describe("accessible", () => {
@@ -52,10 +46,6 @@ describe("calcite-switch", () => {
 
   describe("focusable", () => {
     focusable("calcite-switch");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-switch`);
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {

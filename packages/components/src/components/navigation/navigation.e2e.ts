@@ -1,37 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-navigation", () => {
-  describe("renders", () => {
-    renders("calcite-navigation", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-navigation");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-navigation", [
-      {
-        propertyName: "navigationAction",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-navigation", [
-      {
-        propertyName: "navigationAction",
-        defaultValue: false,
-      },
-    ]);
-  });
-
   describe("is focusable", () => {
     focusable(html`<calcite-navigation navigation-action></calcite-navigation>`, {
       shadowFocusTargetSelector: "calcite-action",

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, hidden, reflects, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, slots, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -12,48 +12,6 @@ import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-shell-panel", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-shell-panel");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-shell-panel", [
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "resizable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "displayMode",
-        defaultValue: "dock",
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-shell-panel", [
-      {
-        propertyName: "widthScale",
-        value: "m",
-      },
-      {
-        propertyName: "width",
-        value: "m",
-      },
-    ]);
-  });
 
   describe("slots", () => {
     slots("calcite-shell-panel", SLOTS);

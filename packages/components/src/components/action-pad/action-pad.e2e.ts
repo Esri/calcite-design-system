@@ -2,12 +2,8 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  hidden,
-  reflects,
-  renders,
   slots,
   t9n,
   themed,
@@ -19,68 +15,6 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-pad", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-pad");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-action-pad", [
-      {
-        propertyName: "expandDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "selectionAppearance",
-        defaultValue: "neutral",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-pad", [
-      {
-        propertyName: "expandDisabled",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "neutral",
-      },
-    ]);
-  });
 
   describe("delegates to floating-ui-owner component", () => {
     delegatesToFloatingUiOwningComponent(

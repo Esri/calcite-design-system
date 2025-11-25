@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, disabled } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { TileGroup } from "./tile-group";
@@ -49,37 +49,6 @@ describe("calcite-tile-group", () => {
     });
   });
 
-  describe("defaults", () => {
-    defaults("calcite-tile-group", [
-      { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "selectionAppearance", defaultValue: "icon" },
-      { propertyName: "selectionMode", defaultValue: "none" },
-    ]);
-
-    it("selectedItems property is set correctly at load when tiles include the selected attribute in initial HTML", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-tile-group label="test-label" selection-mode="multiple">
-          <calcite-tile label="test-label"></calcite-tile>
-          <calcite-tile label="test-label"></calcite-tile>
-          <calcite-tile label="test-label"></calcite-tile>
-          <calcite-tile id="item-4" selected label="test-label"></calcite-tile>
-          <calcite-tile id="item-5" selected label="test-label"></calcite-tile>
-        </calcite-tile-group>
-      `);
-      const item4 = await page.find("#item-4");
-      const item5 = await page.find("#item-5");
-      const selectedItemAsserter = await createSelectedItemsAsserter(
-        page,
-        "calcite-tile-group",
-        "calciteTileGroupSelect",
-      );
-
-      await selectedItemAsserter([item4.id, item5.id]);
-    });
-  });
-
   describe("disabled", () => {
     disabled(
       html` <calcite-tile-group>
@@ -89,23 +58,6 @@ describe("calcite-tile-group", () => {
       </calcite-tile-group>`,
       { focusTarget: "child" },
     );
-  });
-
-  describe("hidden", () => {
-    hidden("calcite-tile-group");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-tile-group", [
-      { propertyName: "layout", value: "horizontal" },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "selectionAppearance", value: "icon" },
-      { propertyName: "selectionMode", value: "none" },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-tile-group", { display: "inline-block" });
   });
 
   describe("keyboard", () => {

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as focusTrap from "focus-trap";
-import { GlobalTestProps } from "../tests/utils/puppeteer";
+import { GlobalTestProps } from "../tests/utils/interfaces";
 import {
   activateFocusTrap,
   connectFocusTrap,

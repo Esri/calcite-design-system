@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { CSS } from "./resources";
@@ -41,15 +41,6 @@ describe("calcite-tab-title", () => {
   const iconStartSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
   const closeSelector = `calcite-tab-title >>> .${XButtonCSS.button}`;
-
-  describe("renders", () => {
-    renders("calcite-tab-title", { display: "block" });
-    renders(multiTabTitleClosableMarkup, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tab-title");
-  });
 
   describe("disabled", () => {
     disabled("<calcite-tab-title selected></calcite-tab-title>");
@@ -185,13 +176,13 @@ describe("calcite-tab-title", () => {
     });
 
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
-        tab-title and corresponding tab become hidden, 
+        tab-title and corresponding tab become hidden  
         and selection fallback is the next tab`, async () => {
       await closeTabsInSequenceOfGivenArrayOfIds(["title1", "title2", "title3", "title4"]);
     });
 
     it(`when closing tab-titles in sequence 4 (last selected) through 1, 
-        tab-title and corresponding tab become hidden, 
+        tab-title and corresponding tab become hidden  
         and selection fallback is the previous tab`, async () => {
       const arrayOfReversedIds = ["title1", "title2", "title3", "title4"].reverse();
 
