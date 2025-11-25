@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -21,14 +11,6 @@ import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-filter", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-filter");
-  });
 
   describe("accessible", () => {
     accessible("calcite-filter");
@@ -42,36 +24,6 @@ describe("calcite-filter", () => {
 
   describe("disabled", () => {
     disabled("calcite-filter");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-filter", [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-filter", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filteredItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
   });
 
   it("sets scale on the input", async () => {

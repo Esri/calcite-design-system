@@ -2,19 +2,7 @@
 import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
@@ -48,82 +36,6 @@ describe("calcite-input", () => {
 
   describe("labelable", () => {
     labelable("calcite-input");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input");
-  });
-
-  describe("reflects", () => {
-    mockConsole();
-
-    reflects("calcite-input", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "type",
-        value: "color",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "numberButtonType",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "type",
-        defaultValue: "text",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {
@@ -255,10 +167,6 @@ describe("calcite-input", () => {
     focusable(`calcite-input`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input`);
   });
 
   describe("input type number increment/decrement functionality", () => {
@@ -1862,35 +1770,6 @@ describe("calcite-input", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-    });
-
-    it("works for type textarea", async () => {
-      await page.setContent(`<calcite-input type="textarea"></calcite-input>`);
-      const element = await page.find("calcite-input");
-
-      await element.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.type("test");
-      await page.waitForChanges();
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-        position: 0,
-      });
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-      });
     });
 
     it("works for type text", async () => {

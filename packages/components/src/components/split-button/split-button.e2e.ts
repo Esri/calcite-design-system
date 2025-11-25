@@ -2,83 +2,17 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
-  describe("defaults", () => {
-    defaults("calcite-split-button", [
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "bottom-end",
-      },
-      {
-        propertyName: "download",
-        defaultValue: false,
-      },
-      {
-        propertyName: "href",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "rel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "target",
-        defaultValue: undefined,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-split-button", [
-      {
-        propertyName: "placement",
-        value: "bottom-end",
-      },
-      {
-        propertyName: "download",
-        value: true,
-      },
-      {
-        propertyName: "href",
-        value: "/",
-      },
-      {
-        propertyName: "rel",
-        value: "external",
-      },
-      {
-        propertyName: "target",
-        value: "_blank",
-      },
-    ]);
-  });
-
   const content = `
   <calcite-dropdown-group>
     <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
     <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
   </calcite-dropdown-group>`;
-
-  describe("renders", () => {
-    renders("calcite-split-button", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-split-button");
-  });
 
   describe("focusable", () => {
     focusable(

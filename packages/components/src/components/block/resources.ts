@@ -11,6 +11,7 @@ export const CSS = {
   button: "button",
   container: "container",
   content: "content",
+  contentEnd: "content-end",
   contentStart: "content-start",
   description: "description",
   header: "header",
@@ -32,6 +33,7 @@ export const CSS = {
 
 export const SLOTS = {
   actionsEnd: "actions-end",
+  contentEnd: "content-end",
   contentStart: "content-start",
   headerMenuActions: "header-menu-actions",
 };

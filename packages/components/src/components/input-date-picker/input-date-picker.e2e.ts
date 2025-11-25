@@ -3,16 +3,12 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   disabled,
   floatingUIOwner,
   focusable,
   formAssociated,
-  hidden,
-  internalLabel,
   labelable,
   openClose,
-  renders,
   t9n,
   themed,
 } from "../../tests/commonTests";
@@ -30,43 +26,6 @@ const animationDurationInMs = 200;
 describe("calcite-input-date-picker", () => {
   describe("accessibility", () => {
     accessible(html` <calcite-input-date-picker label="Input Date Picker"></calcite-input-date-picker> `);
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-date-picker", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-date-picker");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-date-picker", [
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "calendars",
-        defaultValue: 2,
-      },
-    ]);
   });
 
   describe("labelable", () => {
@@ -93,10 +52,6 @@ describe("calcite-input-date-picker", () => {
     focusable(`calcite-input-date-picker`, {
       shadowFocusTargetSelector: "calcite-input-text",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-date-picker`);
   });
 
   describe("event emitting when the value changes", () => {

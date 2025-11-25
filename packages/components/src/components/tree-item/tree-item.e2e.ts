@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, defaults, disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, disabled, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -9,14 +9,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
-  describe("renders", () => {
-    renders("calcite-tree-item", { visible: false, display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-tree-item expanded></calcite-tree-item>`);
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-tree-item></calcite-tree-item>`);
   });
@@ -34,35 +26,6 @@ describe("calcite-tree-item", () => {
         </calcite-tree-item>
       </calcite-tree>`,
     );
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-tree-item", [
-      {
-        propertyName: "selected",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "parentExpanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "depth",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "hasChildren",
-        defaultValue: false,
-      },
-      {
-        propertyName: "indeterminate",
-        defaultValue: false,
-      },
-    ]);
   });
 
   describe("slots", () => {

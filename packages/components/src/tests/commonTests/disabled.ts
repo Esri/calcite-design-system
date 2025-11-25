@@ -2,8 +2,9 @@
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { IntrinsicElementsWithProp, skipAnimations, waitForAnimationFrame } from "../utils/puppeteer";
-import { getTagAndPage } from "./utils";
+import { skipAnimations, waitForAnimationFrame } from "../utils/puppeteer";
+import { IntrinsicElementsWithProp } from "../utils/interfaces";
+import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
 
 /**

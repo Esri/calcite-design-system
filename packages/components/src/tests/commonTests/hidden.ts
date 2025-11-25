@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { getTagAndPage } from "./utils";
+import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup } from "./interfaces";
 
 /**

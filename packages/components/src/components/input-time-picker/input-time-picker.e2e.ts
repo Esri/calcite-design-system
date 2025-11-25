@@ -4,20 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -47,22 +34,6 @@ async function assertDisplayedTime(page: E2EPage, incomingValue, locale?: Suppor
 }
 
 describe("calcite-input-time-picker", () => {
-  describe("renders", () => {
-    renders("calcite-input-time-picker", { display: "inline-block" });
-
-    describe("renders with en-us lowercase locale code", () => {
-      renders(`<calcite-input-time-picker lang="en-us"></calcite-input-time-picker>`, { display: "inline-block" });
-    });
-
-    describe("renders with base lang when region code is unsupported", () => {
-      renders(`<calcite-input-time-picker lang="nl-nl"></calcite-input-time-picker>`, { display: "inline-block" });
-    });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-time-picker");
-  });
-
   describe("accessible", () => {
     accessible(html`
       <calcite-label>
@@ -74,27 +45,6 @@ describe("calcite-input-time-picker", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-time-picker");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-time-picker", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "step", defaultValue: 60 },
-      { propertyName: "overlayPositioning", defaultValue: "absolute" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects(`calcite-input-time-picker`, [
-      { propertyName: "open", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ]);
   });
 
   describe("labelable", () => {
@@ -113,10 +63,6 @@ describe("calcite-input-time-picker", () => {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
       });
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-time-picker`);
   });
 
   describe("disabled", () => {

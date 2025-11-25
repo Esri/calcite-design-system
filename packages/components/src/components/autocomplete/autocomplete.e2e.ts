@@ -2,23 +2,17 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import {
   accessible,
-  defaults,
   disabled,
   floatingUIOwner,
   focusable,
   formAssociated,
-  hidden,
-  internalLabel,
   labelable,
   openClose,
-  reflects,
-  renders,
   slots,
   t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { CSS, SLOTS } from "./resources";
@@ -102,213 +96,6 @@ const simpleGroupHTML = html`
 `;
 
 describe("calcite-autocomplete", () => {
-  describe("renders", () => {
-    renders("calcite-autocomplete", { display: "block" });
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-autocomplete", [
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "autocomplete",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "form",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-      {
-        propertyName: "inputValue",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "maxLength",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "minLength",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "name",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "pattern",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "placeholder",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: defaultMenuPlacement,
-      },
-      {
-        propertyName: "prefixText",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "readOnly",
-        defaultValue: false,
-      },
-      {
-        propertyName: "required",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "suffixText",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: false,
-          valueMissing: false,
-        },
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-autocomplete", [
-      {
-        propertyName: "alignment",
-        value: "start",
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "form",
-        value: "test-form",
-      },
-      {
-        propertyName: "icon",
-        value: "banana",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "maxLength",
-        value: 2,
-      },
-      {
-        propertyName: "minLength",
-        value: 2,
-      },
-      {
-        propertyName: "name",
-        value: "test-name",
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-
-      {
-        propertyName: "overlayPositioning",
-        value: "absolute",
-      },
-      {
-        propertyName: "placement",
-        value: "bottom",
-      },
-      {
-        propertyName: "readOnly",
-        value: true,
-      },
-      {
-        propertyName: "required",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
   it("should emit calciteAutocompleteItemSelect", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
@@ -334,10 +121,6 @@ describe("calcite-autocomplete", () => {
 
   describe("translation support", () => {
     t9n("calcite-autocomplete");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-autocomplete");
   });
 
   describe("slots", () => {
@@ -469,10 +252,6 @@ describe("calcite-autocomplete", () => {
 
   describe("is focusable", () => {
     focusable("calcite-autocomplete");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-autocomplete`);
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

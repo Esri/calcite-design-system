@@ -2,19 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
@@ -29,64 +17,6 @@ import type { InputText } from "./input-text";
 describe("calcite-input-text", () => {
   describe("labelable", () => {
     labelable("calcite-input-text");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-text", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-text");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-input-text", [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-text", [
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "alignment",
-        defaultValue: "start",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "value",
-        defaultValue: "",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
   });
 
   describe("disabled", () => {
@@ -113,10 +43,6 @@ describe("calcite-input-text", () => {
     focusable(`calcite-input-text`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-text`);
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
