@@ -48,7 +48,10 @@ export const translationCache: Record<Locale, DateLocaleData> = {};
  */
 export const requestCache: Record<Locale, Promise<DateLocaleData>> = {};
 
-const nlsLocaleExceptions = [
+/**
+ * Additional locales supported by NLS data but not by the main intl package
+ */
+const extraNlsLocales = [
   "de-AT",
   "de-CH",
   "en-AU",
@@ -62,7 +65,7 @@ const nlsLocaleExceptions = [
   "pt",
 ] as const;
 
-export const supportedNlsLocales = [...supportedLocales, ...nlsLocaleExceptions];
+export const supportedNlsLocales = [...supportedLocales, ...extraNlsLocales];
 
 /**
  * Normalizes locale to match NLS bundles used by date-picker's calendar rendering
@@ -75,7 +78,7 @@ function normalizeNlsLocale(locale: Locale): (typeof supportedNlsLocales)[number
   const localeParts = locale.split("-");
   locale = `${localeParts[0].toLowerCase()}${localeParts.length >= 2 ? `-${localeParts[1].toUpperCase()}` : ""}`;
 
-  if (nlsLocaleExceptions.includes(locale as (typeof nlsLocaleExceptions)[number])) {
+  if (extraNlsLocales.includes(locale as (typeof extraNlsLocales)[number])) {
     return locale as (typeof supportedNlsLocales)[number];
   }
 
