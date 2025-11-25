@@ -65,11 +65,9 @@ const nlsLocaleExceptions = [
 export const supportedNlsLocales = [...supportedLocales, ...nlsLocaleExceptions];
 
 /**
- * Normalizes locale to match NLS bundle
- *
- * @param locale
+ * Normalizes locale to match NLS bundles used by date-picker's calendar rendering
  */
-function toSupportedNlsLocale(locale: string): (typeof supportedNlsLocales)[number] {
+function normalizeNlsLocale(locale: Locale): (typeof supportedNlsLocales)[number] {
   if (!locale) {
     return defaultLocale;
   }
@@ -85,13 +83,10 @@ function toSupportedNlsLocale(locale: string): (typeof supportedNlsLocales)[numb
 }
 
 /**
- * Fetch calendar data for a given locale from list of supported languages
- *
- * @param lang
- * @public
+ * Fetch NLS data used for localized calendar rendering
  */
-export async function getLocaleData(lang: string): Promise<DateLocaleData> {
-  const locale = toSupportedNlsLocale(lang);
+export async function getNlsData(locale: Locale): Promise<DateLocaleData> {
+  locale = normalizeNlsLocale(locale);
 
   if (translationCache[locale]) {
     return translationCache[locale];
@@ -102,20 +97,16 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
       .then((resp) => resp.json())
       .catch(() => {
         console.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
-        return getLocaleData(defaultLocale);
+        return getNlsData(defaultLocale);
       });
   }
 
-  const data = await requestCache[locale];
-  translationCache[locale] = data;
-
-  return data;
+  return (translationCache[locale] = await requestCache[locale]);
 }
 
 /**
  * Normalizes lang value for date picker locale data fetching
  *
- * @param lang
  * @see https://github.com/Esri/calcite-design-system/issues/11399
  */
 export function normalizeDatePickerLang(lang: string): string {

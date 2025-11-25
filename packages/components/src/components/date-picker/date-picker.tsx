@@ -28,12 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
-import {
-  DateLocaleData,
-  getLocaleData,
-  getValueAsDateRange,
-  normalizeDatePickerLang,
-} from "./utils";
+import { DateLocaleData, getNlsData, getValueAsDateRange, normalizeDatePickerLang } from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -308,7 +303,7 @@ export class DatePicker extends LitElement {
       useGrouping: false,
     };
 
-    this.localeData = await getLocaleData(normalizedLang);
+    this.localeData = await getNlsData(normalizedLang);
     this.dateTimeFormat = getDateTimeFormat(normalizedLang, DATE_PICKER_FORMAT_OPTIONS);
   }
 
