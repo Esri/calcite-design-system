@@ -6,7 +6,7 @@ import stylelint from "stylelint";
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
-import ts from "typescript";
+import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
@@ -45,25 +45,7 @@ const lumina = useLumina({
     },
   },
   types: {
-    sourceFileTransformers: [
-      (sourceFile, context): readonly ts.Statement[] => {
-        if (process.env.NODE_ENV !== "production") {
-          return sourceFile.statements;
-        }
-
-        const testDataAttrPrefix = "data-test-";
-
-        function removeTestDataAttr(node: ts.Node): ts.Node | undefined {
-          return ts.isJsxAttribute(node) && node.name.getText(sourceFile).startsWith(testDataAttrPrefix)
-            ? undefined
-            : ts.visitEachChild(node, removeTestDataAttr, context.transformation);
-        }
-
-        return sourceFile.text.includes(testDataAttrPrefix)
-          ? sourceFile.statements.map((statement) => ts.visitNode(statement, removeTestDataAttr) as ts.Statement)
-          : sourceFile.statements;
-      },
-    ],
+    sourceFileTransformers: [removeTestDataAttr()],
   },
 });
 
