@@ -1,6 +1,5 @@
 // @ts-strict-ignore
-import { LuminaJsx } from "@arcgis/lumina";
-import { LitElement } from "lit";
+import { LuminaJsx, LitElement } from "@arcgis/lumina";
 import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
@@ -10,7 +9,7 @@ type MajorVersion = number;
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
 
 type DeprecatedParams = {
-  component: LitElement & { el: Element };
+  component: LitElement;
   name: string;
   suggested?: string | string[];
   removalVersion: MajorVersion | "future";
@@ -52,9 +51,9 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
 let listFormatter: Intl.ListFormat;
 
 function makeLogger(level: LogLevel) {
-  return (message: string, component?: LitElement & { el: Element }) => {
+  return (message: string, component?: LitElement) => {
     if (component) {
-      const messageWithComponentName = `[${component.el.tagName.toLocaleLowerCase()}] - ${message}`;
+      const messageWithComponentName = `[${component.el.tagName.toLocaleLowerCase().slice("calcite-".length)}] - ${message}`;
       return forwardToConsole(level, messageWithComponentName);
     } else {
       return forwardToConsole(level, message);
@@ -85,6 +84,7 @@ function deprecated(
   { component, name, suggested, removalVersion }: DeprecatedParams | ComponentDeprecatedParams,
 ): void {
   const key = `${context}:${context === "component" ? "" : component}${name}`;
+  const removalVersionText = removalVersion === "future" ? `a future version` : `v${removalVersion}`;
 
   if (loggedDeprecations.has(key)) {
     return;
@@ -92,29 +92,18 @@ function deprecated(
 
   loggedDeprecations.add(key);
 
-  const multiSuggestions = Array.isArray(suggested);
-
-  if (multiSuggestions && !listFormatter) {
-    listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
-  }
-
   let message: string = "";
-
   message =
     context === "component"
-      ? `This component is deprecated and will be removed in ${
-          removalVersion === "future" ? `a future version` : `v${removalVersion}`
-        }.`
-      : `The [${name}] ${context} is deprecated and will be removed in ${
-          removalVersion === "future" ? `a future version` : `v${removalVersion}`
-        }.`;
+      ? `This component is deprecated and will be removed in ${removalVersionText}.`
+      : `The [${name}] ${context} is deprecated and will be removed in ${removalVersionText}.`;
 
   if (suggested) {
-    message += ` Use ${
-      multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`
-    } instead.`;
+    listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
+
+    message += ` Use ${listFormatter.format([].concat(suggested).map((suggestion) => `"${suggestion}"`))} instead.`;
   }
 
-  const composed = component ? `[${component.el.tagName.toLocaleLowerCase()}] - ${message}` : message;
+  const composed = `[${component.el.tagName.toLocaleLowerCase().slice("calcite-".length)}] - ${message}`;
   forwardToConsole("warn", composed);
 }
