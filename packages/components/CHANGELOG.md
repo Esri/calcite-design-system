@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.8...@esri/calcite-components@5.0.0-next.9) (2025-11-25)
+
+### Features
+
+- **block:** add content-end slot ([#13348](https://github.com/Esri/calcite-design-system/issues/13348)) ([077852c](https://github.com/Esri/calcite-design-system/commit/077852c10a539418ad77d4ff31d8ff6740ed867b)), closes [#10714](https://github.com/Esri/calcite-design-system/issues/10714)
+
 ## [5.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.7...@esri/calcite-components@5.0.0-next.8) (2025-11-24)
 
 ### ⚠ BREAKING CHANGES
