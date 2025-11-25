@@ -66,29 +66,27 @@
       },
       "transparent": {
         "default": {
-          "default": {
-            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "transparent"
-            }
-          },
-          "hover": {
-            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "transparent"
-            }
-          },
-          "press": {
-            "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-            "type": "color",
-            "attributes": {
-              "category": "color",
-              "group": "transparent"
-            }
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "transparent"
+          }
+        },
+        "hover": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "transparent"
+          }
+        },
+        "press": {
+          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "transparent"
           }
         },
         "inverse": {
