@@ -26,7 +26,7 @@ import {
 import { decimalPlaces, getDecimals } from "../utils/math";
 import { isValidNumber } from "../utils/number";
 import { capitalizeWord } from "../utils/text";
-import { NumberingSystem } from "../utils/locale";
+import { Locale, NumberingSystem } from "../utils/locale";
 import { numberKeys } from "../utils/key";
 
 export interface TimeComponent extends LitElement {
@@ -84,7 +84,7 @@ type TimeProperties = {
   /**
    * The language and region code to localize the time value.
    */
-  locale: HTMLElement["lang"];
+  locale: Locale;
   /**
    * The decimal separator used by the locale.
    */
@@ -151,7 +151,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   hourFormat: EffectiveHourFormat;
 
-  locale: HTMLElement["lang"];
+  locale: Locale;
 
   localizedDecimalSeparator = ".";
 

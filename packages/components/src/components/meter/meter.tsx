@@ -9,7 +9,7 @@ import {
   disconnectForm,
   FormComponent,
 } from "../../utils/form";
-import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
@@ -61,7 +61,7 @@ export class Meter extends LitElement implements FormComponent {
 
   private percentFormatting: {
     formatter: Intl.NumberFormat;
-    locale: HTMLElement["lang"];
+    locale: Locale;
   };
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());

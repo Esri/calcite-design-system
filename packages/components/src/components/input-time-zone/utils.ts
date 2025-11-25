@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { normalizeLocale, SupportedLocale } from "@arcgis/toolkit/intl";
-import { getDateTimeFormat } from "../../utils/locale";
+import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
@@ -249,11 +249,7 @@ function createTimeZoneOffsetLabel(
   return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
 }
 
-function getTimeZoneShortOffset(
-  timeZone: TimeZone,
-  locale: HTMLElement["lang"],
-  referenceDateInMs: number = Date.now(),
-): string {
+function getTimeZoneShortOffset(timeZone: TimeZone, locale: Locale, referenceDateInMs: number = Date.now()): string {
   // workaround for https://issues.chromium.org/issues/381620359
   // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
   if (timeZone === "Factory") {

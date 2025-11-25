@@ -2,6 +2,7 @@
 import { defaultLocale, normalizeLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import { dateFromISO } from "../../utils/date";
 import { getAssetPath } from "../../runtime";
+import { Locale } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -37,7 +38,7 @@ export interface DateLocaleData {
  *
  * @private
  */
-export const translationCache: Record<HTMLElement["lang"], DateLocaleData> = {};
+export const translationCache: Record<Locale, DateLocaleData> = {};
 
 /**
  * CLDR request cache.
@@ -45,7 +46,7 @@ export const translationCache: Record<HTMLElement["lang"], DateLocaleData> = {};
  *
  * @private
  */
-export const requestCache: Record<HTMLElement["lang"], Promise<DateLocaleData>> = {};
+export const requestCache: Record<Locale, Promise<DateLocaleData>> = {};
 
 const nlsLocaleExceptions = [
   "de-AT",
@@ -118,7 +119,7 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
  * @see https://github.com/Esri/calcite-design-system/issues/11399
  */
 export function normalizeDatePickerLang(lang: string): string {
-  const specialMappings: Record<HTMLElement["lang"], HTMLElement["lang"]> = {
+  const specialMappings: Record<Locale, Locale> = {
     "ar-SA": "ar",
   };
 

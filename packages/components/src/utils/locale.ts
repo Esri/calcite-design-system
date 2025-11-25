@@ -3,6 +3,13 @@ import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
 /**
+ * Represents any BCP 47 locale code used for formatting and parsing numbers.
+ *
+ * For locales that are used for translations, please use the `SupportedLocale` type from `@arcgis/toolkit/intl`.
+ */
+export type Locale = HTMLElement["lang"];
+
+/**
  * To reference the CLDR meridiems for each supported locale navigate to:
  * https://github.com/unicode-org/cldr-json/tree/main/cldr-json/cldr-dates-full/main,
  * click {locale}/ca-generic.json and drill down to main.{locale}.dates.calendars.generic.dayPeriods.format.abbreviated.

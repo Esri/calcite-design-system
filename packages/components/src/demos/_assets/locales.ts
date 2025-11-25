@@ -1,9 +1,9 @@
-import { NumberingSystem } from "../../utils/locale";
+import { Locale, NumberingSystem } from "../../utils/locale";
 import { HourFormat } from "../../utils/time";
 
 interface Locale {
   name: string;
-  locale: HTMLElement["lang"];
+  locale: Locale;
   dir?: "ltr" | "rtl";
   numberingSystem?: NumberingSystem;
   /*
