@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { LuminaJsx } from "@arcgis/lumina";
+import { LitElement } from "lit";
 import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
@@ -9,7 +10,7 @@ type MajorVersion = number;
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
 
 type DeprecatedParams = {
-  component: string;
+  component: LitElement & { el: Element };
   name: string;
   suggested?: string | string[];
   removalVersion: MajorVersion | "future";
@@ -37,20 +38,12 @@ function willLog(level: LogLevel): boolean {
   return logLevels[level] >= logLevels[getConfig().logLevel];
 }
 
-function forwardToConsole(level: LogLevel, component: string, ...data: any[]): void {
+function forwardToConsole(level: LogLevel, ...data: any[]): void {
   if (!willLog(level)) {
     return;
   }
 
-  // Normalize component name for the badge. If caller passed a bare name
-  // (e.g. "block"), prefix with `calcite-`. If the caller passed the
-  // container badge ("calcite") leave as-is.
-  let badgeName = component || "calcite";
-  if (badgeName !== "calcite" && !badgeName.startsWith("calcite-")) {
-    badgeName = `calcite-${badgeName}`;
-  }
-
-  const badgeTemplate = `%c${badgeName}`;
+  const badgeTemplate = `%ccalcite`;
   const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
   console[level].call(this, badgeTemplate, badgeStyle, ...data);
@@ -59,10 +52,14 @@ function forwardToConsole(level: LogLevel, component: string, ...data: any[]): v
 let listFormatter: Intl.ListFormat;
 
 function makeLogger(level: LogLevel) {
-  return (componentNameOrMessage: string, ...data: any[]) =>
-    data.length === 0
-      ? forwardToConsole(level, "calcite", componentNameOrMessage)
-      : forwardToConsole(level, componentNameOrMessage, ...data);
+  return (message: string, component?: LitElement & { el: Element }) => {
+    if (component) {
+      const messageWithComponentName = `[${component.el.tagName.toLocaleLowerCase()}] - ${message}`;
+      return forwardToConsole(level, messageWithComponentName);
+    } else {
+      return forwardToConsole(level, message);
+    }
+  };
 }
 
 export const logger = {
@@ -101,7 +98,23 @@ function deprecated(
     listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
   }
 
-  const message = `The [${name}] ${context} is deprecated and will be removed in ${removalVersion === "future" ? `a future version` : `v${removalVersion}`}.${suggested ? ` Use ${multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`} instead.` : ""}`;
+  let message: string = "";
 
-  forwardToConsole("warn", component, message);
+  message =
+    context === "component"
+      ? `This component is deprecated and will be removed in ${
+          removalVersion === "future" ? `a future version` : `v${removalVersion}`
+        }.`
+      : `The [${name}] ${context} is deprecated and will be removed in ${
+          removalVersion === "future" ? `a future version` : `v${removalVersion}`
+        }.`;
+
+  if (suggested) {
+    message += ` Use ${
+      multiSuggestions ? listFormatter.format(suggested.map((suggestion) => `"${suggestion}"`)) : `"${suggested}"`
+    } instead.`;
+  }
+
+  const composed = component ? `[${component.el.tagName.toLocaleLowerCase()}] - ${message}` : message;
+  forwardToConsole("warn", composed);
 }

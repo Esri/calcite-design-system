@@ -171,7 +171,7 @@ export class Block extends LitElement implements InteractiveComponent {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
-      component: "block",
+      component: this,
       name: "open",
       removalVersion: 5,
       suggested: "expanded",
@@ -289,7 +289,8 @@ export class Block extends LitElement implements InteractiveComponent {
   load(): void {
     if (!this.heading && !this.label) {
       logger.warn(
-        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+        `Both [heading] & [label] properties are missing. Please provide a heading or label for the component to be accessible.`,
+        this,
       );
     }
   }
