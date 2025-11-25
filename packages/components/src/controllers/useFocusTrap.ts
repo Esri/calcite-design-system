@@ -134,9 +134,6 @@ function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement
 
 /**
  * Helper to create the FocusTrap options.
- *
- * @param hostEl
- * @param options
  */
 export function createFocusTrapOptions(
   hostEl: HTMLElement,
