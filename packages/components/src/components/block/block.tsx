@@ -609,16 +609,14 @@ export class Block extends LitElement implements InteractiveComponent {
         ) : (
           headerContent
         )}
-        {(() => {
-          return iconEnd && !collapsible ? (
-            <div class={CSS.iconEndContainer}>
-              {this.renderContentEnd()}
-              {this.renderIcon("end")}
-            </div>
-          ) : !iconEnd && !collapsible ? (
-            this.renderContentEnd()
-          ) : null;
-        })()}
+        {iconEnd && !collapsible ? (
+          <div class={CSS.iconEndContainer}>
+            {this.renderContentEnd()}
+            {this.renderIcon("end")}
+          </div>
+        ) : !iconEnd && !collapsible ? (
+          this.renderContentEnd()
+        ) : null}
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}
