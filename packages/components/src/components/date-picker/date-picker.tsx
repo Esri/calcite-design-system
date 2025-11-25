@@ -28,7 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
-import { DateLocaleData, getNlsData, getValueAsDateRange, normalizeDatePickerLang } from "./utils";
+import { DateLocaleData, getNlsData, getValueAsDateRange, applyLocaleOverride } from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -295,16 +295,16 @@ export class DatePicker extends LitElement {
       return;
     }
 
-    const normalizedLang = normalizeDatePickerLang(this.messages._lang);
+    const locale = applyLocaleOverride(this.messages._lang);
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: normalizedLang,
+      locale,
       useGrouping: false,
     };
 
-    this.localeData = await getNlsData(normalizedLang);
-    this.dateTimeFormat = getDateTimeFormat(normalizedLang, DATE_PICKER_FORMAT_OPTIONS);
+    this.localeData = await getNlsData(locale);
+    this.dateTimeFormat = getDateTimeFormat(locale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
   private monthHeaderSelectChange(event: CustomEvent<{ date: Date; position: string }>): void {

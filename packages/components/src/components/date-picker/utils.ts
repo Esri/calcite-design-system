@@ -105,16 +105,14 @@ export async function getNlsData(locale: Locale): Promise<DateLocaleData> {
 }
 
 /**
- * Normalizes lang value for date picker locale data fetching
- *
- * @see https://github.com/Esri/calcite-design-system/issues/11399
+ * Ensures consistent locale is used across browsers
  */
-export function normalizeDatePickerLang(lang: string): string {
-  const specialMappings: Record<Locale, Locale> = {
-    "ar-SA": "ar",
+export function applyLocaleOverride(locale: Locale): Locale {
+  const localeOverrideMap: Record<Locale, Locale> = {
+    "ar-SA": "ar", // see https://github.com/Esri/calcite-design-system/issues/11399
   };
 
-  return specialMappings[lang] || lang;
+  return localeOverrideMap[locale] || locale;
 }
 
 /**
