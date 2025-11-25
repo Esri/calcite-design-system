@@ -90,7 +90,7 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
               clearInterval(intervalId);
               resolve();
             }
-          }, 0);
+          }, 25);
         });
       }
 
