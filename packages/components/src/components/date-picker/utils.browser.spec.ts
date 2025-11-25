@@ -3,7 +3,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { getNlsData, requestCache, translationCache } from "./utils";
 
 describe("utils", () => {
-  describe("getLocaleData", () => {
+  describe(getNlsData, () => {
     mockConsole();
 
     beforeEach(() => {
