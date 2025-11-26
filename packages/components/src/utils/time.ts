@@ -412,8 +412,7 @@ export function localizeTimeString({
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value, step);
   const includeSeconds = step < 60;
-  const dateFromTimeString;
-  dateFromTimeString = includeSeconds
+  const dateFromTimeString = includeSeconds
     ? new Date(
         Date.UTC(
           0,
