@@ -209,7 +209,7 @@ export function getLocalizedTimePartSuffix(
 ): string {
   const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts);
+  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
 }
 
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], locale: Locale = "en"): string {
@@ -221,7 +221,7 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], 
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
     const hourSuffix = parts[hourIndex + 1];
     return hourSuffix && hourSuffix.type === "literal" && minuteIndex - hourIndex === 2
-      ? hourSuffix.value?.trim() || null
+      ? hourSuffix.value || null
       : null;
   }
   if (part === "minuteSuffix") {
@@ -229,19 +229,19 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], 
     const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
     const minuteSuffix = parts[minuteIndex + 1];
     return minuteSuffix && minuteSuffix.type === "literal" && secondIndex - minuteIndex === 2
-      ? minuteSuffix.value?.trim() || null
+      ? minuteSuffix.value || null
       : null;
   }
   if (part === "secondSuffix") {
     let secondSuffixPart;
     const fractionalSecondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "fractionalSecond"));
-    if (fractionalSecondIndex) {
+    if (fractionalSecondIndex !== -1) {
       secondSuffixPart = parts[fractionalSecondIndex + 1];
     } else {
       const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
       secondSuffixPart = parts[secondIndex + 1];
     }
-    return (secondSuffixPart?.type === "literal" && secondSuffixPart.value?.trim()) || null;
+    return (secondSuffixPart?.type === "literal" && secondSuffixPart.value) || null;
   }
   if (part === "meridiem") {
     const meridiemFromBrowser = parts.find(({ type }) => type === "dayPeriod")?.value || null;

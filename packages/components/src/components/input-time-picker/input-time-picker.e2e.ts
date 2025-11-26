@@ -15,6 +15,7 @@ import { letterKeys } from "../../utils/key";
 import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Promise<string> {
+  const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
   const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.innerText || "";
   const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.innerText || "";
   const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.innerText || "";
@@ -22,9 +23,16 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.innerText || "";
   const decimalSeparator = (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.innerText || "";
   const fractionalSecond = (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.innerText || "";
-  const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText || "";
+  const secondSuffix =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText.replaceAll(
+      whitespaceRegexPattern,
+      "",
+    ) || "";
   const meridiem =
-    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(/\u00A0/g, "") || ""; // some locales like es and ca contain non-breaking space characters, so we remove them to make text assertions more uniform.
+    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(
+      whitespaceRegexPattern,
+      "",
+    ) || "";
   const meridiemOrder = getMeridiemOrder(locale);
   return `${meridiem && meridiemOrder === 0 ? meridiem : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? meridiem : ""}`;
 }
