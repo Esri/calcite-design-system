@@ -292,8 +292,7 @@ export class Block extends LitElement implements InteractiveComponent {
   load(): void {
     if (!this.heading && !this.label) {
       logger.warn(
-        `Both [heading] & [label] properties are missing. Please provide a heading or label for the component to be accessible.`,
-        this,
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
       );
     }
   }

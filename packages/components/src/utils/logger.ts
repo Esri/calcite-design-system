@@ -4,6 +4,7 @@ import { getConfig } from "./config";
 
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
 
+type Message = string;
 type MajorVersion = number;
 
 type DeprecatedContext = "component" | "property" | "method" | "event" | "slot";
@@ -50,23 +51,12 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
 
 let listFormatter: Intl.ListFormat;
 
-function makeLogger(level: LogLevel) {
-  return (message: string, component?: LitElement) => {
-    if (component) {
-      const messageWithComponentName = `[${component.el.tagName.toLocaleLowerCase().slice("calcite-".length)}] - ${message}`;
-      return forwardToConsole(level, messageWithComponentName);
-    } else {
-      return forwardToConsole(level, message);
-    }
-  };
-}
-
 export const logger = {
-  debug: makeLogger("debug"),
-  info: makeLogger("info"),
-  warn: makeLogger("warn"),
-  error: makeLogger("error"),
-  trace: makeLogger("trace"),
+  debug: (message: Message) => forwardToConsole("debug", message),
+  info: (message: Message) => forwardToConsole("info", message),
+  warn: (message: Message) => forwardToConsole("warn", message),
+  error: (message: Message) => forwardToConsole("error", message),
+  trace: (message: Message) => forwardToConsole("trace", message),
 
   deprecated,
 } as const;
