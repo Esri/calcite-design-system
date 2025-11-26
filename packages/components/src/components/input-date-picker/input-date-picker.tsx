@@ -52,13 +52,17 @@ import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from 
 import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
-  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  applyLocaleOverride,
+} from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
@@ -456,13 +460,6 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     this.setFilteredPlacements();
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: this.messages._lang,
-      useGrouping: false,
-    };
-
     connectFloatingUI(this);
   }
 
@@ -656,7 +653,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
+      getDateFormatSupportedLocale(applyLocaleOverride(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -847,12 +844,16 @@ export class InputDatePicker
     if (isServer) {
       return;
     }
+
+    const locale = applyLocaleOverride(this.messages._lang);
+
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.messages._lang,
+      locale,
       useGrouping: false,
     };
-    this.localeData = await getLocaleData(this.messages._lang);
+
+    this.localeData = await getLocaleData(locale);
     this.localizeInputValues();
   }
 
