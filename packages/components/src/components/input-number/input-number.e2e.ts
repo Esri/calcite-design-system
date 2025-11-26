@@ -13,7 +13,8 @@ import {
   selectText,
 } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { locales, numberStringFormatter } from "../../utils/locale";
+import { numberStringFormatter } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
@@ -1071,7 +1072,7 @@ describe("calcite-input-number", () => {
       "pl",
       "pt-PT",
     ];
-    locales
+    supportedNlsLocales
       .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {

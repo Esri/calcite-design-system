@@ -1,60 +1,13 @@
 // @ts-strict-ignore
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
-export const defaultLocale = "en";
-
-export const locales = [
-  "ar",
-  "bg",
-  "bs",
-  "ca",
-  "cs",
-  "da",
-  "de",
-  "de-AT",
-  "de-CH",
-  "el",
-  defaultLocale,
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "es",
-  "es-MX",
-  "et",
-  "fi",
-  "fr",
-  "fr-CH",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "it-CH",
-  "ja",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "no",
-  "nl",
-  "pl",
-  "pt",
-  "pt-PT",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "sr",
-  "sv",
-  "th",
-  "tr",
-  "uk",
-  "vi",
-  "zh-CN",
-  "zh-HK",
-  "zh-TW",
-];
+/**
+ * Represents any BCP 47 locale code used for formatting and parsing numbers.
+ *
+ * For locales that are used for translations, please use the `SupportedLocale` type from `@arcgis/toolkit/intl`.
+ */
+export type Locale = HTMLElement["lang"];
 
 /**
  * To reference the CLDR meridiems for each supported locale navigate to:
@@ -91,11 +44,8 @@ export const localizedTwentyFourHourMeridiems = new Map(
 );
 
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
-export const supportedLocales = [...locales] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
-
-export type SupportedLocale = (typeof supportedLocales)[number];
 
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
@@ -111,49 +61,6 @@ export const defaultNumberingSystem =
 
 export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
-
-/**
- * Gets the locale that best matches the context.
- *
- * @param locale – the BCP 47 locale code
- */
-export function getSupportedLocale(locale: string): SupportedLocale {
-  if (!locale) {
-    return defaultLocale;
-  }
-
-  if (supportedLocales.includes(locale)) {
-    return locale;
-  }
-
-  locale = locale.toLowerCase();
-  if (locale.includes("-")) {
-    locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!supportedLocales.includes(locale)) {
-      locale = locale.split("-")[0];
-    }
-  }
-
-  // we support 'nn', 'nb' and 'no' (BCP 47) for Norwegian but only `no` includes corresponding bundle
-  if (locale === "nb" || locale === "nn") {
-    return "no";
-  }
-
-  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
-  if (locale === "zh") {
-    return "zh-CN";
-  }
-
-  if (!supportedLocales.includes(locale)) {
-    console.warn(
-      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`,
-    );
-    return defaultLocale;
-  }
-
-  return locale;
-}
 
 /**
  * Gets the locale that best matches the context for date formatting.
@@ -177,8 +84,8 @@ export function getDateFormatSupportedLocale(locale: string): string {
 }
 
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
-  numberingSystem: NumberingSystem;
-  locale: string;
+  numberingSystem?: NumberingSystem;
+  locale?: string;
 }
 
 /** This util formats and parses numbers for localization */
@@ -231,8 +138,8 @@ export class NumberStringFormat {
 
   /** numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date */
   set numberFormatOptions(options: NumberStringFormatOptions) {
-    options.locale = getSupportedLocale(options?.locale);
     options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
+    options.locale = options?.locale || defaultLocale;
 
     if (
       // No need to create the formatter if `locale` and `numberingSystem`

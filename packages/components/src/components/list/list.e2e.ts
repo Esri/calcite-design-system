@@ -492,7 +492,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       expect(await items[0].getProperty("filterHidden")).toBe(false);
       expect(await items[0].getProperty("setPosition")).toBe(1);
@@ -583,7 +583,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(3);
       expect(await list.getProperty("filteredData")).toHaveLength(3);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       listItems[0].setProperty("selected", true);
       list.setProperty("filterText", "two");

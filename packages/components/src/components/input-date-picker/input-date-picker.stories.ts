@@ -1,6 +1,7 @@
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { locales, defaultLocale } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -39,7 +40,7 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: locales,
+      options: supportedNlsLocales,
       control: { type: "select" },
     },
     placement: {

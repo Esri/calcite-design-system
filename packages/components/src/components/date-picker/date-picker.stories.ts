@@ -1,7 +1,8 @@
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { supportedNlsLocales } from "./utils";
 import { DatePicker } from "./date-picker";
 
 const { scale } = ATTRIBUTES;
@@ -28,7 +29,7 @@ export default {
   },
   argTypes: {
     lang: {
-      options: locales,
+      options: supportedNlsLocales,
       control: { type: "select" },
     },
     scale: {

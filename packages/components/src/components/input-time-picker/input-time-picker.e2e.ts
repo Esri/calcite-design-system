@@ -8,14 +8,14 @@ import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { supportedLocales } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
 import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Promise<string> {
-  const whitespaceRegexPattern = /[\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
+  const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
   const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.innerText || "";
   const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.innerText || "";
   const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.innerText || "";
@@ -495,7 +495,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    supportedLocales.forEach((locale: SupportedLocale) => {
+    supportedNlsLocales.forEach((locale) => {
       if (locale !== "es") {
         return;
       }
