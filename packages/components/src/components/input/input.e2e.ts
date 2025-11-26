@@ -1772,35 +1772,6 @@ describe("calcite-input", () => {
       page = await newE2EPage();
     });
 
-    it("works for type textarea", async () => {
-      await page.setContent(`<calcite-input type="textarea"></calcite-input>`);
-      const element = await page.find("calcite-input");
-
-      await element.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.type("test");
-      await page.waitForChanges();
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-        position: 0,
-      });
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-      });
-    });
-
     it("works for type text", async () => {
       await page.setContent(`<calcite-input type="text"></calcite-input>`);
       const element = await page.find("calcite-input");

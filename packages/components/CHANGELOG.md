@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.10...@esri/calcite-components@5.0.0-next.11) (2025-11-25)
+
+### Bug Fixes
+
+- **combobox, filter, list:** stop warning when filtering on empty data source ([#13352](https://github.com/Esri/calcite-design-system/issues/13352)) ([c46edb0](https://github.com/Esri/calcite-design-system/commit/c46edb0673941a9efb03305e834c2a58439e0ab9)), closes [#12264](https://github.com/Esri/calcite-design-system/issues/12264)
+
+## [5.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.9...@esri/calcite-components@5.0.0-next.10) (2025-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **input:** The deprecated `textarea` type was removed. Developers
+  should use `calcite-text-area` instead.
+
+### Code Refactoring
+
+- **input:** drop `textarea` type ([#13359](https://github.com/Esri/calcite-design-system/issues/13359)) ([f350d50](https://github.com/Esri/calcite-design-system/commit/f350d50d90431facaa5557a125573fd740db2eca)), closes [#13079](https://github.com/Esri/calcite-design-system/issues/13079)
+
+## [5.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.8...@esri/calcite-components@5.0.0-next.9) (2025-11-25)
+
+### Features
+
+- **block:** add content-end slot ([#13348](https://github.com/Esri/calcite-design-system/issues/13348)) ([077852c](https://github.com/Esri/calcite-design-system/commit/077852c10a539418ad77d4ff31d8ff6740ed867b)), closes [#10714](https://github.com/Esri/calcite-design-system/issues/10714)
+
+## [5.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.7...@esri/calcite-components@5.0.0-next.8) (2025-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- drop deprecated CDN namespace (#12546)
+
+### Build System
+
+- drop deprecated CDN namespace ([#12546](https://github.com/Esri/calcite-design-system/issues/12546)) ([b8f4346](https://github.com/Esri/calcite-design-system/commit/b8f4346188f5b3677bea4553375aefb2b4e2b05f)), closes [#13266](https://github.com/Esri/calcite-design-system/issues/13266)
+
 ## [5.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.6...@esri/calcite-components@5.0.0-next.7) (2025-11-21)
 
 ### Features

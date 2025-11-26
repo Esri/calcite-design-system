@@ -278,7 +278,7 @@ export const icons_TestOnly = (): string => html`
 `;
 
 export const iconStartEnd = (): string => html`
-  <h1>content-start and actions-end</h1>
+  <h1>content-start, content-end and actions-end</h1>
 
   <calcite-block
     heading="Valid status"
@@ -294,6 +294,14 @@ export const iconStartEnd = (): string => html`
       style="color: var(--calcite-color-status-success)"
       scale="s"
     ></calcite-icon>
+
+    <calcite-icon
+      icon="compass"
+      slot="content-end"
+      style="color: var(--calcite-color-status-success)"
+      scale="s"
+    ></calcite-icon>
+
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
   </calcite-block>
 
@@ -362,6 +370,9 @@ export const nonCollapsible = (): string =>
     drag-handle
   >
     <div slot="content-start">
+      <calcite-action icon="information"></calcite-action>
+    </div>
+    <div slot="content-end">
       <calcite-action icon="information"></calcite-action>
     </div>
     <calcite-action icon="layers" slot="actions-end"></calcite-action>
