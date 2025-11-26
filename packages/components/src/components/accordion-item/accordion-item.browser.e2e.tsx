@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-accordion-item", () => {
   describe("defaults", () => {
@@ -41,5 +42,9 @@ describe("calcite-accordion-item", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-accordion-item"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-accordion-item"), SLOTS);
   });
 });
