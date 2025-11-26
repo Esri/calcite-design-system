@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { describe, expect, it } from "vitest";
-import { locales, numberStringFormatter } from "./locale";
+import { supportedNlsLocales } from "../components/date-picker/utils";
+import { numberStringFormatter } from "./locale";
 import {
   BigDecimal,
   addLocalizedTrailingDecimalZeros,
@@ -138,7 +139,7 @@ describe("BigDecimal", () => {
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
 
-  locales.forEach((locale) => {
+  supportedNlsLocales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -191,7 +192,7 @@ describe("addLocalizedTrailingDecimalZeros", () => {
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
   }
 
-  locales.forEach((locale) => {
+  supportedNlsLocales.forEach((locale) => {
     it(`add back sanitized trailing decimal zero values - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
         locale,

@@ -6,6 +6,7 @@ import stylelint from "stylelint";
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
+import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
@@ -17,6 +18,37 @@ const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
 const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
 
+const lumina = useLumina({
+  build: {
+    dependencies: {
+      // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
+      bundleIn: nonEsmDependencies,
+    },
+    wrappers: [
+      {
+        type: "react18",
+        proxiesFile: "../components-react/src/components.ts",
+      },
+    ],
+    preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
+  },
+  css: {
+    globalStylesPath: "src/styles/global/index.scss",
+    hydratedAttribute: "calcite-hydrated",
+  },
+  puppeteerTesting: {
+    enabled: !runBrowserTests,
+    waitForChangesDelay: 100,
+    launchOptions: {
+      devtools: process.env.DEVTOOLS === "true",
+      headless: process.env.HEADLESS === "false" ? false : undefined,
+    },
+  },
+  types: {
+    sourceFileTransformers: [removeTestDataAttr()],
+  },
+});
+
 export default defineConfig({
   build: { minify: false },
   cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
@@ -25,35 +57,7 @@ export default defineConfig({
     noExternal: nonEsmDependencies,
   },
 
-  plugins: [
-    useLumina({
-      build: {
-        dependencies: {
-          // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
-          bundleIn: nonEsmDependencies,
-        },
-        wrappers: [
-          {
-            type: "react18",
-            proxiesFile: "../components-react/src/components.ts",
-          },
-        ],
-        preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
-      },
-      css: {
-        globalStylesPath: "src/styles/global/index.scss",
-        hydratedAttribute: "calcite-hydrated",
-      },
-      puppeteerTesting: {
-        enabled: !runBrowserTests,
-        waitForChangesDelay: 100,
-        launchOptions: {
-          devtools: process.env.DEVTOOLS === "true",
-          headless: process.env.HEADLESS === "false" ? false : undefined,
-        },
-      },
-    }),
-  ],
+  plugins: [lumina],
 
   css: {
     postcss: {

@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "5.0.0-next.11",
+  "version": "5.0.0-next.12",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -23,7 +23,8 @@
     "./dist/calcite/calcite.css": "./dist/calcite/calcite.css",
     "./dist/loader": "./dist/loader.js",
     "./dist/components": "./dist/index.js",
-    "./dist/components/*": "./dist/components/*/index.js"
+    "./dist/components/*": "./dist/components/*/index.js",
+    "./main.css": "./dist/cdn/main.css"
   },
   "main": "dist/index.js",
   "jsdelivr": "dist/calcite/calcite.js",

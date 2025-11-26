@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
 
@@ -51,7 +51,7 @@ export async function getNormalizer(mode: TimeZoneMode): Promise<(timeZone: Time
 }
 
 export async function createTimeZoneItems(
-  locale: SupportedLocale,
+  locale: Locale,
   messages: InputTimeZone["messages"],
   mode: TimeZoneMode,
   referenceDate: Date,
@@ -85,6 +85,7 @@ export async function createTimeZoneItems(
         standardTime === "utc"
         ? "fr"
         : "en-GB";
+
   const referenceDateInMs: number = referenceDate.getTime();
 
   if (mode === "region") {
@@ -247,11 +248,7 @@ function createTimeZoneOffsetLabel(
   return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
 }
 
-function getTimeZoneShortOffset(
-  timeZone: TimeZone,
-  locale: SupportedLocale,
-  referenceDateInMs: number = Date.now(),
-): string {
+function getTimeZoneShortOffset(timeZone: TimeZone, locale: Locale, referenceDateInMs: number = Date.now()): string {
   // workaround for https://issues.chromium.org/issues/381620359
   // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
   if (timeZone === "Factory") {
