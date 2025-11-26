@@ -1,6 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { h, JsxNode, LitElement, LuminaJsx } from "@arcgis/lumina";
-import { TemplateResult } from "lit/html.js";
+import { TemplateResult } from "lit-html";
 import { SetOptional } from "type-fest";
 
 export interface InteractiveComponent extends LitElement {
