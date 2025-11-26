@@ -15,8 +15,10 @@ import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import type { Action } from "../action/action";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { SelectionMode } from "../interfaces";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -52,6 +54,8 @@ export class ActionGroup extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private actionElements: Action["el"][] = [];
 
   //#endregion
 
@@ -103,6 +107,22 @@ export class ActionGroup extends LitElement {
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"single-persist"` allows one selection and prevents de-selection.
+   *
+   * `"none"` disables selection (default).
+   */
+  @property({ reflect: true }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple" | "none",
+    SelectionMode
+  > = "none";
+
   //#endregion
 
   //#region Public Methods
@@ -133,6 +153,11 @@ export class ActionGroup extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    this.listen("calciteInternalActionSelect", this.handleActionClick);
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -157,12 +182,54 @@ export class ActionGroup extends LitElement {
 
   //#region Private Methods
 
+  private setActiveActionBySelectionMode(index: number, action: Action["el"]): void {
+    switch (this.selectionMode) {
+      case "multiple":
+        action.active = !action.active;
+        break;
+      case "single":
+        this.actionElements.forEach((a, i) => {
+          a.active = i === index ? !a.active : false;
+        });
+        break;
+      case "single-persist":
+        if (!this.actionElements[index].active) {
+          this.actionElements.forEach((a, i) => {
+            a.active = i === index;
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
+  }
+
+  private handleActionClick(event: CustomEvent): void {
+    this.updateActions();
+    const action = event.target as Action["el"];
+    const index = this.actionElements.indexOf(action);
+
+    if (index === -1 || this.selectionMode === "none") {
+      return;
+    }
+
+    this.setActiveActionBySelectionMode(index, action);
+  }
+
+  private updateActions(): void {
+    this.actionElements = Array.from(this.el.querySelectorAll("calcite-action"));
+  }
+
+  private handleSlotChange(): void {
+    this.updateActions();
   }
 
   //#endregion
@@ -212,8 +279,16 @@ export class ActionGroup extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div ariaLabel={this.label} class={CSS.container} role="group">
-        <slot />
+      <div
+        ariaLabel={this.label}
+        class={CSS.container}
+        role={
+          this.selectionMode === "multiple" || this.selectionMode === "none"
+            ? "group"
+            : "radiogroup"
+        }
+      >
+        <slot onSlotChange={this.handleSlotChange} />
         {this.renderMenu()}
       </div>
     );

@@ -15,6 +15,7 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
+import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
@@ -106,6 +107,42 @@ export class ActionBar extends LitElement {
 
   private setExpandToggleEl = (el: Action["el"]): void => {
     this.expandToggleEl = el;
+  };
+
+  private handleToolbarKeyDown = (event: KeyboardEvent): void => {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement as Action["el"];
+
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.updateTabIndexOfItems(current);
+        break;
+    }
   };
 
   //#endregion
@@ -211,6 +248,7 @@ export class ActionBar extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleToolbarKeyDown);
   }
 
   override connectedCallback(): void {
@@ -361,6 +399,12 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
+  private updateTabIndexOfItems(target: Action["el"]): void {
+    this.actions.forEach((item: Action["el"]) => {
+      item.tabIndex = target !== item ? -1 : 0;
+    });
+  }
+
   //#endregion
 
   //#region Rendering
@@ -413,7 +457,11 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container}>
+      <div
+        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        class={CSS.container}
+        role="toolbar"
+      >
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>

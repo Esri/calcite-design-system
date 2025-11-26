@@ -221,6 +221,14 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   private handleClick(): void {
     const { type } = this;
 
+    this.el.dispatchEvent(
+      new CustomEvent("calciteInternalActionSelect", {
+        bubbles: true,
+        composed: true,
+        detail: { action: this },
+      }),
+    );
+
     if (type === "submit") {
       submitForm(this);
     } else if (type === "reset") {
