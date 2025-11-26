@@ -58,6 +58,7 @@ const extraNlsLocales = [
   "en-CA",
   "en-GB",
   "es-MX",
+  "fr-CA",
   "fr-CH",
   "hi",
   "it-CH",

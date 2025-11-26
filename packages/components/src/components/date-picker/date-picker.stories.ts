@@ -167,55 +167,40 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const bgLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="bg" scale="m" value="2020-02-28"></calcite-date-picker>
-  </div>
-`;
+export const localized = (): string => {
+  const locales = [
+    { label: "Arabic (ar):", lang: "ar" },
+    { label: "Arabic (ar) + Arab numbering system:", lang: "ar", numberingSystem: "arab" },
+    { label: "Bulgarian (bg):", lang: "bg" },
+    { label: "British English (en-gb):", lang: "en-gb" },
+    { label: "Chinese (zh-cn):", lang: "zh-cn" },
+    { label: "German (de):", lang: "de" },
+    { label: "French Canadian (fr-CA):", lang: "fr-CA" },
+    { label: "Norwegian (nb):", lang: "nb" },
+    { label: "Portuguese (pt-PT):", lang: "pt-PT" },
+    { label: "Spanish (es):", lang: "es" },
+  ];
 
-export const ptPTLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="pt-PT" scale="m" value="2020-02-28"></calcite-date-picker>
-  </div>
-`;
-
-export const germanLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="de" scale="m" value="2022-08-11"></calcite-date-picker>
-  </div>
-`;
-
-export const spanishLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="es" scale="m" value="2023-05-11"></calcite-date-picker>
-  </div>
-`;
-
-export const norwegianLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="nb" scale="m" value="2023-05-11"></calcite-date-picker>
-  </div>
-`;
-
-export const britishLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="en-gb" scale="m" value="2024-01-11"></calcite-date-picker>
-  </div>
-`;
-
-export const chineseLang_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="zh-cn" scale="m" value="2024-01-11"></calcite-date-picker>
-  </div>
-`;
-
-export const arabLangNumberingSystem_TestOnly = (): string => html`
-  <div style="width: 400px">
-    <calcite-date-picker lang="ar" numbering-system="arab" scale="m" value="2022-08-11"></calcite-date-picker>
-  </div>
-`;
-
-arabLangNumberingSystem_TestOnly.parameters = {
+  return html`
+    <div style="width: 400px; display: flex; flex-direction: column; gap: 16px;">
+      ${locales
+        .map(
+          ({ label, lang, numberingSystem }) => html`
+            <div>
+              <strong>${label}</strong>
+              <calcite-date-picker
+                lang="${lang}"
+                value="2020-02-28"
+                ${numberingSystem ? `numbering-system="${numberingSystem}"` : ""}
+              ></calcite-date-picker>
+            </div>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+};
+localized.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
