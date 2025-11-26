@@ -206,6 +206,34 @@ export class TableAdvanced extends LitElement {
     this.tabulator.clearSort();
   }
 
+  /**
+   * Triggers hide column.
+   *
+   * @example
+   *
+   * myTable.hideColumn("name")
+   *
+   * @param columnName Value used to find a column object
+   */
+  @method()
+  async hideColumn(columnName: string): Promise<void> {
+    this.tabulator.hideColumn(columnName);
+  }
+
+  /**
+   * Triggers show column.
+   *
+   * @example
+   *
+   * myTable.showColumn("name")
+   *
+   * @param columnName Value used to find a column object
+   */
+  @method()
+  async showColumn(columnName: string): Promise<void> {
+    this.tabulator.showColumn(columnName);
+  }
+
   //#endregion
 
   //#region Lifecycle

@@ -44,6 +44,8 @@
           <button onclick="triggerSetSort()">Set Sort</button>
           <button onclick="triggerSetSortMultiple()">Set Sort Multiple</button>
           <button onclick="triggerClearSort()">Clear Sort</button>
+          <button onclick="triggerHideColumn()">Hide Column</button>
+          <button onclick="triggerShowColumn()">Show Column</button>
         </div>
       </div>
 
@@ -127,6 +129,8 @@
           <button onclick="triggerSetSortCustomSlot()">Set Sort</button>
           <button onclick="triggerSetSortMultipleCustomSlot()">Set Sort Multiple</button>
           <button onclick="triggerClearSortCustomSlot()">Clear Sort</button>
+          <button onclick="triggerHideColumnCustomSlot()">Hide Column</button>
+          <button onclick="triggerShowColumnCustomSlot()">Show Column</button>
         </div>
       </div>
 
@@ -375,6 +379,14 @@
         tableAdvanced.clearSort();
       }
 
+      function triggerHideColumn() {
+        tableAdvanced.hideColumn("name");
+      }
+
+      function triggerShowColumn() {
+        tableAdvanced.showColumn("name");
+      }
+
       // Column groups
       var dataColumnGroups = [
         {
@@ -557,6 +569,14 @@
 
       function triggerClearSortCustomSlot() {
         tableAdvancedCustomSlot.clearSort();
+      }
+
+      function triggerHideColumnCustomSlot() {
+        tableAdvancedCustomSlot.hideColumn("name");
+      }
+
+      function triggerShowColumnCustomSlot() {
+        tableAdvancedCustomSlot.showColumn("name");
       }
 
       tableAdvancedCustomSlot.movableColumns = true;
