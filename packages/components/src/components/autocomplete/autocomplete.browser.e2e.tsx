@@ -1,9 +1,10 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { internalLabel, renders, slots } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-autocomplete", () => {
   mockConsole();
@@ -231,5 +232,9 @@ describe("calcite-autocomplete", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-autocomplete"), { display: "block" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-autocomplete"), SLOTS);
   });
 });

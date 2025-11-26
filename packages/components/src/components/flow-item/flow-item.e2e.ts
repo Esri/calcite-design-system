@@ -6,7 +6,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  slots,
   t9n,
   themed,
 } from "../../tests/commonTests";
@@ -26,10 +25,6 @@ type TestWindow = GlobalTestProps<{
 
 describe("calcite-flow-item", () => {
   mockConsole();
-
-  describe("slots", () => {
-    slots("calcite-flow-item", SLOTS);
-  });
 
   describe("disabled", () => {
     disabled(

@@ -1,7 +1,15 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-bar", () => {
   mockConsole();
@@ -80,5 +88,9 @@ describe("calcite-action-bar", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-action-bar"), SLOTS);
   });
 });

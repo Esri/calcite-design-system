@@ -1,17 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  focusable,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, focusable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-action-pad", () => {
   mockConsole();
@@ -211,10 +204,6 @@ describe("calcite-action-pad", () => {
         focusTargetSelector: "calcite-action",
       },
     );
-  });
-
-  describe("slots", () => {
-    slots("calcite-action-pad", SLOTS);
   });
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {

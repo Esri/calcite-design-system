@@ -1,21 +1,17 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, t9n, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   mockConsole();
-
-  describe("slots", () => {
-    slots("calcite-shell-panel", SLOTS);
-  });
 
   it("has a slot", async () => {
     const page = await newE2EPage();
