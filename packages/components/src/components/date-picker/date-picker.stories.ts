@@ -170,7 +170,7 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 export const localized = (): string => {
   const locales = [
     { label: "Arabic (ar):", lang: "ar" },
-    { label: "Arabic (ar) + Arab numbering system:", lang: "ar", numberingSystem: "arab" },
+    { label: "Arabic (ar) + Arabic numbering system:", lang: "ar", numberingSystem: "arab" },
     { label: "Bulgarian (bg):", lang: "bg" },
     { label: "British English (en-gb):", lang: "en-gb" },
     { label: "Chinese (zh-cn):", lang: "zh-cn" },
