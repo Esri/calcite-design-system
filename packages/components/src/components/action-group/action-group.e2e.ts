@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, handlesActionMenuPlacements, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, handlesActionMenuPlacements, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -19,10 +19,6 @@ describe("calcite-action-group", () => {
 
   describe("accessible", () => {
     accessible(actionGroupHTML);
-  });
-
-  describe("slots", () => {
-    slots("calcite-action-group", SLOTS);
   });
 
   describe("handles action-menu placement and flipPlacements", () => {

@@ -1,8 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-group", () => {
   mockConsole();
@@ -61,5 +62,9 @@ describe("calcite-action-group", () => {
         ),
       { display: "flex" },
     );
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-action-group"), SLOTS);
   });
 });
