@@ -594,7 +594,7 @@ export class InputTimePicker
             id={IDS.inputContainer}
             role="group"
           >
-            {showMeridiem && meridiemStart && this.renderMeridiem("start")}
+            {showMeridiem && meridiemStart && this.renderMeridiem()}
             <span
               aria-label={this.messages.hour}
               aria-valuemax="23"
@@ -634,7 +634,7 @@ export class InputTimePicker
             >
               {localizedMinute || emptyPlaceholder}
             </span>
-            {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
+            <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
             {showSecond && (
               <span
                 aria-label={this.messages.second}
@@ -681,7 +681,7 @@ export class InputTimePicker
               </span>
             )}
             {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem("end")}
+            {showMeridiem && !meridiemStart && this.renderMeridiem()}
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -730,7 +730,7 @@ export class InputTimePicker
     );
   }
 
-  private renderMeridiem(position: "start" | "end"): JsxNode {
+  private renderMeridiem(): JsxNode {
     const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
     const isInteractive = !this.disabled && !this.readOnly;
     return (
@@ -744,8 +744,6 @@ export class InputTimePicker
           [CSS.empty]: !localizedMeridiem,
           [CSS.input]: true,
           [CSS.meridiem]: true,
-          [CSS.meridiemStart]: position === "start",
-          [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
