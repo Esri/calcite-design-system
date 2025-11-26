@@ -7,7 +7,6 @@ import {
   disabled,
   focusable,
   handlesActionMenuPlacements,
-  slots,
   t9n,
   themed,
 } from "../../tests/commonTests";
@@ -22,10 +21,6 @@ describe("calcite-block", () => {
 
   describe("openClose", () => {
     openClose("calcite-block");
-  });
-
-  describe("slots", () => {
-    slots("calcite-block", SLOTS);
   });
 
   describe("accessible", () => {

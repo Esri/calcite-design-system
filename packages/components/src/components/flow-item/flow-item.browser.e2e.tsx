@@ -1,8 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
   mockConsole();
@@ -131,5 +132,9 @@ describe("calcite-flow-item", () => {
     renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
       display: "flex",
     });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-flow-item"), SLOTS);
   });
 });

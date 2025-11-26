@@ -1,7 +1,8 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   mockConsole();
@@ -68,5 +69,9 @@ describe("calcite-action-menu", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action-menu"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-action-menu"), SLOTS);
   });
 });

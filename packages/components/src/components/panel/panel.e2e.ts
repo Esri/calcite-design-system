@@ -7,7 +7,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  slots,
   t9n,
   themed,
   handlesActionMenuPlacements,
@@ -96,10 +95,6 @@ describe("calcite-panel", () => {
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
       </calcite-panel>
     `);
-  });
-
-  describe("slots", () => {
-    slots("calcite-panel", SLOTS);
   });
 
   describe("disabled", () => {

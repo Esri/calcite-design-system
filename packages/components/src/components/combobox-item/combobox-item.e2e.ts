@@ -1,15 +1,10 @@
 import { describe } from "vitest";
-import { disabled, slots, themed } from "../../tests/commonTests";
+import { disabled, themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
-import { SLOTS } from "./resources";
 import { CSS } from "./resources";
 
 describe("calcite-combobox-item", () => {
-  describe("slots", () => {
-    slots("calcite-combobox-item", SLOTS, true);
-  });
-
   describe("disabled", () => {
     disabled("calcite-combobox-item", { focusTarget: "none" });
   });
