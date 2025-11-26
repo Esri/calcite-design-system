@@ -3,7 +3,6 @@ import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import {
   accessible,
   disabled,
-  floatingUIOwner,
   focusable,
   formAssociated,
   labelable,
@@ -239,10 +238,6 @@ describe("calcite-autocomplete", () => {
       testValue: "two",
       submitsOnEnter: true,
     });
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
   });
 
   describe("is focusable", () => {

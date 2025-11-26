@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import {
@@ -7,6 +8,7 @@ import {
   hidden,
   renders,
   slots,
+  delegatesToFloatingUiOwningComponent,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -92,5 +94,17 @@ describe("calcite-action-bar", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-bar"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-action-bar>
+            <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+          </calcite-action-bar>,
+        ),
+      "calcite-action-group",
+    );
   });
 });
