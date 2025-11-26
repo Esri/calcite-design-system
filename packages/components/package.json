@@ -23,7 +23,8 @@
     "./dist/calcite/calcite.css": "./dist/calcite/calcite.css",
     "./dist/loader": "./dist/loader.js",
     "./dist/components": "./dist/index.js",
-    "./dist/components/*": "./dist/components/*/index.js"
+    "./dist/components/*": "./dist/components/*/index.js",
+    "./main.css": "./dist/cdn/main.css"
   },
   "main": "dist/index.js",
   "jsdelivr": "dist/calcite/calcite.js",
