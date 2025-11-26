@@ -201,7 +201,10 @@ export const localized = (): string => {
   `;
 };
 localized.parameters = {
-  chromatic: { diffThreshold: 1 },
+  chromatic: {
+    delay: 1000,
+    diffThreshold: 1,
+  },
 };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>

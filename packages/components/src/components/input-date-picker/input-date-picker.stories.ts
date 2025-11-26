@@ -387,3 +387,8 @@ export const localized = (): string => {
     </div>
   `;
 };
+localized.parameters = {
+  chromatic: {
+    delay: 1000,
+  },
+};
