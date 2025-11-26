@@ -118,6 +118,11 @@ export const open_TestOnly = (): string => html`
   <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>
 `;
 
+export const frenchCanadianLocale_TestOnly = (): string => html`
+  <calcite-input-time-picker lang="fr-CA" value="10:37:45.321" step=".001" hour-format="12" open>
+  </calcite-input-time-picker>
+`;
+
 export const koreanLocale_TestOnly = (): string => html`
   <calcite-input-time-picker lang="ko" value="10:37" step="1" open> </calcite-input-time-picker>
 `;

@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
-import { literal } from "lit-html/static.js";
 import {
   LitElement,
   property,
@@ -81,10 +80,7 @@ export class Input
   );
 
   /** keep track of the rendered child type */
-  private childRef = createRef<HTMLInputElement | HTMLTextAreaElement>();
-
-  /** keep track of the rendered child type */
-  private childElType?: "input" | "textarea" = "input";
+  private childRef = createRef<HTMLInputElement>();
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
@@ -140,14 +136,6 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
-  get isClearable(): boolean {
-    return !this.isTextarea && (this.clearable || this.type === "search") && this.value?.length > 0;
-  }
-
-  get isTextarea(): boolean {
-    return this.childElType === "textarea";
-  }
-
   //#endregion
 
   //#region State Properties
@@ -180,7 +168,7 @@ export class Input
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type. */
+  /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
   @property({ reflect: true }) clearable = false;
 
   /**
@@ -343,8 +331,6 @@ export class Input
    * Specifies the component type.
    *
    * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
-   *
-   *  `"textarea"` [Deprecated] use the `calcite-text-area` component instead.
    */
   @property({ reflect: true }) type:
     | "color"
@@ -359,7 +345,6 @@ export class Input
     | "search"
     | "tel"
     | "text"
-    | "textarea"
     | "time"
     | "url"
     | "week" = "text";
@@ -477,7 +462,6 @@ export class Input
   }
 
   async load(): Promise<void> {
-    this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
@@ -502,7 +486,7 @@ export class Input
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("max")) {
       this.maxString = this.max?.toString() || null;
     }
@@ -528,6 +512,10 @@ export class Input
   //#endregion
 
   //#region Private Methods
+
+  get isClearable(): boolean {
+    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -1080,14 +1068,10 @@ export class Input
           value={this.displayedValue}
         />
       ) : null;
-    const DynamicHtmlTag =
-      this.childElType === "input"
-        ? (literal`input` as unknown as "input")
-        : (literal`textarea` as unknown as "textarea");
 
     const childEl =
       this.type !== "number" ? (
-        <DynamicHtmlTag
+        <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
@@ -1112,7 +1096,6 @@ export class Input
           onFocus={this.inputFocusHandler}
           onInput={this.inputInputHandler}
           onKeyDown={this.inputKeyDownHandler}
-          // eslint-disable-next-line react/forbid-component-props -- intentional onKeyUp usage
           onKeyUp={this.inputKeyUpHandler}
           pattern={this.pattern}
           placeholder={this.placeholder || ""}

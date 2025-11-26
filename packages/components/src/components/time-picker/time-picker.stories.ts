@@ -1,7 +1,9 @@
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
+import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
 
@@ -30,7 +32,7 @@ export default {
   },
   argTypes: {
     lang: {
-      options: locales,
+      options: supportedNlsLocales,
       control: { type: "select" },
     },
     numberingSystem: {

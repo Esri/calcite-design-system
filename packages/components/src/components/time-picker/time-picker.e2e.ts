@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { supportedLocales } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -1201,7 +1201,7 @@ describe("calcite-time-picker", () => {
   });
 
   describe("l10n", () => {
-    supportedLocales.forEach((locale) => {
+    supportedNlsLocales.forEach((locale) => {
       if (locale !== "en") {
         return;
       }

@@ -25,7 +25,7 @@ describe("useInteractive", () => {
     const button = page.getByRole("button");
     button.element().addEventListener("click", clickSpy);
 
-    await userEvent.click(button, { timeout: 50 });
+    await userEvent.click(button, { force: true });
     await userEvent.keyboard("{Enter}");
 
     expect(el.getAttribute("aria-disabled")).toBeNull();
@@ -34,11 +34,7 @@ describe("useInteractive", () => {
     el.disabled = true;
     await reRender();
 
-    try {
-      await userEvent.click(button, { timeout: 50 });
-    } catch {
-      // noop
-    }
+    await userEvent.click(button, { force: true });
     await userEvent.keyboard("{Enter}");
 
     expect(el.getAttribute("aria-disabled")).toBe("true");

@@ -75,6 +75,12 @@ calcite-time-picker {
   }
 }
 
+.hour-suffix,
+.minute-suffix,
+.second-suffix {
+  white-space: pre;
+}
+
 .input-container {
   display: flex;
   flex-grow: 1;
