@@ -203,17 +203,19 @@ export function getLocalizedDecimalSeparator(locale: Locale, numberingSystem: Nu
 }
 
 export function getLocalizedTimePartSuffix({
+  hour12,
   locale,
   numberingSystem = "latn",
   part,
   step,
 }: {
+  hour12: boolean;
   locale: Locale;
   numberingSystem: NumberingSystem;
   part: Extract<"hour" | "minute" | "second", TimePart>;
   step: number;
 }): string {
-  const formatter = createLocaleDateTimeFormatter({ includeSeconds: step < 60, locale, numberingSystem });
+  const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds: step < 60, locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
 }

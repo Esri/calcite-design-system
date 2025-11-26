@@ -566,13 +566,25 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       this.fractionalSecond = null;
       this.meridiem = null;
       this.localizedHour = null;
-      this.localizedHourSuffix = getLocalizedTimePartSuffix({ part: "hour", locale, numberingSystem, step });
+      this.localizedHourSuffix = getLocalizedTimePartSuffix({ hour12, part: "hour", locale, numberingSystem, step });
       this.localizedMinute = null;
-      this.localizedMinuteSuffix = getLocalizedTimePartSuffix({ part: "minute", locale, numberingSystem, step });
+      this.localizedMinuteSuffix = getLocalizedTimePartSuffix({
+        hour12,
+        part: "minute",
+        locale,
+        numberingSystem,
+        step,
+      });
       this.localizedSecond = null;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
       this.localizedFractionalSecond = null;
-      this.localizedSecondSuffix = getLocalizedTimePartSuffix({ part: "second", locale, numberingSystem, step });
+      this.localizedSecondSuffix = getLocalizedTimePartSuffix({
+        hour12,
+        part: "second",
+        locale,
+        numberingSystem,
+        step,
+      });
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
