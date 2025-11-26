@@ -370,10 +370,14 @@ export const localized = (): string => {
     <style>
       .use-cases {
         display: flex;
-        gap: 40px;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 350px 25px;
+        max-width: 1200px;
       }
       calcite-input-date-picker {
         width: 300px;
+        height: 300px;
       }
     </style>
     <div class="use-cases">
@@ -381,7 +385,12 @@ export const localized = (): string => {
         (locale) =>
           html`<div>
             <h3>${locale}</h3>
-            <calcite-input-date-picker lang="${locale}" open value="2020-12-12"></calcite-input-date-picker>
+            <calcite-input-date-picker
+              lang="${locale}"
+              open
+              placement="bottom-start"
+              value="2020-12-12"
+            ></calcite-input-date-picker>
           </div>`,
       )}
     </div>
