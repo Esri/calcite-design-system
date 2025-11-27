@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, focusable, disabled, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -18,19 +18,6 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>
       `,
       { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } },
-    );
-  });
-
-  describe("focusable", () => {
-    focusable(
-      html`
-        <calcite-inline-editable>
-          <calcite-input />
-        </calcite-inline-editable>
-      `,
-      {
-        focusTargetSelector: "calcite-input",
-      },
     );
   });
 

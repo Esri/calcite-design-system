@@ -2,7 +2,14 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "@vitest/browser/context";
-import { defaults, hidden, reflects, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
@@ -124,5 +131,9 @@ describe("calcite-tile", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-tile"), SLOTS);
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount(<calcite-tile interactive />));
   });
 });

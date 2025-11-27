@@ -1,7 +1,15 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-color-picker", () => {
   mockConsole();
@@ -52,6 +60,12 @@ describe("calcite-color-picker", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-color-picker"), {
+      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
+    });
   });
 
   describe("reflects", () => {

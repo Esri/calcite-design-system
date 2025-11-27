@@ -1,14 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, disabled, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
@@ -75,12 +68,6 @@ describe("calcite-flow-item", () => {
           <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
         </calcite-flow-item>
       `);
-    });
-  });
-
-  describe("should focus on back button", () => {
-    focusable(`<calcite-flow-item show-back-button selected>test</calcite-flow-item>`, {
-      shadowFocusTargetSelector: "calcite-action",
     });
   });
 

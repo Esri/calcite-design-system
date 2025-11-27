@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -126,5 +127,16 @@ describe("calcite-combobox", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-combobox"), { display: "block" });
+  });
+
+  describe("focusable", () => {
+    focusable(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item text-label="Pine" value="Pine" />
+          <calcite-combobox-item text-label="Spruce" value="Spruce" />
+        </calcite-combobox>,
+      ),
+    );
   });
 });

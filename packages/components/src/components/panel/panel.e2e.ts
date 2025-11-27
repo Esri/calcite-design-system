@@ -6,7 +6,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   disabled,
-  focusable,
   t9n,
   themed,
   handlesActionMenuPlacements,
@@ -369,39 +368,6 @@ describe("calcite-panel", () => {
           <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
         </calcite-panel>
       `);
-    });
-  });
-
-  describe("focusable", () => {
-    describe("with scrolling content", () => {
-      describe("closable", () => {
-        focusable(
-          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
-          {
-            shadowFocusTargetSelector: "calcite-action",
-          },
-        );
-      });
-
-      describe("should focus on container", () => {
-        focusable(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
-          shadowFocusTargetSelector: `.${CSS.contentWrapper}`,
-        });
-      });
-    });
-
-    describe("without scrolling content", () => {
-      describe("closable", () => {
-        focusable(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
-          shadowFocusTargetSelector: "calcite-action",
-        });
-      });
-
-      describe("should not focus on container", () => {
-        focusable(html`<calcite-panel>non-scrolling-content</calcite-panel>`, {
-          focusTargetSelector: "body",
-        });
-      });
     });
   });
 

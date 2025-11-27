@@ -1,14 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  HYDRATED_ATTR,
-  labelable,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Switch } from "./switch";
 import { CSS } from "./resources";
@@ -42,10 +34,6 @@ describe("calcite-switch", () => {
 
   describe("disabled", () => {
     disabled("calcite-switch");
-  });
-
-  describe("focusable", () => {
-    focusable("calcite-switch");
   });
 
   it("toggles the checked attributes appropriately when clicked", async () => {

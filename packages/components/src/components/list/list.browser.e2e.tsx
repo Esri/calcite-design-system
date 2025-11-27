@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-list", () => {
   describe("cancelable", () => {
@@ -113,6 +120,20 @@ describe("calcite-list", () => {
           </calcite-list>,
         ),
       { display: "block" },
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-list>
+            <calcite-list-item active description="hello world" label="test" />
+          </calcite-list>,
+        ),
+      {
+        focusTargetSelector: "calcite-list-item",
+      },
     );
   });
 });

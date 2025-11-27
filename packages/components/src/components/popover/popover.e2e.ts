@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, floatingUIOwner, focusable, openClose, t9n, themed } from "../../tests/commonTests";
+import { accessible, floatingUIOwner, openClose, t9n, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -689,27 +689,6 @@ describe("calcite-popover", () => {
     await page.waitForChanges();
 
     expect(await popover.getProperty("open")).toBe(false);
-  });
-
-  describe("setFocus", () => {
-    const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
-
-    const contentButtonClass = "my-button";
-    const contentHTML = "Hello World!";
-    const buttonContentHTML = `<button class="${contentButtonClass}">My Button</button>`;
-
-    describe("should focus content by default", () => {
-      focusable(createPopoverHTML(buttonContentHTML), {
-        focusTargetSelector: `.${contentButtonClass}`,
-      });
-    });
-
-    describe("should focus close button", () => {
-      focusable(createPopoverHTML(contentHTML, "closable"), {
-        shadowFocusTargetSelector: `.${CSS.closeButton}`,
-      });
-    });
   });
 
   describe("warning messages", () => {

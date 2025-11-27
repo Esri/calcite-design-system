@@ -74,11 +74,11 @@ describe("useFocusTrap", () => {
     });
 
     afterEach(() => {
-      vi.unmock("focus-trap");
+      vi.doUnmock("focus-trap");
     });
 
     it("supports custom global trap stack", async () => {
-      vi.mock("focus-trap", { spy: true });
+      vi.doMock("focus-trap", { spy: true });
       const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
       const customFocusTrapStack: FocusTrap[] = [];
       type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;

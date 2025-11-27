@@ -1,7 +1,14 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -66,5 +73,18 @@ describe("calcite-action-group", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-group"), SLOTS);
+  });
+
+  function renderActionGroup(): JsxNode {
+    return (
+      <calcite-action-group scale="l">
+        <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      </calcite-action-group>
+    );
+  }
+
+  describe("focusable", () => {
+    focusable(() => mount(renderActionGroup), { shadowFocusTargetSelector: "calcite-action" });
   });
 });

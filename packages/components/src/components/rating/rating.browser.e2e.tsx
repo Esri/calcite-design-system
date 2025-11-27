@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { focusable, internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-rating", () => {
@@ -15,6 +15,12 @@ describe("calcite-rating", () => {
         { propertyName: "validationMessage", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-rating"), {
+      shadowFocusTargetSelector: "label",
+    });
   });
 
   describe("reflects", () => {

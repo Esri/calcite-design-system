@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -36,6 +44,22 @@ describe("calcite-action-pad", () => {
           defaultValue: "neutral",
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-pad>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-pad>,
+        ),
+      {
+        focusTargetSelector: "calcite-action",
+      },
     );
   });
 

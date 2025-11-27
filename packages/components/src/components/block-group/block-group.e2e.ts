@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, disabled } from "../../tests/commonTests";
+import { accessible, disabled } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
@@ -19,12 +19,6 @@ const blockHTML = html`<calcite-block heading="heading" description="description
 
 describe("calcite-block-group", () => {
   mockConsole();
-
-  describe("is focusable", () => {
-    focusable(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`, {
-      focusTargetSelector: "calcite-block",
-    });
-  });
 
   describe("accessible", () => {
     accessible(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`);

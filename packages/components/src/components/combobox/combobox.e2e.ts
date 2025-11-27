@@ -5,7 +5,6 @@ import {
   accessible,
   disabled,
   floatingUIOwner,
-  focusable,
   formAssociated,
   labelable,
   openClose,
@@ -33,15 +32,6 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 describe("calcite-combobox", () => {
   mockConsole();
-
-  describe("focusable", () => {
-    focusable(html`
-      <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
-      </calcite-combobox>
-    `);
-  });
 
   describe("accessible", () => {
     accessible(html`

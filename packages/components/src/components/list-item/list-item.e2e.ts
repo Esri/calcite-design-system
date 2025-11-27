@@ -1,16 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, focusable, themed } from "../../tests/commonTests";
+import { disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-list-item", () => {
-  describe("is focusable", () => {
-    focusable("<calcite-list-item active></calcite-list-item>", {
-      shadowFocusTargetSelector: `.${CSS.container}`,
-    });
-  });
-
   describe("disabled", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
   });

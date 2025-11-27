@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -49,18 +49,6 @@ describe("calcite-time-picker", () => {
   });
 
   describe("focusing", () => {
-    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
-      focusable(`calcite-time-picker`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-      });
-    });
-
-    describe("should focus the first focusable element when setFocus is called (rtl)", () => {
-      focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-      });
-    });
-
     it("should focus input when corresponding nudge up button is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);

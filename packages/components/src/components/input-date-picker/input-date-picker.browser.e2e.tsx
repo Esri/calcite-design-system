@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { focusable, internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
@@ -34,6 +34,12 @@ describe("calcite-input-date-picker", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(`calcite-input-date-picker`), {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
   });
 
   describe("honors hidden attribute", () => {

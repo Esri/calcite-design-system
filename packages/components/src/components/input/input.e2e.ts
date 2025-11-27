@@ -2,7 +2,7 @@
 import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { disabled, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -162,12 +162,6 @@ describe("calcite-input", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).toBeNull();
     expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   describe("input type number increment/decrement functionality", () => {

@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -40,6 +48,22 @@ describe("calcite-action-menu", () => {
           defaultValue: "m",
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-menu>
+            <calcite-action icon="plus" id="triggerAction" slot={SLOTS.trigger} text="Add" />
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-menu>,
+        ),
+      {
+        focusTargetSelector: `#triggerAction`,
+      },
     );
   });
 

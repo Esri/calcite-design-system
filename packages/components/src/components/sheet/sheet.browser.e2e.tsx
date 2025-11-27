@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-sheet", () => {
@@ -56,6 +57,24 @@ describe("calcite-sheet", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    const focusableContentTargetClass = "test";
+
+    describe("focuses content by default", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-sheet open>
+              <button class={focusableContentTargetClass}>test</button>
+            </calcite-sheet>,
+          ),
+        {
+          focusTargetSelector: `.${focusableContentTargetClass}`,
+        },
+      );
+    });
   });
 
   describe("reflects", () => {

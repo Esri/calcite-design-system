@@ -1,8 +1,15 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-block-group", () => {
   mockConsole();
@@ -85,5 +92,19 @@ describe("calcite-block-group", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-block-group>content</calcite-block-group>), { display: "block" });
+  });
+
+  function renderBlock(): JsxNode {
+    return (
+      <calcite-block collapsible description="description" heading="heading" open>
+        <div>content</div>
+      </calcite-block>
+    );
+  }
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {
+      focusTargetSelector: "calcite-block",
+    });
   });
 });

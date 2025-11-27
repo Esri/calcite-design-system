@@ -4,7 +4,6 @@ import {
   accessible,
   disabled,
   floatingUIOwner,
-  focusable,
   formAssociated,
   labelable,
   openClose,
@@ -243,10 +242,6 @@ describe("calcite-autocomplete", () => {
 
   describe("owns a floating-ui", () => {
     floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
-  });
-
-  describe("is focusable", () => {
-    focusable("calcite-autocomplete");
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

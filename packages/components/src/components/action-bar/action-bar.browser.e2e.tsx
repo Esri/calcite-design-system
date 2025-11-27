@@ -1,8 +1,10 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import {
   cancelable,
   defaults,
+  focusable,
   reflects,
   hidden,
   renders,
@@ -51,6 +53,22 @@ describe("calcite-action-bar", () => {
           defaultValue: "neutral",
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-bar>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      {
+        focusTargetSelector: "calcite-action",
+      },
     );
   });
 

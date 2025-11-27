@@ -1,5 +1,6 @@
 export { cancelable } from "./cancelable";
 export { defaults } from "./defaults";
+export { focusable } from "./focusable";
 export { hidden } from "./hidden";
 export { internalLabel } from "./internal-label";
 export { reflects } from "./reflects";

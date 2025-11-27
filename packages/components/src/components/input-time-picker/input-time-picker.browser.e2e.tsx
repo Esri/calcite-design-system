@@ -1,9 +1,10 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { focusable, internalLabel, renders } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-input-time-picker", () => {
   mockConsole();
@@ -20,6 +21,20 @@ describe("calcite-input-time-picker", () => {
         { propertyName: "validationMessage", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
+      focusable(() => mount(`calcite-input-time-picker`), {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+      });
+    });
+
+    describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
+      focusable(() => mount(<calcite-input-time-picker dir="rtl" lang="ar" />), {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
+      });
+    });
   });
 
   describe("reflects", () => {

@@ -5,7 +5,6 @@ import {
   accessible,
   disabled,
   floatingUIOwner,
-  focusable,
   formAssociated,
   labelable,
   openClose,
@@ -46,12 +45,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-date-picker");
-  });
-
-  describe("should focus the input when setFocus is called", () => {
-    focusable(`calcite-input-date-picker`, {
-      shadowFocusTargetSelector: "calcite-input-text",
-    });
   });
 
   describe("event emitting when the value changes", () => {

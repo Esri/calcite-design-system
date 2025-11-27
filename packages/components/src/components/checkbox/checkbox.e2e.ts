@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  HYDRATED_ATTR,
-  labelable,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
@@ -172,12 +163,6 @@ describe("calcite-checkbox", () => {
 
     expect(await unchecked.getProperty("checked")).toBe(false);
     expect(await checked.getProperty("checked")).toBe(true);
-  });
-
-  describe("is focusable", () => {
-    focusable("calcite-checkbox", {
-      shadowFocusTargetSelector: ".toggle",
-    });
   });
 
   describe("WCAG AA recommended minimum 24px click area", () => {

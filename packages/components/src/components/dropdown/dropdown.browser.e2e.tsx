@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { JsxNode } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
 
 describe("calcite-dropdown", () => {
   describe("defaults", () => {
@@ -67,5 +67,11 @@ describe("calcite-dropdown", () => {
 
   describe("renders", () => {
     renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount(createSimpleDropdownHTML), {
+      focusTargetSelector: '[slot="trigger"]',
+    });
   });
 });

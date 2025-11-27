@@ -2,7 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, delegatesToFloatingUiOwningComponent, focusable, themed } from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -55,21 +55,6 @@ describe("calcite-action-menu", () => {
     await openEventSpy.next();
 
     expect(clickSpy).toHaveReceivedEventTimes(1);
-  });
-
-  describe("should focus on menu button", () => {
-    focusable(
-      html`
-        <calcite-action-menu>
-          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Add" icon="plus"></calcite-action
-        ></calcite-action-menu>
-      `,
-      {
-        focusTargetSelector: `#triggerAction`,
-      },
-    );
   });
 
   async function waitForActionMenuClose(page: E2EPage): Promise<void> {

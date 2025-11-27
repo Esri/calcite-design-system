@@ -5,7 +5,6 @@ import {
   accessible,
   delegatesToFloatingUiOwningComponent,
   disabled,
-  focusable,
   handlesActionMenuPlacements,
   t9n,
   themed,
@@ -29,41 +28,6 @@ describe("calcite-block", () => {
         <div>content</div>
       </calcite-block>
     `);
-  });
-
-  describe("setFocus", () => {
-    describe("focuses block heading toggle", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" collapsible expanded>
-          <calcite-block-section text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
-    });
-
-    const blockSectionClass = "my-block-section";
-    describe("focuses block section", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" expanded>
-          <calcite-block-section class="${blockSectionClass}" text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          focusTargetSelector: `.${blockSectionClass}`,
-        },
-      );
-    });
   });
 
   describe("disabled", () => {

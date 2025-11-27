@@ -2,7 +2,7 @@ import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "@vitest/browser/context";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
@@ -116,6 +116,25 @@ describe("calcite-radio-button-group", () => {
           </calcite-radio-button-group>,
         ),
       { display: "flex" },
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-radio-button-group layout="vertical" name="Options">
+            <calcite-label layout="inline">
+              <calcite-radio-button disabled value="flowers" />
+              Flowers
+            </calcite-label>
+            <calcite-label layout="inline">
+              <calcite-radio-button value="trees" />
+              Trees
+            </calcite-label>
+          </calcite-radio-button-group>,
+        ),
+      { focusTargetSelector: "calcite-radio-button" },
     );
   });
 });

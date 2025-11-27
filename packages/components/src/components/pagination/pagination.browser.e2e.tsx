@@ -1,6 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
   describe("defaults", () => {
@@ -17,6 +19,20 @@ describe("calcite-pagination", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    describe("focuses previous button when not on the first page", () => {
+      focusable(() => mount(<calcite-pagination page-size="1" start-item="2" total-items="10" />), {
+        shadowFocusTargetSelector: `[data-test-chevron="previous"]`,
+      });
+    });
+
+    describe("focuses page number 1 when on the first page", () => {
+      focusable(() => mount(<calcite-pagination page-size="1" start-item="1" total-items="10" />), {
+        shadowFocusTargetSelector: `.${CSS.page}`,
+      });
+    });
   });
 
   describe("honors hidden attribute", () => {

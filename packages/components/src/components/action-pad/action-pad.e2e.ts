@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, delegatesToFloatingUiOwningComponent, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -189,21 +189,6 @@ describe("calcite-action-pad", () => {
         </calcite-action-group>
       </calcite-action-pad>
     `);
-  });
-
-  describe("should focus on toggle button", () => {
-    focusable(
-      html`
-        <calcite-action-pad>
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-pad>
-      `,
-      {
-        focusTargetSelector: "calcite-action",
-      },
-    );
   });
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {

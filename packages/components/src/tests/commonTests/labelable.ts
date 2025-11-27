@@ -5,8 +5,8 @@ import { html } from "../../../support/formatting";
 import { isElementFocused } from "../utils/puppeteer";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./puppeteer/utils";
 export { TagOrHTMLWithBeforeContent } from "./interfaces";
-import { FocusableOptions } from "./focusable";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
+import { FocusableOptions } from "./browser/focusable";
 
 export async function assertLabelable({
   page,

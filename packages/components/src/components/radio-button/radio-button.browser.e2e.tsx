@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-radio-button", () => {
@@ -33,5 +33,11 @@ describe("calcite-radio-button", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-radio-button"), { display: "block" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-radio-button"), {
+      shadowFocusTargetSelector: ".container",
+    });
   });
 });
