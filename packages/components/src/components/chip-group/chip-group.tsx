@@ -7,14 +7,10 @@ import {
   FocusElementInGroupDestination,
   slotChangeGetAssignedElements,
 } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Scale, SelectionMode } from "../interfaces";
 import type { Chip } from "../chip/chip";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./chip-group.scss";
 
 declare global {
@@ -23,14 +19,14 @@ declare global {
   }
 }
 /** @slot - A slot for adding one or more `calcite-chip`s. */
-export class ChipGroup extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class ChipGroup extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: Chip["el"][] = [];
 
@@ -38,9 +34,11 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -78,9 +76,9 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's first focusable element.
@@ -94,16 +92,16 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.selectedItems[0] || this.items[0], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's selection changes. */
   calciteChipGroupSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -124,13 +122,9 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
@@ -243,9 +237,9 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const role =
@@ -253,13 +247,13 @@ export class ChipGroup extends LitElement implements InteractiveComponent {
     const { disabled } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class="container" role={role}>
           <slot onSlotChange={this.updateItems} ref={this.slotRef} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }
