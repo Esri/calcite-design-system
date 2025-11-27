@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.12...@esri/calcite-components@5.0.0-next.13) (2025-11-27)
+
+### Features
+
+- **date-picker, input-date-picker:** add support for fr-CA ([#13371](https://github.com/Esri/calcite-design-system/issues/13371)) ([d4c69cb](https://github.com/Esri/calcite-design-system/commit/d4c69cb8ae375b35fbcc273b0b3c0940b3204ef8)), closes [#12739](https://github.com/Esri/calcite-design-system/issues/12739) [/github.com/Esri/calcite-design-system/pull/8402/commits/ddf6fb4abf14ddbf9c9f8addfcab3dc0ab01ca37#diff-7f7f554f952d5de6f34edd99045e2b733eb94356893329e036739cc9bec594d2L117](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8402/commits/ddf6fb4abf14ddbf9c9f8addfcab3dc0ab01ca37/issues/diff-7f7f554f952d5de6f34edd99045e2b733eb94356893329e036739cc9bec594d2L117)
+
 ## [5.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.11...@esri/calcite-components@5.0.0-next.12) (2025-11-26)
 
 ### Features
