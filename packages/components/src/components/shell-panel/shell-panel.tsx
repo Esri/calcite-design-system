@@ -58,7 +58,7 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private sizeOverrideController = useSizeOverride({
+  private sizeOverride = useSizeOverride({
     targetElement: () => this.contentRef.value,
     getMin: (axis) =>
       axis === "block" ? this.resizeValues.minBlockSize : this.resizeValues.minInlineSize,
@@ -156,7 +156,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverrideController.setSizeOverride(size, axis);
+    this.sizeOverride.setSizeOverride(size, axis);
   }
 
   //#endregion
@@ -208,6 +208,13 @@ export class ShellPanel extends LitElement {
     return this.contentRef.value.getBoundingClientRect();
   }
 
+  private applyAxisSize(size: number | null, axis: SizeAxis): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+    this.sizeOverride.setSizeOverride(size, axis);
+  }
+
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, defaultPrevented, shiftKey } = event;
     const {
@@ -234,21 +241,21 @@ export class ShellPanel extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize(
+        this.applyAxisSize(
           rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
           "block",
         );
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize(
+        this.applyAxisSize(
           rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
           "block",
         );
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize(
+        this.applyAxisSize(
           rect.width +
             (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
           "inline",
