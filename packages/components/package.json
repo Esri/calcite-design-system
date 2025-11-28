@@ -97,10 +97,10 @@
     "@esri/calcite-design-tokens": "4.0.0-next.8",
     "@esri/calcite-tailwind-preset": "1.0.2-next.10",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.3",
-    "@vitest/browser": "3.2.4",
+    "@vitest/browser": "4.0.14",
     "playwright": "1.56.1",
     "sass-embedded": "1.93.3",
-    "vitest": "3.2.4"
+    "vitest": "4.0.14"
   },
   "volta": {
     "extends": "../../package.json"
