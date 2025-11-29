@@ -1,10 +1,7 @@
 import { makeController } from "@arcgis/lumina/controllers";
 import { Axis } from "../components/interfaces";
 
-/**
- * Context required by the size override controller.
- */
-export interface SizeOverrideContext {
+interface SizeOverrideContext {
   /**
    * Returns the maximum allowed size in pixels for the given axis. Return null for no max.
    */
@@ -25,9 +22,6 @@ export interface SizeOverrideContext {
   readonly targetElement: () => HTMLElement | null;
 }
 
-/**
- * Public API for the size override controller.
- */
 export interface UseSizeOverride {
   /**
    * Applies (or clears) an inline width/height override without mutating design tokens.
@@ -38,12 +32,12 @@ export interface UseSizeOverride {
    * This helper lets code adjust or remove that override so tokens can take effect again.
    *
    * Clamping:
-   * If min and/or max are provided and the requestedSize is not null, the value is clamped before rounding.
+   * If min and/or max are provided and the requested size is not null, the value is clamped before rounding.
    *
-   * @param requestedSize - Pixel value to apply. Null clears any existing override.
+   * @param size - Pixel value to apply. Null clears any existing override.
    * @param axis - "inline" for width or "block" for height.
    */
-  resize: (requestedSize: number | null, axis: Axis) => void;
+  resize: (size: number | null, axis: Axis) => void;
 }
 
 /**
@@ -58,13 +52,13 @@ export interface UseSizeOverride {
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
     return {
-      resize(requestedSize: number | null, axis: Axis): void {
+      resize(size: number | null, axis: Axis): void {
         const el = context.targetElement();
         if (!el) {
           return;
         }
 
-        let next = requestedSize;
+        let next = size;
 
         const min = context.getMin?.(axis);
         const max = context.getMax?.(axis);
