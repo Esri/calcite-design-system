@@ -2,6 +2,7 @@ import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { focusable, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-notice", () => {
@@ -59,6 +60,8 @@ describe("calcite-notice", () => {
   });
 
   describe("slots", () => {
+    mockConsole();
+
     slots(() => mount("calcite-notice"), SLOTS);
   });
 });
