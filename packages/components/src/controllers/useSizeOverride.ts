@@ -81,7 +81,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         const cssProp = axis === "block" ? "height" : "width";
         const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
-        (el.style as any)[cssPropKey] = applied == null ? "" : `${applied}px`;
+        el.style[cssPropKey] = applied == null ? "" : `${applied}px`;
 
         context.setInternalState?.(axis, applied);
       },
