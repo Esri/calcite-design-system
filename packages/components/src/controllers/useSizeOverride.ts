@@ -1,10 +1,5 @@
 import { makeController } from "@arcgis/lumina/controllers";
-
-/**
- * Axis used when applying a size override.
- * "inline" maps to width, "block" maps to height.
- */
-export type SizeAxis = "inline" | "block";
+import { Axis } from "../components/interfaces";
 
 /**
  * Context required by the size override controller.
@@ -13,16 +8,16 @@ export interface SizeOverrideContext {
   /**
    * Returns the maximum allowed size in pixels for the given axis. Return null for no max.
    */
-  readonly getMax?: (axis: SizeAxis) => number | null;
+  readonly getMax?: (axis: Axis) => number | null;
   /**
    * Returns the minimum allowed size in pixels for the given axis. Return null for no min.
    */
-  readonly getMin?: (axis: SizeAxis) => number | null;
+  readonly getMin?: (axis: Axis) => number | null;
   /**
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly setInternalState?: (axis: SizeAxis, value: number | null) => void;
+  readonly setInternalState?: (axis: Axis, value: number | null) => void;
   /**
    * Lazy getter for the element whose inline size (width/height) will be overridden.
    * Should return null until the element is available.
@@ -48,7 +43,7 @@ export interface UseSizeOverride {
    * @param requestedSize - Pixel value to apply. Null clears any existing override.
    * @param axis - "inline" for width or "block" for height.
    */
-  setSizeOverride: (requestedSize: number | null, axis: SizeAxis) => void;
+  setSizeOverride: (requestedSize: number | null, axis: Axis) => void;
 }
 
 /**
@@ -63,7 +58,7 @@ export interface UseSizeOverride {
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
     return {
-      setSizeOverride(requestedSize: number | null, axis: SizeAxis): void {
+      setSizeOverride(requestedSize: number | null, axis: Axis): void {
         const el = context.targetElement();
         if (!el) {
           return;
