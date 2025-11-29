@@ -157,7 +157,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.setSizeOverride(size, axis);
+    this.sizeOverride.resize(size, axis);
   }
 
   //#endregion
@@ -213,7 +213,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.setSizeOverride(size, axis);
+    this.sizeOverride.resize(size, axis);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {

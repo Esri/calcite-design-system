@@ -31,37 +31,37 @@ describe("useSizeOverride", () => {
   });
 
   it("applies clamped size within min/max", () => {
-    controller.setSizeOverride(200, "inline");
+    controller.resize(200, "inline");
     expect(targetEl.style.width).toBe("200px");
     expect(resizeValues.inlineSize).toBe(200);
   });
 
   it("clamps size below min", () => {
-    controller.setSizeOverride(50, "inline");
+    controller.resize(50, "inline");
     expect(targetEl.style.width).toBe("100px");
     expect(resizeValues.inlineSize).toBe(100);
   });
 
   it("clamps size above max", () => {
-    controller.setSizeOverride(600, "inline");
+    controller.resize(600, "inline");
     expect(targetEl.style.width).toBe("500px");
     expect(resizeValues.inlineSize).toBe(500);
   });
 
   it("clears override when size is null", () => {
-    controller.setSizeOverride(null, "inline");
+    controller.resize(null, "inline");
     expect(targetEl.style.width).toBe("");
     expect(resizeValues.inlineSize).toBeNull();
   });
 
   it("applies block axis", () => {
-    controller.setSizeOverride(300, "block");
+    controller.resize(300, "block");
     expect(targetEl.style.height).toBe("300px");
     expect(resizeValues.blockSize).toBe(300);
   });
 
   it("calls setInternalState with applied value", () => {
-    controller.setSizeOverride(400, "inline");
+    controller.resize(400, "inline");
     expect(setInternalStateSpy).toHaveBeenCalledWith("inline", 400);
   });
 });

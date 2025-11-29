@@ -43,7 +43,7 @@ export interface UseSizeOverride {
    * @param requestedSize - Pixel value to apply. Null clears any existing override.
    * @param axis - "inline" for width or "block" for height.
    */
-  setSizeOverride: (requestedSize: number | null, axis: Axis) => void;
+  resize: (requestedSize: number | null, axis: Axis) => void;
 }
 
 /**
@@ -58,7 +58,7 @@ export interface UseSizeOverride {
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
     return {
-      setSizeOverride(requestedSize: number | null, axis: Axis): void {
+      resize(requestedSize: number | null, axis: Axis): void {
         const el = context.targetElement();
         if (!el) {
           return;
