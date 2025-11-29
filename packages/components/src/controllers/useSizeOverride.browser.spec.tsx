@@ -60,6 +60,12 @@ describe("useSizeOverride", () => {
     expect(resizeValues.blockSize).toBe(300);
   });
 
+  it("applies inline axis", () => {
+    controller.resize(250, "inline");
+    expect(targetEl.style.width).toBe("250px");
+    expect(resizeValues.inlineSize).toBe(250);
+  });
+
   it("calls setInternalState with applied value", () => {
     controller.resize(400, "inline");
     expect(setInternalStateSpy).toHaveBeenCalledWith("inline", 400);

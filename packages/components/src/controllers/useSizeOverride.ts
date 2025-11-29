@@ -24,8 +24,8 @@ interface SizeOverrideContext {
 
 export interface UseSizeOverride {
   /**
-   * Applies (or clears) an inline width/height override without mutating design tokens.
-   * Pass size = null to clear and allow token cascade to reassert the original token-driven size.
+   * Applies (or clears) an inline width/height override.
+   * Pass size = null to clear the inline style so normal styling (design tokens or other CSS) reasserts.
    *
    * When to use:
    * User resizing (drag/keyboard) sets an inline size that overrides token-defined defaults.
