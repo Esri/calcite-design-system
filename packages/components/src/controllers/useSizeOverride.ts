@@ -34,8 +34,6 @@ export interface UseSizeOverride {
    * Clamping:
    * If min and/or max are provided and the requested size is not null, the value is clamped before rounding.
    *
-   * @param size - Pixel value to apply. Null clears any existing override.
-   * @param axis - "inline" for width or "block" for height.
    */
   resize: (size: number | null, axis: Axis) => void;
 }
@@ -46,8 +44,7 @@ export interface UseSizeOverride {
  * Typical usage: user drag/keyboard resize sets an inline style (width/height) that temporarily
  * overrides token-defined defaults; this helper lets code adjust or remove that override so tokens can take effect again.
  *
- * @param context - Supplies target element, optional bounds, and state callback.
- * @returns controller implementing UseSizeOverride.
+ * @param context
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
@@ -62,8 +59,9 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
         const min = context.getMin?.(axis);
         const max = context.getMax?.(axis);
-        if (next != null) {
-          if (min != null) {
+
+        if (next !== null) {
+          if (min !== null) {
             next = Math.max(next, min);
           }
           if (max != null) {
@@ -71,12 +69,11 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           }
         }
 
-        const applied = next == null ? null : Math.round(next);
+        const applied = next === null ? null : Math.round(next);
         const cssProp = axis === "block" ? "height" : "width";
         const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
-        el.style[cssPropKey] = applied == null ? "" : `${applied}px`;
-
+        el.style[cssPropKey] = applied === null ? "" : `${applied}px`;
         context.setInternalState?.(axis, applied);
       },
     };
