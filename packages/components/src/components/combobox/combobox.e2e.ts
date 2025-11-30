@@ -9,7 +9,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
@@ -2440,10 +2439,6 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-combobox");
   });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {

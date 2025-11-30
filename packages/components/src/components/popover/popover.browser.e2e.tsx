@@ -1,7 +1,7 @@
 import { h, Fragment } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-popover", () => {
@@ -87,5 +87,9 @@ describe("calcite-popover", () => {
         },
       );
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-popover"));
   });
 });

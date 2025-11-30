@@ -7,7 +7,6 @@ import {
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
-  t9n,
   themed,
   handlesActionMenuPlacements,
 } from "../../tests/commonTests";
@@ -130,10 +129,6 @@ describe("calcite-panel", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-panel");
   });
 
   describe("delegates to floating-ui-owner component", () => {

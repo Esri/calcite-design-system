@@ -8,7 +8,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -116,10 +115,6 @@ describe("calcite-autocomplete", () => {
     await page.waitForChanges();
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(2);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-autocomplete");
   });
 
   describe("theme", () => {

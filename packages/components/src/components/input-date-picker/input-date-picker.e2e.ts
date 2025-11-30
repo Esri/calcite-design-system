@@ -9,7 +9,6 @@ import {
   formAssociated,
   labelable,
   openClose,
-  t9n,
   themed,
 } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -42,10 +41,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("openClose", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-input-date-picker");
   });
 
   describe("should focus the input when setFocus is called", () => {

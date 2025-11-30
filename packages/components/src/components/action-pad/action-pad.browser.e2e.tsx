@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -77,5 +77,9 @@ describe("calcite-action-pad", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-pad"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action-pad"));
   });
 });

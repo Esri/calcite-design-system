@@ -7,7 +7,6 @@ import {
   disabled,
   focusable,
   handlesActionMenuPlacements,
-  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -324,10 +323,6 @@ describe("calcite-block", () => {
     expect(await item.getProperty("expanded")).toBe(false);
     expect(expandSpy).toHaveReceivedEventTimes(1);
     expect(collapseSpy).toHaveReceivedEventTimes(1);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-block");
   });
 
   describe("theme", () => {

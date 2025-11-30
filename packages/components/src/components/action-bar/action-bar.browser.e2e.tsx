@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   slots,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -92,5 +93,9 @@ describe("calcite-action-bar", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-bar"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action-bar"));
   });
 });

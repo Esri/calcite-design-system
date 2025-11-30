@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
+import { internalLabel, renders, t9n } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
@@ -92,5 +92,9 @@ describe("calcite-segmented-control", () => {
         ),
       { display: "flex" },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-segmented-control"));
   });
 });

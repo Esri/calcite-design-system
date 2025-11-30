@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -114,5 +114,9 @@ describe("calcite-block", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-block"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-block"));
   });
 });

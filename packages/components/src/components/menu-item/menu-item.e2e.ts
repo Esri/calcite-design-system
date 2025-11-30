@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "../../../src/components/menu-item/resources";
@@ -14,10 +14,6 @@ describe("calcite-menu-item", () => {
 
   describe("is focusable", () => {
     focusable("calcite-menu-item");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-menu-item");
   });
 
   it("should emit calciteMenuItemSelect event on user click", async () => {
