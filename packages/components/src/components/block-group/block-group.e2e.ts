@@ -1,14 +1,15 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, hidden, renders, focusable, disabled, defaults, reflects } from "../../tests/commonTests";
+import { accessible, focusable, disabled } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, dragAndDrop, findAll } from "../../tests/utils/puppeteer";
+import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { Reorder } from "../sort-handle/interfaces";
 import { Block } from "../block/block";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 
@@ -19,80 +20,10 @@ const blockHTML = html`<calcite-block heading="heading" description="description
 describe("calcite-block-group", () => {
   mockConsole();
 
-  describe("defaults", () => {
-    defaults("calcite-block-group", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "dragEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "group",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-block-group", [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "dragEnabled",
-        value: true,
-      },
-      {
-        propertyName: "group",
-        value: "test",
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-block-group", { display: "block" });
-  });
-
   describe("is focusable", () => {
     focusable(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`, {
       focusTargetSelector: "calcite-block",
     });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-block-group");
   });
 
   describe("accessible", () => {

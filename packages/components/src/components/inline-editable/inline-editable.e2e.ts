@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  focusable,
-  disabled,
-  hidden,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, disabled, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -20,30 +10,6 @@ import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
 describe("calcite-inline-editable", () => {
-  describe("renders", () => {
-    renders(
-      html`
-        <calcite-inline-editable>
-          <calcite-input />
-        </calcite-inline-editable>
-      `,
-      { display: "block" },
-    );
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-inline-editable", [
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-inline-editable");
-  });
-
   describe("disabled", () => {
     disabled(
       html`

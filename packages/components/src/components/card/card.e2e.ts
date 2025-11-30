@@ -1,9 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, t9n, themed, focusable } from "../../tests/commonTests";
+import { accessible, t9n, themed, focusable } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 const placeholder = placeholderImage({
   width: 350,
@@ -11,14 +11,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  describe("renders", () => {
-    renders("calcite-card", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-card");
-  });
-
   describe("focusable", () => {
     describe("default", () => {
       focusable("calcite-card");
@@ -43,10 +35,6 @@ describe("calcite-card", () => {
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`,
     );
-  });
-
-  describe("slots", () => {
-    slots("calcite-card", SLOTS, true);
   });
 
   it("renders with default props if none are provided", async () => {

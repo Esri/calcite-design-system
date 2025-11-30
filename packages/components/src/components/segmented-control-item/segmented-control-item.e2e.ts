@@ -1,18 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control-item", () => {
-  describe("renders", () => {
-    renders("calcite-segmented-control-item", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-segmented-control-item");
-  });
-
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-segmented-control-item value='test-value'></calcite-segmented-control-item>");

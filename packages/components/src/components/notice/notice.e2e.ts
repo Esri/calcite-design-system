@@ -1,9 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, slots, hidden, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, themed, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-notice", () => {
   const noticeContent = html`
@@ -11,14 +11,6 @@ describe("calcite-notice", () => {
     <div slot="message">Message Text</div>
     <calcite-link slot="link" href="">Action</calcite-link>
   `;
-
-  describe("renders", () => {
-    renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-notice");
-  });
 
   describe("accessible", () => {
     accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
@@ -40,10 +32,6 @@ describe("calcite-notice", () => {
     openClose("calcite-notice", {
       collapsedOnClose: "vertical",
     });
-  });
-
-  describe("slots", () => {
-    slots("calcite-notice", SLOTS);
   });
 
   it("renders default props when none are provided", async () => {

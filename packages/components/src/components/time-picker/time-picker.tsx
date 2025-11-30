@@ -145,7 +145,7 @@ export class TimePicker extends LitElement implements TimeComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("step") && (this.hasUpdated || this.step !== 60)) {
       this.toggleSecond();
     }
@@ -596,7 +596,7 @@ export class TimePicker extends LitElement implements TimeComponent {
         )}
         {showSecondSuffix && (
           <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
-            {localizedSecondSuffix}
+            {localizedSecondSuffix.trim()}
           </span>
         )}
         {showMeridiem && (

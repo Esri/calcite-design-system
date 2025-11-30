@@ -14,14 +14,10 @@ import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { IconName } from "../icon/interfaces";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
 
@@ -32,14 +28,14 @@ declare global {
 }
 
 /** @slot - A slot for adding text. */
-export class DropdownItem extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class DropdownItem extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private childLinkRef = createRef<HTMLAnchorElement>();
 
@@ -54,9 +50,11 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -106,9 +104,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
   /** Specifies the frame or window to open the linked document. */
   @property({ reflect: true }) target: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -122,9 +120,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is selected. */
   calciteDropdownItemSelect = createEvent({ cancelable: false });
@@ -138,9 +136,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
   /** @private */
   calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -161,13 +159,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
     this.initialize();
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private onClick(): void {
     this.emitRequestedItem();
@@ -248,9 +242,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { href, selectionMode, label, iconFlipRtl } = this;
@@ -322,7 +316,7 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", disabled ? -1 : 0);
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -338,9 +332,9 @@ export class DropdownItem extends LitElement implements InteractiveComponent {
           ) : null}
           {contentEl}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

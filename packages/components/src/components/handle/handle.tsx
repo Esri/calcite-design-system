@@ -2,14 +2,10 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
@@ -24,7 +20,7 @@ declare global {
 /**
  * @deprecated Use the `calcite-sort-handle` component instead.
  */
-export class Handle extends LitElement implements InteractiveComponent {
+export class Handle extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -43,6 +39,8 @@ export class Handle extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -126,7 +124,7 @@ export class Handle extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("messages") ||
       changes.has("label") ||
@@ -136,10 +134,6 @@ export class Handle extends LitElement implements InteractiveComponent {
     ) {
       this.handleAriaTextChange();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -244,7 +238,7 @@ export class Handle extends LitElement implements InteractiveComponent {
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <span
           // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
           ariaChecked={this.disabled ? null : this.selected}
@@ -261,7 +255,7 @@ export class Handle extends LitElement implements InteractiveComponent {
         >
           <calcite-icon icon={ICONS.drag} scale="s" />
         </span>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

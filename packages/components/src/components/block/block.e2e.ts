@@ -3,132 +3,24 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import {
   accessible,
-  defaults,
   delegatesToFloatingUiOwningComponent,
   disabled,
   focusable,
   handlesActionMenuPlacements,
-  hidden,
-  reflects,
-  renders,
-  slots,
   t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   mockConsole();
 
-  describe("renders", () => {
-    renders("calcite-block", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-block");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-block", [
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
-        propertyName: "dragDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "menuPlacement",
-        defaultValue: defaultEndMenuPlacement,
-      },
-      {
-        propertyName: "menuFlipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        defaultValue: false,
-      },
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-block", [
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "dragDisabled",
-        value: true,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ]);
-  });
-
   describe("openClose", () => {
     openClose("calcite-block");
-  });
-
-  describe("slots", () => {
-    slots("calcite-block", SLOTS);
   });
 
   describe("accessible", () => {
@@ -450,6 +342,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {
@@ -529,6 +422,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {

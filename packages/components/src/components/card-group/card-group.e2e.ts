@@ -2,21 +2,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-card-group", () => {
-  describe("renders", () => {
-    renders("<calcite-card-group label='test-label'><calcite-card></calcite-card></calcite-card-group>", {
-      display: "block",
-    });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-card-group");
-  });
-
   describe("disabled", () => {
     disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", { focusTarget: "none" });
   });

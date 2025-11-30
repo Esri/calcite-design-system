@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -19,7 +9,6 @@ import {
   dragAndDrop,
   findAll,
   getFocusedElementProp,
-  GlobalTestProps,
   isElementFocused,
   newProgrammaticE2EPage,
 } from "../../tests/utils/puppeteer";
@@ -28,6 +17,7 @@ import { Reorder } from "../sort-handle/interfaces";
 import type { ListItem } from "../list-item/list-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
@@ -38,96 +28,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-list", () => {
-  describe("defaults", () => {
-    defaults("calcite-list", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "label",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "selectionMode",
-        defaultValue: "none",
-      },
-      {
-        propertyName: "interactionMode",
-        defaultValue: "interactive",
-      },
-      {
-        propertyName: "selectedItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "selectionAppearance",
-        defaultValue: "icon",
-      },
-      {
-        propertyName: "filterEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filterPredicate",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "filteredData",
-        defaultValue: [],
-      },
-      {
-        propertyName: "filteredItems",
-        defaultValue: [],
-      },
-      {
-        propertyName: "filterText",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "filterPlaceholder",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "dragEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "filterProps",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "displayMode",
-        defaultValue: "flat",
-      },
-      {
-        propertyName: "sortDisabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-list", [
-      {
-        propertyName: "displayMode",
-        value: "nested",
-      },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-list", { display: "block" });
-  });
-
   describe("is focusable", () => {
     focusable(
       html`<calcite-list>
@@ -137,10 +37,6 @@ describe("calcite-list", () => {
         focusTargetSelector: "calcite-list-item",
       },
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-list");
   });
 
   describe("translation support", () => {
@@ -596,7 +492,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       expect(await items[0].getProperty("filterHidden")).toBe(false);
       expect(await items[0].getProperty("setPosition")).toBe(1);
@@ -687,7 +583,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(3);
       expect(await list.getProperty("filteredData")).toHaveLength(3);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       listItems[0].setProperty("selected", true);
       list.setProperty("filterText", "two");

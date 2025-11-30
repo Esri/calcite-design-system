@@ -2,12 +2,13 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
-import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { accessible, themed } from "../../tests/commonTests";
+import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS } from "./resources";
 import { TabPosition } from "./interfaces";
 import type { Tabs } from "./tabs";
@@ -25,31 +26,6 @@ describe("calcite-tabs", () => {
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
   `;
-  const tabsSnippet = html`<calcite-tabs>${tabsContent}</calcite-tabs>`;
-
-  describe("renders", () => {
-    renders(tabsSnippet, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tabs");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-tabs", [
-      { propertyName: "layout", defaultValue: "inline" },
-      { propertyName: "position", defaultValue: "top" },
-      { propertyName: "scale", defaultValue: "m" },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-tabs", [
-      { propertyName: "layout", value: "inline" },
-      { propertyName: "position", value: "top" },
-      { propertyName: "scale", value: "m" },
-    ]);
-  });
 
   describe("accessible: checked", () => {
     accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);

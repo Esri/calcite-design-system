@@ -2,7 +2,7 @@ import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteer
 import { beforeEach, describe, expect, it } from "vitest";
 import { camelCase, pascalCase } from "change-case";
 import { isElementFocused, skipAnimations } from "../utils/puppeteer";
-import { getTagAndPage } from "./utils";
+import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup } from "./interfaces";
 
 interface FocusTrapOptions {

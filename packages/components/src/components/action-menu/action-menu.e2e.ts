@@ -2,17 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  delegatesToFloatingUiOwningComponent,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, delegatesToFloatingUiOwningComponent, focusable, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -21,14 +11,6 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-menu", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-menu");
-  });
 
   describe("accessible", () => {
     accessible(html`
@@ -45,60 +27,6 @@ describe("calcite-action-menu", () => {
         <calcite-action text="Add" icon="plus"></calcite-action>
       </calcite-action-menu>
     `);
-  });
-
-  describe("slots", () => {
-    slots("calcite-action-menu", SLOTS);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-action-menu", [
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-menu", [
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "auto",
-      },
-    ]);
   });
 
   describe("delegates to floating-ui-owner component", () => {

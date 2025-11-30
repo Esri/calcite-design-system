@@ -23,7 +23,6 @@ module.exports = async ({ github, context }) => {
     );
   const {
     issue: { number },
-    label,
   } = payload;
 
   const { MANAGERS } = process.env;

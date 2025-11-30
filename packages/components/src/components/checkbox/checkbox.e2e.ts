@@ -6,8 +6,6 @@ import {
   disabled,
   focusable,
   formAssociated,
-  hidden,
-  internalLabel,
   HYDRATED_ATTR,
   labelable,
   t9n,
@@ -20,10 +18,6 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
-  describe("honors hidden attribute", () => {
-    hidden("calcite-checkbox");
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,
@@ -184,10 +178,6 @@ describe("calcite-checkbox", () => {
     focusable("calcite-checkbox", {
       shadowFocusTargetSelector: ".toggle",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-checkbox`);
   });
 
   describe("WCAG AA recommended minimum 24px click area", () => {

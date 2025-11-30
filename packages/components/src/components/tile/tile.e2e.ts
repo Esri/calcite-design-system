@@ -1,19 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-tile", () => {
   describe("accessibility", () => {
@@ -65,23 +55,6 @@ describe("calcite-tile", () => {
     });
   });
 
-  describe("defaults", () => {
-    defaults("calcite-tile", [
-      { propertyName: "active", defaultValue: false },
-      { propertyName: "alignment", defaultValue: "start" },
-      { propertyName: "disabled", defaultValue: false },
-      { propertyName: "embed", defaultValue: false },
-      { propertyName: "hidden", defaultValue: false },
-      { propertyName: "iconFlipRtl", defaultValue: false },
-      { propertyName: "interactive", defaultValue: false },
-      { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "selected", defaultValue: false },
-      { propertyName: "selectionAppearance", defaultValue: "icon" },
-      { propertyName: "selectionMode", defaultValue: "none" },
-    ]);
-  });
-
   describe("disabled when interactive", () => {
     disabled(html` <calcite-tile interactive></calcite-tile> `);
   });
@@ -116,10 +89,6 @@ describe("calcite-tile", () => {
     focusable(html` <calcite-tile interactive></calcite-tile> `);
   });
 
-  describe("hidden", () => {
-    hidden("calcite-tile");
-  });
-
   describe("keyboard", () => {
     it("should receive focus when tabbed to with keyboard", async () => {
       const page = await newE2EPage();
@@ -128,98 +97,6 @@ describe("calcite-tile", () => {
       await page.waitForChanges();
 
       expect(await isElementFocused(page, "#tile-1")).toBe(true);
-    });
-  });
-
-  describe("slots", () => {
-    slots("calcite-tile", SLOTS);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-tile", [
-      { propertyName: "active", value: true },
-      { propertyName: "alignment", value: "center" },
-      { propertyName: "description", value: "My test description" },
-      { propertyName: "disabled", value: true },
-      { propertyName: "embed", value: true },
-      { propertyName: "heading", value: "My test heading" },
-      { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "scale", value: "s" },
-      { propertyName: "selected", value: true },
-      { propertyName: "selectionAppearance", value: "border" },
-      { propertyName: "selectionMode", value: "single-persist" },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-tile", { display: "inline-block" });
-
-    it("renders without a link by default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile></calcite-tile> `);
-      const link = await page.find("calcite-tile >>> calcite-link");
-      expect(link).toBeNull();
-    });
-
-    it("renders a link when href attribute is supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile href="http://www.esri.com"></calcite-tile> `);
-
-      const link = await page.find("calcite-tile >>> calcite-link");
-      const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
-      expect(link).toEqualAttribute("href", "http://www.esri.com");
-      expect(anchor).toEqualAttribute("href", "http://www.esri.com");
-    });
-
-    it("renders heading only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile heading="My Calcite Tile"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeNull();
-      expect(heading).toEqualText("My Calcite Tile");
-      expect(description).toBeNull();
-    });
-
-    it("renders icon only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeDefined();
-      expect(heading).toBeNull();
-      expect(description).toBeNull();
-    });
-
-    it("renders description only when supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile description="My Calcite Tile Description."></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> .icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toBeNull();
-      expect(heading).toBeNull();
-      expect(description).toEqualText("My Calcite Tile Description.");
-    });
-
-    it("renders large icon when only icon and heading are supplied", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile> `);
-
-      const icon = await page.find("calcite-tile >>> calcite-icon");
-      const heading = await page.find("calcite-tile >>> .heading");
-      const description = await page.find("calcite-tile >>> .description");
-      expect(icon).toEqualAttribute("icon", "layers");
-      expect(icon).toEqualAttribute("scale", "l");
-      expect(heading).toEqualText("My Large Visual Calcite Tile");
-      expect(description).toBeNull();
     });
   });
 

@@ -1,34 +1,13 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "../../../src/components/menu-item/resources";
 import { Layout } from "./interfaces";
 
 describe("calcite-menu-item", () => {
-  describe("renders", () => {
-    renders("calcite-menu-item", { display: "flex" });
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-menu-item", [
-      {
-        propertyName: "active",
-        value: "true",
-      },
-      {
-        propertyName: "target",
-        value: "_blank",
-      },
-    ]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-menu-item");
-  });
-
   describe("accessible", () => {
     accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
   });

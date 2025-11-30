@@ -2,11 +2,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
@@ -14,6 +9,7 @@ import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -28,7 +24,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
-export class ComboboxItem extends LitElement implements InteractiveComponent {
+export class ComboboxItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -38,6 +34,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Private Properties
 
   private _selected = false;
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -140,7 +138,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /**
    * The component's text.
    *
-   * @deprecated Use `heading` instead.
+   * @deprecated in v2.12.0, removal target v5.0.0 - Use the `heading` property instead.
    */
   @property({ reflect: true }) textLabel: string;
 
@@ -222,10 +220,6 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     ) {
       this.emitItemChange();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -322,7 +316,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.el.ariaLabel = itemLabel;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -362,7 +356,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           </li>
           {this.renderChildren()}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -165,7 +165,7 @@ export class Sheet extends LitElement {
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
    *
-   * @deprecated Use the `height` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
@@ -214,7 +214,7 @@ export class Sheet extends LitElement {
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
@@ -284,7 +284,7 @@ export class Sheet extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       toggleOpenClose(this);
       this.handlePopover();

@@ -4,17 +4,13 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Scale } from "../interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./filter.scss";
@@ -25,7 +21,7 @@ declare global {
   }
 }
 
-export class Filter extends LitElement implements InteractiveComponent {
+export class Filter extends LitElement {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -56,6 +52,8 @@ export class Filter extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -166,17 +164,13 @@ export class Filter extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("items") && (this.hasUpdated || this.items?.length > 0)) ||
       changes.has("filterProps")
     ) {
       this.filterDebounced(this.value);
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -230,7 +224,7 @@ export class Filter extends LitElement implements InteractiveComponent {
     const { disabled, scale } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container}>
           <label>
             <calcite-input
@@ -249,7 +243,7 @@ export class Filter extends LitElement implements InteractiveComponent {
             />
           </label>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

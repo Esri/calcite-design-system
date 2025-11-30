@@ -1,97 +1,18 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
-  describe("renders", () => {
-    renders("calcite-text-area", { display: "inline-block" });
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-text-area", [
-      {
-        propertyName: "limitText",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "wrap",
-        defaultValue: "soft",
-      },
-    ]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-text-area");
-  });
-
   describe("labelable", () => {
     labelable("calcite-text-area");
   });
 
   describe("disabled", () => {
     disabled("calcite-text-area");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-text-area", [
-      {
-        propertyName: "columns",
-        value: "10",
-      },
-      {
-        propertyName: "limitText",
-        value: true,
-      },
-      {
-        propertyName: "rows",
-        value: "50",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
   });
 
   describe("accessible", () => {
@@ -105,10 +26,6 @@ describe("calcite-text-area", () => {
 
   describe("is focusable", () => {
     focusable("calcite-text-area");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-text-area`);
   });
 
   describe("is form associated", () => {

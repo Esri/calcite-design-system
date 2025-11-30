@@ -176,13 +176,6 @@ export class Stepper extends LitElement {
   /** Fires when the active `calcite-stepper-item` changes. */
   calciteStepperChange = createEvent({ cancelable: false });
 
-  /**
-   * Fires when the active `calcite-stepper-item` changes.
-   *
-   * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
-   */
-  calciteStepperItemChange = createEvent({ cancelable: false });
-
   //#endregion
 
   //#region Lifecycle
@@ -204,7 +197,7 @@ export class Stepper extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
@@ -298,7 +291,6 @@ export class Stepper extends LitElement {
   }
 
   private emitItemSelect(): void {
-    this.calciteStepperItemChange.emit();
     this.calciteStepperChange.emit();
   }
 

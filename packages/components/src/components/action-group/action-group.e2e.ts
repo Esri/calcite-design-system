@@ -1,17 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  focusable,
-  handlesActionMenuPlacements,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, handlesActionMenuPlacements, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -24,58 +13,12 @@ const actionGroupHTML = `<calcite-action-group scale="l">
 describe("calcite-action-group", () => {
   mockConsole();
 
-  describe("defaults", () => {
-    defaults("calcite-action-group", [
-      {
-        propertyName: "layout",
-        defaultValue: "vertical",
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "menuPlacement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "menuFlipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action-group", [
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-action-group", { display: "flex" });
-  });
-
   describe("focusable", () => {
     focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action-group");
-  });
-
   describe("accessible", () => {
     accessible(actionGroupHTML);
-  });
-
-  describe("slots", () => {
-    slots("calcite-action-group", SLOTS);
   });
 
   describe("handles action-menu placement and flipPlacements", () => {

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.1-next.5 (2025-11-17)
+
+**Note:** Version bump only for package @esri/eslint-config-calcite
+
 ## 0.0.1-next.4 (2025-11-04)
 
 **Note:** Version bump only for package @esri/eslint-config-calcite

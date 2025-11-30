@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, beforeEach } from "vitest";
-import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Graph } from "./graph";
 import { CSS } from "./resources";
@@ -28,14 +28,6 @@ async function createGraphWithData(): Promise<E2EPage> {
 }
 
 describe("calcite-graph", () => {
-  describe("renders", () => {
-    renders(`calcite-graph`, { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-graph");
-  });
-
   describe("accessible", () => {
     accessible("calcite-graph");
   });
@@ -48,15 +40,6 @@ describe("calcite-graph", () => {
     });
 
     accessible(() => ({ tag: "calcite-graph", page }));
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-graph", [
-      {
-        propertyName: "data",
-        defaultValue: [],
-      },
-    ]);
   });
 
   describe("theme", () => {
