@@ -142,7 +142,7 @@ describe("calcite-block", () => {
       handlesActionMenuPlacements(() =>
         mount(
           <calcite-block description="description" heading="heading">
-            <calcite-action icon="banana" slot="${SLOTS.headerMenuActions}" text="test" />
+            <calcite-action icon="banana" slot={SLOTS.headerMenuActions} text="test" />
             <div class="content">content</div>
           </calcite-block>,
         ),

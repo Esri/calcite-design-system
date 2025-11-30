@@ -122,7 +122,7 @@ describe("calcite-panel", () => {
       handlesActionMenuPlacements(() =>
         mount(
           <calcite-panel>
-            <calcite-action icon="banana" slot="${SLOTS.headerMenuActions}" text="test" />
+            <calcite-action icon="banana" slot={SLOTS.headerMenuActions} text="test" />
           </calcite-panel>,
         ),
       );

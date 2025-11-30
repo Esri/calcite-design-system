@@ -80,8 +80,8 @@ describe("calcite-action-group", () => {
       handlesActionMenuPlacements(() =>
         mount(
           <calcite-action-group overlay-positioning="fixed" scale="l">
-            <calcite-action icon="plus" id="plus" slot="${SLOTS.menuActions}" text="Add" />
-            <calcite-action icon="banana" id="banana" slot="${SLOTS.menuActions}" text="Banana" />
+            <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
+            <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
           </calcite-action-group>,
         ),
       );
