@@ -16,7 +16,7 @@ interface SizeOverrideContext {
    */
   readonly setInternalState?: (axis: Axis, value: number | null) => void;
   /**
-   * Lazy getter for the element whose inline size (width/height) will be overridden.
+   * Lazy getter for the element whose size will be overridden.
    * Should return null until the element is available.
    */
   readonly targetElement: () => HTMLElement | null;
@@ -24,7 +24,7 @@ interface SizeOverrideContext {
 
 export interface UseSizeOverride {
   /**
-   * Applies (or clears) an inline width/height override.
+   * Applies (or clears) an inline/block size override.
    * Pass size = null to clear the inline style so normal styling (design tokens or other CSS) reasserts.
    *
    * When to use:
@@ -32,7 +32,7 @@ export interface UseSizeOverride {
    * This helper lets code adjust or remove that override so tokens can take effect again.
    *
    * Clamping:
-   * If min and/or max are provided and the requested size is not null, the value is clamped before rounding.
+   * Min/max define the allowed range. Any requested size outside that range gets clamped before rounding.
    *
    */
   resize: (size: number | null, axis: Axis) => void;
@@ -41,8 +41,8 @@ export interface UseSizeOverride {
 /**
  * Creates a controller that manages inline size overrides on a host element.
  *
- * Typical usage: user drag/keyboard resize sets an inline style (width/height) that temporarily
- * overrides token-defined defaults; this helper lets code adjust or remove that override so tokens can take effect again.
+ * Typical usage: user drag/keyboard resizes, temporarily overriding token-defined defaults;
+ * this helper lets code adjust or remove that override so tokens can take effect again.
  *
  * @param context
  */
@@ -55,22 +55,22 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           return;
         }
 
-        let next = size;
+        let constrainedSize = size;
 
         const min = context.getMin?.(axis);
         const max = context.getMax?.(axis);
 
-        if (next !== null) {
+        if (constrainedSize !== null) {
           if (min !== null) {
-            next = Math.max(next, min);
+            constrainedSize = Math.max(constrainedSize, min);
           }
           if (max != null) {
-            next = Math.min(next, max);
+            constrainedSize = Math.min(constrainedSize, max);
           }
         }
 
-        const applied = next === null ? null : Math.round(next);
-        const cssProp = axis === "block" ? "height" : "width";
+        const applied = constrainedSize === null ? null : Math.round(constrainedSize);
+        const cssProp = axis === "block" ? "blockSize" : "inlineSize";
         const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
         el.style[cssPropKey] = applied === null ? "" : `${applied}px`;
