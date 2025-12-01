@@ -3,13 +3,9 @@ import { Axis } from "../components/interfaces";
 
 interface SizeOverrideContext {
   /**
-   * Returns the maximum allowed size in pixels for the given axis. Return null for no max.
+   * Returns both min and max allowed sizes (pixels) for the axis ("inline" | "block"). Use null for no bound.
    */
-  readonly getMax?: (axis: Axis) => number | null;
-  /**
-   * Returns the minimum allowed size in pixels for the given axis. Return null for no min.
-   */
-  readonly getMin?: (axis: Axis) => number | null;
+  readonly getBounds?: (axis: Axis) => { min: number | null; max: number | null };
   /**
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
@@ -55,21 +51,20 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           return;
         }
 
-        let constrainedSize = size;
+        let boundSize = size;
 
-        const min = context.getMin?.(axis);
-        const max = context.getMax?.(axis);
+        const { min, max } = context.getBounds?.(axis) ?? { min: null, max: null };
 
-        if (constrainedSize !== null) {
+        if (boundSize !== null) {
           if (min !== null) {
-            constrainedSize = Math.max(constrainedSize, min);
+            boundSize = Math.max(boundSize, min);
           }
-          if (max != null) {
-            constrainedSize = Math.min(constrainedSize, max);
+          if (max !== null) {
+            boundSize = Math.min(boundSize, max);
           }
         }
 
-        const applied = constrainedSize === null ? null : Math.round(constrainedSize);
+        const applied = boundSize === null ? null : Math.round(boundSize);
         const cssProp = axis === "block" ? "blockSize" : "inlineSize";
         const cssPropKey = cssProp as keyof CSSStyleDeclaration;
 
