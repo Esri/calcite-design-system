@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
+import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
 /**
@@ -35,32 +35,32 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
   }
 
   async function assertDefaultMessages(): Promise<void> {
-    const { component } = await setup();
-    expect(await getCurrentMessages(component as ComponentWithMessageOverrides)).toBeDefined();
+    const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    expect(await getCurrentMessages(component)).toBeDefined();
   }
 
   async function assertOverrides(): Promise<void> {
-    const { el, component, reRender } = await setup();
-    const messages = await getCurrentMessages(component as ComponentWithMessageOverrides);
+    const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
     const messageOverride = { [firstMessageProp as keyof typeof messages]: "override test" };
 
-    (el as ComponentWithMessageOverrides).messageOverrides = messageOverride;
+    el.messageOverrides = messageOverride;
     await reRender();
 
-    expect(await getCurrentMessages(component as ComponentWithMessageOverrides)).toMatchObject({
+    expect(await getCurrentMessages(component)).toMatchObject({
       ...messages,
       ...messageOverride,
     });
 
     // reset test changes
-    (el as ComponentWithMessageOverrides).messageOverrides = undefined;
+    el.messageOverrides = undefined;
     await reRender();
   }
 
   async function assertLangSwitch(): Promise<void> {
-    const { el, component, reRender } = await setup();
-    const enMessages = await getCurrentMessages(component as ComponentWithMessageOverrides);
+    const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+    const enMessages = await getCurrentMessages(component);
     const fakeBundleIdentifier = "__fake__";
 
     const originalFetch = window.fetch;
@@ -79,9 +79,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     el.lang = "es";
     await reRender();
 
-    await expect
-      .poll(() => getCurrentMessages(component as ComponentWithMessageOverrides))
-      .toHaveProperty(fakeBundleIdentifier);
+    await expect.poll(() => getCurrentMessages(component)).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     el.removeAttribute("lang");
@@ -89,9 +87,9 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
 
   async function assertNoErrorOnRemovalDuringMessageLoad(): Promise<void> {
     async function runTest(): Promise<void> {
-      const { el } = await setup();
-      (el as ComponentWithMessageOverrides).messageOverrides = {
-        ...(el as ComponentWithMessageOverrides).messageOverrides,
+      const { el } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
+      el.messageOverrides = {
+        ...el.messageOverrides,
       };
       el.remove();
     }
