@@ -48,7 +48,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     (el as ComponentWithMessageOverrides).messageOverrides = messageOverride;
     await reRender();
 
-    expect({ ...(await getCurrentMessages(component as ComponentWithMessageOverrides)) }).toMatchObject({
+    expect(await getCurrentMessages(component as ComponentWithMessageOverrides)).toMatchObject({
       ...messages,
       ...messageOverride,
     });
