@@ -20,6 +20,7 @@ import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import { AxisConst } from "../resources";
+import { Axis } from "../interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { Axis, DisplayMode, ResizeValues } from "./interfaces";
@@ -61,10 +62,10 @@ export class ShellPanel extends LitElement {
 
   private sizeOverride = useSizeOverride({
     targetElement: () => this.contentRef.value,
-    getMin: (axis) =>
-      axis === AxisConst.block ? this.resizeValues.minBlockSize : this.resizeValues.minInlineSize,
-    getMax: (axis) =>
-      axis === AxisConst.block ? this.resizeValues.maxBlockSize : this.resizeValues.maxInlineSize,
+    getBounds: (axis) =>
+      axis === AxisConst.block
+        ? { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize }
+        : { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
     setInternalState: (axis, appliedSize) => {
       const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
       this.resizeValues = { ...this.resizeValues, [key]: appliedSize };

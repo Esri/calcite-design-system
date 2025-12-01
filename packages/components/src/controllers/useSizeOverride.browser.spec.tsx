@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { LitElement } from "@arcgis/lumina";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", () => {
@@ -9,8 +10,7 @@ describe("useSizeOverride", () => {
 
     controller = useSizeOverride({
       targetElement: () => this.ref.value,
-      getMin: (axis) => (axis === "inline" ? 100 : 60),
-      getMax: (axis) => (axis === "inline" ? 500 : 400),
+      getBounds: (axis) => (axis === "inline" ? { min: 100, max: 500 } : { min: 60, max: 400 }),
       setInternalState: (axis, value) => {
         this.resizeValues[axis === "inline" ? "inlineSize" : "blockSize"] = value;
       },
