@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, delegatesToFloatingUiOwningComponent, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -8,15 +8,6 @@ import { CSS } from "./resources";
 
 describe("calcite-action-pad", () => {
   mockConsole();
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-action-pad>
-        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-      </calcite-action-pad>`,
-      "calcite-action-group",
-    );
-  });
 
   describe("messageOverrides", () => {
     it("should honor expandLabel and collapseLabel", async () => {
