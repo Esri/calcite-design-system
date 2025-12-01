@@ -1,4 +1,3 @@
-import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
@@ -27,6 +26,6 @@ describe("calcite-time-picker", () => {
   });
 
   describe("translation support", () => {
-    t9n(() => mount(<calcite-time-picker />));
+    t9n(() => mount("calcite-time-picker"));
   });
 });

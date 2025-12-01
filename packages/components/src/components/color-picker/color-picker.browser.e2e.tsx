@@ -1,4 +1,3 @@
-import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -87,6 +86,6 @@ describe("calcite-color-picker", () => {
   });
 
   describe("translation support", () => {
-    t9n(() => mount(<calcite-color-picker />));
+    t9n(() => mount("calcite-color-picker"));
   });
 });
