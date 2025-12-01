@@ -3,19 +3,17 @@ import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import {
   accessible,
   disabled,
-  floatingUIOwner,
   focusable,
   formAssociated,
   labelable,
   openClose,
-  slots,
   t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
 const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete"></calcite-autocomplete>`;
@@ -121,10 +119,6 @@ describe("calcite-autocomplete", () => {
 
   describe("translation support", () => {
     t9n("calcite-autocomplete");
-  });
-
-  describe("slots", () => {
-    slots("calcite-autocomplete", SLOTS);
   });
 
   describe("theme", () => {
@@ -244,10 +238,6 @@ describe("calcite-autocomplete", () => {
       testValue: "two",
       submitsOnEnter: true,
     });
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
   });
 
   describe("is focusable", () => {

@@ -3,15 +3,11 @@ import { literal } from "lit-html/static.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./link.scss";
 import { CSS } from "./resources";
 
@@ -30,22 +26,24 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Link extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class Link extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -76,9 +74,9 @@ export class Link extends LitElement implements InteractiveComponent {
   /** Specifies the frame or window to open the linked document. */
   @property() target: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -92,22 +90,18 @@ export class Link extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.childRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("click", this.clickHandler);
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private clickHandler(event: PointerEvent): void {
     if (this.disabled) {
@@ -127,9 +121,9 @@ export class Link extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { download, el } = this;
@@ -162,7 +156,7 @@ export class Link extends LitElement implements InteractiveComponent {
     this.el.role = "presentation";
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
           /*
@@ -189,9 +183,9 @@ export class Link extends LitElement implements InteractiveComponent {
           <slot />
           {this.iconEnd ? iconEndEl : null}
         </DynamicHtmlTag>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

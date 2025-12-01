@@ -1,8 +1,18 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  delegatesToFloatingUiOwningComponent,
+  handlesActionMenuPlacements,
+} from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   mockConsole();
@@ -109,5 +119,34 @@ describe("calcite-block", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-block"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-block"), SLOTS);
+  });
+
+  describe("floating-ui", () => {
+    describe("delegates to floating-ui-owner component", () => {
+      delegatesToFloatingUiOwningComponent(
+        () =>
+          mount(
+            <calcite-block>
+              <calcite-action icon="plus" label="Add" slot="header-menu-actions" />
+            </calcite-block>,
+          ),
+        "calcite-action-menu",
+      );
+    });
+
+    describe("handles action-menu placement and flipPlacements", () => {
+      handlesActionMenuPlacements(() =>
+        mount(
+          <calcite-block description="description" heading="heading">
+            <calcite-action icon="banana" slot={SLOTS.headerMenuActions} text="test" />
+            <div class="content">content</div>
+          </calcite-block>,
+        ),
+      );
+    });
   });
 });

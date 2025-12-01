@@ -11,11 +11,6 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
@@ -32,6 +27,7 @@ import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
@@ -54,10 +50,7 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimeZone
-  extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent
-{
+export class InputTimeZone extends LitElement implements FormComponent, LabelableComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -92,6 +85,8 @@ export class InputTimeZone
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -314,10 +309,6 @@ export class InputTimeZone
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.openChanged();
   }
@@ -503,7 +494,7 @@ export class InputTimeZone
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <calcite-combobox
           clearDisabled={!this.clearable}
           disabled={this.disabled}
@@ -538,7 +529,7 @@ export class InputTimeZone
           <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -2,12 +2,21 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "@vitest/browser/context";
 import { describe, it, expect } from "vitest";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  delegatesToFloatingUiOwningComponent,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import type { Action } from "../action/action";
+import { SLOTS } from "./resources";
 import "./action-bar";
 import "../action-group/action-group";
 import "../action/action";
-import type { Action } from "../action/action";
 
 describe("calcite-action-bar", () => {
   mockConsole();
@@ -86,6 +95,22 @@ describe("calcite-action-bar", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action-bar"), { display: "inline-flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-action-bar"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-action-bar>
+            <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+          </calcite-action-bar>,
+        ),
+      "calcite-action-group",
+    );
   });
 
   describe("keyboard navigation and selection-mode", () => {

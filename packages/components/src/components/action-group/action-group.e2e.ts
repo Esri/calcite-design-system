@@ -1,9 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, handlesActionMenuPlacements, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
       <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
@@ -19,19 +19,6 @@ describe("calcite-action-group", () => {
 
   describe("accessible", () => {
     accessible(actionGroupHTML);
-  });
-
-  describe("slots", () => {
-    slots("calcite-action-group", SLOTS);
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-action-group scale="l" overlay-positioning="fixed">
-        <calcite-action id="plus" slot="${SLOTS.menuActions}" text="Add" icon="plus"></calcite-action>
-        <calcite-action id="banana" slot="${SLOTS.menuActions}" text="Banana" icon="banana"></calcite-action>
-      </calcite-action-group>
-    `);
   });
 
   it("should honor scale of expand icon", async () => {

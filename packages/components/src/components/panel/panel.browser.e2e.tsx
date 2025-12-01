@@ -1,9 +1,18 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  handlesActionMenuPlacements,
+  delegatesToFloatingUiOwningComponent,
+} from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-panel", () => {
   mockConsole();
@@ -102,5 +111,38 @@ describe("calcite-panel", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-panel>content</calcite-panel>), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-panel"), SLOTS);
+  });
+
+  describe("floating-ui", () => {
+    describe("handles action-menu placement and flipPlacements", () => {
+      handlesActionMenuPlacements(() =>
+        mount(
+          <calcite-panel>
+            <calcite-action icon="banana" slot={SLOTS.headerMenuActions} text="test" />
+          </calcite-panel>,
+        ),
+      );
+    });
+
+    describe("delegates to floating-ui-owner component", () => {
+      delegatesToFloatingUiOwningComponent(
+        () =>
+          mount(
+            <calcite-panel>
+              <calcite-action
+                icon="measure"
+                slot="header-menu-actions"
+                text="measure"
+                text-enabled
+              />
+            </calcite-panel>,
+          ),
+        "calcite-action-menu",
+      );
+    });
   });
 });

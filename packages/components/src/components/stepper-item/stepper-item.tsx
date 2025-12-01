@@ -13,11 +13,6 @@ import {
 } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
-import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
   StepperItemKeyEventDetail,
@@ -30,6 +25,7 @@ import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { slotChangeHasContent } from "../../utils/dom";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -41,7 +37,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class StepperItem extends LitElement implements InteractiveComponent {
+export class StepperItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -69,6 +65,8 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -223,7 +221,6 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   override updated(): void {
-    updateHostInteraction(this);
     setAttribute(this.el, "tabindex", this.disabled || this.layout === "horizontal" ? null : 0);
   }
 
@@ -342,7 +339,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
       this.layout === "horizontal" && !this.disabled ? 0 : null;
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.complete && (
             <span ariaLive="polite" class={CSS.visuallyHidden}>
@@ -374,7 +371,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
             />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -3,14 +3,10 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./card-group.scss";
 import { CSS } from "./resources";
 
@@ -21,14 +17,14 @@ declare global {
 }
 
 /** @slot - A slot for adding one or more `calcite-card`s. */
-export class CardGroup extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class CardGroup extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: Card["el"][] = [];
 
@@ -36,9 +32,11 @@ export class CardGroup extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -63,9 +61,9 @@ export class CardGroup extends LitElement implements InteractiveComponent {
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component's first focusable element.
@@ -79,16 +77,16 @@ export class CardGroup extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.items[0], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emits when the component's selection changes and the `selectionMode` is not `none`. */
   calciteCardGroupSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -106,17 +104,13 @@ export class CardGroup extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.updateSelectedItems();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
@@ -204,22 +198,22 @@ export class CardGroup extends LitElement implements InteractiveComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
           <slot onSlotChange={this.updateItemsOnSlotChange} ref={this.slotRef} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

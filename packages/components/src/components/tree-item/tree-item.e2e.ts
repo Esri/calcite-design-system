@@ -1,12 +1,12 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, slots, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("accessible", () => {
@@ -26,10 +26,6 @@ describe("calcite-tree-item", () => {
         </calcite-tree-item>
       </calcite-tree>`,
     );
-  });
-
-  describe("slots", () => {
-    slots("calcite-tree-item", SLOTS);
   });
 
   describe("disabled within a tree", () => {
