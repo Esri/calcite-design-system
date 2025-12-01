@@ -1,4 +1,4 @@
-import { h, Fragment, JsxNode } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "@vitest/browser/context";
@@ -114,31 +114,23 @@ describe("calcite-dialog", () => {
     const shadowFocusTargetSelector = `.${CSS.panel}`;
     const focusTargetSelector = `.${focusableContentTargetClass}`;
 
-    function renderContent(): JsxNode {
-      return (
-        <>
-          This is the content
-          <button class={focusableContentTargetClass}>test</button>
-        </>
-      );
-    }
-
-    function renderDialog(content: JsxNode, closeDisabled = false): TemplateResult {
+    function renderDialog(closeDisabled = false): TemplateResult {
       return (
         <calcite-dialog closeDisabled={closeDisabled} heading="Title" open>
-          {content}
+          This is the content
+          <button class={focusableContentTargetClass}>test</button>
         </calcite-dialog>
       );
     }
 
     describe("focuses internal panel by default", () => {
-      focusable(() => mount(renderDialog(renderContent())), {
+      focusable(() => mount(renderDialog), {
         shadowFocusTargetSelector,
       });
     });
 
     describe("focuses content if there is no close button", () => {
-      focusable(() => mount(renderDialog(renderContent(), true)), {
+      focusable(() => mount(renderDialog(true)), {
         focusTargetSelector,
       });
     });
