@@ -135,7 +135,7 @@
         },
         "relative": {
           "xs": {
-            "value": "{core.size.rem.0-625}",
+            "value": "{core.font.size.rem.0-625}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -143,7 +143,7 @@
             }
           },
           "sm": {
-            "value": "{core.size.rem.0-75}",
+            "value": "{core.font.size.rem.0-75}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -151,7 +151,7 @@
             }
           },
           "default": {
-            "value": "{core.size.rem.0-875}",
+            "value": "{core.font.size.rem.0-875}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -159,7 +159,7 @@
             }
           },
           "md": {
-            "value": "{core.size.rem.1}",
+            "value": "{core.font.size.rem.1}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -167,7 +167,7 @@
             }
           },
           "lg": {
-            "value": "{core.size.rem.1-125}",
+            "value": "{core.font.size.rem.1-125}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -175,7 +175,7 @@
             }
           },
           "xl": {
-            "value": "{core.size.rem.1-25}",
+            "value": "{core.font.size.rem.1-25}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -191,7 +191,7 @@
             }
           },
           "3xl": {
-            "value": "{core.size.rem.2}",
+            "value": "{core.font.size.rem.2}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -199,7 +199,7 @@
             }
           },
           "4xl": {
-            "value": "{core.size.rem.2-5}",
+            "value": "{core.font.size.rem.2-5}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -207,7 +207,7 @@
             }
           },
           "5xl": {
-            "value": "{core.size.rem.3}",
+            "value": "{core.font.size.rem.3}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -215,7 +215,7 @@
             }
           },
           "6xl": {
-            "value": "{core.size.rem.3-5}",
+            "value": "{core.font.size.rem.3-5}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -223,7 +223,7 @@
             }
           },
           "7xl": {
-            "value": "{core.size.rem.4}",
+            "value": "{core.font.size.rem.4}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
