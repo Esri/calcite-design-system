@@ -49,7 +49,7 @@
   .button {
     justify-content: center;
 
-    .text-container {
+    .text-container--visible {
       flex: none;
     }
   }
@@ -93,7 +93,7 @@
   font-family: inherit;
   font-size: var(--calcite-font-size--2);
   line-height: var(--calcite-font-line-height-relative-base);
-  text-align: unset;
+  text-align: start;
 
   &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
@@ -124,14 +124,18 @@
 }
 
 .text-container {
-  @apply truncate;
-  flex: 1 1 auto;
-  inline-size: auto;
-  margin: 0;
-  opacity: 1;
+  @apply m-0
+    w-0
+    truncate
+    opacity-0
+    transition-opacity
+    ease-in-out;
+
   transition-property: inline-size;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: var(--calcite-animation-timing);
+}
+
+.text-container--visible {
+  @apply w-auto flex-auto opacity-100;
 }
 
 :host([active]) {
@@ -185,6 +189,7 @@
     &:hover {
       background-color: var(--calcite-color-transparent-hover);
     }
+
     &:active {
       background-color: var(--calcite-color-transparent-press);
     }
@@ -202,36 +207,36 @@
 
 :host([scale="s"]) {
   .button {
-    font-size: var(--calcite-font-size--2);
-    font-weight: var(--calcite-font-weight-normal);
-    gap: var(--calcite-spacing-xxs);
+    @apply text-n2h font-normal;
     min-block-size: 24px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
+  }
+  .button--text-visible {
+    gap: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="m"]) {
   .button {
-    font-size: var(--calcite-font-size--1);
-    font-weight: var(--calcite-font-weight-normal);
-    gap: var(--calcite-spacing-sm);
-    line-height: var(--calcite-font-line-height-relative-base);
+    @apply text-n1h font-normal;
     min-block-size: 32px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
+  }
+  .button--text-visible {
+    gap: var(--calcite-spacing-sm);
   }
 }
 
 :host([scale="l"]) {
   .button {
-    font-size: var(--calcite-font-size-0);
-    font-weight: var(--calcite-font-weight-normal);
-    gap: var(--calcite-spacing-sm-plus);
-    line-height: var(--calcite-font-line-height-relative-tight);
-    min-block-size: 44px;
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
+    @apply text-0h font-normal;
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
+  }
+  .button--text-visible {
+    gap: var(--calcite-spacing-sm-plus);
   }
 }
 
@@ -245,7 +250,7 @@
 
 :host([alignment="center"]),
 :host([alignment="end"]) {
-  .button .text-container {
+  .button .text-container--visible {
     @apply flex-initial;
   }
 }

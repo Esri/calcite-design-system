@@ -238,10 +238,11 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   //#region Rendering
 
   private renderTextContainer(): JsxNode {
-    const { text } = this;
+    const { text, textEnabled } = this;
 
     const textContainerClasses = {
       [CSS.textContainer]: true,
+      [CSS.textContainerVisible]: textEnabled,
     };
 
     return text ? (

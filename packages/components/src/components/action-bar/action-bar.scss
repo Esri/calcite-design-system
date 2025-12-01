@@ -31,6 +31,7 @@
   @apply inline-flex
   flex-col
   flex-auto;
+  gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
 }
 
@@ -111,53 +112,39 @@
   @apply justify-end;
 }
 
-:host([scale="s"]) {
+:host([scale="s"][layout="horizontal"]) {
+  .container {
+    padding-block: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="vertical"]) {
   .container {
     gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
     padding: var(--calcite-spacing-xxs);
   }
 }
-:host([scale="s"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-xxs);
-  }
-}
-:host([scale="s"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-}
 
-:host([scale="m"]) {
+:host([scale="m"][layout="horizontal"]) {
+  .container {
+    padding-block: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="vertical"]) {
   .container {
     gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
     padding: var(--calcite-spacing-sm);
   }
 }
-:host([scale="m"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="m"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="l"]) {
+
+:host([scale="l"][layout="horizontal"]) {
   .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-    padding: var(--calcite-spacing-sm-plus);
+    padding-block: var(--calcite-spacing-sm-plus);
   }
 }
 :host([scale="l"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm-plus);
-  }
-}
-:host([scale="l"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-sm-plus);
+  .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+    padding: var(--calcite-spacing-sm-plus);
   }
 }
 
