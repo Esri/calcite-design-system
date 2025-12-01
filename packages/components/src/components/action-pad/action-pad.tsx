@@ -337,10 +337,7 @@ export class ActionPad extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div
-        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
-        class={CSS.container}
-      >
+      <div class={CSS.container}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>
