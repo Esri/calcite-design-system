@@ -30,20 +30,26 @@ fi
 npm run build
 npm test
 
-# try deploying storybook, but still release next if it fails with "|| true"
-if [ "$BRANCH" = "dev" ]; then
-    { npm run --workspace=@esri/calcite-components build-storybook &&
-        npm run --workspace=@esri/calcite-components gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history;
-    } || true
-
-    # remove the built docs after storybook deploys to gh-pages
-    git reset --hard
-fi
-
-if [ "$BRANCH" = "dev" ]; then
-    npm run publish:next
-elif [ "$BRANCH" = "rc" ]; then
+if [ "$BRANCH" = "rc" ]; then
     npm run publish:rc
+elif [ "$BRANCH" = "dev" ]; then
+    {
+      # storybook publishing uses different URL because it needs additional privileges, we restore it afterwards
+      previous_origin_url=$(git remote get-url origin)
+      git remote set-url origin "https://${GH_TOKEN_FOR_STORYBOOK}@github.com/${GITHUB_REPOSITORY}.git"
+
+      # try deploying storybook, but still release next if it fails with "|| true"
+      { npm run --workspace=@esri/calcite-components build-storybook &&
+          npx --workspace=@esri/calcite-components gh-pages --dist docs --branch gh-pages --message "chore: deploy storybook" --no-history;
+      } || true
+
+      # remove the built docs after storybook deploys to gh-pages
+      git reset --hard
+
+      git remote set-url origin "$previous_origin_url"
+    }
+
+    npm run publish:next
 fi
 
 npm run util:push-tags

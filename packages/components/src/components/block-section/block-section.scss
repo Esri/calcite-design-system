@@ -1,0 +1,159 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-section-background-color: Specifies the component's background color.
+ * @prop --calcite-block-section-border-color: Specifies the component's border color. When `expanded`, applies to the component's bottom border.
+ * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
+ * @prop --calcite-block-section-text-color: Specifies the component's text color.
+ * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
+ * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @apply box-border block;
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+}
+
+calcite-switch {
+  // --calcite-switch-background-color: var(--calcite-block-section-switch-background-color);
+  // --calcite-switch-border-color: var(--calcite-block-section-switch-border-color);
+  // --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
+  // --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
+  // --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
+  // --calcite-switch-handle-shadow: var(--calcite-block-section-switch-handle-shadow);
+}
+
+:host([expanded]) {
+  @apply border-0
+    border-b
+    border-solid;
+
+  border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
+
+  .toggle {
+    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+
+    &:hover {
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+    }
+  }
+
+  .chevron-icon {
+    color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
+
+    &:hover {
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+    }
+  }
+}
+
+:host(:last-child) {
+  @apply border-b-0;
+}
+
+:host([scale="s"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-xxs);
+    gap: var(--calcite-spacing-sm);
+    font-size: var(--calcite-font-size-sm);
+  }
+
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xxs));
+  }
+}
+
+:host([scale="m"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-md);
+    font-size: var(--calcite-font-size);
+  }
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm));
+  }
+}
+
+:host([scale="l"]) {
+  .toggle {
+    padding-block: var(--calcite-spacing-md);
+    gap: var(--calcite-spacing-lg);
+    font-size: var(--calcite-font-size-md);
+  }
+  .content {
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-md));
+  }
+}
+
+.toggle {
+  @apply focus-base
+  flex
+  cursor-pointer
+  select-none
+  items-center
+  w-full
+  border-0;
+  font-family: inherit;
+  color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  font-weight: var(--calcite-font-weight-regular);
+  padding-inline: 0;
+  line-height: var(--calcite-font-line-height-relative-snug);
+
+  &:focus {
+    @apply focus-normal;
+    // required to ensure the focus ring is visible when slotted with other block-section components in block
+    z-index: var(--calcite-z-index);
+  }
+  &:hover {
+    color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+  }
+}
+
+.section-header__text {
+  @apply my-0
+    flex-auto;
+
+  text-align: initial;
+  word-wrap: anywhere;
+}
+
+.toggle-container {
+  @apply flex items-center relative;
+
+  word-break: break-word;
+
+  .toggle--switch__content {
+    @apply flex flex-auto items-center;
+  }
+
+  .icon--end,
+  .icon--start,
+  .chevron-icon {
+    @apply flex items-center;
+
+    color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
+
+    &:hover {
+      color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+    }
+  }
+}
+
+.status-icon {
+  @apply flex items-center;
+}
+
+.status-icon.valid {
+  color: theme("colors.success");
+}
+
+.status-icon.invalid {
+  color: theme("colors.danger");
+}
+
+@include includes.base-component();

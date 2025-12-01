@@ -1,6 +1,6 @@
 name: Accessibility
 description: Report an accessibility issue in a component
-labels: ["a11y", "bug", "0 - new", "needs triage"]
+labels: ["a11y", "bug", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues
@@ -192,7 +192,7 @@ body:
     id: regression
     attributes:
       label: Regression?
-      description: Please provide the last working version if the issue is a regression.
+      description: Please provide the last working version if the issue is a regression. If a valid semantic version is entered, the issue will be considered a regression and prioritized accordingly.
     validations:
       required: false
   - type: dropdown

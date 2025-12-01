@@ -22,14 +22,13 @@ const resources = {
       tooling: "tooling",
     },
     issueWorkflow: {
-      new: "0 - new",
-      assigned: "1 - assigned",
       needsTriage: "needs triage",
       needsMilestone: "needs milestone",
-      readyForDev: "ready for dev",
-      inDevelopment: "2 - in development",
-      installed: "3 - installed",
-      verified: "4 - verified",
+      inDesign: "1 - in design",
+      readyForDev: "2 - ready for dev",
+      inDevelopment: "3 - in development",
+      installed: "4 - installed",
+      verified: "5 - verified",
     },
     planning: {
       needsInfo: "needs more info",
@@ -67,6 +66,7 @@ const resources = {
       medium: "estimate - design - md",
       large: "estimate - design - lg",
     },
+    productColor: "006B75",
   },
   milestone: {
     backlog: "Dev Backlog",

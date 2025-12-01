@@ -2,11 +2,11 @@
 
 This is a monorepo containing [Calcite Design System](https://developers.arcgis.com/calcite-design-system/) packages. Please see the package-specific READMEs for more information:
 
-- [`@esri/calcite-components`](./packages/calcite-components/README.md)
-- [`@esri/calcite-components-react`](./packages/calcite-components-react/README.md)
-- [`@esri/calcite-design-tokens`](./packages/calcite-design-tokens/README.md)
-- [`@esri/calcite-ui-icons`](./packages/calcite-ui-icons/README.md)
-- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-calcite-components/README.md)
+- [`@esri/calcite-components`](./packages/components/README.md)
+- [`@esri/calcite-components-react`](./packages/components-react/README.md)
+- [`@esri/calcite-design-tokens`](./packages/design-tokens/README.md)
+- [`@esri/calcite-ui-icons`](./packages/ui-icons/README.md)
+- [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-components/README.md)
 
 ## Contributing
 
@@ -128,13 +128,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kstinson14">
-      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
-      <br />
-      <sub><b>Katrina Stinson</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/DitwanP">
       <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="100;" alt="DitwanP"/>
       <br />
@@ -142,19 +135,26 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/maxdahal">
-      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="maxdahal"/>
+    <a href="https://github.com/kstinson14">
+      <img src="https://avatars.githubusercontent.com/u/17748358?v=4" width="100;" alt="kstinson14"/>
       <br />
-      <sub><b>Max Dahal</b></sub>
+      <sub><b>Katrina Stinson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/isaacbraun">
       <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
       <br />
       <sub><b>Isaac Braun</b></sub>
+    </a>
+  </td>
+</tr>
+<tr>
+  <td align="center">
+    <a href="https://github.com/maxdahal">
+      <img src="https://avatars.githubusercontent.com/u/23712621?v=4" width="100;" alt="maxdahal"/>
+      <br />
+      <sub><b>Max Dahal</b></sub>
     </a>
   </td>
   <td align="center">
