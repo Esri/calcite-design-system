@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  labelable,
-  openClose,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -747,14 +738,6 @@ describe("calcite-input-date-picker", () => {
 
     expect(await element.getProperty("minAsDate")).toBe(undefined);
     expect(await element.getProperty("maxAsDate")).toBe(undefined);
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-      "open",
-      { shadowSelector: ".menu-container" },
-    );
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
