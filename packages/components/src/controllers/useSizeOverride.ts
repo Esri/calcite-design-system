@@ -65,10 +65,13 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         }
 
         const applied = boundSize === null ? null : Math.round(boundSize);
-        const cssProp = axis === "block" ? "blockSize" : "inlineSize";
-        const cssPropKey = cssProp as keyof CSSStyleDeclaration;
+        const cssProp = axis === "block" ? "block-size" : "inline-size";
 
-        el.style[cssPropKey] = applied === null ? "" : `${applied}px`;
+        if (applied === null) {
+          el.style.removeProperty(cssProp);
+        } else {
+          el.style.setProperty(cssProp, `${applied}px`);
+        }
         context.setInternalState?.(axis, applied);
       },
     };

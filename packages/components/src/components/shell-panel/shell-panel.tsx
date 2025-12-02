@@ -23,7 +23,7 @@ import { AxisConst } from "../resources";
 import { Axis } from "../interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { Axis, DisplayMode, ResizeValues } from "./interfaces";
+import { DisplayMode, ResizeValues } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
 declare global {
