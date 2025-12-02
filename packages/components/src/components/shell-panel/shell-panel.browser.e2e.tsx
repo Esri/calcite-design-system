@@ -8,7 +8,6 @@ import { userEvent } from "@vitest/browser/context";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
-import type { ShellPanel } from "./shell-panel";
 import { SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
@@ -71,7 +70,7 @@ describe("calcite-shell-panel", () => {
 
     describe("vertical panel", () => {
       async function setupVerticalPanel(initialToken: number) {
-        const { el } = await mount<"calcite-shell">(
+        const { el, component } = await mount<"calcite-shell">(
           <calcite-shell>
             <calcite-shell-panel resizable slot="panel-start">
               <calcite-panel>Content</calcite-panel>
@@ -79,9 +78,10 @@ describe("calcite-shell-panel", () => {
           </calcite-shell>,
         );
 
-        const panel = el.querySelector("calcite-shell-panel") as ShellPanel;
+        const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
-        await panel.updateComplete;
+
+        await component.updateComplete;
 
         const content = panel.shadowRoot!.querySelector(`.${CSS.content}`) as HTMLElement;
         const handle = panel.shadowRoot!.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
@@ -89,29 +89,29 @@ describe("calcite-shell-panel", () => {
         expect(handle).toBeTruthy();
 
         panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
 
-        return { panel, content, handle };
+        return { panel, content, handle, component };
       }
 
       it("should update vertical panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
         const initialToken = 320;
         const methodResize = 400;
 
-        const { panel, content, handle } = await setupVerticalPanel(initialToken);
+        const { panel, content, handle, component } = await setupVerticalPanel(initialToken);
 
         handle.focus();
         await userEvent.keyboard("{ArrowRight}");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "inline");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "inline");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
       });
 
@@ -119,13 +119,13 @@ describe("calcite-shell-panel", () => {
         const initialToken = 320;
         const methodResize = 400;
 
-        const { panel, content, handle } = await setupVerticalPanel(initialToken);
+        const { panel, content, handle, component } = await setupVerticalPanel(initialToken);
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
         expect(getComputedStyle(content).width).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "inline");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "inline");
@@ -136,7 +136,7 @@ describe("calcite-shell-panel", () => {
 
     describe("horizontal panel", () => {
       async function setupHorizontalPanel(initialToken: number) {
-        const { el } = await mount<"calcite-shell">(
+        const { el, component } = await mount<"calcite-shell">(
           <calcite-shell>
             <calcite-shell-panel resizable slot="panel-bottom">
               <calcite-panel>Content</calcite-panel>
@@ -144,9 +144,9 @@ describe("calcite-shell-panel", () => {
           </calcite-shell>,
         );
 
-        const panel = el.querySelector("calcite-shell-panel") as ShellPanel;
+        const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
-        await panel.updateComplete;
+        await component.updateComplete;
 
         const content = panel.shadowRoot!.querySelector(`.${CSS.content}`) as HTMLElement;
         const handle = panel.shadowRoot!.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
@@ -154,29 +154,29 @@ describe("calcite-shell-panel", () => {
         expect(handle).toBeTruthy();
 
         panel.style.setProperty("--calcite-shell-panel-height", `${initialToken}px`);
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
 
-        return { panel, content, handle };
+        return { panel, content, handle, component };
       }
       it("should update horizontal panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
         const initialToken = 200;
         const methodResize = 250;
 
-        const { panel, content, handle } = await setupHorizontalPanel(initialToken);
+        const { panel, content, handle, component } = await setupHorizontalPanel(initialToken);
 
         handle.focus();
         await userEvent.keyboard("{ArrowDown}");
-        await panel.updateComplete;
+        await component.updateComplete;
         const afterKeyboard = parseFloat(getComputedStyle(content).height);
         expect(afterKeyboard).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "block");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).height).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "block");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
       });
 
@@ -184,17 +184,17 @@ describe("calcite-shell-panel", () => {
         const initialToken = 200;
         const methodResize = 250;
 
-        const { panel, content, handle } = await setupHorizontalPanel(initialToken);
+        const { panel, content, handle, component } = await setupHorizontalPanel(initialToken);
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
         expect(getComputedStyle(content).height).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "block");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).height).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "block");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
       });
     });
