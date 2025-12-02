@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   slots,
+  t9n,
   delegatesToFloatingUiOwningComponent,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -106,5 +107,9 @@ describe("calcite-action-bar", () => {
         ),
       "calcite-action-group",
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action-bar"));
   });
 });

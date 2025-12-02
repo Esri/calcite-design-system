@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -163,10 +163,6 @@ describe("calcite-text-area", () => {
     }
 
     await expect(runTest()).resolves.toBeUndefined();
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-text-area");
   });
 
   describe("theme", () => {

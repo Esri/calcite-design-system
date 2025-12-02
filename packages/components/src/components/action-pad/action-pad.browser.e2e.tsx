@@ -8,6 +8,7 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -97,5 +98,9 @@ describe("calcite-action-pad", () => {
         ),
       "calcite-action-group",
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action-pad"));
   });
 });

@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, focusable, formAssociated, labelable, openClose, t9n } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -80,10 +80,6 @@ describe("calcite-input-time-zone", () => {
     disabled(simpleTestProvider, {
       shadowAriaAttributeTargetSelector: "calcite-combobox",
     });
-  });
-
-  describe("translation support", () => {
-    t9n(simpleTestProvider);
   });
 
   describe("openClose", () => {

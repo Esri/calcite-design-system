@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -49,10 +49,6 @@ describe("calcite-input-time-picker", () => {
         <calcite-input-time-picker name="test"></calcite-input-time-picker>
       </calcite-label>
     `);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-input-time-picker");
   });
 
   describe("labelable", () => {
