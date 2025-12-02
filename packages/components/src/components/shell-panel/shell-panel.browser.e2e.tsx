@@ -5,6 +5,7 @@ import "../shell/shell";
 import "./shell-panel";
 import "../panel/panel";
 import { userEvent } from "@vitest/browser/context";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
@@ -65,6 +66,10 @@ describe("calcite-shell-panel", () => {
     slots(() => mount("calcite-shell-panel"), SLOTS);
   });
 
+  describe("translation support", () => {
+    t9n(() => mount("calcite-shell-panel"));
+  });
+
   describe("shell-panel updateSize public method", () => {
     mockConsole();
 
@@ -90,7 +95,7 @@ describe("calcite-shell-panel", () => {
 
         panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
         await component.updateComplete;
-        expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
 
         return { panel, content, handle, component };
       }
@@ -104,15 +109,15 @@ describe("calcite-shell-panel", () => {
         handle.focus();
         await userEvent.keyboard("{ArrowRight}");
         await component.updateComplete;
-        expect(getComputedStyle(content).width).not.toBe(initialToken);
+        expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "inline");
         await component.updateComplete;
-        expect(getComputedStyle(content).width).toBe(`${methodResize}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "inline");
         await component.updateComplete;
-        expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
       });
 
       it("should update vertical panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
@@ -122,15 +127,15 @@ describe("calcite-shell-panel", () => {
         const { panel, content, handle, component } = await setupVerticalPanel(initialToken);
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
-        expect(getComputedStyle(content).width).not.toBe(initialToken);
+        expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "inline");
         await component.updateComplete;
-        expect(getComputedStyle(content).width).toBe(`${methodResize}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "inline");
         await component.updateComplete;
-        expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
       });
     });
 
@@ -168,16 +173,16 @@ describe("calcite-shell-panel", () => {
         handle.focus();
         await userEvent.keyboard("{ArrowDown}");
         await component.updateComplete;
-        const afterKeyboard = parseFloat(getComputedStyle(content).height);
+        const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
         expect(afterKeyboard).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "block");
         await component.updateComplete;
-        expect(getComputedStyle(content).height).toBe(`${methodResize}px`);
+        expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "block");
         await component.updateComplete;
-        expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
       });
 
       it("should update horizontal panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
@@ -187,15 +192,14 @@ describe("calcite-shell-panel", () => {
         const { panel, content, handle, component } = await setupHorizontalPanel(initialToken);
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
-        expect(getComputedStyle(content).height).not.toBe(initialToken);
+        expect(getComputedStyle(content).blockSize).not.toBe(initialToken);
 
         panel.updateSize(methodResize, "block");
         await component.updateComplete;
-        expect(getComputedStyle(content).height).toBe(`${methodResize}px`);
-
+        expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
         panel.updateSize(null, "block");
         await component.updateComplete;
-        expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
       });
     });
   });

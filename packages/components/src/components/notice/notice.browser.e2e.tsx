@@ -1,7 +1,7 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-notice", () => {
@@ -29,5 +29,9 @@ describe("calcite-notice", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-notice"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-notice"));
   });
 });

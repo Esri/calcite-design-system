@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY, resizeStep } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -583,10 +583,6 @@ describe("calcite-shell-panel", () => {
     await shellPanel.click();
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-shell-panel");
   });
 
   it("should emit expanded/collapsed events when toggled", async () => {

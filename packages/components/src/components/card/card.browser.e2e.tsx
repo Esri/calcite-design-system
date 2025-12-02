@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-card", () => {
@@ -14,5 +14,9 @@ describe("calcite-card", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-card"), SLOTS, true);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-card"));
   });
 });

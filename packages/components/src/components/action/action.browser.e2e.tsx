@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-action", () => {
   describe("defaults", () => {
@@ -129,5 +129,9 @@ describe("calcite-action", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action"), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action"));
   });
 });
