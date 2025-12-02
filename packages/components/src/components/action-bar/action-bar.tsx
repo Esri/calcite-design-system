@@ -74,8 +74,8 @@ export class ActionBar extends LitElement {
     let bufferSize = groupCount;
 
     if (groupCount > 0) {
+      const containerGap = getComputedStyle(this.containerRef.value).gap;
       for (let i = 1; i < groupCount; i++) {
-        const containerGap = getComputedStyle(this.containerRef.value).gap;
         bufferSize += parseInt(containerGap);
       }
     }
