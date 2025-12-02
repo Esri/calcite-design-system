@@ -383,7 +383,7 @@ describe("calcite-action-bar", () => {
       await page.waitForChanges();
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(6);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
     });
 
     it("should slot 'menu-actions' on sublist changes after being enabled", async () => {
@@ -421,7 +421,7 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(6);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
     });
 
     it("should slot 'menu-actions' on resize of component", async () => {
@@ -429,30 +429,30 @@ describe("calcite-action-bar", () => {
         html: html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
             <calcite-action-group id="dynamic-group"
-              ><calcite-action scale="l" text="Layer properties" icon="sliders-horizontal"></calcite-action>
-              <calcite-action scale="l" text="Styles" icon="shapes"></calcite-action>
-              <calcite-action scale="l" text="Styles" icon="shapes"></calcite-action>
-              <calcite-action scale="l" text="Filter" icon="layer-filter"></calcite-action>
-              <calcite-action scale="l" text="Configure pop-ups" icon="popup"></calcite-action>
-              <calcite-action scale="l" text="Configure attributes" icon="feature-details"></calcite-action>
-              <calcite-action scale="l" text="Labels" icon="label" active></calcite-action>
-              <calcite-action scale="l" text="Table" icon="table"></calcite-action
+              ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+              <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+              <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+              <calcite-action text="Labels" icon="label" active></calcite-action>
+              <calcite-action text="Table" icon="table"></calcite-action
             ></calcite-action-group>
             <calcite-action-group>
-              <calcite-action scale="l" text="Save" icon="save" disabled></calcite-action>
-              <calcite-action scale="l" icon="layers" text="Layers"></calcite-action>
+              <calcite-action text="Save" icon="save" disabled></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
             </calcite-action-group>
-            <calcite-action scale="l" slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
       });
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-        element.style.height = "490px";
+        element.style.height = "390px";
       });
 
       await page.waitForTimeout(DEBOUNCE.resize + 10);
