@@ -1,10 +1,10 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { supportedLocales } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -40,10 +40,6 @@ const letterKeys = [
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 describe("calcite-time-picker", () => {
-  describe("renders", () => {
-    renders("calcite-time-picker", { display: "inline-block" });
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-time-picker></calcite-time-picker>`);
   });
@@ -1133,10 +1129,6 @@ describe("calcite-time-picker", () => {
     });
   });
 
-  describe("translation support", () => {
-    t9n("<calcite-time-picker></calcite-time-picker>");
-  });
-
   it("toggles seconds display when step is < 60", async () => {
     const page = await newE2EPage({
       html: `<calcite-time-picker value="11:00:00"></calcite-time-picker>`,
@@ -1205,7 +1197,7 @@ describe("calcite-time-picker", () => {
   });
 
   describe("l10n", () => {
-    supportedLocales.forEach((locale) => {
+    supportedNlsLocales.forEach((locale) => {
       if (locale !== "en") {
         return;
       }

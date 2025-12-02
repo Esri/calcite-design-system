@@ -1,11 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, floatingUIOwner, openClose, renders, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementXY, GlobalTestProps, skipAnimations } from "../../tests/utils/puppeteer";
+import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
@@ -85,13 +86,6 @@ describe("calcite-tooltip", () => {
   async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
     expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
   }
-
-  describe("renders", () => {
-    renders(`calcite-tooltip`, { display: "contents" });
-    renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
-      display: "contents",
-    });
-  });
 
   describe("accessible when closed", () => {
     accessible(
@@ -646,14 +640,6 @@ describe("calcite-tooltip", () => {
     expect(await focusTip.getProperty("open")).toBe(true);
 
     expect(await hoverTip.getProperty("open")).toBe(false);
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
-      "open",
-      { shadowSelector: `.${CSS.positionContainer}` },
-    );
   });
 
   it("should only open the last hovered tooltip", async () => {

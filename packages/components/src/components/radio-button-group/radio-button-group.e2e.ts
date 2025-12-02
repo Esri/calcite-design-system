@@ -1,16 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, internalLabel, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
 import { CSS } from "./resources";
 
 describe("calcite-radio-button-group", () => {
-  describe("renders", () => {
-    renders("calcite-radio-button-group", { display: "flex" });
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`,
@@ -31,10 +27,6 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>`,
       { focusTargetSelector: "calcite-radio-button" },
     );
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-radio-button-group`);
   });
 
   it("has a radio input for form compatibility", async () => {
@@ -473,10 +465,6 @@ describe("calcite-radio-button-group", () => {
     await group.callMethod("setFocus");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-radio-button-group");
   });
 
   describe("theme", () => {

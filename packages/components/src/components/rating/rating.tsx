@@ -17,11 +17,6 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -30,6 +25,7 @@ import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
@@ -45,10 +41,7 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Rating
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
+export class Rating extends LitElement implements LabelableComponent, FormComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -85,6 +78,8 @@ export class Rating
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -256,10 +251,6 @@ export class Rating
     });
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
   }
@@ -399,7 +390,7 @@ export class Rating
     const countString = this.count?.toString();
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <span class={CSS.wrapper}>
           {this.labelText && (
             <InternalLabel
@@ -478,7 +469,7 @@ export class Rating
             />
           ) : null}
         </span>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

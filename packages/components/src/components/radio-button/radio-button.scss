@@ -7,8 +7,6 @@
  * @prop --calcite-radio-button-border-color: Specifies the component's border color.
  * @prop --calcite-radio-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-radio-button-size: Specifies the component's size.
- * @prop --calcite-radio-size: [Deprecated] Use `--calcite-radio-button-size`. Specifies the component's size.
- *
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -73,22 +71,13 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-md))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-md));
 }
 :host([scale="m"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-md-plus))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-md-plus));
 }
 :host([scale="l"]) {
-  --calcite-internal-radio-size: var(
-    --calcite-radio-button-size,
-    var(--calcite-radio-size, var(--calcite-size-fixed-lg))
-  );
+  --calcite-internal-radio-size: var(--calcite-radio-button-size, var(--calcite-size-fixed-lg));
 }
 
 .radio {

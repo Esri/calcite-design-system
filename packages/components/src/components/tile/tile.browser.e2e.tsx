@@ -1,6 +1,9 @@
-import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects } from "../../tests/commonTests/browser";
+import { page } from "@vitest/browser/context";
+import { defaults, hidden, reflects, renders, slots } from "../../tests/commonTests/browser";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
   describe("defaults", () => {
@@ -46,5 +49,80 @@ describe("calcite-tile", () => {
         { propertyName: "selectionMode", value: "single-persist" },
       ],
     );
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-tile"), { display: "inline-block" });
+
+    it("renders without a link by default", async () => {
+      await mount("calcite-tile");
+
+      const link = page.locator("calcite-tile calcite-link");
+
+      await expect.element(link).not.toBeInTheDocument();
+    });
+
+    it("renders a link when href attribute is supplied", async () => {
+      await mount(<calcite-tile href="http://www.esri.com" />);
+
+      const link = page.locator("calcite-tile calcite-link");
+      const anchor = page.locator("calcite-tile calcite-link a");
+
+      await expect.element(link).toHaveAttribute("href", "http://www.esri.com");
+      await expect.element(anchor).toHaveAttribute("href", "http://www.esri.com");
+    });
+
+    it("renders heading only when supplied", async () => {
+      await mount(<calcite-tile heading="My Calcite Tile" />);
+
+      const icon = page.locator(`calcite-tile .${CSS.icon}`);
+      const heading = page.locator(`calcite-tile .${CSS.heading}`);
+      const description = page.locator(`calcite-tile .${CSS.description}`);
+
+      await expect.element(icon).not.toBeInTheDocument();
+      await expect.element(heading).toHaveTextContent("My Calcite Tile");
+      await expect.element(description).not.toBeInTheDocument();
+    });
+
+    it("renders icon only when supplied", async () => {
+      await mount(<calcite-tile icon="layers" />);
+
+      const icon = page.locator(`calcite-tile .${CSS.icon}`);
+      const heading = page.locator(`calcite-tile .${CSS.heading}`);
+      const description = page.locator(`calcite-tile .${CSS.description}`);
+
+      await expect.element(icon).toBeInTheDocument();
+      await expect.element(heading).not.toBeInTheDocument();
+      await expect.element(description).not.toBeInTheDocument();
+    });
+
+    it("renders description only when supplied", async () => {
+      await mount(<calcite-tile description="My Calcite Tile Description." />);
+
+      const icon = page.locator(`calcite-tile .${CSS.icon}`);
+      const heading = page.locator(`calcite-tile .${CSS.heading}`);
+      const description = page.locator(`calcite-tile .${CSS.description}`);
+
+      await expect.element(icon).not.toBeInTheDocument();
+      await expect.element(heading).not.toBeInTheDocument();
+      await expect.element(description).toHaveTextContent("My Calcite Tile Description.");
+    });
+
+    it("renders large icon when only icon and heading are supplied", async () => {
+      await mount(<calcite-tile heading="My Large Visual Calcite Tile" icon="layers" />);
+
+      const icon = page.locator(`calcite-tile .${CSS.icon}`);
+      const heading = page.locator(`calcite-tile .${CSS.heading}`);
+      const description = page.locator(`calcite-tile .${CSS.description}`);
+
+      await expect.element(icon).toHaveAttribute("icon", "layers");
+      await expect.element(icon).toHaveAttribute("scale", "l");
+      await expect.element(heading).toHaveTextContent("My Large Visual Calcite Tile");
+      await expect.element(description).not.toBeInTheDocument();
+    });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-tile"), SLOTS);
   });
 });

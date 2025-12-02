@@ -1,14 +1,15 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, focusable, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
+import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { CSS } from "./resources";
 import type { Dialog } from "./dialog";
 
 type TestWindow = GlobalTestProps<{
@@ -39,21 +40,9 @@ const dispatchDialogKeydown = async ({
 describe("calcite-dialog", () => {
   mockConsole();
 
-  describe("renders", () => {
-    renders("calcite-dialog", { display: "flex", visible: true });
-  });
-
   describe("openClose", () => {
     openClose("calcite-dialog");
     openClose.initial("calcite-dialog");
-  });
-
-  describe("slots", () => {
-    slots("calcite-dialog", SLOTS);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-dialog");
   });
 
   describe("accessible", () => {

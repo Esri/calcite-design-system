@@ -3,16 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -22,7 +13,8 @@ import {
   selectText,
 } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { locales, numberStringFormatter } from "../../utils/locale";
+import { numberStringFormatter } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
@@ -48,10 +40,6 @@ describe("calcite-input-number", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-number");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-number", { display: "block" });
   });
 
   describe("disabled", () => {
@@ -167,10 +155,6 @@ describe("calcite-input-number", () => {
     focusable(`calcite-input-number`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-number`);
   });
 
   describe.skip("increment/decrement functionality", () => {
@@ -1088,7 +1072,7 @@ describe("calcite-input-number", () => {
       "pl",
       "pt-PT",
     ];
-    locales
+    supportedNlsLocales
       .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
@@ -1821,10 +1805,6 @@ describe("calcite-input-number", () => {
   });
 
   testWorkaroundForGlobalPropRemoval("calcite-input-number");
-
-  describe("translation support", () => {
-    t9n("calcite-input-number");
-  });
 
   it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();

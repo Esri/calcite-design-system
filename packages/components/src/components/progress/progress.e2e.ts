@@ -1,13 +1,9 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-progress", () => {
-  describe("renders", () => {
-    renders("calcite-progress", { display: "block" });
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-progress label="my progress"></calcite-progress>`);
   });

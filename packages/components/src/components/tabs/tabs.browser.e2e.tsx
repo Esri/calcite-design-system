@@ -1,6 +1,8 @@
+import { h, Fragment } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { JsxNode } from "@arcgis/lumina";
+import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-tabs", () => {
   describe("defaults", () => {
@@ -27,5 +29,26 @@ describe("calcite-tabs", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-tabs"));
+  });
+
+  function createTabsContent(): JsxNode {
+    return (
+      <>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
+        <calcite-tab>Tab 2 Content</calcite-tab>
+        <calcite-tab>Tab 3 Content</calcite-tab>
+        <calcite-tab>Tab 4 Content</calcite-tab>
+      </>
+    );
+  }
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>), { display: "flex" });
   });
 });

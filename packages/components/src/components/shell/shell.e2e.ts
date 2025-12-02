@@ -1,20 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
-  describe("renders", () => {
-    renders("calcite-shell", { display: "flex" });
-  });
-
-  describe("slots", () => {
-    slots("calcite-shell", SLOTS);
-  });
-
   it("content node should always be present", async () => {
     const page = await newE2EPage();
 

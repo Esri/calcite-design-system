@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-inline-editable", () => {
   describe("defaults", () => {
@@ -17,5 +18,21 @@ describe("calcite-inline-editable", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-inline-editable"));
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <calcite-inline-editable>
+            <calcite-input />
+          </calcite-inline-editable>,
+        ),
+      { display: "block" },
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-inline-editable"));
   });
 });

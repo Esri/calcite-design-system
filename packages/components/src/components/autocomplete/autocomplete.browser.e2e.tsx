@@ -1,9 +1,21 @@
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import {
+  internalLabel,
+  renders,
+  slots,
+  floatingUIOwner,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { mockConsole } from "../../tests/utils/logging";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-autocomplete", () => {
+  mockConsole();
+
   describe("cancelable", () => {
     cancelable("calcite-autocomplete");
   });
@@ -219,5 +231,41 @@ describe("calcite-autocomplete", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-autocomplete"));
+  });
+
+  describe("internal label", () => {
+    internalLabel(() => mount(`calcite-autocomplete`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-autocomplete"), { display: "block" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-autocomplete"), SLOTS);
+  });
+
+  function renderAutocomplete(): JsxNode {
+    return (
+      <calcite-autocomplete id="myAutocomplete" label="Item list">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+        <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+        <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+        <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+      </calcite-autocomplete>
+    );
+  }
+
+  describe("floating-ui", () => {
+    describe("owns a floating-ui", () => {
+      floatingUIOwner(() => mount(renderAutocomplete), "open", {
+        shadowSelector: `.${CSS.floatingUIContainer}`,
+      });
+    });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-autocomplete"));
   });
 });

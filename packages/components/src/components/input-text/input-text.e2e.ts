@@ -2,16 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
@@ -26,10 +17,6 @@ import type { InputText } from "./input-text";
 describe("calcite-input-text", () => {
   describe("labelable", () => {
     labelable("calcite-input-text");
-  });
-
-  describe("renders", () => {
-    renders("calcite-input-text", { display: "block" });
   });
 
   describe("disabled", () => {
@@ -56,10 +43,6 @@ describe("calcite-input-text", () => {
     focusable(`calcite-input-text`, {
       shadowFocusTargetSelector: "input",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-text`);
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
@@ -388,10 +371,6 @@ describe("calcite-input-text", () => {
   });
 
   testWorkaroundForGlobalPropRemoval("calcite-input-text");
-
-  describe("translation support", () => {
-    t9n("calcite-input-text");
-  });
 
   describe("theme", () => {
     describe("default", () => {

@@ -1,6 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
   describe("defaults", () => {
@@ -44,5 +46,17 @@ describe("calcite-chip", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-chip"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-chip>doritos</calcite-chip>), { display: "inline-flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-chip"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-chip"));
   });
 });

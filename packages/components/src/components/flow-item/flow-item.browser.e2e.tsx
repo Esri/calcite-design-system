@@ -1,7 +1,17 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  delegatesToFloatingUiOwningComponent,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
   mockConsole();
@@ -124,5 +134,31 @@ describe("calcite-flow-item", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-flow-item"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
+      display: "flex",
+    });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-flow-item"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-flow-item>
+            <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
+          </calcite-flow-item>,
+        ),
+      "calcite-panel",
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-flow-item"));
   });
 });

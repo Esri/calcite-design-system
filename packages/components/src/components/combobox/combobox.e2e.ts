@@ -1,18 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  openClose,
-  renders,
-  t9n,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -36,10 +25,6 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 describe("calcite-combobox", () => {
   mockConsole();
 
-  describe("renders", () => {
-    renders("calcite-combobox", { display: "block" });
-  });
-
   describe("focusable", () => {
     focusable(html`
       <calcite-combobox label="Trees" value="Trees">
@@ -47,10 +32,6 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
       </calcite-combobox>
     `);
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-combobox`);
   });
 
   describe("accessible", () => {
@@ -2397,20 +2378,6 @@ describe("calcite-combobox", () => {
     );
   });
 
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      html`
-        <calcite-combobox>
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-      "open",
-      { shadowSelector: `.${CSS.floatingUIContainer}` },
-    );
-  });
-
   it("should have input--icon class when placeholder-icon is parsed", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -2450,10 +2417,6 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-combobox");
   });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {

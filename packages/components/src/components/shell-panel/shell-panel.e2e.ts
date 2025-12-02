@@ -1,25 +1,17 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { resizeStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 
 describe("calcite-shell-panel", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-shell-panel", { display: "flex" });
-  });
-
-  describe("slots", () => {
-    slots("calcite-shell-panel", SLOTS);
-  });
 
   it("has a slot", async () => {
     const page = await newE2EPage();
@@ -592,10 +584,6 @@ describe("calcite-shell-panel", () => {
     await shellPanel.click();
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-shell-panel");
   });
 
   it("should emit expanded/collapsed events when toggled", async () => {

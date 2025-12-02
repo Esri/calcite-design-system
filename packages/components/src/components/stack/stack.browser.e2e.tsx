@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-stack", () => {
   describe("defaults", () => {
@@ -17,5 +18,13 @@ describe("calcite-stack", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-stack"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-stack"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-stack"), SLOTS);
   });
 });

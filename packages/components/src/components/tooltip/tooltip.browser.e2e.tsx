@@ -1,9 +1,9 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
+import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 describe("calcite-tooltip", () => {
@@ -173,5 +173,36 @@ describe("calcite-tooltip", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount(<calcite-tooltip open />));
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <>
+            <calcite-tooltip open placement="auto" reference-element="ref">
+              content
+            </calcite-tooltip>
+            <button id="ref">referenceElement</button>
+          </>,
+        ),
+      { display: "contents" },
+    );
+  });
+
+  describe("floating-ui", () => {
+    describe("owns a floating-ui", () => {
+      floatingUIOwner(
+        () =>
+          mount(
+            <>
+              <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+              <div id="ref">referenceElement</div>
+            </>,
+          ),
+        "open",
+        { shadowSelector: `.${CSS.positionContainer}` },
+      );
+    });
   });
 });

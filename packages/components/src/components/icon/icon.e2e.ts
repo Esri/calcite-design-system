@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
@@ -26,10 +26,6 @@ describe("calcite-icon", () => {
   });
 
   describe("rendering", () => {
-    describe("renders", () => {
-      renders("calcite-icon", { display: "inline-flex" });
-    });
-
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);

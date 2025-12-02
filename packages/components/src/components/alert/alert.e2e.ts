@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -15,10 +15,6 @@ describe("calcite-alert", () => {
     <div slot="message">Message Text</div>
     <a slot="link" href="">Action</a>
   `;
-
-  describe("renders", () => {
-    renders("calcite-alert", { visible: false, display: "block" });
-  });
 
   describe("accessible", () => {
     accessible(async () => {
@@ -551,10 +547,6 @@ describe("calcite-alert", () => {
       await page.waitForTimeout(DURATIONS.medium + alertQueueTimeoutMs);
       await page.waitForSelector("#alert", { visible: false });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-alert");
   });
 
   describe("theme", () => {

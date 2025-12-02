@@ -1,7 +1,10 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { page } from "@vitest/browser/context";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-dialog", () => {
   mockConsole();
@@ -180,5 +183,31 @@ describe("calcite-dialog", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-dialog"));
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <calcite-dialog open>
+            <div slot="custom-content">content</div>
+          </calcite-dialog>,
+        ),
+      {
+        display: "flex",
+        visible: {
+          value: true,
+          locator: page.getByRole("dialog"),
+        },
+      },
+    );
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-dialog"));
   });
 });

@@ -1,13 +1,9 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 
 describe("calcite-option-group", () => {
-  describe("renders", () => {
-    renders("calcite-option-group", { display: "block" });
-  });
-
   describe("accessible", () => {
     accessible("calcite-option-group");
   });

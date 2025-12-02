@@ -2,25 +2,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  disabled,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
-import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control", () => {
-  describe("renders", () => {
-    renders("calcite-segmented-control", { display: "flex" });
-  });
-
   describe("labelable", () => {
     labelable(
       html`<calcite-segmented-control>
@@ -405,10 +393,6 @@ describe("calcite-segmented-control", () => {
     });
   });
 
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-segmented-control`);
-  });
-
   describe("is form-associated", () => {
     describe("unselected value", () => {
       formAssociated(
@@ -435,10 +419,6 @@ describe("calcite-segmented-control", () => {
         { testValue: 2 },
       );
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-segmented-control");
   });
 
   describe("theme", () => {

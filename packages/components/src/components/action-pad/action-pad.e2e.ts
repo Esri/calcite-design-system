@@ -1,34 +1,13 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  focusable,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-action-pad", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-pad", { display: "block" });
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-action-pad>
-        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-      </calcite-action-pad>`,
-      "calcite-action-group",
-    );
-  });
 
   describe("messageOverrides", () => {
     it("should honor expandLabel and collapseLabel", async () => {
@@ -218,10 +197,6 @@ describe("calcite-action-pad", () => {
     );
   });
 
-  describe("slots", () => {
-    slots("calcite-action-pad", SLOTS);
-  });
-
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-pad>
@@ -273,10 +248,6 @@ describe("calcite-action-pad", () => {
     const button = await buttonGroup.find("calcite-action");
 
     expect(await button.getProperty("scale")).toBe("l");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action-pad");
   });
 
   it("should set layout on child action-groups", async () => {

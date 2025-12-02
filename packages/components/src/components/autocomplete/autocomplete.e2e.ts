@@ -1,23 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  internalLabel,
-  labelable,
-  openClose,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import { Autocomplete } from "./autocomplete";
 
 const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete"></calcite-autocomplete>`;
@@ -98,10 +85,6 @@ const simpleGroupHTML = html`
 `;
 
 describe("calcite-autocomplete", () => {
-  describe("renders", () => {
-    renders("calcite-autocomplete", { display: "block" });
-  });
-
   it("should emit calciteAutocompleteItemSelect", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
@@ -123,14 +106,6 @@ describe("calcite-autocomplete", () => {
     await page.waitForChanges();
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(2);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-autocomplete");
-  });
-
-  describe("slots", () => {
-    slots("calcite-autocomplete", SLOTS);
   });
 
   describe("theme", () => {
@@ -252,16 +227,8 @@ describe("calcite-autocomplete", () => {
     });
   });
 
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
-  });
-
   describe("is focusable", () => {
     focusable("calcite-autocomplete");
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-autocomplete`);
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

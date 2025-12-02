@@ -2,37 +2,16 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  focusable,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import type { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-action-bar", { display: "inline-flex" });
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-action-bar>
-        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-      </calcite-action-bar>`,
-      "calcite-action-group",
-    );
-  });
 
   describe("messageOverrides", () => {
     it("should honor expandLabel and collapseLabel", async () => {
@@ -286,10 +265,6 @@ describe("calcite-action-bar", () => {
     });
   });
 
-  describe("slots", () => {
-    slots("calcite-action-bar", SLOTS);
-  });
-
   it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -461,10 +436,6 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(2);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action-bar");
   });
 
   it("should set layout on child action-groups", async () => {

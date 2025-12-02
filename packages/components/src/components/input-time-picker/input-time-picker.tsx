@@ -19,11 +19,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -42,6 +37,7 @@ import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -57,7 +53,7 @@ declare global {
  */
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
+  implements FormComponent, LabelableComponent, TimeComponent
 {
   //#region Static Members
 
@@ -103,6 +99,8 @@ export class InputTimePicker
   private secondRef = createRef<HTMLSpanElement>();
 
   private time = useTime(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -296,7 +294,7 @@ export class InputTimePicker
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -323,10 +321,6 @@ export class InputTimePicker
         this.previousEmittedValue = this.value;
       }
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -562,7 +556,7 @@ export class InputTimePicker
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -726,7 +720,7 @@ export class InputTimePicker
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

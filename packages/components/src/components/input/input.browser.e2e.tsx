@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel, renders, t9n } from "../../tests/commonTests/browser";
 import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input", () => {
@@ -77,5 +78,17 @@ describe("calcite-input", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input"));
+  });
+
+  describe("internal label", () => {
+    internalLabel(() => mount(`calcite-input`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-input"), { display: "block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input"));
   });
 });

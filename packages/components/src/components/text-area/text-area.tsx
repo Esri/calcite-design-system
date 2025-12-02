@@ -23,11 +23,6 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -38,6 +33,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
@@ -57,11 +53,7 @@ declare global {
  */
 export class TextArea
   extends LitElement
-  implements
-    FormComponent,
-    LabelableComponent,
-    InteractiveComponent,
-    Omit<TextualInputComponent, "pattern">
+  implements FormComponent, LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
   //#region Static Members
 
@@ -143,6 +135,8 @@ export class TextArea
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -340,7 +334,6 @@ export class TextArea
   }
 
   override updated(): void {
-    updateHostInteraction(this);
     this.setTextAreaHeight();
   }
 
@@ -479,7 +472,7 @@ export class TextArea
   override render(): JsxNode {
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.wrapper}>
           {this.labelText && (
             <InternalLabel
@@ -566,7 +559,7 @@ export class TextArea
             />
           ) : null}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

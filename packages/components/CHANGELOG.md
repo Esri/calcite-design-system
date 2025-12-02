@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.12...@esri/calcite-components@5.0.0-next.13) (2025-11-27)
+
+### Features
+
+- **date-picker, input-date-picker:** add support for fr-CA ([#13371](https://github.com/Esri/calcite-design-system/issues/13371)) ([d4c69cb](https://github.com/Esri/calcite-design-system/commit/d4c69cb8ae375b35fbcc273b0b3c0940b3204ef8)), closes [#12739](https://github.com/Esri/calcite-design-system/issues/12739) [/github.com/Esri/calcite-design-system/pull/8402/commits/ddf6fb4abf14ddbf9c9f8addfcab3dc0ab01ca37#diff-7f7f554f952d5de6f34edd99045e2b733eb94356893329e036739cc9bec594d2L117](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8402/commits/ddf6fb4abf14ddbf9c9f8addfcab3dc0ab01ca37/issues/diff-7f7f554f952d5de6f34edd99045e2b733eb94356893329e036739cc9bec594d2L117)
+
+## [5.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.11...@esri/calcite-components@5.0.0-next.12) (2025-11-26)
+
+### Features
+
+- apply user-provided locale (`lang`) and supported t9n locale in appropriate contexts ([#13315](https://github.com/Esri/calcite-design-system/issues/13315)) ([c054ecd](https://github.com/Esri/calcite-design-system/commit/c054ecdd5c9d98d9c98852d49448b5abff311aa5)), closes [#12739](https://github.com/Esri/calcite-design-system/issues/12739)
+- **input-time-picker:** support French Canadian (fr-CA) locale ([#13355](https://github.com/Esri/calcite-design-system/issues/13355)) ([7307cd0](https://github.com/Esri/calcite-design-system/commit/7307cd06ca36fcf9a05b5be4d394dd5a2a96c053)), closes [#12723](https://github.com/Esri/calcite-design-system/issues/12723)
+
+## [5.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.10...@esri/calcite-components@5.0.0-next.11) (2025-11-25)
+
+### Bug Fixes
+
+- **combobox, filter, list:** stop warning when filtering on empty data source ([#13352](https://github.com/Esri/calcite-design-system/issues/13352)) ([c46edb0](https://github.com/Esri/calcite-design-system/commit/c46edb0673941a9efb03305e834c2a58439e0ab9)), closes [#12264](https://github.com/Esri/calcite-design-system/issues/12264)
+
+## [5.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.9...@esri/calcite-components@5.0.0-next.10) (2025-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **input:** The deprecated `textarea` type was removed. Developers
+  should use `calcite-text-area` instead.
+
+### Code Refactoring
+
+- **input:** drop `textarea` type ([#13359](https://github.com/Esri/calcite-design-system/issues/13359)) ([f350d50](https://github.com/Esri/calcite-design-system/commit/f350d50d90431facaa5557a125573fd740db2eca)), closes [#13079](https://github.com/Esri/calcite-design-system/issues/13079)
+
+## [5.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.8...@esri/calcite-components@5.0.0-next.9) (2025-11-25)
+
+### Features
+
+- **block:** add content-end slot ([#13348](https://github.com/Esri/calcite-design-system/issues/13348)) ([077852c](https://github.com/Esri/calcite-design-system/commit/077852c10a539418ad77d4ff31d8ff6740ed867b)), closes [#10714](https://github.com/Esri/calcite-design-system/issues/10714)
+
+## [5.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.7...@esri/calcite-components@5.0.0-next.8) (2025-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- drop deprecated CDN namespace (#12546)
+
+### Build System
+
+- drop deprecated CDN namespace ([#12546](https://github.com/Esri/calcite-design-system/issues/12546)) ([b8f4346](https://github.com/Esri/calcite-design-system/commit/b8f4346188f5b3677bea4553375aefb2b4e2b05f)), closes [#13266](https://github.com/Esri/calcite-design-system/issues/13266)
+
+## [5.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.6...@esri/calcite-components@5.0.0-next.7) (2025-11-21)
+
+### Features
+
+- **card:** Update selection state styling for 5.0 ([#13341](https://github.com/Esri/calcite-design-system/issues/13341)) ([bcf0def](https://github.com/Esri/calcite-design-system/commit/bcf0deff33d2ffbb7cc86081008ab636e7ff3747)), closes [#10771](https://github.com/Esri/calcite-design-system/issues/10771)
+
 ## [5.0.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.5...@esri/calcite-components@5.0.0-next.6) (2025-11-19)
 
 ### ⚠ BREAKING CHANGES

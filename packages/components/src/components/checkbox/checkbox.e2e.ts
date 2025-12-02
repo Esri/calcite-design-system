@@ -6,10 +6,8 @@ import {
   disabled,
   focusable,
   formAssociated,
-  internalLabel,
   HYDRATED_ATTR,
   labelable,
-  t9n,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
@@ -181,10 +179,6 @@ describe("calcite-checkbox", () => {
     });
   });
 
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-checkbox`);
-  });
-
   describe("WCAG AA recommended minimum 24px click area", () => {
     const testCheckboxClick = async (scale: Scale, maxExtraPixels: number, direction: "ltr" | "rtl"): Promise<void> => {
       const page = await newE2EPage();
@@ -224,10 +218,6 @@ describe("calcite-checkbox", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-checkbox");
   });
 
   describe("theme", () => {

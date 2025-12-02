@@ -2,19 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  renders,
-  slots,
-  t9n,
-  themed,
-  handlesActionMenuPlacements,
-} from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
 
@@ -90,22 +81,6 @@ export const scrollingHeightStyle = "height: 200px;";
 describe("calcite-panel", () => {
   mockConsole();
 
-  describe("renders", () => {
-    renders("calcite-panel", { display: "flex" });
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-panel>
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-      </calcite-panel>
-    `);
-  });
-
-  describe("slots", () => {
-    slots("calcite-panel", SLOTS);
-  });
-
   describe("disabled", () => {
     describe("with scrolling content", () => {
       disabled(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
@@ -139,19 +114,6 @@ describe("calcite-panel", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-panel");
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-panel>
-        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      </calcite-panel>`,
-      "calcite-action-menu",
-    );
   });
 
   it("honors closed prop", async () => {

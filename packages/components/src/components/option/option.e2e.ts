@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import type { Option } from "./option";
 
 describe("calcite-option", () => {
-  describe("renders", () => {
-    renders("calcite-option", { display: "inline" });
-  });
-
   describe("accessible", () => {
     accessible("calcite-option");
   });

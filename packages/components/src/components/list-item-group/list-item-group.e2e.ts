@@ -1,13 +1,9 @@
 import { describe } from "vitest";
-import { renders, disabled, themed } from "../../tests/commonTests";
+import { disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-list-item-group", () => {
-  describe("renders", () => {
-    renders("calcite-list-item-group", { display: "flex" });
-  });
-
   describe("disabled", () => {
     disabled("calcite-list-item-group", { focusTarget: "none" });
   });

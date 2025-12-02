@@ -1,17 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  handlesActionMenuPlacements,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -21,16 +11,8 @@ import { CSS, IDS, SLOTS } from "./resources";
 describe("calcite-block", () => {
   mockConsole();
 
-  describe("renders", () => {
-    renders("calcite-block", { display: "flex" });
-  });
-
   describe("openClose", () => {
     openClose("calcite-block");
-  });
-
-  describe("slots", () => {
-    slots("calcite-block", SLOTS);
   });
 
   describe("accessible", () => {
@@ -78,24 +60,6 @@ describe("calcite-block", () => {
 
   describe("disabled", () => {
     disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-block>
-        <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
-      </calcite-block>`,
-      "calcite-action-menu",
-    );
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-block heading="heading" description="description">
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        <div class="content">content</div>
-      </calcite-block>
-    `);
   });
 
   it("has a loading state", async () => {
@@ -336,10 +300,6 @@ describe("calcite-block", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
-  describe("translation support", () => {
-    t9n("calcite-block");
-  });
-
   describe("theme", () => {
     describe("default", () => {
       themed(
@@ -352,6 +312,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {
@@ -431,6 +392,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {

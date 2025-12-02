@@ -11,7 +11,7 @@ import {
   MutableValidityState,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { GlobalTestProps } from "../utils/puppeteer";
+import { GlobalTestProps } from "../utils/interfaces";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./puppeteer/utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 

@@ -1,15 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, renders, themed } from "../../tests/commonTests";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
-  describe("renders", () => {
-    renders("calcite-fab", { display: "flex" });
-  });
-
   describe("disabled", () => {
     disabled("calcite-fab");
   });

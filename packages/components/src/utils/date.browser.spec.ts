@@ -23,7 +23,7 @@ import {
   prevMonth,
   sameDate,
 } from "./date";
-import { NumberingSystem, numberStringFormatter } from "./locale";
+import { numberStringFormatter } from "./locale";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -155,8 +155,8 @@ describe("format number", () => {
 
   it("preserves standard numerals", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as any,
+      locale: "en",
+      numberingSystem: "latn",
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });
@@ -174,8 +174,8 @@ describe("parse number", () => {
 
   it("correctly parses number string", () => {
     numberStringFormatter.numberFormatOptions = {
-      locale: "dummyLocale",
-      numberingSystem: "dummyNumberingSystem" as NumberingSystem,
+      locale: "en",
+      numberingSystem: "latn",
     };
     expect(numberStringFormatter.localize("123")).toEqual("123");
   });

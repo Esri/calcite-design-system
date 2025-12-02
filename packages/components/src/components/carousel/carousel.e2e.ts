@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, renders, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -10,20 +10,6 @@ import { centerItemsByBreakpoint, CSS } from "./resources";
 const customDuration = 1000;
 
 describe("calcite-carousel", () => {
-  describe("renders", () => {
-    renders(
-      html`<calcite-carousel label="Carousel example"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
-      {
-        display: "flex",
-      },
-    );
-  });
-
   describe("focusable", () => {
     focusable(
       html`<calcite-carousel label="Carousel example"
@@ -66,10 +52,6 @@ describe("calcite-carousel", () => {
         ></calcite-carousel
       >`,
     );
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-carousel");
   });
 
   describe("first render", () => {

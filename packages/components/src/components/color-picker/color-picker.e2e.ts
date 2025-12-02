@@ -1,18 +1,12 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, renders, t9n, themed } from "../../tests/commonTests";
-import {
-  findAll,
-  getElementRect,
-  getElementXY,
-  GlobalTestProps,
-  newProgrammaticE2EPage,
-  selectText,
-} from "../../tests/utils/puppeteer";
+import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, STATIC_DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { ColorValue } from "./interfaces";
 import { getColorFieldDimensions, getSliderWidth } from "./utils";
@@ -52,16 +46,8 @@ describe("calcite-color-picker", () => {
     accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
   });
 
-  describe("renders", () => {
-    renders("calcite-color-picker", { display: "inline-block" });
-  });
-
   describe("disabled", () => {
     disabled(html`<calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
-  });
-
-  describe("translation support", () => {
-    t9n("<calcite-color-picker></calcite-color-picker>");
   });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {

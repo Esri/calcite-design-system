@@ -1,7 +1,10 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { internalLabel, renders, floatingUIOwner, t9n } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   mockConsole();
@@ -117,5 +120,32 @@ describe("calcite-combobox", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-combobox"));
+  });
+
+  describe("internal label", () => {
+    internalLabel(() => mount(`calcite-combobox`));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-combobox"), { display: "block" });
+  });
+
+  describe("owns a floating-ui", () => {
+    floatingUIOwner(
+      () =>
+        mount(
+          <calcite-combobox>
+            <calcite-combobox-item icon="banana" id="one" text-label="One" value="one" />
+            <calcite-combobox-item icon="beaker" id="two" selected text-label="Two" value="two" />
+            <calcite-combobox-item id="three" text-label="Three" value="three" />
+          </calcite-combobox>,
+        ),
+      "open",
+      { shadowSelector: `.${CSS.floatingUIContainer}` },
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-combobox"));
   });
 });

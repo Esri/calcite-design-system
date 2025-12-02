@@ -1,9 +1,37 @@
+import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-notice", () => {
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-notice"));
+  });
+
+  function createNoticeContent(): JsxNode {
+    return (
+      <>
+        <div slot="title">Title Text</div>
+        <div slot="message">Message Text</div>
+        <calcite-link href="" slot="link">
+          Action
+        </calcite-link>
+      </>
+    );
+  }
+
+  describe("renders", () => {
+    renders(() => mount(<calcite-notice open>{createNoticeContent()}</calcite-notice>), {
+      display: "flex",
+    });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-notice"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-notice"));
   });
 });

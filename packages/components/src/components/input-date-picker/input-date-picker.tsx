@@ -42,23 +42,22 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
 import {
   getDateFormatSupportedLocale,
-  getSupportedLocale,
   getSupportedNumberingSystem,
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  applyLocaleOverride,
+} from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
@@ -72,6 +71,7 @@ import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -88,7 +88,7 @@ declare global {
  */
 export class InputDatePicker
   extends LitElement
-  implements FloatingUIComponent, FormComponent, InteractiveComponent, LabelableComponent
+  implements FloatingUIComponent, FormComponent, LabelableComponent
 {
   //#region Static Members
 
@@ -174,6 +174,8 @@ export class InputDatePicker
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -456,13 +458,6 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     this.setFilteredPlacements();
-
-    numberStringFormatter.numberFormatOptions = {
-      numberingSystem: this.numberingSystem,
-      locale: this.messages._lang,
-      useGrouping: false,
-    };
-
     connectFloatingUI(this);
   }
 
@@ -477,7 +472,7 @@ export class InputDatePicker
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledAndReadOnlyChange(this.disabled);
     }
@@ -524,10 +519,6 @@ export class InputDatePicker
     if (changes.has("messages")) {
       this.loadLocaleData();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -656,7 +647,7 @@ export class InputDatePicker
     };
 
     this.dateTimeFormat = new Intl.DateTimeFormat(
-      getDateFormatSupportedLocale(getSupportedLocale(this.messages._lang)),
+      getDateFormatSupportedLocale(applyLocaleOverride(this.messages._lang)),
       formattingOptions,
     );
   }
@@ -847,12 +838,16 @@ export class InputDatePicker
     if (isServer) {
       return;
     }
+
+    const locale = applyLocaleOverride(this.messages._lang);
+
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
-      locale: this.messages._lang,
+      locale,
       useGrouping: false,
     };
-    this.localeData = await getLocaleData(this.messages._lang);
+
+    this.localeData = await getLocaleData(locale);
     this.localizeInputValues();
   }
 
@@ -1098,7 +1093,7 @@ export class InputDatePicker
     };
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -1257,7 +1252,7 @@ export class InputDatePicker
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
