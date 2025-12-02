@@ -114,6 +114,7 @@
 
 :host([scale="s"][layout="horizontal"]) {
   .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
     padding-block: var(--calcite-spacing-xxs);
   }
 }
@@ -126,6 +127,7 @@
 
 :host([scale="m"][layout="horizontal"]) {
   .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
     padding-block: var(--calcite-spacing-sm);
   }
 }
@@ -138,6 +140,7 @@
 
 :host([scale="l"][layout="horizontal"]) {
   .container {
+    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
     padding-block: var(--calcite-spacing-sm-plus);
   }
 }

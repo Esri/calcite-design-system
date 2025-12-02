@@ -2,6 +2,7 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -42,6 +43,8 @@ export class ActionBar extends LitElement {
 
   private actions: Action["el"][] = [];
 
+  private containerRef = createRef<HTMLDivElement>();
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -68,8 +71,17 @@ export class ActionBar extends LitElement {
     const groupCount =
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
+    let bufferSize = groupCount;
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        const containerGap = getComputedStyle(this.containerRef.value).gap;
+        bufferSize += parseInt(containerGap);
+      }
+    }
+
     const overflowCount = getOverflowCount({
-      bufferSize: groupCount, // 1px border for each group
+      bufferSize, // 1px border for each group
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
@@ -413,7 +425,7 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container}>
+      <div class={CSS.container} ref={this.containerRef}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>
