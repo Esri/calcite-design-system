@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, HYDRATED_ATTR, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -455,10 +455,6 @@ describe("calcite-button", () => {
 
     it("submits", async () => assertOnFormButtonType("submit"));
     it("resets", async () => assertOnFormButtonType("reset"));
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-button");
   });
 
   describe("automatic tooltip", () => {

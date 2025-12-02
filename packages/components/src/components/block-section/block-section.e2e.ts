@@ -1,15 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
-  describe("translation support", () => {
-    t9n("calcite-block-section");
-  });
-
   describe("toggle-display = 'switch'", () => {
     describe("accessible", () => {
       accessible(html`

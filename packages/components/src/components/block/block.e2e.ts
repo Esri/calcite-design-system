@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -263,10 +263,6 @@ describe("calcite-block", () => {
     expect(await item.getProperty("expanded")).toBe(false);
     expect(expandSpy).toHaveReceivedEventTimes(1);
     expect(collapseSpy).toHaveReceivedEventTimes(1);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-block");
   });
 
   describe("theme", () => {

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -28,10 +28,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-list", () => {
-  describe("translation support", () => {
-    t9n("calcite-list");
-  });
-
   describe("accessible", () => {
     accessible(
       html`<calcite-list>

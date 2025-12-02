@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -90,5 +91,9 @@ describe("calcite-color-picker", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-color-picker"), { display: "inline-block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-color-picker"));
   });
 });

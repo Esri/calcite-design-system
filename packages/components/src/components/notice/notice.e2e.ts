@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -92,10 +92,6 @@ describe("calcite-notice", () => {
     await noticeClose1.click();
     await page.waitForTimeout(animationDurationInMs);
     expect(await notice1.isVisible()).not.toBe(true);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-notice");
   });
 
   describe("theme", () => {

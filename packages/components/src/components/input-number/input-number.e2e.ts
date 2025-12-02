@@ -3,7 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { disabled, formAssociated, labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -1799,10 +1799,6 @@ describe("calcite-input-number", () => {
   });
 
   testWorkaroundForGlobalPropRemoval("calcite-input-number");
-
-  describe("translation support", () => {
-    t9n("calcite-input-number");
-  });
 
   it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();

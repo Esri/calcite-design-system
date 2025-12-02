@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -41,10 +41,6 @@ describe("calcite-carousel", () => {
         ></calcite-carousel
       >`,
     );
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-carousel");
   });
 
   describe("first render", () => {

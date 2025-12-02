@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -449,10 +449,6 @@ describe("calcite-radio-button-group", () => {
     await group.callMethod("setFocus");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-radio-button-group");
   });
 
   describe("theme", () => {

@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-list", () => {
@@ -135,5 +136,9 @@ describe("calcite-list", () => {
         focusTargetSelector: "calcite-list-item",
       },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-list"));
   });
 });

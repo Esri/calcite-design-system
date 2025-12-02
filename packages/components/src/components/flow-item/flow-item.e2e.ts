@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
@@ -69,10 +69,6 @@ describe("calcite-flow-item", () => {
         </calcite-flow-item>
       `);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-flow-item");
   });
 
   it("showBackButton", async () => {

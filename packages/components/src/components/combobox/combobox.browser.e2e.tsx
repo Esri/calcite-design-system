@@ -6,6 +6,7 @@ import {
   internalLabel,
   renders,
   floatingUIOwner,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -159,5 +160,9 @@ describe("calcite-combobox", () => {
       "open",
       { shadowSelector: `.${CSS.floatingUIContainer}` },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-combobox"));
   });
 });

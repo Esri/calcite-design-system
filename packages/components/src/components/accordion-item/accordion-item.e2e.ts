@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS } from "./resources";
 
@@ -175,10 +175,6 @@ describe("calcite-accordion-item", () => {
     await page.waitForChanges();
 
     expect(headerContent.getAttribute("aria-expanded")).toBe("true");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-accordion-item");
   });
 
   it("should emit expanded/collapsed events when toggled", async () => {

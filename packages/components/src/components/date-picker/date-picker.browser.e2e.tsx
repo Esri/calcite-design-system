@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-date-picker", () => {
   describe("defaults", () => {
@@ -35,5 +35,9 @@ describe("calcite-date-picker", () => {
     focusable(() => mount("calcite-date-picker"), {
       shadowFocusTargetSelector: "calcite-date-picker-month",
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-date-picker"));
   });
 });

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -1115,10 +1115,6 @@ describe("calcite-time-picker", () => {
       const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
       expect(meridiemStart).toBeTruthy();
     });
-  });
-
-  describe("translation support", () => {
-    t9n("<calcite-time-picker></calcite-time-picker>");
   });
 
   it("toggles seconds display when step is < 60", async () => {

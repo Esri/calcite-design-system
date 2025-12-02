@@ -4,10 +4,11 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
   focusable,
+  hidden,
   internalLabel,
   reflects,
   renders,
-  hidden,
+  t9n,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
@@ -144,5 +145,9 @@ describe("calcite-segmented-control", () => {
         ),
       { display: "flex" },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-segmented-control"));
   });
 });

@@ -9,6 +9,7 @@ import {
   slots,
   handlesActionMenuPlacements,
   focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -100,5 +101,9 @@ describe("calcite-action-group", () => {
 
   describe("focusable", () => {
     focusable(() => mount(renderActionGroup), { shadowFocusTargetSelector: "calcite-action" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-action-group"));
   });
 });

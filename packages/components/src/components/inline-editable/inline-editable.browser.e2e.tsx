@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-inline-editable", () => {
   describe("defaults", () => {
@@ -44,5 +44,9 @@ describe("calcite-inline-editable", () => {
         focusTargetSelector: "calcite-input",
       },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-inline-editable"));
   });
 });

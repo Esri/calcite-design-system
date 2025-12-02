@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -114,10 +114,6 @@ describe("calcite-panel", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-panel");
   });
 
   it("honors closed prop", async () => {

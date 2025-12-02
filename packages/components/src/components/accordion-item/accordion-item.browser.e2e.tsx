@@ -2,11 +2,12 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
+  focusable,
   reflects,
   hidden,
   renders,
   slots,
-  focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
@@ -57,5 +58,9 @@ describe("calcite-accordion-item", () => {
 
   describe("is focusable", () => {
     focusable(() => mount("calcite-accordion-item"));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-accordion-item"));
   });
 });

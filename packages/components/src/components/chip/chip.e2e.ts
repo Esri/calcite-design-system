@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -114,10 +114,6 @@ describe("calcite-chip", () => {
     await page.waitForChanges();
 
     expect(await chipEl.isVisible()).toBe(false);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-chip");
   });
 
   describe("themed", () => {

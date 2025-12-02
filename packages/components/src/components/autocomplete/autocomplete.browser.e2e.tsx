@@ -7,6 +7,7 @@ import {
   renders,
   slots,
   floatingUIOwner,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -267,5 +268,9 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.floatingUIContainer}`,
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-autocomplete"));
   });
 });

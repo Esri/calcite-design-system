@@ -1,8 +1,15 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
 describe("calcite-select", () => {
@@ -66,5 +73,9 @@ describe("calcite-select", () => {
 
   describe("is focusable", () => {
     focusable(() => mount(renderSelect));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-select"));
   });
 });

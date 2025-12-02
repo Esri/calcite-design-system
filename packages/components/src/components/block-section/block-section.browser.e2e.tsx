@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
@@ -85,5 +92,9 @@ describe("calcite-block-section", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-block-section"), { display: "block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-block-section"));
   });
 });

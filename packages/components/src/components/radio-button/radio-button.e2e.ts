@@ -556,19 +556,5 @@ describe("calcite-radio-button", () => {
         ],
       });
     });
-    describe("deprecated", () => {
-      themed(html`<calcite-radio-button></calcite-radio-button>`, {
-        "--calcite-radio-size": [
-          {
-            targetProp: "blockSize",
-            shadowSelector: `.${CSS.radio}`,
-          },
-          {
-            targetProp: "inlineSize",
-            shadowSelector: `.${CSS.radio}`,
-          },
-        ],
-      });
-    });
   });
 });

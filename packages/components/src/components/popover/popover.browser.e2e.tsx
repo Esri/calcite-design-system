@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   floatingUIOwner,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -144,5 +145,9 @@ describe("calcite-popover", () => {
         { shadowSelector: `.${CSS.positionContainer}` },
       );
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-popover"));
   });
 });

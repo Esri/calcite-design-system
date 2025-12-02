@@ -10,6 +10,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   handlesActionMenuPlacements,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -190,5 +191,9 @@ describe("calcite-block", () => {
         ),
       );
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-block"));
   });
 });

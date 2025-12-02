@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -383,10 +383,6 @@ describe("calcite-inline-editable", () => {
     });
   });
 
-  describe("translation support", () => {
-    t9n("calcite-inline-editable");
-  });
-
   describe("theme", () => {
     themed("calcite-inline-editable", {
       "--calcite-inline-editable-background-color-hover": {
@@ -422,20 +418,6 @@ describe("calcite-inline-editable", () => {
           shadowSelector: `.${CSS.confirmChangesButton}`,
           targetProp: "--calcite-button-loader-color",
         },
-        "--calcite-inline-editable-button-shadow-color": [
-          {
-            shadowSelector: `.${CSS.enableEditingButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-          {
-            shadowSelector: `.${CSS.cancelEditingButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-          {
-            shadowSelector: `.${CSS.confirmChangesButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-        ],
         "--calcite-inline-editable-button-text-color": [
           {
             shadowSelector: `.${CSS.enableEditingButton}`,

@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-sort-handle", () => {
   describe("defaults", () => {
@@ -54,5 +61,9 @@ describe("calcite-sort-handle", () => {
 
   describe("focusable", () => {
     focusable(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-sort-handle"));
   });
 });

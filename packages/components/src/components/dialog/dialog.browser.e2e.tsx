@@ -5,11 +5,12 @@ import { page } from "@vitest/browser/context";
 import { TemplateResult } from "lit/html.js";
 import {
   defaults,
+  focusable,
   reflects,
   hidden,
   renders,
   slots,
-  focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -240,5 +241,9 @@ describe("calcite-dialog", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-dialog"));
   });
 });

@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   focusable,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -66,5 +67,9 @@ describe("calcite-filter", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-filter"), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-filter"));
   });
 });

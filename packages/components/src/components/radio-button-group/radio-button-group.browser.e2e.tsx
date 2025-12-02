@@ -2,8 +2,15 @@ import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "@vitest/browser/context";
-import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
 
@@ -136,5 +143,9 @@ describe("calcite-radio-button-group", () => {
         ),
       { focusTargetSelector: "calcite-radio-button" },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-radio-button-group"));
   });
 });
