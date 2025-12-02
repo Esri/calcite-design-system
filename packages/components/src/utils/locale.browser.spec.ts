@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { describe, expect, it, beforeEach, MockInstance } from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { supportedNlsLocales } from "../components/date-picker/utils";
 import {
@@ -152,9 +152,6 @@ describe("getDateTimeFormat()", () => {
   beforeEach(() => dateTimeFormatCache?.clear());
 
   it("generates an instance of DateTimeFormat by locale", () => {
-    // we mock formatters in setup to workaround CI default language resolution issue (`en-US@posix` instead of `en-US`)
-    (Intl.DateTimeFormat as unknown as MockInstance).mockRestore();
-
     const enDateTimeFormat = getDateTimeFormat("en");
     expect(enDateTimeFormat).toBeInstanceOf(Intl.DateTimeFormat);
     expect(enDateTimeFormat.resolvedOptions().locale).toBe("en");
