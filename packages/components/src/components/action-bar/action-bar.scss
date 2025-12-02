@@ -31,7 +31,6 @@
   @apply inline-flex
   flex-col
   flex-auto;
-  gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
 }
 
