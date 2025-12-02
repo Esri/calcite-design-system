@@ -80,9 +80,12 @@ export class ActionBar extends LitElement {
         parseInt(actionBarContainerStyle.paddingInlineEnd);
 
       if (this.actionGroups.length > 0) {
-        this.actionGroups.forEach((actionGroup) => {
-          bufferSize +=
-            parseInt(getComputedStyle(actionGroup).gap) * actionGroup.children.length - 1;
+        this.actionGroups.forEach((actionGroup, i) => {
+          const actionGroupStyle = getComputedStyle(actionGroup);
+          bufferSize += parseInt(actionGroupStyle.gap) * actionGroup.children.length - 1;
+          if (i < this.actionGroups.length - 1) {
+            bufferSize += parseInt(actionGroupStyle.paddingInlineEnd);
+          }
         });
       }
     }
