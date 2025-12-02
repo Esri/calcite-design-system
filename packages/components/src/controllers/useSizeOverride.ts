@@ -15,58 +15,73 @@ interface SizeOverrideContext {
 
 export interface UseSizeOverride {
   /**
-   * Applies (or clears) an inline/block size override.
+   * Applies (or clears) an inline/block size override in one call.
    * Pass size = null to clear the inline style so normal styling (design tokens or other CSS) reasserts.
    *
    * When to use:
    * User resizing (drag/keyboard) sets an inline size that overrides token-defined defaults.
    * This helper lets code adjust or remove that override so tokens can take effect again.
    *
-   * Clamping:
-   * Min/max define the allowed range. Any requested size outside that range gets clamped before rounding.
+   * Min/max define the allowed range. Any requested size outside that range gets clamped.
    *
    */
-  resize: (size: number | null, axis: Axis) => void;
+  resize: (
+    size: number | null,
+    axis: Axis,
+  ) => {
+    inline?: number | null;
+    block?: number | null;
+  };
 }
 
 /**
- * Creates a controller that manages inline size overrides on a host element.
- *
- * Apply or clear an inline/block override (size=null clears and restores tokens).
- * User drag/keyboard sets an inline override; call to change or remove it.
- * Returns applied (clamped/rounded) pixels so hosts can sync internal state.
+ * Creates a controller that manages size overrides on a host element.
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
+    const applyAxis = (
+      requestedSize: number | null | undefined,
+      axis: Axis,
+      el: HTMLElement | null,
+    ): number | null | undefined => {
+      if (requestedSize === undefined) {
+        return undefined;
+      }
+
+      const prop = axis === "block" ? "block-size" : "inline-size";
+
+      if (requestedSize === null) {
+        el?.style.removeProperty(prop);
+        return null;
+      }
+
+      let clampedSize = requestedSize;
+      const { min, max } = context.getBounds?.(axis) ?? { min: null, max: null };
+      if (min !== null) {
+        clampedSize = Math.round(Math.max(clampedSize, min));
+      }
+      if (max !== null) {
+        clampedSize = Math.round(Math.min(clampedSize, max));
+      }
+
+      el?.style.setProperty(prop, `${Math.round(clampedSize)}px`);
+      return clampedSize;
+    };
+
     return {
-      resize(size: number | null, axis: Axis): void {
+      resize(sizes) {
         const el = context.targetElement();
-        if (!el) {
-          return;
+        const inline = applyAxis(sizes.inline, "inline", el);
+        const block = applyAxis(sizes.block, "block", el);
+
+        const result: { inline?: number | null; block?: number | null } = {};
+        if (inline !== undefined) {
+          result.inline = inline;
         }
-
-        let boundSize = size;
-
-        const { min, max } = context.getBounds?.(axis) ?? { min: null, max: null };
-
-        if (boundSize !== null) {
-          if (min !== null) {
-            boundSize = Math.max(boundSize, min);
-          }
-          if (max !== null) {
-            boundSize = Math.min(boundSize, max);
-          }
+        if (block !== undefined) {
+          result.block = block;
         }
-
-        const applied = boundSize === null ? null : Math.round(boundSize);
-        const cssProp = axis === "block" ? "block-size" : "inline-size";
-
-        if (applied === null) {
-          el.style.removeProperty(cssProp);
-        } else {
-          el.style.setProperty(cssProp, `${applied}px`);
-        }
-        return applied;
+        return result;
       },
     };
   });

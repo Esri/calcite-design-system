@@ -20,7 +20,6 @@ import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import { AxisConst } from "../resources";
-import { Axis } from "../interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
@@ -150,13 +149,8 @@ export class ShellPanel extends LitElement {
   //#region Public Methods
 
   @method()
-  async updateSize(size: number | null, axis: Axis): Promise<void> {
-    if (!this.contentRef.value) {
-      return;
-    }
-    const applied = this.sizeOverride.resize(size, axis);
-    const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
-    this.resizeValues = { ...this.resizeValues, [key]: applied };
+  async updateSize(sizes: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.syncResizeFromController(sizes);
   }
 
   //#endregion
@@ -208,13 +202,26 @@ export class ShellPanel extends LitElement {
     return this.contentRef.value.getBoundingClientRect();
   }
 
-  private applyAxisSize(size: number | null, axis: Axis): void {
+  private syncResizeFromController(sizes: { inline?: number | null; block?: number | null }): void {
     if (!this.contentRef.value) {
       return;
     }
-    const applied = this.sizeOverride.resize(size, axis);
-    const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
-    this.resizeValues = { ...this.resizeValues, [key]: applied };
+
+    const appliedSizes = this.sizeOverride.resize(sizes);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSizes.inline !== undefined && {
+        inlineSize: appliedSizes.inline,
+      }),
+      ...(appliedSizes.block !== undefined && {
+        blockSize: appliedSizes.block,
+      }),
+    };
+  }
+
+  private updateSizeInternal(sizes: { inline?: number | null; block?: number | null }): void {
+    this.syncResizeFromController(sizes);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -243,46 +250,44 @@ export class ShellPanel extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        this.applyAxisSize(
-          rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
-          AxisConst.block,
-        );
+        this.updateSizeInternal({
+          block:
+            rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
+        });
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.applyAxisSize(
-          rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
-          AxisConst.block,
-        );
+        this.updateSizeInternal({
+          block:
+            rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
+        });
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.applyAxisSize(
-          rect.width +
+        this.updateSizeInternal({
+          inline:
+            rect.width +
             (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
-          AxisConst.inline,
-        );
+        });
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize(
-          rect.width +
+        this.updateSizeInternal({
+          inline:
+            rect.width +
             (layout === "vertical" && position === "end" ? -stepValue : stepValue) * invertRTL,
-          AxisConst.inline,
-        );
+        });
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize(
-          layout === "horizontal" ? minBlockSize : minInlineSize,
-          layout === "horizontal" ? AxisConst.block : AxisConst.inline,
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: minBlockSize } : { inline: minInlineSize },
         );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize(
-          layout === "horizontal" ? maxBlockSize : maxInlineSize,
-          layout === "horizontal" ? AxisConst.block : AxisConst.inline,
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: maxBlockSize } : { inline: maxInlineSize },
         );
         event.preventDefault();
         break;
@@ -351,10 +356,7 @@ export class ShellPanel extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
-          this.updateSize(
-            isBlock ? rect.height : rect.width,
-            isBlock ? AxisConst.block : AxisConst.inline,
-          );
+          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });

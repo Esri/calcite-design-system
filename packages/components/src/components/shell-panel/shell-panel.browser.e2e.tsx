@@ -7,7 +7,6 @@ import "../panel/panel";
 import { userEvent } from "@vitest/browser/context";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { SLOTS } from "./resources";
 
@@ -111,11 +110,11 @@ describe("calcite-shell-panel", () => {
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
 
-        panel.updateSize(methodResize, "inline");
+        panel.updateSize({ inline: methodResize });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
 
-        panel.updateSize(null, "inline");
+        panel.updateSize({ inline: null });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
       });
@@ -129,11 +128,11 @@ describe("calcite-shell-panel", () => {
         handle.dispatchEvent(new PointerEvent("pointermove"));
         expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
 
-        panel.updateSize(methodResize, "inline");
+        panel.updateSize({ inline: methodResize });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
 
-        panel.updateSize(null, "inline");
+        panel.updateSize({ inline: null });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
       });
@@ -176,11 +175,11 @@ describe("calcite-shell-panel", () => {
         const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
         expect(afterKeyboard).not.toBe(initialToken);
 
-        panel.updateSize(methodResize, "block");
+        panel.updateSize({ block: methodResize });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
 
-        panel.updateSize(null, "block");
+        panel.updateSize({ block: null });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
       });
@@ -194,10 +193,10 @@ describe("calcite-shell-panel", () => {
         handle.dispatchEvent(new PointerEvent("pointermove"));
         expect(getComputedStyle(content).blockSize).not.toBe(initialToken);
 
-        panel.updateSize(methodResize, "block");
+        panel.updateSize({ block: methodResize });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
-        panel.updateSize(null, "block");
+        panel.updateSize({ block: null });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
       });
