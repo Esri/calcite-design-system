@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   slots,
+  handlesActionMenuPlacements,
   focusable,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -73,6 +74,19 @@ describe("calcite-action-group", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-group"), SLOTS);
+  });
+
+  describe("floating-ui", () => {
+    describe("handles action-menu placement and flipPlacements", () => {
+      handlesActionMenuPlacements(() =>
+        mount(
+          <calcite-action-group overlay-positioning="fixed" scale="l">
+            <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
+            <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
+          </calcite-action-group>,
+        ),
+      );
+    });
   });
 
   function renderActionGroup(): JsxNode {

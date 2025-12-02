@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   slots,
+  delegatesToFloatingUiOwningComponent,
   focusable,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -157,5 +158,17 @@ describe("calcite-flow-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-flow-item"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-flow-item>
+            <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
+          </calcite-flow-item>,
+        ),
+      "calcite-panel",
+    );
   });
 });

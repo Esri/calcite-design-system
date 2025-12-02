@@ -1,14 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  handlesActionMenuPlacements,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -32,24 +25,6 @@ describe("calcite-block", () => {
 
   describe("disabled", () => {
     disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-block>
-        <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
-      </calcite-block>`,
-      "calcite-action-menu",
-    );
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-block heading="heading" description="description">
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        <div class="content">content</div>
-      </calcite-block>
-    `);
   });
 
   it("has a loading state", async () => {

@@ -1,9 +1,15 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  focusable,
+  internalLabel,
+  renders,
+  floatingUIOwner,
+} from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   mockConsole();
@@ -137,6 +143,21 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item text-label="Spruce" value="Spruce" />
         </calcite-combobox>,
       ),
+    );
+  });
+
+  describe("owns a floating-ui", () => {
+    floatingUIOwner(
+      () =>
+        mount(
+          <calcite-combobox>
+            <calcite-combobox-item icon="banana" id="one" text-label="One" value="one" />
+            <calcite-combobox-item icon="beaker" id="two" selected text-label="Two" value="two" />
+            <calcite-combobox-item id="three" text-label="Three" value="three" />
+          </calcite-combobox>,
+        ),
+      "open",
+      { shadowSelector: `.${CSS.floatingUIContainer}` },
     );
   });
 });

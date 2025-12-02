@@ -1,15 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  formAssociated,
-  labelable,
-  openClose,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, labelable, openClose, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -238,10 +229,6 @@ describe("calcite-autocomplete", () => {
       testValue: "two",
       submitsOnEnter: true,
     });
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(simpleHTML, "open", { shadowSelector: `.${CSS.floatingUIContainer}` });
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

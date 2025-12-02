@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   slots,
+  delegatesToFloatingUiOwningComponent,
   focusable,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -97,5 +98,17 @@ describe("calcite-action-menu", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-menu"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-action-menu>
+            <calcite-action icon="plus" text="Plus" text-enabled />
+          </calcite-action-menu>,
+        ),
+      "calcite-popover",
+    );
   });
 });

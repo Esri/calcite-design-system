@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, delegatesToFloatingUiOwningComponent, disabled, t9n, themed } from "../../tests/commonTests";
+import { accessible, disabled, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
@@ -73,15 +73,6 @@ describe("calcite-flow-item", () => {
 
   describe("translation support", () => {
     t9n("calcite-flow-item");
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-flow-item>
-        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      </calcite-flow-item>`,
-      "calcite-panel",
-    );
   });
 
   it("showBackButton", async () => {

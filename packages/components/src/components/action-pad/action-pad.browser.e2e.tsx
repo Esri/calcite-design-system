@@ -7,6 +7,7 @@ import {
   hidden,
   renders,
   slots,
+  delegatesToFloatingUiOwningComponent,
   focusable,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -101,5 +102,17 @@ describe("calcite-action-pad", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-action-pad"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-action-pad>
+            <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+          </calcite-action-pad>,
+        ),
+      "calcite-action-group",
+    );
   });
 });

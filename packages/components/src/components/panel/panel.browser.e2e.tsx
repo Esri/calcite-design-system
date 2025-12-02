@@ -7,6 +7,8 @@ import {
   hidden,
   renders,
   slots,
+  handlesActionMenuPlacements,
+  delegatesToFloatingUiOwningComponent,
   focusable,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
@@ -213,5 +215,34 @@ describe("calcite-panel", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-panel"), SLOTS);
+  });
+
+  describe("floating-ui", () => {
+    describe("handles action-menu placement and flipPlacements", () => {
+      handlesActionMenuPlacements(() =>
+        mount(
+          <calcite-panel>
+            <calcite-action icon="banana" slot={SLOTS.headerMenuActions} text="test" />
+          </calcite-panel>,
+        ),
+      );
+    });
+
+    describe("delegates to floating-ui-owner component", () => {
+      delegatesToFloatingUiOwningComponent(
+        () =>
+          mount(
+            <calcite-panel>
+              <calcite-action
+                icon="measure"
+                slot="header-menu-actions"
+                text="measure"
+                text-enabled
+              />
+            </calcite-panel>,
+          ),
+        "calcite-action-menu",
+      );
+    });
   });
 });

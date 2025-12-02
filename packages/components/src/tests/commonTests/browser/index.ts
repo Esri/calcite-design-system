@@ -2,6 +2,7 @@ export { cancelable } from "./cancelable";
 export { defaults } from "./defaults";
 export { focusable } from "./focusable";
 export { hidden } from "./hidden";
+export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";
 export { internalLabel } from "./internal-label";
 export { reflects } from "./reflects";
 export { renders } from "./renders";
