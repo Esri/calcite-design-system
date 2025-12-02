@@ -1,13 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode, LitElement, h } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {
-  const setInternalStateSpy = vi.fn();
-
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
     resizeValues = { inlineSize: null, blockSize: null };
@@ -59,8 +56,10 @@ describe("useSizeOverride", async () => {
     expect(el.resizeValues.inlineSize).toBe(250);
   });
 
-  it("calls setInternalState with applied value", () => {
-    el.controller.resize(400, "inline");
-    expect(setInternalStateSpy).toHaveBeenCalledWith("inline", 400);
+  it("returns applied value and updates style", () => {
+    const applied = el.controller.resize(400, "inline");
+    expect(applied).toBe(400);
+    expect(el.ref.value!.style.width).toBe("400px");
+    expect(el.resizeValues.inlineSize).toBe(400);
   });
 });

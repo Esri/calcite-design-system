@@ -212,7 +212,9 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.resize(size, axis);
+    const applied = this.sizeOverride.resize(size, axis);
+    const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
+    this.resizeValues = { ...this.resizeValues, [key]: applied };
   }
 
   private handleKeyDown(event: KeyboardEvent): void {

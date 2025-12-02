@@ -10,11 +10,6 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly setInternalState?: (axis: Axis, value: number | null) => void;
-  /**
-   * Lazy getter for the element whose size will be overridden.
-   * Should return null until the element is available.
-   */
   readonly targetElement: () => HTMLElement | null;
 }
 
