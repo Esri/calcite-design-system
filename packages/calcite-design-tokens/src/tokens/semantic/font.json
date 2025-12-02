@@ -215,7 +215,7 @@
             }
           },
           "6xl": {
-            "value": "{core.size.rem.3-5}",
+            "value": "{core.size.rem.4}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -223,7 +223,7 @@
             }
           },
           "7xl": {
-            "value": "{core.size.rem.4}",
+            "value": "{core.size.rem.5}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",

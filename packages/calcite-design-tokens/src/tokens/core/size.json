@@ -314,6 +314,13 @@
             "category": "size"
           }
         },
+        "5": {
+          "value": "5rem",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
         "0-625": {
           "value": "0.625rem",
           "type": "sizing",
@@ -365,13 +372,6 @@
         },
         "2-5": {
           "value": "2.5rem",
-          "type": "sizing",
-          "attributes": {
-            "category": "size"
-          }
-        },
-        "3-5": {
-          "value": "3.5rem",
           "type": "sizing",
           "attributes": {
             "category": "size"
