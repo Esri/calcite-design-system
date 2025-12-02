@@ -435,20 +435,6 @@ describe("calcite-inline-editable", () => {
           shadowSelector: `.${CSS.confirmChangesButton}`,
           targetProp: "--calcite-button-loader-color",
         },
-        "--calcite-inline-editable-button-shadow-color": [
-          {
-            shadowSelector: `.${CSS.enableEditingButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-          {
-            shadowSelector: `.${CSS.cancelEditingButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-          {
-            shadowSelector: `.${CSS.confirmChangesButton}`,
-            targetProp: "--calcite-button-shadow-color",
-          },
-        ],
         "--calcite-inline-editable-button-text-color": [
           {
             shadowSelector: `.${CSS.enableEditingButton}`,
