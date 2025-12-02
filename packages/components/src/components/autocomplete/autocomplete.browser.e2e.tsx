@@ -1,7 +1,13 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, slots, floatingUIOwner } from "../../tests/commonTests/browser";
+import {
+  internalLabel,
+  renders,
+  slots,
+  floatingUIOwner,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -257,5 +263,9 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.floatingUIContainer}`,
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-autocomplete"));
   });
 });

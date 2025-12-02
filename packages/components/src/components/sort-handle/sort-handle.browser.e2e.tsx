@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-sort-handle", () => {
   describe("defaults", () => {
@@ -49,5 +49,9 @@ describe("calcite-sort-handle", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-sort-handle"), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-sort-handle"));
   });
 });

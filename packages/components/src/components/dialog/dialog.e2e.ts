@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, focusable, openClose, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -43,10 +43,6 @@ describe("calcite-dialog", () => {
   describe("openClose", () => {
     openClose("calcite-dialog");
     openClose.initial("calcite-dialog");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-dialog");
   });
 
   describe("accessible", () => {

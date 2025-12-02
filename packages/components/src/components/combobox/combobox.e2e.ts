@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, formAssociated, labelable, openClose, t9n } from "../../tests/commonTests";
+import { accessible, disabled, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -2417,10 +2417,6 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-combobox");
   });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {

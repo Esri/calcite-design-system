@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, floatingUIOwner } from "../../tests/commonTests/browser";
+import { internalLabel, renders, floatingUIOwner, t9n } from "../../tests/commonTests/browser";
 import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -143,5 +143,9 @@ describe("calcite-combobox", () => {
       "open",
       { shadowSelector: `.${CSS.floatingUIContainer}` },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-combobox"));
   });
 });

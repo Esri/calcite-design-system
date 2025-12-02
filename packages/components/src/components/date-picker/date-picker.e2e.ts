@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
-import { focusable, t9n } from "../../tests/commonTests";
+import { focusable } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
@@ -317,10 +317,6 @@ describe("calcite-date-picker", () => {
       const outOfRangeDay = await getDayById(page, dateIsoToDayId(afterMaxDateOnlyIso));
       expect(await outOfRangeDay.getProperty("disabled")).toBe(true);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-date-picker");
   });
 
   describe("ArrowKeys and PageKeys", () => {

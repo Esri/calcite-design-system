@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, t9n, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -98,10 +98,6 @@ describe("calcite-card", () => {
       expect(await checkbox.getProperty("checked")).toBe(true);
       expect(await card.getProperty("selected")).toBe(true);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-card");
   });
 
   it("should have aria-live attribute set to polite on loader container when loading", async () => {

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, focusable, disabled, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, disabled, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -394,10 +394,6 @@ describe("calcite-inline-editable", () => {
         );
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-inline-editable");
   });
 
   describe("theme", () => {
