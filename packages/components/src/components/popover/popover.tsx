@@ -363,7 +363,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
-    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -400,7 +399,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {
@@ -467,6 +465,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   onBeforeOpen(): void {
     this.calcitePopoverBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -482,6 +481,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.calcitePopoverClose.emit();
     hideFloatingUI(this);
     this.focusTrap.deactivate();
+    this.handlePopover();
   }
 
   private setArrowEl(el: SVGSVGElement): void {

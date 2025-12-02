@@ -552,7 +552,6 @@ export class Autocomplete
 
     this.setFloatingElSize();
     this.reposition(true);
-    this.handlePopover();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -580,6 +579,7 @@ export class Autocomplete
 
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -592,6 +592,7 @@ export class Autocomplete
 
   onClose(): void {
     this.calciteAutocompleteClose.emit();
+    this.handlePopover();
   }
 
   private emitChange(): void {
@@ -760,7 +761,6 @@ export class Autocomplete
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   //#endregion
