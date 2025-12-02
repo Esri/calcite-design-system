@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { JsxNode, LitElement } from "@arcgis/lumina";
+import { JsxNode, LitElement, h } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useSizeOverride } from "./useSizeOverride";
 
@@ -15,10 +15,6 @@ describe("useSizeOverride", async () => {
     controller = useSizeOverride({
       targetElement: () => this.ref.value,
       getBounds: (axis) => (axis === "inline" ? { min: 100, max: 500 } : { min: 60, max: 400 }),
-      setInternalState: (axis, value) => {
-        setInternalStateSpy(axis, value);
-        this.resizeValues[axis === "inline" ? "inlineSize" : "blockSize"] = value;
-      },
     });
 
     override render(): JsxNode {

@@ -37,10 +37,9 @@ export interface UseSizeOverride {
 /**
  * Creates a controller that manages inline size overrides on a host element.
  *
- * Typical usage: user drag/keyboard resizes, temporarily overriding token-defined defaults;
- * this helper lets code adjust or remove that override so tokens can take effect again.
- *
- * @param context
+ * Apply or clear an inline/block override (size=null clears and restores tokens).
+ * User drag/keyboard sets an inline override; call to change or remove it.
+ * Returns applied (clamped/rounded) pixels so hosts can sync internal state.
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
@@ -72,7 +71,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         } else {
           el.style.setProperty(cssProp, `${applied}px`);
         }
-        context.setInternalState?.(axis, applied);
+        return applied;
       },
     };
   });

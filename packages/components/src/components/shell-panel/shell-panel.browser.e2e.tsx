@@ -129,7 +129,7 @@ describe("calcite-shell-panel", () => {
         expect(getComputedStyle(content).width).toBe(`${methodResize}px`);
 
         panel.updateSize(null, "inline");
-        await panel.updateComplete;
+        await component.updateComplete;
         expect(getComputedStyle(content).width).toBe(`${initialToken}px`);
       });
     });

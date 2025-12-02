@@ -66,10 +66,6 @@ export class ShellPanel extends LitElement {
       axis === AxisConst.block
         ? { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize }
         : { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-    setInternalState: (axis, appliedSize) => {
-      const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
-      this.resizeValues = { ...this.resizeValues, [key]: appliedSize };
-    },
   });
 
   //#endregion
@@ -158,7 +154,9 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.resize(size, axis);
+    const applied = this.sizeOverride.resize(size, axis);
+    const key = axis === AxisConst.block ? "blockSize" : "inlineSize";
+    this.resizeValues = { ...this.resizeValues, [key]: applied };
   }
 
   //#endregion
