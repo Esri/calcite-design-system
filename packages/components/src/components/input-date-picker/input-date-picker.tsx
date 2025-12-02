@@ -42,11 +42,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -76,6 +71,7 @@ import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -92,7 +88,7 @@ declare global {
  */
 export class InputDatePicker
   extends LitElement
-  implements FloatingUIComponent, FormComponent, InteractiveComponent, LabelableComponent
+  implements FloatingUIComponent, FormComponent, LabelableComponent
 {
   //#region Static Members
 
@@ -178,6 +174,8 @@ export class InputDatePicker
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -521,10 +519,6 @@ export class InputDatePicker
     if (changes.has("messages")) {
       this.loadLocaleData();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -1099,7 +1093,7 @@ export class InputDatePicker
     };
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -1258,7 +1252,7 @@ export class InputDatePicker
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -9,11 +9,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
@@ -22,6 +17,7 @@ import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -32,17 +28,14 @@ declare global {
   }
 }
 
-export class Checkbox
-  extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class Checkbox extends LitElement implements LabelableComponent, CheckableFormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
@@ -71,9 +64,11 @@ export class Checkbox
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is checked. */
   @property({ reflect: true }) checked = false;
@@ -155,9 +150,9 @@ export class Checkbox
   /** The component's value. */
   @property() value: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -171,9 +166,9 @@ export class Checkbox
     return this.focusSetter(() => this.toggleRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's `checked` status changes. */
   calciteCheckboxChange = createEvent({ cancelable: false });
@@ -192,9 +187,9 @@ export class Checkbox
    */
   calciteInternalCheckboxFocus = createEvent<boolean>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -207,18 +202,14 @@ export class Checkbox
     connectForm(this);
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "checkbox";
@@ -256,15 +247,15 @@ export class Checkbox
     this.calciteInternalCheckboxFocus.emit(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
@@ -294,9 +285,9 @@ export class Checkbox
           />
         )}
         <HiddenFormInputSlot component={this} />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

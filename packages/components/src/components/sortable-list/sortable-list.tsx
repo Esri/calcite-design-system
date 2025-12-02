@@ -1,11 +1,6 @@
 // @ts-strict-ignore
 import Sortable from "sortablejs";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
@@ -17,6 +12,7 @@ import {
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { logger } from "../../utils/logger";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 
@@ -30,14 +26,14 @@ declare global {
  * @deprecated Use the `calcite-block-group` component instead.
  * @slot - A slot for adding sortable items.
  */
-export class SortableList extends LitElement implements InteractiveComponent, SortableComponent {
-  // #region Static Members
+export class SortableList extends LitElement implements SortableComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   dragEnabled = true;
 
@@ -49,9 +45,11 @@ export class SortableList extends LitElement implements InteractiveComponent, So
 
   sortable: Sortable;
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
   @property() canPull: (detail: DragDetail) => boolean;
@@ -82,16 +80,16 @@ export class SortableList extends LitElement implements InteractiveComponent, So
   /** When `true`, content is waiting to be loaded. This state shows a busy indicator. */
   @property({ reflect: true }) loading = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Emitted when the order of the list has changed. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -112,18 +110,14 @@ export class SortableList extends LitElement implements InteractiveComponent, So
     });
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectSortableComponent(this);
     this.endObserving();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
     this.handleNudgeEvent(event);
@@ -209,16 +203,16 @@ export class SortableList extends LitElement implements InteractiveComponent, So
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, layout } = this;
     const horizontal = layout === "horizontal" || false;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -228,9 +222,9 @@ export class SortableList extends LitElement implements InteractiveComponent, So
         >
           <slot />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }
