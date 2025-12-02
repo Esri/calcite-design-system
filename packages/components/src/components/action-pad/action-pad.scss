@@ -55,4 +55,55 @@
   }
 }
 
+:host([scale="s"]) {
+  .container {
+    gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-xxs));
+    padding: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-xxs);
+  }
+}
+:host([scale="s"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
+
+:host([scale="m"]) {
+  .container {
+    gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-sm));
+    padding: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-sm);
+  }
+}
+:host([scale="m"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    gap: var(--calcite-action-pad-items-space, var(--calcite-space-sm-plus));
+    padding: var(--calcite-spacing-sm-plus);
+  }
+}
+:host([scale="l"][layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-spacing-sm-plus);
+  }
+}
+:host([scale="l"][layout="horizontal"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-inline-end: var(--calcite-spacing-sm-plus);
+  }
+}
+
 @include includes.base-component();
