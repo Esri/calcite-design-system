@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, floatingUIOwner, focusable, openClose } from "../../tests/commonTests";
+import { accessible, disabled, focusable, openClose } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -1189,25 +1189,6 @@ describe("calcite-dropdown", () => {
 
       expect(dropdownContentHeight.height).toBe("fit-content");
     });
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      html`
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open</calcite-button>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `,
-      "open",
-      {
-        shadowSelector: ".wrapper",
-      },
-    );
   });
 
   describe("keyboard navigation", () => {

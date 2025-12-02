@@ -1,8 +1,9 @@
 import { h, Fragment } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, floatingUIOwner, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
   mockConsole();
@@ -87,5 +88,27 @@ describe("calcite-popover", () => {
         },
       );
     });
+  });
+
+  describe("floating-ui", () => {
+    describe("owns a floating-ui", () => {
+      floatingUIOwner(
+        () =>
+          mount(
+            <>
+              <calcite-popover placement="auto" reference-element="ref">
+                content
+              </calcite-popover>
+              <div id="ref">referenceElement</div>
+            </>,
+          ),
+        "open",
+        { shadowSelector: `.${CSS.positionContainer}` },
+      );
+    });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-popover"));
   });
 });
