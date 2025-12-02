@@ -32,8 +32,19 @@
   border-width: 0;
 }
 
+:host([scale="s"]) {
+  gap: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  gap: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  gap: var(--calcite-spacing-sm-plus);
+}
+
 .container {
   @apply flex flex-col flex-grow;
+  gap: inherit;
 }
 
 :host([columns="1"]) {

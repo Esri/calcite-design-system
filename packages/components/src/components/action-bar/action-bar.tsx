@@ -72,11 +72,24 @@ export class ActionBar extends LitElement {
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
     let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    if (layout === "horizontal") {
+      bufferSize +=
+        parseInt(actionBarContainerStyle.paddingInlineStart) +
+        parseInt(actionBarContainerStyle.paddingInlineEnd);
+
+      if (this.actionGroups.length > 0) {
+        this.actionGroups.forEach((actionGroup) => {
+          bufferSize +=
+            parseInt(getComputedStyle(actionGroup).gap) * actionGroup.children.length - 1;
+        });
+      }
+    }
 
     if (groupCount > 0) {
-      const containerGap = getComputedStyle(this.containerRef.value).gap;
       for (let i = 1; i < groupCount; i++) {
-        bufferSize += parseInt(containerGap);
+        bufferSize += parseInt(actionBarContainerStyle.gap);
       }
     }
 
