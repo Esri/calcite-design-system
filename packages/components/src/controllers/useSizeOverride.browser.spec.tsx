@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode, LitElement, h } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
