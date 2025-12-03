@@ -370,8 +370,22 @@
             "category": "size"
           }
         },
+        "1-625": {
+          "value": "1.625rem",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
         "2-5": {
           "value": "2.5rem",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
+        "3-5": {
+          "value": "3.5rem",
           "type": "sizing",
           "attributes": {
             "category": "size"

@@ -190,6 +190,15 @@
               "group": "size"
             }
           },
+          "2xl+": {
+            "value": "{core.size.rem.1-625}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            },
+            "description": "Deprecated, use `--calcite-font-size-relative-2xl` instead."
+          },
           "3xl": {
             "value": "{core.size.rem.2}",
             "type": "fontSizes",
@@ -213,6 +222,15 @@
               "category": "font",
               "group": "size"
             }
+          },
+          "5xl+": {
+            "value": "{core.size.rem.3-5}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            },
+            "description": "Deprecated, use `--calcite-font-size-relative-5xl` instead."
           },
           "6xl": {
             "value": "{core.size.rem.4}",
