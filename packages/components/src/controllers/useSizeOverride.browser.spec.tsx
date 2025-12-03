@@ -19,7 +19,7 @@ describe("useSizeOverride", async () => {
     }
   }
 
-  let el!: InstanceType<typeof Test>;
+  let el: HTMLElement;
 
   beforeEach(async () => {
     const mounted = await mount(Test);
