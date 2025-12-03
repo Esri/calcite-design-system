@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.14...@esri/calcite-components@5.0.0-next.15) (2025-12-03)
+
+### Features
+
+- **dropdown-item:** reduce height in small & medium scale. ([#13391](https://github.com/Esri/calcite-design-system/issues/13391)) ([6198029](https://github.com/Esri/calcite-design-system/commit/6198029724f25b607913e82a47909427957e2441)), closes [#10782](https://github.com/Esri/calcite-design-system/issues/10782)
+
 ## [5.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.13...@esri/calcite-components@5.0.0-next.14) (2025-12-03)
 
 ### ⚠ BREAKING CHANGES
