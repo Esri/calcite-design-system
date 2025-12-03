@@ -53,17 +53,21 @@ export const formatIndexFile: FormatFn = async (args) => {
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";
   const imports = args.options.imports.map((imp: string) => importUrl(imp, options.fileExtension)).join("");
-  const root = format === "css" ? `:root {${varLists.light}}` : "";
+
   const atMedia =
     format === "css"
       ? themes
           .map((theme) => `@media (prefers-color-scheme: ${theme}) {.calcite-mode-auto {${varLists[theme]}}}`)
           .join("")
       : "";
-  const platformClasses = themes
-    .map((theme) => `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`)
+
+  const [lightClasses, darkClasses] = themes.map(
+    (theme) => `${classGroupStrategy}calcite-mode-${theme} {${varLists[theme]}}`,
+  );
+
+  const content = [imports, format === "css" ? `:root, ${lightClasses}` : lightClasses, atMedia, darkClasses]
+    .filter((item) => !!item)
     .join("");
-  const content = [imports, root, atMedia, platformClasses].filter((item) => !!item).join("");
 
   return prettierSync.format(`${header}${content}`, {
     parser: format,
