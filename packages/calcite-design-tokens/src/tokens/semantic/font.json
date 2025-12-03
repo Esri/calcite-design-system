@@ -150,7 +150,7 @@
               "group": "size"
             }
           },
-          "default": {
+          "base": {
             "value": "{core.size.rem.0-875}",
             "type": "fontSizes",
             "attributes": {
@@ -417,7 +417,7 @@
             "kind": "relative"
           }
         },
-        "default": {
+        "base": {
           "value": "{core.size.rem.1}",
           "type": "lineHeights",
           "attributes": {
