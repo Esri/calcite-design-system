@@ -28,14 +28,13 @@
   @apply relative
     flex
     flex-grow
-    focus-base
-    items-center;
-  outline: none;
+    items-center
+    outline-none;
 }
 
 .container {
   @include item-styling;
-  @apply focus-base text-start;
+  @apply text-start;
 
   & a {
     outline: none;
