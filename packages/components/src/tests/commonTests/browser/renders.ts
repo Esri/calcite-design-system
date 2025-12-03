@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { type Locator, page } from "@vitest/browser/context";
+import { type Locator, page } from "vitest/browser";
 import { HYDRATED_ATTR } from "../utils";
 
 /**
