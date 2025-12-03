@@ -17,7 +17,7 @@ beforeEach(() => {
   const originalDateTimeFormat = Intl.DateTimeFormat;
   const originalNumberFormat = Intl.NumberFormat;
 
-  vi.spyOn(Intl, "DateTimeFormat").mockImplementation((locale, options?) => {
+  vi.spyOn(Intl, "DateTimeFormat").mockImplementation(function (locale, options?) {
     if (locale === "en-US@posix") {
       locale = "en-US";
     }
@@ -25,7 +25,7 @@ beforeEach(() => {
     return originalDateTimeFormat(locale, options);
   });
 
-  vi.spyOn(Intl, "NumberFormat").mockImplementation((locale, options) => {
+  vi.spyOn(Intl, "NumberFormat").mockImplementation(function (locale, options) {
     if (locale === "en-US@posix") {
       locale = "en-US";
     }
