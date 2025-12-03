@@ -1,11 +1,19 @@
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { LitElement } from "@arcgis/lumina";
 import { SetOptional } from "type-fest";
 import { GlobalTestProps } from "../tests/utils/interfaces";
 import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";
 
-const mockComponent = { el: { tagName: "CALCITE-FOO" } } as any;
+declare global {
+  interface DeclareElements {
+    "calcite-foo": CalciteFoo;
+  }
+}
+
+class CalciteFoo extends LitElement {}
 
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
@@ -24,9 +32,10 @@ describe("logger", () => {
   });
 
   describe("deprecated", () => {
-    it("helps log planned deprecations", () => {
+    it("helps log planned deprecations", async () => {
+      const { component } = await mount(CalciteFoo);
       const params = {
-        component: mockComponent,
+        component: component,
         name: "foo",
         removalVersion: 3,
       };
@@ -40,25 +49,27 @@ describe("logger", () => {
       );
     });
 
-    it("helps log future deprecations", () => {
-      const options = {
-        component: mockComponent,
+    it("helps log future deprecations", async () => {
+      const { component } = await mount(CalciteFoo);
+      const params = {
+        component: component,
         name: "foo",
         removalVersion: "future",
       };
 
       // @ts-expect-error -- using fake component names
-      logger.deprecated("component", options);
+      logger.deprecated("component", params);
 
       expect(console.warn).toHaveBeenCalled();
       expect((console.warn as Mock).mock.calls[0][2]).toMatch(
-        `[${options.name}] - This component is deprecated and will be removed in a future version.`,
+        `[${params.name}] - This component is deprecated and will be removed in a future version.`,
       );
     });
 
-    it("shows deprecation suggestions (single)", () => {
+    it("shows deprecation suggestions (single)", async () => {
+      const { component } = await mount(CalciteFoo);
       const params = {
-        component: mockComponent,
+        component: component,
         name: "foo",
         removalVersion: 3,
         suggested: "bar",
@@ -73,9 +84,10 @@ describe("logger", () => {
       );
     });
 
-    it("shows deprecation suggestions (multiple)", () => {
+    it("shows deprecation suggestions (multiple)", async () => {
+      const { component } = await mount(CalciteFoo);
       const params = {
-        component: mockComponent,
+        component: component,
         name: "foo",
         removalVersion: 3,
         suggested: ["bar", "baz"],
@@ -90,9 +102,10 @@ describe("logger", () => {
       );
     });
 
-    it("logs once per component", () => {
+    it("logs once per component", async () => {
+      const { component } = await mount(CalciteFoo);
       const params = {
-        component: mockComponent,
+        component: component,
         name: "foo",
         removalVersion: 3,
       };
