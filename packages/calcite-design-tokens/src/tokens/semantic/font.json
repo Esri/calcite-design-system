@@ -416,6 +416,114 @@
               "kind": "relative"
             }
           }
+        },
+        "xs": {
+          "value": "{core.size.rem.0-75}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "sm": {
+          "value": "{core.size.rem.1}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "default": {
+          "value": "{core.size.rem.1}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "md": {
+          "value": "{core.size.rem.1-25}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "lg": {
+          "value": "{core.size.rem.1-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "xl": {
+          "value": "{core.size.rem.1-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "2xl+": {
+          "value": "{core.size.rem.2}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "3xl": {
+          "value": "{core.size.rem.2-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "4xl": {
+          "value": "{core.size.rem.3}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "5xl": {
+          "value": "{core.size.rem.4}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "6xl": {
+          "value": "{core.size.rem.4}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "7xl": {
+          "value": "{core.size.rem.5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
         }
       },
       "letter-spacing": {
