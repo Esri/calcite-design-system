@@ -28,13 +28,13 @@
   @apply relative
     flex
     flex-grow
-    focus-base
-    items-center;
+    items-center
+    outline-none;
 }
 
 .container {
   @include item-styling;
-  @apply focus-base text-start;
+  @apply text-start;
 
   & a {
     outline: none;
@@ -43,7 +43,7 @@
 }
 
 .dropdown-item-content {
-  @apply flex-auto py-0.5;
+  @apply flex-auto;
 }
 
 // item icon
