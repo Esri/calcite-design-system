@@ -61,7 +61,7 @@
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
-@mixin action-indicator() {
+@mixin action-indicator($offset: -0.275rem) {
   position: relative;
   &::after {
     content: "";
@@ -69,8 +69,8 @@
       h-2
       w-2
       rounded-full;
-    inset-block-end: calc(-0.275rem);
-    inset-inline-end: calc(-0.275rem);
+    inset-block-end: calc($offset);
+    inset-inline-end: calc($offset);
     background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
   }
 }
@@ -277,10 +277,20 @@
 .indicator-with-icon {
   @include action-indicator();
 }
+:host([scale="s"]) {
+  .indicator-with-icon {
+    @include action-indicator(-0.075rem);
+  }
+}
 
 .indicator-without-icon {
   @apply w-4 mx-1;
   @include action-indicator();
+}
+:host([scale="s"]) {
+  .indicator-without-icon {
+    @include action-indicator(-0.075rem);
+  }
 }
 
 .indicator-text {
