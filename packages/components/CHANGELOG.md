@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.15...@esri/calcite-components@5.0.0-next.16) (2025-12-03)
+
+### Bug Fixes
+
+- remove invalid CSS files from component package exports ([#13401](https://github.com/Esri/calcite-design-system/issues/13401)) ([447e7fd](https://github.com/Esri/calcite-design-system/commit/447e7fdb77808376ae7a7d907b194a64c01ebb88))
+
 ## [5.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.14...@esri/calcite-components@5.0.0-next.15) (2025-12-03)
 
 ### Features
