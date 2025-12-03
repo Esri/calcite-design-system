@@ -25,10 +25,7 @@ export interface UseSizeOverride {
    * Min/max define the allowed range. Any requested size outside that range gets clamped.
    *
    */
-  resize: (
-    size: number | null,
-    axis: Axis,
-  ) => {
+  resize: (sizes: { inline?: number | null; block?: number | null }) => {
     inline?: number | null;
     block?: number | null;
   };
@@ -69,7 +66,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
     };
 
     return {
-      resize(sizes) {
+      resize(sizes: { inline?: number | null; block?: number | null }) {
         const el = context.targetElement();
         const inline = applyAxis(sizes.inline, "inline", el);
         const block = applyAxis(sizes.block, "block", el);
