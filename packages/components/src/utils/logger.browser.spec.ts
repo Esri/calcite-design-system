@@ -5,6 +5,8 @@ import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";
 
+const mockComponent = { el: { tagName: "CALCITE-FOO" } } as any;
+
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
 
@@ -24,6 +26,7 @@ describe("logger", () => {
   describe("deprecated", () => {
     it("helps log planned deprecations", () => {
       const params = {
+        component: mockComponent,
         name: "foo",
         removalVersion: 3,
       };
@@ -33,12 +36,13 @@ describe("logger", () => {
 
       expect(console.warn).toHaveBeenCalled();
       expect((console.warn as Mock).mock.calls[0][2]).toMatch(
-        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}.`,
+        `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}.`,
       );
     });
 
     it("helps log future deprecations", () => {
       const options = {
+        component: mockComponent,
         name: "foo",
         removalVersion: "future",
       };
@@ -48,12 +52,13 @@ describe("logger", () => {
 
       expect(console.warn).toHaveBeenCalled();
       expect((console.warn as Mock).mock.calls[0][2]).toMatch(
-        `[${options.name}] component is deprecated and will be removed in a future version.`,
+        `[${options.name}] - This component is deprecated and will be removed in a future version.`,
       );
     });
 
     it("shows deprecation suggestions (single)", () => {
       const params = {
+        component: mockComponent,
         name: "foo",
         removalVersion: 3,
         suggested: "bar",
@@ -64,12 +69,13 @@ describe("logger", () => {
 
       expect(console.warn).toHaveBeenCalled();
       expect((console.warn as Mock).mock.calls[0][2]).toMatch(
-        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
+        `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested}" instead.`,
       );
     });
 
     it("shows deprecation suggestions (multiple)", () => {
       const params = {
+        component: mockComponent,
         name: "foo",
         removalVersion: 3,
         suggested: ["bar", "baz"],
@@ -80,12 +86,13 @@ describe("logger", () => {
 
       expect(console.warn).toHaveBeenCalled();
       expect((console.warn as Mock).mock.calls[0][2]).toMatch(
-        `[${params.name}] component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
+        `[${params.name}] - This component is deprecated and will be removed in v${params.removalVersion}. Use "${params.suggested.join(`" or "`)}" instead.`,
       );
     });
 
     it("logs once per component", () => {
       const params = {
+        component: mockComponent,
         name: "foo",
         removalVersion: 3,
       };
