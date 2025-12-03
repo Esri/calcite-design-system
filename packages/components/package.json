@@ -82,7 +82,7 @@
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
-    "color": "^5.0.0",
+    "color": "^5.0.3",
     "composed-offset-position": "^0.0.6",
     "es-toolkit": "^1.39.8",
     "focus-trap": "^7.6.5",
