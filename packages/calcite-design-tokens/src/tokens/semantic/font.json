@@ -183,21 +183,12 @@
             }
           },
           "2xl": {
-            "value": "{core.size.rem.1-5}",
-            "type": "fontSizes",
-            "attributes": {
-              "category": "font",
-              "group": "size"
-            }
-          },
-          "2xl+": {
             "value": "{core.size.rem.1-625}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
               "group": "size"
-            },
-            "description": "Deprecated, use `--calcite-font-size-relative-2xl` instead."
+            }
           },
           "3xl": {
             "value": "{core.size.rem.2}",
@@ -223,17 +214,8 @@
               "group": "size"
             }
           },
-          "5xl+": {
-            "value": "{core.size.rem.3-5}",
-            "type": "fontSizes",
-            "attributes": {
-              "category": "font",
-              "group": "size"
-            },
-            "description": "Deprecated, use `--calcite-font-size-relative-5xl` instead."
-          },
           "6xl": {
-            "value": "{core.size.rem.4}",
+            "value": "{core.size.rem.3-5}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -241,7 +223,7 @@
             }
           },
           "7xl": {
-            "value": "{core.size.rem.5}",
+            "value": "{core.size.rem.4}",
             "type": "fontSizes",
             "attributes": {
               "category": "font",
@@ -471,7 +453,7 @@
             "kind": "relative"
           }
         },
-        "2xl+": {
+        "2xl": {
           "value": "{core.size.rem.2}",
           "type": "lineHeights",
           "attributes": {
