@@ -1,8 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
 import { TemplateResult } from "lit/html.js";
+import { page } from "vitest/browser";
 import {
   defaults,
   focusable,

@@ -1,4 +1,4 @@
-import { locators } from "@vitest/browser/context";
+import { type Locator, locators } from "vitest/browser";
 
 locators.extend({
   locator(selector: string): string {
@@ -6,7 +6,7 @@ locators.extend({
   },
 });
 
-declare module "@vitest/browser/context" {
+declare module "vitest/browser" {
   interface LocatorSelectors {
     /**
      * Selects an element using a standard CSS selector.

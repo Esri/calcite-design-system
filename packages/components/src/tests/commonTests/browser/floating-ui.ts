@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
+import { page } from "vitest/browser";
 import { css } from "../../../../support/formatting";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import { FlipPlacement } from "../../../utils/floating-ui";

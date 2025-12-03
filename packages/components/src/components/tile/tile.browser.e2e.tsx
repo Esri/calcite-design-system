@@ -1,14 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
+import { page } from "vitest/browser";
 import {
   defaults,
+  focusable,
   hidden,
   reflects,
   renders,
   slots,
-  focusable,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 

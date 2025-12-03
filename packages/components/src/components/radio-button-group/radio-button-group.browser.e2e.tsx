@@ -1,7 +1,7 @@
 import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "@vitest/browser/context";
+import { userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
