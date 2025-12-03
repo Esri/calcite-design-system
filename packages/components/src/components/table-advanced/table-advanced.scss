@@ -59,12 +59,14 @@
     .tabulator-table {
       color: var(--calcite-table-advanced-text-color, var(--calcite-color-text-1));
 
-      .tabulator-row:not(.tabulator-selected) {
-        background-color: var(--calcite-table-advanced-row-background-color, #ffff);
-
+      .tabulator-row {
         .tabulator-cell {
           border-inline-end: 1px solid var(--calcite-table-advanced-border-color, var(--calcite-color-border-1));
         }
+      }
+
+      .tabulator-row:not(.tabulator-selected) {
+        background-color: var(--calcite-table-advanced-row-background-color, #ffff);
       }
 
       .tabulator-row.tabulator-selected {
