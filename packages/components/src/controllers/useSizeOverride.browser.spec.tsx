@@ -18,7 +18,13 @@ describe("useSizeOverride", async () => {
       return <div ref={this.ref} />;
     }
   }
-  const { el } = await mount(Test);
+
+  let el!: InstanceType<typeof Test>;
+
+  beforeEach(async () => {
+    const mounted = await mount(Test);
+    el = mounted.el;
+  });
 
   it("applies clamped size within min/max", () => {
     el.controller.resize({ inline: 200 });
