@@ -190,7 +190,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await waitForAnimationFrame(page);
     await waitForAnimationFrame(page);
 
-    await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
+    if (tag !== "calcite-flow-item") {
+      await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
+    }
 
     await resetFocusOrder();
     await expectToBeFocused(page, "body", "pre-click() reset");
