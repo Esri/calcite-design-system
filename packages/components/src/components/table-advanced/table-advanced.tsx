@@ -58,6 +58,9 @@ export class TableAdvanced extends LitElement {
   /** Specifies if the component's columns can be movable. Default is `false`. */
   @property() movableColumns: boolean = false;
 
+  /** Specifies if the component's rows can be selectable. Default is `false`. */
+  @property() selectableRows: boolean = false;
+
   //#endregion
 
   //#region Public Methods
@@ -263,6 +266,7 @@ export class TableAdvanced extends LitElement {
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
           movableColumns: this.movableColumns,
+          selectableRows: this.selectableRows,
         })
       : new Tabulator(this.tableEl, {
           data: this.data || [],
@@ -271,6 +275,7 @@ export class TableAdvanced extends LitElement {
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
           movableColumns: this.movableColumns,
+          selectableRows: this.selectableRows,
         });
 
     // Log cell, column and row that is being clicked
