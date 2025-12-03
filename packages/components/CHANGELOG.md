@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.13...@esri/calcite-components@5.0.0-next.14) (2025-12-03)
+
+### ⚠ BREAKING CHANGES
+
+- removes the following deprecated custom CSS props:
+
+- `--calcite-accordion-item-text-color-press`† – use
+  `--calcite-accordion-text-color-press`
+- `--calcite-action-group-padding`† – use `--calcite-action-group-gap`
+- `--calcite-button-shadow-color`† – use `--calcite-button-shadow`
+- `--calcite-card-selection-background-color-active`† – use
+  `--calcite-card-selection-background-color-press`
+- `--calcite-card-selection-background-color-selected`† – use
+  `--calcite-card-background-color`
+- `--calcite-card-selection-icon-color`† – use
+  `--calcite-card-selection-color`
+- `--calcite-inline-editable-button-shadow-color`‡
+- `--calcite-input-date-picker-icon-color-hover`†
+- `--calcite-notice-close-text-color-hover`† – use
+  `--calcite-notice-close-icon-color-hover`
+- `--calcite-radio-size` – use `--calcite-radio-button-size`
+- `--calcite-notice-close-text-color`† – use
+  `--calcite-notice-close-icon-color`
+- `--calcite-popover-z-index`§
+- `--calcite-tooltip-z-index`§
+- `--calcite-rating-spacing-unit`† – use `--calcite-rating-spacing`
+
+† not referenced in styles, so there should be no impact from removal
+‡ not deprecated previously, but used to set unreferenced custom prop
+(see above)
+
+### Code Refactoring
+
+- drop deprecated component custom CSS props ([#13287](https://github.com/Esri/calcite-design-system/issues/13287)) ([6f60468](https://github.com/Esri/calcite-design-system/commit/6f60468f862771eb27165c90cb8df7c76035f50f)), closes [#13291](https://github.com/Esri/calcite-design-system/issues/13291) [#12904](https://github.com/Esri/calcite-design-system/issues/12904)
+
 ## [5.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.12...@esri/calcite-components@5.0.0-next.13) (2025-11-27)
 
 ### Features
