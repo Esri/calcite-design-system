@@ -19,7 +19,7 @@ describe("useSizeOverride", async () => {
     }
   }
 
-  let el: HTMLElement;
+  let el;
 
   beforeEach(async () => {
     const mounted = await mount(Test);
