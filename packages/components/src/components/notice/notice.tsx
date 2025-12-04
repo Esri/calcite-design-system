@@ -12,8 +12,8 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Kind, Scale, Width } from "../interfaces";
-import { KindIcons } from "../resources";
+import { Appearance, Kind, Scale, Width } from "../interfaces";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
@@ -55,6 +55,8 @@ export class Notice extends LitElement {
   /** The computed icon to render. */
   private requestedIcon?: IconName;
 
+  private kindIcons: Record<string, IconName>;
+
   transitionProp = "opacity" as const;
 
   transitionRef = createRef<HTMLDivElement>();
@@ -78,6 +80,12 @@ export class Notice extends LitElement {
 
   //#region Public Properties
 
+  /** Specifies the appearance of the component. */
+  @property({ reflect: true }) appearance: Extract<
+    "solid" | "transparent" | "outline-fill",
+    Appearance
+  > = "outline-fill";
+
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
@@ -89,7 +97,7 @@ export class Notice extends LitElement {
 
   /** Specifies the kind of the component, which will apply to top border and icon. */
   @property({ reflect: true }) kind: Extract<
-    "brand" | "danger" | "info" | "success" | "warning",
+    "brand" | "danger" | "info" | "success" | "warning" | "neutral",
     Kind
   > = "brand";
 
@@ -145,7 +153,8 @@ export class Notice extends LitElement {
   //#region Lifecycle
 
   async load(): Promise<void> {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.kindIcons = { ...KindIconsFilled, brand: KindIcons.brand };
+    this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -161,7 +170,7 @@ export class Notice extends LitElement {
       changes.has("icon") ||
       (changes.has("kind") && (this.hasUpdated || this.kind !== "brand"))
     ) {
-      this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+      this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
     }
   }
 
