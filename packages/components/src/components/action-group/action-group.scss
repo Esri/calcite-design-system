@@ -87,6 +87,7 @@
       var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
       auto
     );
+    padding: var(--calcite-action-group-gap, 1px);
   }
 }
 
