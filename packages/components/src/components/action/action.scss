@@ -69,8 +69,8 @@
       h-2
       w-2
       rounded-full;
-    inset-block-end: calc($offset);
-    inset-inline-end: calc($offset);
+    inset-block-end: $offset;
+    inset-inline-end: $offset;
     background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
   }
 }
