@@ -104,25 +104,19 @@ describe("calcite-action-pad", () => {
     );
   });
 
-  describe("keyboard navigation and selection-mode", () => {
+  describe("selection-modes", () => {
     it("supports ARIA keyboard navigation and focus management", async () => {
       const { el } = await mount<"calcite-action-pad">(
-        <calcite-action-pad
-          layout="horizontal"
-          overflow-actions-disabled
-          selection-appearance="neutral"
-        >
+        <calcite-action-pad overflow-actions-disabled>
           <calcite-action-group selection-mode="single-persist">
-            <calcite-action appearance="solid" icon="plus" id="action-1" scale="m" text="Add" />
-            <calcite-action appearance="solid" icon="save" id="action-2" scale="m" text="Save" />
-            <calcite-action appearance="solid" icon="trash" id="action-3" scale="m" text="Delete" />
+            <calcite-action icon="plus" id="action-1" text="Add" />
+            <calcite-action icon="save" id="action-2" text="Save" />
+            <calcite-action icon="trash" id="action-3" text="Delete" />
           </calcite-action-group>
         </calcite-action-pad>,
       );
 
-      const action1 = el.querySelector("#action-1") as Action["el"];
-      const action2 = el.querySelector("#action-2") as Action["el"];
-      const action3 = el.querySelector("#action-3") as Action["el"];
+      const [action1, action2, action3] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(document.activeElement).toBe(action1);
@@ -138,48 +132,28 @@ describe("calcite-action-pad", () => {
 
       await userEvent.keyboard("{Home}");
       expect(document.activeElement).toBe(action1);
+
+      await userEvent.keyboard("{Enter}");
+      expect(action1.active).toBe(true);
     });
 
-    it("single and none(default) selection modes work as expected", async () => {
+    it("has single and none (default) selection modes", async () => {
       const { el } = await mount<"calcite-action-pad">(
-        <calcite-action-pad
-          layout="horizontal"
-          overflow-actions-disabled
-          selection-appearance="neutral"
-        >
+        <calcite-action-pad overflow-actions-disabled>
           <calcite-action-group selection-mode="single">
-            <calcite-action appearance="solid" icon="plus" id="action-1" scale="m" text="Add" />
-            <calcite-action appearance="solid" icon="save" id="action-2" scale="m" text="Save" />
-            <calcite-action appearance="solid" icon="trash" id="action-3" scale="m" text="Delete" />
+            <calcite-action icon="plus" id="action-1" text="Add" />
+            <calcite-action icon="save" id="action-2" text="Save" />
+            <calcite-action icon="trash" id="action-3" text="Delete" />
           </calcite-action-group>
           <calcite-action-group>
-            <calcite-action
-              appearance="solid"
-              icon="layers"
-              id="action-4"
-              scale="m"
-              text="Layers"
-            />
-            <calcite-action
-              appearance="solid"
-              icon="layer-basemap"
-              id="action-5"
-              scale="m"
-              text="Basemaps"
-            />
-            <calcite-action
-              appearance="solid"
-              icon="bookmark"
-              id="action-6"
-              scale="m"
-              text="Bookmarks"
-            />
+            <calcite-action icon="layers" id="action-4" text="Layers" />
+            <calcite-action icon="layer-basemap" id="action-5" text="Basemaps" />
+            <calcite-action icon="bookmark" id="action-6" text="Bookmarks" />
           </calcite-action-group>
         </calcite-action-pad>,
       );
 
-      const action1 = el.querySelector("#action-1") as Action["el"];
-      const action2 = el.querySelector("#action-2") as Action["el"];
+      const [action1, action2] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(action1.active).toBe(true);

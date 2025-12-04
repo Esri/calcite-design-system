@@ -10,6 +10,7 @@ import {
   ToEvents,
   createEvent,
 } from "@arcgis/lumina";
+import { queryAssignedElements } from "lit/decorators.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -55,7 +56,8 @@ export class ActionGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private actionElements: Action["el"][] = [];
+  @queryAssignedElements({ selector: "calcite-action" })
+  private actions: Action["el"][];
 
   //#endregion
 
@@ -155,7 +157,7 @@ export class ActionGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalActionSelect", this.handleActionClick);
+    this.listen("click", this.handleActionClick);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -182,25 +184,24 @@ export class ActionGroup extends LitElement {
 
   //#region Private Methods
 
-  private setActiveActionBySelectionMode(index: number, action: Action["el"]): void {
-    switch (this.selectionMode) {
-      case "multiple":
-        action.active = !action.active;
-        break;
-      case "single":
-        this.actionElements.forEach((a, i) => {
-          a.active = i === index ? !a.active : false;
+  private setActiveAction(index: number, active: Action["el"]): void {
+    if (this.selectionMode === "multiple") {
+      active.active = !active.active;
+      return;
+    }
+    if (this.selectionMode === "single") {
+      this.actions.forEach((action, i) => {
+        action.active = i === index ? !action.active : false;
+      });
+      return;
+    }
+    if (this.selectionMode === "single-persist") {
+      if (!this.actions[index].active) {
+        this.actions.forEach((action, i) => {
+          action.active = i === index;
         });
-        break;
-      case "single-persist":
-        if (!this.actionElements[index].active) {
-          this.actionElements.forEach((a, i) => {
-            a.active = i === index;
-          });
-        }
-        break;
-      default:
-        break;
+      }
+      return;
     }
   }
 
@@ -212,24 +213,16 @@ export class ActionGroup extends LitElement {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
   }
 
-  private handleActionClick(event: CustomEvent): void {
-    this.updateActions();
-    const action = event.target as Action["el"];
-    const index = this.actionElements.indexOf(action);
-
+  private handleActionClick(event: MouseEvent): void {
+    const target = event.target as Action["el"];
+    if (!target) {
+      return;
+    }
+    const index = this.actions.indexOf(target);
     if (index === -1 || this.selectionMode === "none") {
       return;
     }
-
-    this.setActiveActionBySelectionMode(index, action);
-  }
-
-  private updateActions(): void {
-    this.actionElements = Array.from(this.el.querySelectorAll("calcite-action"));
-  }
-
-  private handleSlotChange(): void {
-    this.updateActions();
+    this.setActiveAction(index, target);
   }
 
   //#endregion
@@ -288,7 +281,7 @@ export class ActionGroup extends LitElement {
             : "radiogroup"
         }
       >
-        <slot onSlotChange={this.handleSlotChange} />
+        <slot />
         {this.renderMenu()}
       </div>
     );

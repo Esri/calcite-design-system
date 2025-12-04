@@ -109,42 +109,6 @@ export class ActionBar extends LitElement {
     this.expandToggleEl = el;
   };
 
-  private handleToolbarKeyDown = (event: KeyboardEvent): void => {
-    this.queryAndStoreActions();
-    const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement as Action["el"];
-
-    switch (event.key) {
-      case "ArrowRight":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
-        break;
-      case "ArrowLeft":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
-        break;
-      case "ArrowDown":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
-        break;
-      case "ArrowUp":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
-        break;
-      case "Home":
-        focusElementInGroup(actions, current, "first", true);
-        event.preventDefault();
-        break;
-      case "End":
-        focusElementInGroup(actions, current, "last", true);
-        event.preventDefault();
-        break;
-      case "Tab":
-        this.updateTabIndexOfItems(current);
-        break;
-    }
-  };
-
   //#endregion
 
   //#region State Properties
@@ -248,7 +212,7 @@ export class ActionBar extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
-    this.listen("keydown", this.handleToolbarKeyDown);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -399,9 +363,49 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
-  private updateTabIndexOfItems(target: Action["el"]): void {
-    this.actions.forEach((item: Action["el"]) => {
-      item.tabIndex = target !== item ? -1 : 0;
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement as Action["el"];
+
+    if (!current || current.tagName?.toLowerCase() !== "calcite-action") {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.setActionTabIndexes(current);
+        break;
+    }
+  }
+
+  private setActionTabIndexes(active: Action["el"]): void {
+    this.actions.forEach((action: Action["el"]) => {
+      action.tabIndex = !action.disabled && action === active ? 0 : -1;
     });
   }
 

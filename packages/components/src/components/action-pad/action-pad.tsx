@@ -142,7 +142,7 @@ export class ActionPad extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
-    this.listen("keydown", this.handleToolbarKeyDown);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -230,10 +230,14 @@ export class ActionPad extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
-  private handleToolbarKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown(event: KeyboardEvent): void {
     this.queryAndStoreActions();
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement as Action["el"];
+
+    if (!current || current.tagName?.toLowerCase() !== "calcite-action") {
+      return;
+    }
 
     switch (event.key) {
       case "ArrowRight":
