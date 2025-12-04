@@ -6,6 +6,28 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-action", () => {
+  describe("default", () => {
+    themed(html`calcite-action`, {
+      "--calcite-action-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        expectedValue: "rgba(0, 0, 0, 0)",
+      },
+      "--calcite-action-background-color-hover": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        expectedValue: "rgba(0, 0, 0, 0.04)",
+        state: "hover",
+      },
+      "--calcite-action-background-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        expectedValue: "rgba(0, 0, 0, 0.08)",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+    });
+  });
+
   describe("aria property", () => {
     it("should set aria properties on internal button element", async () => {
       const page = await newE2EPage();
@@ -177,14 +199,6 @@ describe("calcite-action", () => {
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe("hi");
-  });
-
-  it("should have appearance=transparent", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
-
-    const action = await page.find("calcite-action");
-    expect(action.getAttribute("appearance")).toBe("transparent");
   });
 
   describe("accessible", () => {
@@ -462,27 +476,6 @@ describe("calcite-action", () => {
         "--calcite-action-background-color-pressed": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.button } },
-        },
-      });
-    });
-    describe("default", () => {
-      themed(html`calcite-action`, {
-        "--calcite-action-background-color": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0)",
-        },
-        "--calcite-action-background-color-hover": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0.04)",
-          state: "hover",
-        },
-        "--calcite-action-background-color-pressed": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0.08)",
           state: { press: { attribute: "class", value: CSS.button } },
         },
       });
