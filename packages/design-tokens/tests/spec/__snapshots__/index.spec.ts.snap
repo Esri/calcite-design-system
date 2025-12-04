@@ -18922,7 +18922,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "focus",
-        "scope": "component",
         "type": "color",
         "item": "focus",
         "subitem": "default",
