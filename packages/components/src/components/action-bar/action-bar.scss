@@ -14,6 +14,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-bar-gap
+// --calcite-internal-action-bar-padding
 // --calcite-internal-action-group-dividing-border-margin
 
 @use "../../styles/includes";
@@ -112,53 +114,30 @@
 }
 
 :host([scale="s"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
-    padding: var(--calcite-spacing-xxs);
-  }
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
 }
-:host([scale="s"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-xxs);
-  }
-}
-:host([scale="s"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-}
-
 :host([scale="m"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
-    padding: var(--calcite-spacing-sm);
-  }
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
 }
-:host([scale="m"][layout="vertical"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="m"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
+:host([scale="l"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
 }
 
-:host([scale="l"]) {
-  .container {
-    gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
-    padding: var(--calcite-spacing-sm-plus);
+.container {
+  gap: var(--calcite-internal-action-bar-gap);
+  padding: var(--calcite-internal-action-bar-padding);
+}
+:host([layout="vertical"]) {
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    padding-block-end: var(--calcite-internal-action-bar-padding);
   }
 }
-:host([scale="l"][layout="vertical"]) {
+:host([layout="horizontal"]) {
   ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-block-end: var(--calcite-spacing-sm-plus);
-  }
-}
-:host([scale="l"][layout="horizontal"]) {
-  ::slotted(calcite-action-group:not(:last-of-type)) {
-    padding-inline-end: var(--calcite-spacing-sm-plus);
+    padding-inline-end: var(--calcite-internal-action-bar-padding);
   }
 }
 
