@@ -8,6 +8,7 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -155,5 +156,9 @@ describe("calcite-flow-item", () => {
         ),
       "calcite-panel",
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-flow-item"));
   });
 });

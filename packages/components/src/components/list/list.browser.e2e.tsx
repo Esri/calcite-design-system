@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-list", () => {
   describe("cancelable", () => {
@@ -114,5 +121,9 @@ describe("calcite-list", () => {
         ),
       { display: "block" },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-list"));
   });
 });

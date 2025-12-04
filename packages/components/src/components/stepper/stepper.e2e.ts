@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { t9n, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
@@ -16,10 +16,6 @@ async function itemClicker(item: StepperItem["el"]) {
 }
 
 describe("calcite-stepper", () => {
-  describe("translation support", () => {
-    t9n("calcite-stepper");
-  });
-
   it("root container display is set to grid in horizontal layout", async () => {
     const page = await newE2EPage();
     await page.setContent(

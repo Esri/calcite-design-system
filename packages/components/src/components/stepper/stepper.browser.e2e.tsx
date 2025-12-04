@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-stepper", () => {
   describe("defaults", () => {
@@ -77,5 +77,9 @@ describe("calcite-stepper", () => {
         ),
       { display: "flex" },
     );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-stepper"));
   });
 });

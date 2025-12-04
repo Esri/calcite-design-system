@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, t9n, themed, focusable } from "../../tests/commonTests";
+import { disabled, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -11,10 +11,6 @@ describe("calcite-stepper-item", () => {
 
   describe("focusable", () => {
     focusable(html`<calcite-stepper-item layout="vertical"></calcite-stepper-item>`);
-  });
-
-  describe("translation support", () => {
-    t9n(html`<calcite-stepper-item heading="Step 1" id="step-1"></calcite-stepper-item>`);
   });
 
   it("emits selection event on user interaction", async () => {

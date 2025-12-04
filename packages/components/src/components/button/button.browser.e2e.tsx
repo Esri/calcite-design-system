@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import { defaults, hidden, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-button", () => {
   describe("defaults", () => {
@@ -93,5 +93,9 @@ describe("calcite-button", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-button"));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-button"));
   });
 });

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -436,10 +436,6 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(2);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action-bar");
   });
 
   it("should set layout on child action-groups", async () => {
