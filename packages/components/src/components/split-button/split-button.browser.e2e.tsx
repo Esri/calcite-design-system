@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, disabled } from "../../tests/commonTests/browser";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -73,5 +73,9 @@ describe("calcite-split-button", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-split-button"), { display: "inline-block" });
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-split-button"));
   });
 });

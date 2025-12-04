@@ -1,7 +1,15 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
@@ -24,6 +32,10 @@ describe("calcite-chip", () => {
         { propertyName: "value", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-chip interactive>doritos</calcite-chip>));
   });
 
   describe("reflects", () => {

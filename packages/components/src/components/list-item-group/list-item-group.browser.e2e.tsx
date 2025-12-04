@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, disabled } from "../../tests/commonTests/browser";
 
 describe("calcite-list-item-group", () => {
   describe("defaults", () => {
@@ -33,5 +33,9 @@ describe("calcite-list-item-group", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-list-item-group"), { display: "flex" });
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-list-item-group"), { focusTarget: "none" });
   });
 });

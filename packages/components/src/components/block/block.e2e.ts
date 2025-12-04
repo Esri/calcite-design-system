@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -56,10 +56,6 @@ describe("calcite-block", () => {
         },
       );
     });
-  });
-
-  describe("disabled", () => {
-    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
   });
 
   it("has a loading state", async () => {

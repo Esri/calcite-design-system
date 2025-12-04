@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { accessible, focusable, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -77,10 +77,6 @@ describe("calcite-button", () => {
 
   describe("labelable", () => {
     labelable("calcite-button");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-button");
   });
 
   describe("focusable", () => {

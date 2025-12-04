@@ -1,8 +1,15 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { internalLabel, renders, t9n } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
 describe("calcite-select", () => {
@@ -30,7 +37,7 @@ describe("calcite-select", () => {
 
   describe("reflects", () => {
     reflects(
-      () => mount<Select>(createSimpleSelect),
+      () => mount<Select>(createSimpleSelect()),
       [
         {
           propertyName: "disabled",
@@ -61,10 +68,14 @@ describe("calcite-select", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount(createSimpleSelect), { display: "flex" });
+    renders(() => mount(createSimpleSelect()), { display: "flex" });
   });
 
   describe("translation support", () => {
     t9n(() => mount("calcite-select"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-select"));
   });
 });

@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS } from "./resources";
 
@@ -15,10 +15,6 @@ describe("calcite-swatch", () => {
 
   describe.skip("is focusable", () => {
     focusable("<calcite-swatch></calcite-swatch>");
-  });
-
-  describe.skip("can be disabled", () => {
-    disabled("<calcite-swatch disabled></calcite-swatch>");
   });
 
   it("should not emit event after the swatch is clicked if interactive if not set", async () => {
