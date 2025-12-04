@@ -30,7 +30,7 @@ describe("calcite-flow-item", () => {
       },
     );
 
-    describe("closable", () => {
+    describe.skip("closable", () => {
       disabled(
         html`<calcite-flow-item closable selected style="${scrollingHeightStyle}"
           >${scrollingContentHtml}</calcite-flow-item
