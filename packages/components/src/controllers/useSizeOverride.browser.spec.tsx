@@ -7,7 +7,7 @@ import { useSizeOverride } from "./useSizeOverride";
 describe("useSizeOverride", async () => {
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
-    resizeValues = { inlineSize: number | null, blockSize: number | null };
+    resizeValues = { inlineSize: null, blockSize: null };
 
     controller = useSizeOverride({
       targetElement: () => this.ref.value,
