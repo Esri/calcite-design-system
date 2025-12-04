@@ -14,8 +14,19 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-action-group-columns
+// --calcite-internal-action-group-gap
 
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @extend %component-host;
@@ -28,16 +39,7 @@
   border-color: var(--calcite-action-group-border-color, var(--calcite-color-border-3));
   border-style: solid;
   border-width: 0;
-}
-
-:host([scale="s"]) {
-  gap: var(--calcite-spacing-xxs);
-}
-:host([scale="m"]) {
-  gap: var(--calcite-spacing-sm);
-}
-:host([scale="l"]) {
-  gap: var(--calcite-spacing-sm-plus);
+  gap: var(--calcite-internal-action-group-gap);
 }
 
 .container {
@@ -80,25 +82,11 @@
     @apply grid
     place-content-stretch;
     background-color: transparent;
+    gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-gap));
     grid-template-columns: repeat(
       var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
       auto
     );
-  }
-}
-:host([scale="s"][layout="grid"]) {
-  .container {
-    gap: var(--calcite-action-group-gap, var(--calcite-spacing-xxs));
-  }
-}
-:host([scale="m"][layout="grid"]) {
-  .container {
-    gap: var(--calcite-action-group-gap, var(--calcite-spacing-sm));
-  }
-}
-:host([scale="l"][layout="grid"]) {
-  .container {
-    gap: var(--calcite-action-group-gap, var(--calcite-spacing-sm-plus));
   }
 }
 
