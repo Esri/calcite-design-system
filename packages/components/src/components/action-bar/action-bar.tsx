@@ -3,7 +3,11 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -76,15 +80,15 @@ export class ActionBar extends LitElement {
 
     if (layout === "horizontal") {
       bufferSize +=
-        parseInt(actionBarContainerStyle.paddingInlineStart) +
-        parseInt(actionBarContainerStyle.paddingInlineEnd);
+        getStylePixelValue(actionBarContainerStyle.paddingInlineStart) +
+        getStylePixelValue(actionBarContainerStyle.paddingInlineEnd);
 
       if (actionGroups.length > 0) {
         actionGroups.forEach((actionGroup, i) => {
           const actionGroupStyle = getComputedStyle(actionGroup);
-          bufferSize += parseInt(actionGroupStyle.gap) * actionGroup.children.length - 1;
+          bufferSize += getStylePixelValue(actionGroupStyle.gap) * actionGroup.children.length - 1;
           if (i < actionGroups.length - 1) {
-            bufferSize += parseInt(actionGroupStyle.paddingInlineEnd);
+            bufferSize += getStylePixelValue(actionGroupStyle.paddingInlineEnd);
           }
         });
       }
@@ -92,7 +96,7 @@ export class ActionBar extends LitElement {
 
     if (groupCount > 0) {
       for (let i = 1; i < groupCount; i++) {
-        bufferSize += parseInt(actionBarContainerStyle.gap);
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
       }
     }
 
