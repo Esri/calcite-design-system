@@ -34,8 +34,10 @@
 
   border-radius: var(
     --calcite-action-corner-radius,
-    var(--calcite-action-corner-radius-start-start, 2px) var(--calcite-action-corner-radius-start-end, 2px)
-      var(--calcite-action-corner-radius-end-end, 2px) var(--calcite-action-corner-radius-end-start, 2px)
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius-xs))
   );
 }
 
