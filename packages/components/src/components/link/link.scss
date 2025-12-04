@@ -13,6 +13,7 @@
 }
 
 // link base
+:host span,
 :host a,
 :host button {
   @apply font-inherit
@@ -35,6 +36,7 @@
 }
 
 // focus styles
+:host span,
 :host a,
 :host button {
   @apply focus-base;
@@ -66,6 +68,7 @@ calcite-icon {
 
 :host {
   button,
+  span,
   a {
     @apply relative
       inline

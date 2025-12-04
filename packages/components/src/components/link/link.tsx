@@ -180,7 +180,13 @@ export class Link extends LitElement {
           target={childElType === "a" && this.target}
         >
           {this.iconStart ? iconStartEl : null}
-          <slot />
+          {childElType === "button" ? (
+            <span>
+              <slot />
+            </span>
+          ) : (
+            <slot />
+          )}
           {this.iconEnd ? iconEndEl : null}
         </DynamicHtmlTag>
       </this.interactiveContainer>
