@@ -210,7 +210,7 @@
 :host([scale="s"]) {
   .button {
     @apply text-n2h font-normal;
-    min-block-size: 24px;
+    min-block-size: var(--calcite-size-fixed-xxl);
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
   }
@@ -222,7 +222,7 @@
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
-    min-block-size: 32px;
+    min-block-size: var(--calcite-size-fixed-xxxl);
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
   }
@@ -234,6 +234,7 @@
 :host([scale="l"]) {
   .button {
     @apply text-0h font-normal;
+    min-block-size: var(--calcite-size-lg);
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
   }
