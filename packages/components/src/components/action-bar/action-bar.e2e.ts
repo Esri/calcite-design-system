@@ -358,7 +358,7 @@ describe("calcite-action-bar", () => {
       await page.waitForChanges();
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
     });
 
     it("should slot 'menu-actions' on sublist changes after being enabled", async () => {
@@ -396,7 +396,7 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
     });
 
     it("should slot 'menu-actions' on resize of component", async () => {
@@ -424,10 +424,10 @@ describe("calcite-action-bar", () => {
       await page.waitForTimeout(DEBOUNCE.resize + 10);
 
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-      expect(await findAll(page, slottedActionsSelector)).toHaveLength(5);
+      expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-        element.style.height = "390px";
+        element.style.height = "490px";
       });
 
       await page.waitForTimeout(DEBOUNCE.resize + 10);

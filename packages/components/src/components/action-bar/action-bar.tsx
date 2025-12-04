@@ -78,20 +78,37 @@ export class ActionBar extends LitElement {
     let bufferSize = groupCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
 
-    if (layout === "horizontal") {
-      bufferSize +=
-        getStylePixelValue(actionBarContainerStyle.paddingInlineStart) +
-        getStylePixelValue(actionBarContainerStyle.paddingInlineEnd);
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
 
-      if (actionGroups.length > 0) {
-        actionGroups.forEach((actionGroup, i) => {
-          const actionGroupStyle = getComputedStyle(actionGroup);
-          bufferSize += getStylePixelValue(actionGroupStyle.gap) * actionGroup.children.length - 1;
-          if (i < actionGroups.length - 1) {
-            bufferSize += getStylePixelValue(actionGroupStyle.paddingInlineEnd);
-          }
-        });
-      }
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
     }
 
     if (groupCount > 0) {
@@ -101,7 +118,7 @@ export class ActionBar extends LitElement {
     }
 
     const overflowCount = getOverflowCount({
-      bufferSize, // 1px border for each group
+      bufferSize,
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
