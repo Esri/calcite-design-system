@@ -6,6 +6,7 @@ import stylelint from "stylelint";
 import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
@@ -80,7 +81,7 @@ export default defineConfig({
   },
 
   test: {
-    browser: { enabled: runBrowserTests, name: "chromium", provider: "playwright", screenshotFailures: false },
+    browser: { enabled: runBrowserTests, provider: playwright(), screenshotFailures: false },
     include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,

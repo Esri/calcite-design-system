@@ -3,7 +3,7 @@ import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
-import { Locator, page } from "@vitest/browser/context";
+import { Locator, page } from "vitest/browser";
 import { html } from "../../support/formatting";
 import { waitForNextTick } from "../tests/utils/timing";
 import { GlobalTestProps } from "../tests/utils/interfaces";
@@ -70,7 +70,7 @@ describe("useFocusTrap", () => {
   describe("configuration", () => {
     beforeEach(() => {
       clearConfig();
-      vi.resetModules();
+      vi.clearAllMocks();
     });
 
     afterEach(() => {
