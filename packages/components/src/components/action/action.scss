@@ -22,7 +22,9 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-height
 // --calcite-internal-action-padding-inline
+// --calcite-internal-action-spacing
 // --calcite-internal-action-text-color
 
 @use "../../styles/includes";
@@ -208,39 +210,38 @@
 }
 
 :host([scale="s"]) {
+  --calcite-internal-action-height: var(--calcite-size-sm);
+  --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
+
   .button {
-    @apply text-n2h font-normal;
-    min-block-size: var(--calcite-size-sm);
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
-  }
-  .button--text-visible {
-    gap: var(--calcite-spacing-xxs);
+    @apply text-n2h;
   }
 }
-
 :host([scale="m"]) {
+  --calcite-internal-action-height: var(--calcite-size-md);
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm);
+
   .button {
-    @apply text-n1h font-normal;
-    min-block-size: var(--calcite-size-md);
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
+    @apply text-n1h;
   }
-  .button--text-visible {
-    gap: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-height: var(--calcite-size-lg);
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
+
+  .button {
+    @apply text-0h;
   }
 }
 
-:host([scale="l"]) {
-  .button {
-    @apply text-0h font-normal;
-    min-block-size: var(--calcite-size-lg);
-    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
-  }
-  .button--text-visible {
-    gap: var(--calcite-spacing-sm-plus);
-  }
+.button {
+  font-weight: normal;
+  min-block-size: var(--calcite-internal-action-height);
+  padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
+  padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
+}
+.button--text-visible {
+  gap: var(--calcite-internal-action-spacing);
 }
 
 :host([alignment="center"]) .button {
