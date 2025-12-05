@@ -22,12 +22,33 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-font-size
 // --calcite-internal-action-height
+// --calcite-internal-action-line-height
 // --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
 // --calcite-internal-action-text-color
 
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size--2);
+  --calcite-internal-action-height: var(--calcite-size-sm);
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-relative-base);
+  --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size--1);
+  --calcite-internal-action-height: var(--calcite-size-md);
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-relative-base);
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size-0);
+  --calcite-internal-action-height: var(--calcite-size-lg);
+  --calcite-internal-action-line-height: var(--calcite-font-line-height-relative-tight);
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @extend %component-host;
@@ -87,16 +108,19 @@
     w-auto
     items-center
     justify-start
-    border-none
-    font-medium;
+    border-none;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
   cursor: inherit;
   flex: 1 0 auto;
   font-family: inherit;
-  font-size: var(--calcite-font-size--2);
-  line-height: var(--calcite-font-line-height-relative-base);
+  font-size: var(--calcite-internal-action-font-size);
+  font-weight: var(--calcite-font-weight-normal);
+  line-height: var(--calcite-internal-action-line-height);
+  min-block-size: var(--calcite-internal-action-height);
+  padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
+  padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
   text-align: start;
 
   &:hover {
@@ -117,6 +141,11 @@
       var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
     );
   }
+}
+
+.button--text-visible {
+  gap: var(--calcite-internal-action-spacing);
+  inline-size: 100%;
 }
 
 .icon-container {
@@ -209,41 +238,6 @@
   @apply focus-inset;
 }
 
-:host([scale="s"]) {
-  --calcite-internal-action-height: var(--calcite-size-sm);
-  --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
-
-  .button {
-    @apply text-n2h;
-  }
-}
-:host([scale="m"]) {
-  --calcite-internal-action-height: var(--calcite-size-md);
-  --calcite-internal-action-spacing: var(--calcite-spacing-sm);
-
-  .button {
-    @apply text-n1h;
-  }
-}
-:host([scale="l"]) {
-  --calcite-internal-action-height: var(--calcite-size-lg);
-  --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
-
-  .button {
-    @apply text-0h;
-  }
-}
-
-.button {
-  font-weight: normal;
-  min-block-size: var(--calcite-internal-action-height);
-  padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
-  padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
-}
-.button--text-visible {
-  gap: var(--calcite-internal-action-spacing);
-}
-
 :host([alignment="center"]) .button {
   @apply justify-center;
 }
@@ -272,10 +266,6 @@
 
 .slot-container--hidden {
   @apply hidden;
-}
-
-.button--text-visible {
-  @apply w-full;
 }
 
 .indicator-with-icon {
