@@ -195,7 +195,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     });
 
     await page.waitForTimeout(500);
-    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY, { delay: 100 });
     await page.waitForChanges();
 
     // wait 2 frames to ensure focus has been applied and browser has flushed layout
