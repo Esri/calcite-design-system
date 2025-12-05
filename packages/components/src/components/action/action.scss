@@ -34,10 +34,8 @@
 
   border-radius: var(
     --calcite-action-corner-radius,
-    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius))
-      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius))
+    var(--calcite-action-corner-radius-start-start, 2px) var(--calcite-action-corner-radius-start-end, 2px)
+      var(--calcite-action-corner-radius-end-end, 2px) var(--calcite-action-corner-radius-end-start, 2px)
   );
 }
 
@@ -63,11 +61,7 @@
   --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
 }
 
-.button {
-  border-radius: inherit;
-}
-
-@mixin action-indicator() {
+@mixin action-indicator($offset: -0.275rem) {
   position: relative;
   &::after {
     content: "";
@@ -75,15 +69,14 @@
       h-2
       w-2
       rounded-full;
-    inset-block-end: calc(-0.275rem);
-    inset-inline-end: calc(-0.275rem);
+    inset-block-end: $offset;
+    inset-inline-end: $offset;
     background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
   }
 }
 
 .button {
   @apply focus-base
-    text-n2h
     relative
     m-0
     flex
@@ -92,12 +85,15 @@
     justify-start
     border-none
     font-medium;
-  font-family: inherit;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
-  text-align: unset;
-  flex: 1 0 auto;
   cursor: inherit;
+  flex: 1 0 auto;
+  font-family: inherit;
+  font-size: var(--calcite-font-size--2);
+  line-height: var(--calcite-font-line-height-relative-base);
+  text-align: start;
 
   &:hover {
     background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
@@ -125,15 +121,12 @@
     flex
     items-center
     justify-center;
-  min-inline-size: theme("spacing.4");
-  min-block-size: theme("spacing.6");
 }
 
 .text-container {
   @apply m-0
     w-0
     truncate
-    leading-6
     opacity-0
     transition-opacity
     ease-in-out;
@@ -215,33 +208,35 @@
 :host([scale="s"]) {
   .button {
     @apply text-n2h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.2"));
+    min-block-size: 24px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xxs));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-xxs));
   }
-  .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.2");
+  .button--text-visible {
+    gap: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.4"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-md));
+    min-block-size: 32px;
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
   }
-  .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.3");
+  .button--text-visible {
+    gap: var(--calcite-spacing-sm);
   }
 }
 
 :host([scale="l"]) {
   .button {
     @apply text-0h font-normal;
-    padding-inline: var(--calcite-internal-action-padding-inline, theme("spacing.5"));
-    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-xl));
+    padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm-plus));
+    padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm-plus));
   }
-  .button--text-visible .icon-container {
-    margin-inline-end: theme("spacing.4");
+  .button--text-visible {
+    gap: var(--calcite-spacing-sm-plus);
   }
 }
 
@@ -282,10 +277,20 @@
 .indicator-with-icon {
   @include action-indicator();
 }
+:host([scale="s"]) {
+  .indicator-with-icon {
+    @include action-indicator(-0.075rem);
+  }
+}
 
 .indicator-without-icon {
   @apply w-4 mx-1;
   @include action-indicator();
+}
+:host([scale="s"]) {
+  .indicator-without-icon {
+    @include action-indicator(-0.075rem);
+  }
 }
 
 .indicator-text {
