@@ -9,11 +9,11 @@ import { type CalciteConfig, clearConfig } from "./config";
 
 declare global {
   interface DeclareElements {
-    "calcite-foo": CalciteFoo;
+    "calcite-foo": Test;
   }
 }
 
-class CalciteFoo extends LitElement {}
+class Test extends LitElement {}
 
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
@@ -33,7 +33,7 @@ describe("logger", () => {
 
   describe("deprecated", () => {
     it("helps log planned deprecations", async () => {
-      const { component } = await mount(CalciteFoo);
+      const { component } = await mount(Test);
       const params = {
         component: component,
         name: "foo",
@@ -50,7 +50,7 @@ describe("logger", () => {
     });
 
     it("helps log future deprecations", async () => {
-      const { component } = await mount(CalciteFoo);
+      const { component } = await mount(Test);
       const params = {
         component: component,
         name: "foo",
@@ -67,7 +67,7 @@ describe("logger", () => {
     });
 
     it("shows deprecation suggestions (single)", async () => {
-      const { component } = await mount(CalciteFoo);
+      const { component } = await mount(Test);
       const params = {
         component: component,
         name: "foo",
@@ -85,7 +85,7 @@ describe("logger", () => {
     });
 
     it("shows deprecation suggestions (multiple)", async () => {
-      const { component } = await mount(CalciteFoo);
+      const { component } = await mount(Test);
       const params = {
         component: component,
         name: "foo",
@@ -103,7 +103,7 @@ describe("logger", () => {
     });
 
     it("logs once per component", async () => {
-      const { component } = await mount(CalciteFoo);
+      const { component } = await mount(Test);
       const params = {
         component: component,
         name: "foo",
