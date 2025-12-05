@@ -13,7 +13,7 @@ describe("calcite-action", () => {
         },
         {
           propertyName: "appearance",
-          defaultValue: "solid",
+          defaultValue: "transparent",
         },
         {
           propertyName: "compact", // (deprecated)
