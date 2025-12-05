@@ -176,7 +176,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
       page,
-      effectiveFocusTarget.tab,
+      effectiveFocusTarget.tab, // "calcite-flow-item"
     );
 
     async function resetFocusOrder(): Promise<void> {
@@ -193,6 +193,8 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await page.evaluate(() => {
       console.log("Active element before click:", document.activeElement?.tagName);
     });
+
+    console.log("clicking", `(${shadowFocusableCenterX}, ${shadowFocusableCenterY})`);
 
     await page.waitForTimeout(500);
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY, { delay: 100 });
