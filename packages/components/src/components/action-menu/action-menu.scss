@@ -38,6 +38,7 @@
 
 ::slotted(calcite-action-group:not(:last-of-type)) {
   border-block-end-width: var(--calcite-border-width-sm);
+  padding-block-end: var(--calcite-internal-action-menu-padding);
 }
 
 .default-trigger {
