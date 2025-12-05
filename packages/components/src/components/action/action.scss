@@ -82,7 +82,7 @@
     flex
     w-auto
     items-center
-    justify-start
+    justify-center
     border-none
     font-medium;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
@@ -220,7 +220,8 @@
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
-    min-block-size: 32px;
+    min-block-size: 48px;
+    min-inline-size: 48px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
   }
