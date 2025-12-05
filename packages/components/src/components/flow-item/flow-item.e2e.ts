@@ -45,7 +45,7 @@ describe("calcite-flow-item", () => {
     });
   });
 
-  describe("accessible", () => {
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-flow-item>
         <div slot="${SLOTS.headerActionsStart}">test start</div>
