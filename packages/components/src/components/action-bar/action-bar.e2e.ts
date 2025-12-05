@@ -427,7 +427,7 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-        element.style.height = "550px";
+        element.style.height = "490px";
       });
 
       await page.waitForTimeout(DEBOUNCE.resize + 10);

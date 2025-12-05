@@ -30,7 +30,9 @@ describe("calcite-flow-item", () => {
       },
     );
 
-    describe("closable", () => {
+    // Skipping this due to a possible bug in the disabled test helper
+    // @see https://github.com/Esri/calcite-design-system/issues/13407
+    describe.skip("closable", () => {
       disabled(
         html`<calcite-flow-item closable selected style="${scrollingHeightStyle}"
           >${scrollingContentHtml}</calcite-flow-item
