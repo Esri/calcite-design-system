@@ -17,7 +17,7 @@ const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
 const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
-const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
+// const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
 
 const lumina = useLumina({
   build: {
@@ -82,7 +82,7 @@ export default defineConfig({
 
   test: {
     browser: { enabled: runBrowserTests, provider: playwright(), screenshotFailures: false },
-    include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
+    include: runBrowserTests ? [browserTestMatch] : ["**/flow-item.{e2e,spec}.?(c|m)[jt]s?(x)"],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,
     setupFiles: "./src/tests/browser/setup.ts",

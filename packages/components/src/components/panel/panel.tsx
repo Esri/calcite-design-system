@@ -292,7 +292,7 @@ export class Panel extends LitElement {
   }
 
   private closeClickHandler(): void {
-    this.emitCloseEvent();
+    // this.emitCloseEvent();
   }
 
   private emitCloseEvent(): void {

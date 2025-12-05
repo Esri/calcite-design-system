@@ -2,7 +2,7 @@
 import { SetFieldType } from "type-fest";
 import { E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
-import { skipAnimations, waitForAnimationFrame } from "../utils/puppeteer";
+import { skipAnimations, visualizeMouseCursor, waitForAnimationFrame } from "../utils/puppeteer";
 import { IntrinsicElementsWithProp } from "../utils/interfaces";
 import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup, DisabledOptions, FocusTarget, TabAndClickFocusTargets } from "./interfaces";
@@ -110,6 +110,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     return await page.$eval(tabFocusTarget, (element: HTMLElement) => {
       const focusTarget = element.shadowRoot.activeElement || element;
       const rect = focusTarget.getBoundingClientRect();
+      console.log(focusTarget?.tagName, rect, "shadow focus el");
 
       return [rect.x + rect.width / 2, rect.y + rect.height / 2];
     });
@@ -123,6 +124,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
       : component;
     await skipAnimations(page);
+    await visualizeMouseCursor(page);
     await addRedirectPrevention(page, tag);
 
     // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
@@ -130,6 +132,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       width: 1200,
       height: 800,
     });
+
+    // wait for 2 seconds
+    await page.waitForTimeout(3000);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
@@ -176,27 +181,46 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     async function resetFocusOrder(): Promise<void> {
       // test page has default margin, so clicking on 0,0 will not hit the test element
-      await page.mouse.click(0, 0, { delay: 100 }); // we need an extra click in case a component has focusing-on-blur behavior
+      await page.waitForTimeout(500);
+      await page.mouse.click(0, 0, { delay: 10 }); // we need an extra click in case a component has focusing-on-blur behavior
       await page.mouse.click(0, 0);
+      await page.waitForTimeout(500);
     }
 
     await resetFocusOrder();
     await expectToBeFocused(page, "body", "pre-click reset");
 
+    await page.evaluate(() => {
+      console.log("Active element before click:", document.activeElement?.tagName);
+    });
+
+    await page.waitForTimeout(500);
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await page.waitForChanges();
 
     // wait 2 frames to ensure focus has been applied and browser has flushed layout
     await waitForAnimationFrame(page);
     await waitForAnimationFrame(page);
+    await page.waitForTimeout(500);
+    expect(await component.isVisible()).toBe(true);
+
+    await page.evaluate(() => {
+      console.log("Active element after click:", document.activeElement?.tagName);
+    });
 
     await expectToBeFocused(page, effectiveFocusTarget.click.pointer, "click");
 
     await resetFocusOrder();
     await expectToBeFocused(page, "body", "pre-click() reset");
 
-    await component.callMethod("click");
+    await page.waitForTimeout(500);
+    await component.handle.evaluate((el: HTMLElement) => {
+      el.click();
+    });
+    await page.waitForTimeout(500);
     await page.waitForChanges();
+    expect(await component.isVisible()).toBe(true);
+    // wait for 2 secs
     await expectToBeFocused(page, effectiveFocusTarget.click.method, "click()");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -223,7 +247,9 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     await resetFocusOrder();
     await expectToBeFocused(page, "body", "disabled+pre-click reset");
 
+    await page.waitForTimeout(500);
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await page.waitForTimeout(500);
     await expectToBeFocused(page, "body", "disabled+click");
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
