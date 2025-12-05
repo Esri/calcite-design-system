@@ -157,7 +157,7 @@ export const horizontalSmall = (): string => html`
 `;
 
 export const horizontalOverflow_TestOnly = (): string => html`
-  <div style="width: 500px; display:flex;">
+  <div style="width: 450px; display:flex;">
     <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
