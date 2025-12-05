@@ -97,3 +97,45 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+
+const appearances: Notice["appearance"][] = ["outline-fill", "transparent", "solid"];
+const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];
+
+const allKindsAndAppearancesHTML = (kind, appearance): string => `
+  <div class="story-container"> 
+  <calcite-notice open kind="${kind}" appearance="${appearance}" icon closable>
+        <div slot="title">Try this trick next time</div>
+        <div slot="message">Level up your skills - Select and take action on multiple layers at once.</div>
+        <calcite-link slot="link" title="my action"> Read more </calcite-link>
+      </calcite-notice>
+      </div>`;
+
+export const allKindsAndAppearances = (): string => {
+  let storyHTML = "";
+  for (const appearance of appearances) {
+    storyHTML += html`<div class="appearance-container"></div>`;
+    storyHTML += html`<strong>appearance = ${appearance} </strong>`;
+    for (const kind of kinds) {
+      storyHTML += html`<p>kind = ${kind}</p>`;
+      storyHTML += allKindsAndAppearancesHTML(kind, appearance);
+    }
+    storyHTML += html`</div>`;
+  }
+
+  return html`<style>
+      .stories-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      .appearance-container {
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+      }
+      .story-container {
+        margin: 10px;
+      }
+    </style>
+    <div class="stories-container">${storyHTML}</div> `;
+};

@@ -14,6 +14,7 @@
  */
 
 @use "sass:list";
+@use "sass:map";
 @use "../../styles/includes";
 
 // scale variables
@@ -93,7 +94,6 @@
   transition-property: opacity, max-block-size;
   transition-duration: var(--calcite-animation-timing);
   text-align: start;
-  border: var(--calcite-border-width-md) solid;
   border-radius: var(--calcite-corner-radius-sm);
 }
 
@@ -188,9 +188,16 @@
   @apply flex self-stretch;
 }
 
-:host([appearance="transparent"]) .container {
-  border-color: transparent;
-  background-color: transparent;
+@function get-notice-icon-color($appearance, $kind) {
+  @if $appearance == "solid" {
+    @if $kind == "warning" {
+      @return var(--calcite-color-text-1);
+    } @else {
+      @return var(--calcite-color-text-inverse);
+    }
+  } @else {
+    @return $kind;
+  }
 }
 
 $notice-kinds:
@@ -200,52 +207,48 @@ $notice-kinds:
   "success" var(--calcite-color-status-success),
   "warning" var(--calcite-color-status-warning);
 
+$notice-appearances: "outline-fill", "solid", "transparent";
+
 @each $notice-kind in $notice-kinds {
   $name: list.nth($notice-kind, 1);
   $kind: list.nth($notice-kind, 2);
 
-  :host([kind="#{$name}"][appearance="outline-fill"]) .container {
-    border-color: rgb(from $kind r g b / var(--calcite-opacity-half));
-    background-color: var(
-      --calcite-notice-background-color,
-      color-mix(in srgb, $kind 5%, var(--calcite-color-foreground-1))
-    );
+  @each $appearance in $notice-appearances {
+    :host([kind="#{$name}"][appearance="#{$appearance}"]) .container {
+      @if $appearance == "outline-fill" {
+        border: var(--calcite-border-width-md) solid;
+        border-color: rgb(from $kind r g b / var(--calcite-opacity-half));
+        background-color: var(
+          --calcite-notice-background-color,
+          color-mix(in srgb, $kind 5%, var(--calcite-color-foreground-1))
+        );
+      } @else if $appearance == "solid" {
+        background-color: var(--calcite-notice-background-color, $kind);
+      } @else if $appearance == "transparent" {
+        background-color: transparent;
+      }
+    }
+
+    :host([kind="#{$name}"][appearance="#{$appearance}"]) .notice-icon {
+      color: #{get-notice-icon-color($appearance, $kind)};
+    }
   }
+}
 
-  :host([kind="#{$name}"][appearance="solid"]) .container {
-    border-color: var(--calcite-notice-background-color, $kind);
-    background-color: var(--calcite-notice-background-color, $kind);
+@each $appearance in $notice-appearances {
+  :host([kind="neutral"][appearance="#{$appearance}"]) .container {
+    @if $appearance == "outline-fill" {
+      border-color: var(--calcite-color-border-2);
+      background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
+    } @else if $appearance == "solid" {
+      background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
+    } @else {
+      background-color: transparent;
+    }
   }
-
-  :host([kind="#{$name}"][appearance="outline-fill"]) .notice-icon,
-  :host([kind="#{$name}"][appearance="transparent"]) .notice-icon {
-    color: $kind;
+  :host([kind="neutral"][appearance="#{$appearance}"]) .notice-icon {
+    color: var(--calcite-color-text-3);
   }
-}
-
-:host([appearance="solid"]) .notice-icon {
-  color: var(--calcite-color-text-inverse);
-}
-
-:host([appearance="solid"][kind="warning"]) .notice-icon {
-  color: var(--calcite-color-text-1);
-}
-
-:host([kind="neutral"][appearance="outline-fill"]) .container,
-:host([kind="neutral"][appearance="solid"]) .container {
-  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
-}
-
-:host([kind="neutral"][appearance="solid"]) .container {
-  border-color: var(--calcite-notice-background-color, var(--calcite-color-border-white));
-}
-
-:host([kind="neutral"][appearance="outline-fill"]) .container {
-  border-color: var(--calcite-color-border-2);
-}
-
-:host([kind="neutral"]) .notice-icon {
-  color: var(--calcite-color-text-3);
 }
 
 @include includes.base-component();
