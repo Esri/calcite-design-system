@@ -744,7 +744,7 @@
     "alias": ["3.25.2", "gis", "generic", "pointer over selection"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "dashboard": {
     "alias": ["1.5.0", "objects", "gauge", "statistics", "measurement", "capacity"],
@@ -867,7 +867,7 @@
     "codepoint": 59438
   },
   "ellipsis": {
-    "alias": ["1.5.0", "generic", "menu", "more", "...", "\u2026", "dot dot dot"],
+    "alias": ["1.5.0", "generic", "menu", "more", "...", "…", "dot dot dot"],
     "category": "Generic",
     "release": "1.5",
     "codepoint": 59442
@@ -2288,7 +2288,7 @@
     "alias": ["3.25.2", "gis", "generic", "map", "area"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "services": {
     "alias": [
@@ -2679,7 +2679,7 @@
     "alias": ["1.5.0", "map"],
     "category": "GIS",
     "release": "1.5",
-    "codepoint": ""
+    "codepoint": null
   },
   "gamma": {
     "alias": ["1.5.0", "symbol", "greek character", "gamma rays"],
@@ -2697,7 +2697,7 @@
     "alias": ["1.5.0", "opacity", "filters"],
     "category": "Generic",
     "release": "1.5",
-    "codepoint": ""
+    "codepoint": null
   },
   "calculator": {
     "alias": [
@@ -2825,7 +2825,7 @@
       "more",
       "...",
       "dot dot dot",
-      "\u2026",
+      "…",
       "ellipsis",
       "handle",
       "options",
@@ -2876,7 +2876,7 @@
     "alias": ["1.7.0", "draw", "shape", "gis", "map", "distance"],
     "category": "GIS",
     "release": "1.7.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "credits": {
     "alias": [
@@ -2913,13 +2913,13 @@
     "alias": ["3.25.2", "gis", "map", "area", "selection", "perimeter"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "suitability-analysis-output": {
     "alias": ["1.8.0", "map", "area", "selection", "perimeter"],
     "category": "Windows",
     "release": "1.8.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "360-view": {
     "alias": ["2.1.0", "look", "panorama", "full view", "image", "generic", "show"],
@@ -2985,7 +2985,7 @@
     "alias": ["2.3.3", "people", "human", "accessibility"],
     "category": "People",
     "release": "2.3.3",
-    "codepoint": ""
+    "codepoint": null
   },
   "vertex-edit": {
     "alias": ["2.3.2", "pencil", "vertices"],
@@ -3137,7 +3137,7 @@
     "alias": ["2.5.3", "adjust", "color", "adjustment", "value", "color correction"],
     "category": "Generic",
     "release": "2.5.3",
-    "codepoint": ""
+    "codepoint": null
   },
   "footprint": {
     "alias": ["2.5.3", "overlap", "map", "polygon", "selection"],
@@ -3149,7 +3149,7 @@
     "alias": ["2.5.3", "raster", "gallery", "map", "collection"],
     "category": "Generic",
     "release": "2.5.3",
-    "codepoint": ""
+    "codepoint": null
   },
   "deep-learning-project": {
     "alias": ["2.5.4", "briefcase", "deep learning project", "ai", "nodes", "machine learning"],
@@ -3296,7 +3296,7 @@
     "alias": ["3.25.2", "layers", "raster", "gis", "image", "imagery", "layer type"],
     "category": "Layers",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "access-string-results": {
     "alias": [
@@ -3884,7 +3884,7 @@
     "alias": ["3.5.0", "maps", "groups", "gatherings", "data", "clusters"],
     "category": "GIS",
     "release": "3.5.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "brush-mark": {
     "alias": ["3.6.0", "brush mark", "brushstroke", "brush stroke", "painting", "drawing", "canvas", "artist"],
@@ -4158,13 +4158,13 @@
     "alias": ["3.25.2", "gis", "selection filter", "filter by selection", "filter selection", "funnel"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "selection-x": {
     "alias": ["3.25.2", "gis", "selection x", "delete selection", "remove selection"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "book": {
     "alias": ["3.10.0", "dictionary", "book cover", "binder", "reference book", "literature"],
@@ -4176,7 +4176,7 @@
     "alias": ["3.10.0", "circle area"],
     "category": "Generic",
     "release": "3.10.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "footer": {
     "alias": ["3.10.0", "about the author", "featured", "contact information", "credits"],
@@ -4200,19 +4200,19 @@
     "alias": ["3.10.0", "polygon area"],
     "category": "Generic",
     "release": "3.10.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "rectangle-area": {
     "alias": ["3.10.0", "rectangle area"],
     "category": "Generic",
     "release": "3.10.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "square-area": {
     "alias": ["3.10.0", "square area"],
     "category": "Generic",
     "release": "3.10.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "text-paragraph-large": {
     "alias": ["3.10.0", "text paragraph large", "large body text"],
@@ -4242,7 +4242,7 @@
     "alias": ["3.12.1", "viewshed", "line of sights", "visible", "building", "eye"],
     "category": "GIS",
     "release": "3.12.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "line-of-sight": {
     "alias": ["3.12.1", "line of sight", "viewshed", "visible", "eye", "building"],
@@ -4629,7 +4629,7 @@
     "alias": ["3.15.0", "gis", "building", "image", "3d", "raster"],
     "category": "GIS",
     "release": "3.15.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "camera-unlock": {
     "alias": [
@@ -4924,9 +4924,9 @@
     "codepoint": 60153
   },
   "effects": {
-    "alias": ["3.27.4", "objects", "ai", "sparkle", "system", "machine learning"],
+    "alias": ["3.16.3", "objects", "flash", "sparkles", "filters", "stars", "constellations", "flashy", "shiny"],
     "category": "Objects",
-    "release": "3.27.1",
+    "release": "3.16.3",
     "codepoint": 59437
   },
   "open-book": {
@@ -4975,7 +4975,7 @@
     "alias": ["Generic", "3.16.5", "magnet", "raster", "drawing"],
     "category": "Generic",
     "release": "3.16.5",
-    "codepoint": ""
+    "codepoint": null
   },
   "snap-to-point": {
     "alias": ["Generic", "3.16.5", "drawing", "snap to object", "vectors"],
@@ -5040,7 +5040,7 @@
     "alias": ["3.16.6", "generic", "glow", "shadow", "drop shadow", "box", "square", "light"],
     "category": "Generic",
     "release": "3.16.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "highlighter": {
     "alias": ["3.16.6", "objects", "drawing", "tool", "instrument", "marker", "sharpie"],
@@ -5354,7 +5354,7 @@
     "alias": ["3.17.0", "gis", "mosaic", "raster", "imagery", "overlap", "ground", "re-order", "stack", "overlay"],
     "category": "GIS",
     "release": "3.17.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "beacon": {
     "alias": [
@@ -5467,7 +5467,7 @@
     "alias": ["gis", "3.17.1", "geoai", "database", "data", "raster"],
     "category": "GIS",
     "release": "3.17.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "classify-objects": {
     "alias": ["gis", "3.17.1", "geoai", "classify"],
@@ -5479,7 +5479,7 @@
     "alias": ["gis", "3.17.1", "geoai"],
     "category": "GIS",
     "release": "3.17.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "grid-unit": {
     "alias": ["gis", "3.17.1", "geoai", "grid"],
@@ -5752,13 +5752,13 @@
     "alias": ["3.17.6", "gis", "area", "lock", "select"],
     "category": "GIS",
     "release": "3.17.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "display-selection-unlock": {
     "alias": ["3.17.6", "gis", "area", "unlock", "select"],
     "category": "GIS",
     "release": "3.17.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "drive-time-threshold": {
     "alias": ["3.17.6", "gis", "drive", "time", "threshold"],
@@ -5776,7 +5776,7 @@
     "alias": ["3.17.6", "gis", "visible", "area", "select"],
     "category": "GIS",
     "release": "3.17.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "cloudy": {
     "alias": [
@@ -6392,7 +6392,7 @@
     "alias": ["3.25.2", "layers", "gis", "tiled", "image", "imagery", "layer type"],
     "category": "Layers",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "keyboard": {
     "alias": ["3.18.5", "objects", "keyboard", "keys", "desktop", "office", "desk"],
@@ -6590,7 +6590,7 @@
     "alias": ["3.19.0", "gis", "tools", "analytics", "map", "processing", "hammer", "imagery", "pixels"],
     "category": "GIS",
     "release": "3.19.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "split-features": {
     "alias": ["3.19.0", "gis", "shapes", "map", "area", "trim", "polygons", "cut"],
@@ -6614,7 +6614,7 @@
     ],
     "category": "Generic",
     "release": "3.19.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "configure": {
     "alias": [
@@ -6804,7 +6804,7 @@
     "alias": ["3.19.4", "generic", "arrow", "map element", "switch", "selection", "transform", "mapping", "maps"],
     "category": "Generic",
     "release": "3.19.4",
-    "codepoint": ""
+    "codepoint": null
   },
   "number-circle-4": {
     "alias": ["3.19.4", "numbers", "circle", "4", "four"],
@@ -7014,7 +7014,7 @@
     "alias": ["3.20.0", "generic", "cubes", "dimensions", "squares", "3d", "object", "boxes"],
     "category": "Generic",
     "release": "3.20.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "bookmark-f": {
     "alias": ["3.20.1", "objects", "fill", "marking", "save", "label", "bookmarking"],
@@ -7217,7 +7217,7 @@
     ],
     "category": "Knowledge Graph",
     "release": "3.20.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "geographic-link-chart-layout": {
     "alias": [
@@ -7415,7 +7415,7 @@
     ],
     "category": "Knowledge Graph",
     "release": "3.20.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "knowledge-layer": {
     "alias": [
@@ -7484,7 +7484,7 @@
     "alias": ["3.20.7", "gis", "images", "servers", "photos", "media", "imagery", "connections", "networks"],
     "category": "GIS",
     "release": "3.20.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "knowledge-server": {
     "alias": ["3.20.7", "gis", "graph", "softwares", "products", "link", "relationships", "connections", "network"],
@@ -7573,7 +7573,7 @@
     "alias": ["3.21.0", "generic", "shapes", "symbols", "geometry", "draw", "view"],
     "category": "Generic",
     "release": "3.21.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "coordinate-system": {
     "alias": ["3.21.0", "generic", "globe", "global", "earth", "latitude", "longitude", "map", "planet", "sphere"],
@@ -7597,7 +7597,7 @@
     "alias": ["3.21.1", "charts and graphs", "pie", "chart", "slice", "data", "diagram", "visualization"],
     "category": "Charts and Graphs",
     "release": "3.21.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "graph-line-series": {
     "alias": ["3.21.1", "charts and graphs", "lines", "chart", "data", "diagram", "visualization"],
@@ -7777,7 +7777,7 @@
     "alias": ["3.21.9", "GIS", "fx", "edit", "raster", "modify"],
     "category": "GIS",
     "release": "3.21.9",
-    "codepoint": ""
+    "codepoint": null
   },
   "raster-function-template": {
     "alias": ["3.21.9", "GIS", "fx", "edit", "raster", "modify"],
@@ -7802,7 +7802,7 @@
     ],
     "category": "Generic",
     "release": "3.22.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "summarize-center-and-dispersion-2": {
     "alias": [
@@ -7821,7 +7821,7 @@
     ],
     "category": "Generic",
     "release": "3.22.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "summarize-center-and-dispersion-3": {
     "alias": [
@@ -7840,7 +7840,7 @@
     ],
     "category": "Generic",
     "release": "3.22.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "running-outline": {
     "alias": ["3.22.1", "people", "sport", "person", "exercise", "activity", "movement", "human"],
@@ -7888,7 +7888,7 @@
     "alias": ["3.22.1", "gis", "data", "layers", "sublayers", "dataset", "catalog"],
     "category": "GIS",
     "release": "3.22.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "view-associations": {
     "alias": ["3.22.2", "gis", "network", "connected", "circles", "dashes", "connectivity", "connection", "grid"],
@@ -8222,7 +8222,7 @@
     ],
     "category": "GIS",
     "release": "3.22.9",
-    "codepoint": ""
+    "codepoint": null
   },
   "transverse-hexagon": {
     "alias": [
@@ -8303,7 +8303,7 @@
     "alias": ["3.23.4", "objects", "event", "time", "international", "schedule", "appointment"],
     "category": "Objects",
     "release": "3.23.4",
-    "codepoint": ""
+    "codepoint": null
   },
   "sort-descending-arrow": {
     "alias": ["3.23.4", "lists", "sort", "descending", "arrow", "text", "align"],
@@ -8387,7 +8387,7 @@
     "alias": ["3.23.6", "knowledge graph", "link chart", "spatial data", "spatial analysis", "data model"],
     "category": "Knowledge Graph",
     "release": "3.23.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "force-directed-link-chart-layout": {
     "alias": ["3.23.6", "knowledge graph", "link chart", "spatial data", "spatial analysis", "data model"],
@@ -8432,7 +8432,7 @@
     "alias": ["3.23.6", "knowledge graph", "link chart", "spatial data", "spatial analysis", "data model"],
     "category": "Knowledge Graph",
     "release": "3.23.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "channels": {
     "alias": ["3.23.6", "generic", "discussion", "api", "chat", "teams", "text", "post", "social"],
@@ -8656,7 +8656,7 @@
     "alias": ["3.25.2", "gis", "online model builder", "time", "arrow", "fraction", "clock", "limit", "short term"],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "user-calendar": {
     "alias": ["3.23.9", "people", "person", "users", "date", "calendars", "day", "event", "time", "month", "year"],
@@ -8727,7 +8727,7 @@
     ],
     "category": "Objects",
     "release": "3.24.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "save-as": {
     "alias": [
@@ -8766,7 +8766,7 @@
     ],
     "category": "GIS",
     "release": "3.25.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "launch-2": {
     "alias": [
@@ -8805,7 +8805,7 @@
     "alias": ["3.24.5", "gis", "raster", "images", "filter", "collection", "selection", "dataset"],
     "category": "GIS",
     "release": "3.24.5",
-    "codepoint": ""
+    "codepoint": null
   },
   "storage": {
     "alias": ["3.24.5", "gis", "data", "data bin", "data store", "data storage"],
@@ -8858,7 +8858,7 @@
     ],
     "category": "Charts and Graphs",
     "release": "3.24.6",
-    "codepoint": ""
+    "codepoint": null
   },
   "configure-grid-unit": {
     "alias": ["3.25.2", "gis", "indoors", "grids", "modify", "gear", "changes", "units", "spaces"],
@@ -9188,37 +9188,37 @@
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "single", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "four-by-three-grid": {
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "multiple", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "four-by-two-grid": {
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "multiple", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "three-by-one-grid": {
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "single", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "three-by-three-grid": {
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "multiple", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "three-by-two-grid": {
     "alias": ["3.25.7", "windows", "screen", "gallery", "select", "multiple", "row", "columns", "images"],
     "category": "Windows",
     "release": "3.25.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "filter-expand": {
     "alias": ["3.25.8", "knowledge graph", "filters", "expanding", "link chart", "data model"],
@@ -9396,7 +9396,7 @@
     ],
     "category": "Charts and Graphs",
     "release": "3.26.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "code-branch-edit": {
     "alias": ["3.26.4", "knowledge graph", "branch", "management", "edit", "pencil", "connections"],
@@ -9467,7 +9467,7 @@
     "alias": ["3.26.5", "files", "documents", "text", "information", "archive", "data"],
     "category": "Files",
     "release": "3.26.5",
-    "codepoint": ""
+    "codepoint": null
   },
   "change-font-size": {
     "alias": ["3.26.6", "text", "font", "size", "change", "edit", "increase", "decrease"],
@@ -9497,7 +9497,7 @@
     "alias": ["3.27.4", "objects", "paint", "color", "tool"],
     "category": "Objects",
     "release": "3.27.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "configure-editing": {
     "alias": ["3.27.0", "lists", "edit", "write", "note", "settings"],
@@ -9511,6 +9511,11 @@
     "release": "3.27.0",
     "codepoint": 60131
   },
+  "effects": {
+    "alias": ["3.27.4", "objects", "ai", "sparkle", "system", "machine learning"],
+    "category": "Objects",
+    "release": "3.27.1"
+  },
   "add-to-model": {
     "alias": ["3.27.2", "knowledge graph", "add", "model", "edit"],
     "category": "Knowledge Graph",
@@ -9521,7 +9526,7 @@
     "alias": ["3.27.2", "generic", "select", "columns", "choose", "table"],
     "category": "Generic",
     "release": "3.27.2",
-    "codepoint": ""
+    "codepoint": null
   },
   "remove-from-list": {
     "alias": ["3.27.2", "lists", "remove", "list", "disappear", "items"],
@@ -9545,7 +9550,7 @@
     "alias": ["3.27.3", "gis", "select", "select text", "attributes", "tags"],
     "category": "GIS",
     "release": "3.27.3",
-    "codepoint": ""
+    "codepoint": null
   },
   "reshape-tool": {
     "alias": ["3.27.3", "geometry editing", "lines", "points", "reshape", "movement"],
@@ -9563,7 +9568,7 @@
     "alias": ["3.27.3", "geometry editing", "subtract", "reshape", "lines", "points", "angles"],
     "category": "Geometry Editing",
     "release": "3.27.3",
-    "codepoint": ""
+    "codepoint": null
   },
   "file-xml": {
     "alias": ["3.27.5", "files", "xml", "extensive markup language", "file format", "file type"],
@@ -9760,55 +9765,55 @@
     "alias": ["3.28.7", "document", "file", "text", "landscape", "letter", "alphabet"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "a3-landscape": {
     "alias": ["3.28.7", "document", "text", "file", "page", "letter", "number"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "ansi-a-portrait": {
     "alias": ["3.28.7", "document", "file", "text", "portrait", "letter"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "a3-portrait": {
     "alias": ["3.28.7", "document", "file", "text", "portrait"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "a4-landscape": {
     "alias": ["3.28.7", "document", "number", "file", "text", "landscape"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "ansi-b-landscape": {
     "alias": ["3.28.7", "document", "letter", "file", "text", "alphabet", "landscape"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "custom-print": {
     "alias": ["3.28.7", "document", "file", "page", "customize", "print", "pencil", "edit"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "a4-portrait": {
     "alias": ["3.28.7", "document", "file", "text", "portrait", "letter"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "ansi-b-portrait": {
     "alias": ["3.28.7", "document", "file", "letter", "page", "portrait"],
     "category": "Document",
     "release": "3.28.7",
-    "codepoint": ""
+    "codepoint": null
   },
   "diamond-inset-large": {
     "alias": ["3.28.8", "generic", "shape", "diamond", "type", "symbol", "glyph"],
@@ -10040,7 +10045,7 @@
     "alias": ["3.32.0", "gis", "history", "time", "edit", "modify", "fx"],
     "category": "GIS",
     "release": "3.32.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "raster-function-template-history": {
     "alias": ["3.32.0", "gis", "edit", "modify", "raster", "fx", "template", "text"],
@@ -10064,7 +10069,7 @@
     "alias": ["3.32.0", "gis", "tool", "history", "edit", "modify"],
     "category": "GIS",
     "release": "3.32.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "rss-f": {
     "alias": [
@@ -10181,7 +10186,7 @@
     "alias": ["3.33.0", "gis", "toggle", "features", "synchronize", "replication", "layer"],
     "category": "GIS",
     "release": "3.33.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "portal-other": {
     "alias": ["3.33.0", "gis", "layers", "data", "reference", "enterprise"],
@@ -10263,7 +10268,7 @@
     ],
     "category": "GIS",
     "release": "3.33.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "contour": {
     "alias": [
@@ -10888,73 +10893,73 @@
     "alias": ["4.2.0", "gis", "analysis", "error", "computer", "diagnosis"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-by-attribute": {
     "alias": ["4.2.0", "gis", "sort-by", "atttribute", "data", "mosaic"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-blend": {
     "alias": ["4.2.0", "gis", "combine", "merge", "fuse", "composite"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-closest-to-nadir": {
     "alias": ["4.2.0", "gis", "raster", "bottom", "lowest-point", "rock-bottom", "data"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-closest-to-center": {
     "alias": ["4.2.0", "gis", "center", "target", "dataset"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-first": {
     "alias": ["4.2.0", "gis", "collage", "composition", "fusion", "first"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-last": {
     "alias": ["4.2.0", "gis", "final", "terminal", "concluding", "completion", "culmination"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-north-west": {
     "alias": ["4.2.0", "gis", "number", "method", "modify", "dataset"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-lock-raster": {
     "alias": ["4.2.0", "gis", "technique", "select", "attribute", "spatial", "control"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-maximum": {
     "alias": ["4.2.0", "gis", "dataset", "mixture", "collage", "blend", "variety"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-minimum": {
     "alias": ["4.2.0", "gis", "smallest", "minimum", "collage", "small-scale"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-sum": {
     "alias": ["4.2.0", "gis", "blend", "mix", "whole", "total"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "mosaic-method-none": {
     "alias": ["4.2.0", "gis", "nothing", "uncombined", "unblended", "separated", "disassembled"],
@@ -10966,31 +10971,31 @@
     "alias": ["4.2.0", "gis", "boundary", "edge", "line", "border"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "spike-data-visualization-outlined": {
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
     "category": "Generic",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "calendar-heat-chart": {
     "alias": ["4.2.0", "gis", "data", "display", "calendar", "value", "patterns"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "matrix-heat-chart": {
     "alias": ["4.2.0", "gis", "analysis", "categorical", "count", "variable"],
     "category": "GIS",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "progress-bar-chart": {
     "alias": ["4.2.0", "charts and graphs", "indicator", "input", "control", "adjustment"],
     "category": "Charts and Graphs",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "spike-data-visualization": {
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data"],
@@ -11008,19 +11013,19 @@
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outline", "shape"],
     "category": "Generic",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "spike-data-visualization-outlined-open": {
-    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
     "category": "Generic",
-    "release": "4.2.1",
+    "release": "4.2.0",
     "codepoint": 61759
   },
   "spike-data-visualization-outlined-open-color-locked": {
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
     "category": "Generic",
     "release": "4.2.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "transfer": {
     "alias": ["4.2.1", "people", "move", "shift", "remove", "conduct", "transmit"],
@@ -11038,13 +11043,18 @@
     "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
     "category": "Generic",
     "release": "4.2.1",
-    "codepoint": ""
+    "codepoint": null
+  },
+  "spike-data-visualization-outlined-open": {
+    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "category": "Generic",
+    "release": "4.2.1"
   },
   "spike-data-visualization-outlined-open-gradient": {
     "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
     "category": "Generic",
     "release": "4.2.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "subheading-1-rtl": {
     "alias": ["4.2.1", "text", "type", "subtitle", "script", "headline", "caption"],
@@ -11188,7 +11198,7 @@
     "alias": ["4.3.0", "generic", "mutipoint", "geodatabase", "schema", "tools"],
     "category": "Generic",
     "release": "4.3.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "layer-annotation": {
     "alias": ["4.3.0", "layers", "text", "visual", "label", "geodatabase"],
@@ -11230,7 +11240,7 @@
     "alias": ["4.3.0", "gis", "linear", "feature", "coordinates", "locations", "points"],
     "category": "GIS",
     "release": "4.3.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "geometric-network": {
     "alias": ["4.3.0", "gis", "edges", "junctions", "points", "network"],
@@ -11278,7 +11288,7 @@
     "alias": ["4.3.0", "geometry editing", "dimensional", "shape", "component", "channels"],
     "category": "Geometry Editing",
     "release": "4.3.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "line-and-circle-intersection": {
     "alias": ["4.3.0", "geometry editing", "shape", "points", "equation", "substitue"],
@@ -11374,7 +11384,7 @@
     "alias": ["4.3.0", "generic", "interactive", "table", "record", "feature"],
     "category": "Generic",
     "release": "4.3.0",
-    "codepoint": ""
+    "codepoint": null
   },
   "layer-3d": {
     "alias": [
@@ -11414,7 +11424,7 @@
     "alias": ["4.3.1", "forms", "configure", "value", "combinations", "group"],
     "category": "Forms",
     "release": "4.3.1",
-    "codepoint": ""
+    "codepoint": null
   },
   "group-template": {
     "alias": ["4.4.0", "gis", "list", "point", "entry", "field", "maps"],
@@ -11515,11 +11525,12 @@
     "alias": ["4.4.0", "generic", "edit", "cells", "values", "attribute", "data"],
     "category": "Generic",
     "release": "4.4.0",
-    "codepoint": 61836"
+    "codepoint": 61836
   },
   "contingent-values-retire": {
     "alias": ["4.4.0", "forms", "combinations", "fields", "data", "historical-records"],
     "category": "Forms",
-    "release": "4.4.0"
+    "release": "4.4.0",
+    "codepoint": 61837
   }
 }
