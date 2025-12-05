@@ -7,7 +7,27 @@
  *
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-menu-gap
+// --calcite-internal-action-menu-padding
+
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm-plus));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @apply text-1
@@ -42,25 +62,9 @@
   overflow-y-auto
   overflow-x-hidden
   max-h-menu;
-}
 
-:host([scale="s"]) {
-  .menu {
-    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
-    padding: var(--calcite-spacing-xxs);
-  }
-}
-:host([scale="m"]) {
-  .menu {
-    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm));
-    padding: var(--calcite-spacing-sm);
-  }
-}
-:host([scale="l"]) {
-  .menu {
-    gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm-plus));
-    padding: var(--calcite-spacing-sm-plus);
-  }
+  gap: var(--calcite-internal-action-menu-gap);
+  padding: var(--calcite-internal-action-menu-padding);
 }
 
 @include includes.base-component();
