@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, floatingUIOwner, focusable, openClose, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -11,10 +11,6 @@ import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   mockConsole();
-
-  describe("translation support", () => {
-    t9n("calcite-popover");
-  });
 
   describe("accessible", () => {
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
@@ -552,14 +548,6 @@ describe("calcite-popover", () => {
     await ref.click();
     await page.waitForChanges();
     expect(await popover.getProperty("open")).toBe(false);
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
-      "open",
-      { shadowSelector: `.${CSS.positionContainer}` },
-    );
   });
 
   it("should autoClose shadow popovers when clicked outside", async () => {

@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel } from "../../tests/commonTests/browser";
+import { internalLabel, t9n } from "../../tests/commonTests/browser";
 import { hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-checkbox", () => {
@@ -10,5 +10,9 @@ describe("calcite-checkbox", () => {
 
   describe("internal label", () => {
     internalLabel(() => mount(`calcite-checkbox`));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-checkbox"));
   });
 });

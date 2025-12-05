@@ -2,7 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, delegatesToFloatingUiOwningComponent, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { findAll, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -27,15 +27,6 @@ describe("calcite-action-menu", () => {
         <calcite-action text="Add" icon="plus"></calcite-action>
       </calcite-action-menu>
     `);
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-action-menu>
-        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
-      </calcite-action-menu>`,
-      "calcite-popover",
-    );
   });
 
   it("should emit 'calciteActionMenuOpen' event", async () => {

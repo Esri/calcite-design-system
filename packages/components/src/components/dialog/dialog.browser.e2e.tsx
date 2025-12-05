@@ -1,8 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { page } from "vitest/browser";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -205,5 +205,9 @@ describe("calcite-dialog", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-dialog"));
   });
 });

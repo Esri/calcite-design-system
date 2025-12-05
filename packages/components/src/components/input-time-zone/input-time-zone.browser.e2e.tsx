@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-input-time-zone", () => {
@@ -46,5 +46,9 @@ describe("calcite-input-time-zone", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-input-time-zone"), { display: "block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-time-zone"));
   });
 });

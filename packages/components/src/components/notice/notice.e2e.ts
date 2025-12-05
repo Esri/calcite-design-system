@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -112,10 +112,6 @@ describe("calcite-notice", () => {
         },
       );
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-notice");
   });
 
   describe("theme", () => {
