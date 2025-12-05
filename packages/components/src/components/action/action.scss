@@ -220,8 +220,8 @@
 :host([scale="m"]) {
   .button {
     @apply text-n1h font-normal;
-    min-block-size: 32px;
-    min-inline-size: 48px;
+    min-block-size: 48px;
+    min-inline-size: 32px;
     padding-block: var(--calcite-internal-action-padding-block, var(--calcite-spacing-sm));
     padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-spacing-sm));
   }
