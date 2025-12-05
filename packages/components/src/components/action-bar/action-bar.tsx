@@ -72,7 +72,7 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount: boolean | number =
+    const groupCount: number =
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
     let bufferSize = groupCount;
