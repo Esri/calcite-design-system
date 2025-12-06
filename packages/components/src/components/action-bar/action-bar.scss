@@ -10,21 +10,45 @@
  * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-bar-gap
+// --calcite-internal-action-bar-padding
+// --calcite-internal-action-group-dividing-border-margin
+
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @extend %component-host;
   @apply inline-flex
     self-stretch;
   background: transparent;
+
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
 }
 
 .container {
   @apply inline-flex
   flex-col
   flex-auto;
-  gap: var(--calcite-action-bar-items-space, 0);
   background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  gap: var(--calcite-internal-action-bar-gap);
+  padding: var(--calcite-internal-action-bar-padding);
 }
 
 :host([floating]) {
@@ -58,6 +82,17 @@
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
     border-block-end-width: var(--calcite-border-width-sm);
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
+    padding-block-end: var(--calcite-internal-action-bar-padding);
   }
 }
 
@@ -77,7 +112,17 @@
   }
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
     border-inline-end-width: var(--calcite-border-width-sm);
+    padding-inline-end: var(--calcite-internal-action-bar-padding);
   }
 }
 

@@ -2,7 +2,12 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -43,6 +48,8 @@ export class ActionBar extends LitElement {
 
   private actions: Action["el"][] = [];
 
+  private containerRef = createRef<HTMLDivElement>();
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -66,11 +73,53 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount =
+    const groupCount: number =
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
+    let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+      }
+    }
+
     const overflowCount = getOverflowCount({
-      bufferSize: groupCount, // 1px border for each group
+      bufferSize,
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
@@ -464,6 +513,7 @@ export class ActionBar extends LitElement {
       <div
         ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
         class={CSS.container}
+        ref={this.containerRef}
         role="toolbar"
       >
         <slot onSlotChange={this.handleDefaultSlotChange} />
