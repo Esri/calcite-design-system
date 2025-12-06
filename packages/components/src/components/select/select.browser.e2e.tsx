@@ -1,6 +1,7 @@
-import { h, JsxNode } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
+import { TemplateResult } from "lit/html.js";
 import {
   defaults,
   reflects,
@@ -25,7 +26,7 @@ describe("calcite-select", () => {
     );
   });
 
-  function createSimpleSelect(): JsxNode {
+  function createSimpleSelect(): TemplateResult {
     return (
       <calcite-select label="required-for-a11y-test">
         <calcite-option>uno</calcite-option>
