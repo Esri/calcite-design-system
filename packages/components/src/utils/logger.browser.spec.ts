@@ -7,13 +7,9 @@ import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";
 
-declare global {
-  interface DeclareElements {
-    "calcite-foo": Test;
-  }
+class Test extends LitElement {
+  static tagName = "calcite-foo";
 }
-
-class Test extends LitElement {}
 
 describe("logger", () => {
   mockConsole(["debug", "error", "info", "trace", "warn"]);
