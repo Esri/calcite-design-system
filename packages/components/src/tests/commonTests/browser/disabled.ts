@@ -31,8 +31,6 @@ export interface DisabledOptions {
  *
  * Note that this helper should be used within a describe block.
  *
- * @param setup
- * @param options
  * @example
  * describe("disabled", () => {
  *    disabled("calcite-input")
