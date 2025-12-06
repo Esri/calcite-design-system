@@ -154,16 +154,14 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
 
     const target = getDisabledTarget(el, effectiveOptions);
 
-    const ariaAttributeTargetElement = target;
     addRedirectPrevention(target.localName);
 
     // setting page size seems to improve consistency between local and CI runs, see https://github.com/Esri/calcite-design-system/pull/10141/ for more info
-    // TODO: test if needed
     await page.viewport(1200, 800);
 
     const eventSpies = createEventSpiesForExpectedEvents(target);
 
-    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
+    expect(target.getAttribute("aria-disabled")).toBeNull();
 
     if (effectiveOptions.focusTarget === "none") {
       await userEvent.click(target, { force: true });
@@ -171,10 +169,10 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveBeenCalledTimes(1));
 
-      ariaAttributeTargetElement.disabled = true;
+      target.disabled = true;
       await reRender();
 
-      expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
+      expect(target.getAttribute("aria-disabled")).toBe("true");
 
       await userEvent.click(target, { force: true });
       expectToBeFocused("body", "none+disabled+click");
@@ -240,7 +238,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
     // ensure focus has been applied and browser has flushed layout
     await waitForAnimationFrame();
 
-    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
+    expect(target.getAttribute("aria-disabled")).toBe("true");
 
     await resetFocusOrder();
     expectToBeFocused("body", "disabled+pre-tab reset");
