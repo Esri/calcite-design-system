@@ -164,11 +164,34 @@ describe("calcite-panel", () => {
           },
         },
       );
+
+      describe("closable", () => {
+        disabled(
+          () =>
+            mount(
+              <calcite-panel closable style={scrolling.style}>
+                {scrolling.render()}
+              </calcite-panel>,
+            ),
+          {
+            focusTarget: {
+              tab: "calcite-panel",
+              click: "body",
+            },
+          },
+        );
+      });
     });
 
     describe("without scrolling content", () => {
       disabled(() => mount(<calcite-panel>non-scrolling content</calcite-panel>), {
         focusTarget: "none",
+      });
+
+      describe("closable", () => {
+        disabled(() => mount(<calcite-panel closable>non-scrolling content</calcite-panel>), {
+          focusTarget: "none",
+        });
       });
     });
   });
