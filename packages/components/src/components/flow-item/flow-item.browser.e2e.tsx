@@ -9,8 +9,10 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { scrolling } from "../../tests/browser/utils/content";
 import { SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
@@ -160,5 +162,41 @@ describe("calcite-flow-item", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-flow-item"));
+  });
+
+  describe("disabled", () => {
+    describe("default", () => {
+      disabled(
+        () =>
+          mount(
+            <calcite-flow-item selected style={scrolling.style}>
+              {scrolling.render()}
+            </calcite-flow-item>,
+          ),
+        {
+          focusTarget: {
+            tab: "calcite-flow-item",
+            click: "calcite-flow-item",
+          },
+        },
+      );
+    });
+
+    describe("closable", () => {
+      disabled(
+        () =>
+          mount(
+            <calcite-flow-item closable selected style={scrolling.style}>
+              {scrolling.render()}
+            </calcite-flow-item>,
+          ),
+        {
+          focusTarget: {
+            tab: "calcite-flow-item",
+            click: "calcite-flow-item",
+          },
+        },
+      );
+    });
   });
 });

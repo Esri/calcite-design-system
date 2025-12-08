@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
@@ -17,10 +17,6 @@ import type { InputText } from "./input-text";
 describe("calcite-input-text", () => {
   describe("labelable", () => {
     labelable("calcite-input-text");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-text");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {

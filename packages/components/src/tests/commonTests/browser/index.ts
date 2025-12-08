@@ -1,5 +1,6 @@
 export { cancelable } from "./cancelable";
 export { defaults } from "./defaults";
+export { disabled } from "./disabled";
 export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";
 export { internalLabel } from "./internal-label";

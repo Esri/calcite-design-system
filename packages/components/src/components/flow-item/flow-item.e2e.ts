@@ -1,10 +1,9 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
-import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
@@ -18,34 +17,6 @@ type TestWindow = GlobalTestProps<{
 
 describe("calcite-flow-item", () => {
   mockConsole();
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-flow-item selected style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-flow-item>`,
-      {
-        focusTarget: {
-          tab: "calcite-flow-item",
-          click: "body",
-        },
-      },
-    );
-
-    // Skipping this due to a possible bug in the disabled test helper
-    // @see https://github.com/Esri/calcite-design-system/issues/13407
-    describe.skip("closable", () => {
-      disabled(
-        html`<calcite-flow-item closable selected style="${scrollingHeightStyle}"
-          >${scrollingContentHtml}</calcite-flow-item
-        >`,
-        {
-          focusTarget: {
-            tab: "calcite-flow-item",
-            click: "body",
-          },
-        },
-      );
-    });
-  });
 
   describe("accessible", () => {
     accessible(html`

@@ -1,12 +1,8 @@
 import { describe } from "vitest";
-import { disabled, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-autocomplete-item", () => {
-  describe("disabled", () => {
-    disabled("calcite-autocomplete-item", { focusTarget: "none" });
-  });
-
   describe("theme", () => {
     themed("calcite-autocomplete-item", {
       "--calcite-autocomplete-background-color": {

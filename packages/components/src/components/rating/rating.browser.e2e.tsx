@@ -1,8 +1,15 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, t9n } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+  defaults,
+  reflects,
+  hidden,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-rating", () => {
   describe("defaults", () => {
@@ -51,5 +58,9 @@ describe("calcite-rating", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-rating"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-rating value={3} />));
   });
 });

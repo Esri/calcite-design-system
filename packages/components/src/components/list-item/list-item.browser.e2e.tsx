@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
@@ -126,5 +134,9 @@ describe("calcite-list-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-list-item"), SLOTS);
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-list-item active label="test" />));
   });
 });

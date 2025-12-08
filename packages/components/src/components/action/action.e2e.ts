@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -91,10 +91,6 @@ describe("calcite-action", () => {
 
     it("submits", async () => assertOnFormButtonType("submit"));
     it("resets", async () => assertOnFormButtonType("reset"));
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-action");
   });
 
   describe("focusable", () => {

@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, disabled } from "../../tests/commonTests/browser";
 
 describe("calcite-tile-group", () => {
   describe("defaults", () => {
@@ -41,6 +41,20 @@ describe("calcite-tile-group", () => {
           </calcite-tile-group>,
         ),
       { display: "inline-block" },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-tile-group>
+            <calcite-tile />
+            <calcite-tile />
+            <calcite-tile />
+          </calcite-tile-group>,
+        ),
+      { focusTarget: "child" },
     );
   });
 });
