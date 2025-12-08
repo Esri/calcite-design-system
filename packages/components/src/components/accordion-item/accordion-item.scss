@@ -169,7 +169,16 @@
   .actions-start,
   .actions-end {
     gap: var(--calcite-internal-accordion-item-action-slot-spacing);
-    padding: var(--calcite-internal-accordion-item-action-slot-spacing);
+  }
+  .actions-start {
+    padding-block: var(--calcite-internal-accordion-item-action-slot-spacing)
+      var(--calcite-internal-accordion-item-action-slot-spacing);
+    padding-inline: var(--calcite-internal-accordion-item-action-slot-spacing) 0;
+  }
+  .actions-end {
+    padding-block: var(--calcite-internal-accordion-item-action-slot-spacing)
+      var(--calcite-internal-accordion-item-action-slot-spacing);
+    padding-inline: 0 var(--calcite-internal-accordion-item-action-slot-spacing);
   }
 }
 
@@ -232,13 +241,6 @@
 
 :host([scale="l"]) .heading {
   font-size: var(--calcite-font-size-0);
-}
-
-.actions-start,
-.actions-end {
-  ::slotted(calcite-action) {
-    @apply self-stretch;
-  }
 }
 
 .icon {
