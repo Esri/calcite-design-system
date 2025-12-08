@@ -231,15 +231,13 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-      this.actions?.forEach((action) => {
+    this.actions?.forEach((action) => {
+      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
         action.setAttribute("role", "radio");
-      });
-    } else {
-      this.actions?.forEach((action) => {
+      } else {
         action.removeAttribute("role");
-      });
-    }
+      }
+    });
   }
 
   //#endregion
