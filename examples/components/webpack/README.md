@@ -68,7 +68,7 @@ This will ensure the library is available to your application.
 
 #### Add CSS loader
 
-While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
+To output a CSS file in the final bundle, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
 
 First, install the required plugin and loader packages:
 
