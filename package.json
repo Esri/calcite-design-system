@@ -66,7 +66,7 @@
     "@vitest/browser-playwright": "4.0.14",
     "@vitest/coverage-v8": "4.0.14",
     "@vitest/eslint-plugin": "1.4.0",
-    "autoprefixer": "10.4.21",
+    "autoprefixer": "10.4.22",
     "axe-core": "4.11.0",
     "change-case": "5.4.4",
     "chokidar": "4.0.3",
