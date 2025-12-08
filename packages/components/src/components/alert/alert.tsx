@@ -454,17 +454,17 @@ export class Alert extends LitElement {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.close}
-        class={CSS.close}
-        key="close"
-        onClick={this.closeAlert}
-        onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
-        onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
-        type="button"
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+      <div class={CSS.close}>
+        <calcite-action
+          icon="x"
+          key="close"
+          label={this.messages.close}
+          onClick={this.closeAlert}
+          onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
+          onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
+          scale={this.scale}
+        />
+      </div>
     );
   }
 
