@@ -1,0 +1,320 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
+ * @prop --calcite-action-background-color: Specifies the component's background color.
+ * @prop --calcite-action-corner-radius-end-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start start.
+ * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
+ * @prop --calcite-action-text-color-press: Specifies the component's text color when pressed or hovered.
+ * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color: Specifies the component's text color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-font-size
+// --calcite-internal-action-height
+// --calcite-internal-action-line-height
+// --calcite-internal-action-padding-inline
+// --calcite-internal-action-spacing
+// --calcite-internal-action-text-color
+
+@use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size--2);
+  --calcite-internal-action-height: var(--calcite-size-sm);
+  --calcite-internal-action-line-height: 1rem;
+  --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size--1);
+  --calcite-internal-action-height: var(--calcite-size-md);
+  --calcite-internal-action-line-height: 1rem;
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-font-size: var(--calcite-font-size-0);
+  --calcite-internal-action-height: var(--calcite-size-lg);
+  --calcite-internal-action-line-height: 1.25rem;
+  --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
+}
+
+:host {
+  @extend %component-host;
+  @apply flex bg-transparent cursor-pointer;
+  --calcite-internal-action-text-color: var(--calcite-color-text-3);
+
+  border-radius: var(
+    --calcite-action-corner-radius,
+    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius-xs))
+      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius-xs))
+  );
+}
+
+.interaction-container {
+  border-radius: inherit;
+}
+
+:host([width="full"]) {
+  flex: 1 0 auto;
+
+  .button {
+    justify-content: center;
+
+    .text-container--visible {
+      flex: none;
+    }
+  }
+}
+
+:host([drag-handle]) {
+  @apply cursor-move;
+  --calcite-internal-action-text-color: var(--calcite-color-border-input);
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-xxs);
+}
+
+@mixin action-indicator($offset: -0.275rem) {
+  position: relative;
+  &::after {
+    content: "";
+    @apply absolute
+      h-2
+      w-2
+      rounded-full;
+    inset-block-end: $offset;
+    inset-inline-end: $offset;
+    background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
+  }
+}
+
+.button {
+  @apply focus-base
+    relative
+    m-0
+    flex
+    w-auto
+    items-center
+    justify-start
+    border-none;
+  background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  border-radius: inherit;
+  color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
+  cursor: inherit;
+  flex: 1 0 auto;
+  font-family: inherit;
+  font-size: var(--calcite-internal-action-font-size);
+  font-weight: var(--calcite-font-weight-normal);
+  line-height: var(--calcite-internal-action-line-height);
+  min-block-size: var(--calcite-internal-action-height);
+  padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
+  padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
+  text-align: start;
+
+  &:hover {
+    background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+  }
+
+  &:focus {
+    @apply focus-inset;
+  }
+
+  &:active {
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+    );
+  }
+}
+
+.button--text-visible {
+  gap: var(--calcite-internal-action-spacing);
+  inline-size: 100%;
+}
+
+.icon-container {
+  @apply pointer-events-none
+    m-0
+    flex
+    items-center
+    justify-center;
+}
+
+.text-container {
+  @apply m-0
+    w-0
+    truncate
+    opacity-0
+    transition-opacity
+    ease-in-out;
+
+  transition-property: inline-size;
+}
+
+.text-container--visible {
+  @apply w-auto flex-auto opacity-100;
+}
+
+:host([active]) {
+  .button {
+    background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+
+    &:hover {
+      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-foreground-3));
+    }
+
+    &:active {
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+      );
+    }
+  }
+}
+
+:host([loading]) {
+  .button {
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+    }
+  }
+
+  .text-container {
+    @apply opacity-disabled;
+  }
+
+  calcite-loader[inline] {
+    margin-inline-end: theme("spacing.0");
+  }
+}
+
+:host([appearance="transparent"]) {
+  &:host([active]) .button {
+    background-color: var(--calcite-color-transparent-press);
+  }
+
+  .button {
+    @apply bg-transparent
+      transition-shadow
+      ease-in-out;
+
+    &:hover {
+      background-color: var(--calcite-color-transparent-hover);
+    }
+
+    &:active {
+      background-color: var(--calcite-color-transparent-press);
+    }
+  }
+}
+
+:host([selection-appearance="highlight"][active]) .button {
+  background-color: var(--calcite-color-surface-highlight);
+  color: var(--calcite-color-text-highlight);
+}
+
+:host([active-descendant]) .button {
+  @apply focus-inset;
+}
+
+:host([alignment="center"]) .button {
+  @apply justify-center;
+}
+
+:host([alignment="end"]) .button {
+  @apply justify-end;
+}
+
+:host([alignment="center"]),
+:host([alignment="end"]) {
+  .button .text-container--visible {
+    @apply flex-initial;
+  }
+}
+
+/* [Deprecated]  Compact */
+:host([scale="s"][compact]) .button,
+:host([scale="m"][compact]) .button,
+:host([scale="l"][compact]) .button {
+  @apply px-0;
+}
+
+.slot-container {
+  @apply flex;
+}
+
+.slot-container--hidden {
+  @apply hidden;
+}
+
+.indicator-with-icon {
+  @include action-indicator();
+}
+:host([scale="s"]) {
+  .indicator-with-icon {
+    @include action-indicator(-0.075rem);
+  }
+}
+
+.indicator-without-icon {
+  @apply w-4 mx-1;
+  @include action-indicator();
+}
+:host([scale="s"]) {
+  .indicator-without-icon {
+    @include action-indicator(-0.075rem);
+  }
+}
+
+.indicator-text {
+  @apply sr-only;
+}
+
+@include includes.base-component();
+@include includes.disabled {
+  .button,
+  .button:hover,
+  .button:focus {
+    @apply opacity-disabled cursor-default;
+    background-color: var(
+      --calcite-action-background-color,
+      var(--calcite-action-background-color, var(--calcite-color-foreground-1))
+    );
+  }
+
+  &:host([active]) {
+    .button,
+    .button:hover,
+    .button:focus {
+      @apply opacity-disabled;
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(
+          --calcite-action-background-color-press,
+          var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+        )
+      );
+    }
+  }
+}

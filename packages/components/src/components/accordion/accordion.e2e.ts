@@ -1,0 +1,299 @@
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
+import { findAll } from "../../tests/utils/puppeteer";
+import { CSS } from "./resources";
+
+describe("calcite-accordion", () => {
+  const accordionContent = html`
+    <calcite-accordion-item heading="Accordion Title 1" id="1"
+      ><calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action>Accordion Item
+      Content
+      <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" description="A description" id="2" expanded
+      >Accordion Item Content
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
+
+  const accordionContentInheritablePropsNonDefault = html`
+    <calcite-accordion-item heading="Accordion Title 1" id="1">
+      <calcite-action></calcite-action>Accordion Item Content<calcite-action></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
+
+  describe("accessible", () => {
+    accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
+  });
+
+  it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion icon-position="start" icon-type="plus-minus" scale="l">
+    ${accordionContentInheritablePropsNonDefault}
+    </calcite-accordion>`);
+    const accordionItems = await findAll(page, "calcite-accordion-item");
+
+    for (const item of accordionItems) {
+      expect(await item.getProperty("appearance")).toBe("solid");
+      expect(await item.getProperty("iconPosition")).toBe("start");
+      expect(await item.getProperty("iconType")).toBe("plus-minus");
+      expect(await item.getProperty("scale")).toBe("l");
+    }
+  });
+
+  it("renders requested props when valid props are provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion appearance="solid" icon-position="start" scale="l" selection-mode="single-persist" icon-type="caret">
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("appearance", "solid");
+    expect(element).toEqualAttribute("icon-position", "start");
+    expect(element).toEqualAttribute("scale", "l");
+    expect(element).toEqualAttribute("selection-mode", "single-persist");
+    expect(element).toEqualAttribute("icon-type", "caret");
+  });
+
+  it("renders icon if requested", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion appearance="solid" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
+    <calcite-accordion-item heading="Accordion Title 1" icon-start="car" id="1">Accordion Item Content
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" icon-start="car" id="3">Accordion Item Content
+    </calcite-accordion-item>
+    </calcite-accordion>`);
+    const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
+    const icon2 = await page.find(`calcite-accordion-item[id='2'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
+    const icon3 = await page.find(`calcite-accordion-item[id='3'] >>> .${ACCORDION_ITEM_CSS.iconStart}`);
+    expect(icon1).not.toBe(null);
+    expect(icon2).toBe(null);
+    expect(icon3).not.toBe(null);
+  });
+
+  it("renders expanded item based on attribute in dom", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion>
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
+    );
+
+    expect(item1).not.toHaveAttribute("expanded");
+
+    expect(item2).toHaveAttribute("expanded");
+
+    expect(item3).not.toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(false);
+    expect(await item2Content.isVisible()).toBe(true);
+    expect(await item3Content.isVisible()).toBe(false);
+  });
+
+  it("renders multiple expanded items when in multiple selection mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion>
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("selection-mode", "multiple");
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
+    );
+    await item1.click();
+    await item3.click();
+    expect(item1).toHaveAttribute("expanded");
+
+    expect(item2).toHaveAttribute("expanded");
+
+    expect(item3).toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(true);
+    expect(await item2Content.isVisible()).toBe(true);
+    expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  it("renders just one expanded item when in single selection mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion selection-mode="single">
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("selection-mode", "single");
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
+    );
+    await item1.click();
+    await item3.click();
+
+    expect(item1).not.toHaveAttribute("expanded");
+
+    expect(item2).not.toHaveAttribute("expanded");
+
+    expect(item3).toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(false);
+    expect(await item2Content.isVisible()).toBe(false);
+    expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
+        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`,
+    });
+    await page.waitForChanges();
+
+    const firstAccordion = await page.find("calcite-accordion[id='first']");
+    const item1FirstAccordion = await firstAccordion.find("calcite-accordion-item[id='1']");
+    await item1FirstAccordion.click();
+    await page.waitForChanges();
+    expect(await item1FirstAccordion.getProperty("expanded")).toBe(true);
+
+    const secondAccordion = await page.find("calcite-accordion[id='second']");
+    const item1SecondAccordion = await secondAccordion.find("calcite-accordion-item[id='1']");
+    await item1SecondAccordion.click();
+    await page.waitForChanges();
+    expect(await item1SecondAccordion.getProperty("expanded")).toBe(true);
+
+    expect(await item1FirstAccordion.getProperty("expanded")).toBe(true);
+  });
+
+  it("prevents closing the last expanded item when in single-persist selection mode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion selection-mode="single-persist">
+    ${accordionContent}
+    </calcite-accordion>`);
+
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("selection-mode", "single-persist");
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
+    );
+    await item2.click();
+
+    expect(item1).not.toHaveAttribute("expanded");
+
+    expect(item2).toHaveAttribute("expanded");
+
+    expect(item3).not.toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(false);
+    expect(await item2Content.isVisible()).toBe(true);
+    expect(await item3Content.isVisible()).toBe(false);
+  });
+
+  it("renders multiple expanded items when selection mode changes from single to multiple", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion selection-mode="single">
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("selection-mode", "single");
+    element.setAttribute("selection-mode", "multiple");
+    await page.waitForChanges();
+    const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await findAll(
+      element,
+      `calcite-accordion-item >>> .${ACCORDION_ITEM_CSS.content}`,
+    );
+    await item1.click();
+    await item3.click();
+    expect(item1).toHaveAttribute("expanded");
+
+    expect(item2).toHaveAttribute("expanded");
+
+    expect(item3).toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(true);
+    expect(await item2Content.isVisible()).toBe(true);
+    expect(await item3Content.isVisible()).toBe(true);
+  });
+
+  describe("theme", () => {
+    themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, {
+      "--calcite-accordion-background-color": [
+        {
+          shadowSelector: `.${CSS.accordion}`,
+          targetProp: "backgroundColor",
+          selector: "calcite-accordion",
+        },
+        {
+          targetProp: "backgroundColor",
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-border-color": [
+        {
+          shadowSelector: `.${CSS.accordion}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion",
+        },
+        {
+          shadowSelector: `.${ACCORDION_ITEM_CSS.header}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion-item",
+        },
+        {
+          shadowSelector: `.${ACCORDION_ITEM_CSS.content}`,
+          targetProp: "borderColor",
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-text-color": [
+        {
+          targetProp: "color",
+          selector: "calcite-accordion-item",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.headerContent}`,
+          selector: "calcite-accordion-item",
+        },
+      ],
+      "--calcite-accordion-text-color-hover": [
+        {
+          selector: "calcite-accordion-item[expanded]",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.expandIcon}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-accordion-item[expanded]",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.description}`,
+          targetProp: "color",
+        },
+      ],
+      "--calcite-accordion-item-heading-text-color": [
+        {
+          selector: "calcite-accordion-item",
+          shadowSelector: `.${ACCORDION_ITEM_CSS.heading}`,
+          targetProp: "color",
+        },
+      ],
+    });
+  });
+});

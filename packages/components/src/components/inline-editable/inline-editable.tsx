@@ -1,0 +1,330 @@
+// @ts-strict-ignore
+import { createRef } from "lit-html/directives/ref.js";
+import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { Scale } from "../interfaces";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { useT9n } from "../../controllers/useT9n";
+import type { Input } from "../input/input";
+import type { Label } from "../label/label";
+import type { Button } from "../button/button";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { styles } from "./inline-editable.scss";
+import { CSS, ICONS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
+
+declare global {
+  interface DeclareElements {
+    "calcite-inline-editable": InlineEditable;
+  }
+}
+
+/** @slot - A slot for adding a `calcite-input`. */
+export class InlineEditable extends LitElement implements LabelableComponent {
+  //#region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+
+  static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private cancelEditingButtonRef = createRef<Button["el"]>();
+
+  private _editingEnabled = false;
+
+  private enableEditingButtonRef = createRef<Button["el"]>();
+
+  private inputEl: Input["el"];
+
+  labelEl: Label["el"];
+
+  private shouldEmitCancel: boolean;
+
+  private valuePriorToEditing: string;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
+  @property() afterConfirm: () => Promise<void>;
+
+  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
+  @property({ reflect: true }) controls = false;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** When `true`, inline editing is enabled on the component. */
+  @property({ reflect: true })
+  get editingEnabled(): boolean {
+    return this._editingEnabled;
+  }
+  set editingEnabled(editingEnabled: boolean) {
+    const oldEditingEnabled = this._editingEnabled;
+    if (editingEnabled !== oldEditingEnabled) {
+      this._editingEnabled = editingEnabled;
+      this.editingEnabledWatcher(editingEnabled, oldEditingEnabled);
+    }
+  }
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** Use this property to override individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  //#endregion
+
+  //#region Public Methods
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.inputEl, options);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Emits when the component's "cancel editing" button is pressed. */
+  calciteInlineEditableEditCancel = createEvent({ cancelable: false });
+
+  /** Emits when the component's "confirm edits" button is pressed. */
+  calciteInlineEditableEditConfirm = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteInternalInputBlur", this.blurHandler);
+  }
+
+  override connectedCallback(): void {
+    connectLabel(this);
+  }
+
+  override disconnectedCallback(): void {
+    disconnectLabel(this);
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
+    if (this.inputEl) {
+      this.inputEl.editingEnabled = newValue;
+    }
+    if (!newValue && !!oldValue) {
+      this.shouldEmitCancel = true;
+    }
+  }
+
+  private blurHandler(): void {
+    if (!this.controls) {
+      this.disableEditing();
+    }
+  }
+
+  private async handleDefaultSlotChange(event: Event): Promise<void> {
+    const inputElement = slotChangeGetAssignedElements(event).filter((el): el is Input["el"] =>
+      el.matches("calcite-input"),
+    )[0];
+
+    this.inputEl = inputElement;
+
+    if (!inputElement) {
+      return;
+    }
+
+    await inputElement.componentOnReady();
+    inputElement.editingEnabled = this.editingEnabled;
+    inputElement.label = inputElement.label || getLabelText(this);
+  }
+
+  onLabelClick(): void {
+    this.setFocus();
+  }
+
+  private enableEditing() {
+    this.valuePriorToEditing = this.inputEl?.value;
+    this.editingEnabled = true;
+    this.inputEl?.setFocus();
+    this.calciteInternalInlineEditableEnableEditingChange.emit();
+  }
+
+  private disableEditing() {
+    this.editingEnabled = false;
+  }
+
+  private cancelEditing() {
+    if (this.inputEl) {
+      this.inputEl.value = this.valuePriorToEditing;
+    }
+    this.disableEditing();
+    this.enableEditingButtonRef.value?.setFocus();
+    if (!this.editingEnabled && !!this.shouldEmitCancel) {
+      this.calciteInlineEditableEditCancel.emit();
+    }
+  }
+
+  private escapeKeyHandler(event: KeyboardEvent) {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      this.cancelEditing();
+    }
+
+    if (event.key === "Tab" && this.shouldShowControls) {
+      if (!event.shiftKey && event.target === this.inputEl) {
+        event.preventDefault();
+        this.cancelEditingButtonRef.value.setFocus();
+      }
+      if (!!event.shiftKey && event.target === this.cancelEditingButtonRef.value) {
+        event.preventDefault();
+        this.inputEl?.setFocus();
+      }
+    }
+  }
+
+  private async cancelEditingHandler(event: MouseEvent) {
+    event.preventDefault();
+    this.cancelEditing();
+  }
+
+  private enableEditingHandler(event: MouseEvent) {
+    if (
+      this.disabled ||
+      (event.target !== this.enableEditingButtonRef.value && event.target !== this.inputEl)
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (!this.editingEnabled) {
+      this.enableEditing();
+    }
+  }
+
+  private async confirmChangesHandler(event: MouseEvent) {
+    event.preventDefault();
+    this.calciteInlineEditableEditConfirm.emit();
+    try {
+      if (this.afterConfirm) {
+        this.loading = true;
+        await this.afterConfirm();
+        this.disableEditing();
+        this.enableEditingButtonRef.value?.setFocus();
+      }
+    } catch {
+      // we handle error in finally block
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  //#endregion
+
+  //#region Rendering
+
+  override render(): JsxNode {
+    return (
+      <this.interactiveContainer disabled={this.disabled}>
+        <div
+          class={CSS.wrapper}
+          onClick={this.enableEditingHandler}
+          onKeyDown={this.escapeKeyHandler}
+        >
+          <div class={CSS.inputWrapper}>
+            <slot onSlotChange={this.handleDefaultSlotChange} />
+          </div>
+          <div class={CSS.controlsWrapper}>
+            <calcite-button
+              appearance="transparent"
+              class={{
+                [CSS.enableEditingButton]: true,
+                [CSS.enableEditingButtonHidden]: this.editingEnabled,
+              }}
+              iconStart={ICONS.pencil}
+              kind="neutral"
+              label={this.messages.enableEditing}
+              onClick={this.enableEditingHandler}
+              ref={this.enableEditingButtonRef}
+              scale={this.scale}
+              title={this.messages.enableEditing}
+              type="button"
+            />
+            {this.shouldShowControls && [
+              <div class={CSS.cancelEditingButtonWrapper}>
+                <calcite-button
+                  appearance="transparent"
+                  class={CSS.cancelEditingButton}
+                  iconStart={ICONS.close}
+                  kind="neutral"
+                  label={this.messages.cancelEditing}
+                  onClick={this.cancelEditingHandler}
+                  ref={this.cancelEditingButtonRef}
+                  scale={this.scale}
+                  title={this.messages.cancelEditing}
+                  type="button"
+                />
+              </div>,
+              <calcite-button
+                appearance="solid"
+                class={CSS.confirmChangesButton}
+                iconStart={ICONS.check}
+                kind="brand"
+                label={this.messages.confirmChanges}
+                loading={this.loading}
+                onClick={this.confirmChangesHandler}
+                scale={this.scale}
+                title={this.messages.confirmChanges}
+                type="button"
+              />,
+            ]}
+          </div>
+        </div>
+      </this.interactiveContainer>
+    );
+  }
+
+  //#endregion
+}

@@ -1,0 +1,125 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-rating-spacing: Specifies the amount of left and right margin spacing between each item.
+ * @prop --calcite-rating-color-hover: Specifies the component's item color when hovered.
+ * @prop --calcite-rating-color-press: Specifies the component's item color when active.
+ * @prop --calcite-rating-color: Specifies the component's item color.
+ * @prop --calcite-rating-average-color: Specifies the component's item color when average is set.
+ * @prop --calcite-rating-average-text-color: Specifies the component's average text color.
+ * @prop --calcite-rating-count-text-color: Specifies the component's count text color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-rating-spacing
+
+@use "../../styles/includes";
+
+:host {
+  @apply relative flex items-center;
+  inline-size: fit-content;
+}
+
+@include includes.disabled();
+
+:host([scale="s"]) {
+  @apply h-6;
+  --calcite-internal-rating-spacing: theme("spacing.1");
+}
+
+:host([scale="m"]) {
+  @apply h-8;
+  --calcite-internal-rating-spacing: theme("spacing.2");
+}
+
+:host([scale="l"]) {
+  @apply h-11;
+  --calcite-internal-rating-spacing: theme("spacing.3");
+}
+
+:host([read-only]) {
+  @extend %non-interactive-host-contents;
+}
+
+.fieldset {
+  margin: 0;
+  display: flex;
+  border-width: 0;
+  padding: 0;
+  align-items: center;
+  gap: var(--calcite-rating-spacing, var(--calcite-internal-rating-spacing));
+}
+
+.wrapper {
+  display: inline-block;
+}
+
+.star {
+  @apply transition-default;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  color: var(--calcite-rating-color, theme("borderColor.color.input"));
+  &:hover {
+    color: var(--calcite-rating-color-hover, var(--calcite-color-brand-hover));
+  }
+  &:active {
+    color: var(--calcite-rating-color-press, var(--calcite-color-brand-press));
+  }
+  &:focus {
+    @apply focus-outset;
+  }
+}
+
+.average,
+.fraction {
+  color: var(--calcite-rating-average-color, theme("colors.warning"));
+}
+
+.hovered,
+.selected {
+  color: var(--calcite-rating-color, theme("colors.brand"));
+}
+
+.fraction {
+  @apply transition-default;
+  position: absolute;
+  pointer-events: none;
+  inset-block-start: 0;
+  overflow: hidden;
+  inset-inline-start: 0;
+}
+
+// rating count
+calcite-chip {
+  pointer-events: none;
+  cursor: default;
+}
+
+.number--average {
+  font-weight: bold;
+  color: var(--calcite-rating-average-text-color);
+}
+
+.number--count {
+  color: var(--calcite-rating-count-text-color, var(--calcite-color-text-2));
+  font-style: italic;
+  &:not(:first-child) {
+    margin-inline-start: var(--calcite-rating-spacing, var(--calcite-internal-rating-spacing));
+  }
+}
+
+.visually-hidden {
+  @apply sr-only;
+}
+
+@include includes.form-internal-label();
+@include includes.form-validation-message();
+@include includes.hidden-form-input();
+@include includes.base-component();
