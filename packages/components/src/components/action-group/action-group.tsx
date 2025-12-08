@@ -158,6 +158,7 @@ export class ActionGroup extends LitElement {
   constructor() {
     super();
     this.listen("click", this.handleActionClick);
+    this.setRoleOnActions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -165,6 +166,10 @@ export class ActionGroup extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+
+    if (this.hasUpdated || changes.has("selectionMode")) {
+      this.setRoleOnActions();
+    }
 
     if (changes.has("expanded")) {
       if (this.hasUpdated || this.expanded !== false) {
@@ -223,6 +228,18 @@ export class ActionGroup extends LitElement {
       return;
     }
     this.setActiveAction(index, target);
+  }
+
+  private setRoleOnActions(): void {
+    if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+      this.actions?.forEach((action) => {
+        action.setAttribute("role", "radio");
+      });
+    } else {
+      this.actions?.forEach((action) => {
+        action.removeAttribute("role");
+      });
+    }
   }
 
   //#endregion
