@@ -13,7 +13,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "postinstall": "npm run copy",
-    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/"
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets/ ./public/assets/"
   },
   "dependencies": {
     "@esri/calcite-components": "3.3.3",
