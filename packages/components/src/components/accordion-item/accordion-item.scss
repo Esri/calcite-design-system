@@ -27,6 +27,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-accordion-item-action-slot-spacing
 // --calcite-internal-accordion-item-active-icon-rotation
 // --calcite-internal-accordion-item-active-icon-rotation-rtl
 // --calcite-internal-accordion-item-flex-direction
@@ -45,6 +46,16 @@
   --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.0");
   --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.90");
   --calcite-internal-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+}
+
+:host([scale="s"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+}
+:host([scale="l"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xs);
 }
 
 :host {
@@ -154,6 +165,11 @@
       items-center
       ease-in-out;
     @include includes.word-break();
+  }
+  .actions-start,
+  .actions-end {
+    gap: var(--calcite-internal-accordion-item-action-slot-spacing);
+    padding: var(--calcite-internal-accordion-item-action-slot-spacing);
   }
 }
 
