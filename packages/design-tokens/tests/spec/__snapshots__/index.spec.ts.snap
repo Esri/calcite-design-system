@@ -893,6 +893,20 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-size-relative-200: 200%;
   --calcite-size-relative-auto: auto;
   --calcite-size-relative-normal: normal;
+  --calcite-size-rem-1: 1rem;
+  --calcite-size-rem-2: 2rem;
+  --calcite-size-rem-3: 3rem;
+  --calcite-size-rem-4: 4rem;
+  --calcite-size-rem-5: 5rem;
+  --calcite-size-rem-0-625: 0.625rem;
+  --calcite-size-rem-0-75: 0.75rem;
+  --calcite-size-rem-0-875: 0.875rem;
+  --calcite-size-rem-1-125: 1.125rem;
+  --calcite-size-rem-1-25: 1.25rem;
+  --calcite-size-rem-1-5: 1.5rem;
+  --calcite-size-rem-1-625: 1.625rem;
+  --calcite-size-rem-2-5: 2.5rem;
+  --calcite-size-rem-3-5: 3.5rem;
   --calcite-z-index-0: -999999;
   --calcite-z-index-1: 1;
   --calcite-z-index-3: 300;
@@ -1006,6 +1020,18 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px;
+  --calcite-font-size-relative-xs: 0.625rem;
+  --calcite-font-size-relative-sm: 0.75rem;
+  --calcite-font-size-relative-base: 0.875rem;
+  --calcite-font-size-relative-md: 1rem;
+  --calcite-font-size-relative-lg: 1.125rem;
+  --calcite-font-size-relative-xl: 1.25rem;
+  --calcite-font-size-relative-2xl: 1.625rem;
+  --calcite-font-size-relative-3xl: 2rem;
+  --calcite-font-size-relative-4xl: 2.5rem;
+  --calcite-font-size-relative-5xl: 3rem;
+  --calcite-font-size-relative-6xl: 3.5rem;
+  --calcite-font-size-relative-7xl: 4rem;
   --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
@@ -1023,6 +1049,18 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
   --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-xs: 0.75rem;
+  --calcite-font-line-height-sm: 1rem;
+  --calcite-font-line-height-base: 1rem;
+  --calcite-font-line-height-md: 1.25rem;
+  --calcite-font-line-height-lg: 1.5rem;
+  --calcite-font-line-height-xl: 1.5rem;
+  --calcite-font-line-height-2xl: 2rem;
+  --calcite-font-line-height-3xl: 2.5rem;
+  --calcite-font-line-height-4xl: 3rem;
+  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-6xl: 4rem;
+  --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated */
@@ -1454,6 +1492,18 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px;
+  --calcite-font-size-relative-xs: 0.625rem;
+  --calcite-font-size-relative-sm: 0.75rem;
+  --calcite-font-size-relative-base: 0.875rem;
+  --calcite-font-size-relative-md: 1rem;
+  --calcite-font-size-relative-lg: 1.125rem;
+  --calcite-font-size-relative-xl: 1.25rem;
+  --calcite-font-size-relative-2xl: 1.625rem;
+  --calcite-font-size-relative-3xl: 2rem;
+  --calcite-font-size-relative-4xl: 2.5rem;
+  --calcite-font-size-relative-5xl: 3rem;
+  --calcite-font-size-relative-6xl: 3.5rem;
+  --calcite-font-size-relative-7xl: 4rem;
   --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
@@ -1471,6 +1521,18 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
   --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-xs: 0.75rem;
+  --calcite-font-line-height-sm: 1rem;
+  --calcite-font-line-height-base: 1rem;
+  --calcite-font-line-height-md: 1.25rem;
+  --calcite-font-line-height-lg: 1.5rem;
+  --calcite-font-line-height-xl: 1.5rem;
+  --calcite-font-line-height-2xl: 2rem;
+  --calcite-font-line-height-3xl: 2.5rem;
+  --calcite-font-line-height-4xl: 3rem;
+  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-6xl: 4rem;
+  --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated */
@@ -17433,6 +17495,379 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "path": ["core", "size", "relative", "normal"]
     },
     {
+      "key": "{core.size.rem.1}",
+      "value": "1rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "1",
+        "names": {
+          "scss": "$calcite-size-rem-1",
+          "css": "var(--calcite-size-rem-1)",
+          "docs": "core.size.rem.1",
+          "es6": "calciteSizeRem1"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 1",
+      "path": ["core", "size", "rem", "1"]
+    },
+    {
+      "key": "{core.size.rem.2}",
+      "value": "2rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "2",
+        "names": {
+          "scss": "$calcite-size-rem-2",
+          "css": "var(--calcite-size-rem-2)",
+          "docs": "core.size.rem.2",
+          "es6": "calciteSizeRem2"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 2",
+      "path": ["core", "size", "rem", "2"]
+    },
+    {
+      "key": "{core.size.rem.3}",
+      "value": "3rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "3",
+        "names": {
+          "scss": "$calcite-size-rem-3",
+          "css": "var(--calcite-size-rem-3)",
+          "docs": "core.size.rem.3",
+          "es6": "calciteSizeRem3"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 3",
+      "path": ["core", "size", "rem", "3"]
+    },
+    {
+      "key": "{core.size.rem.4}",
+      "value": "4rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "4",
+        "names": {
+          "scss": "$calcite-size-rem-4",
+          "css": "var(--calcite-size-rem-4)",
+          "docs": "core.size.rem.4",
+          "es6": "calciteSizeRem4"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 4",
+      "path": ["core", "size", "rem", "4"]
+    },
+    {
+      "key": "{core.size.rem.5}",
+      "value": "5rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "5",
+        "names": {
+          "scss": "$calcite-size-rem-5",
+          "css": "var(--calcite-size-rem-5)",
+          "docs": "core.size.rem.5",
+          "es6": "calciteSizeRem5"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 5",
+      "path": ["core", "size", "rem", "5"]
+    },
+    {
+      "key": "{core.size.rem.0-625}",
+      "value": "0.625rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "0-625",
+        "names": {
+          "scss": "$calcite-size-rem-0-625",
+          "css": "var(--calcite-size-rem-0-625)",
+          "docs": "core.size.rem.0-625",
+          "es6": "calciteSizeRem0625"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 0 625",
+      "path": ["core", "size", "rem", "0-625"]
+    },
+    {
+      "key": "{core.size.rem.0-75}",
+      "value": "0.75rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "0-75",
+        "names": {
+          "scss": "$calcite-size-rem-0-75",
+          "css": "var(--calcite-size-rem-0-75)",
+          "docs": "core.size.rem.0-75",
+          "es6": "calciteSizeRem075"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 0 75",
+      "path": ["core", "size", "rem", "0-75"]
+    },
+    {
+      "1": {
+        "value": "1",
+        "type": "sizing",
+        "attributes": {
+          "category": "size"
+        },
+        "filePath": "src/tokens/core/size.json",
+        "isSource": false
+      },
+      "key": "{core.size.rem.0-875}",
+      "value": "0.875rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "0-875",
+        "names": {
+          "scss": "$calcite-size-rem-0-875",
+          "css": "var(--calcite-size-rem-0-875)",
+          "docs": "core.size.rem.0-875",
+          "es6": "calciteSizeRem0875"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 0 875",
+      "path": ["core", "size", "rem", "0-875"]
+    },
+    {
+      "key": "{core.size.rem.1-125}",
+      "value": "1.125rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "1-125",
+        "names": {
+          "scss": "$calcite-size-rem-1-125",
+          "css": "var(--calcite-size-rem-1-125)",
+          "docs": "core.size.rem.1-125",
+          "es6": "calciteSizeRem1125"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 1 125",
+      "path": ["core", "size", "rem", "1-125"]
+    },
+    {
+      "key": "{core.size.rem.1-25}",
+      "value": "1.25rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "1-25",
+        "names": {
+          "scss": "$calcite-size-rem-1-25",
+          "css": "var(--calcite-size-rem-1-25)",
+          "docs": "core.size.rem.1-25",
+          "es6": "calciteSizeRem125"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 1 25",
+      "path": ["core", "size", "rem", "1-25"]
+    },
+    {
+      "key": "{core.size.rem.1-5}",
+      "value": "1.5rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "1-5",
+        "names": {
+          "scss": "$calcite-size-rem-1-5",
+          "css": "var(--calcite-size-rem-1-5)",
+          "docs": "core.size.rem.1-5",
+          "es6": "calciteSizeRem15"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 1 5",
+      "path": ["core", "size", "rem", "1-5"]
+    },
+    {
+      "key": "{core.size.rem.1-625}",
+      "value": "1.625rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "1-625",
+        "names": {
+          "scss": "$calcite-size-rem-1-625",
+          "css": "var(--calcite-size-rem-1-625)",
+          "docs": "core.size.rem.1-625",
+          "es6": "calciteSizeRem1625"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 1 625",
+      "path": ["core", "size", "rem", "1-625"]
+    },
+    {
+      "key": "{core.size.rem.2-5}",
+      "value": "2.5rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "2-5",
+        "names": {
+          "scss": "$calcite-size-rem-2-5",
+          "css": "var(--calcite-size-rem-2-5)",
+          "docs": "core.size.rem.2-5",
+          "es6": "calciteSizeRem25"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 2 5",
+      "path": ["core", "size", "rem", "2-5"]
+    },
+    {
+      "key": "{core.size.rem.3-5}",
+      "value": "3.5rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "3-5",
+        "names": {
+          "scss": "$calcite-size-rem-3-5",
+          "css": "var(--calcite-size-rem-3-5)",
+          "docs": "core.size.rem.3-5",
+          "es6": "calciteSizeRem35"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 3 5",
+      "path": ["core", "size", "rem", "3-5"]
+    },
+    {
       "key": "{core.z-index.0}",
       "value": "-999999",
       "type": "z-index",
@@ -20296,6 +20731,342 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "path": ["semantic", "font", "size", "xxl"]
     },
     {
+      "key": "{semantic.font.size.relative.xs}",
+      "value": "0.625rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "xs",
+        "names": {
+          "scss": "$calcite-font-size-relative-xs",
+          "css": "var(--calcite-font-size-relative-xs)",
+          "docs": "semantic.font.size.relative.xs",
+          "es6": "calciteFontSizeRelativeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xs",
+      "path": ["semantic", "font", "size", "relative", "xs"]
+    },
+    {
+      "key": "{semantic.font.size.relative.sm}",
+      "value": "0.75rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "sm",
+        "names": {
+          "scss": "$calcite-font-size-relative-sm",
+          "css": "var(--calcite-font-size-relative-sm)",
+          "docs": "semantic.font.size.relative.sm",
+          "es6": "calciteFontSizeRelativeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Sm",
+      "path": ["semantic", "font", "size", "relative", "sm"]
+    },
+    {
+      "key": "{semantic.font.size.relative.base}",
+      "value": "0.875rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "base",
+        "names": {
+          "scss": "$calcite-font-size-relative-base",
+          "css": "var(--calcite-font-size-relative-base)",
+          "docs": "semantic.font.size.relative.base",
+          "es6": "calciteFontSizeRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Base",
+      "path": ["semantic", "font", "size", "relative", "base"]
+    },
+    {
+      "key": "{semantic.font.size.relative.md}",
+      "value": "1rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "md",
+        "names": {
+          "scss": "$calcite-font-size-relative-md",
+          "css": "var(--calcite-font-size-relative-md)",
+          "docs": "semantic.font.size.relative.md",
+          "es6": "calciteFontSizeRelativeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Md",
+      "path": ["semantic", "font", "size", "relative", "md"]
+    },
+    {
+      "key": "{semantic.font.size.relative.lg}",
+      "value": "1.125rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "lg",
+        "names": {
+          "scss": "$calcite-font-size-relative-lg",
+          "css": "var(--calcite-font-size-relative-lg)",
+          "docs": "semantic.font.size.relative.lg",
+          "es6": "calciteFontSizeRelativeLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Lg",
+      "path": ["semantic", "font", "size", "relative", "lg"]
+    },
+    {
+      "key": "{semantic.font.size.relative.xl}",
+      "value": "1.25rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-xl",
+          "css": "var(--calcite-font-size-relative-xl)",
+          "docs": "semantic.font.size.relative.xl",
+          "es6": "calciteFontSizeRelativeXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xl",
+      "path": ["semantic", "font", "size", "relative", "xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.2xl}",
+      "value": "1.625rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-2xl",
+          "css": "var(--calcite-font-size-relative-2xl)",
+          "docs": "semantic.font.size.relative.2xl",
+          "es6": "calciteFontSizeRelative2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 2xl",
+      "path": ["semantic", "font", "size", "relative", "2xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.3xl}",
+      "value": "2rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "3xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-3xl",
+          "css": "var(--calcite-font-size-relative-3xl)",
+          "docs": "semantic.font.size.relative.3xl",
+          "es6": "calciteFontSizeRelative3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 3xl",
+      "path": ["semantic", "font", "size", "relative", "3xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.4xl}",
+      "value": "2.5rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "4xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-4xl",
+          "css": "var(--calcite-font-size-relative-4xl)",
+          "docs": "semantic.font.size.relative.4xl",
+          "es6": "calciteFontSizeRelative4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 4xl",
+      "path": ["semantic", "font", "size", "relative", "4xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.5xl}",
+      "value": "3rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "5xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-5xl",
+          "css": "var(--calcite-font-size-relative-5xl)",
+          "docs": "semantic.font.size.relative.5xl",
+          "es6": "calciteFontSizeRelative5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 5xl",
+      "path": ["semantic", "font", "size", "relative", "5xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.6xl}",
+      "value": "3.5rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "6xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-6xl",
+          "css": "var(--calcite-font-size-relative-6xl)",
+          "docs": "semantic.font.size.relative.6xl",
+          "es6": "calciteFontSizeRelative6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 6xl",
+      "path": ["semantic", "font", "size", "relative", "6xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.7xl}",
+      "value": "4rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "7xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-7xl",
+          "css": "var(--calcite-font-size-relative-7xl)",
+          "docs": "semantic.font.size.relative.7xl",
+          "es6": "calciteFontSizeRelative7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 7xl",
+      "path": ["semantic", "font", "size", "relative", "7xl"]
+    },
+    {
       "key": "{semantic.font.style.emphasis}",
       "value": "italic",
       "type": "fontStyle",
@@ -20865,6 +21636,342 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "name": "Font Line Height Relative Loose",
       "path": ["semantic", "font", "line-height", "relative", "loose"],
       "comment": "2"
+    },
+    {
+      "key": "{semantic.font.line-height.xs}",
+      "value": "0.75rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-font-line-height-xs",
+          "css": "var(--calcite-font-line-height-xs)",
+          "docs": "semantic.font.line-height.xs",
+          "es6": "calciteFontLineHeightXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xs",
+      "path": ["semantic", "font", "line-height", "xs"]
+    },
+    {
+      "key": "{semantic.font.line-height.sm}",
+      "value": "1rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-font-line-height-sm",
+          "css": "var(--calcite-font-line-height-sm)",
+          "docs": "semantic.font.line-height.sm",
+          "es6": "calciteFontLineHeightSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Sm",
+      "path": ["semantic", "font", "line-height", "sm"]
+    },
+    {
+      "key": "{semantic.font.line-height.base}",
+      "value": "1rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "base",
+        "names": {
+          "scss": "$calcite-font-line-height-base",
+          "css": "var(--calcite-font-line-height-base)",
+          "docs": "semantic.font.line-height.base",
+          "es6": "calciteFontLineHeightBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Base",
+      "path": ["semantic", "font", "line-height", "base"]
+    },
+    {
+      "key": "{semantic.font.line-height.md}",
+      "value": "1.25rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "md",
+        "names": {
+          "scss": "$calcite-font-line-height-md",
+          "css": "var(--calcite-font-line-height-md)",
+          "docs": "semantic.font.line-height.md",
+          "es6": "calciteFontLineHeightMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Md",
+      "path": ["semantic", "font", "line-height", "md"]
+    },
+    {
+      "key": "{semantic.font.line-height.lg}",
+      "value": "1.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "lg",
+        "names": {
+          "scss": "$calcite-font-line-height-lg",
+          "css": "var(--calcite-font-line-height-lg)",
+          "docs": "semantic.font.line-height.lg",
+          "es6": "calciteFontLineHeightLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Lg",
+      "path": ["semantic", "font", "line-height", "lg"]
+    },
+    {
+      "key": "{semantic.font.line-height.xl}",
+      "value": "1.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "xl",
+        "names": {
+          "scss": "$calcite-font-line-height-xl",
+          "css": "var(--calcite-font-line-height-xl)",
+          "docs": "semantic.font.line-height.xl",
+          "es6": "calciteFontLineHeightXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xl",
+      "path": ["semantic", "font", "line-height", "xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.2xl}",
+      "value": "2rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-2xl",
+          "css": "var(--calcite-font-line-height-2xl)",
+          "docs": "semantic.font.line-height.2xl",
+          "es6": "calciteFontLineHeight2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 2xl",
+      "path": ["semantic", "font", "line-height", "2xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.3xl}",
+      "value": "2.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-3xl",
+          "css": "var(--calcite-font-line-height-3xl)",
+          "docs": "semantic.font.line-height.3xl",
+          "es6": "calciteFontLineHeight3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 3xl",
+      "path": ["semantic", "font", "line-height", "3xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.4xl}",
+      "value": "3rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-4xl",
+          "css": "var(--calcite-font-line-height-4xl)",
+          "docs": "semantic.font.line-height.4xl",
+          "es6": "calciteFontLineHeight4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 4xl",
+      "path": ["semantic", "font", "line-height", "4xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.5xl}",
+      "value": "4rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-5xl",
+          "css": "var(--calcite-font-line-height-5xl)",
+          "docs": "semantic.font.line-height.5xl",
+          "es6": "calciteFontLineHeight5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 5xl",
+      "path": ["semantic", "font", "line-height", "5xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.6xl}",
+      "value": "4rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-6xl",
+          "css": "var(--calcite-font-line-height-6xl)",
+          "docs": "semantic.font.line-height.6xl",
+          "es6": "calciteFontLineHeight6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 6xl",
+      "path": ["semantic", "font", "line-height", "6xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.7xl}",
+      "value": "5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "7xl",
+        "names": {
+          "scss": "$calcite-font-line-height-7xl",
+          "css": "var(--calcite-font-line-height-7xl)",
+          "docs": "semantic.font.line-height.7xl",
+          "es6": "calciteFontLineHeight7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 7xl",
+      "path": ["semantic", "font", "line-height", "7xl"]
     },
     {
       "key": "{semantic.font.letter-spacing.tight}",
@@ -26570,6 +27677,342 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "path": ["semantic", "font", "size", "xxl"]
     },
     {
+      "key": "{semantic.font.size.relative.xs}",
+      "value": "0.625rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "xs",
+        "names": {
+          "scss": "$calcite-font-size-relative-xs",
+          "css": "var(--calcite-font-size-relative-xs)",
+          "docs": "semantic.font.size.relative.xs",
+          "es6": "calciteFontSizeRelativeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xs",
+      "path": ["semantic", "font", "size", "relative", "xs"]
+    },
+    {
+      "key": "{semantic.font.size.relative.sm}",
+      "value": "0.75rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "sm",
+        "names": {
+          "scss": "$calcite-font-size-relative-sm",
+          "css": "var(--calcite-font-size-relative-sm)",
+          "docs": "semantic.font.size.relative.sm",
+          "es6": "calciteFontSizeRelativeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Sm",
+      "path": ["semantic", "font", "size", "relative", "sm"]
+    },
+    {
+      "key": "{semantic.font.size.relative.base}",
+      "value": "0.875rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "base",
+        "names": {
+          "scss": "$calcite-font-size-relative-base",
+          "css": "var(--calcite-font-size-relative-base)",
+          "docs": "semantic.font.size.relative.base",
+          "es6": "calciteFontSizeRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Base",
+      "path": ["semantic", "font", "size", "relative", "base"]
+    },
+    {
+      "key": "{semantic.font.size.relative.md}",
+      "value": "1rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "md",
+        "names": {
+          "scss": "$calcite-font-size-relative-md",
+          "css": "var(--calcite-font-size-relative-md)",
+          "docs": "semantic.font.size.relative.md",
+          "es6": "calciteFontSizeRelativeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Md",
+      "path": ["semantic", "font", "size", "relative", "md"]
+    },
+    {
+      "key": "{semantic.font.size.relative.lg}",
+      "value": "1.125rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "lg",
+        "names": {
+          "scss": "$calcite-font-size-relative-lg",
+          "css": "var(--calcite-font-size-relative-lg)",
+          "docs": "semantic.font.size.relative.lg",
+          "es6": "calciteFontSizeRelativeLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Lg",
+      "path": ["semantic", "font", "size", "relative", "lg"]
+    },
+    {
+      "key": "{semantic.font.size.relative.xl}",
+      "value": "1.25rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-xl",
+          "css": "var(--calcite-font-size-relative-xl)",
+          "docs": "semantic.font.size.relative.xl",
+          "es6": "calciteFontSizeRelativeXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xl",
+      "path": ["semantic", "font", "size", "relative", "xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.2xl}",
+      "value": "1.625rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-2xl",
+          "css": "var(--calcite-font-size-relative-2xl)",
+          "docs": "semantic.font.size.relative.2xl",
+          "es6": "calciteFontSizeRelative2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 2xl",
+      "path": ["semantic", "font", "size", "relative", "2xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.3xl}",
+      "value": "2rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "3xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-3xl",
+          "css": "var(--calcite-font-size-relative-3xl)",
+          "docs": "semantic.font.size.relative.3xl",
+          "es6": "calciteFontSizeRelative3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 3xl",
+      "path": ["semantic", "font", "size", "relative", "3xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.4xl}",
+      "value": "2.5rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "4xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-4xl",
+          "css": "var(--calcite-font-size-relative-4xl)",
+          "docs": "semantic.font.size.relative.4xl",
+          "es6": "calciteFontSizeRelative4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 4xl",
+      "path": ["semantic", "font", "size", "relative", "4xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.5xl}",
+      "value": "3rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "5xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-5xl",
+          "css": "var(--calcite-font-size-relative-5xl)",
+          "docs": "semantic.font.size.relative.5xl",
+          "es6": "calciteFontSizeRelative5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 5xl",
+      "path": ["semantic", "font", "size", "relative", "5xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.6xl}",
+      "value": "3.5rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "6xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-6xl",
+          "css": "var(--calcite-font-size-relative-6xl)",
+          "docs": "semantic.font.size.relative.6xl",
+          "es6": "calciteFontSizeRelative6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 6xl",
+      "path": ["semantic", "font", "size", "relative", "6xl"]
+    },
+    {
+      "key": "{semantic.font.size.relative.7xl}",
+      "value": "4rem",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "relative",
+        "state": "7xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-7xl",
+          "css": "var(--calcite-font-size-relative-7xl)",
+          "docs": "semantic.font.size.relative.7xl",
+          "es6": "calciteFontSizeRelative7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 7xl",
+      "path": ["semantic", "font", "size", "relative", "7xl"]
+    },
+    {
       "key": "{semantic.font.style.emphasis}",
       "value": "italic",
       "type": "fontStyle",
@@ -27139,6 +28582,342 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "name": "Font Line Height Relative Loose",
       "path": ["semantic", "font", "line-height", "relative", "loose"],
       "comment": "2"
+    },
+    {
+      "key": "{semantic.font.line-height.xs}",
+      "value": "0.75rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-font-line-height-xs",
+          "css": "var(--calcite-font-line-height-xs)",
+          "docs": "semantic.font.line-height.xs",
+          "es6": "calciteFontLineHeightXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xs",
+      "path": ["semantic", "font", "line-height", "xs"]
+    },
+    {
+      "key": "{semantic.font.line-height.sm}",
+      "value": "1rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-font-line-height-sm",
+          "css": "var(--calcite-font-line-height-sm)",
+          "docs": "semantic.font.line-height.sm",
+          "es6": "calciteFontLineHeightSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Sm",
+      "path": ["semantic", "font", "line-height", "sm"]
+    },
+    {
+      "key": "{semantic.font.line-height.base}",
+      "value": "1rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "base",
+        "names": {
+          "scss": "$calcite-font-line-height-base",
+          "css": "var(--calcite-font-line-height-base)",
+          "docs": "semantic.font.line-height.base",
+          "es6": "calciteFontLineHeightBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Base",
+      "path": ["semantic", "font", "line-height", "base"]
+    },
+    {
+      "key": "{semantic.font.line-height.md}",
+      "value": "1.25rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "md",
+        "names": {
+          "scss": "$calcite-font-line-height-md",
+          "css": "var(--calcite-font-line-height-md)",
+          "docs": "semantic.font.line-height.md",
+          "es6": "calciteFontLineHeightMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Md",
+      "path": ["semantic", "font", "line-height", "md"]
+    },
+    {
+      "key": "{semantic.font.line-height.lg}",
+      "value": "1.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "lg",
+        "names": {
+          "scss": "$calcite-font-line-height-lg",
+          "css": "var(--calcite-font-line-height-lg)",
+          "docs": "semantic.font.line-height.lg",
+          "es6": "calciteFontLineHeightLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Lg",
+      "path": ["semantic", "font", "line-height", "lg"]
+    },
+    {
+      "key": "{semantic.font.line-height.xl}",
+      "value": "1.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "xl",
+        "names": {
+          "scss": "$calcite-font-line-height-xl",
+          "css": "var(--calcite-font-line-height-xl)",
+          "docs": "semantic.font.line-height.xl",
+          "es6": "calciteFontLineHeightXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xl",
+      "path": ["semantic", "font", "line-height", "xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.2xl}",
+      "value": "2rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-2xl",
+          "css": "var(--calcite-font-line-height-2xl)",
+          "docs": "semantic.font.line-height.2xl",
+          "es6": "calciteFontLineHeight2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 2xl",
+      "path": ["semantic", "font", "line-height", "2xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.3xl}",
+      "value": "2.5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-3xl",
+          "css": "var(--calcite-font-line-height-3xl)",
+          "docs": "semantic.font.line-height.3xl",
+          "es6": "calciteFontLineHeight3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 3xl",
+      "path": ["semantic", "font", "line-height", "3xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.4xl}",
+      "value": "3rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-4xl",
+          "css": "var(--calcite-font-line-height-4xl)",
+          "docs": "semantic.font.line-height.4xl",
+          "es6": "calciteFontLineHeight4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 4xl",
+      "path": ["semantic", "font", "line-height", "4xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.5xl}",
+      "value": "4rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-5xl",
+          "css": "var(--calcite-font-line-height-5xl)",
+          "docs": "semantic.font.line-height.5xl",
+          "es6": "calciteFontLineHeight5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 5xl",
+      "path": ["semantic", "font", "line-height", "5xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.6xl}",
+      "value": "4rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-6xl",
+          "css": "var(--calcite-font-line-height-6xl)",
+          "docs": "semantic.font.line-height.6xl",
+          "es6": "calciteFontLineHeight6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 6xl",
+      "path": ["semantic", "font", "line-height", "6xl"]
+    },
+    {
+      "key": "{semantic.font.line-height.7xl}",
+      "value": "5rem",
+      "type": "lineHeight",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "kind": "relative",
+        "type": "font",
+        "item": "line-height",
+        "subitem": "7xl",
+        "names": {
+          "scss": "$calcite-font-line-height-7xl",
+          "css": "var(--calcite-font-line-height-7xl)",
+          "docs": "semantic.font.line-height.7xl",
+          "es6": "calciteFontLineHeight7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "lineHeight"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 7xl",
+      "path": ["semantic", "font", "line-height", "7xl"]
     },
     {
       "key": "{semantic.font.letter-spacing.tight}",
@@ -30380,6 +32159,20 @@ export const calciteSizeRelative162 = "162.5%";
 export const calciteSizeRelative200 = "200%";
 export const calciteSizeRelativeAuto = "auto";
 export const calciteSizeRelativeNormal = "normal";
+export const calciteSizeRem1 = "1rem";
+export const calciteSizeRem2 = "2rem";
+export const calciteSizeRem3 = "3rem";
+export const calciteSizeRem4 = "4rem";
+export const calciteSizeRem5 = "5rem";
+export const calciteSizeRem0625 = "0.625rem";
+export const calciteSizeRem075 = "0.75rem";
+export const calciteSizeRem0875 = "0.875rem";
+export const calciteSizeRem1125 = "1.125rem";
+export const calciteSizeRem125 = "1.25rem";
+export const calciteSizeRem15 = "1.5rem";
+export const calciteSizeRem1625 = "1.625rem";
+export const calciteSizeRem25 = "2.5rem";
+export const calciteSizeRem35 = "3.5rem";
 export const calciteZIndex0 = "-999999";
 export const calciteZIndex1 = "1";
 export const calciteZIndex3 = "300";
@@ -31015,6 +32808,20 @@ export const calciteSizeRelative162: string;
 export const calciteSizeRelative200: string;
 export const calciteSizeRelativeAuto: string;
 export const calciteSizeRelativeNormal: string;
+export const calciteSizeRem1: string;
+export const calciteSizeRem2: string;
+export const calciteSizeRem3: string;
+export const calciteSizeRem4: string;
+export const calciteSizeRem5: string;
+export const calciteSizeRem0625: string;
+export const calciteSizeRem075: string;
+export const calciteSizeRem0875: string;
+export const calciteSizeRem1125: string;
+export const calciteSizeRem125: string;
+export const calciteSizeRem15: string;
+export const calciteSizeRem1625: string;
+export const calciteSizeRem25: string;
+export const calciteSizeRem35: string;
 export const calciteZIndex0: string;
 export const calciteZIndex1: string;
 export const calciteZIndex3: string;
@@ -31190,6 +32997,18 @@ export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px";
+export const calciteFontSizeRelativeXs = "0.625rem";
+export const calciteFontSizeRelativeSm = "0.75rem";
+export const calciteFontSizeRelativeBase = "0.875rem";
+export const calciteFontSizeRelativeMd = "1rem";
+export const calciteFontSizeRelativeLg = "1.125rem";
+export const calciteFontSizeRelativeXl = "1.25rem";
+export const calciteFontSizeRelative2xl = "1.625rem";
+export const calciteFontSizeRelative3xl = "2rem";
+export const calciteFontSizeRelative4xl = "2.5rem";
+export const calciteFontSizeRelative5xl = "3rem";
+export const calciteFontSizeRelative6xl = "3.5rem";
+export const calciteFontSizeRelative7xl = "4rem";
 export const calciteFontStyleEmphasis = "italic"; // used in ratings
 export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
@@ -31207,6 +33026,18 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightXs = "0.75rem";
+export const calciteFontLineHeightSm = "1rem";
+export const calciteFontLineHeightBase = "1rem";
+export const calciteFontLineHeightMd = "1.25rem";
+export const calciteFontLineHeightLg = "1.5rem";
+export const calciteFontLineHeightXl = "1.5rem";
+export const calciteFontLineHeight2xl = "2rem";
+export const calciteFontLineHeight3xl = "2.5rem";
+export const calciteFontLineHeight4xl = "3rem";
+export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight6xl = "4rem";
+export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
 export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
@@ -31688,6 +33519,18 @@ export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
 export const calciteFontSizeXxl: string;
+export const calciteFontSizeRelativeXs: string;
+export const calciteFontSizeRelativeSm: string;
+export const calciteFontSizeRelativeBase: string;
+export const calciteFontSizeRelativeMd: string;
+export const calciteFontSizeRelativeLg: string;
+export const calciteFontSizeRelativeXl: string;
+export const calciteFontSizeRelative2xl: string;
+export const calciteFontSizeRelative3xl: string;
+export const calciteFontSizeRelative4xl: string;
+export const calciteFontSizeRelative5xl: string;
+export const calciteFontSizeRelative6xl: string;
+export const calciteFontSizeRelative7xl: string;
 /** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
@@ -31713,6 +33556,18 @@ export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
+export const calciteFontLineHeightXs: string;
+export const calciteFontLineHeightSm: string;
+export const calciteFontLineHeightBase: string;
+export const calciteFontLineHeightMd: string;
+export const calciteFontLineHeightLg: string;
+export const calciteFontLineHeightXl: string;
+export const calciteFontLineHeight2xl: string;
+export const calciteFontLineHeight3xl: string;
+export const calciteFontLineHeight4xl: string;
+export const calciteFontLineHeight5xl: string;
+export const calciteFontLineHeight6xl: string;
+export const calciteFontLineHeight7xl: string;
 /** Deprecated */
 export const calciteFontLetterSpacingTight: string;
 /** Deprecated */
@@ -32161,6 +34016,18 @@ export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px";
+export const calciteFontSizeRelativeXs = "0.625rem";
+export const calciteFontSizeRelativeSm = "0.75rem";
+export const calciteFontSizeRelativeBase = "0.875rem";
+export const calciteFontSizeRelativeMd = "1rem";
+export const calciteFontSizeRelativeLg = "1.125rem";
+export const calciteFontSizeRelativeXl = "1.25rem";
+export const calciteFontSizeRelative2xl = "1.625rem";
+export const calciteFontSizeRelative3xl = "2rem";
+export const calciteFontSizeRelative4xl = "2.5rem";
+export const calciteFontSizeRelative5xl = "3rem";
+export const calciteFontSizeRelative6xl = "3.5rem";
+export const calciteFontSizeRelative7xl = "4rem";
 export const calciteFontStyleEmphasis = "italic"; // used in ratings
 export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
@@ -32178,6 +34045,18 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightXs = "0.75rem";
+export const calciteFontLineHeightSm = "1rem";
+export const calciteFontLineHeightBase = "1rem";
+export const calciteFontLineHeightMd = "1.25rem";
+export const calciteFontLineHeightLg = "1.5rem";
+export const calciteFontLineHeightXl = "1.5rem";
+export const calciteFontLineHeight2xl = "2rem";
+export const calciteFontLineHeight3xl = "2.5rem";
+export const calciteFontLineHeight4xl = "3rem";
+export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight6xl = "4rem";
+export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated
 export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated
@@ -32326,6 +34205,18 @@ export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
 export const calciteFontSizeXxl: string;
+export const calciteFontSizeRelativeXs: string;
+export const calciteFontSizeRelativeSm: string;
+export const calciteFontSizeRelativeBase: string;
+export const calciteFontSizeRelativeMd: string;
+export const calciteFontSizeRelativeLg: string;
+export const calciteFontSizeRelativeXl: string;
+export const calciteFontSizeRelative2xl: string;
+export const calciteFontSizeRelative3xl: string;
+export const calciteFontSizeRelative4xl: string;
+export const calciteFontSizeRelative5xl: string;
+export const calciteFontSizeRelative6xl: string;
+export const calciteFontSizeRelative7xl: string;
 /** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
@@ -32351,6 +34242,18 @@ export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
+export const calciteFontLineHeightXs: string;
+export const calciteFontLineHeightSm: string;
+export const calciteFontLineHeightBase: string;
+export const calciteFontLineHeightMd: string;
+export const calciteFontLineHeightLg: string;
+export const calciteFontLineHeightXl: string;
+export const calciteFontLineHeight2xl: string;
+export const calciteFontLineHeight3xl: string;
+export const calciteFontLineHeight4xl: string;
+export const calciteFontLineHeight5xl: string;
+export const calciteFontLineHeight6xl: string;
+export const calciteFontLineHeight7xl: string;
 /** Deprecated */
 export const calciteFontLetterSpacingTight: string;
 /** Deprecated */
@@ -33094,6 +34997,20 @@ $calcite-size-relative-162: 162.5%;
 $calcite-size-relative-200: 200%;
 $calcite-size-relative-auto: auto;
 $calcite-size-relative-normal: normal;
+$calcite-size-rem-1: 1rem;
+$calcite-size-rem-2: 2rem;
+$calcite-size-rem-3: 3rem;
+$calcite-size-rem-4: 4rem;
+$calcite-size-rem-5: 5rem;
+$calcite-size-rem-0-625: 0.625rem;
+$calcite-size-rem-0-75: 0.75rem;
+$calcite-size-rem-0-875: 0.875rem;
+$calcite-size-rem-1-125: 1.125rem;
+$calcite-size-rem-1-25: 1.25rem;
+$calcite-size-rem-1-5: 1.5rem;
+$calcite-size-rem-1-625: 1.625rem;
+$calcite-size-rem-2-5: 2.5rem;
+$calcite-size-rem-3-5: 3.5rem;
 $calcite-z-index-0: -999999;
 $calcite-z-index-1: 1;
 $calcite-z-index-3: 300;
@@ -33201,6 +35118,18 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px;
+$calcite-font-size-relative-xs: 0.625rem;
+$calcite-font-size-relative-sm: 0.75rem;
+$calcite-font-size-relative-base: 0.875rem;
+$calcite-font-size-relative-md: 1rem;
+$calcite-font-size-relative-lg: 1.125rem;
+$calcite-font-size-relative-xl: 1.25rem;
+$calcite-font-size-relative-2xl: 1.625rem;
+$calcite-font-size-relative-3xl: 2rem;
+$calcite-font-size-relative-4xl: 2.5rem;
+$calcite-font-size-relative-5xl: 3rem;
+$calcite-font-size-relative-6xl: 3.5rem;
+$calcite-font-size-relative-7xl: 4rem;
 $calcite-font-style-emphasis: italic; // used in ratings
 $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
@@ -33218,6 +35147,18 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-xs: 0.75rem;
+$calcite-font-line-height-sm: 1rem;
+$calcite-font-line-height-base: 1rem;
+$calcite-font-line-height-md: 1.25rem;
+$calcite-font-line-height-lg: 1.5rem;
+$calcite-font-line-height-xl: 1.5rem;
+$calcite-font-line-height-2xl: 2rem;
+$calcite-font-line-height-3xl: 2.5rem;
+$calcite-font-line-height-4xl: 3rem;
+$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-6xl: 4rem;
+$calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
 $calcite-font-letter-spacing-wide: 0.4px; // Deprecated
@@ -33829,6 +35770,18 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px;
+$calcite-font-size-relative-xs: 0.625rem;
+$calcite-font-size-relative-sm: 0.75rem;
+$calcite-font-size-relative-base: 0.875rem;
+$calcite-font-size-relative-md: 1rem;
+$calcite-font-size-relative-lg: 1.125rem;
+$calcite-font-size-relative-xl: 1.25rem;
+$calcite-font-size-relative-2xl: 1.625rem;
+$calcite-font-size-relative-3xl: 2rem;
+$calcite-font-size-relative-4xl: 2.5rem;
+$calcite-font-size-relative-5xl: 3rem;
+$calcite-font-size-relative-6xl: 3.5rem;
+$calcite-font-size-relative-7xl: 4rem;
 $calcite-font-style-emphasis: italic; // used in ratings
 $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
@@ -33846,6 +35799,18 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-xs: 0.75rem;
+$calcite-font-line-height-sm: 1rem;
+$calcite-font-line-height-base: 1rem;
+$calcite-font-line-height-md: 1.25rem;
+$calcite-font-line-height-lg: 1.5rem;
+$calcite-font-line-height-xl: 1.5rem;
+$calcite-font-line-height-2xl: 2rem;
+$calcite-font-line-height-3xl: 2.5rem;
+$calcite-font-line-height-4xl: 3rem;
+$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-6xl: 4rem;
+$calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated
 $calcite-font-letter-spacing-normal: 0; // Deprecated
 $calcite-font-letter-spacing-wide: 0.4px; // Deprecated
