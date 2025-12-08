@@ -103,7 +103,7 @@ export const withActions = (): string => html`
       <calcite-action scale="s" icon="banana" label="Banana" slot="actions-end"></calcite-action>
       <calcite-action scale="s" icon="sound" label="Volume" slot="actions-end"></calcite-action>
     </calcite-accordion-item>
-    <calcite-accordion-item scale="m" heading="Accordion Item 2Accordion Item 2Accordion Item 2Accordion Item 2" expanded>
+    <calcite-accordion-item scale="m" heading="Accordion Item 2" expanded>
       <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
       >${accordionItemContent}
       <calcite-action scale="s" icon="banana" label="Banana" slot="actions-start"></calcite-action>
