@@ -463,6 +463,7 @@ export class Alert extends LitElement {
           onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
           onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
           scale={this.scale}
+          text={this.messages.close}
         />
       </div>
     );
