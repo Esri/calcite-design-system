@@ -1,0 +1,133 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-bar-background-color: Specifies the component's background color.
+ * @prop --calcite-action-bar-corner-radius: Specifies the component's border radius when `floating` is `true`.
+ * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the component's maximum width.
+ * @prop --calcite-action-bar-items-space: Specifies the space between slotted components in the component.
+ * @prop --calcite-action-bar-shadow: Specifies the component's shadow when `floating` is `true`.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-bar-gap
+// --calcite-internal-action-bar-padding
+// --calcite-internal-action-group-dividing-border-margin
+
+@use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-bar-gap: var(--calcite-action-bar-items-space, var(--calcite-space-sm-plus));
+  --calcite-internal-action-bar-padding: var(--calcite-spacing-sm-plus);
+}
+
+:host {
+  @extend %component-host;
+  @apply inline-flex
+    self-stretch;
+  background: transparent;
+
+  --calcite-internal-action-group-dividing-border-margin: calc(var(--calcite-spacing-base) + 1px);
+}
+
+.container {
+  @apply inline-flex
+  flex-col
+  flex-auto;
+  background-color: var(--calcite-action-bar-background-color, var(--calcite-color-foreground-1));
+  gap: var(--calcite-internal-action-bar-gap);
+  padding: var(--calcite-internal-action-bar-padding);
+}
+
+:host([floating]) {
+  .container {
+    @apply animate-in
+    overflow-hidden;
+    border-radius: var(--calcite-action-bar-corner-radius, var(--calcite-corner-radius-round));
+    --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+    --tw-shadow-colored: 0 6px 20px -4px var(--tw-shadow-color), 0 4px 12px -2px var(--tw-shadow-color);
+    box-shadow: var(
+      --calcite-action-bar-shadow,
+      (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
+    );
+  }
+}
+
+:host([layout="vertical"]) {
+  @apply flex-col;
+
+  &:host([overflow-actions-disabled]) .container {
+    overflow-y: auto;
+  }
+
+  &:host([expanded]) .container {
+    max-inline-size: var(--calcite-action-bar-expanded-max-width, auto);
+  }
+
+  .action-group--end {
+    margin-block-start: auto;
+  }
+
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-block-end-width: var(--calcite-border-width-sm);
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
+    padding-block-end: var(--calcite-internal-action-bar-padding);
+  }
+}
+
+:host([layout="horizontal"]) {
+  @apply flex-row;
+
+  .container {
+    @apply flex-row;
+  }
+
+  &:host([overflow-actions-disabled]) .container {
+    overflow-x: auto;
+  }
+
+  .action-group--end {
+    @apply ms-auto;
+  }
+
+  ::slotted(calcite-action-group:not(:last-of-type)) {
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent var(--calcite-internal-action-group-dividing-border-margin)
+    );
+    border-image-slice: 1;
+    border-inline-end-width: var(--calcite-border-width-sm);
+    padding-inline-end: var(--calcite-internal-action-bar-padding);
+  }
+}
+
+.action-group--end {
+  @apply justify-end;
+}
+
+@include includes.base-component();

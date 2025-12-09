@@ -1,0 +1,113 @@
+{
+  "name": "@esri/calcite-components",
+  "version": "5.0.0-next.20",
+  "description": "Web Components for Esri's Calcite Design System.",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/components"
+  },
+  "license": "SEE LICENSE.md",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./loader": "./dist/loader.js",
+    "./package.json": "./package.json",
+    "./components/*/customElement": "./dist/components/*/customElement.js",
+    "./components/*": "./dist/components/*/index.js",
+    "./types/*": "./dist/types/*.d.ts",
+    "./hydrate": "./hydrate/index.js",
+    "./docs/*": "./dist/docs/*",
+    "./dist/loader": "./dist/loader.js",
+    "./dist/components": "./dist/index.js",
+    "./dist/components/*": "./dist/components/*/index.js",
+    "./main.css": "./dist/cdn/main.css"
+  },
+  "main": "dist/index.js",
+  "jsdelivr": "dist/index.js",
+  "unpkg": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "hydrate/",
+    "THIRD-PARTY-LICENSES.md"
+  ],
+  "scripts": {
+    "build": "npm run util:prep-build-reqs && vite build",
+    "postbuild": "npm run util:generate-t9n-docs-json && npm run util:generate-supported-browsers-json",
+    "build-storybook": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
+    "build:dev": "vite build --mode development",
+    "build:watch": "npm run util:prep-build-reqs && vite --mode production",
+    "build:watch-dev": "npm run util:prep-build-reqs && vite --mode development",
+    "clean": "npm run util:clean-js-files && rimraf node_modules dist hydrate docs .turbo",
+    "lint": "concurrently npm:lint:*",
+    "lint:html": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.html\" >/dev/null",
+    "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
+    "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.scss\" >/dev/null",
+    "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
+    "screenshot-tests": "npm run build-storybook",
+    "screenshot-tests:preview": "npm run util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
+    "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
+    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig.demos.json --watch\" \"npm run build:watch-dev\"",
+    "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
+    "test:stable": "vitest run",
+    "test:experimental": "npm run util:ensure-playwright-workaround && HEADLESS=${HEADLESS:-true} EXPERIMENTAL_TESTS=true vitest run --browser.headless=$HEADLESS",
+    "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
+    "test:watch:stable": "vitest watch",
+    "test:watch:experimental": "npm run util:ensure-playwright-workaround && HEADLESS=${HEADLESS:-true} EXPERIMENTAL_TESTS=true vitest watch --browser.headless=$HEADLESS",
+    "util:add-internal-custom-css-prop-doc": "node support/addInternalCustomPropDoc.ts",
+    "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
+    "util:ensure-playwright-workaround": "npx playwright install",
+    "util:clean-tested-build": "npm ci && npm test && npm run build",
+    "util:copy-assets": "npm run util:copy-icons",
+    "util:copy-icons": "cpy \"../ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
+    "util:generate-t9n-docs-json": "node support/generateT9nDocsJSON.ts",
+    "util:generate-supported-browsers-json": "node support/generateSupportedBrowsersJSON.ts",
+    "util:hydration-styles": "node support/hydrationStyles.ts",
+    "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
+    "util:prep-build-reqs": "npm run util:copy-assets",
+    "util:sync-t9n-en-bundles": "node support/syncEnT9nBundles.ts",
+    "util:test-types": "! grep -rnw 'dist/types' -e '<reference types='",
+    "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
+  },
+  "dependencies": {
+    "@arcgis/lumina": ">=5.0.0-next.75 <6.0.0",
+    "@arcgis/toolkit": ">=5.0.0-next.75 <6.0.0",
+    "@esri/calcite-ui-icons": "4.4.0-next.14",
+    "@floating-ui/dom": "^1.6.12",
+    "@floating-ui/utils": "^0.2.8",
+    "@types/sortablejs": "^1.15.8",
+    "color": "^5.0.3",
+    "composed-offset-position": "^0.0.6",
+    "es-toolkit": "^1.39.8",
+    "focus-trap": "^7.6.5",
+    "interactjs": "^1.10.27",
+    "lit": "^3.3.0",
+    "sortablejs": "^1.15.6",
+    "timezone-groups": "^0.10.4",
+    "type-fest": "^4.30.1"
+  },
+  "devDependencies": {
+    "@arcgis/lumina-compiler": ">=5.0.0-next.75 <6.0.0",
+    "@esri/calcite-design-tokens": "4.0.0-next.10",
+    "@esri/calcite-tailwind-preset": "1.0.2-next.12",
+    "@esri/eslint-plugin-calcite-components": "2.0.4-next.5",
+    "playwright": "1.56.1",
+    "sass-embedded": "1.93.3",
+    "vitest": "4.0.14"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  },
+  "css.customData": [
+    "dist/docs/vscode.css-custom-data.json"
+  ],
+  "customElements": "dist/docs/api.json",
+  "html.customData": [
+    "dist/docs/vscode.html-custom-data.json"
+  ],
+  "web-types": "dist/docs/web-types.json"
+}

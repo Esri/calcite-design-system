@@ -39,7 +39,7 @@ Contributors can help most by:
 - Any of the items listed under the [user role](#users-help)
 - Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started
   - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you
-- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/calcite-components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
@@ -53,7 +53,7 @@ Have you found a new bug? Want to request a new feature? We'd love to hear from 
 
 If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-design-system/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
 
-When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
+When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [CodePen](https://codepen.io/pen?template=GgoGbEL), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
 
 - Use a clear and descriptive title
 - Describe what is happening now vs what should happen
@@ -70,24 +70,22 @@ GitHub labels are used for organizing issues and providing context. You can fami
 
 ### Lifecycle
 
-There are four issue lifecycle labels:
+Lifecycle labels are used to communicate the state of an issue. Each issue can only be assigned one lifecycle label at any time. Please make sure to keep the lifecycle label up to date.
 
-- `0 - new`: Issues that are up for grabs.
-- `1 - assigned`: Issues that someone will work on soon.
-- `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
-- `4 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
-
-An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
+- `1 - in design`: Issues that are actively undergoing design expertise.
+- `2 - ready for dev`: Issues that are fully designed, have acceptance criteria defined, and are ready for a developer to pick up.
+- `3 - in development`: Issues that are actively under development.
+- `4 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
+- `5 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
 ### Issues that cannot be worked on
 
 There are four labels that mean an issue is not ready for development:
 
-- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, an additional label, `ready for dev` will be added to the issue, which means a developer can pick up the issue.
+- `1 - in design`: Issues that are going through design consultation. Once designers complete the effort, the `2 - ready for dev` label will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas.
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).
 
 ### Milestones
 
@@ -161,7 +159,7 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/index.html`](./packages/calcite-components/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components/`](packages/calcite-components/src/components/), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`packages/components/src/demos`](packages/components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/components/index.html`](./packages/components/index.html) so others can find it. You can also edit the component code in [`packages/components/src/components/`](packages/components/src/components/), and the changes will be reflected in the demos.
 
 ## Linting
 
@@ -174,13 +172,13 @@ npm run lint
 Or use the `--workspace` flag to lint a single package.
 
 ```sh
-npm --workspace=packages/calcite-components run lint
+npm --workspace=packages/components run lint
 ```
 
 You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
 
 ```sh
-cd packages/calcite-components
+cd packages/components
 # the following will only lint and test calcite-components
 npm run lint
 npm test
@@ -192,13 +190,13 @@ npm test
 
 Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/calcite-components run test:watch:stable` or `npm --workspace=packages/calcite-components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:stable` or `npm --workspace=packages/components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
-Please refer to Calcite's [testing conventions](./packages/calcite-components/conventions/Testing.md) for more information.
+Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
 
 ## Adding a new component
 
-Before adding a new component, please read through the [component conventions guide](./packages/calcite-components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
+Before adding a new component, please read through the [component conventions guide](./packages/components/conventions/README.md). This guide covers everything from colors to event naming syntax and will help you create a component that is consistent with those that already exist. All new components should have an [issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C+0+-+new%2C+architecture&template=new-component.md&title=New+Component%3A+).
 
 ## Documenting a component
 
@@ -206,11 +204,11 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm --workspace=packages/calcite-components run docs:preview`
+3. Run the documentation locally with `npm --workspace=packages/components run docs:preview`
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
-Please refer to the [Documentation Conventions](./packages/calcite-components/conventions/Documentation.md) for more information.
+Please refer to the [Documentation Conventions](./packages/components/conventions/Documentation.md) for more information.
 
 ## Branch naming conventions
 
@@ -315,7 +313,7 @@ The PR's details should be comprehensive, and when possible, include the followi
 - Why the breaking change is proposed
 - An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
 
-For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
 <type>(<scope>)!: <descriptive summary>
