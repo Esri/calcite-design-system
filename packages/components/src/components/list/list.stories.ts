@@ -152,6 +152,81 @@ export const simple = (args: ListStoryArgs): string => html`
   </calcite-list>
 `;
 
+export const focus_TestOnly = (): string => html`
+  <div class="parent">
+    <div class="child">
+      <calcite-list scale="l" selection-mode="none" label="test">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-list-item");
+      const listItem = document.querySelector("calcite-list-item");
+      await listItem.componentOnReady();
+      await listItem.setFocus();
+    })();
+  </script>
+`;
+
+focus_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const scales = (): string => html`
   <!-- scales -->
   <div class="parent">
