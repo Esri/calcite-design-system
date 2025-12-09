@@ -313,21 +313,6 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > component should match 1`] = `
-"/**
- * Calcite Design System
- * Do not edit directly, this file was auto-generated.
- */
-
-:host {
-  --calcite-internal-color-focus: var(
-    --calcite-color-focus,
-    var(--calcite-ui-focus-color, var(--calcite-color-brand))
-  );
-}
-"
-`;
-
 exports[`generated tokens > CSS > core should match 1`] = `
 "/**
  * Calcite Design System
@@ -1212,6 +1197,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-background: #f7f7f7;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 @media (prefers-color-scheme: light) {
   .calcite-mode-auto {
@@ -1260,6 +1246,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-foreground-1: #ffffff;
     --calcite-color-background-none: rgba(255, 255, 255, 0);
     --calcite-color-background: #f7f7f7;
+    --calcite-color-focus: var(--calcite-color-brand);
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -1309,6 +1296,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-foreground-1: #2b2b2b;
     --calcite-color-background-none: rgba(255, 255, 255, 0);
     --calcite-color-background: #212121;
+    --calcite-color-focus: var(--calcite-color-brand);
   }
 }
 .calcite-mode-light {
@@ -1357,6 +1345,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-background: #f7f7f7;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 .calcite-mode-dark {
   --calcite-color-border-white: #f7f7f7;
@@ -1404,6 +1393,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-background: #212121;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
@@ -19381,7 +19371,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "focus",
-        "scope": "component",
         "type": "color",
         "item": "focus",
         "subitem": "default",
@@ -35806,6 +35795,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-foreground-1: #ffffff;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-background: #f7f7f7;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 @mixin calcite-mode-dark {
   --calcite-color-border-white: #f7f7f7;
@@ -35853,6 +35843,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-foreground-1: #2b2b2b;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
   --calcite-color-background: #212121;
+  --calcite-color-focus: var(--calcite-color-brand);
 }
 "
 `;
