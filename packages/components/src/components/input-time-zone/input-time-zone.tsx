@@ -379,7 +379,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
       return;
     }
 
-    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+    this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
       this.selectedTimeZoneItem,
       open,
     );
@@ -545,10 +545,10 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
       return (
         <calcite-combobox-item
           data-label={label}
+          heading={label}
           key={label}
           metadata={metadata}
           selected={selected}
-          textLabel={label}
           value={value}
         />
       );
@@ -561,15 +561,15 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-          const textLabel = this.getItemLabel(item);
+          const heading = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
               description={metadata.country}
+              heading={heading}
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">
