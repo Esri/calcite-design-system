@@ -117,7 +117,7 @@
 }
 
 :host([open][appearance="outline-fill"]) .container {
-  border: var(--calcite-border-width-md) solid;
+  border: var(--calcite-border-width-sm) solid;
 }
 
 @include includes.slotted("title", "*", ".container") {

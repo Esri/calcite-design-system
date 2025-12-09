@@ -113,13 +113,13 @@ const allKindsAndAppearancesHTML = (kind, appearance): string => `
 export const allKindsAndAppearances = (): string => {
   let storyHTML = "";
   for (const appearance of appearances) {
-    storyHTML += html`<div class="appearance-container"></div>`;
+    storyHTML += `<div class="appearance-container">`;
     storyHTML += html`<strong>appearance = ${appearance} </strong>`;
     for (const kind of kinds) {
       storyHTML += html`<p>kind = ${kind}</p>`;
       storyHTML += allKindsAndAppearancesHTML(kind, appearance);
     }
-    storyHTML += html`</div>`;
+    storyHTML += `</div>`;
   }
 
   return html`<style>
