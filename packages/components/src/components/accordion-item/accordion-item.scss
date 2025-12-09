@@ -166,16 +166,15 @@
       ease-in-out;
     @include includes.word-break();
   }
-  .actions-start,
-  .actions-end {
+  .has-actions {
     gap: var(--calcite-internal-accordion-item-action-slot-spacing);
   }
-  .actions-start {
+  .actions-start.has-actions {
     padding-block: var(--calcite-internal-accordion-item-action-slot-spacing)
       var(--calcite-internal-accordion-item-action-slot-spacing);
     padding-inline: var(--calcite-internal-accordion-item-action-slot-spacing) 0;
   }
-  .actions-end {
+  .actions-end.has-actions {
     padding-block: var(--calcite-internal-accordion-item-action-slot-spacing)
       var(--calcite-internal-accordion-item-action-slot-spacing);
     padding-inline: 0 var(--calcite-internal-accordion-item-action-slot-spacing);
