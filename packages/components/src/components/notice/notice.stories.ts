@@ -98,7 +98,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-const appearances: Notice["appearance"][] = ["outline-fill", "transparent", "solid"];
+const appearances: Notice["appearance"][] = ["outline-fill", "transparent"];
 const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];
 
 const allKindsAndAppearancesHTML = (kind, appearance): string => `

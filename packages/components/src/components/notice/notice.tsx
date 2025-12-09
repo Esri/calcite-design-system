@@ -81,10 +81,8 @@ export class Notice extends LitElement {
   //#region Public Properties
 
   /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<
-    "solid" | "transparent" | "outline-fill",
-    Appearance
-  > = "outline-fill";
+  @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
+    "outline-fill";
 
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
