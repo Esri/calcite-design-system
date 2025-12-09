@@ -26,7 +26,7 @@ export default defineConfig({
       // copy over the calcite-components assets
       targets: [
         {
-          src: "./node_modules/@esri/calcite-components/dist/calcite/assets",
+          src: "./node_modules/@esri/calcite-components/dist/cdn/assets",
           dest: "./public",
         },
       ],
