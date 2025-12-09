@@ -7,9 +7,12 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
  */
 
 :root {
-  --calcite-container-size-height-xxs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-width-xxs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-height-xxs-max: 154px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-height-xxs-min: 0; /** Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows */
+  --calcite-container-size-height-2xs-min: 0; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xxs-min: 0; /** Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows */
+  --calcite-container-size-width-2xs-min: 0; /** Small handheld devices and mini-windows */
+  --calcite-container-size-height-xxs-max: 154px; /** Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows */
+  --calcite-container-size-height-2xs-max: 154px; /** Small handheld devices and mini-windows */
   --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
   --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
   --calcite-container-size-height-sm-min: 329px; /** Small tablets */
@@ -19,7 +22,8 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
   --calcite-container-size-height-lg-min: 679px; /** Large laptops and desktop computers */
   --calcite-container-size-height-lg-max: 854px; /** Large laptops and desktop computers */
   --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
-  --calcite-container-size-width-xxs-max: 320px; /** Small handheld devices and mini-windows */
+  --calcite-container-size-width-xxs-max: 320px; /** Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows */
+  --calcite-container-size-width-2xs-max: 320px; /** Small handheld devices and mini-windows */
   --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
   --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
   --calcite-container-size-width-sm-min: 477px; /** Small tablets */
@@ -1019,7 +1023,8 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-font-size-md: 16px;
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
-  --calcite-font-size-xxl: 24px;
+  --calcite-font-size-xxl: 24px; /** Deprecated, use --calcite-font-size-2xl instead. */
+  --calcite-font-size-2xl: 24px;
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1088,15 +1093,19 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** deprecated */
   --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
-  --calcite-size-xxxs: 0.75rem;
-  --calcite-size-xxs: 0.875rem;
+  --calcite-size-xxxs: 0.75rem; /** Deprecated, use --calcite-size-3xs instead. */
+  --calcite-size-3xs: 0.75rem;
+  --calcite-size-xxs: 0.875rem; /** Deprecated, use --calcite-size-2xs instead. */
+  --calcite-size-2xs: 0.875rem;
   --calcite-size-xs: 1rem;
   --calcite-size-sm: 1.5rem;
   --calcite-size-md: 2rem;
   --calcite-size-lg: 2.75rem;
   --calcite-size-xl: 3rem;
-  --calcite-size-xxl: 4rem;
-  --calcite-size-xxxl: 6rem;
+  --calcite-size-xxl: 4rem; /** Deprecated, use --calcite-size-2xl instead. */
+  --calcite-size-2xl: 4rem;
+  --calcite-size-xxxl: 6rem; /** Deprecated, use --calcite-size-3xl instead. */
+  --calcite-size-3xl: 6rem;
   --calcite-spacing-fixed-xxs: 4px; /** deprecated */
   --calcite-spacing-fixed-xs: 6px; /** deprecated */
   --calcite-spacing-fixed-sm: 8px; /** deprecated */
@@ -1491,7 +1500,8 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-font-size-md: 16px;
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
-  --calcite-font-size-xxl: 24px;
+  --calcite-font-size-xxl: 24px; /** Deprecated, use --calcite-font-size-2xl instead. */
+  --calcite-font-size-2xl: 24px;
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1560,15 +1570,19 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** deprecated */
   --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
-  --calcite-size-xxxs: 0.75rem;
-  --calcite-size-xxs: 0.875rem;
+  --calcite-size-xxxs: 0.75rem; /** Deprecated, use --calcite-size-3xs instead. */
+  --calcite-size-3xs: 0.75rem;
+  --calcite-size-xxs: 0.875rem; /** Deprecated, use --calcite-size-2xs instead. */
+  --calcite-size-2xs: 0.875rem;
   --calcite-size-xs: 1rem;
   --calcite-size-sm: 1.5rem;
   --calcite-size-md: 2rem;
   --calcite-size-lg: 2.75rem;
   --calcite-size-xl: 3rem;
-  --calcite-size-xxl: 4rem;
-  --calcite-size-xxxl: 6rem;
+  --calcite-size-xxl: 4rem; /** Deprecated, use --calcite-size-2xl instead. */
+  --calcite-size-2xl: 4rem;
+  --calcite-size-xxxl: 6rem; /** Deprecated, use --calcite-size-3xl instead. */
+  --calcite-size-3xl: 6rem;
   --calcite-spacing-fixed-xxs: 4px; /** deprecated */
   --calcite-spacing-fixed-xs: 6px; /** deprecated */
   --calcite-spacing-fixed-sm: 8px; /** deprecated */
@@ -19500,7 +19514,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "key": "{semantic.container-size.height.xxs}",
       "value": "{\\"min\\":\\"0\\",\\"max\\":\\"154px\\"}",
       "type": "dimension",
-      "description": "Small handheld devices and mini-windows",
+      "description": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
@@ -19510,13 +19524,13 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "min": "0",
           "max": "154px"
         },
-        "description": "Small handheld devices and mini-windows",
+        "description": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
         "key": "{semantic.container-size.height.xxs}",
         "name": "calcite-semantic-container-size-height-xxs",
         "path": ["semantic", "container-size", "height", "xxs"],
-        "comment": "Small handheld devices and mini-windows",
+        "comment": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows",
         "names": {
           "scss": "$calcite-container-size-height-xxs",
           "css": "var(--calcite-container-size-height-xxs)",
@@ -19533,6 +19547,45 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Container Size Height Xxs",
       "path": ["semantic", "container-size", "height", "xxs"],
+      "comment": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows"
+    },
+    {
+      "key": "{semantic.container-size.height.2xs}",
+      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"154px\\"}",
+      "type": "dimension",
+      "description": "Small handheld devices and mini-windows",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "height",
+        "subitem": "2xs",
+        "value": {
+          "min": "0",
+          "max": "154px"
+        },
+        "description": "Small handheld devices and mini-windows",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{semantic.container-size.height.2xs}",
+        "name": "calcite-semantic-container-size-height-2xs",
+        "path": ["semantic", "container-size", "height", "2xs"],
+        "comment": "Small handheld devices and mini-windows",
+        "names": {
+          "scss": "$calcite-container-size-height-2xs",
+          "css": "var(--calcite-container-size-height-2xs)",
+          "docs": "semantic.container-size.height.2xs",
+          "es6": "calciteContainerSizeHeight2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height 2xs",
+      "path": ["semantic", "container-size", "height", "2xs"],
       "comment": "Small handheld devices and mini-windows"
     },
     {
@@ -19733,7 +19786,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "key": "{semantic.container-size.width.xxs}",
       "value": "{\\"min\\":\\"0\\",\\"max\\":\\"320px\\"}",
       "type": "dimension",
-      "description": "Small handheld devices and mini-windows",
+      "description": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
@@ -19743,13 +19796,13 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "min": "0",
           "max": "320px"
         },
-        "description": "Small handheld devices and mini-windows",
+        "description": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
         "key": "{semantic.container-size.width.xxs}",
         "name": "calcite-semantic-container-size-width-xxs",
         "path": ["semantic", "container-size", "width", "xxs"],
-        "comment": "Small handheld devices and mini-windows",
+        "comment": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows",
         "names": {
           "scss": "$calcite-container-size-width-xxs",
           "css": "var(--calcite-container-size-width-xxs)",
@@ -19766,6 +19819,45 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Container Size Width Xxs",
       "path": ["semantic", "container-size", "width", "xxs"],
+      "comment": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows"
+    },
+    {
+      "key": "{semantic.container-size.width.2xs}",
+      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"320px\\"}",
+      "type": "dimension",
+      "description": "Small handheld devices and mini-windows",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "width",
+        "subitem": "2xs",
+        "value": {
+          "min": "0",
+          "max": "320px"
+        },
+        "description": "Small handheld devices and mini-windows",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{semantic.container-size.width.2xs}",
+        "name": "calcite-semantic-container-size-width-2xs",
+        "path": ["semantic", "container-size", "width", "2xs"],
+        "comment": "Small handheld devices and mini-windows",
+        "names": {
+          "scss": "$calcite-container-size-width-2xs",
+          "css": "var(--calcite-container-size-width-2xs)",
+          "docs": "semantic.container-size.width.2xs",
+          "es6": "calciteContainerSizeWidth2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width 2xs",
+      "path": ["semantic", "container-size", "width", "2xs"],
       "comment": "Small handheld devices and mini-windows"
     },
     {
@@ -20710,9 +20802,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
-        "type": "font",
+        "type": "fontSize",
         "item": "size",
         "subitem": "xxl",
+        "value": "24px",
+        "description": "Deprecated, use --calcite-font-size-2xl instead.",
+        "filePath": "src/tokens/semantic/font.json",
+        "isSource": true,
+        "key": "{semantic.font.size.xxl}",
+        "name": "calcite-semantic-font-size-xxl",
+        "path": ["semantic", "font", "size", "xxl"],
+        "comment": "Deprecated, use --calcite-font-size-2xl instead.",
         "names": {
           "scss": "$calcite-font-size-xxl",
           "css": "var(--calcite-font-size-xxl)",
@@ -20725,10 +20825,39 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "fontSize"
         }
       },
+      "description": "Deprecated, use --calcite-font-size-2xl instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Size Xxl",
-      "path": ["semantic", "font", "size", "xxl"]
+      "path": ["semantic", "font", "size", "xxl"],
+      "comment": "Deprecated, use --calcite-font-size-2xl instead."
+    },
+    {
+      "key": "{semantic.font.size.2xl}",
+      "value": "24px",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-2xl",
+          "css": "var(--calcite-font-size-2xl)",
+          "docs": "semantic.font.size.2xl",
+          "es6": "calciteFontSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size 2xl",
+      "path": ["semantic", "font", "size", "2xl"]
     },
     {
       "key": "{semantic.font.size.relative.xs}",
@@ -22971,9 +23100,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxxs",
+        "value": "12px",
+        "description": "Deprecated, use --calcite-size-3xs instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxxs}",
+        "name": "calcite-semantic-size-default-xxxs",
+        "path": ["semantic", "size", "default", "xxxs"],
+        "comment": "Deprecated, use --calcite-size-3xs instead.",
         "names": {
           "scss": "$calcite-size-xxxs",
           "css": "var(--calcite-size-xxxs)",
@@ -22986,10 +23123,38 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-3xs instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxs",
-      "path": ["semantic", "size", "default", "xxxs"]
+      "path": ["semantic", "size", "default", "xxxs"],
+      "comment": "Deprecated, use --calcite-size-3xs instead."
+    },
+    {
+      "key": "{semantic.size.default.3xs}",
+      "value": "0.75rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "3xs",
+        "names": {
+          "scss": "$calcite-size-3xs",
+          "css": "var(--calcite-size-3xs)",
+          "docs": "semantic.size.default.3xs",
+          "es6": "calciteSize3xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 3xs",
+      "path": ["semantic", "size", "default", "3xs"]
     },
     {
       "key": "{semantic.size.default.xxs}",
@@ -22997,9 +23162,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxs",
+        "value": "14px",
+        "description": "Deprecated, use --calcite-size-2xs instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxs}",
+        "name": "calcite-semantic-size-default-xxs",
+        "path": ["semantic", "size", "default", "xxs"],
+        "comment": "Deprecated, use --calcite-size-2xs instead.",
         "names": {
           "scss": "$calcite-size-xxs",
           "css": "var(--calcite-size-xxs)",
@@ -23012,10 +23185,38 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-2xs instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxs",
-      "path": ["semantic", "size", "default", "xxs"]
+      "path": ["semantic", "size", "default", "xxs"],
+      "comment": "Deprecated, use --calcite-size-2xs instead."
+    },
+    {
+      "key": "{semantic.size.default.2xs}",
+      "value": "0.875rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "2xs",
+        "names": {
+          "scss": "$calcite-size-2xs",
+          "css": "var(--calcite-size-2xs)",
+          "docs": "semantic.size.default.2xs",
+          "es6": "calciteSize2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 2xs",
+      "path": ["semantic", "size", "default", "2xs"]
     },
     {
       "key": "{semantic.size.default.xs}",
@@ -23153,9 +23354,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxl",
+        "value": "64px",
+        "description": "Deprecated, use --calcite-size-2xl instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxl}",
+        "name": "calcite-semantic-size-default-xxl",
+        "path": ["semantic", "size", "default", "xxl"],
+        "comment": "Deprecated, use --calcite-size-2xl instead.",
         "names": {
           "scss": "$calcite-size-xxl",
           "css": "var(--calcite-size-xxl)",
@@ -23168,10 +23377,38 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-2xl instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxl",
-      "path": ["semantic", "size", "default", "xxl"]
+      "path": ["semantic", "size", "default", "xxl"],
+      "comment": "Deprecated, use --calcite-size-2xl instead."
+    },
+    {
+      "key": "{semantic.size.default.2xl}",
+      "value": "4rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-size-2xl",
+          "css": "var(--calcite-size-2xl)",
+          "docs": "semantic.size.default.2xl",
+          "es6": "calciteSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 2xl",
+      "path": ["semantic", "size", "default", "2xl"]
     },
     {
       "key": "{semantic.size.default.xxxl}",
@@ -23179,9 +23416,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxxl",
+        "value": "96px",
+        "description": "Deprecated, use --calcite-size-3xl instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxxl}",
+        "name": "calcite-semantic-size-default-xxxl",
+        "path": ["semantic", "size", "default", "xxxl"],
+        "comment": "Deprecated, use --calcite-size-3xl instead.",
         "names": {
           "scss": "$calcite-size-xxxl",
           "css": "var(--calcite-size-xxxl)",
@@ -23194,10 +23439,38 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-3xl instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxl",
-      "path": ["semantic", "size", "default", "xxxl"]
+      "path": ["semantic", "size", "default", "xxxl"],
+      "comment": "Deprecated, use --calcite-size-3xl instead."
+    },
+    {
+      "key": "{semantic.size.default.3xl}",
+      "value": "6rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-size-3xl",
+          "css": "var(--calcite-size-3xl)",
+          "docs": "semantic.size.default.3xl",
+          "es6": "calciteSize3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 3xl",
+      "path": ["semantic", "size", "default", "3xl"]
     },
     {
       "key": "{semantic.spacing.fixed.xxs}",
@@ -27656,9 +27929,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
-        "type": "font",
+        "type": "fontSize",
         "item": "size",
         "subitem": "xxl",
+        "value": "24px",
+        "description": "Deprecated, use --calcite-font-size-2xl instead.",
+        "filePath": "src/tokens/semantic/font.json",
+        "isSource": true,
+        "key": "{semantic.font.size.xxl}",
+        "name": "calcite-semantic-font-size-xxl",
+        "path": ["semantic", "font", "size", "xxl"],
+        "comment": "Deprecated, use --calcite-font-size-2xl instead.",
         "names": {
           "scss": "$calcite-font-size-xxl",
           "css": "var(--calcite-font-size-xxl)",
@@ -27671,10 +27952,39 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "fontSize"
         }
       },
+      "description": "Deprecated, use --calcite-font-size-2xl instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Size Xxl",
-      "path": ["semantic", "font", "size", "xxl"]
+      "path": ["semantic", "font", "size", "xxl"],
+      "comment": "Deprecated, use --calcite-font-size-2xl instead."
+    },
+    {
+      "key": "{semantic.font.size.2xl}",
+      "value": "24px",
+      "type": "fontSize",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "type": "font",
+        "item": "size",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-2xl",
+          "css": "var(--calcite-font-size-2xl)",
+          "docs": "semantic.font.size.2xl",
+          "es6": "calciteFontSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "fontSize"
+        }
+      },
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size 2xl",
+      "path": ["semantic", "font", "size", "2xl"]
     },
     {
       "key": "{semantic.font.size.relative.xs}",
@@ -29917,9 +30227,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxxs",
+        "value": "12px",
+        "description": "Deprecated, use --calcite-size-3xs instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxxs}",
+        "name": "calcite-semantic-size-default-xxxs",
+        "path": ["semantic", "size", "default", "xxxs"],
+        "comment": "Deprecated, use --calcite-size-3xs instead.",
         "names": {
           "scss": "$calcite-size-xxxs",
           "css": "var(--calcite-size-xxxs)",
@@ -29932,10 +30250,38 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-3xs instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxs",
-      "path": ["semantic", "size", "default", "xxxs"]
+      "path": ["semantic", "size", "default", "xxxs"],
+      "comment": "Deprecated, use --calcite-size-3xs instead."
+    },
+    {
+      "key": "{semantic.size.default.3xs}",
+      "value": "0.75rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "3xs",
+        "names": {
+          "scss": "$calcite-size-3xs",
+          "css": "var(--calcite-size-3xs)",
+          "docs": "semantic.size.default.3xs",
+          "es6": "calciteSize3xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 3xs",
+      "path": ["semantic", "size", "default", "3xs"]
     },
     {
       "key": "{semantic.size.default.xxs}",
@@ -29943,9 +30289,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxs",
+        "value": "14px",
+        "description": "Deprecated, use --calcite-size-2xs instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxs}",
+        "name": "calcite-semantic-size-default-xxs",
+        "path": ["semantic", "size", "default", "xxs"],
+        "comment": "Deprecated, use --calcite-size-2xs instead.",
         "names": {
           "scss": "$calcite-size-xxs",
           "css": "var(--calcite-size-xxs)",
@@ -29958,10 +30312,38 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-2xs instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxs",
-      "path": ["semantic", "size", "default", "xxs"]
+      "path": ["semantic", "size", "default", "xxs"],
+      "comment": "Deprecated, use --calcite-size-2xs instead."
+    },
+    {
+      "key": "{semantic.size.default.2xs}",
+      "value": "0.875rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "2xs",
+        "names": {
+          "scss": "$calcite-size-2xs",
+          "css": "var(--calcite-size-2xs)",
+          "docs": "semantic.size.default.2xs",
+          "es6": "calciteSize2xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 2xs",
+      "path": ["semantic", "size", "default", "2xs"]
     },
     {
       "key": "{semantic.size.default.xs}",
@@ -30099,9 +30481,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxl",
+        "value": "64px",
+        "description": "Deprecated, use --calcite-size-2xl instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxl}",
+        "name": "calcite-semantic-size-default-xxl",
+        "path": ["semantic", "size", "default", "xxl"],
+        "comment": "Deprecated, use --calcite-size-2xl instead.",
         "names": {
           "scss": "$calcite-size-xxl",
           "css": "var(--calcite-size-xxl)",
@@ -30114,10 +30504,38 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-2xl instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxl",
-      "path": ["semantic", "size", "default", "xxl"]
+      "path": ["semantic", "size", "default", "xxl"],
+      "comment": "Deprecated, use --calcite-size-2xl instead."
+    },
+    {
+      "key": "{semantic.size.default.2xl}",
+      "value": "4rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-size-2xl",
+          "css": "var(--calcite-size-2xl)",
+          "docs": "semantic.size.default.2xl",
+          "es6": "calciteSize2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 2xl",
+      "path": ["semantic", "size", "default", "2xl"]
     },
     {
       "key": "{semantic.size.default.xxxl}",
@@ -30125,9 +30543,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "size",
+        "type": "dimension",
         "item": "default",
         "subitem": "xxxl",
+        "value": "96px",
+        "description": "Deprecated, use --calcite-size-3xl instead.",
+        "filePath": "src/tokens/semantic/size.json",
+        "isSource": true,
+        "key": "{semantic.size.default.xxxl}",
+        "name": "calcite-semantic-size-default-xxxl",
+        "path": ["semantic", "size", "default", "xxxl"],
+        "comment": "Deprecated, use --calcite-size-3xl instead.",
         "names": {
           "scss": "$calcite-size-xxxl",
           "css": "var(--calcite-size-xxxl)",
@@ -30140,10 +30566,38 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated, use --calcite-size-3xl instead.",
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxl",
-      "path": ["semantic", "size", "default", "xxxl"]
+      "path": ["semantic", "size", "default", "xxxl"],
+      "comment": "Deprecated, use --calcite-size-3xl instead."
+    },
+    {
+      "key": "{semantic.size.default.3xl}",
+      "value": "6rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-size-3xl",
+          "css": "var(--calcite-size-3xl)",
+          "docs": "semantic.size.default.3xl",
+          "es6": "calciteSize3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 3xl",
+      "path": ["semantic", "size", "default", "3xl"]
     },
     {
       "key": "{semantic.spacing.fixed.xxs}",
@@ -31508,13 +31962,15 @@ exports[`generated tokens > ES6 > breakpoints should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
-export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -31529,8 +31985,10 @@ exports[`generated tokens > ES6 > breakpoints types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-/** Small handheld devices and mini-windows */
+/** Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeHeight2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -31541,8 +31999,10 @@ export const calciteContainerSizeHeightMd: { min: string; max: string };
 export const calciteContainerSizeHeightLg: { min: string; max: string };
 /** Projectors and televisions */
 export const calciteContainerSizeHeightXl: { min: string };
-/** Small handheld devices and mini-windows */
+/** Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -32948,13 +33408,15 @@ export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
-export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
-export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -32996,7 +33458,8 @@ export const calciteFontSize = "14px";
 export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
-export const calciteFontSizeXxl = "24px";
+export const calciteFontSizeXxl = "24px"; // Deprecated, use --calcite-font-size-2xl instead.
+export const calciteFontSize2xl = "24px";
 export const calciteFontSizeRelativeXs = "0.625rem";
 export const calciteFontSizeRelativeSm = "0.75rem";
 export const calciteFontSizeRelativeBase = "0.875rem";
@@ -33086,15 +33549,19 @@ export const calciteSizeFixedXl = "20px"; // deprecated
 export const calciteSizeFixedXxl = "24px"; // deprecated
 export const calciteSizeFixedXxxl = "32px"; // deprecated
 export const calciteSizePx = "1px";
-export const calciteSizeXxxs = "0.75rem";
-export const calciteSizeXxs = "0.875rem";
+export const calciteSizeXxxs = "0.75rem"; // Deprecated, use --calcite-size-3xs instead.
+export const calciteSize3xs = "0.75rem";
+export const calciteSizeXxs = "0.875rem"; // Deprecated, use --calcite-size-2xs instead.
+export const calciteSize2xs = "0.875rem";
 export const calciteSizeXs = "1rem";
 export const calciteSizeSm = "1.5rem";
 export const calciteSizeMd = "2rem";
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
-export const calciteSizeXxl = "4rem";
-export const calciteSizeXxxl = "6rem";
+export const calciteSizeXxl = "4rem"; // Deprecated, use --calcite-size-2xl instead.
+export const calciteSize2xl = "4rem";
+export const calciteSizeXxxl = "6rem"; // Deprecated, use --calcite-size-3xl instead.
+export const calciteSize3xl = "6rem";
 export const calciteSpacingFixedXxs = "4px"; // deprecated
 export const calciteSpacingFixedXs = "6px"; // deprecated
 export const calciteSpacingFixedSm = "8px"; // deprecated
@@ -33461,8 +33928,10 @@ export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
 export const calciteBorderWidthLg: string;
-/** Small handheld devices and mini-windows */
+/** Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeHeight2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -33473,8 +33942,10 @@ export const calciteContainerSizeHeightMd: { min: string; max: string };
 export const calciteContainerSizeHeightLg: { min: string; max: string };
 /** Projectors and televisions */
 export const calciteContainerSizeHeightXl: { min: string };
-/** Small handheld devices and mini-windows */
+/** Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -33518,7 +33989,9 @@ export const calciteFontSize: string;
 export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
+/** Deprecated, use --calcite-font-size-2xl instead. */
 export const calciteFontSizeXxl: string;
+export const calciteFontSize2xl: string;
 export const calciteFontSizeRelativeXs: string;
 export const calciteFontSizeRelativeSm: string;
 export const calciteFontSizeRelativeBase: string;
@@ -33637,15 +34110,23 @@ export const calciteSizeFixedXxl: string;
 /** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
+/** Deprecated, use --calcite-size-3xs instead. */
 export const calciteSizeXxxs: string;
+export const calciteSize3xs: string;
+/** Deprecated, use --calcite-size-2xs instead. */
 export const calciteSizeXxs: string;
+export const calciteSize2xs: string;
 export const calciteSizeXs: string;
 export const calciteSizeSm: string;
 export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
+/** Deprecated, use --calcite-size-2xl instead. */
 export const calciteSizeXxl: string;
+export const calciteSize2xl: string;
+/** Deprecated, use --calcite-size-3xl instead. */
 export const calciteSizeXxxl: string;
+export const calciteSize3xl: string;
 /** deprecated */
 export const calciteSpacingFixedXxs: string;
 /** deprecated */
@@ -34015,7 +34496,8 @@ export const calciteFontSize = "14px";
 export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
-export const calciteFontSizeXxl = "24px";
+export const calciteFontSizeXxl = "24px"; // Deprecated, use --calcite-font-size-2xl instead.
+export const calciteFontSize2xl = "24px";
 export const calciteFontSizeRelativeXs = "0.625rem";
 export const calciteFontSizeRelativeSm = "0.75rem";
 export const calciteFontSizeRelativeBase = "0.875rem";
@@ -34105,15 +34587,19 @@ export const calciteSizeFixedXl = "20px"; // deprecated
 export const calciteSizeFixedXxl = "24px"; // deprecated
 export const calciteSizeFixedXxxl = "32px"; // deprecated
 export const calciteSizePx = "1px";
-export const calciteSizeXxxs = "0.75rem";
-export const calciteSizeXxs = "0.875rem";
+export const calciteSizeXxxs = "0.75rem"; // Deprecated, use --calcite-size-3xs instead.
+export const calciteSize3xs = "0.75rem";
+export const calciteSizeXxs = "0.875rem"; // Deprecated, use --calcite-size-2xs instead.
+export const calciteSize2xs = "0.875rem";
 export const calciteSizeXs = "1rem";
 export const calciteSizeSm = "1.5rem";
 export const calciteSizeMd = "2rem";
 export const calciteSizeLg = "2.75rem";
 export const calciteSizeXl = "3rem";
-export const calciteSizeXxl = "4rem";
-export const calciteSizeXxxl = "6rem";
+export const calciteSizeXxl = "4rem"; // Deprecated, use --calcite-size-2xl instead.
+export const calciteSize2xl = "4rem";
+export const calciteSizeXxxl = "6rem"; // Deprecated, use --calcite-size-3xl instead.
+export const calciteSize3xl = "6rem";
 export const calciteSpacingFixedXxs = "4px"; // deprecated
 export const calciteSpacingFixedXs = "6px"; // deprecated
 export const calciteSpacingFixedSm = "8px"; // deprecated
@@ -34204,7 +34690,9 @@ export const calciteFontSize: string;
 export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
+/** Deprecated, use --calcite-font-size-2xl instead. */
 export const calciteFontSizeXxl: string;
+export const calciteFontSize2xl: string;
 export const calciteFontSizeRelativeXs: string;
 export const calciteFontSizeRelativeSm: string;
 export const calciteFontSizeRelativeBase: string;
@@ -34323,15 +34811,23 @@ export const calciteSizeFixedXxl: string;
 /** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
+/** Deprecated, use --calcite-size-3xs instead. */
 export const calciteSizeXxxs: string;
+export const calciteSize3xs: string;
+/** Deprecated, use --calcite-size-2xs instead. */
 export const calciteSizeXxs: string;
+export const calciteSize2xs: string;
 export const calciteSizeXs: string;
 export const calciteSizeSm: string;
 export const calciteSizeMd: string;
 export const calciteSizeLg: string;
 export const calciteSizeXl: string;
+/** Deprecated, use --calcite-size-2xl instead. */
 export const calciteSizeXxl: string;
+export const calciteSize2xl: string;
+/** Deprecated, use --calcite-size-3xl instead. */
 export const calciteSizeXxxl: string;
+export const calciteSize3xl: string;
 /** deprecated */
 export const calciteSpacingFixedXxs: string;
 /** deprecated */
@@ -34405,9 +34901,12 @@ exports[`generated tokens > SCSS > breakpoints should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-container-size-height-xxs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-width-xxs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-height-xxs-max: 154px; // Small handheld devices and mini-windows
+$calcite-container-size-height-xxs-min: 0; // Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows
+$calcite-container-size-height-2xs-min: 0; // Small handheld devices and mini-windows
+$calcite-container-size-width-xxs-min: 0; // Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows
+$calcite-container-size-width-2xs-min: 0; // Small handheld devices and mini-windows
+$calcite-container-size-height-xxs-max: 154px; // Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows
+$calcite-container-size-height-2xs-max: 154px; // Small handheld devices and mini-windows
 $calcite-container-size-height-xs-min: 155px; // Handheld devices
 $calcite-container-size-height-xs-max: 328px; // Handheld devices
 $calcite-container-size-height-sm-min: 329px; // Small tablets
@@ -34417,7 +34916,8 @@ $calcite-container-size-height-md-max: 678px; // Small laptops
 $calcite-container-size-height-lg-min: 679px; // Large laptops and desktop computers
 $calcite-container-size-height-lg-max: 854px; // Large laptops and desktop computers
 $calcite-container-size-height-xl-min: 855px; // Projectors and televisions
-$calcite-container-size-width-xxs-max: 320px; // Small handheld devices and mini-windows
+$calcite-container-size-width-xxs-max: 320px; // Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows
+$calcite-container-size-width-2xs-max: 320px; // Small handheld devices and mini-windows
 $calcite-container-size-width-xs-min: 321px; // Handheld devices
 $calcite-container-size-width-xs-max: 476px; // Handheld devices
 $calcite-container-size-width-sm-min: 477px; // Small tablets
@@ -35117,7 +35617,8 @@ $calcite-font-size: 14px;
 $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
-$calcite-font-size-xxl: 24px;
+$calcite-font-size-xxl: 24px; // Deprecated, use --calcite-font-size-2xl instead.
+$calcite-font-size-2xl: 24px;
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -35186,15 +35687,19 @@ $calcite-size-fixed-xl: 20px; // deprecated
 $calcite-size-fixed-xxl: 24px; // deprecated
 $calcite-size-fixed-xxxl: 32px; // deprecated
 $calcite-size-px: 1px;
-$calcite-size-xxxs: 0.75rem;
-$calcite-size-xxs: 0.875rem;
+$calcite-size-xxxs: 0.75rem; // Deprecated, use --calcite-size-3xs instead.
+$calcite-size-3xs: 0.75rem;
+$calcite-size-xxs: 0.875rem; // Deprecated, use --calcite-size-2xs instead.
+$calcite-size-2xs: 0.875rem;
 $calcite-size-xs: 1rem;
 $calcite-size-sm: 1.5rem;
 $calcite-size-md: 2rem;
 $calcite-size-lg: 2.75rem;
 $calcite-size-xl: 3rem;
-$calcite-size-xxl: 4rem;
-$calcite-size-xxxl: 6rem;
+$calcite-size-xxl: 4rem; // Deprecated, use --calcite-size-2xl instead.
+$calcite-size-2xl: 4rem;
+$calcite-size-xxxl: 6rem; // Deprecated, use --calcite-size-3xl instead.
+$calcite-size-3xl: 6rem;
 $calcite-spacing-fixed-xxs: 4px; // deprecated
 $calcite-spacing-fixed-xs: 6px; // deprecated
 $calcite-spacing-fixed-sm: 8px; // deprecated
@@ -35769,7 +36274,8 @@ $calcite-font-size: 14px;
 $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
-$calcite-font-size-xxl: 24px;
+$calcite-font-size-xxl: 24px; // Deprecated, use --calcite-font-size-2xl instead.
+$calcite-font-size-2xl: 24px;
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -35838,15 +36344,19 @@ $calcite-size-fixed-xl: 20px; // deprecated
 $calcite-size-fixed-xxl: 24px; // deprecated
 $calcite-size-fixed-xxxl: 32px; // deprecated
 $calcite-size-px: 1px;
-$calcite-size-xxxs: 0.75rem;
-$calcite-size-xxs: 0.875rem;
+$calcite-size-xxxs: 0.75rem; // Deprecated, use --calcite-size-3xs instead.
+$calcite-size-3xs: 0.75rem;
+$calcite-size-xxs: 0.875rem; // Deprecated, use --calcite-size-2xs instead.
+$calcite-size-2xs: 0.875rem;
 $calcite-size-xs: 1rem;
 $calcite-size-sm: 1.5rem;
 $calcite-size-md: 2rem;
 $calcite-size-lg: 2.75rem;
 $calcite-size-xl: 3rem;
-$calcite-size-xxl: 4rem;
-$calcite-size-xxxl: 6rem;
+$calcite-size-xxl: 4rem; // Deprecated, use --calcite-size-2xl instead.
+$calcite-size-2xl: 4rem;
+$calcite-size-xxxl: 6rem; // Deprecated, use --calcite-size-3xl instead.
+$calcite-size-3xl: 6rem;
 $calcite-spacing-fixed-xxs: 4px; // deprecated
 $calcite-spacing-fixed-xs: 6px; // deprecated
 $calcite-spacing-fixed-sm: 8px; // deprecated
