@@ -11,9 +11,11 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { scrolling } from "../../tests/browser/utils/content";
 import { CSS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
@@ -249,5 +251,48 @@ describe("calcite-panel", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-panel"));
+  });
+
+  describe("disabled", () => {
+    describe("with scrolling content", () => {
+      disabled(
+        () => mount(<calcite-panel style={scrolling.style}>{scrolling.render()}</calcite-panel>),
+        {
+          focusTarget: {
+            tab: "calcite-panel",
+            click: "calcite-panel",
+          },
+        },
+      );
+
+      describe("closable", () => {
+        disabled(
+          () =>
+            mount(
+              <calcite-panel closable style={scrolling.style}>
+                {scrolling.render()}
+              </calcite-panel>,
+            ),
+          {
+            focusTarget: {
+              tab: "calcite-panel",
+              click: "body",
+            },
+          },
+        );
+      });
+    });
+
+    describe("without scrolling content", () => {
+      disabled(() => mount(<calcite-panel>non-scrolling content</calcite-panel>), {
+        focusTarget: "none",
+      });
+
+      describe("closable", () => {
+        disabled(() => mount(<calcite-panel closable>non-scrolling content</calcite-panel>), {
+          focusTarget: "none",
+        });
+      });
+    });
   });
 });

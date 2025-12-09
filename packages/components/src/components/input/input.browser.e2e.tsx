@@ -2,6 +2,7 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
+  disabled,
   focusable,
   hidden,
   internalLabel,
@@ -103,5 +104,9 @@ describe("calcite-input", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-input"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input"));
   });
 });

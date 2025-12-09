@@ -28,13 +28,6 @@ import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 defineCustomElements(window);
 ```
 
-Next, import the global Calcite components stylesheet (only do this once):
-
-```ts
-// src/index.ts
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 Now you can use Calcite components in your application:
 
 ```tsx

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -56,18 +56,6 @@ describe("calcite-combobox", () => {
 
   describe("labelable", () => {
     labelable("calcite-combobox");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-combobox", {
-      focusTarget: {
-        tab: "calcite-combobox",
-        click: {
-          pointer: "calcite-combobox",
-          method: "calcite-combobox",
-        },
-      },
-    });
   });
 
   const simpleComboboxHTML = html`

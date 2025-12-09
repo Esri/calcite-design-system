@@ -9,6 +9,7 @@ import {
   hidden,
   renders,
   floatingUIOwner,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -101,6 +102,33 @@ describe("calcite-dropdown", () => {
       "open",
       {
         shadowSelector: `.${CSS.wrapper}`,
+      },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-dropdown>
+            <calcite-button slot="trigger">Open</calcite-button>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1" selected>
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>,
+        ),
+      {
+        focusTarget: {
+          tab: "calcite-button",
+          click: {
+            pointer: "calcite-dropdown-item",
+            method: "body",
+          },
+        },
       },
     );
   });

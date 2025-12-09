@@ -3,6 +3,7 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
+  disabled,
   focusable,
   hidden,
   internalLabel,
@@ -149,5 +150,19 @@ describe("calcite-segmented-control", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-segmented-control"));
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="1" />
+            <calcite-segmented-control-item value="2" />
+            <calcite-segmented-control-item value="3" />
+          </calcite-segmented-control>,
+        ),
+      { focusTarget: "child" },
+    );
   });
 });

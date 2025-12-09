@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
   defaults,
+  disabled,
   focusable,
   hidden,
   reflects,
@@ -31,6 +32,10 @@ describe("calcite-tile", () => {
         { propertyName: "selectionMode", defaultValue: "none" },
       ],
     );
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-tile interactive />));
   });
 
   describe("hidden", () => {

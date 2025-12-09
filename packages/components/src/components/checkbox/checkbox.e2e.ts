@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
@@ -25,18 +25,6 @@ describe("calcite-checkbox", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-checkbox", {
-      focusTarget: {
-        tab: "calcite-checkbox",
-        click: {
-          pointer: "calcite-checkbox",
-          method: "calcite-checkbox",
-        },
-      },
-    });
   });
 
   it("renders with correct default attributes", async () => {

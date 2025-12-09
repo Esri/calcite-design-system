@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -10,17 +10,6 @@ import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
 describe("calcite-inline-editable", () => {
-  describe("disabled", () => {
-    disabled(
-      html`
-        <calcite-inline-editable>
-          <calcite-input />
-        </calcite-inline-editable>
-      `,
-      { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } },
-    );
-  });
-
   describe("rendering permutations", () => {
     it("renders default props when none are provided", async () => {
       const page: E2EPage = await newE2EPage();

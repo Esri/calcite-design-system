@@ -2,13 +2,15 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
+  disabled,
   focusable,
+  hidden,
   internalLabel,
   renders,
   floatingUIOwner,
   t9n,
 } from "../../tests/commonTests/browser";
-import { defaults, hidden } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
   describe("defaults", () => {
@@ -72,5 +74,9 @@ describe("calcite-input-date-picker", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-input-date-picker"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input-date-picker"));
   });
 });

@@ -3,13 +3,17 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   focusable,
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
   internalLabel,
   renders,
   slots,
   floatingUIOwner,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -272,5 +276,9 @@ describe("calcite-autocomplete", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-autocomplete"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-autocomplete"));
   });
 });

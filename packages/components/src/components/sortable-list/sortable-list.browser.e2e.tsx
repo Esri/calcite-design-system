@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders } from "../../tests/commonTests/browser";
+import { hidden, renders, disabled } from "../../tests/commonTests/browser";
 
 describe("calcite-sortable-list", () => {
   describe("honors hidden attribute", () => {
@@ -19,6 +19,26 @@ describe("calcite-sortable-list", () => {
           </calcite-sortable-list>,
         ),
       { display: "flex" },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-sortable-list>
+            <div id="one">
+              <calcite-handle />1
+            </div>
+            <div id="two">
+              <calcite-handle />2
+            </div>
+            <div id="three">
+              <calcite-handle />3
+            </div>
+          </calcite-sortable-list>,
+        ),
+      { focusTarget: "child" },
     );
   });
 });

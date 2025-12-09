@@ -2,13 +2,17 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  cancelable,
+  defaults,
+  disabled,
   focusable,
+  reflects,
+  hidden,
   internalLabel,
   renders,
   floatingUIOwner,
   t9n,
 } from "../../tests/commonTests/browser";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
@@ -164,5 +168,17 @@ describe("calcite-combobox", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-combobox"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-combobox"), {
+      focusTarget: {
+        tab: "calcite-combobox",
+        click: {
+          pointer: "calcite-combobox",
+          method: "calcite-combobox",
+        },
+      },
+    });
   });
 });

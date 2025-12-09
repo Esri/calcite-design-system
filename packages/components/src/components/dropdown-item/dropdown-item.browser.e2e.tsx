@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-dropdown-item", () => {
   describe("is focusable", () => {
@@ -13,5 +13,9 @@ describe("calcite-dropdown-item", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-dropdown-item"), { display: "flex" });
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(`calcite-dropdown-item`));
   });
 });

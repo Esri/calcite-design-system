@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-chip-group", () => {
   describe("honors hidden attribute", () => {
@@ -33,6 +33,20 @@ describe("calcite-chip-group", () => {
         ),
       {
         focusTargetSelector: "calcite-chip:first-of-type",
+      },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-chip-group>
+            <calcite-chip />
+          </calcite-chip-group>,
+        ),
+      {
+        focusTarget: "child",
       },
     );
   });

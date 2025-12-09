@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-stepper-item", () => {
-  describe("disabled", () => {
-    disabled("calcite-stepper-item");
-  });
-
   it("emits selection event on user interaction", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-stepper-item heading="heading"></calcite-stepper-item>`);

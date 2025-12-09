@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -8,6 +9,7 @@ import {
   renders,
   focusable,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -95,5 +97,11 @@ describe("calcite-color-picker", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-color-picker"));
+  });
+
+  const centerColorFieldColor = "#408047";
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-color-picker value={centerColorFieldColor} />));
   });
 });

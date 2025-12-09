@@ -1,6 +1,13 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-autocomplete-item", () => {
@@ -44,5 +51,9 @@ describe("calcite-autocomplete-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-autocomplete-item"), SLOTS);
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-autocomplete-item"), { focusTarget: "none" });
   });
 });

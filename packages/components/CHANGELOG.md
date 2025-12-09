@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.19...@esri/calcite-components@5.0.0-next.20) (2025-12-08)
+
+### Bug Fixes
+
+- remove remaining references to legacy cdn output dir ([#13415](https://github.com/Esri/calcite-design-system/issues/13415)) ([90ca9cc](https://github.com/Esri/calcite-design-system/commit/90ca9cca81c918cd82b581b05bf68ab749ec47d2))
+
+## [5.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.18...@esri/calcite-components@5.0.0-next.19) (2025-12-08)
+
+### Features
+
+- **shell-panel:** improve support for adjusting height of float-all display ([#13410](https://github.com/Esri/calcite-design-system/issues/13410)) ([1e09a92](https://github.com/Esri/calcite-design-system/commit/1e09a9228bd00198c92cc7e3a1896b3b3b3b9a64)), closes [#10825](https://github.com/Esri/calcite-design-system/issues/10825)
+
+## [5.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.17...@esri/calcite-components@5.0.0-next.18) (2025-12-05)
+
+### ⚠ BREAKING CHANGES
+
+- **action:** Setting Action's default appearance to "transparent"
+  and deprecating "solid" to better support embedded use cases where focus
+  background colors can take precedence.
+
+### Features
+
+- **action:** update to 5.0 design ([#13252](https://github.com/Esri/calcite-design-system/issues/13252)) ([a3979b4](https://github.com/Esri/calcite-design-system/commit/a3979b49dd633e80b2279157b880d0e17de1049a)), closes [#10759](https://github.com/Esri/calcite-design-system/issues/10759)
+
+## [5.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.16...@esri/calcite-components@5.0.0-next.17) (2025-12-04)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.15...@esri/calcite-components@5.0.0-next.16) (2025-12-03)
+
+### Bug Fixes
+
+- remove invalid CSS files from component package exports ([#13401](https://github.com/Esri/calcite-design-system/issues/13401)) ([447e7fd](https://github.com/Esri/calcite-design-system/commit/447e7fdb77808376ae7a7d907b194a64c01ebb88))
+
+## [5.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.14...@esri/calcite-components@5.0.0-next.15) (2025-12-03)
+
+### Features
+
+- **dropdown-item:** reduce height in small & medium scale. ([#13391](https://github.com/Esri/calcite-design-system/issues/13391)) ([6198029](https://github.com/Esri/calcite-design-system/commit/6198029724f25b607913e82a47909427957e2441)), closes [#10782](https://github.com/Esri/calcite-design-system/issues/10782)
+
+## [5.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.13...@esri/calcite-components@5.0.0-next.14) (2025-12-03)
+
+### ⚠ BREAKING CHANGES
+
+- removes the following deprecated custom CSS props:
+
+- `--calcite-accordion-item-text-color-press`† – use
+  `--calcite-accordion-text-color-press`
+- `--calcite-action-group-padding`† – use `--calcite-action-group-gap`
+- `--calcite-button-shadow-color`† – use `--calcite-button-shadow`
+- `--calcite-card-selection-background-color-active`† – use
+  `--calcite-card-selection-background-color-press`
+- `--calcite-card-selection-background-color-selected`† – use
+  `--calcite-card-background-color`
+- `--calcite-card-selection-icon-color`† – use
+  `--calcite-card-selection-color`
+- `--calcite-inline-editable-button-shadow-color`‡
+- `--calcite-input-date-picker-icon-color-hover`†
+- `--calcite-notice-close-text-color-hover`† – use
+  `--calcite-notice-close-icon-color-hover`
+- `--calcite-radio-size` – use `--calcite-radio-button-size`
+- `--calcite-notice-close-text-color`† – use
+  `--calcite-notice-close-icon-color`
+- `--calcite-popover-z-index`§
+- `--calcite-tooltip-z-index`§
+- `--calcite-rating-spacing-unit`† – use `--calcite-rating-spacing`
+
+† not referenced in styles, so there should be no impact from removal
+‡ not deprecated previously, but used to set unreferenced custom prop
+(see above)
+
+### Code Refactoring
+
+- drop deprecated component custom CSS props ([#13287](https://github.com/Esri/calcite-design-system/issues/13287)) ([6f60468](https://github.com/Esri/calcite-design-system/commit/6f60468f862771eb27165c90cb8df7c76035f50f)), closes [#13291](https://github.com/Esri/calcite-design-system/issues/13291) [#12904](https://github.com/Esri/calcite-design-system/issues/12904)
+
 ## [5.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.12...@esri/calcite-components@5.0.0-next.13) (2025-11-27)
 
 ### Features

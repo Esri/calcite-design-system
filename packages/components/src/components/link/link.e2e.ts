@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, disabled, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -10,10 +10,6 @@ describe("calcite-link", () => {
     accessible("<calcite-link href='/'>link</calcite-link>");
     accessible("<calcite-link>link</calcite-link>");
     accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
-  });
-
-  describe("disabled", () => {
-    disabled(`<calcite-link href='/'>link</calcite-link>`);
   });
 
   it("sets download attribute on internal anchor", async () => {

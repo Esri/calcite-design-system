@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, openClose } from "../../tests/commonTests";
+import { accessible, openClose } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -27,15 +27,6 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown-group>
     </calcite-dropdown>
   `;
-
-  describe("disabled", () => {
-    disabled(simpleDropdownHTML, {
-      focusTarget: {
-        tab: "calcite-button",
-        click: "calcite-dropdown-item",
-      },
-    });
-  });
 
   describe("openClose", () => {
     openClose(simpleDropdownHTML);

@@ -11,6 +11,7 @@ import {
   focusable,
   handlesActionMenuPlacements,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -195,5 +196,11 @@ describe("calcite-block", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-block"));
+  });
+
+  describe("disabled", () => {
+    disabled(() =>
+      mount(<calcite-block collapsible description="description" heading="heading" />),
+    );
   });
 });

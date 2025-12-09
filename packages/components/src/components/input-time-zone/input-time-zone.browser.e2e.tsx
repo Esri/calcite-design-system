@@ -2,6 +2,7 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
+  disabled,
   focusable,
   hidden,
   reflects,
@@ -61,5 +62,9 @@ describe("calcite-input-time-zone", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-input-time-zone"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input-time-zone"));
   });
 });

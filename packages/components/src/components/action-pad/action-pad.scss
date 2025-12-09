@@ -8,7 +8,27 @@
  * @prop --calcite-action-pad-items-space: Specifies the component's space between slotted components.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-pad-gap
+// --calcite-internal-action-pad-padding
+
 @use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-pad-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-pad-gap: var(--calcite-action-pad-items-space, var(--calcite-space-sm-plus));
+  --calcite-internal-action-pad-padding: var(--calcite-spacing-sm-plus);
+}
 
 :host {
   @extend %component-host;
@@ -25,6 +45,7 @@
 :host([layout="vertical"]) {
   ::slotted(calcite-action-group:not(:last-of-type)) {
     @apply border-b;
+    padding-block-end: var(--calcite-internal-action-pad-padding);
   }
 }
 
@@ -34,9 +55,10 @@
   flex-col
   overflow-hidden;
 
-  gap: var(--calcite-action-pad-items-space, 0);
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2) /* 4px */;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
+  gap: var(--calcite-internal-action-pad-gap);
+  padding: var(--calcite-internal-action-pad-padding);
 }
 
 .action-group--bottom {
@@ -51,6 +73,7 @@
     }
     ::slotted(calcite-action-group:not(:last-of-type)) {
       border-inline-end-width: theme("borderWidth.DEFAULT");
+      padding-inline-end: var(--calcite-internal-action-pad-padding);
     }
   }
 }

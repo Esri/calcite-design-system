@@ -3,10 +3,11 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
   defaults,
+  disabled,
   focusable,
+  reflects,
   hidden,
   internalLabel,
-  reflects,
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
@@ -98,5 +99,9 @@ describe("calcite-text-area", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-text-area"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-text-area"));
   });
 });

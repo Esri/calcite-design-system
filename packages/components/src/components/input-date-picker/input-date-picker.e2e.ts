@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -24,10 +24,6 @@ describe("calcite-input-date-picker", () => {
 
   describe("labelable range", () => {
     labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-date-picker");
   });
 
   describe("openClose", () => {

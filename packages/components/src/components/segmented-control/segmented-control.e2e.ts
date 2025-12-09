@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
@@ -17,17 +17,6 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
       { focusTargetSelector: "calcite-segmented-control-item" },
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-segmented-control>
-        <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-      </calcite-segmented-control>`,
-      { focusTarget: "child" },
     );
   });
 

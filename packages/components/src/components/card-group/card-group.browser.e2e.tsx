@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("calcite-card-group", () => {
   describe("honors hidden attribute", () => {
@@ -38,6 +38,18 @@ describe("calcite-card-group", () => {
       {
         focusTargetSelector: "calcite-card:first-of-type",
       },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-card-group>
+            <calcite-card />
+          </calcite-card-group>,
+        ),
+      { focusTarget: "none" },
     );
   });
 });

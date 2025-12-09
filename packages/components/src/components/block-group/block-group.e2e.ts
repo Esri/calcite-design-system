@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
@@ -22,10 +22,6 @@ describe("calcite-block-group", () => {
 
   describe("accessible", () => {
     accessible(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`);
-  });
-
-  describe("disabled", () => {
-    disabled(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`, { focusTarget: "child" });
   });
 
   it("should set the dragHandle property on items", async () => {
