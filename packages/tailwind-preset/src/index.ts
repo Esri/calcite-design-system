@@ -62,18 +62,18 @@ const config: Omit<Config, "content"> = {
     },
     fontSize: {
       // assets/styles/_type
-      n3: "var(--calcite-font-size-relative-xs)", // 10px
-      n2: "var(--calcite-font-size-relative-sm)", // 12px
-      n1: "var(--calcite-font-size-relative-base)", // 14px
-      0: "var(--calcite-font-size-relative-md)", // 16px
-      1: "var(--calcite-font-size-relative-lg)", // 18px
-      2: "var(--calcite-font-size-relative-xl)", // 20px
-      3: "var(--calcite-font-size-relative-2xl)", // 26px
-      4: "var(--calcite-font-size-relative-3xl)", // 32px
-      5: "var(--calcite-font-size-relative-4xl)", // 40px
-      6: "var(--calcite-font-size-relative-5xl)", // 48px
-      7: "var(--calcite-font-size-relative-6xl)", // 56px
-      8: "var(--calcite-font-size-relative-7xl)", // 64px
+      n3: "var(--calcite-font-size-relative-xs)", // 0.625rem (10px)
+      n2: "var(--calcite-font-size-relative-sm)", // 0.75rem (12px)
+      n1: "var(--calcite-font-size-relative-base)", // 0.875rem (14px)
+      0: "var(--calcite-font-size-relative-md)", // 1rem (16px)
+      1: "var(--calcite-font-size-relative-lg)", // 1.125rem (18px)
+      2: "var(--calcite-font-size-relative-xl)", // 1.25rem (20px)
+      3: "var(--calcite-font-size-relative-2xl)", // 1.625rem (26px)
+      4: "var(--calcite-font-size-relative-3xl)", // 2rem (32px)
+      5: "var(--calcite-font-size-relative-4xl)", // 2.5rem (40px)
+      6: "var(--calcite-font-size-relative-5xl)", // 3rem (48px)
+      7: "var(--calcite-font-size-relative-6xl)", // 3.5rem (56px)
+      8: "var(--calcite-font-size-relative-7xl)", // 4rem (64px)
       // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-design-system/issues/1500.
       // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
       // should be able to safely drop the "h" suffix.
