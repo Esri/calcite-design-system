@@ -1,8 +1,8 @@
 {
-  "previous": "Προηγούμενο",
-  "next": "Επόμενο",
-  "play": "Αναπαραγωγή",
-  "pause": "Παύση",
+  "previous": "Previous",
+  "next": "Next",
+  "play": "Play",
+  "pause": "Pause",
   "carousel": "Carousel",
-  "carouselItemProgress": "Δείκτης προόδου για το αντικείμενο Carousel"
+  "carouselItemProgress": "Progress indicator for Carousel Item"
 }

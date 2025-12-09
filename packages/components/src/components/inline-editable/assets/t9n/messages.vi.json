@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Chỉnh sửa",
-  "cancelEditing": "Hủy",
-  "confirmChanges": "Lưu"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

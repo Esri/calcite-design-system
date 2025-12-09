@@ -1,6 +1,6 @@
 {
-  "invalid": "Ugyldig",
-  "required": "Obligatorisk",
-  "tooLong": "Den aktuelle tegnlængde er {currentLength}, hvilket overskrider den maksimale tegnlængde på {maxLength}.",
-  "tooShort": "Den aktuelle tegnlængde er {currentLength}, hvilket er mindre end minimumtegnlængden på {minLength}."
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

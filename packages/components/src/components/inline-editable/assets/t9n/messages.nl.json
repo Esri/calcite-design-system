@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Bewerken",
-  "cancelEditing": "Annuleren",
-  "confirmChanges": "Opslaan"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

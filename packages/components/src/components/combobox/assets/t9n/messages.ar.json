@@ -1,12 +1,12 @@
 {
-  "add": "إضافة: {text}",
-  "all": "الكل",
-  "allSelected": "تم تحديد الكل",
-  "clear": "مسح القيمة",
-  "noMatches": "لا توجد تطابقات",
-  "removeTag": "إزالة علامة",
-  "required": "مطلوب",
-  "selectAll": "تحديد الكل",
-  "selected": "محدد",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

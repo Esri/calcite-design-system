@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Επεξεργασία",
-  "cancelEditing": "Ακύρωση",
-  "confirmChanges": "Αποθήκευση"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

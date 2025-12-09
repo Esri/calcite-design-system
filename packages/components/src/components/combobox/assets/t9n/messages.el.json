@@ -1,12 +1,12 @@
 {
-  "add": "Προσθήκη: {text}",
-  "all": "Όλα",
-  "allSelected": "Όλα τα επιλεγμένα",
-  "clear": "Απαλοιφή τιμής",
-  "noMatches": "Καμία αντιστοιχία",
-  "removeTag": "Κατάργηση ετικέτας",
-  "required": "Απαιτείται",
-  "selectAll": "Επιλογή όλων",
-  "selected": "επιλέχθηκε",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

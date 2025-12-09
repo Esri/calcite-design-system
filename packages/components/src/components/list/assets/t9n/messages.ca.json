@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "S'ha habilitat el filtre.",
-  "total": "Total d'elements: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

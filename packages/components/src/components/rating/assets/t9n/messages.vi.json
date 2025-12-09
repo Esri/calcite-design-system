@@ -1,5 +1,5 @@
 {
-  "rating": "Xếp loại",
-  "required": "Bắt buộc",
-  "stars": "Sao: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

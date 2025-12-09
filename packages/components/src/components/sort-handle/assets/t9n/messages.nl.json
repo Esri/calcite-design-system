@@ -1,11 +1,11 @@
 {
-  "reorder": "Opnieuw bestellen",
-  "addTo": "Optellen bij",
-  "moveTo": "Verplaatsen naar",
-  "moveToTop": "Verplaatsen naar top",
-  "moveToBottom": "Verplaatsen naar onderkant",
-  "moveUp": "Naar boven verplaatsen",
-  "moveDown": "Naar beneden verplaatsen",
-  "repositionLabel": "Verplaatsen: {label}. Huidige positie {position} van {total}.",
-  "reposition": "Verplaatsen. Huidige positie {position} van {total}."
+  "reorder": "Reorder",
+  "addTo": "Add to",
+  "moveTo": "Move to",
+  "moveToTop": "Move to top",
+  "moveToBottom": "Move to bottom",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
+  "reposition": "Reposition. Current position {position} of {total}."
 }

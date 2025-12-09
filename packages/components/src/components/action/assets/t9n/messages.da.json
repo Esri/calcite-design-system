@@ -1,5 +1,5 @@
 {
-  "loading": "Indlæser",
-  "indicator": "Indikator til stede",
-  "indicatorLabel": "{label} (Indikator til stede)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

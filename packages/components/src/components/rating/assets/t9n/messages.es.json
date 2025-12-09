@@ -1,5 +1,5 @@
 {
-  "rating": "Calificación",
-  "required": "Obligatorio",
-  "stars": "Estrellas: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

@@ -1,7 +1,7 @@
 {
-  "nextMonth": "Следващ месец",
-  "prevMonth": "Предишен месец",
-  "monthMenu": "Меню за месец",
-  "yearMenu": "Меню за година",
-  "year": "Година"
+  "nextMonth": "Next month",
+  "prevMonth": "Previous month",
+  "monthMenu": "Month menu",
+  "yearMenu": "Year menu",
+  "year": "Year"
 }

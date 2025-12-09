@@ -1,6 +1,6 @@
 {
-  "invalid": "Neveljavno",
-  "required": "Zahtevano",
-  "tooLong": "Trenutna dolžina znakov znaša {currentLength}, kar presega maksimalno dolžino znakov {maxLength}.",
-  "tooShort": "Trenutna dolžina znakov znaša {currentLength}, kaj je manj od najmanjše dolžine znakov {minLength}."
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

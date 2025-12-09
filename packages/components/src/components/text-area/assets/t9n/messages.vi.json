@@ -1,6 +1,6 @@
 {
-  "invalid": "Không hợp lệ",
-  "required": "Bắt buộc",
-  "tooLong": "Độ dài ký tự hiện tại là {currentLength}, vượt quá độ dài ký tự tối đa {maxLength}.",
-  "tooShort": "Độ dài ký tự hiện tại là {currentLength}, ít hơn độ dài ký tự tối thiểu là {minLength}."
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

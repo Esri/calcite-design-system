@@ -1,5 +1,5 @@
 {
-  "loading": "Memuat",
-  "indicator": "Ada indikator",
-  "indicatorLabel": "{label} (Ada indikator)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

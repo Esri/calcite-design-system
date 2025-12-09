@@ -1,5 +1,5 @@
 {
-  "rating": "อันดับ",
-  "required": "ต้องการ",
-  "stars": "ดาว: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

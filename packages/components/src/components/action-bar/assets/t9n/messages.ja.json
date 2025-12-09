@@ -1,6 +1,6 @@
 {
-  "expand": "展開",
-  "collapse": "折りたたむ",
-  "expandLabel": "メニューの展開",
-  "collapseLabel": "メニューの折りたたみ"
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

@@ -1,6 +1,6 @@
 {
-  "collapse": "Daralt",
-  "expand": "Genişlet",
-  "loading": "Yükleniyor",
-  "options": "Seçenekler"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }

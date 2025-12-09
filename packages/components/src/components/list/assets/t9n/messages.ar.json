@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "تم تمكين التصفية.",
-  "total": "إجمالي العناصر: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

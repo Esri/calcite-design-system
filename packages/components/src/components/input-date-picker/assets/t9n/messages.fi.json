@@ -1,8 +1,8 @@
 {
-  "chooseDate": "Valitse päivämäärä",
-  "date": "Päivämäärä",
-  "dateFormat": "Päivämäärän muoto: {format}",
-  "endDate": "Lopetuspäivämäärä",
-  "required": "Pakollinen",
-  "startDate": "Aloituspäivämäärä"
+  "chooseDate": "Choose date",
+  "date": "Date",
+  "dateFormat": "Date Format: {format}",
+  "endDate": "End Date",
+  "required": "Required",
+  "startDate": "Start Date"
 }

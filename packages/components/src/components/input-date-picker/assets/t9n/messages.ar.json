@@ -1,8 +1,8 @@
 {
-  "chooseDate": "اختر تاريخ",
-  "date": "تاريخ",
-  "dateFormat": "تنسيق التاريخ: {format}",
-  "endDate": "تاريخ الانتهاء",
-  "required": "مطلوب",
-  "startDate": "تاريخ البداية"
+  "chooseDate": "Choose date",
+  "date": "Date",
+  "dateFormat": "Date Format: {format}",
+  "endDate": "End Date",
+  "required": "Required",
+  "startDate": "Start Date"
 }

@@ -1,5 +1,5 @@
 {
-  "loading": "Načítava sa",
-  "indicator": "Indikátor prítomný",
-  "indicatorLabel": "{label} (Indikátor prítomný)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

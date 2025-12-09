@@ -1,6 +1,6 @@
 {
-  "collapse": "Suskleisti",
-  "expand": "Išskleisti",
-  "loading": "Kraunama",
-  "options": "Parinktys"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }

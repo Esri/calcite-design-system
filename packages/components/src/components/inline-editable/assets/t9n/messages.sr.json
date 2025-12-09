@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Izmeni",
-  "cancelEditing": "Otkaži",
-  "confirmChanges": "Sačuvaj"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

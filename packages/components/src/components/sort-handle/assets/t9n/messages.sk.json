@@ -1,11 +1,11 @@
 {
-  "reorder": "Znova usporiadať",
-  "addTo": "Pridať do",
-  "moveTo": "Posunúť do",
-  "moveToTop": "Posunúť hore",
-  "moveToBottom": "Posunúť dolu",
-  "moveUp": "Posunúť hore",
-  "moveDown": "Posunúť dolu",
-  "repositionLabel": "Premiestnenie: {label}. Aktuálna pozícia: {position} z {total}.",
-  "reposition": "Premiestnenie. Aktuálna pozícia: {position} z {total}."
+  "reorder": "Reorder",
+  "addTo": "Add to",
+  "moveTo": "Move to",
+  "moveToTop": "Move to top",
+  "moveToBottom": "Move to bottom",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
+  "reposition": "Reposition. Current position {position} of {total}."
 }

@@ -1,8 +1,8 @@
 {
-  "chooseDate": "Trieu una data",
-  "date": "Data",
-  "dateFormat": "Format de data: {format}",
-  "endDate": "Data de finalització",
-  "required": "Obligatori",
-  "startDate": "Data d'inici"
+  "chooseDate": "Choose date",
+  "date": "Date",
+  "dateFormat": "Date Format: {format}",
+  "endDate": "End Date",
+  "required": "Required",
+  "startDate": "Start Date"
 }

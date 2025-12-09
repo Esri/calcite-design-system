@@ -1,6 +1,6 @@
 {
-  "invalid": "Non valide",
-  "required": "Obligatoire",
-  "tooLong": "Le nombre actuel de caractères est de {currentLength}, ce qui dépasse la longueur maximale de {maxLength} caractères.",
-  "tooShort": "Le nombre actuel de caractères est de {currentLength}, ce qui est inférieur au nombre minimal de {minLength} caractères."
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

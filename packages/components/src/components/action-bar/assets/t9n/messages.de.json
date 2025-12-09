@@ -1,6 +1,6 @@
 {
-  "expand": "Einblenden",
-  "collapse": "Ausblenden",
-  "expandLabel": "Menü einblenden",
-  "collapseLabel": "Menü ausblenden"
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

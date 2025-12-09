@@ -1,12 +1,12 @@
 {
-  "add": "Добавить: {text}",
-  "all": "Все",
-  "allSelected": "Все выбрано",
-  "clear": "Очистить значение",
-  "noMatches": "Нет совпадений",
-  "removeTag": "Удалить тег",
-  "required": "Обязательное",
-  "selectAll": "Выбрать все",
-  "selected": "выбрано",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

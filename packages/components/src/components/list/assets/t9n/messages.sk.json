@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter je povolený.",
-  "total": "Celkový počet položiek: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

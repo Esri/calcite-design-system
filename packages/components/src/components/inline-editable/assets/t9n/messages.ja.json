@@ -1,5 +1,5 @@
 {
-  "enableEditing": "編集",
-  "cancelEditing": "キャンセル",
-  "confirmChanges": "保存"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

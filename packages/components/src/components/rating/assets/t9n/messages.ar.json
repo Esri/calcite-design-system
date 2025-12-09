@@ -1,5 +1,5 @@
 {
-  "rating": "التقييم",
-  "required": "مطلوب",
-  "stars": "النجوم: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

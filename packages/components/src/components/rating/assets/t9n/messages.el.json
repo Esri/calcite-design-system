@@ -1,5 +1,5 @@
 {
-  "rating": "Αξιολόγηση",
-  "required": "Απαιτείται",
-  "stars": "Αστέρια: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

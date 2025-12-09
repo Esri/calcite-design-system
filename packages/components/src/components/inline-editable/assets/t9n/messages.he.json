@@ -1,5 +1,5 @@
 {
-  "enableEditing": "עריכה",
-  "cancelEditing": "ביטול",
-  "confirmChanges": "שמור"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

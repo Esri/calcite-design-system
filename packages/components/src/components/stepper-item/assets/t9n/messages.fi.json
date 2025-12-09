@@ -1,5 +1,5 @@
 {
-  "complete": "Valmis vaihe",
-  "previousStep": "Edellinen vaihe",
-  "nextStep": "Seuraava vaihe"
+  "complete": "Completed step",
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

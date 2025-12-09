@@ -1,5 +1,5 @@
 {
-  "rating": "Ocjena",
-  "required": "Potrebno",
-  "stars": "Zvjezdice: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

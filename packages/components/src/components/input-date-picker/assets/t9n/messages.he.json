@@ -1,8 +1,8 @@
 {
-  "chooseDate": "בחר תאריך",
-  "date": "תאריך",
-  "dateFormat": "פורמט תאריך: {format}",
-  "endDate": "תאריך סיום",
-  "required": "נדרש",
-  "startDate": "תאריך התחלה"
+  "chooseDate": "Choose date",
+  "date": "Date",
+  "dateFormat": "Date Format: {format}",
+  "endDate": "End Date",
+  "required": "Required",
+  "startDate": "Start Date"
 }

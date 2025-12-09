@@ -1,5 +1,5 @@
 {
-  "rating": "Рейтинг",
-  "required": "Потрібні відомості",
-  "stars": "Зірки: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

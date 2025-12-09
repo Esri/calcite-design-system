@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filtre etkin.",
-  "total": "Toplam öge sayısı: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

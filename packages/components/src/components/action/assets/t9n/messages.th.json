@@ -1,5 +1,5 @@
 {
-  "loading": "กำลังโหลด",
-  "indicator": "มีตัวบ่งชี้",
-  "indicatorLabel": "{label} (มีตัวบ่งชี้)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

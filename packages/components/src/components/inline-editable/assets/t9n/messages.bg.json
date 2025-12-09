@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Редактиране",
-  "cancelEditing": "Отказ",
-  "confirmChanges": "Запазване"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

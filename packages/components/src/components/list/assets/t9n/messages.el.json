@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Το φιλτράρισμα είναι ενεργοποιημένο.",
-  "total": "Σύνολο Αντικειμένων: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

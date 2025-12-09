@@ -1,12 +1,12 @@
 {
-  "add": "Lisää: {text}",
-  "all": "Kaikki",
-  "allSelected": "Kaikki valitut",
-  "clear": "Tyhjennä arvo",
-  "noMatches": "Ei vastaavuuksia",
-  "removeTag": "Poista tunniste",
-  "required": "Pakollinen",
-  "selectAll": "Valitse kaikki",
-  "selected": "valitut",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

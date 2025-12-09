@@ -1,7 +1,7 @@
 {
-  "nextMonth": "Tháng sau",
-  "prevMonth": "Tháng trước",
-  "monthMenu": "Menu tháng",
-  "yearMenu": "Menu năm",
-  "year": "Năm"
+  "nextMonth": "Next month",
+  "prevMonth": "Previous month",
+  "monthMenu": "Month menu",
+  "yearMenu": "Year menu",
+  "year": "Year"
 }

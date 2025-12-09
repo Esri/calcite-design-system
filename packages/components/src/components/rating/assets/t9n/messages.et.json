@@ -1,5 +1,5 @@
 {
-  "rating": "Hinnang",
-  "required": "Nõutud",
-  "stars": "Tärne: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

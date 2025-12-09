@@ -1,5 +1,5 @@
 {
-  "complete": "Завершенный шаг",
-  "previousStep": "Предыдущий шаг",
-  "nextStep": "Следующий шаг"
+  "complete": "Completed step",
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

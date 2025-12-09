@@ -1,6 +1,6 @@
 {
-  "invalid": "Неприпустимий",
-  "required": "Потрібні відомості",
-  "tooLong": "Поточна довжина символу становить {currentLength}, що перевищує максимальну довжину символів {maxLength}.",
-  "tooShort": "Поточна довжина символів становить {currentLength}, що менше мінімальної довжини символів {minLength}."
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

@@ -1,6 +1,6 @@
 {
-  "expand": "Genişlet",
-  "collapse": "Daralt",
-  "expandLabel": "Menüyü genişlet",
-  "collapseLabel": "Menüyü daralt"
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

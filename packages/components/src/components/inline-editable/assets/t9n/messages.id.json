@@ -1,5 +1,5 @@
 {
   "enableEditing": "Edit",
-  "cancelEditing": "Batalkan",
-  "confirmChanges": "Simpan"
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

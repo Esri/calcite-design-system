@@ -1,11 +1,11 @@
 {
-  "reorder": "Ordna om",
-  "addTo": "Lägg till i",
-  "moveTo": "Flytta till",
-  "moveToTop": "Flytta högst upp",
-  "moveToBottom": "Flytta längst ned",
-  "moveUp": "Flytta uppåt",
-  "moveDown": "Flytta nedåt",
-  "repositionLabel": "Positionera om: {label}. Den aktuella positionen {position} för {total}.",
-  "reposition": "Positionera om. Den aktuella positionen {position} för {total}."
+  "reorder": "Reorder",
+  "addTo": "Add to",
+  "moveTo": "Move to",
+  "moveToTop": "Move to top",
+  "moveToBottom": "Move to bottom",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
+  "reposition": "Reposition. Current position {position} of {total}."
 }

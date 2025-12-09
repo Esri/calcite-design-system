@@ -1,5 +1,5 @@
 {
-  "rating": "Értékelés",
-  "required": "Szükséges",
-  "stars": "Csillagok: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

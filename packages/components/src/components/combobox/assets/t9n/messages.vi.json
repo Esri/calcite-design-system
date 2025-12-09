@@ -1,12 +1,12 @@
 {
-  "add": "Thêm: {text}",
-  "all": "Tất cả",
-  "allSelected": "Tất cả đã được chọn",
-  "clear": "Xóa giá trị",
-  "noMatches": "Không có kết quả trùng khớp",
-  "removeTag": "Xóa thẻ",
-  "required": "Bắt buộc",
-  "selectAll": "Chọn tất cả",
-  "selected": "đã được chọn",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

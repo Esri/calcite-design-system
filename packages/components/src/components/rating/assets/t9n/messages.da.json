@@ -1,5 +1,5 @@
 {
-  "rating": "Vurdering",
-  "required": "Obligatorisk",
-  "stars": "Stjerner: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

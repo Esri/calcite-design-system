@@ -1,6 +1,6 @@
 {
-  "collapse": "Sbalit",
-  "expand": "Rozbalit",
-  "loading": "Načítání",
-  "options": "Možnosti"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }

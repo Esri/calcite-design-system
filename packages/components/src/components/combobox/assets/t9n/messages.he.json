@@ -1,12 +1,12 @@
 {
-  "add": "הוסף: {text}",
-  "all": "הכל",
-  "allSelected": "כולם נבחרו",
-  "clear": "נקה ערך",
-  "noMatches": "אין התאמות",
-  "removeTag": "הסר תג",
-  "required": "נדרש",
-  "selectAll": "בחר הכול",
-  "selected": "נבחר",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

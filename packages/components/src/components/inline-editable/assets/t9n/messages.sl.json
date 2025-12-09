@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Uredi",
-  "cancelEditing": "Prekliči",
-  "confirmChanges": "Shrani"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

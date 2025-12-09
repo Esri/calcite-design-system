@@ -1,6 +1,6 @@
 {
-  "expand": "Razširi",
-  "collapse": "Strni",
-  "expandLabel": "Razširi meni",
-  "collapseLabel": "Strni meni"
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

@@ -1,5 +1,5 @@
 {
-  "loading": "Đang tải",
-  "indicator": "Chỉ báo hiện hữu",
-  "indicatorLabel": "{label} (Chỉ báo hiện hữu)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

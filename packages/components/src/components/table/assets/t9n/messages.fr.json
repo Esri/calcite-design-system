@@ -1,7 +1,7 @@
 {
-  "clear": "Effacer",
-  "hiddenSelected": "Lignes sélectionnées, mais hors de la vue",
+  "clear": "Clear",
+  "hiddenSelected": "Rows selected but out of view",
   "page": "Page",
-  "row": "Ligne",
-  "selected": "Sélectionnée"
+  "row": "Row",
+  "selected": "Selected"
 }

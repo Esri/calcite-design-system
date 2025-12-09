@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Düzenle",
-  "cancelEditing": "İptal",
-  "confirmChanges": "Kaydet"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

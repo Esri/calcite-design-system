@@ -1,6 +1,6 @@
 {
-  "invalid": "ไม่ถูกต้อง",
-  "required": "ต้องการ",
-  "tooLong": "ความยาวจำนวนอักขระในปัจจุบันคือ {currentLength} ซึ่งเกินความยาวจำนวนอักขระสูงสุดที่ {maxLength}",
-  "tooShort": "ความยาวอักขระปัจจุบันคือ {currentLength} อักขระ ซึ่งน้อยกว่าความยาวอักขระขั้นต่ำที่ {minLength} อักขระ"
+  "invalid": "Invalid",
+  "required": "Required",
+  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
+  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
 }

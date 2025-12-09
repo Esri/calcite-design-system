@@ -1,6 +1,6 @@
 {
-  "collapse": "Redueix",
-  "expand": "Amplia",
-  "loading": "S'està carregant...",
-  "options": "Opcions"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }

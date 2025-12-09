@@ -1,5 +1,5 @@
 {
-  "complete": "השלב הושלם",
-  "previousStep": "השלב הקודם",
-  "nextStep": "השלב הבא"
+  "complete": "Completed step",
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

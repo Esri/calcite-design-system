@@ -1,8 +1,8 @@
 {
-  "chooseDate": "日付の選択",
-  "date": "日付",
-  "dateFormat": "日付形式: {format}",
-  "endDate": "終了日",
-  "required": "必須",
-  "startDate": "開始日"
+  "chooseDate": "Choose date",
+  "date": "Date",
+  "dateFormat": "Date Format: {format}",
+  "endDate": "End Date",
+  "required": "Required",
+  "startDate": "Start Date"
 }

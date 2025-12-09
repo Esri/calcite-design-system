@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Muokkaa",
-  "cancelEditing": "Peruuta",
-  "confirmChanges": "Tallenna"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

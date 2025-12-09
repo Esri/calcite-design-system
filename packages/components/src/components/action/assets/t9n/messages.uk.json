@@ -1,5 +1,5 @@
 {
-  "loading": "Завантажується",
-  "indicator": "Індикатор присутній",
-  "indicatorLabel": "{label} (Індикатор присутній)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

@@ -1,5 +1,5 @@
 {
-  "complete": "Voltooide stap",
-  "previousStep": "Vorige stap",
-  "nextStep": "Volgende stap"
+  "complete": "Completed step",
+  "previousStep": "Previous step",
+  "nextStep": "Next step"
 }

@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Muuda",
-  "cancelEditing": "Loobu",
-  "confirmChanges": "Salvesta"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

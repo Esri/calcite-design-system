@@ -1,12 +1,12 @@
 {
-  "add": "เพิ่ม: {text}",
-  "all": "ทั้งหมด",
-  "allSelected": "เลือกทั้งหมดแล้ว",
-  "clear": "ล้างค่า",
-  "noMatches": "ไม่ตรงกัน",
-  "removeTag": "ลบแท็ก",
-  "required": "ต้องการ",
-  "selectAll": "เลือกทั้งหมด",
-  "selected": "เลือก",
+  "add": "Add: {text}",
+  "all": "All",
+  "allSelected": "All selected",
+  "clear": "Clear value",
+  "noMatches": "No matches",
+  "removeTag": "Remove tag",
+  "required": "Required",
+  "selectAll": "Select all",
+  "selected": "selected",
   "nonEditable": "Read-only {value}"
 }

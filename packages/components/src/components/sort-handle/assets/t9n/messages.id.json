@@ -1,11 +1,11 @@
 {
-  "reorder": "Susun ulang",
-  "addTo": "Tambahkan ke",
-  "moveTo": "Geser ke",
-  "moveToTop": "Geser ke atas",
-  "moveToBottom": "Geser ke bawah",
-  "moveUp": "Pindahkan ke atas",
-  "moveDown": "Pindah ke bawah",
-  "repositionLabel": "Memposisikan ulang: {label}. Posisi terkini {position} dari {total}.",
-  "reposition": "Posisikan ulang. Posisi terkini {position} dari {total}."
+  "reorder": "Reorder",
+  "addTo": "Add to",
+  "moveTo": "Move to",
+  "moveToTop": "Move to top",
+  "moveToBottom": "Move to bottom",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
+  "reposition": "Reposition. Current position {position} of {total}."
 }

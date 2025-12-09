@@ -1,5 +1,5 @@
 {
-  "loading": "Načítání",
-  "indicator": "Přítomný ukazatel",
-  "indicatorLabel": "{label} (přítomný ukazatel)"
+  "loading": "Loading",
+  "indicator": "Indicator present",
+  "indicatorLabel": "{label} (Indicator present)"
 }

@@ -1,5 +1,5 @@
 {
-  "rating": "Calificativ",
-  "required": "Obligatoriu",
-  "stars": "Stele: {num}"
+  "rating": "Rating",
+  "required": "Required",
+  "stars": "Stars: {num}"
 }

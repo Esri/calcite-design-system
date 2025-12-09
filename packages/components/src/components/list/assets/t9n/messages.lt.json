@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filtras pritaikytas.",
-  "total": "Iš viso: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

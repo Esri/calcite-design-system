@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Szűrő engedélyezve.",
-  "total": "Összes elem: {count}."
+  "filterEnabled": "Filter enabled.",
+  "total": "Total items: {count}."
 }

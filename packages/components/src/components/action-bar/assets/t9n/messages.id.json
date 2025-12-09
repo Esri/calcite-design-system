@@ -1,6 +1,6 @@
 {
-  "expand": "Bentang",
-  "collapse": "Tutup",
-  "expandLabel": "Perluas menu",
-  "collapseLabel": "Tutup menu"
+  "expand": "Expand",
+  "collapse": "Collapse",
+  "expandLabel": "Expand menu",
+  "collapseLabel": "Collapse menu"
 }

@@ -1,6 +1,6 @@
 {
-  "collapse": "Kutista",
-  "expand": "Laajenna",
-  "loading": "Ladataan",
-  "options": "Asetukset"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }

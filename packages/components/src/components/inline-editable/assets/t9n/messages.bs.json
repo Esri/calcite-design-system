@@ -1,5 +1,5 @@
 {
-  "enableEditing": "Uredi",
-  "cancelEditing": "Odustani",
-  "confirmChanges": "Spremi"
+  "enableEditing": "Edit",
+  "cancelEditing": "Cancel",
+  "confirmChanges": "Save"
 }

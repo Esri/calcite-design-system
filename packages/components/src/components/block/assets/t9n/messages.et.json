@@ -1,6 +1,6 @@
 {
-  "collapse": "Ahenda",
-  "expand": "Laienda",
-  "loading": "Laadimine",
-  "options": "Valikud"
+  "collapse": "Collapse",
+  "expand": "Expand",
+  "loading": "Loading",
+  "options": "Options"
 }
