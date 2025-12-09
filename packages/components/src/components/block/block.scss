@@ -154,6 +154,8 @@
 }
 
 .actions-end {
+  align-items: center;
+  display: flex;
   grid-area: actions-end;
 }
 
@@ -188,6 +190,7 @@ calcite-loader[inline] {
 
 calcite-sort-handle {
   grid-area: handle;
+  padding-inline-start: var(--calcite-spacing-xxs);
 }
 
 .title {
@@ -273,10 +276,6 @@ calcite-sort-handle {
 
 calcite-action-menu {
   grid-area: menu;
-}
-
-.actions-end {
-  @apply flex items-stretch;
 }
 
 :host([expanded]) {
