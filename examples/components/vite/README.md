@@ -38,13 +38,6 @@ import "@esri/calcite-components/dist/components/calcite-date-picker";
 import "@esri/calcite-components/dist/components/calcite-loader";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-// main.ts
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ### Copy the assets
 
 You can use the `vite-plugin-static-copy` package to copy Calcite components' assets to your application:

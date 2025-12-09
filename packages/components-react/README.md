@@ -49,20 +49,12 @@ Since you manually defined the custom elements on the window, you only need to i
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
-## Import stylesheet
-
-Import the global stylesheet into your app (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ## Copy Assets
 
 Some components (icon, date-picker) rely on assets being available at a particular path. If using assets locally, you'll need to copy these over to your public folder. Something like:
 
 ```sh
-cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/assets/
+cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public/assets/
 ```
 
 ## Why not just use the web components directly?
