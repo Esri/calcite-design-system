@@ -1832,6 +1832,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
+                  heading={messages.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={messages.selectAll}
@@ -1839,7 +1840,6 @@ export class Combobox
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}
