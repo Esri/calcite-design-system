@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.19...@esri/calcite-components@5.0.0-next.20) (2025-12-08)
+
+### Bug Fixes
+
+- remove remaining references to legacy cdn output dir ([#13415](https://github.com/Esri/calcite-design-system/issues/13415)) ([90ca9cc](https://github.com/Esri/calcite-design-system/commit/90ca9cca81c918cd82b581b05bf68ab749ec47d2))
+
+## [5.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.18...@esri/calcite-components@5.0.0-next.19) (2025-12-08)
+
+### Features
+
+- **shell-panel:** improve support for adjusting height of float-all display ([#13410](https://github.com/Esri/calcite-design-system/issues/13410)) ([1e09a92](https://github.com/Esri/calcite-design-system/commit/1e09a9228bd00198c92cc7e3a1896b3b3b3b9a64)), closes [#10825](https://github.com/Esri/calcite-design-system/issues/10825)
+
+## [5.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.17...@esri/calcite-components@5.0.0-next.18) (2025-12-05)
+
+### ⚠ BREAKING CHANGES
+
+- **action:** Setting Action's default appearance to "transparent"
+  and deprecating "solid" to better support embedded use cases where focus
+  background colors can take precedence.
+
+### Features
+
+- **action:** update to 5.0 design ([#13252](https://github.com/Esri/calcite-design-system/issues/13252)) ([a3979b4](https://github.com/Esri/calcite-design-system/commit/a3979b49dd633e80b2279157b880d0e17de1049a)), closes [#10759](https://github.com/Esri/calcite-design-system/issues/10759)
+
 ## [5.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.16...@esri/calcite-components@5.0.0-next.17) (2025-12-04)
 
 **Note:** Version bump only for package @esri/calcite-components

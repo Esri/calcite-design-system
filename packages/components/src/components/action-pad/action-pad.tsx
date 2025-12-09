@@ -150,8 +150,9 @@ export class ActionPad extends LitElement {
 
   async load(): Promise<void> {
     logger.deprecated("component", {
+      component: this,
       name: "action-pad",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "action-bar",
     });
   }

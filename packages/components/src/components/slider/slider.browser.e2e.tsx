@@ -1,7 +1,14 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, t9n } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-slider", () => {
   describe("defaults", () => {
@@ -97,5 +104,9 @@ describe("calcite-slider", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-slider"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-slider"));
   });
 });

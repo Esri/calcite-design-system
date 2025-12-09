@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
 
 describe("calcite-handle", () => {
-  describe("disabled", () => {
-    disabled("calcite-handle");
-  });
-
   describe("focusable", () => {
     focusable("calcite-handle");
   });

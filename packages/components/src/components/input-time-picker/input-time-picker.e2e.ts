@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -67,10 +67,6 @@ describe("calcite-input-time-picker", () => {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
       });
     });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-time-picker");
   });
 
   it("resets initial value to empty when it is not a valid time value", async () => {

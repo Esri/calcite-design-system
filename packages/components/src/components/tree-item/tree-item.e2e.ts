@@ -1,7 +1,7 @@
 // @ts-strict-ignore
-import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, themed } from "../../tests/commonTests";
+import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -26,22 +26,6 @@ describe("calcite-tree-item", () => {
         </calcite-tree-item>
       </calcite-tree>`,
     );
-  });
-
-  describe("disabled within a tree", () => {
-    let page: E2EPage;
-
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-tree expanded>
-          <calcite-tree-item>😃</calcite-tree-item>
-        </calcite-tree>
-      `);
-      await page.waitForChanges();
-    });
-
-    disabled(() => ({ tag: "calcite-tree-item", page }));
   });
 
   it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {

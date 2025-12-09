@@ -132,6 +132,104 @@
             "category": "font",
             "group": "size"
           }
+        },
+        "relative": {
+          "xs": {
+            "value": "{core.size.rem.0-625}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "sm": {
+            "value": "{core.size.rem.0-75}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "base": {
+            "value": "{core.size.rem.0-875}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "md": {
+            "value": "{core.size.rem.1}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "lg": {
+            "value": "{core.size.rem.1-125}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "xl": {
+            "value": "{core.size.rem.1-25}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "2xl": {
+            "value": "{core.size.rem.1-625}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "3xl": {
+            "value": "{core.size.rem.2}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "4xl": {
+            "value": "{core.size.rem.2-5}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "5xl": {
+            "value": "{core.size.rem.3}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "6xl": {
+            "value": "{core.size.rem.3-5}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          },
+          "7xl": {
+            "value": "{core.size.rem.4}",
+            "type": "fontSizes",
+            "attributes": {
+              "category": "font",
+              "group": "size"
+            }
+          }
         }
       },
       "style": {
@@ -299,6 +397,114 @@
               "group": "line-height",
               "kind": "relative"
             }
+          }
+        },
+        "xs": {
+          "value": "{core.size.rem.0-75}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "sm": {
+          "value": "{core.size.rem.1}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "base": {
+          "value": "{core.size.rem.1}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "md": {
+          "value": "{core.size.rem.1-25}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "lg": {
+          "value": "{core.size.rem.1-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "xl": {
+          "value": "{core.size.rem.1-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "2xl": {
+          "value": "{core.size.rem.2}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "3xl": {
+          "value": "{core.size.rem.2-5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "4xl": {
+          "value": "{core.size.rem.3}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "5xl": {
+          "value": "{core.size.rem.4}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "6xl": {
+          "value": "{core.size.rem.4}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          }
+        },
+        "7xl": {
+          "value": "{core.size.rem.5}",
+          "type": "lineHeights",
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
           }
         }
       },
