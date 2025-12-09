@@ -2,11 +2,6 @@
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
@@ -21,6 +16,7 @@ import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -34,7 +30,7 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements InteractiveComponent, FormOwner {
+export class Action extends LitElement implements FormOwner {
   //#region Static Members
 
   static override styles = styles;
@@ -63,6 +59,8 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   private focusSetter = useSetFocus<this>()(this);
 
   private indicatorRef = createRef<HTMLDivElement>();
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -98,8 +96,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
 
-  /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
+   */
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
+    "transparent";
 
   /**
    * When `true`, the side padding of the component is reduced.
@@ -203,10 +206,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   override connectedCallback(): void {
     this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -387,10 +386,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.renderButton()}
         {this.renderIndicatorText()}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

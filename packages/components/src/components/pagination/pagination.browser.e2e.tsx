@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-pagination", () => {
   describe("defaults", () => {
@@ -25,5 +25,9 @@ describe("calcite-pagination", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-pagination"), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-pagination"));
   });
 });

@@ -2,7 +2,15 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { JsxNode } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  floatingUIOwner,
+  disabled,
+} from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   describe("defaults", () => {
@@ -67,5 +75,54 @@ describe("calcite-dropdown", () => {
 
   describe("renders", () => {
     renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
+  });
+
+  describe("owns a floating-ui", () => {
+    floatingUIOwner(
+      () =>
+        mount(
+          <calcite-dropdown>
+            <calcite-button slot="trigger">Open</calcite-button>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1" selected>
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>,
+        ),
+      "open",
+      {
+        shadowSelector: `.${CSS.wrapper}`,
+      },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-dropdown>
+            <calcite-button slot="trigger">Open</calcite-button>
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1" selected>
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>,
+        ),
+      {
+        focusTarget: {
+          tab: "calcite-button",
+          click: {
+            pointer: "calcite-dropdown-item",
+            method: "body",
+          },
+        },
+      },
+    );
   });
 });

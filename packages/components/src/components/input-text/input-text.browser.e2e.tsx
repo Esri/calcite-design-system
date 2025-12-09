@@ -1,7 +1,14 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-input-text", () => {
   describe("defaults", () => {
@@ -70,5 +77,13 @@ describe("calcite-input-text", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-input-text"), { display: "block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-text"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input-text"));
   });
 });

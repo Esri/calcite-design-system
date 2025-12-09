@@ -1,8 +1,15 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+  defaults,
+  reflects,
+  hidden,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -91,6 +98,24 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>,
         ),
       { display: "flex" },
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-segmented-control"));
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="1" />
+            <calcite-segmented-control-item value="2" />
+            <calcite-segmented-control-item value="3" />
+          </calcite-segmented-control>,
+        ),
+      { focusTarget: "child" },
     );
   });
 });

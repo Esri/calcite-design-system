@@ -39,11 +39,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -62,6 +57,7 @@ import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -86,7 +82,7 @@ declare global {
  */
 export class Combobox
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+  implements LabelableComponent, FormComponent, FloatingUIComponent
 {
   //#region Static Members
 
@@ -273,24 +269,6 @@ export class Combobox
     this.addCustomChip(this.filterText, true);
   };
 
-  //#endregion
-
-  //#region State Properties
-
-  @state() activeChipIndex = -1;
-
-  @state() activeDescendant = "";
-
-  @state() activeItemIndex = -1;
-
-  @state() compactSelectionDisplay = false;
-
-  @state() selectedHiddenChipsCount = 0;
-
-  @state() selectedVisibleChipsCount = 0;
-
-  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
-
   get allSelected(): boolean {
     return this.selectedItems.length === this.items.length;
   }
@@ -310,6 +288,26 @@ export class Combobox
 
     return filteredItems;
   }
+
+  private interactiveContainer = useInteractive(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() activeChipIndex = -1;
+
+  @state() activeDescendant = "";
+
+  @state() activeItemIndex = -1;
+
+  @state() compactSelectionDisplay = false;
+
+  @state() selectedHiddenChipsCount = 0;
+
+  @state() selectedVisibleChipsCount = 0;
+
+  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() noMatchesFound: boolean;
 
@@ -602,11 +600,15 @@ export class Combobox
     this.cancelable.add(this.filterItems);
   }
 
+  async load(): Promise<void> {
+    this.handleSelectionModeWarning();
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -641,12 +643,7 @@ export class Combobox
       this.inputHeight = this.el.offsetHeight;
     }
 
-    updateHostInteraction(this);
     this.refreshSelectionDisplay();
-  }
-
-  async load(): Promise<void> {
-    this.handleSelectionModeWarning();
   }
 
   loaded(): void {
@@ -1415,7 +1412,7 @@ export class Combobox
       this.toggleSelection(existingItem, true);
     } else {
       const item = document.createElement(
-        // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
+        // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
         "calcite-combobox-item",
       );
       item.value = value;
@@ -1919,7 +1916,7 @@ export class Combobox
       !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -2001,7 +1998,7 @@ export class Combobox
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

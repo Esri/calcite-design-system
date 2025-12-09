@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -35,10 +35,6 @@ describe("calcite-select", () => {
 
   describe("labelable", () => {
     labelable("calcite-select");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-select");
   });
 
   describe("flat options", () => {
@@ -410,10 +406,6 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-select");
   });
 
   describe("theme", () => {

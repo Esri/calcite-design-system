@@ -2,11 +2,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -26,6 +21,7 @@ import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -43,7 +39,7 @@ declare global {
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block extends LitElement implements InteractiveComponent {
+export class Block extends LitElement {
   //#region Static Members
 
   static override styles = [headerStyles, styles, sortableStyles];
@@ -68,6 +64,8 @@ export class Block extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -174,8 +172,9 @@ export class Block extends LitElement implements InteractiveComponent {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -237,12 +236,6 @@ export class Block extends LitElement implements InteractiveComponent {
 
   //#region Events
 
-  /**
-   *
-   * @private
-   */
-  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
-
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
 
@@ -280,6 +273,12 @@ export class Block extends LitElement implements InteractiveComponent {
    */
   calciteBlockToggle = createEvent({ cancelable: false });
 
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -300,7 +299,7 @@ export class Block extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       toggleOpenClose(this);
     }
@@ -320,10 +319,6 @@ export class Block extends LitElement implements InteractiveComponent {
     if (changes.has("scale") && this.hasUpdated) {
       this.updateBlockSectionScale();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -609,16 +604,14 @@ export class Block extends LitElement implements InteractiveComponent {
         ) : (
           headerContent
         )}
-        {(() => {
-          return iconEnd && !collapsible ? (
-            <div class={CSS.iconEndContainer}>
-              {this.renderContentEnd()}
-              {this.renderIcon("end")}
-            </div>
-          ) : !iconEnd && !collapsible ? (
-            this.renderContentEnd()
-          ) : null;
-        })()}
+        {iconEnd && !collapsible ? (
+          <div class={CSS.iconEndContainer}>
+            {this.renderContentEnd()}
+            {this.renderIcon("end")}
+          </div>
+        ) : !iconEnd && !collapsible ? (
+          this.renderContentEnd()
+        ) : null}
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}
@@ -634,7 +627,7 @@ export class Block extends LitElement implements InteractiveComponent {
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
           ariaBusy={loading}
@@ -652,7 +645,7 @@ export class Block extends LitElement implements InteractiveComponent {
             {this.renderScrim()}
           </section>
         </article>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

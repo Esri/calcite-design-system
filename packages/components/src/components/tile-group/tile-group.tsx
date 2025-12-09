@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import type { Tile } from "../tile/tile";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./tile-group.scss";
 
@@ -21,17 +17,14 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-tile` elements. */
-export class TileGroup
-  extends LitElement
-  implements InteractiveComponent, SelectableGroupComponent
-{
-  // #region Static Members
+export class TileGroup extends LitElement implements SelectableGroupComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: Tile["el"][] = [];
 
@@ -39,9 +32,11 @@ export class TileGroup
 
   private slotEl: HTMLSlotElement;
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies the alignment of each `calcite-tile`'s content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
@@ -97,16 +92,16 @@ export class TileGroup
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component's selection changes. */
   calciteTileGroupSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -123,7 +118,7 @@ export class TileGroup
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
@@ -134,10 +129,6 @@ export class TileGroup
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.updateSelectedItems();
   }
@@ -146,9 +137,10 @@ export class TileGroup
     this.mutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private getSlottedTiles(): Tile["el"][] {
     return this.slotEl
       ?.assignedElements({ flatten: true })
@@ -245,21 +237,21 @@ export class TileGroup
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
           <slot onSlotChange={this.updateTiles} ref={this.setSlotEl} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -9,5 +9,4 @@
  */
 /// <reference types="@arcgis/lumina/typings" />
 /// <reference types="vitest/config" />
-/// <reference types="@vitest/browser/jest-dom.d.ts" />
-/// <reference types="@vitest/browser/providers/playwright" />
+/// <reference types="vitest/browser" />

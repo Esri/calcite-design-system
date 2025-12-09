@@ -1,9 +1,16 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
-import { CSS } from "./resources";
+import { page } from "vitest/browser";
+import {
+  defaults,
+  disabled,
+  hidden,
+  reflects,
+  renders,
+  slots,
+} from "../../tests/commonTests/browser";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
   describe("defaults", () => {
@@ -24,6 +31,10 @@ describe("calcite-tile", () => {
         { propertyName: "selectionMode", defaultValue: "none" },
       ],
     );
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-tile interactive />));
   });
 
   describe("hidden", () => {
@@ -120,5 +131,9 @@ describe("calcite-tile", () => {
       await expect.element(heading).toHaveTextContent("My Large Visual Calcite Tile");
       await expect.element(description).not.toBeInTheDocument();
     });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-tile"), SLOTS);
   });
 });

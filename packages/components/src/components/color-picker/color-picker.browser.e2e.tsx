@@ -1,6 +1,15 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-color-picker", () => {
@@ -76,5 +85,15 @@ describe("calcite-color-picker", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-color-picker"), { display: "inline-block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-color-picker"));
+  });
+
+  const centerColorFieldColor = "#408047";
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-color-picker value={centerColorFieldColor} />));
   });
 });

@@ -4,17 +4,18 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { supportedLocales } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
 import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Promise<string> {
+  const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
   const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.innerText || "";
   const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.innerText || "";
   const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.innerText || "";
@@ -22,9 +23,16 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.innerText || "";
   const decimalSeparator = (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.innerText || "";
   const fractionalSecond = (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.innerText || "";
-  const secondSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText || "";
+  const secondSuffix =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText.replaceAll(
+      whitespaceRegexPattern,
+      "",
+    ) || "";
   const meridiem =
-    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(/\u00A0/g, "") || ""; // some locales like es and ca contain non-breaking space characters, so we remove them to make text assertions more uniform.
+    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(
+      whitespaceRegexPattern,
+      "",
+    ) || "";
   const meridiemOrder = getMeridiemOrder(locale);
   return `${meridiem && meridiemOrder === 0 ? meridiem : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? meridiem : ""}`;
 }
@@ -43,10 +51,6 @@ describe("calcite-input-time-picker", () => {
     `);
   });
 
-  describe("translation support", () => {
-    t9n("calcite-input-time-picker");
-  });
-
   describe("labelable", () => {
     labelable("calcite-input-time-picker");
   });
@@ -63,10 +67,6 @@ describe("calcite-input-time-picker", () => {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
       });
     });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-time-picker");
   });
 
   it("resets initial value to empty when it is not a valid time value", async () => {
@@ -487,7 +487,7 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    supportedLocales.forEach((locale: SupportedLocale) => {
+    supportedNlsLocales.forEach((locale) => {
       if (locale !== "es") {
         return;
       }

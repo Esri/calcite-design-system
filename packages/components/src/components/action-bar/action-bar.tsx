@@ -2,7 +2,12 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -42,6 +47,8 @@ export class ActionBar extends LitElement {
 
   private actions: Action["el"][] = [];
 
+  private containerRef = createRef<HTMLDivElement>();
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -65,11 +72,53 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount =
+    const groupCount: number =
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
+    let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+      }
+    }
+
     const overflowCount = getOverflowCount({
-      bufferSize: groupCount, // 1px border for each group
+      bufferSize,
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
@@ -226,7 +275,7 @@ export class ActionBar extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
       this.overflowActions();
     }
@@ -413,7 +462,7 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container}>
+      <div class={CSS.container} ref={this.containerRef}>
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>

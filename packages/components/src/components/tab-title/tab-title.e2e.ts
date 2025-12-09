@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { disabled, HYDRATED_ATTR, themed } from "../../tests/commonTests";
+import { HYDRATED_ATTR, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { CSS } from "./resources";
@@ -41,10 +41,6 @@ describe("calcite-tab-title", () => {
   const iconStartSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
   const closeSelector = `calcite-tab-title >>> .${XButtonCSS.button}`;
-
-  describe("disabled", () => {
-    disabled("<calcite-tab-title selected></calcite-tab-title>");
-  });
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();

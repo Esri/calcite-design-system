@@ -9,12 +9,7 @@ import {
   disconnectForm,
   FormComponent,
 } from "../../utils/form";
-import {
-  getSupportedLocale,
-  NumberingSystem,
-  numberStringFormatter,
-  SupportedLocale,
-} from "../../utils/locale";
+import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
@@ -66,7 +61,7 @@ export class Meter extends LitElement implements FormComponent {
 
   private percentFormatting: {
     formatter: Intl.NumberFormat;
-    locale: SupportedLocale;
+    locale: Locale;
   };
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
@@ -181,7 +176,7 @@ export class Meter extends LitElement implements FormComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("min") && (this.hasUpdated || this.min !== 0)) ||
       (changes.has("max") && (this.hasUpdated || this.max !== 100)) ||
@@ -261,7 +256,7 @@ export class Meter extends LitElement implements FormComponent {
   private formatLabel(value: number, labelType: MeterLabelType): string {
     if (labelType === "percent") {
       if (!this.percentFormatting) {
-        const locale = getSupportedLocale(this.messages._lang);
+        const locale = this.messages._lang;
         const formatter = new Intl.NumberFormat(locale, {
           useGrouping: this.groupSeparator,
           style: "percent",

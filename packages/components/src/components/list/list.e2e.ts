@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -39,10 +39,6 @@ describe("calcite-list", () => {
     );
   });
 
-  describe("translation support", () => {
-    t9n("calcite-list");
-  });
-
   describe("accessible", () => {
     accessible(
       html`<calcite-list>
@@ -67,15 +63,6 @@ describe("calcite-list", () => {
           <div slot="message">Try a different fruit?</div>
         </calcite-notice>
       </calcite-list>`,
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-list>
-        <calcite-list-item label="test" description="hello world"></calcite-list-item>
-      </calcite-list>`,
-      { focusTarget: "child" },
     );
   });
 
@@ -492,7 +479,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       expect(await items[0].getProperty("filterHidden")).toBe(false);
       expect(await items[0].getProperty("setPosition")).toBe(1);
@@ -583,7 +570,7 @@ describe("calcite-list", () => {
       await page.waitForTimeout(DEBOUNCE.filter);
       expect(await list.getProperty("filteredItems")).toHaveLength(3);
       expect(await list.getProperty("filteredData")).toHaveLength(3);
-      expect(await list.getProperty("filterText")).toBeUndefined();
+      expect(await list.getProperty("filterText")).toBe("");
 
       listItems[0].setProperty("selected", true);
       list.setProperty("filterText", "two");

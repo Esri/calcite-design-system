@@ -1,8 +1,19 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  delegatesToFloatingUiOwningComponent,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { scrolling } from "../../tests/browser/utils/content";
+import { SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
   mockConsole();
@@ -130,6 +141,62 @@ describe("calcite-flow-item", () => {
   describe("renders", () => {
     renders(() => mount(<calcite-flow-item selected>content</calcite-flow-item>), {
       display: "flex",
+    });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-flow-item"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-flow-item>
+            <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
+          </calcite-flow-item>,
+        ),
+      "calcite-panel",
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-flow-item"));
+  });
+
+  describe("disabled", () => {
+    describe("default", () => {
+      disabled(
+        () =>
+          mount(
+            <calcite-flow-item selected style={scrolling.style}>
+              {scrolling.render()}
+            </calcite-flow-item>,
+          ),
+        {
+          focusTarget: {
+            tab: "calcite-flow-item",
+            click: "calcite-flow-item",
+          },
+        },
+      );
+    });
+
+    describe("closable", () => {
+      disabled(
+        () =>
+          mount(
+            <calcite-flow-item closable selected style={scrolling.style}>
+              {scrolling.render()}
+            </calcite-flow-item>,
+          ),
+        {
+          focusTarget: {
+            tab: "calcite-flow-item",
+            click: "calcite-flow-item",
+          },
+        },
+      );
     });
   });
 });

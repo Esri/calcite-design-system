@@ -1,8 +1,15 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-input-time-picker", () => {
@@ -57,5 +64,13 @@ describe("calcite-input-time-picker", () => {
         display: "inline-block",
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input-time-picker"));
   });
 });

@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  labelable,
-  openClose,
-  t9n,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -74,18 +65,6 @@ describe("calcite-combobox", () => {
 
   describe("labelable", () => {
     labelable("calcite-combobox");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-combobox", {
-      focusTarget: {
-        tab: "calcite-combobox",
-        click: {
-          pointer: "calcite-combobox",
-          method: "calcite-combobox",
-        },
-      },
-    });
   });
 
   const simpleComboboxHTML = html`
@@ -2387,20 +2366,6 @@ describe("calcite-combobox", () => {
     );
   });
 
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      html`
-        <calcite-combobox>
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-      "open",
-      { shadowSelector: `.${CSS.floatingUIContainer}` },
-    );
-  });
-
   it("should have input--icon class when placeholder-icon is parsed", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -2440,10 +2405,6 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-combobox");
   });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {

@@ -1,8 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
   mockConsole();
@@ -53,5 +54,13 @@ describe("calcite-shell-panel", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-shell-panel>content</calcite-shell-panel>), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-shell-panel"), SLOTS);
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-shell-panel"));
   });
 });
