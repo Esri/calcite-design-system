@@ -22,6 +22,10 @@ declare global {
   }
 }
 
+/**
+ * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-notice` component with `appearance="transparent"` instead.
+ */
+
 /** @slot - A slot for adding text. */
 export class InputMessage extends LitElement {
   //#region Static Members
