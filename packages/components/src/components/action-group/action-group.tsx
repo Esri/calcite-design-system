@@ -192,11 +192,13 @@ export class ActionGroup extends LitElement {
   private setActiveAction(index: number, active: Action["el"]): void {
     if (this.selectionMode === "multiple") {
       active.active = !active.active;
+      this.setActionAriaChecked(active, active.active);
       return;
     }
     if (this.selectionMode === "single") {
       this.actions.forEach((action, i) => {
         action.active = i === index ? !action.active : false;
+        this.setActionAriaChecked(action, action.active);
       });
       return;
     }
@@ -204,6 +206,7 @@ export class ActionGroup extends LitElement {
       if (!this.actions[index].active) {
         this.actions.forEach((action, i) => {
           action.active = i === index;
+          this.setActionAriaChecked(action, action.active);
         });
       }
       return;
@@ -232,12 +235,19 @@ export class ActionGroup extends LitElement {
 
   private setRoleOnActions(): void {
     this.actions?.forEach((action) => {
-      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-        action.setAttribute("role", "radio");
-      } else {
-        action.removeAttribute("role");
-      }
+      action.role =
+        this.selectionMode === "single" || this.selectionMode === "single-persist"
+          ? "radio"
+          : "checkbox";
+      this.setActionAriaChecked(action, action.active);
     });
+  }
+
+  private setActionAriaChecked(action: Action["el"], checked: boolean): void {
+    action.aria = {
+      ...action.aria,
+      checked: checked ? "true" : "false",
+    };
   }
 
   //#endregion
