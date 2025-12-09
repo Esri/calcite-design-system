@@ -15,7 +15,6 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-alert-action-spacing
-// --calcite-internal-alert-corner-radius
 // --calcite-internal-alert-min-height
 
 @use "sass:list";
@@ -35,8 +34,6 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host {
-  --calcite-internal-alert-corner-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
-
   @apply block;
 
   inline-size: var(--calcite-alert-width);
@@ -66,7 +63,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
       (var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow))
     );
     background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
-    border-radius: var(--calcite-internal-alert-corner-radius);
+    border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
     border-block-start: 0 solid transparent;
     border-inline: $border-style;
     border-block-end: $border-style;
@@ -108,7 +105,6 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .close {
-  --calcite-action-corner-radius: var(--calcite-internal-alert-corner-radius);
   margin-inline-end: var(--calcite-internal-alert-action-spacing);
 }
 
