@@ -426,18 +426,6 @@
 }
 
 .row:focus {
-  .actions-start,
-  .actions-end {
-    inset-block: theme("spacing[0.5]");
-    .close,
-    ::slotted(calcite-action),
-    ::slotted(calcite-action-menu),
-    ::slotted(calcite-sort-handle),
-    ::slotted(calcite-dropdown) {
-      block-size: calc(100% - theme("spacing[1]"));
-    }
-  }
-
   &::after,
   &::before {
     @apply absolute;
