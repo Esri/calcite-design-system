@@ -118,3 +118,8 @@ slot[name="content-center"] ~ slot[name="user"],
 slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
 }
+
+slot[name="navigation-action"]::slotted(calcite-action) {
+  margin-inline-start: var(--calcite-spacing-sm);
+  margin-block: var(--calcite-spacing-lg);
+}
