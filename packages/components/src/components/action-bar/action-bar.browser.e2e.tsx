@@ -13,7 +13,6 @@ import {
   delegatesToFloatingUiOwningComponent,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import type { Action } from "../action/action";
 import { SLOTS } from "./resources";
 
 describe("calcite-action-bar", () => {
@@ -148,13 +147,12 @@ describe("calcite-action-bar", () => {
       expect(action1.active).toBe(true);
     });
 
-    it("single-persist and multiple selection modes work as expected", async () => {
+    it("has single-persist and multiple selection modes", async () => {
       const { el } = await mount<"calcite-action-bar">(
         <calcite-action-bar overflow-actions-disabled>
           <calcite-action-group selection-mode="single-persist">
             <calcite-action icon="plus" id="action-1" text="Add" />
             <calcite-action icon="save" id="action-2" text="Save" />
-            <calcite-action icon="trash" id="action-3" text="Delete" />
           </calcite-action-group>
           <calcite-action-group selection-mode="multiple">
             <calcite-action icon="layers" id="action-4" text="Layers" />
@@ -164,7 +162,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>,
       );
 
-      const [action1, action2] = el.querySelectorAll("calcite-action");
+      const [action1, action2, action4, action5] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(action1.active).toBe(true);
@@ -173,9 +171,6 @@ describe("calcite-action-bar", () => {
       await userEvent.click(action2);
       expect(action1.active).toBe(false);
       expect(action2.active).toBe(true);
-
-      const action4 = el.querySelector("#action-4") as Action["el"];
-      const action5 = el.querySelector("#action-5") as Action["el"];
 
       await userEvent.click(action4);
       expect(action4.active).toBe(true);

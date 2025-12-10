@@ -23,7 +23,7 @@ import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions, isAction } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -415,25 +415,19 @@ export class ActionBar extends LitElement {
   private handleKeyDown(event: KeyboardEvent): void {
     this.queryAndStoreActions();
     const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement as Action["el"];
+    const current = document.activeElement;
 
-    if (!current || current.tagName?.toLowerCase() !== "calcite-action") {
+    if (!isAction(current)) {
       return;
     }
 
     switch (event.key) {
       case "ArrowRight":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
-        break;
-      case "ArrowLeft":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
-        break;
       case "ArrowDown":
         focusElementInGroup(actions, current, "next", true);
         event.preventDefault();
         break;
+      case "ArrowLeft":
       case "ArrowUp":
         focusElementInGroup(actions, current, "previous", true);
         event.preventDefault();

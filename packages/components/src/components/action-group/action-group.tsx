@@ -197,7 +197,7 @@ export class ActionGroup extends LitElement {
     }
     if (this.selectionMode === "single") {
       this.actions.forEach((action, i) => {
-        action.active = i === index ? !action.active : false;
+        action.active = i === index && !action.active;
         this.setActionAriaChecked(action, action.active);
       });
       return;

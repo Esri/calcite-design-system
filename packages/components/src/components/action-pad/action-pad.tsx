@@ -13,6 +13,7 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
+import { isAction } from "../action-bar/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -233,25 +234,19 @@ export class ActionPad extends LitElement {
   private handleKeyDown(event: KeyboardEvent): void {
     this.queryAndStoreActions();
     const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement as Action["el"];
+    const current = document.activeElement;
 
-    if (!current || current.tagName?.toLowerCase() !== "calcite-action") {
+    if (!isAction(current)) {
       return;
     }
 
     switch (event.key) {
       case "ArrowRight":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
-        break;
-      case "ArrowLeft":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
-        break;
       case "ArrowDown":
         focusElementInGroup(actions, current, "next", true);
         event.preventDefault();
         break;
+      case "ArrowLeft":
       case "ArrowUp":
         focusElementInGroup(actions, current, "previous", true);
         event.preventDefault();
