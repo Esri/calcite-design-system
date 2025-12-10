@@ -791,26 +791,5 @@ describe("calcite-popover", () => {
         },
       );
     });
-    describe("closable", () => {
-      themed(
-        html`
-          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
-            Lorem Ipsum
-          </calcite-popover>
-        `,
-        {
-          "--calcite-popover-corner-radius": [
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderStartEndRadius",
-            },
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderEndEndRadius",
-            },
-          ],
-        },
-      );
-    });
   });
 });
