@@ -131,35 +131,29 @@ describe("calcite-notice", () => {
           },
           "--calcite-notice-close-icon-color": {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "color",
+            targetProp: "--calcite-action-text-color",
           },
-          "--calcite-notice-close-icon-color-hover": [
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "color",
-              state: { focus: { attribute: "class", value: CSS.close } },
-            },
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "color",
-              state: { hover: { attribute: "class", value: CSS.close } },
-            },
-          ],
+          "--calcite-notice-close-icon-color-hover": {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { focus: { attribute: "class", value: CSS.close } },
+          },
+
           "--calcite-notice-close-background-color-focus": [
             {
               shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
+              targetProp: "--calcite-action-background-color-hover",
               state: "focus",
             },
             {
               shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
+              targetProp: "--calcite-action-background-color-hover",
               state: "hover",
             },
           ],
           "--calcite-notice-close-background-color-press": {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "backgroundColor",
+            targetProp: "--calcite-action-background-color-press",
             state: { press: { attribute: "class", value: CSS.close } },
           },
         },
