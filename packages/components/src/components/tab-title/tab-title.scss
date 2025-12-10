@@ -397,6 +397,11 @@
 .close {
   --calcite-internal-action-spacing: var(--calcite-internal-tab-title-close-padding);
   --calcite-internal-action-height: unset;
+  --calcite-action-text-color: var(--calcite-tab-close-icon-color);
+  --calcite-action-text-color-press: var(--calcite-tab-close-icon-color-press);
+  --calcite-action-background-color: var(--calcite-tab-close-icon-background-color);
+  --calcite-action-background-color-press: var(--calcite-tab-close-icon-background-color-press);
+
   margin: auto;
   margin-inline: var(--calcite-internal-tab-title-close-margin-end) var(--calcite-internal-tab-title-close-margin-start);
 }
