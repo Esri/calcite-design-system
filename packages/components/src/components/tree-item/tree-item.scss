@@ -12,7 +12,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-tree-item-action-gap
+// --calcite-internal-tree-item-action-spacing
 // --calcite-internal-tree-item-children-container-padding
 // --calcite-internal-tree-item-line-left-position
 // --calcite-internal-tree-item-padding-block
@@ -30,7 +30,7 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-tree-item-action-gap: var(--calcite-spacing-xxs);
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="m"]) {
@@ -42,7 +42,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-tree-item-action-gap: var(--calcite-spacing-xs);
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xs);
   --calcite-internal-tree-item-spacing-unit: 0.75rem;
   --calcite-internal-tree-item-padding-block: 0.625rem;
   --calcite-internal-tree-item-children-container-padding: 2.25rem;
@@ -139,7 +139,7 @@
 
 .actions-end {
   @apply flex self-stretch flex-row items-center;
-  gap: var(--calcite-internal-tree-item-action-gap);
+  gap: var(--calcite-internal-tree-item-action-spacing);
 }
 
 .checkbox-container {
