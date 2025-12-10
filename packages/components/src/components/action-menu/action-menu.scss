@@ -43,9 +43,7 @@
 
 .default-trigger {
   @apply relative
-  h-full
-  flex-initial
-  self-stretch;
+  flex-initial;
 }
 
 @include includes.slotted("trigger", "calcite-action") {

@@ -17,6 +17,7 @@ export const CSS = {
   header: "header",
   headerContainer: "header-container",
   headerHasContent: "header--has-content",
+  headerHasDragHandle: "header--has-drag-handle",
   heading: "heading",
   icon: "icon",
   iconStart: "icon--start",
