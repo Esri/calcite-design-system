@@ -80,21 +80,20 @@ Lifecycle labels are used to communicate the state of an issue. Each issue can o
 
 ### Issues that cannot be worked on
 
-There are four labels that mean an issue is not ready for development:
+Certain labels indicate that an issue is not ready for development:
 
 - `1 - in design`: Issues that are going through design consultation. Once designers complete the effort, the `2 - ready for dev` label will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
+- `resolution: refine`: Issues that need refinement due to a lack of actionable information or a change in scope/effort since the last update. See the [Issue Refinement](#issue-refinement) section for more details.
 - `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).
 
 ### Issue Refinement
 
-During an issue's lifecycle, additional information or scope refinement may be necessary before continuing work. Perhaps the issue does not have enough information to act upon, or the scope/effort has changed since the most recent update. We utilize the `resolution: refine` label to communicate these states. Follow the steps below to ensure the issue is properly refined and updates are communicated appropriately.
+When the `resolution: refine` label is added to an issue, additional information or scope refinement is needed. Follow the steps below to ensure the issue is properly refined and updates are communicated.
 
-These steps can be performed by whoever has the most relevant context or relationships with the involved teams: Product Engineers (PEs), Developers, or Designers.
-
-1. Apply the `resolution: refine` label to the issue.
-2. Add a comment explaining **why** the label was added (e.g., missing requirements/information, unclear scope, etc.), and tag:
+1. Where refinement is needed, apply the `resolution: refine` label to the issue.
+2. Add a comment explaining **why** the label was added (e.g., missing requirements/information, unclear scope, etc.), and where appropriate mention the following via an `@` tag:
    1. The issue author, when more information regarding the issue request is needed.
    2. An involved PE, if previously involved in discussion.
    3. External Esri team members, if their input determines priority or impact.
@@ -102,7 +101,7 @@ These steps can be performed by whoever has the most relevant context or relatio
 3. If needed, contact the relevant individuals via external channels.
 4. Once refinement is complete:
    1. Update the issue description with the new information.
-   2. Add a comment summarizing the updates and stating that refinement is complete. Tag a PE — preferably one previously involved.
+   2. Add a comment summarizing the updates and stating that refinement is complete. Mention a PE via an `@` tag — preferably one previously involved.
 5. Remove the `resolution: refine` label.
 
 ### Milestones
