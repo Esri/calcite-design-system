@@ -5,6 +5,7 @@
  *
  * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
  * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
+ * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
  * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
  * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
@@ -98,7 +99,7 @@
   transition-property: opacity, max-block-size;
   transition-duration: var(--calcite-animation-timing);
   text-align: start;
-  border-radius: var(--calcite-corner-radius-sm);
+  border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sm));
 }
 
 :host {
