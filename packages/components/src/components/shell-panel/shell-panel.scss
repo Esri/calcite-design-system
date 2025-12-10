@@ -111,7 +111,7 @@
 :host([display-mode="float-all"][layout]) {
   .content,
   .float-all {
-    block-size: var(--calcite-shell-panel-height);
+    block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-max-height));
   }
 }
 
@@ -347,7 +347,7 @@
   min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
-:host([layout="horizontal"]) .content {
+:host([layout="horizontal"]:not([display-mode="float-all"])) .content {
   block-size: var(--calcite-internal-shell-panel-height);
   max-block-size: var(--calcite-internal-shell-panel-max-height);
   min-block-size: var(--calcite-internal-shell-panel-min-height);
