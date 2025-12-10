@@ -4,6 +4,7 @@ import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { Notice } from "./notice";
 
 describe("calcite-notice", () => {
   const noticeContent = html`
@@ -115,49 +116,68 @@ describe("calcite-notice", () => {
   });
 
   describe("theme", () => {
+    const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
+      html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
+        <div slot="title">Title</div>
+        <div slot="message">Message</div>
+        <calcite-link slot="link" title="my action">Retry</calcite-link>
+      </calcite-notice>`;
+
+    const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
+
     describe("default", () => {
-      themed(
-        html`
-          <calcite-notice kind="danger" open closable>
-            <div slot="title">Title</div>
-            <div slot="message">Message</div>
-            <calcite-link slot="link" title="my action">Retry</calcite-link>
-          </calcite-notice>
-        `,
-        {
-          "--calcite-notice-background-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-          "--calcite-notice-close-icon-color": {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-text-color",
-          },
-          "--calcite-notice-close-icon-color-hover": {
+      themed(noticeHTML("brand"), {
+        "--calcite-notice-close-icon-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-notice-close-icon-color-hover": [
+          {
             shadowSelector: `.${CSS.close}`,
             targetProp: "--calcite-action-text-color-press",
             state: { focus: { attribute: "class", value: CSS.close } },
           },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { hover: { attribute: "class", value: CSS.close } },
+          },
+        ],
+        "--calcite-notice-close-background-color-focus": [
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "focus",
+          },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+        ],
+        "--calcite-notice-close-background-color-press": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+      });
+    });
 
-          "--calcite-notice-close-background-color-focus": [
+    kinds.forEach((kind) => {
+      describe(`kind = "${kind}" `, () => {
+        themed(noticeHTML(kind), {
+          "--calcite-notice-background-color": [
             {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "--calcite-action-background-color-hover",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "--calcite-action-background-color-hover",
-              state: "hover",
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
             },
           ],
-          "--calcite-notice-close-background-color-press": {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-background-color-press",
-            state: { press: { attribute: "class", value: CSS.close } },
-          },
-        },
-      );
+        });
+      });
     });
   });
 });
