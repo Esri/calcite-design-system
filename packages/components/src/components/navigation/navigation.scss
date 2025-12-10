@@ -119,7 +119,6 @@ slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
 }
 
-// targets calcite-action rendered in shadowDOM of navigation-action slot.
 slot[name="navigation-action"] calcite-action {
   @apply self-center;
   margin-inline-start: var(--calcite-spacing-sm);
