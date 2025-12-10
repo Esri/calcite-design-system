@@ -194,7 +194,9 @@ calcite-loader[inline] {
 }
 
 calcite-sort-handle {
+  align-self: center;
   grid-area: handle;
+  margin-block: var(--calcite-internal-block-actions-spacing);
   padding-inline-start: var(--calcite-spacing-xxs);
 }
 
