@@ -104,9 +104,25 @@
           "type": "dimension",
           "attributes": {
             "category": "size"
+          },
+          "description": "Deprecated, use --calcite-size-3xs instead."
+        },
+        "3xs": {
+          "value": "{core.size.default.12}",
+          "type": "dimension",
+          "attributes": {
+            "category": "size"
           }
         },
         "xxs": {
+          "value": "{core.size.default.14}",
+          "type": "dimension",
+          "attributes": {
+            "category": "size"
+          },
+          "description": "Deprecated, use --calcite-size-2xs instead."
+        },
+        "2xs": {
           "value": "{core.size.default.14}",
           "type": "dimension",
           "attributes": {
@@ -153,9 +169,25 @@
           "type": "dimension",
           "attributes": {
             "category": "size"
+          },
+          "description": "Deprecated, use --calcite-size-2xl instead."
+        },
+        "2xl": {
+          "value": "{core.size.default.64}",
+          "type": "dimension",
+          "attributes": {
+            "category": "size"
           }
         },
         "xxxl": {
+          "value": "{core.size.default.96}",
+          "type": "dimension",
+          "attributes": {
+            "category": "size"
+          },
+          "description": "Deprecated, use --calcite-size-3xl instead."
+        },
+        "3xl": {
           "value": "{core.size.default.96}",
           "type": "dimension",
           "attributes": {

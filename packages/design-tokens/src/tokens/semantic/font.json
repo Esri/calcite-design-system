@@ -131,6 +131,15 @@
           "attributes": {
             "category": "font",
             "group": "size"
+          },
+          "description": "Deprecated, use --calcite-font-size-2xl instead."
+        },
+        "2xl": {
+          "value": "{core.size.default.24}",
+          "type": "fontSizes",
+          "attributes": {
+            "category": "font",
+            "group": "size"
           }
         },
         "relative": {

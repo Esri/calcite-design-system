@@ -19,6 +19,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
@@ -50,7 +51,7 @@ export class Notice extends LitElement {
   //#region Private Properties
 
   /** The close button element. */
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   /** The computed icon to render. */
   private requestedIcon?: IconName;
@@ -206,14 +207,14 @@ export class Notice extends LitElement {
 
   override render(): JsxNode {
     const closeButton = (
-      <button
-        ariaLabel={this.messages.close}
+      <calcite-action
         class={CSS.close}
+        icon="x"
         onClick={this.close}
         ref={this.closeButtonRef}
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.close}
+      />
     );
 
     return (

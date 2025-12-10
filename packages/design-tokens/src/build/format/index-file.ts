@@ -37,18 +37,10 @@ export const formatIndexFile: FormatFn = async (args) => {
   const varLists = {
     light: createVarList(
       commonVarFormat,
-      fromTokens(
-        lightDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
-      ),
+      fromTokens(lightDictionary.allTokens.filter((token) => isThemed(token))),
       args,
     ),
-    dark: createVarList(
-      commonVarFormat,
-      fromTokens(
-        darkDictionary.allTokens.filter((token) => isThemed(token) && token.attributes?.scope !== "component"),
-      ),
-      args,
-    ),
+    dark: createVarList(commonVarFormat, fromTokens(darkDictionary.allTokens.filter((token) => isThemed(token))), args),
   } as const;
 
   const classGroupStrategy = format === "css" ? "." : "@mixin ";

@@ -5,7 +5,7 @@ import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
@@ -72,7 +72,11 @@ export class ComboboxItem extends LitElement {
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @property({ reflect: true }) guid = guid();
 
-  /** The component's text. */
+  /**
+   * The component's text.
+   *
+   * @required
+   */
   @property() heading: string;
 
   /** Specifies an icon to display. */
@@ -135,18 +139,7 @@ export class ComboboxItem extends LitElement {
    */
   @property() shortHeading: string;
 
-  /**
-   * The component's text.
-   *
-   * @deprecated in v2.12.0, removal target v5.0.0 - Use the `heading` property instead.
-   */
-  @property({ reflect: true }) textLabel: string;
-
-  /**
-   * The component's value.
-   *
-   * @required
-   */
+  /** The component's value. */
   @property() value: any;
 
   /**
@@ -206,17 +199,10 @@ export class ComboboxItem extends LitElement {
     this.ancestors = getAncestors(this.el);
   }
 
-  load(): void {
-    warnIfMissingRequiredProp(this, "value", "textLabel");
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       this.hasUpdated &&
-      (changes.has("disabled") ||
-        changes.has("heading") ||
-        changes.has("label") ||
-        changes.has("textLabel"))
+      (changes.has("disabled") || changes.has("heading") || changes.has("label"))
     ) {
       this.emitItemChange();
     }
@@ -279,16 +265,8 @@ export class ComboboxItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const {
-      disabled,
-      heading,
-      label,
-      textLabel,
-      value,
-      filterTextMatchPattern,
-      description,
-      shortHeading,
-    } = this;
+    const { disabled, heading, label, value, filterTextMatchPattern, description, shortHeading } =
+      this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const icon = disabled || isSingleSelect ? undefined : ICONS.checked;
     const selectionIcon = isSingleSelect
@@ -300,7 +278,6 @@ export class ComboboxItem extends LitElement {
         : this.selected
           ? ICONS.checked
           : ICONS.unchecked;
-    const headingText = heading || textLabel;
     const itemLabel = label || value;
 
     const classes = {
@@ -331,7 +308,7 @@ export class ComboboxItem extends LitElement {
             <div class={CSS.centerContent}>
               <div class={CSS.heading}>
                 {highlightText({
-                  text: headingText,
+                  text: heading,
                   pattern: filterTextMatchPattern,
                 })}
               </div>
