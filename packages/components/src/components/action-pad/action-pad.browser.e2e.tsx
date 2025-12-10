@@ -12,9 +12,6 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import "./action-pad";
-import "../action-group/action-group";
-import "../action/action";
 import type { Action } from "../action/action";
 import { SLOTS } from "./resources";
 

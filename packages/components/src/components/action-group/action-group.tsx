@@ -235,10 +235,13 @@ export class ActionGroup extends LitElement {
 
   private setRoleOnActions(): void {
     this.actions?.forEach((action) => {
-      action.role =
-        this.selectionMode === "single" || this.selectionMode === "single-persist"
-          ? "radio"
-          : "checkbox";
+      action.aria = {
+        ...action.aria,
+        role:
+          this.selectionMode === "single" || this.selectionMode === "single-persist"
+            ? "radio"
+            : "checkbox",
+      };
       this.setActionAriaChecked(action, action.active);
     });
   }
