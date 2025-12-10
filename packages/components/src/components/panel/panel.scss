@@ -95,7 +95,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 :host([scale="l"]) {
   --calcite-internal-panel-actions-margin-inline-start: var(--calcite-spacing-xs);
-  --calcite-internal-panel-actions-margin-inline-end: var(--calcite-spacing-xxs);
+  --calcite-internal-panel-actions-margin-inline-end: var(--calcite-spacing-xs);
   --calcite-internal-panel-actions-gap: var(--calcite-spacing-xs);
   --calcite-internal-panel-default-space: var(--calcite-spacing-lg);
   --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xl);
