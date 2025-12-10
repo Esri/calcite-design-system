@@ -21,6 +21,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-block-actions-end-spacing
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
@@ -49,6 +50,7 @@
     font-size: var(--calcite-font-size-xs);
   }
 
+  --calcite-internal-block-actions-end-spacing: var(--calcite-spacing-xxs);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-xxs))
@@ -81,6 +83,7 @@
     font-size: var(--calcite-font-size-sm);
   }
 
+  --calcite-internal-block-actions-end-spacing: var(--calcite-spacing-xxs);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-sm))
@@ -113,6 +116,7 @@
     font-size: var(--calcite-font-size);
   }
 
+  --calcite-internal-block-actions-end-spacing: var(--calcite-spacing-xs);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-md))
@@ -156,7 +160,10 @@
 .actions-end {
   align-items: center;
   display: flex;
+  gap: var(--calcite-internal-block-actions-end-spacing);
   grid-area: actions-end;
+  padding-block: var(--calcite-internal-block-actions-end-spacing);
+  padding-inline-end: var(--calcite-internal-block-actions-end-spacing);
 }
 
 .toggle {
