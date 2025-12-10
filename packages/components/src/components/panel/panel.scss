@@ -191,20 +191,12 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 #close,
 #collapse,
-.back-button,
 calcite-action-menu {
   --calcite-action-background-color: var(--calcite-panel-header-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
   --calcite-action-background-color-press: var(--calcite-panel-header-action-background-color-press);
   --calcite-action-text-color: var(--calcite-panel-header-action-text-color);
   --calcite-action-text-color-press: var(--calcite-panel-header-action-text-color-press);
-}
-
-.back-button {
-  @apply border-0
-  border-solid;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
-  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .header-actions {
