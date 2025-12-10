@@ -460,11 +460,10 @@ export class TabTitle extends LitElement {
         class={CSS.close}
         icon="x"
         key="close-button"
-        label={messages.close}
         onClick={this.closeClickHandler}
         ref={this.closeButtonRef}
         scale={this.scale}
-        title={messages.close}
+        text={messages.close}
       />
     ) : null;
   }
