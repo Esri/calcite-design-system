@@ -10,6 +10,12 @@
  * @prop --calcite-popover-text-color: Specifies the component's text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-popover-margin-inline-end
+
 @use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
 
@@ -34,6 +40,10 @@
   }
 }
 
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-popover-margin-inline-end: var(--calcite-spacing-xs);
+}
+
 :host([scale="m"]) {
   .heading {
     @apply text-0-wrap
@@ -43,6 +53,8 @@
 }
 
 :host([scale="l"]) {
+  --calcite-internal-popover-margin-inline-end: var(--calcite-spacing-sm);
+
   .heading {
     @apply text-1-wrap
     px-5
@@ -115,13 +127,14 @@
   self-center;
 }
 
+.close-button {
+  margin: auto;
+  margin-inline-end: var(--calcite-internal-popover-margin-inline-end);
+}
+
 .close-button-container {
-  @apply flex overflow-hidden;
+  @apply flex;
   flex: 0 0 auto;
-  border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  --calcite-action-corner-radius-start-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
-  --calcite-action-corner-radius-end-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 ::slotted(calcite-panel),
