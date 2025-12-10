@@ -116,7 +116,7 @@ describe("calcite-notice", () => {
   });
 
   describe("theme", () => {
-    const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"]): string =>
+    const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
       html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
         <div slot="title">Title</div>
         <div slot="message">Message</div>
@@ -126,46 +126,50 @@ describe("calcite-notice", () => {
     const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
 
     describe("default", () => {
-      themed(noticeHTML("brand", "outline-fill"), {
+      themed(noticeHTML("brand"), {
         "--calcite-notice-close-icon-color": {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "color",
+          targetProp: "--calcite-action-text-color",
         },
         "--calcite-notice-close-icon-color-hover": [
           {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "color",
+            targetProp: "--calcite-action-text-color-press",
             state: { focus: { attribute: "class", value: CSS.close } },
           },
           {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "color",
+            targetProp: "--calcite-action-text-color-press",
             state: { hover: { attribute: "class", value: CSS.close } },
           },
         ],
         "--calcite-notice-close-background-color-focus": [
           {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "backgroundColor",
+            targetProp: "--calcite-action-background-color-hover",
             state: "focus",
           },
           {
             shadowSelector: `.${CSS.close}`,
-            targetProp: "backgroundColor",
+            targetProp: "--calcite-action-background-color-hover",
             state: "hover",
           },
         ],
         "--calcite-notice-close-background-color-press": {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "backgroundColor",
+          targetProp: "--calcite-action-background-color-press",
           state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
         },
       });
     });
 
     kinds.forEach((kind) => {
       describe(`kind = "${kind}" `, () => {
-        themed(noticeHTML(kind, "outline-fill"), {
+        themed(noticeHTML(kind), {
           "--calcite-notice-background-color": [
             {
               shadowSelector: `.${CSS.container}`,

@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-notice-background-color: Specifies the component's background color.
+ * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
  * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
  * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
@@ -208,7 +209,7 @@ $notice-kinds:
   $kind: list.nth($notice-kind, 2);
 
   :host([kind="#{$name}"][appearance="outline-fill"]) .container {
-    border-color: rgb(from $kind r g b / var(--calcite-opacity-half));
+    border-color: var(--calcite-notice-border-color, rgb(from $kind r g b / var(--calcite-opacity-half)));
     background-color: var(
       --calcite-notice-background-color,
       color-mix(in srgb, $kind 5%, var(--calcite-color-foreground-1))
