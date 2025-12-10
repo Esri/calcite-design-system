@@ -226,12 +226,7 @@ calcite-action-menu {
   margin: auto;
 }
 
-.built-in-actions {
-  display: flex;
-}
-
-.header-actions,
-.built-in-actions {
+.header-actions {
   gap: var(--calcite-internal-panel-actions-gap);
 }
 
@@ -239,8 +234,7 @@ calcite-action-menu {
   margin-inline-start: var(--calcite-internal-panel-actions-margin-inline-start);
 }
 
-.header-actions--end,
-.built-in-actions {
+.header-actions--end {
   margin-inline-end: var(--calcite-internal-panel-actions-margin-inline-end);
 }
 
