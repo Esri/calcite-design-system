@@ -548,7 +548,7 @@ export class Block extends LitElement {
         class={{
           [CSS.header]: true,
           [CSS.headerHasContent]: headerHasContent,
-          [CSS.headerHasDragHandle]: this.dragHandle,
+          [CSS.headerDraggable]: this.dragHandle,
         }}
         id={IDS.header}
       >
