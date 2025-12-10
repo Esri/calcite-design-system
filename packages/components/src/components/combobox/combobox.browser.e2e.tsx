@@ -144,9 +144,9 @@ describe("calcite-combobox", () => {
       () =>
         mount(
           <calcite-combobox>
-            <calcite-combobox-item icon="banana" id="one" text-label="One" value="one" />
-            <calcite-combobox-item icon="beaker" id="two" selected text-label="Two" value="two" />
-            <calcite-combobox-item id="three" text-label="Three" value="three" />
+            <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
+            <calcite-combobox-item heading="Two" icon="beaker" id="two" selected value="two" />
+            <calcite-combobox-item heading="Three" id="three" value="three" />
           </calcite-combobox>,
         ),
       "open",

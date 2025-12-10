@@ -8,7 +8,6 @@ export interface ItemData extends BaseData {
   description: string;
   metadata: Record<string, unknown>;
   shortHeading: string;
-  textLabel: string;
   el: ComboboxItem["el"] | ComboboxItemGroup["el"];
 }
 
