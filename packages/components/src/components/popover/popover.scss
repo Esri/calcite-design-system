@@ -14,7 +14,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-popover-margin-inline-end
+// --calcite-internal-popover-close-spacing
 
 @use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
@@ -41,7 +41,7 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-popover-margin-inline-end: var(--calcite-spacing-xs);
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
 }
 
 :host([scale="m"]) {
@@ -53,7 +53,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-popover-margin-inline-end: var(--calcite-spacing-sm);
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
 
   .heading {
     @apply text-1-wrap
@@ -129,7 +129,7 @@
 
 .close-button {
   margin: auto;
-  margin-inline-end: var(--calcite-internal-popover-margin-inline-end);
+  margin-inline-end: var(--calcite-internal-popover-close-spacing);
 }
 
 .close-button-container {
