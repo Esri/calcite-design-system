@@ -58,7 +58,10 @@
   }
 
   .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
+    --calcite-icon-color: var(
+      --calcite-chip-close-icon-color,
+      var(--calcite-close-icon-color, var(--calcite-color-text-3))
+    );
   }
 
   &:host([kind="brand"]) {
@@ -127,7 +130,10 @@
   }
 
   .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-close-icon-color, var(--calcite-color-text-3)));
+    --calcite-icon-color: var(
+      --calcite-chip-close-icon-color,
+      var(--calcite-close-icon-color, var(--calcite-color-text-3))
+    );
   }
 }
 

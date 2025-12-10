@@ -9,6 +9,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
+import type { Action as HTMLCalciteActionElement } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -34,7 +35,7 @@ export class Chip extends LitElement {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<HTMLCalciteActionElement>();
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -326,16 +327,16 @@ export class Chip extends LitElement {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.dismissLabel}
+      <calcite-action
         class={CSS.close}
+        icon={ICONS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         ref={this.closeButtonRef}
+        scale={getIconScale(this.scale)}
         tabIndex={this.disabled ? -1 : 0}
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+        text={this.messages.dismissLabel}
+      />
     );
   }
 
