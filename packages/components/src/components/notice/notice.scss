@@ -59,7 +59,7 @@
     @apply text-0-wrap my-0.5;
   }
   .notice-close {
-    margin: var(--calcite-spacing-sm);
+    margin-inline-end: var(--calcite-spacing-sm);
   }
   .actions-end {
     margin-inline-end: var(--calcite-spacing-sm);
@@ -159,7 +159,7 @@
 .notice-close {
   @apply flex cursor-pointer items-center transition-default box-border;
   flex: 0 0 auto;
-  margin: var(--calcite-spacing-xs);
+  margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
   --calcite-action-background-color: var(--calcite-action-background-color, transparent);
 
