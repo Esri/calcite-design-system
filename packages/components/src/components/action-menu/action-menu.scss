@@ -43,6 +43,8 @@
 
 .default-trigger {
   @apply relative
+  h-full
+  self-stretch
   flex-initial;
 }
 
