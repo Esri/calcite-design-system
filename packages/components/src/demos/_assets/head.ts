@@ -10,6 +10,11 @@
   const SCRIPTS: Script[] = [
     {
       src: "/src/demos/_assets/demo-dom-swapper.ts",
+      type: "module",
+    },
+    {
+      src: "/src/demos/_assets/demo-options.ts",
+      type: "module",
     },
     {
       src: "/src/demos/_assets/demo-theme.ts",
