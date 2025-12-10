@@ -20,7 +20,12 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-height
+// --calcite-internal-action-spacing
 // --calcite-internal-tab-shadow-length
+// --calcite-internal-tab-title-close-margin-end
+// --calcite-internal-tab-title-close-margin-start
+// --calcite-internal-tab-title-close-padding
 
 @use "../../styles/includes";
 
@@ -42,29 +47,32 @@
 }
 
 .scale-s {
+  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-none);
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
+
   .content {
     @apply text-n2h py-1;
-  }
-  .x-button {
-    @apply w-5;
   }
 }
 
 .scale-m {
+  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
+
   .content {
     @apply text-n1h py-2;
-  }
-  .x-button {
-    @apply w-7;
   }
 }
 
 .scale-l {
+  --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
+  --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
+  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
+
   .content {
     @apply text-0h py-2.5;
-  }
-  .x-button {
-    @apply w-8;
   }
 }
 
@@ -208,37 +216,6 @@
     &.icon-end {
       margin-inline-start: var(--calcite-spacing-sm);
     }
-  }
-}
-
-.x-button {
-  @apply appearance-none
-  bg-transparent
-  border-none
-  content-center
-  cursor-pointer
-  flex
-  focus-base
-  items-center
-  justify-center
-  h-full
-  self-center
-  transition-default;
-  margin-inline-start: var(--calcite-spacing-sm);
-  margin-inline-end: var(--calcite-spacing-px);
-  block-size: calc(100% - var(--calcite-spacing-xxs));
-  color: var(--calcite-tab-close-icon-color, var(--calcite-color-text-3));
-  background-color: var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
-
-  &:focus {
-    @apply focus-normal;
-  }
-
-  &:focus,
-  &:hover,
-  &:active {
-    color: var(--calcite-tab-close-icon-color-press, var(--calcite-color-text-1));
-    background-color: var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
   }
 }
 
@@ -417,6 +394,13 @@
   }
 }
 
+.close {
+  --calcite-internal-action-spacing: var(--calcite-internal-tab-title-close-padding);
+  --calcite-internal-action-height: unset;
+  margin: auto;
+  margin-inline: var(--calcite-internal-tab-title-close-margin-end) var(--calcite-internal-tab-title-close-margin-start);
+}
+
 @media (forced-colors: active) {
   :host {
     outline-width: 0;
@@ -433,11 +417,6 @@
 
   :host([bordered][selected]) .container--bottom {
     border-block-start-style: none;
-  }
-
-  .x-button {
-    /* in high contrast the tab title outline covers the close button outline without a z-index */
-    @apply z-default;
   }
 
   .selected-indicator {

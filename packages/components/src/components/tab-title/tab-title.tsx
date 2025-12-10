@@ -19,10 +19,10 @@ import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
-import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
 import { useInteractive } from "../../controllers/useInteractive";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./tab-title.scss";
@@ -47,7 +47,7 @@ export class TabTitle extends LitElement {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   private containerEl: HTMLDivElement;
 
@@ -455,14 +455,14 @@ export class TabTitle extends LitElement {
     const { closable, messages } = this;
 
     return closable ? (
-      <XButton
-        disabled={false}
-        focusable={true}
+      <calcite-action
+        appearance="transparent"
+        class={CSS.close}
+        icon="x"
         key="close-button"
         label={messages.close}
         onClick={this.closeClickHandler}
         ref={this.closeButtonRef}
-        round={false}
         scale={this.scale}
         title={messages.close}
       />
