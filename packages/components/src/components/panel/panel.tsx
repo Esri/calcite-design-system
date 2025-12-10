@@ -517,9 +517,11 @@ export class Panel extends LitElement {
         key="header-actions-end"
       >
         {slotNode}
-        {this.renderMenu()}
-        {collapseNode}
-        {closeNode}
+        <div class={CSS.builtInActions}>
+          {this.renderMenu()}
+          {collapseNode}
+          {closeNode}
+        </div>
       </div>
     );
   }
