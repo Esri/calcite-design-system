@@ -29,9 +29,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-panel-actions-gap
-// --calcite-internal-panel-actions-margin-inline-end
-// --calcite-internal-panel-actions-margin-inline-start
+// --calcite-internal-panel-actions-spacing
 // --calcite-internal-panel-default-space
 // --calcite-internal-panel-header-vertical-padding
 
@@ -88,15 +86,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-panel-actions-margin-inline-start: var(--calcite-spacing-xxs);
-  --calcite-internal-panel-actions-margin-inline-end: var(--calcite-spacing-xxs);
-  --calcite-internal-panel-actions-gap: var(--calcite-spacing-xxs);
+  --calcite-internal-panel-actions-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-panel-actions-margin-inline-start: var(--calcite-spacing-xs);
-  --calcite-internal-panel-actions-margin-inline-end: var(--calcite-spacing-xs);
-  --calcite-internal-panel-actions-gap: var(--calcite-spacing-xs);
+  --calcite-internal-panel-actions-spacing: var(--calcite-spacing-xs);
   --calcite-internal-panel-default-space: var(--calcite-spacing-lg);
   --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xl);
 
@@ -227,15 +221,15 @@ calcite-action-menu {
 }
 
 .header-actions {
-  gap: var(--calcite-internal-panel-actions-gap);
+  gap: var(--calcite-internal-panel-actions-spacing);
 }
 
 .header-actions--start {
-  margin-inline-start: var(--calcite-internal-panel-actions-margin-inline-start);
+  margin-inline-start: var(--calcite-internal-panel-actions-spacing);
 }
 
 .header-actions--end {
-  margin-inline-end: var(--calcite-internal-panel-actions-margin-inline-end);
+  margin-inline-end: var(--calcite-internal-panel-actions-spacing);
 }
 
 .content-wrapper {
