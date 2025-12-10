@@ -58,7 +58,7 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
-// --calcite-internal-table-selection-action-gap
+// --calcite-internal-table-selection-action-spacing
 
 @use "../../styles/includes";
 
@@ -74,11 +74,11 @@
 }
 
 :host(:is([scale="s"], [scale="m"])) {
-  --calcite-internal-table-selection-action-gap: var(--calcite-spacing-xxs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-table-selection-action-gap: var(--calcite-spacing-xs);
+  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xs);
   --calcite-internal-table-cell-padding: 1rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size-0);
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
@@ -143,7 +143,7 @@ table {
 }
 .selection-actions {
   @apply flex flex-row;
-  gap: var(--calcite-internal-table-selection-action-gap);
+  gap: var(--calcite-internal-table-selection-action-spacing);
   margin-inline-start: auto;
 }
 
