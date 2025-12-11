@@ -24,6 +24,8 @@
 // --calcite-internal-chip-background-color
 // --calcite-internal-chip-block-size
 // --calcite-internal-chip-border-color
+// --calcite-internal-chip-close-background-color-hover
+// --calcite-internal-chip-close-background-color-press
 // --calcite-internal-chip-close-icon-color
 // --calcite-internal-chip-close-padding
 // --calcite-internal-chip-container-space-x-end
@@ -48,8 +50,6 @@
   @apply inline-flex
     cursor-default;
   border-radius: var(--calcite-chip-corner-radius, 9999px);
-
-  --calcite-internal-chip-close-icon-color: var(--calcite-color-text-3);
 }
 
 /* Host Prop Variant styles */
@@ -59,6 +59,11 @@
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
+  --calcite-internal-chip-close-icon-color: var(
+    --calcite-chip-close-icon-color,
+    var(--calcite-close-icon-color, var(--calcite-color-text-3))
+  );
+
   .container {
     color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
   }
@@ -93,8 +98,8 @@
 
   &:host([kind="brand"]),
   &:host([kind="inverse"]) {
-    --calcite-action-background-color-hover: var(--calcite-color-transparent-inverse-hover);
-    --calcite-action-background-color-press: var(--calcite-color-transparent-inverse-press);
+    --calcite-internal-chip-close-background-color-hover: var(--calcite-color-transparent-inverse-hover);
+    --calcite-internal-chip-close-background-color-press: var(--calcite-color-transparent-inverse-press);
     --calcite-internal-chip-close-icon-color: var(--calcite-color-text-inverse);
 
     .container {
@@ -490,11 +495,14 @@
 }
 
 .close {
+  --calcite-action-background-color-hover: var(--calcite-internal-chip-close-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-internal-chip-close-background-color-press);
   --calcite-action-corner-radius: var(--calcite-corner-radius-pill);
   --calcite-action-text-color: var(
     --calcite-chip-close-icon-color,
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color))
   );
+  --calcite-action-text-color-press: var(--calcite-internal-chip-close-icon-color-press);
   --calcite-internal-action-height: unset;
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
 }
