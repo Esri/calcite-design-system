@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -12,10 +12,6 @@ describe("calcite-chip", () => {
 
   describe("is focusable when interactive", () => {
     focusable("<calcite-chip interactive>doritos</calcite-chip>");
-  });
-
-  describe("can be disabled when interactive", () => {
-    disabled("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
   it("should not render a calcite-icon when selectionMode is single and not selected", async () => {

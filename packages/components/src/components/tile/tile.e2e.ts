@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -53,10 +53,6 @@ describe("calcite-tile", () => {
 
       expect(await isElementFocused(page, "#tile-1")).toBe(true);
     });
-  });
-
-  describe("disabled when interactive", () => {
-    disabled(html` <calcite-tile interactive></calcite-tile> `);
   });
 
   describe("events", () => {

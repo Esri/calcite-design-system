@@ -10,3 +10,10 @@ export const KindIcons = {
   success: "checkCircle",
   warning: "exclamationMarkTriangle",
 } as const;
+
+export const KindIconsFilled = {
+  danger: "exclamationMarkTriangleF",
+  info: "informationF",
+  success: "checkCircleF",
+  warning: "exclamationMarkTriangleF",
+} as const;

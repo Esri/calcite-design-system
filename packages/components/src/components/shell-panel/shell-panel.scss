@@ -6,7 +6,7 @@
  * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
  * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
- * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
@@ -108,6 +108,13 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
+:host([display-mode="float-all"][layout]) {
+  .content,
+  .float-all {
+    block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-max-height));
+  }
+}
+
 :host([layout="horizontal"]) .content {
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
@@ -149,6 +156,7 @@
 }
 
 .float-all {
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));

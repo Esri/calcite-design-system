@@ -97,7 +97,8 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) alignment: Alignment;
 
   /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
+    "transparent";
 
   /**
    * When `true`, the side padding of the component is reduced.

@@ -1409,11 +1409,13 @@
       "semantic.typography.hierarchy.caption": "S:aed82be5f3836230d41d3efeec6fb298ea8b6344,"
     },
     "selectedTokenSets": {
-      "semantic/font": "source",
-      "semantic/typography": "enabled"
+      "semantic/font": "enabled",
+      "semantic/typography": "enabled",
+      "core/font": "source",
+      "core/size": "source"
     },
-    "group": "typography",
-    "$figmaVariableReferences": {}
+    "$figmaVariableReferences": {},
+    "group": "typography"
   },
   {
     "id": "226f0285af1785915aa048534e0205d4199834c0",
