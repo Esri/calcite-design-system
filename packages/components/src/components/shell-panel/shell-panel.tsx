@@ -60,7 +60,7 @@ export class ShellPanel extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private sizeOverride = useSizeOverride({
-    targetElement: () => this.contentRef.value,
+    targetElement: this.contentRef,
     getBounds: (axis) =>
       axis === AxisConst.block
         ? { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize }

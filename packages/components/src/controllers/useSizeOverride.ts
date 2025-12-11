@@ -10,7 +10,7 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: () => HTMLElement | null;
+  readonly targetElement: { value: HTMLElement | null };
 }
 
 export interface UseSizeOverride {
@@ -67,7 +67,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
-        const el = context.targetElement();
+        const el = context.targetElement.value;
         const inline = applyAxis(sizes.inline, "inline", el);
         const block = applyAxis(sizes.block, "block", el);
 

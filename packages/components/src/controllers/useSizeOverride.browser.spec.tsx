@@ -10,7 +10,7 @@ describe("useSizeOverride", async () => {
     resizeValues = { inlineSize: null, blockSize: null };
 
     controller = useSizeOverride({
-      targetElement: () => this.ref.value,
+      targetElement: this.ref,
       getBounds: (axis) => (axis === "inline" ? { min: 100, max: 500 } : { min: 60, max: 400 }),
     });
 

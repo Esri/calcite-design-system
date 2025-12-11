@@ -1,10 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, describe } from "vitest";
-import "../shell/shell";
-import "./shell-panel";
-import "../panel/panel";
-import { userEvent } from "@vitest/browser/context";
+import { userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -85,12 +82,8 @@ describe("calcite-shell-panel", () => {
         const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
 
-        await component.updateComplete;
-
         const content = panel.shadowRoot!.querySelector(`.${CSS.content}`) as HTMLElement;
         const handle = panel.shadowRoot!.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
-        expect(content).toBeTruthy();
-        expect(handle).toBeTruthy();
 
         panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
         await component.updateComplete;
@@ -107,7 +100,6 @@ describe("calcite-shell-panel", () => {
 
         handle.focus();
         await userEvent.keyboard("{ArrowRight}");
-        await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
 
         panel.updateSize({ inline: methodResize });
@@ -150,7 +142,6 @@ describe("calcite-shell-panel", () => {
 
         const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
-        await component.updateComplete;
 
         const content = panel.shadowRoot!.querySelector(`.${CSS.content}`) as HTMLElement;
         const handle = panel.shadowRoot!.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
@@ -171,7 +162,6 @@ describe("calcite-shell-panel", () => {
 
         handle.focus();
         await userEvent.keyboard("{ArrowDown}");
-        await component.updateComplete;
         const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
         expect(afterKeyboard).not.toBe(initialToken);
 
