@@ -20,9 +20,10 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
+import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions, isAction } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -260,6 +261,7 @@ export class ActionBar extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -410,6 +412,46 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.setActionTabIndexes(current);
+        break;
+    }
+  }
+
+  private setActionTabIndexes(active: Action["el"]): void {
+    this.actions.forEach((action: Action["el"]) => {
+      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    });
+  }
+
   //#endregion
 
   //#region Rendering
@@ -462,7 +504,12 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container} ref={this.containerRef}>
+      <div
+        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        class={CSS.container}
+        ref={this.containerRef}
+        role="toolbar"
+      >
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>
