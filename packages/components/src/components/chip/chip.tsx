@@ -334,7 +334,7 @@ export class Chip extends LitElement {
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         ref={this.closeButtonRef}
-        scale={getIconScale(this.scale)}
+        scale={this.scale}
         text={this.messages.dismissLabel}
       />
     );
