@@ -28,31 +28,31 @@ class DemoOptions extends HTMLElement {
   connectedCallback(): void {
     this.removeDuplicateHeadings();
     this.setHeadingFromTitle();
-    this.setupEventListeners();
+    this.addEventListeners();
   }
 
   disconnectedCallback(): void {
-    this.teardownEventListeners();
+    this.removeEventListeners();
   }
 
-  get toggleDirSwitch(): HTMLElement | null {
-    return this.shadowRoot!.getElementById("toggle-dir");
+  get toggleDirSwitch(): HTMLElement {
+    return this.shadowRoot!.getElementById("toggle-dir")!;
   }
 
-  get toggleModeSwitch(): HTMLElement | null {
-    return this.shadowRoot!.getElementById("toggle-mode");
+  get toggleModeSwitch(): HTMLElement {
+    return this.shadowRoot!.getElementById("toggle-mode")!;
   }
 
-  get toggleDomSwitch(): HTMLElement | null {
-    return this.shadowRoot!.getElementById("toggle-dom");
+  get toggleDomSwitch(): HTMLElement {
+    return this.shadowRoot!.getElementById("toggle-dom")!;
   }
 
-  get closeHeaderAction(): HTMLElement | null {
-    return this.shadowRoot!.getElementById("close-header");
+  get closeHeaderAction(): HTMLElement {
+    return this.shadowRoot!.getElementById("close-header")!;
   }
 
-  get demoHeading(): HTMLElement | null {
-    return this.shadowRoot!.getElementById("demo-heading");
+  get demoHeading(): HTMLElement {
+    return this.shadowRoot!.getElementById("demo-heading")!;
   }
 
   removeDuplicateHeadings(): void {
@@ -65,14 +65,14 @@ class DemoOptions extends HTMLElement {
     }
   }
 
-  setupEventListeners(): void {
-    this.toggleDirSwitch?.addEventListener("calciteSwitchChange", this.handleToggleDir);
-    this.toggleModeSwitch?.addEventListener("calciteSwitchChange", this.handleToggleMode);
-    this.toggleDomSwitch?.addEventListener("calciteSwitchChange", this.handleToggleDom);
-    this.closeHeaderAction?.addEventListener("click", this.handleCloseHeader);
+  addEventListeners(): void {
+    this.toggleDirSwitch.addEventListener("calciteSwitchChange", this.handleToggleDir);
+    this.toggleModeSwitch.addEventListener("calciteSwitchChange", this.handleToggleMode);
+    this.toggleDomSwitch.addEventListener("calciteSwitchChange", this.handleToggleDom);
+    this.closeHeaderAction.addEventListener("click", this.handleCloseHeader);
   }
 
-  teardownEventListeners(): void {
+  removeEventListeners(): void {
     this.toggleDirSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleDir);
     this.toggleModeSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleMode);
     this.toggleDomSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleDom);
@@ -99,10 +99,9 @@ class DemoOptions extends HTMLElement {
       return;
     }
 
-    const switchElement = event.currentTarget as HTMLInputElement | null;
-    const isChecked: boolean = switchElement && "checked" in switchElement ? switchElement.checked : false;
+    const switchElement = event.currentTarget as HTMLInputElement;
 
-    if (isChecked) {
+    if (switchElement.checked) {
       mover.moveTo("shadow");
     } else {
       mover.moveTo("light");
