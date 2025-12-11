@@ -5,7 +5,7 @@ export default {
 };
 
 export const simple = (): string => html`
-  <calcite-navigation>
+  <calcite-navigation navigation-action>
     <calcite-navigation-logo slot="logo" heading="Walt's Chips"></calcite-navigation-logo>
     <calcite-menu slot="content-end">
       <calcite-menu-item text="Support"></calcite-menu-item>
@@ -165,8 +165,8 @@ export const allSlots_darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-export const withBothNavActionPropAndSlot_TestOnly = (): string => html`
-  <calcite-navigation navigation-action>
+export const withNavActionSlot = (): string => html`
+  <calcite-navigation>
     <calcite-action icon="layers" appearance="solid" slot="navigation-action" text="anvesh" scale="m"></calcite-action>
     <calcite-navigation-logo slot="logo" heading="Walt's Chips"></calcite-navigation-logo>
     <calcite-menu slot="content-end">
