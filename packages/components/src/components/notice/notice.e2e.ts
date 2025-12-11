@@ -164,6 +164,10 @@ describe("calcite-notice", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderColor",
         },
+        "--calcite-notice-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
       });
     });
 
