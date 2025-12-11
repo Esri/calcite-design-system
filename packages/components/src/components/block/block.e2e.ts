@@ -392,10 +392,6 @@ describe("calcite-block", () => {
           <div>content</div>
         </calcite-block>`,
         {
-          "--calcite-block-text-color": {
-            shadowSelector: `.${CSS.contentStart}`,
-            targetProp: "color",
-          },
           "--calcite-block-heading-text-color-press": {
             shadowSelector: `.${CSS.heading}`,
             targetProp: "color",

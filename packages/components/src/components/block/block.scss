@@ -275,9 +275,6 @@ calcite-sort-handle {
 .content-end,
 .content-start {
   @apply flex items-center;
-
-  // Deprecated
-  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
 }
 
 calcite-action-menu {
