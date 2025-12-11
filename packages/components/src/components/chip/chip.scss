@@ -107,7 +107,7 @@
     }
 
     .close {
-      outline-color: var(--calcite-color-text-inverse);
+      --calcite-color-focus: var(--calcite-color-text-inverse);
     }
   }
 
