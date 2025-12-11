@@ -287,10 +287,6 @@ describe("calcite-flow-item", () => {
       },
       "--calcite-flow-border-color": [
         {
-          shadowSelector: `.${CSS.backButton}`,
-          targetProp: "borderColor",
-        },
-        {
           shadowSelector: "calcite-panel",
           targetProp: "--calcite-panel-border-color",
         },

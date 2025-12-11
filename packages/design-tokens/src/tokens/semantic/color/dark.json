@@ -414,8 +414,7 @@
           "type": "color",
           "attributes": {
             "category": "color",
-            "group": "focus",
-            "scope": "component"
+            "group": "focus"
           }
         }
       }

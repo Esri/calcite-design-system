@@ -439,7 +439,6 @@ export class Stepper extends LitElement {
     return layout === "horizontal-single" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
-        appearance="transparent"
         class={{
           [CSS.actionIcon]: true,
         }}
