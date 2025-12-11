@@ -101,11 +101,7 @@ class DemoOptions extends HTMLElement {
 
     const switchElement = event.currentTarget as HTMLInputElement;
 
-    if (switchElement.checked) {
-      mover.moveTo("shadow");
-    } else {
-      mover.moveTo("light");
-    }
+    mover.moveTo(switchElement.checked ? "shadow" : "light");
   };
 }
 
