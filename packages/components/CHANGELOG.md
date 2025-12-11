@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.24...@esri/calcite-components@5.0.0-next.25) (2025-12-11)
+
+### Features
+
+- **shell-panel:** update default max height for slotted calcite-panel ([#13454](https://github.com/Esri/calcite-design-system/issues/13454)) ([e793b37](https://github.com/Esri/calcite-design-system/commit/e793b37a85e6d4e44184e77ed0cc449b6d9ea7e2)), closes [#10825](https://github.com/Esri/calcite-design-system/issues/10825)
+
 ## [5.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.23...@esri/calcite-components@5.0.0-next.24) (2025-12-11)
 
 ### Features
