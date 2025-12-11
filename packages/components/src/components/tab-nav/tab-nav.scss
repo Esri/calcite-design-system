@@ -42,17 +42,17 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-16};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-24};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-32};
+  --calcite-internal-tab-nav-button-width: #{core.$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
