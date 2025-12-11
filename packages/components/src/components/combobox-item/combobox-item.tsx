@@ -278,7 +278,8 @@ export class ComboboxItem extends LitElement {
         : this.selected
           ? ICONS.checked
           : ICONS.unchecked;
-    const itemLabel = label || value;
+    const itemLabel = label || value || heading;
+    const headingText = value || heading;
 
     const classes = {
       [CSS.label]: true,
@@ -308,7 +309,7 @@ export class ComboboxItem extends LitElement {
             <div class={CSS.centerContent}>
               <div class={CSS.heading}>
                 {highlightText({
-                  text: heading,
+                  text: headingText,
                   pattern: filterTextMatchPattern,
                 })}
               </div>

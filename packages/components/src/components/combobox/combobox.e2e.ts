@@ -3118,6 +3118,30 @@ describe("calcite-combobox", () => {
     });
   });
 
+  it("should use heading as fallback for accessibility if label is not provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="Fruits">
+        <calcite-combobox-item heading="Apple"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+    const item = await page.find("calcite-combobox-item");
+    expect(await item.getAttribute("aria-label")).toBe("Apple");
+  });
+
+  it("should use heading as fallback for value if value is not provided", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-combobox>
+        <calcite-combobox-item heading="Fallback Heading"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+    const item = await page.find("calcite-combobox-item");
+    expect(await item.getProperty("heading")).toBe("Fallback Heading");
+  });
+
   describe("theme", () => {
     describe("default", () => {
       const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
