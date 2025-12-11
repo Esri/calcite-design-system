@@ -19,10 +19,37 @@ type ParsedBlocks = {
   unknownLanguages: Set<string>;
 };
 
-const snippetsDir = "../../../calcite-documentation/documentation/component-sample-snippets";
-const indexHtml = "index.html";
+const SNIPPETS_DIR_REL = "../calcite-documentation/documentation/component-sample-snippets";
+const INDEX_HTML_REL = "packages/components/index.html";
 
 yargs(hideBin(process.argv)).scriptName("demo-snippet").strict().help().parseSync();
+
+async function findRepoRoot(startDir: string): Promise<string> {
+  let current = path.resolve(startDir);
+
+  while (true) {
+    const pkgPath = path.join(current, "package.json");
+
+    try {
+      const pkgRaw = await fs.readFile(pkgPath, "utf8");
+      const pkg = JSON.parse(pkgRaw) as { workspaces?: unknown };
+
+      if (pkg && pkg.workspaces) {
+        return current;
+      }
+    } catch {
+      // ignore and walk up
+    }
+
+    const parent = path.dirname(current);
+    if (parent === current) {
+      // reached filesystem root, fallback to original startDir
+      return startDir;
+    }
+
+    current = parent;
+  }
+}
 
 async function promptForChoice(promptLabel: string, options: string[]): Promise<number> {
   if (options.length === 1) {
@@ -115,6 +142,33 @@ async function collectComponents(rootDir: string): Promise<Map<string, Component
 function stripFrontmatter(mdxContent: string): string {
   const frontmatterPattern = /^---[\r\n]+[\s\S]*?^---[\r\n]+/m;
   return mdxContent.replace(frontmatterPattern, "").trimStart();
+}
+
+function extractTitleFromFrontmatter(mdxContent: string, fallback: string): string {
+  const frontmatterPattern = /^---[\r\n]+([\s\S]*?)^---[\r\n]+/m;
+  const match = frontmatterPattern.exec(mdxContent);
+
+  if (!match) {
+    return fallback;
+  }
+
+  const frontmatterBody = match[1];
+  const lines = frontmatterBody.split(/\r?\n/);
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed.toLowerCase().startsWith("title:")) {
+      continue;
+    }
+
+    const valuePart = trimmed.slice("title:".length).trim();
+    const unquoted = valuePart.replace(/^["'](.*)["']$/, "$1").trim();
+    if (unquoted) {
+      return unquoted;
+    }
+  }
+
+  return fallback;
 }
 
 function parseMdxIntoBlocks(mdxContent: string): ParsedBlocks {
@@ -218,8 +272,9 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
 }
 
 async function run(): Promise<void> {
-  const snippetsRoot = path.resolve(process.cwd(), snippetsDir);
-  const indexHtmlPath = path.resolve(process.cwd(), indexHtml);
+  const repoRoot = await findRepoRoot(process.cwd());
+  const snippetsRoot = path.join(repoRoot, SNIPPETS_DIR_REL);
+  const indexHtmlPath = path.join(repoRoot, INDEX_HTML_REL);
 
   const componentsMap = await collectComponents(snippetsRoot);
   const componentNames = Array.from(componentsMap.keys()).sort();
@@ -239,11 +294,19 @@ async function run(): Promise<void> {
   }
 
   const files = component.files;
-  const fileLabels = files.map((filePath) => path.basename(filePath));
+
+  // read titles from frontmatter for each snippet
+  const snippetTitles = await Promise.all(
+    files.map(async (filePath) => {
+      const rawMdx = await fs.readFile(filePath, "utf8");
+      const baseName = path.basename(filePath, ".mdx");
+      return extractTitleFromFrontmatter(rawMdx, baseName);
+    }),
+  );
 
   const selectedSnippetIndices = await promptForMultipleChoices(
     `Select snippet(s) for ${selectedComponentName}`,
-    fileLabels,
+    snippetTitles,
   );
 
   const selectedSnippetPaths = selectedSnippetIndices.map((index) => files[index]);
