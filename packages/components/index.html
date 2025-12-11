@@ -9,12 +9,37 @@
       a {
         text-decoration: none;
       }
+      calcite-shell-panel[slot="panel-bottom"] {
+        --calcite-shell-panel-height: 600px;
+        --calcite-shell-panel-min-height: 600px;
+        --calcite-shell-panel-max-height: 600px;
+      }
     </style>
   </head>
 
   <body class="calcite-mode-auto">
     <demo-dom-swapper>
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
+      <calcite-shell>
+        <calcite-shell-panel slot="panel-start" position="start" id="shell-panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
+            <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
+            <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading="Map" id="panel-start">
+            <calcite-block heading="Block 1" collapsible></calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
+        <div style="width: 100%; height: 100%"></div>
+        <calcite-shell-panel slot="panel-bottom" detached display-mode="float-all" id="temp">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="table"></calcite-action>
+          </calcite-action-bar>
+          <calcite-panel heading="Center panel" closable>
+            <calcite-action slot="header-actions-end" icon="chevrons-up" id="expand"></calcite-action>
+          </calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>
     </demo-dom-swapper>
   </body>
 </html>
