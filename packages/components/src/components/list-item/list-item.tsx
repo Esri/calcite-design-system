@@ -869,7 +869,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
         {closable ? (
           <calcite-action
-            appearance="transparent"
             class={CSS.close}
             icon={ICONS.close}
             key="close-action"

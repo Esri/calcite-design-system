@@ -498,7 +498,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
-          appearance="transparent"
           class={CSS.closeButton}
           icon="x"
           onClick={this.hide}
