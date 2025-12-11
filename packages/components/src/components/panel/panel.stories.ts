@@ -254,8 +254,31 @@ export const collapsedWithActions_TestOnly = (): string => html`
     description="A panel that can be collapsed"
   >
     <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="3d-glasses" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="information" slot="header-actions-end"></calcite-action>
+    <calcite-action text="gear" text-enabled icon="information" slot="header-actions-end"></calcite-action>
     <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
     <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+
+  <br />
+
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    collapsible
+    collapsed
+    heading="Collapsible with actions"
+    description="A panel that can be collapsed"
+  >
+    <calcite-action text="information" icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="3d-glasses" icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" icon="information" slot="header-actions-end"></calcite-action>
+    <calcite-action text="gear" icon="information" slot="header-actions-end"></calcite-action>
+    <calcite-action text="banana" icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" icon="measure" slot="header-menu-actions"></calcite-action>
     <div id="content" style="height: 100%;">${contentHTML}</div>
     ${footerHTML}
   </calcite-panel>

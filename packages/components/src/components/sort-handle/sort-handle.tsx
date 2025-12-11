@@ -298,7 +298,6 @@ export class SortHandle extends LitElement {
         >
           <calcite-action
             active={open}
-            appearance="transparent"
             aria={{ expanded: open }}
             class={CSS.handle}
             dragHandle
