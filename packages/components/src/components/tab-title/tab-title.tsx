@@ -456,7 +456,6 @@ export class TabTitle extends LitElement {
 
     return closable ? (
       <calcite-action
-        appearance="transparent"
         class={CSS.close}
         icon="x"
         key="close-button"

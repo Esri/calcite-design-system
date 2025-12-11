@@ -23,7 +23,6 @@
 // --calcite-internal-action-height
 // --calcite-internal-action-spacing
 // --calcite-internal-tab-shadow-length
-// --calcite-internal-tab-title-close-margin-end
 // --calcite-internal-tab-title-close-margin-start
 // --calcite-internal-tab-title-close-padding
 
@@ -49,7 +48,6 @@
 .scale-s {
   --calcite-internal-tab-title-close-padding: var(--calcite-spacing-none);
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
 
   .content {
     @apply text-n2h py-1;
@@ -59,7 +57,6 @@
 .scale-m {
   --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xxs);
-  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
 
   .content {
     @apply text-n1h py-2;
@@ -69,7 +66,6 @@
 .scale-l {
   --calcite-internal-tab-title-close-padding: var(--calcite-spacing-xxs);
   --calcite-internal-tab-title-close-margin-start: var(--calcite-spacing-xs);
-  --calcite-internal-tab-title-close-margin-end: var(--calcite-spacing-sm);
 
   .content {
     @apply text-0h py-2.5;
@@ -403,7 +399,7 @@
   --calcite-action-background-color-press: var(--calcite-tab-close-icon-background-color-press);
 
   margin: auto;
-  margin-inline: var(--calcite-internal-tab-title-close-margin-end) var(--calcite-internal-tab-title-close-margin-start);
+  margin-inline: var(--calcite-spacing-sm) var(--calcite-internal-tab-title-close-margin-start);
 }
 
 @media (forced-colors: active) {
