@@ -27,6 +27,7 @@
 // --calcite-internal-chip-close-background-color-hover
 // --calcite-internal-chip-close-background-color-press
 // --calcite-internal-chip-close-icon-color
+// --calcite-internal-chip-close-icon-color-hover
 // --calcite-internal-chip-close-padding
 // --calcite-internal-chip-container-space-x-end
 // --calcite-internal-chip-container-space-x-start
@@ -60,6 +61,7 @@
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   --calcite-internal-chip-close-icon-color: var(--calcite-color-text-3);
+  --calcite-internal-chip-close-icon-color-hover: var(--calcite-color-text-3);
 
   .container {
     color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
@@ -98,6 +100,7 @@
     --calcite-internal-chip-close-background-color-hover: var(--calcite-color-transparent-inverse-hover);
     --calcite-internal-chip-close-background-color-press: var(--calcite-color-transparent-inverse-press);
     --calcite-internal-chip-close-icon-color: var(--calcite-color-text-inverse);
+    --calcite-internal-chip-close-icon-color-hover: var(--calcite-color-text-inverse);
 
     .container {
       color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
@@ -499,7 +502,10 @@
     --calcite-chip-close-icon-color,
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color))
   );
-  --calcite-action-text-color-press: var(--calcite-internal-chip-close-icon-color-press);
+  --calcite-action-text-color-press: var(
+    --calcite-chip-close-icon-color,
+    var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
+  );
   --calcite-internal-action-height: unset;
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
 }
