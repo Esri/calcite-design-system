@@ -82,8 +82,8 @@ describe("calcite-shell-panel", () => {
         const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
 
-        const content = panel.shadowRoot!.querySelector(`.${CSS.content}`) as HTMLElement;
-        const handle = panel.shadowRoot!.querySelector(`.${CSS.resizeHandle}`) as HTMLElement;
+        const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`);
+        const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`);
 
         panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
         await component.updateComplete;
@@ -93,45 +93,47 @@ describe("calcite-shell-panel", () => {
       }
 
       it("should update vertical panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-        const initialToken = 320;
-        const methodResize = 400;
+        const initialDimensionThroughToken = 320;
+        const dimensionThroughMethodOverride = 400;
 
-        const { panel, content, handle, component } = await setupVerticalPanel(initialToken);
+        const { panel, content, handle, component } = await setupVerticalPanel(
+          initialDimensionThroughToken,
+        );
 
         handle.focus();
         await userEvent.keyboard("{ArrowRight}");
-        expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
+        expect(getComputedStyle(content).inlineSize).not.toBe(initialDimensionThroughToken);
 
-        panel.updateSize({ inline: methodResize });
+        await panel.updateSize({ inline: dimensionThroughMethodOverride });
         await component.updateComplete;
-        expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
-
-        panel.updateSize({ inline: null });
+        expect(getComputedStyle(content).inlineSize).toBe(`${dimensionThroughMethodOverride}px`);
+        await panel.updateSize({ inline: null });
         await component.updateComplete;
-        expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialDimensionThroughToken}px`);
       });
 
       it("should update vertical panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-        const initialToken = 320;
-        const methodResize = 400;
+        const initialDimensionThroughToken = 320;
+        const dimensionThroughMethodOverride = 400;
 
-        const { panel, content, handle, component } = await setupVerticalPanel(initialToken);
+        const { panel, content, handle, component } = await setupVerticalPanel(
+          initialDimensionThroughToken,
+        );
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
-        expect(getComputedStyle(content).inlineSize).not.toBe(initialToken);
+        expect(getComputedStyle(content).inlineSize).not.toBe(initialDimensionThroughToken);
 
-        panel.updateSize({ inline: methodResize });
+        await panel.updateSize({ inline: dimensionThroughMethodOverride });
         await component.updateComplete;
-        expect(getComputedStyle(content).inlineSize).toBe(`${methodResize}px`);
-
-        panel.updateSize({ inline: null });
+        expect(getComputedStyle(content).inlineSize).toBe(`${dimensionThroughMethodOverride}px`);
+        await panel.updateSize({ inline: null });
         await component.updateComplete;
-        expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialDimensionThroughToken}px`);
       });
     });
 
     describe("horizontal panel", () => {
-      async function setupHorizontalPanel(initialToken: number) {
+      async function setupHorizontalPanel(initialDimensionThroughToken: number) {
         const { el, component } = await mount<"calcite-shell">(
           <calcite-shell>
             <calcite-shell-panel resizable slot="panel-bottom">
@@ -148,47 +150,53 @@ describe("calcite-shell-panel", () => {
         expect(content).toBeTruthy();
         expect(handle).toBeTruthy();
 
-        panel.style.setProperty("--calcite-shell-panel-height", `${initialToken}px`);
+        panel.style.setProperty(
+          "--calcite-shell-panel-height",
+          `${initialDimensionThroughToken}px`,
+        );
         await component.updateComplete;
-        expect(getComputedStyle(content).height).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).height).toBe(`${initialDimensionThroughToken}px`);
 
         return { panel, content, handle, component };
       }
       it("should update horizontal panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-        const initialToken = 200;
-        const methodResize = 250;
+        const initialDimensionThroughToken = 200;
+        const dimensionThroughMethodOverride = 250;
 
-        const { panel, content, handle, component } = await setupHorizontalPanel(initialToken);
+        const { panel, content, handle, component } = await setupHorizontalPanel(
+          initialDimensionThroughToken,
+        );
 
         handle.focus();
         await userEvent.keyboard("{ArrowDown}");
         const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
-        expect(afterKeyboard).not.toBe(initialToken);
+        expect(afterKeyboard).not.toBe(initialDimensionThroughToken);
 
-        panel.updateSize({ block: methodResize });
+        await panel.updateSize({ block: dimensionThroughMethodOverride });
         await component.updateComplete;
-        expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
-
-        panel.updateSize({ block: null });
+        expect(getComputedStyle(content).blockSize).toBe(`${dimensionThroughMethodOverride}px`);
+        await panel.updateSize({ block: null });
         await component.updateComplete;
-        expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).blockSize).toBe(`${initialDimensionThroughToken}px`);
       });
 
       it("should update horizontal panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-        const initialToken = 200;
-        const methodResize = 250;
+        const initialDimensionThroughToken = 200;
+        const dimensionThroughMethodOverride = 250;
 
-        const { panel, content, handle, component } = await setupHorizontalPanel(initialToken);
+        const { panel, content, handle, component } = await setupHorizontalPanel(
+          initialDimensionThroughToken,
+        );
 
         handle.dispatchEvent(new PointerEvent("pointermove"));
-        expect(getComputedStyle(content).blockSize).not.toBe(initialToken);
+        expect(getComputedStyle(content).blockSize).not.toBe(initialDimensionThroughToken);
 
-        panel.updateSize({ block: methodResize });
+        await panel.updateSize({ block: dimensionThroughMethodOverride });
         await component.updateComplete;
-        expect(getComputedStyle(content).blockSize).toBe(`${methodResize}px`);
-        panel.updateSize({ block: null });
+        expect(getComputedStyle(content).blockSize).toBe(`${dimensionThroughMethodOverride}px`);
+        await panel.updateSize({ block: null });
         await component.updateComplete;
-        expect(getComputedStyle(content).blockSize).toBe(`${initialToken}px`);
+        expect(getComputedStyle(content).blockSize).toBe(`${initialDimensionThroughToken}px`);
       });
     });
   });

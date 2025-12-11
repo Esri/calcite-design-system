@@ -1,26 +1,34 @@
 import { makeController } from "@arcgis/lumina/controllers";
 import { Axis } from "../components/interfaces";
 
+interface AxisBounds {
+  min: number | null;
+  max: number | null;
+}
+
 interface SizeOverrideContext {
   /**
-   * Returns both min and max allowed sizes (pixels) for the axis ("inline" | "block"). Use null for no bound.
+   * Returns both min and max allowed sizes (pixels) for the axis "inline" and "block". Use null for no bound.
    */
-  readonly getBounds?: (axis: Axis) => { min: number | null; max: number | null };
+  readonly getBounds?: () => {
+    inline: AxisBounds;
+    block: AxisBounds;
+  };
   /**
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: { value: HTMLElement | null };
+  readonly targetElement: { value: HTMLElement };
 }
 
 export interface UseSizeOverride {
   /**
    * Applies (or clears) an inline/block size override in one call.
-   * Pass size = null to clear the inline style so normal styling (design tokens or other CSS) reasserts.
+   * Pass size = null to clear the inline style overrides.
    *
    * When to use:
-   * User resizing (drag/keyboard) sets an inline size that overrides token-defined defaults.
-   * This helper lets code adjust or remove that override so tokens can take effect again.
+   * User resizing (drag/keyboard) sets an inline size that overrides defaults.
+   * This helper lets code adjust or remove that override.
    *
    * Min/max define the allowed range. Any requested size outside that range gets clamped.
    *
@@ -39,7 +47,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
     const applyAxis = (
       requestedSize: number | null | undefined,
       axis: Axis,
-      el: HTMLElement | null,
+      el: HTMLElement,
     ): number | null | undefined => {
       if (requestedSize === undefined) {
         return undefined;
@@ -53,7 +61,9 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
       }
 
       let clampedSize = requestedSize;
-      const { min, max } = context.getBounds?.(axis) ?? { min: null, max: null };
+      const bounds = context.getBounds?.() ?? { inline: { min: null, max: null }, block: { min: null, max: null } };
+      const { min, max } = axis === "inline" ? bounds.inline : bounds.block;
+
       if (min !== null) {
         clampedSize = Math.round(Math.max(clampedSize, min));
       }
@@ -67,18 +77,14 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
-        const el = context.targetElement.value;
-        const inline = applyAxis(sizes.inline, "inline", el);
-        const block = applyAxis(sizes.block, "block", el);
+        const targetElement = context.targetElement.value;
+        const inline = applyAxis(sizes.inline, "inline", targetElement);
+        const block = applyAxis(sizes.block, "block", targetElement);
 
-        const result: { inline?: number | null; block?: number | null } = {};
-        if (inline !== undefined) {
-          result.inline = inline;
-        }
-        if (block !== undefined) {
-          result.block = block;
-        }
-        return result;
+        return {
+          inline,
+          block,
+        };
       },
     };
   });

@@ -7,68 +7,62 @@ import { useSizeOverride } from "./useSizeOverride";
 describe("useSizeOverride", async () => {
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
-    resizeValues = { inlineSize: null, blockSize: null };
 
-    controller = useSizeOverride({
+    sizeOverride = useSizeOverride({
       targetElement: this.ref,
-      getBounds: (axis) => (axis === "inline" ? { min: 100, max: 500 } : { min: 60, max: 400 }),
+      getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
     });
-
-    applySizeOverride(sizes: { inline?: number | null; block?: number | null }): void {
-      const appliedSizes = this.controller.resize(sizes);
-      if (appliedSizes.inline !== undefined) {
-        this.resizeValues.inlineSize = appliedSizes.inline ?? null;
-      }
-      if (appliedSizes.block !== undefined) {
-        this.resizeValues.blockSize = appliedSizes.block ?? null;
-      }
-    }
 
     override render(): JsxNode {
       return <div ref={this.ref} />;
     }
   }
 
-  let el;
+  let mounted;
+  let component;
 
   beforeEach(async () => {
-    const mounted = await mount(Test);
-    el = mounted.el;
+    mounted = await mount(Test);
+    component = mounted.component;
   });
 
   it("applies clamped size within min/max", () => {
-    el.applySizeOverride({ inline: 200 });
-    expect(el.ref.value!.style.inlineSize).toBe("200px");
-    expect(el.resizeValues.inlineSize).toBe(200);
+    const size = component.sizeOverride.resize({ inline: 200, block: 250 });
+    expect(component.ref.value!.style.inlineSize).toBe("200px");
+    expect(component.ref.value!.style.blockSize).toBe("250px");
+    expect(size.inline).toBe(200);
+    expect(size.block).toBe(250);
   });
 
   it("clamps size below min", () => {
-    el.applySizeOverride({ inline: 50 });
-    expect(el.ref.value!.style.inlineSize).toBe("100px");
-    expect(el.resizeValues.inlineSize).toBe(100);
+    const size = component.sizeOverride.resize({ inline: 50, block: 50 });
+    expect(component.ref.value!.style.inlineSize).toBe("100px");
+    expect(component.ref.value!.style.blockSize).toBe("60px");
+    expect(size.inline).toBe(100);
+    expect(size.block).toBe(60);
   });
 
   it("clamps size above max", () => {
-    el.applySizeOverride({ inline: 600 });
-    expect(el.ref.value!.style.inlineSize).toBe("500px");
-    expect(el.resizeValues.inlineSize).toBe(500);
+    const size = component.sizeOverride.resize({ inline: 600, block: 600 });
+    expect(component.ref.value!.style.inlineSize).toBe("500px");
+    expect(component.ref.value!.style.blockSize).toBe("400px");
+    expect(size.inline).toBe(500);
+    expect(size.block).toBe(400);
   });
 
   it("clears override when size is null", () => {
-    el.applySizeOverride({ inline: null });
-    expect(el.ref.value!.style.inlineSize).toBe("");
-    expect(el.resizeValues.inlineSize).toBeNull();
+    const size = component.sizeOverride.resize({ inline: null, block: null });
+    expect(component.ref.value!.style.inlineSize).toBe("");
+    expect(component.ref.value!.style.blockSize).toBe("");
+    expect(size.inline).toBeNull();
+    expect(size.block).toBeNull();
   });
 
-  it("applies block axis", () => {
-    el.applySizeOverride({ block: 300 });
-    expect(el.ref.value!.style.blockSize).toBe("300px");
-    expect(el.resizeValues.blockSize).toBe(300);
-  });
-
-  it("applies inline axis", () => {
-    el.applySizeOverride({ inline: 250 });
-    expect(el.ref.value!.style.inlineSize).toBe("250px");
-    expect(el.resizeValues.inlineSize).toBe(250);
+  it("applies block and inline axis", () => {
+    const size = component.sizeOverride.resize({ block: 300, inline: 250 });
+    expect(component.ref.value!.style.blockSize).toBe("300px");
+    expect(component.ref.value!.style.inlineSize).toBe("250px");
+    expect(size.block).toBe(300);
+    expect(size.inline).toBe(250);
   });
 });

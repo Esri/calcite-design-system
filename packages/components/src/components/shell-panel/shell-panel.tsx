@@ -19,7 +19,6 @@ import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
-import { AxisConst } from "../resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
@@ -61,10 +60,10 @@ export class ShellPanel extends LitElement {
 
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
-    getBounds: (axis) =>
-      axis === AxisConst.block
-        ? { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize }
-        : { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
   });
 
   //#endregion
@@ -150,7 +149,21 @@ export class ShellPanel extends LitElement {
 
   @method()
   async updateSize(sizes: { inline?: number | null; block?: number | null }): Promise<void> {
-    this.syncResizeFromController(sizes);
+    if (!this.contentRef.value) {
+      return;
+    }
+
+    const appliedSizes = this.sizeOverride.resize(sizes);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSizes.inline !== undefined && {
+        inlineSize: appliedSizes.inline,
+      }),
+      ...(appliedSizes.block !== undefined && {
+        blockSize: appliedSizes.block,
+      }),
+    };
   }
 
   //#endregion
@@ -202,7 +215,8 @@ export class ShellPanel extends LitElement {
     return this.contentRef.value.getBoundingClientRect();
   }
 
-  private syncResizeFromController(sizes: { inline?: number | null; block?: number | null }): void {
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(sizes: { inline?: number | null; block?: number | null }): void {
     if (!this.contentRef.value) {
       return;
     }
@@ -218,10 +232,6 @@ export class ShellPanel extends LitElement {
         blockSize: appliedSizes.block,
       }),
     };
-  }
-
-  private updateSizeInternal(sizes: { inline?: number | null; block?: number | null }): void {
-    this.syncResizeFromController(sizes);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
