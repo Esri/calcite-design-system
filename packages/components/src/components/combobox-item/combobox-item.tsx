@@ -35,6 +35,8 @@ export class ComboboxItem extends LitElement {
 
   private _selected = false;
 
+  private _value: any;
+
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -139,8 +141,14 @@ export class ComboboxItem extends LitElement {
    */
   @property() shortHeading: string;
 
-  /** The component's value. */
-  @property() value: any;
+  /** The component's value. Falls back to heading if not provided. */
+  @property()
+  get value(): any {
+    return this._value ?? this.heading;
+  }
+  set value(val: any) {
+    this._value = val;
+  }
 
   /**
    * When `true`, the item will be hidden

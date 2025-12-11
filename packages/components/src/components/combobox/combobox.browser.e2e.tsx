@@ -169,4 +169,18 @@ describe("calcite-combobox", () => {
       },
     });
   });
+
+  describe("combobox-item fallback logic", () => {
+    it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
+      const wrapper = await mount(
+        <calcite-combobox label="Fruits">
+          <calcite-combobox-item heading="Apple" />
+          <calcite-combobox-item heading="Fallback Heading" />
+        </calcite-combobox>,
+      );
+      const items = Array.from(wrapper.container.querySelectorAll("calcite-combobox-item"));
+      expect(items[0].getAttribute("aria-label")).toBe("Apple");
+      expect(items[1].getAttribute("value")).toBe("Fallback Heading");
+    });
+  });
 });
