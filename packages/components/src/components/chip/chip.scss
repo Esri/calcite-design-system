@@ -59,10 +59,7 @@
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
-  --calcite-internal-chip-close-icon-color: var(
-    --calcite-chip-close-icon-color,
-    var(--calcite-close-icon-color, var(--calcite-color-text-3))
-  );
+  --calcite-internal-chip-close-icon-color: var(--calcite-color-text-3);
 
   .container {
     color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
