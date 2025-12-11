@@ -59,5 +59,5 @@ export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean 
 }
 
 export function getLabel(item: ComboboxItem["el"]): string {
-  return item.shortHeading || item.heading || item.textLabel;
+  return item.shortHeading || item.heading;
 }

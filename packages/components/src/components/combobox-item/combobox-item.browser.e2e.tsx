@@ -25,7 +25,6 @@ describe("calcite-combobox-item", () => {
         { propertyName: "label", defaultValue: undefined },
         { propertyName: "selected", defaultValue: false },
         { propertyName: "shortHeading", defaultValue: undefined },
-        { propertyName: "textLabel", defaultValue: undefined },
         { propertyName: "value", defaultValue: undefined },
       ],
     );

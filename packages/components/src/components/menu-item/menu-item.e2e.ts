@@ -170,6 +170,11 @@ describe("calcite-menu-item", () => {
         "--calcite-menu-background-color": [
           {
             selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.itemContent}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            selector: "calcite-menu-item",
             shadowSelector: `.${CSS.content}`,
             targetProp: "backgroundColor",
           },

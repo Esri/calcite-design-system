@@ -111,7 +111,7 @@
 :host([display-mode="float-all"][layout]) {
   .content,
   .float-all {
-    block-size: var(--calcite-shell-panel-height);
+    block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-max-height));
   }
 }
 
