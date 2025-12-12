@@ -125,6 +125,7 @@ export default tseslint.config(
       "src/demos/**/*",
       "src/internal-label/**/*",
       "src/tests/commonTests/browser/**/*",
+      "support/**/*",
     ],
     rules: {
       "unicorn/filename-case": [
