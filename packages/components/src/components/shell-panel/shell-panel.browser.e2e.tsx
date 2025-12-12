@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, describe } from "vitest";
-import { userEvent } from "vitest/browser";
+import { commands, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -120,7 +120,15 @@ describe("calcite-shell-panel", () => {
           initialDimensionThroughToken,
         );
 
-        handle.dispatchEvent(new PointerEvent("pointermove"));
+        await userEvent.click(handle);
+        const handleRect = handle.getBoundingClientRect();
+        await commands.mouseMove(
+          handleRect.left + handleRect.width / 2,
+          handleRect.top + handleRect.height / 2,
+        );
+        await commands.mouseDown();
+        await commands.mouseUp();
+
         expect(getComputedStyle(content).inlineSize).not.toBe(initialDimensionThroughToken);
 
         await panel.updateSize({ inline: dimensionThroughMethodOverride });
@@ -188,7 +196,15 @@ describe("calcite-shell-panel", () => {
           initialDimensionThroughToken,
         );
 
-        handle.dispatchEvent(new PointerEvent("pointermove"));
+        await userEvent.click(handle);
+        const handleRect = handle.getBoundingClientRect();
+        await commands.mouseMove(
+          handleRect.left + handleRect.width / 2,
+          handleRect.top + handleRect.height / 2,
+        );
+        await commands.mouseDown();
+        await commands.mouseUp();
+
         expect(getComputedStyle(content).blockSize).not.toBe(initialDimensionThroughToken);
 
         await panel.updateSize({ block: dimensionThroughMethodOverride });

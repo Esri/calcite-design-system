@@ -18,11 +18,10 @@ describe("useSizeOverride", async () => {
     }
   }
 
-  let mounted;
-  let component;
+  let component: Test;
 
   beforeEach(async () => {
-    mounted = await mount(Test);
+    const mounted = await mount(Test);
     component = mounted.component;
   });
 
