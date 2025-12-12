@@ -141,7 +141,7 @@ export class ComboboxItem extends LitElement {
    */
   @property() shortHeading: string;
 
-  /** The component's value. Falls back to heading if not provided. */
+  /** The component's value. Falls back to `heading` if not provided. */
   @property()
   get value(): any {
     return this._value ?? this.heading;
