@@ -313,9 +313,6 @@ export class Combobox
 
   //#region Public Properties
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
-  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
-
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
@@ -403,6 +400,9 @@ export class Combobox
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
