@@ -13,6 +13,7 @@ import {
   disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
@@ -41,6 +42,10 @@ describe("calcite-combobox", () => {
         {
           propertyName: "overlayPositioning",
           defaultValue: "absolute",
+        },
+        {
+          propertyName: "placement",
+          defaultValue: defaultMenuPlacement,
         },
         {
           propertyName: "scale",
@@ -98,6 +103,10 @@ describe("calcite-combobox", () => {
         {
           propertyName: "placeholderIcon",
           value: "banana",
+        },
+        {
+          propertyName: "placement",
+          value: "auto",
         },
         {
           propertyName: "placeholderIconFlipRtl",

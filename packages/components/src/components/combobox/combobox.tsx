@@ -218,8 +218,6 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
-
   referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
@@ -314,6 +312,9 @@ export class Combobox
   //#endregion
 
   //#region Public Properties
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
@@ -622,8 +623,9 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
