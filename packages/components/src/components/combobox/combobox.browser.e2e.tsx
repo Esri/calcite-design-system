@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
@@ -168,5 +168,17 @@ describe("calcite-combobox", () => {
         },
       },
     });
+  });
+
+  it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
+    await mount(
+      <calcite-combobox label="Fruits">
+        <calcite-combobox-item heading="Apple" />
+        <calcite-combobox-item heading="Fallback Heading" />
+      </calcite-combobox>,
+    );
+    const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
+    expect(item1.getAttribute("aria-label")).toBe("Apple");
+    expect(item2.getAttribute("value")).toBe("Fallback Heading");
   });
 });

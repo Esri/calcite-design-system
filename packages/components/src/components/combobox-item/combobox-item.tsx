@@ -35,6 +35,8 @@ export class ComboboxItem extends LitElement {
 
   private _selected = false;
 
+  private _value: any;
+
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -139,8 +141,14 @@ export class ComboboxItem extends LitElement {
    */
   @property() shortHeading: string;
 
-  /** The component's value. */
-  @property() value: any;
+  /** The component's value. Falls back to `heading` if not provided. */
+  @property({ reflect: true })
+  get value(): any {
+    return this._value ?? this.heading;
+  }
+  set value(val: any) {
+    this._value = val ?? this.heading;
+  }
 
   /**
    * When `true`, the item will be hidden
@@ -278,7 +286,8 @@ export class ComboboxItem extends LitElement {
         : this.selected
           ? ICONS.checked
           : ICONS.unchecked;
-    const itemLabel = label || value;
+    const itemLabel = label || value || heading;
+    const headingText = heading || value;
 
     const classes = {
       [CSS.label]: true,
@@ -308,7 +317,7 @@ export class ComboboxItem extends LitElement {
             <div class={CSS.centerContent}>
               <div class={CSS.heading}>
                 {highlightText({
-                  text: heading,
+                  text: headingText,
                   pattern: filterTextMatchPattern,
                 })}
               </div>
