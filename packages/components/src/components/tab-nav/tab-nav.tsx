@@ -622,7 +622,6 @@ export class TabNav extends LitElement {
         key={overflowDirection}
       >
         <calcite-button
-          appearance="transparent"
           ariaLabel={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
           disabled={isEnd ? !hasOverflowingEndTabTitle : !hasOverflowingStartTabTitle}
           iconFlipRtl="both"
