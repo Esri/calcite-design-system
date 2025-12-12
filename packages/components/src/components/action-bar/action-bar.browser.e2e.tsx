@@ -162,7 +162,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>,
       );
 
-      const [action1, action2, action4, action5] = el.querySelectorAll("calcite-action");
+      const [action1, action2, action3, action4] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(action1.active).toBe(true);
@@ -172,16 +172,15 @@ describe("calcite-action-bar", () => {
       expect(action1.active).toBe(false);
       expect(action2.active).toBe(true);
 
+      await userEvent.click(action3);
+      expect(action3.active).toBe(true);
+
       await userEvent.click(action4);
       expect(action4.active).toBe(true);
-
-      await userEvent.click(action5);
-      expect(action4.active).toBe(true);
-      expect(action5.active).toBe(true);
 
       await userEvent.click(action4);
       expect(action4.active).toBe(false);
-      expect(action5.active).toBe(true);
+      expect(action3.active).toBe(true);
     });
   });
 });

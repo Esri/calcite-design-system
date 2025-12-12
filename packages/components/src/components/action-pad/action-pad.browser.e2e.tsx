@@ -154,7 +154,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>,
       );
 
-      const [action1, action2, action4, action5] = el.querySelectorAll("calcite-action");
+      const [action1, action2, action3, action4] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(action1.active).toBe(true);
@@ -164,11 +164,11 @@ describe("calcite-action-pad", () => {
       await userEvent.click(action2);
       expect(action2.active).toBe(false);
 
+      await userEvent.click(action3);
+      expect(action3.active).toBe(false);
+
       await userEvent.click(action4);
       expect(action4.active).toBe(false);
-
-      await userEvent.click(action5);
-      expect(action5.active).toBe(false);
     });
   });
 });
