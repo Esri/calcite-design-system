@@ -6,7 +6,6 @@
  * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
  * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
- * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
  * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
  * @prop --calcite-notice-close-icon-color-hover: Specifies the background color of the component's close button when hovered.
@@ -172,23 +171,16 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
-  --calcite-action-background-color: var(--calcite-action-background-color, transparent);
-
-  &:hover,
-  &:focus {
-    --calcite-action-background-color-hover: var(
-      --calcite-notice-close-background-color-focus,
-      var(--calcite-color-foreground-2)
-    );
-    --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
-  }
-
-  &:active {
-    --calcite-action-background-color-press: var(
-      --calcite-notice-close-background-color-press,
-      var(--calcite-color-foreground-3)
-    );
-  }
+  --calcite-action-background-color: pink;
+  --calcite-action-background-color-hover: var(
+    --calcite-notice-close-background-color-focus,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
+  --calcite-action-background-color-press: var(
+    --calcite-notice-close-background-color-press,
+    var(--calcite-color-foreground-3)
+  );
 }
 
 .actions-end {
