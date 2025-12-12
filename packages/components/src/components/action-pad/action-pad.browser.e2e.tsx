@@ -12,7 +12,6 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import type { Action } from "../action/action";
 import { SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
@@ -155,7 +154,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>,
       );
 
-      const [action1, action2] = el.querySelectorAll("calcite-action");
+      const [action1, action2, action4, action5] = el.querySelectorAll("calcite-action");
 
       await userEvent.click(action1);
       expect(action1.active).toBe(true);
@@ -164,9 +163,6 @@ describe("calcite-action-pad", () => {
       await userEvent.click(action2);
       await userEvent.click(action2);
       expect(action2.active).toBe(false);
-
-      const action4 = el.querySelector("#action-4") as Action["el"];
-      const action5 = el.querySelector("#action-5") as Action["el"];
 
       await userEvent.click(action4);
       expect(action4.active).toBe(false);
