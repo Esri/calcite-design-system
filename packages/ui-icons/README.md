@@ -157,9 +157,9 @@ To install the font, run:
 
 We provide three fonts, each designed for a standard size, for pixel perfection use at their designed sizes; 16px, 24px, and 32px.
 
-- **16px font** → Use for 16px and smaller sizes.  
-- **24px font** → Use for 24px and mid-range sizes.  
-- **32px font** → Use for 32px and larger sizes.  
+- **16px font** → Use for 16px and smaller sizes.
+- **24px font** → Use for 24px and mid-range sizes.
+- **32px font** → Use for 32px and larger sizes.
 
 **Avoid odd or non-standard sizes** like 13px, 17px, or 23px, as these break pixel alignment and can appear fuzzy.
 

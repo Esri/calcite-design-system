@@ -1,6 +1,6 @@
 import { SetFieldType } from "type-fest";
 import { expect, it, vi } from "vitest";
-import { page, userEvent } from "@vitest/browser/context";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { waitForAnimationFrame, waitForNextTick } from "../../utils/timing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
