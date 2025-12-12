@@ -23,6 +23,11 @@ describe("calcite-action", () => {
         targetProp: "backgroundColor",
         state: { press: { attribute: "class", value: CSS.button } },
       },
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
     });
   });
 
