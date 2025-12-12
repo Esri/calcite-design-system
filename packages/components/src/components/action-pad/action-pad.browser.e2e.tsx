@@ -144,7 +144,6 @@ describe("calcite-action-pad", () => {
           <calcite-action-group selection-mode="single">
             <calcite-action icon="plus" id="action-1" text="Add" />
             <calcite-action icon="save" id="action-2" text="Save" />
-            <calcite-action icon="trash" id="action-3" text="Delete" />
           </calcite-action-group>
           <calcite-action-group>
             <calcite-action icon="layers" id="action-4" text="Layers" />
