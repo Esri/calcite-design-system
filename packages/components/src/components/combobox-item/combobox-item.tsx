@@ -287,7 +287,7 @@ export class ComboboxItem extends LitElement {
           ? ICONS.checked
           : ICONS.unchecked;
     const itemLabel = label || value || heading;
-    const headingText = value || heading;
+    const headingText = heading || value;
 
     const classes = {
       [CSS.label]: true,
