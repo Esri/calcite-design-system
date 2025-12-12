@@ -108,13 +108,6 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([display-mode="float-all"][layout]) {
-  .content,
-  .float-all {
-    block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-max-height));
-  }
-}
-
 :host([layout="horizontal"]) .content {
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
