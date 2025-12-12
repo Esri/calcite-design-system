@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.25...@esri/calcite-components@5.0.0-next.26) (2025-12-11)
+
+### Features
+
+- **action-bar, action-pad, action-group:** implement ARIA toolbar pattern with configurable selection modes ([#13386](https://github.com/Esri/calcite-design-system/issues/13386)) ([285fb5e](https://github.com/Esri/calcite-design-system/commit/285fb5ecae99f84fee6e4229dbeec87701820d59)), closes [#7052](https://github.com/Esri/calcite-design-system/issues/7052)
+
 ## [5.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.24...@esri/calcite-components@5.0.0-next.25) (2025-12-11)
 
 ### Features

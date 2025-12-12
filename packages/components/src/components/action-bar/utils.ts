@@ -52,3 +52,7 @@ export const overflowActions = ({
     group.manager.component.requestUpdate();
   });
 };
+
+export function isAction(el: Element | null): el is Action["el"] {
+  return el?.tagName === "CALCITE-ACTION";
+}

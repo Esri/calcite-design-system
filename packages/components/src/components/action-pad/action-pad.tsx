@@ -12,6 +12,8 @@ import { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
+import { focusElementInGroup } from "../../utils/dom";
+import { isAction } from "../action-bar/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -141,6 +143,7 @@ export class ActionPad extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -229,9 +232,49 @@ export class ActionPad extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.updateTabIndexOfItems(current);
+        break;
+    }
+  }
+
   private updateActions(): void {
     this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
+    });
+  }
+
+  private updateTabIndexOfItems(target: Action["el"]): void {
+    this.actions.forEach((item: Action["el"]) => {
+      item.tabIndex = target !== item ? -1 : 0;
     });
   }
 
