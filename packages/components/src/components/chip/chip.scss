@@ -503,6 +503,7 @@
     --calcite-chip-close-icon-color,
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
   );
+  --calcite-icon-color: var(--calcite-action-text-color);
   --calcite-internal-action-height: unset;
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
 }
