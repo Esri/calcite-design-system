@@ -1,6 +1,7 @@
 import { Scale } from "../interfaces";
 
 export const CSS = {
+  close: "close",
   container: "container",
   containerBottom: "container--bottom",
   content: "content",
