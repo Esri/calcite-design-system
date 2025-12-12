@@ -18,7 +18,7 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: HTMLElement;
+  readonly targetElement: { value?: HTMLElement | null };
 }
 
 export interface UseSizeOverride {
@@ -56,7 +56,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
       const prop = axis === "block" ? "block-size" : "inline-size";
 
       if (requestedSize === null) {
-        el?.style.removeProperty(prop);
+        el.style.removeProperty(prop);
         return null;
       }
 
@@ -71,7 +71,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         clampedSize = Math.round(Math.min(clampedSize, max));
       }
 
-      el?.style.setProperty(prop, `${Math.round(clampedSize)}px`);
+      el.style.setProperty(prop, `${Math.round(clampedSize)}px`);
       return clampedSize;
     };
 
