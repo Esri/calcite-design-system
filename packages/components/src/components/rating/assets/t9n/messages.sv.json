@@ -1,5 +1,5 @@
 {
-  "rating": "Rating",
-  "required": "Required",
-  "stars": "Stars: {num}"
+  "rating": "Bedömning",
+  "required": "Obligatoriskt",
+  "stars": "Stjärnor: {num}"
 }

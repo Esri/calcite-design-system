@@ -1,6 +1,6 @@
 {
-  "expand": "Expand",
-  "collapse": "Collapse",
-  "expandLabel": "Expand menu",
-  "collapseLabel": "Collapse menu"
+  "expand": "Kibontás",
+  "collapse": "Összecsukás",
+  "expandLabel": "Menü kibontása",
+  "collapseLabel": "Menü összecsukása"
 }

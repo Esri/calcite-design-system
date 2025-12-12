@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Xóa",
+  "hiddenSelected": "Hàng đã được chọn nhưng nằm ngoài tầm nhìn",
+  "page": "Trang",
+  "row": "Hàng",
+  "selected": "Đã chọn"
 }

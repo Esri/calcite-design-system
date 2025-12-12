@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "sve",
+  "keyboardDeselectAll": "Pritisnite Enter ili Space za poništavanje odabira svih redaka",
+  "keyboardSelectAll": "Pritisnite Enter ili Space za odabir svih redaka",
+  "rowNumber": "Broj retka",
+  "selected": "redaka odabrano",
+  "selectionColumn": "Stupac odabira"
 }

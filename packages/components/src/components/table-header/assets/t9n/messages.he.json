@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "הכל",
+  "keyboardDeselectAll": "הקש על Enter על מקש הרווח כדי לבטל בחירה בכל השורות",
+  "keyboardSelectAll": "הקש על Enter על מקש הרווח כדי לבחור בכל השורות",
+  "rowNumber": "מספר שורה",
+  "selected": "שורות נבחרו",
+  "selectionColumn": "עמודת בחירה"
 }

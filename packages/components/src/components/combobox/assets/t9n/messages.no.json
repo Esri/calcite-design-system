@@ -1,12 +1,12 @@
 {
-  "add": "Add: {text}",
-  "all": "All",
-  "allSelected": "All selected",
-  "clear": "Clear value",
-  "noMatches": "No matches",
-  "removeTag": "Remove tag",
-  "required": "Required",
-  "selectAll": "Select all",
-  "selected": "selected",
+  "add": "Legg til {text}",
+  "all": "Alle",
+  "allSelected": "Alle valgte",
+  "clear": "Fjern verdi",
+  "noMatches": "Ingen samsvar",
+  "removeTag": "Fjern tagg",
+  "required": "Obligatorisk",
+  "selectAll": "Velg alle",
+  "selected": "valgte",
   "nonEditable": "Read-only {value}"
 }

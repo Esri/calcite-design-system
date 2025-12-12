@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "összes",
+  "keyboardDeselectAll": "Az összes sor kijelölésének megszüntetéséhez nyomja meg az Enter vagy a szóköz billentyűt",
+  "keyboardSelectAll": "Az összes sor kijelöléséhez nyomja meg az Enter vagy a szóköz billentyűt",
+  "rowNumber": "Sor száma",
+  "selected": "kiválasztott sorok",
+  "selectionColumn": "Kiválasztott oszlop"
 }

@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter enabled.",
-  "total": "Total items: {count}."
+  "filterEnabled": "เปิดใช้งานตัวกรองแล้ว",
+  "total": "รายการทั้งหมด: {count}"
 }

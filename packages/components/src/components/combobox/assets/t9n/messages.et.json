@@ -1,12 +1,12 @@
 {
-  "add": "Add: {text}",
-  "all": "All",
-  "allSelected": "All selected",
-  "clear": "Clear value",
-  "noMatches": "No matches",
-  "removeTag": "Remove tag",
-  "required": "Required",
-  "selectAll": "Select all",
-  "selected": "selected",
+  "add": "Lisa: {text}",
+  "all": "Kõik",
+  "allSelected": "Kõik valitud",
+  "clear": "Eemalda väärtus",
+  "noMatches": "Vasteid pole",
+  "removeTag": "Eemaldage märksõna",
+  "required": "Nõutud",
+  "selectAll": "Vali kõik",
+  "selected": "valitud",
   "nonEditable": "Read-only {value}"
 }

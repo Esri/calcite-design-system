@@ -1,5 +1,5 @@
 {
-  "loading": "Loading",
-  "indicator": "Indicator present",
-  "indicatorLabel": "{label} (Indicator present)"
+  "loading": "Laadimine",
+  "indicator": "Indikaator on olemas",
+  "indicatorLabel": "{label} (Indikaator olemas)"
 }

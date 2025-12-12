@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter enabled.",
-  "total": "Total items: {count}."
+  "filterEnabled": "필터가 활성화됨.",
+  "total": "총 항목 수: {count}."
 }

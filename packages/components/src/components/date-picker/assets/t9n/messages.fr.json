@@ -1,7 +1,7 @@
 {
-  "nextMonth": "Next month",
-  "prevMonth": "Previous month",
-  "monthMenu": "Month menu",
-  "yearMenu": "Year menu",
-  "year": "Year"
+  "nextMonth": "Mois suivant",
+  "prevMonth": "Mois précédent",
+  "monthMenu": "Menu Mois",
+  "yearMenu": "Menu Année",
+  "year": "Année"
 }

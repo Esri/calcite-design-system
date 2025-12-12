@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Hapus",
+  "hiddenSelected": "Baris dipilih tetapi tidak terlihat",
+  "page": "Halaman",
+  "row": "Baris",
+  "selected": "Terpilih"
 }

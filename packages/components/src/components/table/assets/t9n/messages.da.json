@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Ryd",
+  "hiddenSelected": "Rækker valgt, men vises ikke",
+  "page": "Side",
+  "row": "Række",
+  "selected": "Valgt"
 }

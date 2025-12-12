@@ -1,5 +1,5 @@
 {
-  "rating": "Rating",
-  "required": "Required",
-  "stars": "Stars: {num}"
+  "rating": "Peringkat",
+  "required": "Wajib",
+  "stars": "Bintang: {num}"
 }

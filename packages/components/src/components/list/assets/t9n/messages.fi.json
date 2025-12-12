@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter enabled.",
-  "total": "Total items: {count}."
+  "filterEnabled": "Suodatus käytössä.",
+  "total": "Kohteita yhteensä: {count}."
 }

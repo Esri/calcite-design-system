@@ -1,6 +1,6 @@
 {
-  "collapse": "Collapse",
-  "expand": "Expand",
-  "loading": "Loading",
+  "collapse": "Réduire",
+  "expand": "Développer",
+  "loading": "Chargement...",
   "options": "Options"
 }

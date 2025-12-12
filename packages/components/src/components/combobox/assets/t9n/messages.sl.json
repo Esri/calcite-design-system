@@ -1,12 +1,12 @@
 {
-  "add": "Add: {text}",
-  "all": "All",
-  "allSelected": "All selected",
-  "clear": "Clear value",
-  "noMatches": "No matches",
-  "removeTag": "Remove tag",
-  "required": "Required",
-  "selectAll": "Select all",
-  "selected": "selected",
+  "add": "Dodaj: {text}",
+  "all": "Vse",
+  "allSelected": "Vse izbrano",
+  "clear": "Počisti vrednost",
+  "noMatches": "Ni ujemanja",
+  "removeTag": "Odstrani oznako",
+  "required": "Zahtevano",
+  "selectAll": "Izberi vse",
+  "selected": "izbrano",
   "nonEditable": "Read-only {value}"
 }

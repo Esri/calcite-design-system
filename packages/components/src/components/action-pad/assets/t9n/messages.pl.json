@@ -1,6 +1,6 @@
 {
-  "expand": "Expand",
-  "collapse": "Collapse",
-  "expandLabel": "Expand menu",
-  "collapseLabel": "Collapse menu"
+  "expand": "Rozwiń",
+  "collapse": "Zwiń",
+  "expandLabel": "Rozwiń menu",
+  "collapseLabel": "Zwiń menu"
 }

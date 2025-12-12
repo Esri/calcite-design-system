@@ -1,5 +1,5 @@
 {
-  "complete": "Completed step",
-  "previousStep": "Previous step",
-  "nextStep": "Next step"
+  "complete": "Užbaigtas žingsnis",
+  "previousStep": "Ankstesnis žingsnis",
+  "nextStep": "Kitas žingsnis"
 }

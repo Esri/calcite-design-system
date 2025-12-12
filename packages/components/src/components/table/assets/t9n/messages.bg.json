@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Изчистване",
+  "hiddenSelected": "Избрани редове, но извън изгледа",
+  "page": "Страница",
+  "row": "Ред",
+  "selected": "Избрани"
 }

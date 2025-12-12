@@ -1,12 +1,12 @@
 {
-  "add": "Add: {text}",
-  "all": "All",
-  "allSelected": "All selected",
-  "clear": "Clear value",
-  "noMatches": "No matches",
-  "removeTag": "Remove tag",
-  "required": "Required",
-  "selectAll": "Select all",
-  "selected": "selected",
+  "add": "Adicionar: {text}",
+  "all": "Tudo",
+  "allSelected": "Tudo selecionado",
+  "clear": "Limpar valor",
+  "noMatches": "Sem correspondências",
+  "removeTag": "Remover etiqueta",
+  "required": "Obrigatório",
+  "selectAll": "Selecionar tudo",
+  "selected": "selecionada(s)",
   "nonEditable": "Read-only {value}"
 }

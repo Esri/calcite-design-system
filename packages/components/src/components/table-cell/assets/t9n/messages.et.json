@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Rea valimise tühistamiseks vajutage sisestus- või tühikuklahvi",
+  "keyboardSelect": "Rea valimiseks vajutage sisestus- või tühikuklahvi",
+  "row": "rida",
+  "selected": "valitud",
+  "unselected": "valik on tühistatud"
 }

@@ -1,5 +1,5 @@
 {
-  "rating": "Rating",
-  "required": "Required",
-  "stars": "Stars: {num}"
+  "rating": "דירוג",
+  "required": "נדרש",
+  "stars": "כוכבים: {num}"
 }

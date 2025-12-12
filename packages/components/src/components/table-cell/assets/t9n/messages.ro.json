@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Apăsați Enter sau Space pentru a deselecta rândul",
+  "keyboardSelect": "Apăsați Enter sau Space pentru a selecta rândul",
+  "row": "rând",
+  "selected": "selectat",
+  "unselected": "deselectat"
 }

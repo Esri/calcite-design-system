@@ -1,11 +1,11 @@
 {
-  "reorder": "Reorder",
-  "addTo": "Add to",
-  "moveTo": "Move to",
-  "moveToTop": "Move to top",
-  "moveToBottom": "Move to bottom",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "repositionLabel": "Reposition: {label}. Current position {position} of {total}.",
-  "reposition": "Reposition. Current position {position} of {total}."
+  "reorder": "إعادة ترتيب",
+  "addTo": "إضافة إلى",
+  "moveTo": "تحريك إلى",
+  "moveToTop": "تحريك إلى الأعلى",
+  "moveToBottom": "تحريك إلى الأسفل",
+  "moveUp": "تحريك لأعلى",
+  "moveDown": "تحريك لأسفل",
+  "repositionLabel": "تغيير الموضع: {label} الموضع الحالي {position} من {total}.",
+  "reposition": "تغيير الموضع. الموضع الحالي {position} من {total}."
 }

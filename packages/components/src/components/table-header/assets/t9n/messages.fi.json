@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "kaikki",
+  "keyboardDeselectAll": "Poista kaikkien rivien valinta painamalla Enter tai välilyöntinäppäintä",
+  "keyboardSelectAll": "Valitse kaikki rivit painamalla Enter tai välilyöntinäppäintä",
+  "rowNumber": "Rivinumero",
+  "selected": "valitut rivit",
+  "selectionColumn": "Valintasarake"
 }

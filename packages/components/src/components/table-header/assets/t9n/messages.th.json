@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "ทั้งหมด",
+  "keyboardDeselectAll": "กด Enter หรือ Space เพื่อยกเลิกการเลือกแถวทั้งหมด",
+  "keyboardSelectAll": "กด Enter หรือ Space เพื่อเลือกแถวทั้งหมด",
+  "rowNumber": "หมายเลขแถว",
+  "selected": "แถวที่เลือก",
+  "selectionColumn": "คอลัมน์การเลือก"
 }

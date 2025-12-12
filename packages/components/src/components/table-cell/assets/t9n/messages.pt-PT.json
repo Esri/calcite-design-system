@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Prima Enter ou Espaço para anular a seleção da linha",
+  "keyboardSelect": "Prima Enter ou Espaço para selecionar a linha",
+  "row": "linha",
+  "selected": "selecionada(s)",
+  "unselected": "não selecionada(s)"
 }

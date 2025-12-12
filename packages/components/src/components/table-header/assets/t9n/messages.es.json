@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "todo",
+  "keyboardDeselectAll": "Pulsar intro o espacio para anular la selección de todas las filas",
+  "keyboardSelectAll": "Pulsar intro o espacio para seleccionar todas las filas",
+  "rowNumber": "Número de fila",
+  "selected": "filas seleccionadas",
+  "selectionColumn": "Columna de selección"
 }

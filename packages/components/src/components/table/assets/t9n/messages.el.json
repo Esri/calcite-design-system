@@ -1,7 +1,7 @@
 {
-  "clear": "Clear",
-  "hiddenSelected": "Rows selected but out of view",
-  "page": "Page",
-  "row": "Row",
-  "selected": "Selected"
+  "clear": "Απαλοιφή",
+  "hiddenSelected": "Σειρές που επιλέχθηκαν αλλά έχουν αποκρυφθεί",
+  "page": "Σελίδα",
+  "row": "Σειρά",
+  "selected": "Επιλεγμένα"
 }

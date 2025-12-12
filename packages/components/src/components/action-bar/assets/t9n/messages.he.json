@@ -1,6 +1,6 @@
 {
-  "expand": "Expand",
-  "collapse": "Collapse",
-  "expandLabel": "Expand menu",
-  "collapseLabel": "Collapse menu"
+  "expand": "הרחב",
+  "collapse": "צמצם",
+  "expandLabel": "הרחב תפריט",
+  "collapseLabel": "כווץ תפריט"
 }

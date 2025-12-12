@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "Alle",
+  "keyboardDeselectAll": "Zum Aufheben der Auswahl aller Zeilen Eingabetaste oder Leertaste drücken",
+  "keyboardSelectAll": "Zum Auswählen aller Zeilen Eingabetaste oder Leertaste drücken",
+  "rowNumber": "Zeilennummer",
+  "selected": "ausgewählte Zeilen",
+  "selectionColumn": "Spaltenauswahl"
 }

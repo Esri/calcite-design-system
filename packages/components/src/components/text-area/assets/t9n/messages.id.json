@@ -1,6 +1,6 @@
 {
-  "invalid": "Invalid",
-  "required": "Required",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "invalid": "Tidak valid",
+  "required": "Wajib",
+  "tooLong": "Panjang karakter saat ini adalah {currentLength}, yang mana melebihi panjang karakter maksimum {maxLength}.",
+  "tooShort": "Panjang karakter saat ini adalah {currentLength}, yang mana lebih sedikit dari panjang karakter minimum {minLength}."
 }

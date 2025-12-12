@@ -1,5 +1,5 @@
 {
-  "loading": "Loading",
-  "indicator": "Indicator present",
-  "indicatorLabel": "{label} (Indicator present)"
+  "loading": "Загрузка",
+  "indicator": "Индикатор присутствует",
+  "indicatorLabel": "{label} (Индикатор присутствует)"
 }

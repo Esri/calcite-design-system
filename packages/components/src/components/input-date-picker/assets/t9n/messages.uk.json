@@ -1,8 +1,8 @@
 {
-  "chooseDate": "Choose date",
-  "date": "Date",
-  "dateFormat": "Date Format: {format}",
-  "endDate": "End Date",
-  "required": "Required",
-  "startDate": "Start Date"
+  "chooseDate": "Вибрати дату",
+  "date": "Дата",
+  "dateFormat": "Формат дати: {format}",
+  "endDate": "Дата завершення",
+  "required": "Потрібні відомості",
+  "startDate": "Початкова дата"
 }

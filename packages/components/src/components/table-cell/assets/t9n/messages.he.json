@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "הקש על Enter על מקש הרווח כדי לבטל בחירה בשורה",
+  "keyboardSelect": "הקש על Enter על מקש הרווח כדי לבחור בשורה",
+  "row": "שורה",
+  "selected": "נבחר",
+  "unselected": "לא נבחר"
 }

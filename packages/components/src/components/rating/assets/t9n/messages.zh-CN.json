@@ -1,5 +1,5 @@
 {
-  "rating": "Rating",
-  "required": "Required",
-  "stars": "Stars: {num}"
+  "rating": "评级",
+  "required": "必需项",
+  "stars": "星：{num}"
 }

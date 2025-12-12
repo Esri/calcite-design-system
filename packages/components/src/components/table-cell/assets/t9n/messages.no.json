@@ -1,7 +1,7 @@
 {
-  "keyboardDeselect": "Press Enter or Space to deselect row",
-  "keyboardSelect": "Press Enter or Space to select row",
-  "row": "row",
-  "selected": "selected",
-  "unselected": "unselected"
+  "keyboardDeselect": "Trykk på Enter- eller mellomromstasten for å oppheve valg av rad",
+  "keyboardSelect": "Trykk på Enter- eller mellomromstasten for å velge rad",
+  "row": "rad",
+  "selected": "valgte",
+  "unselected": "ikke valgt"
 }

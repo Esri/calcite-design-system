@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "alle",
+  "keyboardDeselectAll": "Tryk på Enter eller mellemrumstasten for at fravælge alle rækker",
+  "keyboardSelectAll": "Tryk på Enter eller mellemrumstasten for at vælge alle rækker",
+  "rowNumber": "Rækkenummer",
+  "selected": "valgte rækker",
+  "selectionColumn": "Kolonne for valgt"
 }

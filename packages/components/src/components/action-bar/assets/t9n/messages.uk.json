@@ -1,6 +1,6 @@
 {
-  "expand": "Expand",
-  "collapse": "Collapse",
-  "expandLabel": "Expand menu",
-  "collapseLabel": "Collapse menu"
+  "expand": "Розширити",
+  "collapse": "Згорнути",
+  "expandLabel": "Розгорнути меню",
+  "collapseLabel": "Згорнути меню"
 }

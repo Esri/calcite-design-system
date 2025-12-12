@@ -1,8 +1,8 @@
 {
-  "chooseDate": "Choose date",
-  "date": "Date",
-  "dateFormat": "Date Format: {format}",
-  "endDate": "End Date",
-  "required": "Required",
-  "startDate": "Start Date"
+  "chooseDate": "Izberi datum",
+  "date": "Datum",
+  "dateFormat": "Oblika datuma: {format}",
+  "endDate": "Datum zaključka",
+  "required": "Zahtevano",
+  "startDate": "Začetni datum"
 }

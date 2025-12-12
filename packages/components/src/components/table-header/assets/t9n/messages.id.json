@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "semua",
+  "keyboardDeselectAll": "Tekan Enter atau Spasi untuk membatalkan pemilihan semua baris",
+  "keyboardSelectAll": "Tekan Enter atau Spasi untuk memilih semua baris",
+  "rowNumber": "Jumlah baris",
+  "selected": "baris yang dipilih",
+  "selectionColumn": "Kolom pilihan"
 }

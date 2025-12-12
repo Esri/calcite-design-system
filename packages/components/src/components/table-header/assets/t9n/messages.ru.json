@@ -1,8 +1,8 @@
 {
-  "all": "all",
-  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
-  "keyboardSelectAll": "Press Enter or Space to select all rows",
-  "rowNumber": "Row number",
-  "selected": "rows selected",
-  "selectionColumn": "Selection column"
+  "all": "все",
+  "keyboardDeselectAll": "Нажмите Enter или Space для отмены выборки всех строк",
+  "keyboardSelectAll": "Нажмите Enter или Space для выборки всех строк",
+  "rowNumber": "Номер строки",
+  "selected": "строк выбрано",
+  "selectionColumn": "Столбец выборки"
 }

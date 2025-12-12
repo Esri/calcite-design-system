@@ -1,8 +1,8 @@
 {
-  "previous": "Previous",
-  "next": "Next",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "previous": "Sebelumnya",
+  "next": "Selanjutnya",
+  "play": "Putar",
+  "pause": "Jeda",
+  "carousel": "Karosel",
+  "carouselItemProgress": "Indikator Progres untuk Item Karosel"
 }

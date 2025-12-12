@@ -1,4 +1,4 @@
 {
-  "filterEnabled": "Filter enabled.",
-  "total": "Total items: {count}."
+  "filterEnabled": "有効化されたフィルター",
+  "total": "アイテムの合計数: {count}"
 }

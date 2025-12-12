@@ -1,5 +1,5 @@
 {
-  "loading": "Loading",
-  "indicator": "Indicator present",
-  "indicatorLabel": "{label} (Indicator present)"
+  "loading": "Učitavanje",
+  "indicator": "Prisutan indikator",
+  "indicatorLabel": "{label} (prisutan indikator)"
 }

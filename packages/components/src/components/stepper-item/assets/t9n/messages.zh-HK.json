@@ -1,5 +1,5 @@
 {
-  "complete": "Completed step",
-  "previousStep": "Previous step",
-  "nextStep": "Next step"
+  "complete": "完成的步驟",
+  "previousStep": "上一步",
+  "nextStep": "下一步"
 }

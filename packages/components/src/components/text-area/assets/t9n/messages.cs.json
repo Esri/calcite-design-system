@@ -1,6 +1,6 @@
 {
-  "invalid": "Invalid",
-  "required": "Required",
-  "tooLong": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}.",
-  "tooShort": "The current character length is {currentLength}, which is less than the minimum character length of {minLength}."
+  "invalid": "Neplatný",
+  "required": "Povinné",
+  "tooLong": "Aktuální počet znaků je {currentLength}, což překračuje maximální počet znaků {maxLength}.",
+  "tooShort": "Aktuální počet znaků je {currentLength}, což je méně než minimální počet {minLength} znaků."
 }
