@@ -218,8 +218,6 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
-
   referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
@@ -402,6 +400,9 @@ export class Combobox
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -622,8 +623,9 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
