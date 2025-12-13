@@ -10,7 +10,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-list-action-slot-spacing
+// --calcite-internal-list-action-spacing
 
 @use "../../styles/includes";
 
@@ -19,15 +19,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
 @include includes.disabled();
@@ -73,16 +73,16 @@
 }
 
 ::slotted(:is(calcite-action[slot="filter-actions-start"], calcite-action[slot="filter-actions-end"])) {
-  gap: var(--calcite-internal-list-action-slot-spacing);
+  gap: var(--calcite-internal-list-action-spacing);
   align-self: center;
 }
 
 ::slotted(calcite-action[slot="filter-actions-start"]) {
-  margin-inline-start: var(--calcite-internal-list-action-slot-spacing);
+  margin-inline-start: var(--calcite-internal-list-action-spacing);
 }
 
 ::slotted(calcite-action[slot="filter-actions-end"]) {
-  margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
 }
 
 @include includes.base-component();

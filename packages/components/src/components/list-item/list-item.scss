@@ -18,7 +18,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-list-action-slot-spacing
+// --calcite-internal-list-action-spacing
 
 @use "../../styles/includes";
 
@@ -27,15 +27,15 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-list-action-slot-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
 :host([filter-hidden]),
@@ -190,15 +190,12 @@
 :host([scale="s"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
-    margin-inline-start: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
-  }
-  .close {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
@@ -225,7 +222,7 @@
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
   .drag-container {
-    margin-inline: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline: var(--calcite-internal-list-action-spacing);
   }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
@@ -239,13 +236,13 @@
 ) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
 }
 :host([scale="s"][display-mode="nested"]) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
@@ -267,15 +264,12 @@
 :host([scale="m"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
-    margin-inline-start: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
-  }
-  .close {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
@@ -304,7 +298,7 @@
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
   .drag-container {
-    margin-inline: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline: var(--calcite-internal-list-action-spacing);
   }
   .container {
     padding-inline-start: 0;
@@ -321,13 +315,13 @@
 ) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
 }
 :host([scale="m"][display-mode="nested"]) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
@@ -352,15 +346,12 @@
 :host([scale="l"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-md);
-    margin-inline-start: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
-    gap: var(--calcite-internal-list-action-slot-spacing);
-  }
-  .close {
-    margin-inline-end: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline-end: var(--calcite-internal-list-action-spacing);
+    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-md);
@@ -390,7 +381,7 @@
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
   .drag-container {
-    margin-inline: var(--calcite-internal-list-action-slot-spacing);
+    margin-inline: var(--calcite-internal-list-action-spacing);
   }
   .container {
     padding-inline-start: 0;
@@ -407,13 +398,13 @@
 ) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
 }
 :host([scale="l"][display-mode="nested"]) {
   .drag-container {
     margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-slot-spacing) 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
   }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
@@ -569,7 +560,8 @@
 .actions-end ::slotted(calcite-action),
 .actions-end,
 .close {
-  padding-block: var(--calcite-internal-list-action-slot-spacing);
+  @apply items-center;
+  padding-block: var(--calcite-internal-list-action-spacing);
 }
 
 @include includes.base-component();
