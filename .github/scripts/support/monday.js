@@ -415,6 +415,7 @@ module.exports = function Monday(issue, core) {
     ["aPreciado88", { role: mondayColumns.developers, id: 60795249 }],
     ["ashetland", { role: mondayColumns.designers, id: 45851619 }],
     ["benelan", { role: mondayColumns.developers, id: 49704471 }],
+    ["brendan-vincent-rice", { role: mondayColumns.developers, id: 96903694 }],
     ["chezHarper", { role: mondayColumns.designers, id: 71157966 }],
     ["DintaMel", { role: mondayColumns.productEngineers, id: 92955697 }],
     ["DitwanP", { role: mondayColumns.productEngineers, id: 53683093 }],
