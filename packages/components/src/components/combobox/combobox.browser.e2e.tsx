@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
@@ -13,6 +13,7 @@ import {
   disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
@@ -41,6 +42,10 @@ describe("calcite-combobox", () => {
         {
           propertyName: "overlayPositioning",
           defaultValue: "absolute",
+        },
+        {
+          propertyName: "placement",
+          defaultValue: defaultMenuPlacement,
         },
         {
           propertyName: "scale",
@@ -98,6 +103,10 @@ describe("calcite-combobox", () => {
         {
           propertyName: "placeholderIcon",
           value: "banana",
+        },
+        {
+          propertyName: "placement",
+          value: "auto",
         },
         {
           propertyName: "placeholderIconFlipRtl",
@@ -168,5 +177,17 @@ describe("calcite-combobox", () => {
         },
       },
     });
+  });
+
+  it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
+    await mount(
+      <calcite-combobox label="Fruits">
+        <calcite-combobox-item heading="Apple" />
+        <calcite-combobox-item heading="Fallback Heading" />
+      </calcite-combobox>,
+    );
+    const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
+    expect(item1.getAttribute("aria-label")).toBe("Apple");
+    expect(item2.getAttribute("value")).toBe("Fallback Heading");
   });
 });

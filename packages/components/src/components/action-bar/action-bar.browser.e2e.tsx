@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "@vitest/browser/context";
+import { userEvent } from "vitest/browser";
 import { describe, it, expect } from "vitest";
 import {
   cancelable,
