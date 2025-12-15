@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.27...@esri/calcite-components@5.0.0-next.28) (2025-12-15)
+
+### Bug Fixes
+
+- **action:** enable customizing background-color on hover & active when `appearance="transparent"` ([#13466](https://github.com/Esri/calcite-design-system/issues/13466)) ([c6953d2](https://github.com/Esri/calcite-design-system/commit/c6953d2df90b1e4187e4581850062cd1143ed3fa)), closes [#13462](https://github.com/Esri/calcite-design-system/issues/13462)
+
 ## [5.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.26...@esri/calcite-components@5.0.0-next.27) (2025-12-15)
 
 ### Features
