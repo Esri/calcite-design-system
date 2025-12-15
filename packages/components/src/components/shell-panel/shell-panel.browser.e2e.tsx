@@ -130,6 +130,7 @@ describe("calcite-shell-panel", () => {
         await panel.updateSize({ inline: overrideSize });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${overrideSize}px`);
+
         await panel.updateSize({ inline: null });
         await component.updateComplete;
         expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
@@ -175,6 +176,7 @@ describe("calcite-shell-panel", () => {
         await panel.updateSize({ block: overrideSize });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
+
         await panel.updateSize({ block: null });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
@@ -200,6 +202,7 @@ describe("calcite-shell-panel", () => {
         await panel.updateSize({ block: overrideSize });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
+
         await panel.updateSize({ block: null });
         await component.updateComplete;
         expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
