@@ -329,7 +329,6 @@ export class Chip extends LitElement {
     return (
       <calcite-action
         class={CSS.close}
-        disabled={this.disabled}
         icon={ICONS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
