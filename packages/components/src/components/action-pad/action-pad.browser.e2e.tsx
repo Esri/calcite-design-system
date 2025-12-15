@@ -110,9 +110,9 @@ describe("calcite-action-pad", () => {
       const { el } = await mount<"calcite-action-pad">(
         <calcite-action-pad overflow-actions-disabled>
           <calcite-action-group selection-mode="single-persist">
-            <calcite-action icon="plus" id="action-1" text="Add" />
-            <calcite-action icon="save" id="action-2" text="Save" />
-            <calcite-action icon="trash" id="action-3" text="Delete" />
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+            <calcite-action icon="trash" text="Delete" />
           </calcite-action-group>
         </calcite-action-pad>,
       );
@@ -142,13 +142,13 @@ describe("calcite-action-pad", () => {
       const { el } = await mount<"calcite-action-pad">(
         <calcite-action-pad overflow-actions-disabled>
           <calcite-action-group selection-mode="single">
-            <calcite-action icon="plus" id="action-1" text="Add" />
-            <calcite-action icon="save" id="action-2" text="Save" />
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
           </calcite-action-group>
           <calcite-action-group>
-            <calcite-action icon="layers" id="action-4" text="Layers" />
-            <calcite-action icon="layer-basemap" id="action-5" text="Basemaps" />
-            <calcite-action icon="bookmark" id="action-6" text="Bookmarks" />
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+            <calcite-action icon="bookmark" text="Bookmarks" />
           </calcite-action-group>
         </calcite-action-pad>,
       );
@@ -161,12 +161,15 @@ describe("calcite-action-pad", () => {
 
       await userEvent.click(action2);
       await userEvent.click(action2);
+      expect(action1.active).toBe(false);
       expect(action2.active).toBe(false);
 
       await userEvent.click(action3);
       expect(action3.active).toBe(false);
+      expect(action4.active).toBe(false);
 
       await userEvent.click(action4);
+      expect(action3.active).toBe(false);
       expect(action4.active).toBe(false);
     });
   });
