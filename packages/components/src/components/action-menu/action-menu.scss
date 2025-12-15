@@ -1,0 +1,71 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-menu-items-space: Specifies the space between actions in the menu.
+ *
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-menu-gap
+// --calcite-internal-action-menu-padding
+
+@use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-xxs));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-menu-gap: var(--calcite-action-menu-items-space, var(--calcite-spacing-sm-plus));
+  --calcite-internal-action-menu-padding: var(--calcite-spacing-sm-plus);
+}
+
+:host {
+  @apply text-1
+  box-border
+  flex
+  flex-col;
+}
+
+::slotted(calcite-action-group:not(:last-of-type)) {
+  border-block-end-width: var(--calcite-border-width-sm);
+  padding-block-end: var(--calcite-internal-action-menu-padding);
+}
+
+.default-trigger {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+@include includes.slotted("trigger", "calcite-action") {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+.menu {
+  @apply flex
+  flex-col
+  flex-nowrap
+  outline-none
+  overflow-y-auto
+  overflow-x-hidden
+  max-h-menu;
+
+  gap: var(--calcite-internal-action-menu-gap);
+  padding: var(--calcite-internal-action-menu-padding);
+}
+
+@include includes.base-component();

@@ -36,15 +36,6 @@ import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```js
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
-> [!NOTE]
-> This requires setting up a CSS loader in your Webpack config (see [below](#add-css-loader))
-
 ### Configure Webpack
 
 Calcite components need to be copied to your output directory so they can be loaded from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
@@ -64,7 +55,7 @@ module.exports = {
       patterns: [
         {
           from: "**",
-          context: "node_modules/@esri/calcite-components/dist/calcite/",
+          context: "node_modules/@esri/calcite-components/dist/cdn/",
           to: "./",
         },
       ],
@@ -77,7 +68,7 @@ This will ensure the library is available to your application.
 
 #### Add CSS loader
 
-While we imported CSS file above, we need to output a CSS file in the final bundle. To do this, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
+To output a CSS file in the final bundle, you can leverage [mini-css-extract-plugin](https://webpack.js.org/plugins/mini-css-extract-plugin/).
 
 First, install the required plugin and loader packages:
 

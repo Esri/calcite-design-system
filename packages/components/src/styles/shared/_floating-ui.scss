@@ -1,0 +1,124 @@
+$floating-ui-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+$floating-ui-transition-offset: 5px;
+
+@mixin floating-ui-base {
+  --calcite-floating-ui-transition: var(--calcite-animation-timing);
+}
+
+@mixin floating-ui-anim {
+  .calcite-floating-ui-anim {
+    position: relative;
+    transition-duration: var(--calcite-floating-ui-transition);
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    transition-property: inset, left, opacity, display;
+    opacity: 0;
+    box-shadow: $floating-ui-shadow;
+    @apply rounded z-default;
+    @include floating-ui-anim-starting-style;
+  }
+}
+
+@mixin floating-ui-anim-starting-style {
+  @starting-style {
+    opacity: 0;
+    inset-block-start: -$floating-ui-transition-offset;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: auto;
+  }
+}
+
+@mixin floating-ui-anim-active {
+  opacity: 1;
+  inset-block-start: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  left: 0;
+
+  @include floating-ui-anim-starting-style;
+}
+
+@mixin floating-ui-elem-anim($selector) {
+  #{$selector} {
+    &[popover] {
+      padding: 0;
+      margin: 0;
+      border: none;
+      background-color: transparent;
+      overflow: visible;
+      display: none;
+    }
+
+    &:popover-open {
+      display: block;
+    }
+
+    .calcite-floating-ui-anim {
+      position: relative;
+      transition-duration: var(--calcite-floating-ui-transition);
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      transition-property: inset-block-start, left, opacity, display;
+      transition-behavior: allow-discrete;
+      opacity: 0;
+      box-shadow: $floating-ui-shadow;
+      @apply rounded z-default;
+    }
+
+    &[data-placement^="bottom"] .calcite-floating-ui-anim {
+      inset-block-start: -$floating-ui-transition-offset;
+    }
+
+    &[data-placement^="top"] .calcite-floating-ui-anim {
+      inset-block-start: $floating-ui-transition-offset;
+    }
+
+    &[data-placement^="left"] .calcite-floating-ui-anim {
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: $floating-ui-transition-offset;
+    }
+
+    &[data-placement^="right"] .calcite-floating-ui-anim {
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: -$floating-ui-transition-offset;
+    }
+
+    &[data-placement] .calcite-floating-ui-anim--active {
+      opacity: 1;
+      inset-block-start: 0;
+      /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+      left: 0;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+@mixin floating-ui-container() {
+  inline-size: max-content;
+  display: none;
+  max-inline-size: 100vw;
+  max-block-size: 100vh;
+  inset-block-start: 0;
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  left: 0;
+
+  @starting-style {
+    opacity: 0;
+    inset-block-start: 0;
+    /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+    left: 0;
+  }
+}
+
+@mixin floating-ui-arrow {
+  .calcite-floating-ui-arrow {
+    @apply -z-default
+    absolute
+    pointer-events-none
+    fill-background-foreground-1;
+  }
+
+  .calcite-floating-ui-arrow__stroke {
+    stroke: theme("borderColor.color.3");
+  }
+}
