@@ -211,7 +211,10 @@
 
 :host([appearance="transparent"]) {
   &:host([active]) .button {
-    background-color: var(--calcite-color-transparent-press);
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
+    );
   }
 
   .button {
@@ -220,11 +223,14 @@
       ease-in-out;
 
     &:hover {
-      background-color: var(--calcite-color-transparent-hover);
+      background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
     }
 
     &:active {
-      background-color: var(--calcite-color-transparent-press);
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
+      );
     }
   }
 }
