@@ -182,6 +182,12 @@
   }
 }
 
+.actions-start,
+.actions-end {
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
+  gap: var(--calcite-internal-list-action-spacing);
+}
+
 :host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
   .drag-container {
     padding-inline-end: var(--calcite-spacing-xxs);
@@ -190,12 +196,6 @@
 :host([scale="s"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
-  }
-  .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
@@ -264,12 +264,6 @@
 :host([scale="m"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-sm);
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
-  }
-  .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-sm);
@@ -346,12 +340,6 @@
 :host([scale="l"]) {
   .actions-start {
     padding-inline-end: var(--calcite-spacing-md);
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
-  }
-  .actions-end {
-    margin-inline-end: var(--calcite-internal-list-action-spacing);
-    gap: var(--calcite-internal-list-action-spacing);
   }
   .content-container {
     gap: var(--calcite-spacing-md);
