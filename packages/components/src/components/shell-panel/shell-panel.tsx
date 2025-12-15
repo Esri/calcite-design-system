@@ -148,22 +148,8 @@ export class ShellPanel extends LitElement {
   //#region Public Methods
 
   @method()
-  async updateSize(sizes: { inline?: number | null; block?: number | null }): Promise<void> {
-    if (!this.contentRef.value) {
-      return;
-    }
-
-    const appliedSizes = this.sizeOverride.resize(sizes);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSizes.inline !== undefined && {
-        inlineSize: appliedSizes.inline,
-      }),
-      ...(appliedSizes.block !== undefined && {
-        blockSize: appliedSizes.block,
-      }),
-    };
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
   }
 
   //#endregion
@@ -216,20 +202,20 @@ export class ShellPanel extends LitElement {
   }
 
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
-  private updateSizeInternal(sizes: { inline?: number | null; block?: number | null }): void {
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
     if (!this.contentRef.value) {
       return;
     }
 
-    const appliedSizes = this.sizeOverride.resize(sizes);
+    const appliedSize = this.sizeOverride.resize(size);
 
     this.resizeValues = {
       ...this.resizeValues,
-      ...(appliedSizes.inline !== undefined && {
-        inlineSize: appliedSizes.inline,
+      ...(appliedSize.inline !== undefined && {
+        inlineSize: appliedSize.inline,
       }),
-      ...(appliedSizes.block !== undefined && {
-        blockSize: appliedSizes.block,
+      ...(appliedSize.block !== undefined && {
+        blockSize: appliedSize.block,
       }),
     };
   }

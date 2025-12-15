@@ -24,11 +24,10 @@ interface SizeOverrideContext {
 export interface UseSizeOverride {
   /**
    * Applies (or clears) an inline/block size override in one call.
-   * Pass size = null to clear the inline style overrides.
+   * Pass `null` to clear size overrides.
    *
-   * When to use:
-   * User resizing (drag/keyboard) sets an inline size that overrides defaults.
-   * This helper lets code adjust or remove that override.
+   * Use when the component needs to set inline styles
+   * to override sizing from user resizing via drag or keyboard.
    *
    * Min/max define the allowed range. Any requested size outside that range gets clamped.
    *
