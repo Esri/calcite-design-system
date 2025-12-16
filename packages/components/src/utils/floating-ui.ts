@@ -155,9 +155,10 @@ export const positionFloatingUI =
     floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
 
     Object.assign(floatingEl.style, {
+      left: `${roundByDPR(x)}px`,
       pointerEvents,
       position,
-      transform: `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)`,
+      top: `${roundByDPR(y)}px`,
       visibility,
     });
   };
@@ -434,8 +435,11 @@ export async function reposition(
 
   Object.assign(options.floatingEl.style, {
     display: "block",
+    inset: "unset",
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    left: "0",
     position: options.overlayPositioning ?? "absolute",
+    top: "0",
   });
 
   const trackedState = autoUpdatingComponentMap.get(component);
@@ -550,7 +554,6 @@ export function hideFloatingUI(component: FloatingUIComponent): void {
     display: "",
     pointerEvents: "",
     position: "",
-    transform: "",
     visibility: "",
   });
 }
