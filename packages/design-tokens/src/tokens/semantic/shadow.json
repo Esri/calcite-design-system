@@ -2,31 +2,31 @@
   "semantic": {
     "shadow": {
       "none": {
-        "value": "{core.shadow.0}",
-        "type": "boxShadow",
         "attributes": {
           "category": "shadow"
-        }
+        },
+        "$type": "boxShadow",
+        "$value": "{core.shadow.0}"
       },
       "sm": {
-        "value": [
+        "attributes": {
+          "category": "shadow"
+        },
+        "$type": "boxShadow",
+        "$value": [
           "{core.shadow.1}",
           "{core.shadow.2}"
-        ],
-        "type": "boxShadow",
-        "attributes": {
-          "category": "shadow"
-        }
+        ]
       },
       "md": {
-        "value": [
-          "{core.shadow.3}",
-          "{core.shadow.4}"
-        ],
-        "type": "boxShadow",
         "attributes": {
           "category": "shadow"
-        }
+        },
+        "$type": "boxShadow",
+        "$value": [
+          "{core.shadow.3}",
+          "{core.shadow.4}"
+        ]
       }
     }
   }
