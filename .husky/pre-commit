@@ -7,7 +7,7 @@ update_stylelint_config_if_sass_file_edited() {
 
   if [ -n "$staged_files" ]; then
     npm run util:update-stylelint-custom-sass-functions
-    git add "packages/calcite-components/.stylelintrc.cjs" >/dev/null 2>&1 || true
+    git add "packages/components/.stylelintrc.cjs" >/dev/null 2>&1 || true
   fi
 
   unset staged_files
