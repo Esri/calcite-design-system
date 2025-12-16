@@ -147,7 +147,7 @@ describe("calcite-chip", () => {
       themed(html`<calcite-chip closable>Layers</calcite-chip>`, {
         "--calcite-chip-close-icon-color": {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "color",
+          targetProp: "--calcite-action-text-color",
         },
       });
     });
