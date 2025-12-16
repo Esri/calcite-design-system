@@ -1,32 +1,32 @@
 {
   "tokenSetOrder": {
     "0": {
-      "$type": "other",
-      "$value": "color"
+      "value": "color",
+      "type": "other"
     },
     "1": {
-      "$type": "other",
-      "$value": "container-size"
+      "value": "container-size",
+      "type": "other"
     },
     "2": {
-      "$type": "other",
-      "$value": "font"
+      "value": "font",
+      "type": "other"
     },
     "3": {
-      "$type": "other",
-      "$value": "opacity"
+      "value": "opacity",
+      "type": "other"
     },
     "4": {
-      "$type": "other",
-      "$value": "shadow"
+      "value": "shadow",
+      "type": "other"
     },
     "5": {
-      "$type": "other",
-      "$value": "size"
+      "value": "size",
+      "type": "other"
     },
     "6": {
-      "$type": "other",
-      "$value": "z-index"
+      "value": "z-index",
+      "type": "other"
     }
   }
 }

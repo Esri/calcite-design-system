@@ -1,18 +1,18 @@
 {
   "Mode 1": {
     "id": {
-      "$type": "other",
-      "$value": "181a5a74c917af6cc35518ff1e32b3033455162f"
+      "value": "181a5a74c917af6cc35518ff1e32b3033455162f",
+      "type": "other"
     },
     "selectedTokenSets": {
       "size": {
-        "$type": "other",
-        "$value": "enabled"
+        "value": "enabled",
+        "type": "other"
       }
     },
     "group": {
-      "$type": "other",
-      "$value": "size"
+      "value": "size",
+      "type": "other"
     }
   }
 }
