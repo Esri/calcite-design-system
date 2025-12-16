@@ -1,5 +1,18 @@
 #!/usr/bin/env sh
 
+update_stylelint_config_if_sass_file_edited() {
+  staged_files="$(
+    git diff --cached --name-only --diff-filter=ACM -- packages/**/*.scss
+  )"
+
+  if [ -n "$staged_files" ]; then
+    npm run util:update-stylelint-custom-sass-functions
+    git add "packages/components/.stylelintrc.cjs" >/dev/null 2>&1 || true
+  fi
+
+  unset staged_files
+}
+
 check_ui_icon_name_consistency() {
   # this pattern checks for `<iconName>-<size>.svg` or `<iconName>-<size>-f.svg` for filled icons
   # where `<iconName>` is kebab-case, `<size>` is 16, 24, or 32
@@ -43,7 +56,6 @@ update_t9n_manifest() {
   )"
 
   if [ -n "$staged_files" ]; then
-    # Run the script to update the t9nmanifest
     node ./packages/components/support/update-t9n-manifest.ts || {
       echo "Error: Failed to update T9n manifest."
       exit 1
@@ -103,5 +115,6 @@ update_t9n_manifest
 update_internal_custom_prop_doc
 lint-staged
 check_ui_icon_name_consistency
+update_stylelint_config_if_sass_file_edited
 
 exit 0
