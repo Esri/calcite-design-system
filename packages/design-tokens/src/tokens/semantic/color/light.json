@@ -50,7 +50,8 @@
           "attributes": {
             "category": "color",
             "group": "background"
-          }
+          },
+          "description": "Deprecated, use `--calcite-color-surface-2` instead"
         },
         "none": {
           "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
@@ -68,7 +69,8 @@
           "attributes": {
             "category": "color",
             "group": "foreground"
-          }
+          },
+          "description": "Deprecated, use `--calcite-color-surface-1` instead"
         },
         "2": {
           "value": "{core.color.neutral.blk-010}",
@@ -76,7 +78,8 @@
           "attributes": {
             "category": "color",
             "group": "foreground"
-          }
+          },
+          "description": "Deprecated, use `--calcite-color-surface-3` instead"
         },
         "3": {
           "value": "{core.color.neutral.blk-020}",
@@ -84,7 +87,8 @@
           "attributes": {
             "category": "color",
             "group": "foreground"
-          }
+          },
+          "description": "Deprecated, use `--calcite-color-surface-4` instead"
         },
         "current": {
           "value": "{core.color.high-saturation.blue.h-bb-010}",
