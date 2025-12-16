@@ -1,0 +1,5 @@
+{
+  "rating": "Hodnocení",
+  "required": "Povinné",
+  "stars": "Počet hvězdiček: {num}"
+}

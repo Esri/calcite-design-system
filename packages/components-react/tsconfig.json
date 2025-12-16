@@ -1,0 +1,12 @@
+{
+  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "outDir": "dist",
+    "removeComments": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

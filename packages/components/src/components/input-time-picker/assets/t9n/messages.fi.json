@@ -1,0 +1,19 @@
+{
+  "chooseTime": "Valitse aika",
+  "fractionalSecond": "Sekunnin murto-osa",
+  "fractionalSecondDown": "Vähennä sekunnin murto-osa",
+  "fractionalSecondUp": "Lisää sekunnin murto-osa",
+  "hour": "Tunti",
+  "hourDown": "Lasku tunti",
+  "hourUp": "Kasvu tunti",
+  "meridiem": "AP/IP",
+  "meridiemDown": "Lasku AP/IP",
+  "meridiemUp": "Kasvu AP/IP",
+  "minute": "Minuutti",
+  "minuteDown": "Lasku minuutti",
+  "minuteUp": "Kasvu minuutti",
+  "required": "Pakollinen",
+  "second": "Sekunti",
+  "secondDown": "Lasku sekunti",
+  "secondUp": "Kasvu sekunti"
+}

@@ -1,4 +1,0 @@
-{
-  "extends": "../../calcite-components/tsconfig-base.json",
-  "include": ["lib"]
-}

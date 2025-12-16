@@ -1,2 +1,0 @@
-# source tokens are managed by the Tokens Studio plugin, which syncs directly to GitHub
-src/tokens/**/*.json

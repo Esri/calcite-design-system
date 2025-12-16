@@ -1,14 +1,15 @@
 // @ts-check
-// When the "ready for dev" label is added to an issue:
+// When the "2 - ready for dev" label is added to an issue:
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
 // 3. Generates a notification to the Calcite project manager(s)
+// 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
 const {
-  labels: { issueWorkflow, planning },
+  labels: { issueWorkflow },
 } = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
@@ -16,56 +17,69 @@ const { removeLabel } = require("./support/utils");
 module.exports = async ({ github, context }) => {
   const { repo, owner } = context.repo;
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
+  const payload =
+    /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (
+      context.payload
+    );
   const {
     issue: { number },
-    label,
   } = payload;
 
   const { MANAGERS } = process.env;
 
-  if (label?.name === "ready for dev") {
-    // Add a "@" character to notify the user
-    const calcite_managers = MANAGERS?.split(",").map((v) => " @" + v.trim());
+  // Add a "@" character to notify the user
+  const calcite_managers = MANAGERS?.split(",").map((v) => " @" + v.trim());
 
-    const issueProps = {
-      owner,
-      repo,
-      issue_number: number,
-    };
+  const issueProps = {
+    owner,
+    repo,
+    issue_number: number,
+  };
 
-    /* Modify labels */
+  /* Modify labels */
 
-    await removeLabel({
-      github,
-      context,
-      label: issueWorkflow.assigned,
-    });
+  await removeLabel({
+    github,
+    context,
+    label: issueWorkflow.needsTriage,
+  });
 
-    await removeLabel({
-      github,
-      context,
-      label: planning.needsTriage,
-    });
+  await removeLabel({
+    github,
+    context,
+    label: issueWorkflow.inDesign,
+  });
 
-    await github.rest.issues.addLabels({
-      ...issueProps,
-      labels: [issueWorkflow.new, planning.needsMilestone],
-    });
+  await github.rest.issues.addLabels({
+    ...issueProps,
+    labels: [issueWorkflow.needsMilestone],
+  });
 
-    /* Update issue */
+  /* Update issue */
 
-    // Clear assignees and milestone
-    await github.rest.issues.update({
-      ...issueProps,
-      assignees: [],
-      milestone: null,
-    });
+  // Clear assignees and milestone
+  await github.rest.issues.update({
+    ...issueProps,
+    assignees: [],
+    milestone: null,
+  });
 
-    // Add a comment to notify the project manager(s)
-    await github.rest.issues.createComment({
-      ...issueProps,
-      body: `cc ${calcite_managers}`,
-    });
-  }
+  // Add a comment to notify the project manager(s)
+  await github.rest.issues.createComment({
+    ...issueProps,
+    body: `cc ${calcite_managers}`,
+  });
+
+  await github.rest.actions.createWorkflowDispatch({
+    owner,
+    repo,
+    workflow_id: "issue-monday-sync.yml",
+    ref: "dev",
+    inputs: {
+      issue_number: number.toString(),
+      event_type: "SyncActionChanges",
+      milestone_updated: true,
+      assignee_updated: true,
+    },
+  });
 };

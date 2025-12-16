@@ -1,0 +1,239 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
+ * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
+ * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
+ * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
+ * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
+ * @prop --calcite-notice-close-icon-color-hover: Specifies the background color of the component's close button when hovered.
+ * @prop --calcite-notice-close-icon-color: Specifies the text color of the component's close button.
+ * @prop --calcite-notice-title-text-color: Specifies the component's title text color.
+ * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
+ * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
+ */
+
+@use "sass:list";
+@use "../../styles/includes";
+
+// scale variables
+:host([scale="s"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.2");
+  --calcite-notice-spacing-token-large: theme("spacing.3");
+  @include includes.slotted("title", "*", ".container") {
+    @apply text-n1-wrap;
+  }
+  @include includes.slotted("message", "*", ".container") {
+    @apply text-n2-wrap;
+  }
+  ::slotted(calcite-link) {
+    @apply text-n2-wrap;
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.3");
+  --calcite-notice-spacing-token-large: theme("spacing.4");
+  @include includes.slotted("title", "*", ".container") {
+    @apply text-0-wrap;
+  }
+  @include includes.slotted("message", "*", ".container") {
+    @apply text-n1-wrap;
+  }
+  ::slotted(calcite-link) {
+    @apply text-n1-wrap;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-notice-spacing-token-small: theme("spacing.4");
+  --calcite-notice-spacing-token-large: theme("spacing.5");
+  @include includes.slotted("title", "*", ".container") {
+    @apply text-1-wrap;
+  }
+  @include includes.slotted("message", "*", ".container") {
+    @apply text-0-wrap;
+  }
+  ::slotted(calcite-link) {
+    @apply text-0-wrap;
+  }
+  .notice-close {
+    margin-inline-end: var(--calcite-spacing-sm);
+  }
+  .actions-end {
+    margin-inline-end: var(--calcite-spacing-sm);
+    gap: var(--calcite-spacing-sm);
+  }
+}
+
+:host([width="auto"]) {
+  --calcite-notice-width: theme("width.auto");
+}
+
+:host([width="half"]) {
+  --calcite-notice-width: theme("width[1/2]");
+}
+
+:host([width="full"]) {
+  --calcite-notice-width: theme("width.full");
+}
+
+:host {
+  @apply mx-auto hidden max-w-full items-center;
+  inline-size: var(--calcite-notice-width);
+}
+
+.container {
+  @apply pointer-events-none
+    my-0
+    box-border
+    flex
+    w-full
+    opacity-0;
+
+  overflow: hidden;
+  max-block-size: 0;
+  transition-property: opacity, max-block-size;
+  transition-duration: var(--calcite-animation-timing);
+  text-align: start;
+  border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sm));
+}
+
+:host {
+  @apply flex;
+}
+
+:host([open]) .container {
+  @apply pointer-events-auto
+    max-h-full
+    items-center
+    opacity-100;
+  overflow: visible;
+}
+
+:host([open][appearance="outline-fill"]) .container {
+  border: var(--calcite-border-width-sm) solid;
+}
+
+@include includes.slotted("title", "*", ".container") {
+  @apply m-0 font-medium;
+
+  color: var(--calcite-notice-title-text-color, var(--calcite-color-text-1));
+}
+
+@include includes.slotted("message", "*", ".container") {
+  @apply m-0 inline font-normal;
+
+  color: var(--calcite-notice-content-text-color, var(--calcite-color-text-2));
+}
+
+@include includes.slotted("title", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
+  color: var(--calcite-notice-title-text-color, var(--calcite-color-text-inverse));
+}
+
+@include includes.slotted("message", "*", ":host(:not([kind=" neutral "])[appearance=" solid "]) .container") {
+  color: var(--calcite-notice-content-text-color, var(--calcite-color-text-inverse));
+}
+
+@mixin notice-element-base() {
+  @apply transition-default box-border;
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: var(--calcite-notice-spacing-token-large);
+  flex: 0 0 auto;
+}
+
+.notice-content {
+  @include notice-element-base;
+  @apply flex min-w-0 flex-col break-words;
+  flex: 1 1 0;
+  padding-block: var(--calcite-notice-spacing-token-small);
+  padding-inline: 0 var(--calcite-notice-spacing-token-large);
+
+  &:first-of-type:not(:only-child) {
+    padding-inline-start: var(--calcite-notice-spacing-token-large);
+  }
+  &:only-of-type {
+    padding-block: var(--calcite-notice-spacing-token-small);
+    padding-inline: var(--calcite-notice-spacing-token-large);
+  }
+}
+
+.notice-icon {
+  @apply flex  items-center;
+  @include notice-element-base;
+  padding-inline: var(--calcite-notice-spacing-token-small);
+}
+
+.notice-close {
+  @apply flex cursor-pointer items-center transition-default box-border;
+  flex: 0 0 auto;
+  margin-inline-end: var(--calcite-spacing-xs);
+  --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
+  --calcite-action-background-color: var(--calcite-action-background-color, transparent);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color-hover: var(
+      --calcite-notice-close-background-color-focus,
+      var(--calcite-color-foreground-2)
+    );
+    --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
+  }
+
+  &:active {
+    --calcite-action-background-color-press: var(
+      --calcite-notice-close-background-color-press,
+      var(--calcite-color-foreground-3)
+    );
+  }
+}
+
+.actions-end {
+  @apply flex items-center;
+  flex: 0 0 auto;
+  margin-inline-end: var(--calcite-spacing-xs);
+  gap: var(--calcite-spacing-xs);
+}
+
+$notice-kinds:
+  "brand" var(--calcite-color-brand),
+  "info" var(--calcite-color-status-info),
+  "danger" var(--calcite-color-status-danger),
+  "success" var(--calcite-color-status-success),
+  "warning" var(--calcite-color-status-warning);
+
+@each $notice-kind in $notice-kinds {
+  $name: list.nth($notice-kind, 1);
+  $kind: list.nth($notice-kind, 2);
+
+  :host([kind="#{$name}"][appearance="outline-fill"]) .container {
+    border-color: var(--calcite-notice-border-color, rgb(from $kind r g b / var(--calcite-opacity-half)));
+    background-color: var(
+      --calcite-notice-background-color,
+      color-mix(in srgb, $kind 5%, var(--calcite-color-foreground-1))
+    );
+  }
+
+  :host([kind="#{$name}"][appearance="outline-fill"]) .notice-icon,
+  :host([kind="#{$name}"][appearance="transparent"]) .notice-icon {
+    color: $kind;
+  }
+}
+
+:host([kind="neutral"][appearance="outline-fill"]) .container {
+  border-color: var(--calcite-color-border-2);
+  background-color: var(--calcite-notice-background-color, var(--calcite-color-foreground-1));
+}
+
+:host([kind="neutral"]) .notice-icon {
+  color: var(--calcite-color-text-3);
+}
+
+:host([appearance="transparent"]) .container {
+  background-color: transparent;
+}
+
+@include includes.base-component();

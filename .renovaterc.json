@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
+  "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "workarounds:typesNodeVersioning"],
   "prBodyTemplate": "{{{table}}}{{{warnings}}}{{{notes}}}{{{changelogs}}}{{{controls}}}",
   "platformCommit": "auto",
   "enabledManagers": ["npm", "github-actions"],
@@ -23,7 +23,9 @@
     {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
-      "rangeStrategy": "bump"
+      "rangeStrategy": "bump",
+      "ignoreUnstable": false,
+      "respectLatest": false
     },
     {
       "groupName": "CSpell",

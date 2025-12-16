@@ -1,0 +1,321 @@
+import type { Config } from "tailwindcss";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
+import plugin from "tailwindcss/plugin";
+import { PluginUtils } from "tailwindcss/types/config";
+import { invert } from "./utils";
+
+// we omit content to work around https://github.com/tailwindlabs/tailwindcss/issues/11725 (fixed in v4, but not v3)
+const config: Omit<Config, "content"> = {
+  theme: {
+    borderColor: ({ theme }: PluginUtils) => ({
+      color: {
+        1: "var(--calcite-color-border-1)",
+        2: "var(--calcite-color-border-2)",
+        3: "var(--calcite-color-border-3)",
+        input: "var(--calcite-color-border-input)",
+        transparent: theme("colors.transparent"),
+      },
+      "color-brand": theme("colors.brand"),
+      "color-brand-hover": theme("colors.brand-hover"),
+      "color-brand-press": theme("colors.brand-press"),
+      "color-info": theme("colors.info"),
+      "color-success": theme("colors.success"),
+      "color-warning": theme("colors.warning"),
+      "color-danger": theme("colors.danger"),
+      "color-danger-hover": theme("colors.danger-hover"),
+      "color-danger-press": theme("colors.danger-press"),
+    }),
+    colors: {
+      current: "currentColor",
+      brand: "var(--calcite-color-brand)",
+      "brand-hover": "var(--calcite-color-brand-hover)",
+      "brand-press": "var(--calcite-color-brand-press)",
+      info: "var(--calcite-color-status-info)",
+      success: "var(--calcite-color-status-success)",
+      warning: "var(--calcite-color-status-warning)",
+      danger: "var(--calcite-color-status-danger)",
+      "danger-hover": "var(--calcite-color-status-danger-hover)",
+      "danger-press": "var(--calcite-color-status-danger-press)",
+      background: {
+        background: "var(--calcite-color-background)",
+        foreground: {
+          1: "var(--calcite-color-foreground-1)",
+          2: "var(--calcite-color-foreground-2)",
+          3: "var(--calcite-color-foreground-3)",
+        },
+      },
+      color: {
+        1: "var(--calcite-color-text-1)",
+        2: "var(--calcite-color-text-2)",
+        3: "var(--calcite-color-text-3)",
+        inverse: "var(--calcite-color-text-inverse)",
+        link: "var(--calcite-color-text-link)",
+        icon: "var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor))",
+      },
+      transparent: "transparent",
+    },
+    fontFamily: {
+      // assets/styles/_type
+      sans: "var(--calcite-font-family)",
+      mono: "var(--calcite-font-family-code)",
+      inherit: "inherit",
+    },
+    fontSize: {
+      // assets/styles/_type
+      n3: "var(--calcite-font-size-relative-xs)",
+      n2: "var(--calcite-font-size-relative-sm)",
+      n1: "var(--calcite-font-size-relative-base)",
+      0: "var(--calcite-font-size-relative-md)",
+      1: "var(--calcite-font-size-relative-lg)",
+      2: "var(--calcite-font-size-relative-xl)",
+      3: "var(--calcite-font-size-relative-2xl)",
+      4: "var(--calcite-font-size-relative-3xl)",
+      5: "var(--calcite-font-size-relative-4xl)",
+      6: "var(--calcite-font-size-relative-5xl)",
+      7: "var(--calcite-font-size-relative-6xl)",
+      8: "var(--calcite-font-size-relative-7xl)",
+      // TODO: temp selectors to be renamed before closing https://github.com/Esri/calcite-design-system/issues/1500.
+      // at this point all existing instances of text-N should be replaced with either text-Nh or text-N-wrap and we
+      // should be able to safely drop the "h" suffix.
+      n3h: ["var(--calcite-font-size-relative-xs)", { lineHeight: "var(--calcite-font-line-height-xs)" }],
+      n2h: ["var(--calcite-font-size-relative-sm)", { lineHeight: "var(--calcite-font-line-height-sm)" }],
+      n1h: ["var(--calcite-font-size-relative-base)", { lineHeight: "var(--calcite-font-line-height-base)" }],
+      "0h": ["var(--calcite-font-size-relative-md)", { lineHeight: "var(--calcite-font-line-height-md)" }],
+      "1h": ["var(--calcite-font-size-relative-lg)", { lineHeight: "var(--calcite-font-line-height-lg)" }],
+      "2h": ["var(--calcite-font-size-relative-xl)", { lineHeight: "var(--calcite-font-line-height-xl)" }],
+      "3h": ["var(--calcite-font-size-relative-2xl)", { lineHeight: "var(--calcite-font-line-height-2xl)" }],
+      "4h": ["var(--calcite-font-size-relative-3xl)", { lineHeight: "var(--calcite-font-line-height-3xl)" }],
+      "5h": ["var(--calcite-font-size-relative-4xl)", { lineHeight: "var(--calcite-font-line-height-4xl)" }],
+      "6h": ["var(--calcite-font-size-relative-5xl)", { lineHeight: "var(--calcite-font-line-height-5xl)" }],
+      "7h": ["var(--calcite-font-size-relative-6xl)", { lineHeight: "var(--calcite-font-line-height-6xl)" }],
+      "8h": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-7xl)" }],
+      "n3-wrap": [
+        "var(--calcite-font-size-relative-xs)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n2-wrap": [
+        "var(--calcite-font-size-relative-sm)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n1-wrap": [
+        "var(--calcite-font-size-relative-base)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "0-wrap": [
+        "var(--calcite-font-size-relative-md)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "1-wrap": [
+        "var(--calcite-font-size-relative-lg)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "2-wrap": [
+        "var(--calcite-font-size-relative-xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "3-wrap": [
+        "var(--calcite-font-size-relative-2xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "4-wrap": [
+        "var(--calcite-font-size-relative-3xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "5-wrap": [
+        "var(--calcite-font-size-relative-4xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "6-wrap": [
+        "var(--calcite-font-size-relative-5xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "7-wrap": [
+        "var(--calcite-font-size-relative-6xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "8-wrap": [
+        "var(--calcite-font-size-relative-7xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+    },
+    fontWeight: {
+      // assets/styles/_type
+      light: "var(--calcite-font-weight-light)",
+      normal: "var(--calcite-font-weight-normal)",
+      medium: "var(--calcite-font-weight-medium)",
+      bold: "var(--calcite-font-weight-bold)",
+    },
+    screens: {
+      s: "480px",
+      m: "864px",
+      l: "1024px",
+      xl: "1440px",
+    },
+    backgroundColor: ({ theme }: PluginUtils) => ({
+      ...theme("colors.background"),
+      transparent: theme("colors.transparent"),
+      brand: theme("colors.brand"),
+      "brand-hover": theme("colors.brand-hover"),
+      "brand-press": theme("colors.brand-press"),
+      info: theme("colors.info"),
+      success: theme("colors.success"),
+      warning: theme("colors.warning"),
+      danger: theme("colors.danger"),
+      "danger-hover": theme("colors.danger-hover"),
+      "danger-press": theme("colors.danger-press"),
+    }),
+    extend: {
+      borderRadius: {
+        half: "50%",
+      },
+      boxShadow: {
+        0: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        1: "0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        "1-lg": "var(--calcite-shadow-sm)",
+        "1-sm": "0 1px 6px -1px rgba(0, 0, 0, 0.16), 0 1px 2px -1px rgba(0, 0, 0, 0.08)",
+        2: "0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)",
+        "2-lg": "var(--calcite-shadow-md)",
+        "2-sm": "0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)",
+        "border-bottom": "0 1px 0 var(--calcite-color-border-3)",
+        "border-top": "0 -1px 0 var(--calcite-color-border-3)",
+        "outline-active": "0 0 0 1px var(--calcite-color-brand)",
+        none: "none",
+        xs: "0 0 0 1px rgba(0, 0, 0, 0.05)",
+        outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
+      },
+      keyframes: {
+        in: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
+        "in-down": {
+          "0%": {
+            opacity: "0",
+            transform: "translate3D(0, -5px, 0)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translate3D(0, 0, 0)",
+          },
+        },
+        "in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translate3D(0, 5px, 0)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translate3D(0, 0, 0)",
+          },
+        },
+        "in-scale": {
+          "0%": {
+            opacity: "0",
+            transform: "scale3D(0.95, 0.95, 1)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale3D(1, 1, 1)",
+          },
+        },
+      },
+      opacity: {
+        disabled: "var(--calcite-opacity-disabled)",
+      },
+      spacing: {
+        0.5: "0.125rem",
+        2.5: "0.625rem",
+        3.5: "0.875rem",
+        4.5: "1.125rem",
+        9: "2.25rem",
+        11: "2.75rem",
+        13: "3.25rem",
+      },
+      transitionProperty: {
+        margin: "margin",
+        color: "color",
+      },
+      transitionTimingFunction: {
+        cubic: "cubic-bezier(0.215, 0.440, 0.420, 0.880)",
+      },
+      maxHeight: {
+        menu: "45vh",
+      },
+      zIndex: {
+        deep: "var(--calcite-z-index-deep)",
+        default: "var(--calcite-z-index)",
+        sticky: "var(--calcite-z-index-sticky)",
+        header: "var(--calcite-z-index-header)",
+        toast: "var(--calcite-z-index-toast)",
+        dropdown: "var(--calcite-z-index-dropdown)",
+        overlay: "var(--calcite-z-index-overlay)",
+        modal: "var(--calcite-z-index-modal)",
+        popover: "var(--calcite-z-index-popup)",
+        tooltip: "var(--calcite-z-index-tooltip)",
+      },
+    },
+  },
+  plugins: [
+    plugin(({ addUtilities }) => {
+      const newUtilities = {
+        ".word-break": {
+          "word-wrap": "break-word",
+          "word-break": "break-word",
+        },
+        ".focus-base": {
+          "outline-color": "transparent",
+        },
+        ".focus-normal": {
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+        },
+        ".focus-outset": {
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+        },
+        ".focus-inset": {
+          outline:
+            "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+        },
+        ".focus-outset-danger": {
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+        },
+        ".focus-inset-danger": {
+          outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
+          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+        },
+        ".transition-default": {
+          // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
+          "transition-property":
+            "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform",
+          "transition-duration": "var(--calcite-animation-timing)",
+          "transition-timing-function": "ease-in-out",
+        },
+      };
+      addUtilities(newUtilities);
+    }),
+    plugin(({ addUtilities, theme }) => {
+      const colors = flattenColorPalette(theme("borderColor"));
+      delete colors["default"];
+
+      const colorMap = Object.keys(colors).map((color) => ({
+        [`.border-t-${color}`]: { borderTopColor: colors[color] },
+        [`.border-r-${color}`]: { borderRightColor: colors[color] },
+        [`.border-b-${color}`]: { borderBottomColor: colors[color] },
+        [`.border-l-${color}`]: { borderLeftColor: colors[color] },
+      }));
+      const utilities = Object.assign({}, ...colorMap);
+
+      addUtilities(utilities);
+    }),
+  ],
+};
+
+export default config;

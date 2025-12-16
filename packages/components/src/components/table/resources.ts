@@ -1,0 +1,28 @@
+import { IconName } from "../icon/interfaces";
+
+export const CSS = {
+  bordered: "bordered",
+  striped: "striped",
+  selectionArea: "selection-area",
+  paginationArea: "pagination-area",
+  container: "container",
+  tableContainer: "table-container",
+  tableFixed: "table--fixed",
+  assistiveText: "assistive-text",
+  selectionActions: "selection-actions",
+  dismissButton: "dismiss-button",
+  selectionChipActive: "selection-chip--active",
+  selectionCountChip: "selection-chip",
+  selectionOutOfViewChip: "selection-chip--out-of-view",
+};
+
+export const SLOTS = {
+  selectionActions: "selection-actions",
+  tableHeader: "table-header",
+  tableFooter: "table-footer",
+};
+
+export const ICONS: Record<string, IconName> = {
+  hideEmpty: "hide-empty",
+  clear: "x",
+};
