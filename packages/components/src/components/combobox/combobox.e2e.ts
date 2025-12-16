@@ -2769,7 +2769,7 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEventSpy.next();
 
-    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
+    const close = await page.find("calcite-combobox >>> calcite-chip >>> calcite-action.close >>> button");
     await close.press(" ");
     await page.waitForChanges();
 
