@@ -88,7 +88,7 @@ const config: Omit<Config, "content"> = {
       "5h": ["var(--calcite-font-size-relative-4xl)", { lineHeight: "var(--calcite-font-line-height-4xl)" }],
       "6h": ["var(--calcite-font-size-relative-5xl)", { lineHeight: "var(--calcite-font-line-height-5xl)" }],
       "7h": ["var(--calcite-font-size-relative-6xl)", { lineHeight: "var(--calcite-font-line-height-6xl)" }],
-      "8h": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-7xl)" }], // empty commit prevention
+      "8h": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-7xl)" }],
       "n3-wrap": [
         "var(--calcite-font-size-relative-xs)",
         { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
