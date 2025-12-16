@@ -1,6 +1,48 @@
 {
   "semantic": {
     "color": {
+      "surface": {
+        "1": {
+          "value": "{core.color.neutral.blk-000}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "surface"
+          }
+        },
+        "2": {
+          "value": "{core.color.neutral.blk-005}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "surface"
+          }
+        },
+        "3": {
+          "value": "{core.color.neutral.blk-010}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "surface"
+          }
+        },
+        "4": {
+          "value": "{core.color.neutral.blk-020}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "surface"
+          }
+        },
+        "highlight": {
+          "value": "{core.color.high-saturation.blue.h-bb-010}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "surface"
+          }
+        }
+      },
       "background": {
         "default": {
           "value": "{core.color.neutral.blk-005}",
@@ -52,16 +94,6 @@
             "group": "foreground"
           },
           "description": "deprecated, use --calcite-color-surface-highlight instead"
-        }
-      },
-      "surface": {
-        "highlight": {
-          "value": "{core.color.high-saturation.blue.h-bb-010}",
-          "type": "color",
-          "attributes": {
-            "category": "color",
-            "group": "foreground"
-          }
         }
       },
       "transparent": {
