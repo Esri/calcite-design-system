@@ -10,16 +10,12 @@ import {
 } from "@arcgis/lumina";
 import { dateToISO } from "../../utils/date";
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
 import type { DatePicker } from "../date-picker/date-picker";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./date-picker-day.scss";
 import { CSS } from "./resources";
 
@@ -29,22 +25,24 @@ declare global {
   }
 }
 
-export class DatePickerDay extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class DatePickerDay extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private parentDatePickerEl: DatePicker["el"];
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
@@ -100,9 +98,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
   /** The component's value. */
   @property() value: Date;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -116,9 +114,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when user hovers over a day.
@@ -134,9 +132,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
    */
   calciteInternalDaySelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -149,13 +147,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private onClick(): void {
     if (this.disabled) {
@@ -182,9 +176,9 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     this.calciteInternalDayHover.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const dayId = dateToISO(this.value).replaceAll("-", "");
@@ -211,15 +205,15 @@ export class DatePickerDay extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.active && !this.disabled ? 0 : -1);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div ariaHidden="true" class={CSS.dayWrapper}>
           <span class={CSS.day}>
             <span class={CSS.text}>{formattedDay}</span>
           </span>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

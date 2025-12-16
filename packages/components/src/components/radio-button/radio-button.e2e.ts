@@ -1,19 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -21,10 +9,6 @@ import type { RadioButton } from "./radio-button";
 import { CSS } from "./resources";
 
 describe("calcite-radio-button", () => {
-  describe("renders", () => {
-    renders("calcite-radio-button", { display: "block" });
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
@@ -35,34 +19,12 @@ describe("calcite-radio-button", () => {
     accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
   });
 
-  describe("defaults", () => {
-    defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-radio-button");
-  });
-
   describe("labelable", () => {
     mockConsole();
 
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked",
-    });
-  });
-
-  describe("disabled", () => {
-    mockConsole();
-
-    disabled("calcite-radio-button", {
-      focusTarget: {
-        tab: "calcite-radio-button",
-        click: {
-          pointer: "calcite-radio-button",
-          method: "calcite-radio-button",
-        },
-      },
     });
   });
 
@@ -229,22 +191,6 @@ describe("calcite-radio-button", () => {
 
       expect(await getFocusedElementProp(page, "id")).toBe("flowers");
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-radio-button`);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-radio-button", [
-      { propertyName: "checked", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "focused", value: true },
-      { propertyName: "hidden", value: true },
-      { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-    ]);
   });
 
   it("does not require an item to be checked", async () => {
@@ -695,20 +641,6 @@ describe("calcite-radio-button", () => {
           shadowSelector: `.${CSS.radio}`,
         },
         "--calcite-radio-button-size": [
-          {
-            targetProp: "blockSize",
-            shadowSelector: `.${CSS.radio}`,
-          },
-          {
-            targetProp: "inlineSize",
-            shadowSelector: `.${CSS.radio}`,
-          },
-        ],
-      });
-    });
-    describe("deprecated", () => {
-      themed(html`<calcite-radio-button></calcite-radio-button>`, {
-        "--calcite-radio-size": [
           {
             targetProp: "blockSize",
             shadowSelector: `.${CSS.radio}`,

@@ -8,6 +8,17 @@
             "max": "{core.container-size.154}"
           },
           "type": "dimension",
+          "description": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows",
+          "attributes": {
+            "category": "breakpoint"
+          }
+        },
+        "2xs": {
+          "value": {
+            "min": "0",
+            "max": "{core.container-size.154}"
+          },
+          "type": "dimension",
           "description": "Small handheld devices and mini-windows",
           "attributes": {
             "category": "breakpoint"
@@ -70,6 +81,17 @@
       },
       "width": {
         "xxs": {
+          "value": {
+            "min": "0",
+            "max": "{core.container-size.320}"
+          },
+          "type": "dimension",
+          "description": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows",
+          "attributes": {
+            "category": "breakpoint"
+          }
+        },
+        "2xs": {
           "value": {
             "min": "0",
             "max": "{core.container-size.320}"

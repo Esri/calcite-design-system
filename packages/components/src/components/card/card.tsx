@@ -12,16 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
@@ -34,15 +30,13 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot title - [Deprecated] use `heading` instead. A slot for adding a heading.
- * @slot subtitle - [Deprecated] use `description` instead. A slot for adding a description.
  * @slot thumbnail - A slot for adding a thumbnail.
  * @slot heading - A slot for adding a heading.
  * @slot description - A slot for adding a description.
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent {
+export class Card extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -62,6 +56,8 @@ export class Card extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
@@ -76,11 +72,7 @@ export class Card extends LitElement implements InteractiveComponent {
 
   @state() hasHeading = false;
 
-  @state() hasSubtitle = false;
-
   @state() hasThumbnail = false;
-
-  @state() hasTitle = false;
 
   //#endregion
 
@@ -101,7 +93,7 @@ export class Card extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component is selectable.
    *
-   * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @property({ reflect: true }) selectable = false;
 
@@ -153,14 +145,6 @@ export class Card extends LitElement implements InteractiveComponent {
 
   //#endregion
 
-  //#region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  //#endregion
-
   //#region Private Methods
 
   private handleThumbnailSlotChange(event: Event): void {
@@ -173,14 +157,6 @@ export class Card extends LitElement implements InteractiveComponent {
 
   private handleDescriptionSlotChange(event: Event): void {
     this.hasDescription = slotChangeHasAssignedElement(event);
-  }
-
-  private handleTitleSlotChange(event: Event): void {
-    this.hasTitle = slotChangeHasAssignedElement(event);
-  }
-
-  private handleSubtitleSlotChange(event: Event): void {
-    this.hasSubtitle = slotChangeHasAssignedElement(event);
   }
 
   private handleFooterStartSlotChange(event: Event): void {
@@ -276,9 +252,7 @@ export class Card extends LitElement implements InteractiveComponent {
   }
 
   private renderHeader(): JsxNode {
-    const hasHeader = this.hasHeading || this.hasDescription;
-    const hasDeprecatedHeader = this.hasSubtitle || this.hasTitle;
-    const showHeader = hasHeader || hasDeprecatedHeader;
+    const showHeader = this.hasHeading || this.hasDescription;
 
     return (
       <header class={CSS.header} hidden={!showHeader}>
@@ -286,8 +260,6 @@ export class Card extends LitElement implements InteractiveComponent {
         <div class={CSS.headerTextContainer}>
           <slot name={SLOTS.heading} onSlotChange={this.handleHeadingSlotChange} />
           <slot name={SLOTS.description} onSlotChange={this.handleDescriptionSlotChange} />
-          <slot name={SLOTS.title} onSlotChange={this.handleTitleSlotChange} />
-          <slot name={SLOTS.subtitle} onSlotChange={this.handleSubtitleSlotChange} />
         </div>
         {this.selectionMode !== "none" && this.renderSelectionIcon()}
       </header>
@@ -314,7 +286,7 @@ export class Card extends LitElement implements InteractiveComponent {
           ? "radio"
           : undefined;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.selectionMode !== "none" ? this.selected : undefined}
           ariaLabel={this.label}
@@ -345,7 +317,7 @@ export class Card extends LitElement implements InteractiveComponent {
           </section>
           {!thumbnailStart && this.renderThumbnail()}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

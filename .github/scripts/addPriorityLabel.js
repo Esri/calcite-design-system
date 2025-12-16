@@ -2,35 +2,29 @@
 const { createLabelIfMissing } = require("./support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
+  const logParams = { title: "Add Priority Label" };
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (
+    context.payload
+  );
   const {
-    action,
     issue: { body, number: issue_number },
   } = payload;
 
   if (!body) {
-    console.log("could not determine the issue body");
+    core.notice("Could not determine the issue body", logParams);
     return;
   }
 
-  const addPriorityRegex = new RegExp(
-    action === "edited"
-      ? // the way GitHub parses the issue body into plaintext
-        // requires this exact format for edits
-        "(?<=### Priority impact\r\n\r\n).+"
-      : // otherwise it depends on the submitter's OS
-        "(?<=### Priority impact[\r\n|\r|\n]{2}).+$",
-    "m",
-  );
-
+  const addPriorityRegex = /### Priority impact(?:\r|\n)+(.+)$/m;
   const addPriorityRegexMatch = body.match(addPriorityRegex);
+  const addPriorityLabel = (addPriorityRegexMatch?.[1] || "").trim();
 
-  const addPriorityLabel = (addPriorityRegexMatch && addPriorityRegexMatch[0] ? addPriorityRegexMatch[0] : "").trim();
-
-  if (addPriorityLabel && addPriorityLabel !== "N/A") {
+  if (addPriorityLabel === "N/A" || addPriorityLabel === "") {
+    core.notice(`No priority impact listed on issue #${issue_number}`, logParams);
+  } else {
     await createLabelIfMissing({
       github,
       context,
@@ -44,6 +38,19 @@ module.exports = async ({ github, context }) => {
       owner,
       repo,
       labels: [addPriorityLabel],
+    });
+
+    await github.rest.actions.createWorkflowDispatch({
+      owner,
+      repo,
+      workflow_id: "issue-monday-sync.yml",
+      ref: "dev",
+      inputs: {
+        issue_number: issue_number.toString(),
+        event_type: "SyncActionChanges",
+        label_name: addPriorityLabel,
+        label_action: "added",
+      },
     });
   }
 };

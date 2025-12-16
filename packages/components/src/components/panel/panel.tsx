@@ -3,11 +3,6 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -25,6 +20,7 @@ import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -47,11 +43,10 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class Panel extends LitElement implements InteractiveComponent {
+export class Panel extends LitElement {
   //#region Static Members
 
   static override styles = [headerStyles, styles];
@@ -77,6 +72,8 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
@@ -90,8 +87,6 @@ export class Panel extends LitElement implements InteractiveComponent {
   @state() hasEndActions = false;
 
   @state() hasFab = false;
-
-  @state() hasFooterActions = false;
 
   @state() hasFooterContent = false;
 
@@ -255,10 +250,6 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -360,10 +351,6 @@ export class Panel extends LitElement implements InteractiveComponent {
 
   private handleFabSlotChange(event: Event): void {
     this.hasFab = slotChangeHasAssignedElement(event);
-  }
-
-  private handleFooterActionsSlotChange(event: Event): void {
-    this.hasFooterActions = slotChangeHasAssignedElement(event);
   }
 
   private handleFooterEndSlotChange(event: Event): void {
@@ -610,10 +597,9 @@ export class Panel extends LitElement implements InteractiveComponent {
   }
 
   private renderFooterNode(): JsxNode {
-    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
+    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent } = this;
 
-    const showFooter =
-      hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
+    const showFooter = hasFooterStartContent || hasFooterEndContent || hasFooterContent;
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
@@ -625,13 +611,6 @@ export class Panel extends LitElement implements InteractiveComponent {
         </div>
         <div class={CSS.footerEnd} hidden={hasFooterContent || !hasFooterEndContent}>
           <slot name={SLOTS.footerEnd} onSlotChange={this.handleFooterEndSlotChange} />
-        </div>
-        <div class={CSS.footerActions} hidden={hasFooterContent || !hasFooterActions}>
-          <slot
-            key="footer-actions-slot"
-            name={SLOTS.footerActions}
-            onSlotChange={this.handleFooterActionsSlotChange}
-          />
         </div>
       </footer>
     );
@@ -689,10 +668,10 @@ export class Panel extends LitElement implements InteractiveComponent {
     );
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

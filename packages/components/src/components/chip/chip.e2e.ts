@@ -1,77 +1,17 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-chip", () => {
-  describe("renders", () => {
-    renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-chip", [
-      { propertyName: "appearance", defaultValue: "solid" },
-      { propertyName: "closable", defaultValue: false },
-      { propertyName: "closed", defaultValue: false },
-      { propertyName: "closeOnDelete", defaultValue: false },
-      { propertyName: "disabled", defaultValue: false },
-      { propertyName: "icon", defaultValue: undefined },
-      { propertyName: "iconFlipRtl", defaultValue: false },
-      { propertyName: "kind", defaultValue: "neutral" },
-      { propertyName: "label", defaultValue: undefined },
-      { propertyName: "messageOverrides", defaultValue: undefined },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "selected", defaultValue: false },
-      { propertyName: "value", defaultValue: undefined },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-chip", [
-      { propertyName: "appearance", value: "solid" },
-      { propertyName: "closable", value: true },
-      { propertyName: "closed", value: true },
-      { propertyName: "closeOnDelete", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "icon", value: "banana" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "kind", value: "neutral" },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "selected", value: true },
-    ]);
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-chip");
-  });
-
   describe("accessible with icon only", () => {
     accessible(`<calcite-chip label="Gray basemap" icon="basemap"></calcite-chip>`);
   });
 
-  describe("slots", () => {
-    slots("calcite-chip", SLOTS);
-  });
-
   describe("is focusable when interactive", () => {
     focusable("<calcite-chip interactive>doritos</calcite-chip>");
-  });
-
-  describe("can be disabled when interactive", () => {
-    disabled("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
   it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
@@ -176,10 +116,6 @@ describe("calcite-chip", () => {
     expect(await chipEl.isVisible()).toBe(false);
   });
 
-  describe("translation support", () => {
-    t9n("calcite-chip");
-  });
-
   describe("themed", () => {
     describe("default", () => {
       themed(html`calcite-chip`, {
@@ -211,7 +147,7 @@ describe("calcite-chip", () => {
       themed(html`<calcite-chip closable>Layers</calcite-chip>`, {
         "--calcite-chip-close-icon-color": {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "color",
+          targetProp: "--calcite-action-text-color",
         },
       });
     });

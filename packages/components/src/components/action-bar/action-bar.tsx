@@ -2,7 +2,12 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -15,9 +20,10 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
+import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions, isAction } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -28,7 +34,6 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
- * @slot bottom-actions - [Deprecated] Use the `"actions-end"` slot instead. A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
@@ -42,6 +47,8 @@ export class ActionBar extends LitElement {
   //#region Private Properties
 
   private actions: Action["el"][] = [];
+
+  private containerRef = createRef<HTMLDivElement>();
 
   private expandToggleEl: Action["el"];
 
@@ -66,13 +73,53 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount =
-      this.hasActionsEnd || this.hasBottomActions || !expandDisabled
-        ? actionGroups.length + 1
-        : actionGroups.length;
+    const groupCount: number =
+      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+
+    let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+      }
+    }
 
     const overflowCount = getOverflowCount({
-      bufferSize: groupCount, // 1px border for each group
+      bufferSize,
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
@@ -118,8 +165,6 @@ export class ActionBar extends LitElement {
   @state() expandTooltip: Tooltip["el"];
 
   @state() hasActionsEnd = false;
-
-  @state() hasBottomActions = false;
 
   //#endregion
 
@@ -216,6 +261,7 @@ export class ActionBar extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -231,7 +277,7 @@ export class ActionBar extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
       this.overflowActions();
     }
@@ -348,10 +394,6 @@ export class ActionBar extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
-  private handleBottomActionsSlotChange(event: Event): void {
-    this.hasBottomActions = slotChangeHasAssignedElement(event);
-  }
-
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
       el?.matches("calcite-tooltip"),
@@ -368,6 +410,46 @@ export class ActionBar extends LitElement {
 
   private queryAndStoreActions(): void {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  }
+
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.setActionTabIndexes(current);
+        break;
+    }
+  }
+
+  private setActionTabIndexes(active: Action["el"]): void {
+    this.actions.forEach((action: Action["el"]) => {
+      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    });
   }
 
   //#endregion
@@ -407,14 +489,13 @@ export class ActionBar extends LitElement {
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
+        hidden={this.expandDisabled && !this.hasActionsEnd}
         label={actionsEndGroupLabel}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.bottomActions} onSlotChange={this.handleBottomActionsSlotChange} />
         <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
         {expandToggleNode}
       </calcite-action-group>
@@ -423,7 +504,12 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container}>
+      <div
+        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        class={CSS.container}
+        ref={this.containerRef}
+        role="toolbar"
+      >
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>

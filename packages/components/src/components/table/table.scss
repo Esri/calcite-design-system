@@ -58,6 +58,7 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
+// --calcite-internal-table-selection-action-spacing
 
 @use "../../styles/includes";
 
@@ -71,7 +72,13 @@
   --calcite-internal-table-cell-font-size: var(--calcite-font-size--1);
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--2);
 }
+
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xxs);
+}
+
 :host([scale="l"]) {
+  --calcite-internal-table-selection-action-spacing: var(--calcite-spacing-xs);
   --calcite-internal-table-cell-padding: 1rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size-0);
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
@@ -92,7 +99,7 @@
 }
 
 .table-container {
-  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-3));
+  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
 }
@@ -122,7 +129,7 @@ table {
 
 .bordered {
   ::slotted(calcite-table-row) {
-    --calcite-table-row-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
+    --calcite-table-row-border-color: var(--calcite-table-border-color, var(--calcite-color-border-2));
   }
 }
 
@@ -136,6 +143,7 @@ table {
 }
 .selection-actions {
   @apply flex flex-row;
+  gap: var(--calcite-internal-table-selection-action-spacing);
   margin-inline-start: auto;
 }
 

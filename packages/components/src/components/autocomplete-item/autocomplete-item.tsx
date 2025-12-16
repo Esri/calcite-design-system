@@ -2,14 +2,10 @@
 import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
 import { FlipContext, Scale } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { IconName } from "../icon/interfaces";
 import { guid } from "../../utils/guid";
 import { highlightText } from "../../utils/text";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS } from "./resources";
 import { styles } from "./autocomplete-item.scss";
 
@@ -23,10 +19,16 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  */
-export class AutocompleteItem extends LitElement implements InteractiveComponent {
+export class AutocompleteItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -113,14 +115,6 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
 
   //#endregion
 
-  //#region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  //#endregion
-
   //#region Private Methods
 
   private handleClick(event: MouseEvent): void {
@@ -136,7 +130,7 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
     const { active, description, heading, disabled, inputValueMatchPattern } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -164,7 +158,7 @@ export class AutocompleteItem extends LitElement implements InteractiveComponent
           <slot name={SLOTS.contentEnd} />
           {this.renderIcon("end")}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

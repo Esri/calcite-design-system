@@ -56,8 +56,7 @@ update_t9n_manifest() {
   )"
 
   if [ -n "$staged_files" ]; then
-    # Run the script to update the t9nmanifest
-    node ./packages/components/support/updateT9nManifest.ts || {
+    node ./packages/components/support/update-t9n-manifest.ts || {
       echo "Error: Failed to update T9n manifest."
       exit 1
     }
@@ -85,7 +84,7 @@ sync_en_t9n_bundles() {
     done
 
     if [ -n "$files_to_sync" ]; then
-      node ./packages/components/support/syncEnT9nBundles.ts $files_to_sync || {
+      node ./packages/components/support/sync-en-t9n-bundles.ts $files_to_sync || {
         echo "Error: Failed to sync En T9n bundles."
         exit 1
       }
@@ -104,7 +103,7 @@ update_internal_custom_prop_doc() {
   )"
 
   if [ -n "$staged_scss_files" ]; then
-    node packages/components/support/addInternalCustomPropDoc.ts $staged_scss_files
+    node packages/components/support/add-internal-custom-prop-doc.ts $staged_scss_files
     git add $staged_scss_files
   fi
 

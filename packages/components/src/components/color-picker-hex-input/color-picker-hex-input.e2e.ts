@@ -1,50 +1,16 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils/puppeteer";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
-  describe("renders", () => {
-    renders("calcite-color-picker-hex-input", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-color-picker-hex-input");
-  });
-
   describe("accessible", () => {
     accessible("calcite-color-picker-hex-input");
     accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");
     accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-color-picker-hex-input", [
-      {
-        propertyName: "allowEmpty",
-        defaultValue: false,
-      },
-      {
-        propertyName: "alphaChannel",
-        defaultValue: false,
-      },
-      {
-        propertyName: "value",
-        defaultValue: "#000000",
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-color-picker-hex-input", [
-      {
-        propertyName: "value",
-        value: "#ffffff",
-      },
-    ]);
   });
 
   describe("can be focused", () => {

@@ -1,21 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  openClose,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -32,43 +18,6 @@ describe("calcite-input-date-picker", () => {
     accessible(html` <calcite-input-date-picker label="Input Date Picker"></calcite-input-date-picker> `);
   });
 
-  describe("renders", () => {
-    renders("calcite-input-date-picker", { display: "inline-block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-input-date-picker");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-input-date-picker", [
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "flipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "calendars",
-        defaultValue: 2,
-      },
-    ]);
-  });
-
   describe("labelable", () => {
     labelable("calcite-input-date-picker");
   });
@@ -77,26 +26,14 @@ describe("calcite-input-date-picker", () => {
     labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
   });
 
-  describe("disabled", () => {
-    disabled("calcite-input-date-picker");
-  });
-
   describe("openClose", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-input-date-picker");
   });
 
   describe("should focus the input when setFocus is called", () => {
     focusable(`calcite-input-date-picker`, {
       shadowFocusTargetSelector: "calcite-input-text",
     });
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-input-date-picker`);
   });
 
   describe("event emitting when the value changes", () => {
@@ -797,14 +734,6 @@ describe("calcite-input-date-picker", () => {
 
     expect(await element.getProperty("minAsDate")).toBe(undefined);
     expect(await element.getProperty("maxAsDate")).toBe(undefined);
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-      "open",
-      { shadowSelector: ".menu-container" },
-    );
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {

@@ -14,7 +14,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets ./public/assets",
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets ./public/assets",
     "postinstall": "npm run copy"
   },
   "dependencies": {

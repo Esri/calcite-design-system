@@ -17,11 +17,6 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -31,6 +26,7 @@ import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -45,16 +41,16 @@ declare global {
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
-export class Dropdown extends LitElement implements InteractiveComponent, FloatingUIComponent {
-  // #region Static Members
+export class Dropdown extends LitElement implements FloatingUIComponent {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -87,9 +83,11 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * When `true`, the component will remain open after a selection is made.
@@ -155,16 +153,16 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   /**
    * Specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale;
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -211,9 +209,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     return this.focusSetter(() => this.referenceEl, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteDropdownBeforeClose = createEvent({ cancelable: false });
@@ -230,9 +228,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   /** Fires when a `calcite-dropdown-item`'s selection changes. */
   calciteDropdownSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -256,7 +254,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -288,10 +286,6 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.updateSelectedItems();
     connectFloatingUI(this);
@@ -303,9 +297,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private async handlePopover(): Promise<void> {
     await this.componentOnReady();
@@ -615,14 +609,14 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { open, guid } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={CSS.triggerContainer}
           id={IDS.menuButton(guid)}
@@ -662,9 +656,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
             <slot onSlotChange={this.updateGroups} />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

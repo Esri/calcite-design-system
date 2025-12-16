@@ -93,18 +93,6 @@ export const simple = (args: BlockStoryArgs): string => html`
   </calcite-block>
 `;
 
-export const withHeaderControl = (): string => html`
-  <calcite-block heading="Heading" description="description" collapsible heading-level="2">
-    <label slot="control">test <input placeholder="I'm a header control" /></label>
-  </calcite-block>
-`;
-
-export const withIconAndHeader = (): string => html`
-  <calcite-block heading="Heading" description="description" collapsible heading-level="2">
-    <div slot="icon">✅</div>
-  </calcite-block>
-`;
-
 export const disabled_TestOnly = (): string => html`
   <calcite-block heading="heading" description="description" expanded collapsible disabled>
     <calcite-block-section text="Nature" expanded>
@@ -150,24 +138,13 @@ export const contentCanTakeFullHeight_TestOnly = (): string =>
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
 
-export const alignmentHeading_TestOnly = (): string => html`<calcite-block heading="Heading"></calcite-block>`;
-
-export const alignmentDescription_TestOnly = (): string =>
-  html`<calcite-block description="description"></calcite-block>`;
-
-export const alignmentHeadingAndDescription_TestOnly = (): string =>
-  html`<calcite-block heading="Heading" description="description"></calcite-block>`;
-
-export const alignmentIconHeading_TestOnly = (): string =>
-  html`<calcite-block heading="Heading"><calcite-icon scale="s" slot="icon" icon="layer" /></calcite-block>`;
-
-export const alignmentIconDescription_TestOnly = (): string =>
-  html`<calcite-block description="description"><calcite-icon scale="s" slot="icon" icon="layer" /></calcite-block>`;
-
-export const alignmentIconHeadingAndDescription_TestOnly = (): string =>
-  html`<calcite-block heading="Heading" description="description"
-    ><calcite-icon scale="s" slot="icon" icon="layer"
-  /></calcite-block>`;
+export const alignment = (): string => html`
+  <calcite-block heading="Heading"></calcite-block>
+  <br />
+  <calcite-block description="description"></calcite-block>
+  <br />
+  <calcite-block heading="Heading" description="description"></calcite-block>
+`;
 
 export const contentSpacing_TestOnly = (): string => html`
   <calcite-block heading="Block heading" expanded>
@@ -175,21 +152,16 @@ export const contentSpacing_TestOnly = (): string => html`
   </calcite-block>
 `;
 
-export const loadingWithSlottedIcon_TestOnly = (): string => html`
+export const loading = (): string => html`
   <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
-    <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
-    <calcite-notice open>
-      <div slot="message">Use layer effects sparingly</div>
-    </calcite-notice>
+    With no status
   </calcite-block>
-`;
-
-export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string => html`
-  <calcite-block collapsible expanded loading heading="Layer effects" description="Adjust blur">
-    <calcite-notice open>
-      <div slot="message">Use layer effects sparingly</div>
-    </calcite-notice>
+  <br />
+  <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
+    With valid status
   </calcite-block>
+  <br />
+  <calcite-block heading="Invalid status" description="summary" status="invalid"> With invalid status </calcite-block>
 `;
 
 export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => html`
@@ -232,14 +204,6 @@ export const longWrappingTextInBlockAndBlockSection_TestOnly = (): string => htm
       </calcite-block-section>
     </calcite-block>
   </calcite-panel>
-`;
-
-export const loadingWithStatusIcon_TestOnly = (): string => html`
-  <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
-    <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
-  </calcite-block>
-
-  <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
 `;
 
 export const scrollingContainerSetup_TestOnly = (): string =>
@@ -314,7 +278,7 @@ export const icons_TestOnly = (): string => html`
 `;
 
 export const iconStartEnd = (): string => html`
-  <h1>content-start and actions-end</h1>
+  <h1>content-start, content-end and actions-end</h1>
 
   <calcite-block
     heading="Valid status"
@@ -330,6 +294,14 @@ export const iconStartEnd = (): string => html`
       style="color: var(--calcite-color-status-success)"
       scale="s"
     ></calcite-icon>
+
+    <calcite-icon
+      icon="compass"
+      slot="content-end"
+      style="color: var(--calcite-color-status-success)"
+      scale="s"
+    ></calcite-icon>
+
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
   </calcite-block>
 
@@ -398,6 +370,9 @@ export const nonCollapsible = (): string =>
     drag-handle
   >
     <div slot="content-start">
+      <calcite-action icon="information"></calcite-action>
+    </div>
+    <div slot="content-end">
       <calcite-action icon="information"></calcite-action>
     </div>
     <calcite-action icon="layers" slot="actions-end"></calcite-action>

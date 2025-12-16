@@ -12,6 +12,8 @@ import { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
+import { focusElementInGroup } from "../../utils/dom";
+import { isAction } from "../action-bar/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -23,7 +25,7 @@ declare global {
 }
 
 /**
- * @deprecated Use the `calcite-action-bar` component instead.
+ * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-action-bar` component instead.
  * @slot - A slot for adding `calcite-action`s to the component.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
@@ -141,6 +143,7 @@ export class ActionPad extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -150,8 +153,9 @@ export class ActionPad extends LitElement {
 
   async load(): Promise<void> {
     logger.deprecated("component", {
+      component: this,
       name: "action-pad",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "action-bar",
     });
   }
@@ -160,7 +164,7 @@ export class ActionPad extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && this.hasUpdated) {
       toggleChildActionText({ el: this.el, expanded: this.expanded });
     }
@@ -228,9 +232,49 @@ export class ActionPad extends LitElement {
     this.expandTooltip = tooltips[0];
   }
 
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.updateTabIndexOfItems(current);
+        break;
+    }
+  }
+
   private updateActions(): void {
     this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
+    });
+  }
+
+  private updateTabIndexOfItems(target: Action["el"]): void {
+    this.actions.forEach((item: Action["el"]) => {
+      item.tabIndex = target !== item ? -1 : 0;
     });
   }
 

@@ -1,18 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  HYDRATED_ATTR,
-  labelable,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
@@ -20,10 +9,6 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
-  describe("honors hidden attribute", () => {
-    hidden("calcite-checkbox");
-  });
-
   describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,
@@ -40,18 +25,6 @@ describe("calcite-checkbox", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-checkbox", {
-      focusTarget: {
-        tab: "calcite-checkbox",
-        click: {
-          pointer: "calcite-checkbox",
-          method: "calcite-checkbox",
-        },
-      },
-    });
   });
 
   it("renders with correct default attributes", async () => {
@@ -186,10 +159,6 @@ describe("calcite-checkbox", () => {
     });
   });
 
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-checkbox`);
-  });
-
   describe("WCAG AA recommended minimum 24px click area", () => {
     const testCheckboxClick = async (scale: Scale, maxExtraPixels: number, direction: "ltr" | "rtl"): Promise<void> => {
       const page = await newE2EPage();
@@ -229,10 +198,6 @@ describe("calcite-checkbox", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-checkbox");
   });
 
   describe("theme", () => {

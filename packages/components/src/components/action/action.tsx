@@ -1,12 +1,7 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
@@ -19,11 +14,11 @@ import {
 } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import type { Tooltip } from "../tooltip/tooltip";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS, IDS } from "./resources";
+import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -34,9 +29,8 @@ declare global {
 
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
-export class Action extends LitElement implements InteractiveComponent, FormOwner {
+export class Action extends LitElement implements FormOwner {
   //#region Static Members
 
   static override styles = styles;
@@ -66,6 +60,8 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private indicatorRef = createRef<HTMLDivElement>();
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region Public Properties
@@ -85,7 +81,9 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
-    >
+      | "checked"
+    > &
+      Pick<LuminaJsx.HTMLAttributes, "role">
   >;
 
   /** When `true`, the component is highlighted. */
@@ -101,12 +99,13 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
   @property({ reflect: true }) alignment: Alignment;
 
   /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
+    "transparent";
 
   /**
    * When `true`, the side padding of the component is reduced.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
    */
   @property({ reflect: true }) compact = false;
 
@@ -207,10 +206,6 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     this.formEl = null;
     this.mutationObserver?.disconnect();
@@ -222,25 +217,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   private handleClick(): void {
     const { type } = this;
-
     if (type === "submit") {
       submitForm(this);
     } else if (type === "reset") {
       resetForm(this);
-    }
-  }
-
-  private handleTooltipSlotChange(event: Event): void {
-    const tooltips = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
-
-    const tooltip = tooltips[0];
-
-    if (tooltip) {
-      tooltip.referenceElement = this.buttonRef.value;
     }
   }
 
@@ -382,6 +362,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
     return (
       <button
         ariaBusy={loading}
+        ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
@@ -395,6 +376,7 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
         id={buttonId}
         onClick={this.handleClick}
         ref={this.buttonRef}
+        role={this.aria?.role}
       >
         {buttonContent}
       </button>
@@ -403,11 +385,10 @@ export class Action extends LitElement implements InteractiveComponent, FormOwne
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.renderButton()}
-        <slot name={SLOTS.tooltip} onSlotChange={this.handleTooltipSlotChange} />
         {this.renderIndicatorText()}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

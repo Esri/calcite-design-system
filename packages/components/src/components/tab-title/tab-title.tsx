@@ -13,20 +13,16 @@ import {
 } from "@arcgis/lumina";
 import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
-import { XButton } from "../functional/XButton";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { useInteractive } from "../../controllers/useInteractive";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./tab-title.scss";
@@ -42,7 +38,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class TabTitle extends LitElement implements InteractiveComponent {
+export class TabTitle extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -51,7 +47,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   private containerEl: HTMLDivElement;
 
@@ -74,6 +70,8 @@ export class TabTitle extends LitElement implements InteractiveComponent {
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -271,7 +269,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
     }
@@ -280,10 +278,6 @@ export class TabTitle extends LitElement implements InteractiveComponent {
       this.layout = this.parentTabsEl.layout;
       this.bordered = this.parentTabsEl.bordered;
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   /** This lifecycle method is not expected to return a promise. The returned promise will be ignored by Lit rather than awaited. */
@@ -434,7 +428,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.selected && !this.disabled ? 0 : -1);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -453,7 +447,7 @@ export class TabTitle extends LitElement implements InteractiveComponent {
           {this.renderCloseButton()}
           <div class={CSS.selectedIndicator} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
@@ -461,16 +455,14 @@ export class TabTitle extends LitElement implements InteractiveComponent {
     const { closable, messages } = this;
 
     return closable ? (
-      <XButton
-        disabled={false}
-        focusable={true}
+      <calcite-action
+        class={CSS.close}
+        icon="x"
         key="close-button"
-        label={messages.close}
         onClick={this.closeClickHandler}
         ref={this.closeButtonRef}
-        round={false}
         scale={this.scale}
-        title={messages.close}
+        text={messages.close}
       />
     ) : null;
   }

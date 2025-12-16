@@ -2,17 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  floatingUIOwner,
-  focusable,
-  hidden,
-  openClose,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -21,20 +11,6 @@ import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   mockConsole();
-
-  describe("renders when closed", () => {
-    renders("calcite-popover", { display: "contents" });
-  });
-
-  describe("renders when open", () => {
-    renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
-      display: "contents",
-    });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-popover");
-  });
 
   describe("accessible", () => {
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
@@ -48,51 +24,6 @@ describe("calcite-popover", () => {
     accessible(
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
     );
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-popover open></calcite-popover>`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-popover", [
-      {
-        propertyName: "placement",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "referenceElement",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "offsetDistance",
-        defaultValue: 6,
-      },
-      {
-        propertyName: "offsetSkidding",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "flipDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "pointerDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-    ]);
   });
 
   describe("openClose", () => {
@@ -619,14 +550,6 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
-      "open",
-      { shadowSelector: `.${CSS.positionContainer}` },
-    );
-  });
-
   it("should autoClose shadow popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
@@ -863,27 +786,6 @@ describe("calcite-popover", () => {
             {
               shadowSelector: `.${CSS.headerContainer}`,
               targetProp: "color",
-            },
-          ],
-        },
-      );
-    });
-    describe("closable", () => {
-      themed(
-        html`
-          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
-            Lorem Ipsum
-          </calcite-popover>
-        `,
-        {
-          "--calcite-popover-corner-radius": [
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderStartEndRadius",
-            },
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderEndEndRadius",
             },
           ],
         },

@@ -2,38 +2,12 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
-
-describe("defaults", () => {
-  defaults("calcite-alert", [
-    {
-      propertyName: "autoCloseDuration",
-      defaultValue: "medium",
-    },
-    {
-      propertyName: "embedded",
-      defaultValue: false,
-    },
-    {
-      propertyName: "queue",
-      defaultValue: "last",
-    },
-  ]);
-});
-
-describe("reflects", () => {
-  reflects("calcite-alert", [
-    {
-      propertyName: "queue",
-      value: "last",
-    },
-  ]);
-});
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -41,14 +15,6 @@ describe("calcite-alert", () => {
     <div slot="message">Message Text</div>
     <a slot="link" href="">Action</a>
   `;
-
-  describe("renders", () => {
-    renders("calcite-alert", { visible: false, display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("<calcite-alert open></calcite-alert>");
-  });
 
   describe("accessible", () => {
     accessible(async () => {
@@ -583,10 +549,6 @@ describe("calcite-alert", () => {
     });
   });
 
-  describe("translation support", () => {
-    t9n("calcite-alert");
-  });
-
   describe("theme", () => {
     themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
       "--calcite-alert-width": {
@@ -601,14 +563,6 @@ describe("calcite-alert", () => {
         {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderEndEndRadius",
         },
       ],
       "--calcite-alert-shadow": {

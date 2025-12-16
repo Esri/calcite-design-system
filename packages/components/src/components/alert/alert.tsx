@@ -217,7 +217,7 @@ export class Alert extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -454,17 +454,16 @@ export class Alert extends LitElement {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.close}
+      <calcite-action
         class={CSS.close}
-        key="close"
+        icon="x"
+        label={this.messages.close}
         onClick={this.closeAlert}
         onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
         onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
-        type="button"
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.close}
+      />
     );
   }
 

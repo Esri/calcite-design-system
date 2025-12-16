@@ -5,6 +5,9 @@ on:
 jobs:
   product-label:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: write
     steps:
       - uses: actions/checkout@v5
 

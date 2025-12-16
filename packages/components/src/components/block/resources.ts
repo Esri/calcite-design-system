@@ -11,12 +11,13 @@ export const CSS = {
   button: "button",
   container: "container",
   content: "content",
+  contentEnd: "content-end",
   contentStart: "content-start",
-  controlContainer: "control-container",
   description: "description",
   header: "header",
   headerContainer: "header-container",
   headerHasContent: "header--has-content",
+  headerDraggable: "header--draggable",
   heading: "heading",
   icon: "icon",
   iconStart: "icon--start",
@@ -33,10 +34,9 @@ export const CSS = {
 
 export const SLOTS = {
   actionsEnd: "actions-end",
+  contentEnd: "content-end",
   contentStart: "content-start",
-  control: "control",
   headerMenuActions: "header-menu-actions",
-  icon: "icon",
 };
 
 export const ICONS: Record<string, IconName> = {

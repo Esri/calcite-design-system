@@ -3,11 +3,6 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit-html/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -17,6 +12,7 @@ import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
@@ -39,11 +35,10 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
-export class FlowItem extends LitElement implements InteractiveComponent {
+export class FlowItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -64,6 +59,8 @@ export class FlowItem extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -210,7 +207,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
     }
@@ -221,10 +218,6 @@ export class FlowItem extends LitElement implements InteractiveComponent {
         this.calciteFlowItemExpand.emit();
       }
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -264,7 +257,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
     this.calciteFlowItemBack.emit();
   }
 
-  // #endregion
+  //#endregion
 
   //#region Rendering
 
@@ -312,7 +305,7 @@ export class FlowItem extends LitElement implements InteractiveComponent {
       iconFlipRtl,
     } = this;
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <calcite-panel
           beforeClose={beforeClose}
           closable={closable}
@@ -349,10 +342,9 @@ export class FlowItem extends LitElement implements InteractiveComponent {
           <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot />
         </calcite-panel>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

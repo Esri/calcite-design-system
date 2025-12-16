@@ -1,18 +1,10 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, IDS } from "./resources";
 
 describe("calcite-swatch", () => {
-  describe("renders", () => {
-    renders("calcite-swatch", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-swatch");
-  });
-
   describe("accessible", () => {
     accessible("calcite-swatch");
     accessible(`<calcite-swatch label="swatch" value="123" selected></calcite-swatch>`);
@@ -21,16 +13,8 @@ describe("calcite-swatch", () => {
     accessible(`<calcite-swatch label="swatch" value="123" selected color='#c0ffee'></calcite-swatch>`);
   });
 
-  describe("slots", () => {
-    slots("calcite-swatch", SLOTS);
-  });
-
   describe.skip("is focusable", () => {
     focusable("<calcite-swatch></calcite-swatch>");
-  });
-
-  describe.skip("can be disabled", () => {
-    disabled("<calcite-swatch disabled></calcite-swatch>");
   });
 
   it("should not emit event after the swatch is clicked if interactive if not set", async () => {

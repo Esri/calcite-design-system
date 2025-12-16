@@ -2,11 +2,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -26,6 +21,7 @@ import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { BlockSection } from "../block-section/block-section";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
@@ -39,12 +35,11 @@ declare global {
 /**
  * @slot - A slot for adding custom content.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
+ * @slot content-end - A slot for adding non-actionable elements after content of the component.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
- * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
-export class Block extends LitElement implements InteractiveComponent {
+export class Block extends LitElement {
   //#region Static Members
 
   static override styles = [headerStyles, styles, sortableStyles];
@@ -70,17 +65,17 @@ export class Block extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
 
+  @state() hasContentEnd = false;
+
   @state() hasContentStart = false;
 
-  @state() hasControl = false;
-
   @state() hasEndActions = false;
-
-  @state() hasIcon = false;
 
   @state() hasMenuActions = false;
 
@@ -103,7 +98,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * When `true`, the component displays a draggable button.
    *
-   * @deprecated No longer necessary. Use Block Group for draggable functionality.
+   * @deprecated in v3.0.0, removal target v6.0.0 - No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
@@ -169,7 +164,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * When `true`, expands the component and its contents.
    *
-   * @deprecated Use `expanded` prop instead.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
   @property({ reflect: true })
   get open(): boolean {
@@ -177,8 +172,9 @@ export class Block extends LitElement implements InteractiveComponent {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -216,7 +212,7 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * Displays a status-related indicator icon.
    *
-   * @deprecated Use `icon-start` instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
   @property({ reflect: true }) status: Status;
 
@@ -239,12 +235,6 @@ export class Block extends LitElement implements InteractiveComponent {
   //#endregion
 
   //#region Events
-
-  /**
-   *
-   * @private
-   */
-  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteBlockBeforeClose = createEvent({ cancelable: false });
@@ -279,9 +269,15 @@ export class Block extends LitElement implements InteractiveComponent {
   /**
    * Fires when the component's header is clicked.
    *
-   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   calciteBlockToggle = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -303,7 +299,7 @@ export class Block extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
       toggleOpenClose(this);
     }
@@ -323,10 +319,6 @@ export class Block extends LitElement implements InteractiveComponent {
     if (changes.has("scale") && this.hasUpdated) {
       this.updateBlockSectionScale();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -390,20 +382,16 @@ export class Block extends LitElement implements InteractiveComponent {
     this.calciteBlockToggle.emit();
   }
 
-  private controlSlotChangeHandler(event: Event): void {
-    this.hasControl = slotChangeHasAssignedElement(event);
-  }
-
   private menuActionsSlotChangeHandler(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
   }
 
-  private iconSlotChangeHandler(event: Event): void {
-    this.hasIcon = slotChangeHasAssignedElement(event);
-  }
-
   private actionsEndSlotChangeHandler(event: Event): void {
     this.hasEndActions = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
   }
 
   private handleContentStartSlotChange(event: Event): void {
@@ -451,17 +439,26 @@ export class Block extends LitElement implements InteractiveComponent {
           scale={getIconScale(this.scale)}
         />
       </div>
-    ) : (
-      <div class={CSS.icon} hidden={!this.hasIcon} key="icon-slot">
-        <slot key="icon-slot" name={SLOTS.icon} onSlotChange={this.iconSlotChangeHandler} />
-      </div>
-    );
+    ) : null;
   }
 
   private renderActionsEnd(): JsxNode {
     return (
       <div class={CSS.actionsEnd} hidden={!this.hasEndActions}>
         <slot name={SLOTS.actionsEnd} onSlotChange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderContentEnd(): JsxNode {
+    return (
+      <div
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        hidden={!this.hasContentEnd}
+      >
+        <div class={CSS.contentEnd}>
+          <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+        </div>
       </div>
     );
   }
@@ -530,6 +527,7 @@ export class Block extends LitElement implements InteractiveComponent {
       dragDisabled,
       sortDisabled,
       iconEnd,
+      hasContentEnd,
       hasContentStart,
       iconStart,
     } = this;
@@ -538,6 +536,7 @@ export class Block extends LitElement implements InteractiveComponent {
     const headerHasContent = !!(
       heading ||
       description ||
+      hasContentEnd ||
       hasContentStart ||
       iconStart ||
       loading ||
@@ -549,6 +548,7 @@ export class Block extends LitElement implements InteractiveComponent {
         class={{
           [CSS.header]: true,
           [CSS.headerHasContent]: headerHasContent,
+          [CSS.headerDraggable]: this.dragHandle,
         }}
         id={IDS.header}
       >
@@ -593,6 +593,7 @@ export class Block extends LitElement implements InteractiveComponent {
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
+              {this.renderContentEnd()}
               {this.renderIcon("end")}
               <calcite-icon
                 class={CSS.toggleIcon}
@@ -605,11 +606,13 @@ export class Block extends LitElement implements InteractiveComponent {
           headerContent
         )}
         {iconEnd && !collapsible ? (
-          <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
+          <div class={CSS.iconEndContainer}>
+            {this.renderContentEnd()}
+            {this.renderIcon("end")}
+          </div>
+        ) : !iconEnd && !collapsible ? (
+          this.renderContentEnd()
         ) : null}
-        <div aria-labelledby={IDS.header} class={CSS.controlContainer} hidden={!this.hasControl}>
-          <slot name={SLOTS.control} onSlotChange={this.controlSlotChangeHandler} />
-        </div>
         <calcite-action-menu
           flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
           hidden={!this.hasMenuActions}
@@ -625,7 +628,7 @@ export class Block extends LitElement implements InteractiveComponent {
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
           ariaBusy={loading}
@@ -643,7 +646,7 @@ export class Block extends LitElement implements InteractiveComponent {
             {this.renderScrim()}
           </section>
         </article>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

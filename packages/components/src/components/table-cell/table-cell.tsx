@@ -3,16 +3,12 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit-html/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
@@ -24,7 +20,7 @@ declare global {
 }
 
 /** @slot - A slot for adding content, usually text content. */
-export class TableCell extends LitElement implements InteractiveComponent {
+export class TableCell extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -43,6 +39,8 @@ export class TableCell extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -137,10 +135,6 @@ export class TableCell extends LitElement implements InteractiveComponent {
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   //#endregion
 
   //#region Private Methods
@@ -175,7 +169,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
         (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <td
           class={{
             [CSS.footerCell]: this.parentRowType === "foot",
@@ -205,7 +199,7 @@ export class TableCell extends LitElement implements InteractiveComponent {
           )}
           <slot onSlotChange={this.updateScreenReaderContentsText} />
         </td>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

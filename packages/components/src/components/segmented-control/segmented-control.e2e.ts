@@ -2,95 +2,13 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
-import { findAll, getFocusedElementProp, GlobalTestProps } from "../../tests/utils/puppeteer";
+import { focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control", () => {
-  describe("defaults", () => {
-    defaults("calcite-segmented-control", [
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "horizontal",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-
-      {
-        propertyName: "width",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "status",
-        defaultValue: "idle",
-      },
-      {
-        propertyName: "validationIcon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "validationMessage",
-        defaultValue: undefined,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-segmented-control", [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "appearance",
-        value: "solid",
-      },
-      {
-        propertyName: "width",
-        value: "auto",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
-  });
-
-  describe("renders", () => {
-    renders("calcite-segmented-control", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-segmented-control");
-  });
-
   describe("labelable", () => {
     labelable(
       html`<calcite-segmented-control>
@@ -99,17 +17,6 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
       { focusTargetSelector: "calcite-segmented-control-item" },
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-segmented-control>
-        <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-      </calcite-segmented-control>`,
-      { focusTarget: "child" },
     );
   });
 
@@ -475,10 +382,6 @@ describe("calcite-segmented-control", () => {
     });
   });
 
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-segmented-control`);
-  });
-
   describe("is form-associated", () => {
     describe("unselected value", () => {
       formAssociated(
@@ -505,10 +408,6 @@ describe("calcite-segmented-control", () => {
         { testValue: 2 },
       );
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-segmented-control");
   });
 
   describe("theme", () => {

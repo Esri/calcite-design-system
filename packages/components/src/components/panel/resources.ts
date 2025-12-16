@@ -2,7 +2,6 @@ import { IconName } from "../icon/interfaces";
 
 export const CSS = {
   actionBarContainer: "action-bar-container",
-  backButton: "back-button",
   container: "container",
   contentBottom: "content-bottom",
   contentTop: "content-top",
@@ -22,7 +21,6 @@ export const CSS = {
   fabContainer: "fab-container",
   footer: "footer",
   footerContent: "footer-content",
-  footerActions: "footer-actions",
   footerStart: "footer-start",
   footerEnd: "footer-end",
   headerSlottedContent: "header--slotted-content",
@@ -57,7 +55,6 @@ export const SLOTS = {
   footer: "footer",
   footerEnd: "footer-end",
   footerStart: "footer-start",
-  footerActions: "footer-actions",
 };
 
 export const HEADING_LEVEL = 3;

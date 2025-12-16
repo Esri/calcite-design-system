@@ -1,12 +1,8 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { Scale } from "../interfaces";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./list-item-group.scss";
 
@@ -16,14 +12,20 @@ declare global {
   }
 }
 /** @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. */
-export class ListItemGroup extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class ListItemGroup extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Private Properties
+
+  private interactiveContainer = useInteractive(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -45,9 +47,9 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
    * */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when changes occur in the default slot, notifying parent lists of the changes.
@@ -56,39 +58,31 @@ export class ListItemGroup extends LitElement implements InteractiveComponent {
    */
   calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private handleDefaultSlotChange(): void {
     this.calciteInternalListItemGroupDefaultSlotChange.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { disabled, heading } = this;
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
           <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
             {heading}
           </div>
         </div>
         <slot onSlotChange={this.handleDefaultSlotChange} />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

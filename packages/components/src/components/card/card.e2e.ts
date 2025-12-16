@@ -1,9 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, renders, slots, hidden, t9n, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 const placeholder = placeholderImage({
   width: 350,
@@ -11,14 +11,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  describe("renders", () => {
-    renders("calcite-card", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-card");
-  });
-
   describe("focusable", () => {
     describe("default", () => {
       focusable("calcite-card");
@@ -43,10 +35,6 @@ describe("calcite-card", () => {
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`,
     );
-  });
-
-  describe("slots", () => {
-    slots("calcite-card", SLOTS, true);
   });
 
   it("renders with default props if none are provided", async () => {
@@ -93,8 +81,8 @@ describe("calcite-card", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-card label="example-label" selectable>
-          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-          <span slot="subtitle">
+          <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="description">
             A great example of a study description that might wrap to a line or two, but isn't overly verbose.
           </span>
         </calcite-card>
@@ -110,10 +98,6 @@ describe("calcite-card", () => {
       expect(await checkbox.getProperty("checked")).toBe(true);
       expect(await card.getProperty("selected")).toBe(true);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-card");
   });
 
   it("should have aria-live attribute set to polite on loader container when loading", async () => {
@@ -147,8 +131,8 @@ describe("calcite-card", () => {
       describe("default", () => {
         themed(
           html`<calcite-card label="example-label" selectable>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle">
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description">
               A great example of a study description that might wrap to a line or two, but isn't overly verbose.
             </span>
           </calcite-card>`,
@@ -178,8 +162,8 @@ describe("calcite-card", () => {
       describe("selected", () => {
         themed(
           html`<calcite-card label="example-label" selectable selected>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle">
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description">
               A great example of a study description that might wrap to a line or two, but isn't overly verbose.
             </span>
           </calcite-card>`,

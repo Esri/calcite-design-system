@@ -1,134 +1,34 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { GlobalTestProps } from "../../tests/utils/puppeteer";
-import {
-  accessible,
-  disabled,
-  hidden,
-  renders,
-  slots,
-  t9n,
-  defaults,
-  themed,
-  reflects,
-  focusable,
-} from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-action", () => {
-  describe("defaults", () => {
-    defaults("calcite-action", [
-      {
-        propertyName: "active",
-        defaultValue: false,
+  describe("default", () => {
+    themed(html`calcite-action`, {
+      "--calcite-action-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        expectedValue: "rgba(0, 0, 0, 0)",
       },
-      {
-        propertyName: "appearance",
-        defaultValue: "solid",
+      "--calcite-action-background-color-hover": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: "hover",
       },
-      {
-        propertyName: "compact", // (deprecated)
-        defaultValue: false,
+      "--calcite-action-background-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
       },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
       },
-      {
-        propertyName: "indicator",
-        defaultValue: false,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "textEnabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "width",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "form",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "type",
-        defaultValue: "button",
-      },
-      {
-        propertyName: "selectionAppearance",
-        defaultValue: undefined,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-action", [
-      {
-        propertyName: "active",
-        value: true,
-      },
-      {
-        propertyName: "alignment",
-        value: "end",
-      },
-      {
-        propertyName: "appearance",
-        value: "solid",
-      },
-      {
-        propertyName: "compact",
-        value: true,
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "icon",
-        value: "hamburger",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "indicator",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "textEnabled",
-        value: true,
-      },
-      {
-        propertyName: "width",
-        value: "full",
-      },
-      {
-        propertyName: "type",
-        value: "button",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "neutral",
-      },
-    ]);
+    });
   });
 
   describe("aria property", () => {
@@ -196,24 +96,8 @@ describe("calcite-action", () => {
     it("resets", async () => assertOnFormButtonType("reset"));
   });
 
-  describe("renders", () => {
-    renders("calcite-action", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-action");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-action");
-  });
-
   describe("focusable", () => {
     focusable("calcite-action");
-  });
-
-  describe("slots", () => {
-    slots("calcite-action", SLOTS);
   });
 
   it("should have visible text when text is enabled", async () => {
@@ -316,34 +200,16 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
-  it("should have appearance=solid", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
-
-    const action = await page.find("calcite-action");
-    expect(action.getAttribute("appearance")).toBe("solid");
-  });
-
   describe("accessible", () => {
-    accessible(`<calcite-action text="hello world"></calcite-action>`);
-    accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
-    accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
-  });
+    accessible(html` <calcite-action text="hello world"></calcite-action>`);
 
-  it("should have a tooltip", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`,
-    );
-    await page.waitForChanges();
+    describe("disabled and text-enabled", () => {
+      accessible(html` <calcite-action text="hello world" disabled text-enabled></calcite-action>`);
+    });
 
-    const tooltip = await page.find("calcite-tooltip");
-    const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
-    expect(referenceElement).toBeDefined();
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action");
+    describe("indicator", () => {
+      accessible(html` <calcite-action indicator text="hello world"></calcite-action>`);
+    });
   });
 
   it("should have a indicator live region", async () => {
@@ -367,8 +233,8 @@ describe("calcite-action", () => {
   });
 
   describe("themed", () => {
-    describe("default", () => {
-      themed(html`calcite-action`, {
+    describe("solid", () => {
+      themed(html`<calcite-action appearance="solid"></calcite-action>`, {
         "--calcite-action-background-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
@@ -480,7 +346,7 @@ describe("calcite-action", () => {
       });
     });
     describe("deprecated", () => {
-      themed(html`calcite-action`, {
+      themed(html`<calcite-action appearance="solid"></calcite-action>`, {
         "--calcite-action-corner-radius-end-end": [
           {
             shadowSelector: `.${CSS.button}`,
@@ -609,27 +475,6 @@ describe("calcite-action", () => {
         "--calcite-action-background-color-pressed": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.button } },
-        },
-      });
-    });
-    describe("transparent", () => {
-      themed(html`<calcite-action appearance="transparent"></calcite-action>`, {
-        "--calcite-action-background-color": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0)",
-        },
-        "--calcite-action-background-color-hover": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0.04)",
-          state: "hover",
-        },
-        "--calcite-action-background-color-pressed": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "backgroundColor",
-          expectedValue: "rgba(0, 0, 0, 0.08)",
           state: { press: { attribute: "class", value: CSS.button } },
         },
       });
