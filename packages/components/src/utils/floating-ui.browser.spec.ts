@@ -85,7 +85,8 @@ describe("repositioning", () => {
     expect(floatingEl.style.display).toBe("");
     expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).toBe("");
-    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.top).toBe("");
+    expect(floatingEl.style.left).toBe("");
     expect(floatingEl.style.visibility).toBe("");
   }
 
@@ -93,7 +94,8 @@ describe("repositioning", () => {
     expect(floatingEl.style.display).toBe("block");
     expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).toBe("absolute");
-    expect(floatingEl.style.transform).toBe("");
+    expect(floatingEl.style.top).toBe("0px");
+    expect(floatingEl.style.left).toBe("0px");
     expect(floatingEl.style.visibility).toBe("");
   }
 
@@ -101,7 +103,8 @@ describe("repositioning", () => {
     expect(floatingEl.style.display).toBe("block");
     expect(floatingEl.style.pointerEvents).toBe("");
     expect(floatingEl.style.position).not.toBe("");
-    expect(floatingEl.style.transform).not.toBe("");
+    expect(floatingEl.style.top).not.toBe("0px");
+    expect(floatingEl.style.left).not.toBe("0px");
     expect(floatingEl.style.visibility).toBe("");
   }
 

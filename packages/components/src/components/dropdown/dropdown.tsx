@@ -567,7 +567,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   private getYDistanceFromScroller(last: HTMLElement): number {
     const style = last.getBoundingClientRect();
-    return last.offsetTop + style.height;
+    return last.offsetTop + style.height - this.floatingEl.offsetTop;
   }
 
   private closeCalciteDropdown(focusTrigger = true) {

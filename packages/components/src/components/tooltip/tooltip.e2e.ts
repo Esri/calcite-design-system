@@ -142,19 +142,20 @@ describe("calcite-tooltip", () => {
     );
     const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
 
-    let computedStyle: CSSStyleDeclaration = await positionContainer.getComputedStyle();
+    let style: CSSStyleDeclaration = await positionContainer.getComputedStyle();
 
-    expect(computedStyle.transform).toBe("none");
+    expect(style.top).toBe("0px");
+    expect(style.bottom).toBe("0px");
 
-    await page.$eval("calcite-tooltip", (el: Tooltip["el"]): void => {
-      const referenceElement = document.getElementById("ref");
-      el.referenceElement = referenceElement;
+    await page.$eval("calcite-tooltip", (el): void => {
+      el.referenceElement = document.getElementById("ref");
     });
     await page.waitForChanges();
 
-    computedStyle = await positionContainer.getComputedStyle();
+    style = await positionContainer.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("none");
+    expect(style.top).not.toBe("0px");
+    expect(style.bottom).not.toBe("0px");
   });
 
   it("open tooltip should be visible", async () => {
