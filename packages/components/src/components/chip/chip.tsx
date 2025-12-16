@@ -9,7 +9,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
-import type { Action as HTMLCalciteActionElement } from "../action/action";
+import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -35,7 +35,7 @@ export class Chip extends LitElement {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLCalciteActionElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   private containerRef = createRef<HTMLDivElement>();
 
