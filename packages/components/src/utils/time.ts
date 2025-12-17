@@ -414,19 +414,18 @@ export function localizeTimeString({
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value, step);
   const includeSeconds = step < 60;
-  const dateFromTimeString = includeSeconds
-    ? new Date(
-        Date.UTC(
-          0,
-          0,
-          0,
-          parseInt(hour),
-          parseInt(minute),
-          parseInt(second),
-          fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
-        ),
-      )
-    : new Date(Date.UTC(0, 0, 0, parseInt(hour), parseInt(minute)));
+  const dateFromTimeString = new Date(
+    Date.UTC(
+      0,
+      0,
+      0,
+      parseInt(hour),
+      parseInt(minute),
+      includeSeconds && parseInt(second),
+      includeSeconds && fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
+    ),
+  );
+
   const formatter = createLocaleDateTimeFormatter({
     fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
     hour12,
