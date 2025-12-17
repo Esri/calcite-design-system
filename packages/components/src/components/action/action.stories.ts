@@ -85,26 +85,38 @@ export const simple = (args: ActionStoryArgs): string => html`
 export const disabledAndTextOnly_TestOnly = (): string => html`
   <div>
     <calcite-action
-      icon="banana"
       alignment="start"
       appearance="solid"
-      label="Label"
-      scale="m"
       disabled
-      text="Text"
+      icon="banana"
       text-enabled
+      text="Text"
     ></calcite-action>
     <calcite-action
       active
-      icon="banana"
       alignment="start"
       appearance="solid"
-      label="Label"
-      scale="m"
       disabled
-      text="Text"
+      icon="banana"
       text-enabled
+      text="Text"
     ></calcite-action>
+    <calcite-action
+      alignment="start"
+      appearance="solid"
+      disabled
+      icon="banana"
+      loading
+      text-enabled
+      text="Text"
+    ></calcite-action>
+  </div>
+`;
+
+export const loading = (): string => html`
+  <div>
+    <calcite-action icon="banana" loading text-enabled text="Text"></calcite-action>
+    <calcite-action active icon="banana" loading text-enabled text="Text"></calcite-action>
   </div>
 `;
 

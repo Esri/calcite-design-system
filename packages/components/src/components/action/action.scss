@@ -200,10 +200,6 @@
     }
   }
 
-  .text-container {
-    @apply opacity-disabled;
-  }
-
   calcite-loader[inline] {
     margin-inline-end: theme("spacing.0");
   }
