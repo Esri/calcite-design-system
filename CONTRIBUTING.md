@@ -84,15 +84,15 @@ Certain labels indicate that an issue is not ready for development:
 
 - `1 - in design`: Issues that are going through design consultation. Once designers complete the effort, the `2 - ready for dev` label will be added to the issue, which means a developer can pick up the issue.
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
-- `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
-- `resolution: refine`: Issues that need refinement due to a lack of actionable information or a change in scope/effort since the last update. Refer to the [issue refinement section](#issue-refinement) for more details.
+- `need more info`: Issues that require more information and/or a clear, actionable description from the submitter. If there is no follow up after two weeks since the label was added, the issue will be automatically closed.
+- `needs refinement`: Issues that are supported, but need scope refinement or updated acceptance criteria before moving forward, as a result of a change in scope or effort. Refer to the [issue refinement section](#issue-refinement) for more details.
 - `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).
 
 ### Issue Refinement
 
-When the `resolution: refine` label is added to an issue, additional information or scope refinement is needed. Follow the steps below to ensure the issue is properly refined and updates are communicated.
+When the `needs refinement` label is added to an issue, additional information or scope refinement is needed. Follow the steps below to ensure the issue is properly refined and updates are communicated.
 
-1. Where refinement is needed, apply the `resolution: refine` label to the issue.
+1. Where refinement is needed, apply the `needs refinement` label to the issue.
 2. Add a comment explaining **why** the label was added (e.g., missing requirements/information, unclear scope, etc.), and where appropriate mention the following via an `@` tag:
    1. The issue author, when more information regarding the issue request is needed.
    2. An involved PE, if previously involved in discussion.
@@ -102,7 +102,7 @@ When the `resolution: refine` label is added to an issue, additional information
 4. Once refinement is complete:
    1. Update the issue description with the new information.
    2. Add a comment summarizing the updates and stating that refinement is complete. Mention a PE via an `@` tag — preferably one previously involved.
-5. Remove the `resolution: refine` label.
+5. Remove the `needs refinement` label.
 
 ### Milestones
 
