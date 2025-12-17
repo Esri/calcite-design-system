@@ -228,14 +228,12 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], 
     const hourIndex = parts.indexOf(parts.find(({ type }): boolean => type === "hour"));
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
     const hourSuffix = parts[hourIndex + 1];
-    return hourSuffix && hourSuffix.type === "literal" && minuteIndex - hourIndex === 2
-      ? hourSuffix.value || null
-      : null;
+    return hourSuffix?.type === "literal" && minuteIndex - hourIndex === 2 ? hourSuffix.value || null : null;
   }
   if (part === "minuteSuffix") {
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
     const minuteSuffix = parts[minuteIndex + 1];
-    return minuteSuffix && minuteSuffix.type === "literal" ? minuteSuffix.value || null : null;
+    return minuteSuffix?.type === "literal" ? minuteSuffix.value || null : null;
   }
   if (part === "secondSuffix") {
     let secondSuffixPart;
