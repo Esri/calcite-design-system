@@ -490,7 +490,7 @@ describe("calcite-list-item", () => {
           selection-appearance="border"
           icon-start="banana"
           icon-end="banana"
-        </calcite-list-item>`,
+        ></calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": [
             {
