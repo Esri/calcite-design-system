@@ -535,13 +535,6 @@
 .actions-start,
 .actions-end,
 .close {
-  padding-block: var(--calcite-internal-list-action-spacing);
-}
-
-.drag-container,
-.actions-start,
-.actions-end,
-.close {
   calcite-action,
   ::slotted(calcite-action) {
     @apply self-stretch items-center;
