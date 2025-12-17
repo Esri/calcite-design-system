@@ -3,7 +3,7 @@
     "color": {
       "surface": {
         "1": {
-          "value": "{core.color.neutral.blk-200}",
+          "value": "{core.color.neutral.blk-210}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -11,7 +11,7 @@
           }
         },
         "2": {
-          "value": "{core.color.neutral.blk-210}",
+          "value": "{core.color.neutral.blk-200}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -51,7 +51,7 @@
             "category": "color",
             "group": "background"
           },
-          "description": "Deprecated, use `--calcite-color-surface-2` instead"
+          "description": "Deprecated, use `--calcite-color-surface-1` instead"
         },
         "none": {
           "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
@@ -70,7 +70,7 @@
             "category": "color",
             "group": "foreground"
           },
-          "description": "Deprecated, use `--calcite-color-surface-1` instead"
+          "description": "Deprecated, use `--calcite-color-surface-2` instead"
         },
         "2": {
           "value": "{core.color.neutral.blk-190}",
