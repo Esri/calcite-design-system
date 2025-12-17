@@ -262,9 +262,6 @@
   }
 }
 :host([scale="m"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     min-block-size: 40px;
@@ -338,9 +335,6 @@
   }
 }
 :host([scale="l"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-md);
-  }
   .content-container {
     gap: var(--calcite-spacing-md);
     min-block-size: 56px;
@@ -470,13 +464,9 @@
 .content-end,
 .selection-container,
 .drag-container,
-.expanded-container {
+.expanded-container,
+.close {
   @apply flex items-center;
-
-  calcite-action,
-  calcite-sort-handle {
-    @apply self-stretch;
-  }
 }
 
 .drag-container,
@@ -541,15 +531,21 @@
   @apply border-t-0;
 }
 
-.drag-container ::slotted(calcite-action),
 .drag-container,
-.actions-start ::slotted(calcite-action),
 .actions-start,
-.actions-end ::slotted(calcite-action),
 .actions-end,
 .close {
-  @apply items-center;
   padding-block: var(--calcite-internal-list-action-spacing);
+}
+
+.drag-container,
+.actions-start,
+.actions-end,
+.close {
+  calcite-action,
+  ::slotted(calcite-action) {
+    @apply self-stretch items-center;
+  }
 }
 
 @include includes.base-component();
