@@ -104,7 +104,19 @@ async function promptForMultipleChoices(promptLabel: string, options: string[]):
 }
 
 async function collectComponents(rootDir: string): Promise<Map<string, ComponentEntry>> {
-  const entries = await fs.readdir(rootDir, { withFileTypes: true });
+  let entries: Dirent[];
+
+  try {
+    entries = await fs.readdir(rootDir, { withFileTypes: true });
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      console.error(`Error: Documentation snippets directory not found at: ${rootDir}`);
+      process.exit(1);
+    }
+
+    throw err;
+  }
+
   const components = new Map<string, ComponentEntry>();
 
   for (const entry of entries) {
