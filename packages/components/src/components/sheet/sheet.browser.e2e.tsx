@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands, userEvent } from "vitest/browser";
+import { h } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -146,11 +147,13 @@ describe("calcite-sheet", () => {
         await userEvent.click(resizeHandle);
         const handleRect = resizeHandle.getBoundingClientRect();
 
+        expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
+
+        const startX = handleRect.left + handleRect.width / 2;
+        const startY = handleRect.top + handleRect.height / 2;
+        // await commands.mouseMove(startX, startY);
         await commands.mouseDown();
-        await commands.mouseMove(
-          handleRect.left + handleRect.width / 2,
-          handleRect.top + handleRect.height / 2,
-        );
+        await commands.mouseMove(startX + 10, startY);
         await commands.mouseUp();
 
         expect(getComputedStyle(content).inlineSize).not.toBe(`${initialSize}px`);
@@ -218,11 +221,13 @@ describe("calcite-sheet", () => {
         await userEvent.click(resizeHandle);
         const handleRect = resizeHandle.getBoundingClientRect();
 
+        expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
+
+        const startX = handleRect.left + handleRect.width / 2;
+        const startY = handleRect.top + handleRect.height / 2;
+        // await commands.mouseMove(startX, startY);
         await commands.mouseDown();
-        await commands.mouseMove(
-          handleRect.left + handleRect.width / 2,
-          handleRect.top + handleRect.height / 2,
-        );
+        await commands.mouseMove(startX + 10, startY);
         await commands.mouseUp();
 
         expect(getComputedStyle(content).blockSize).not.toBe(`${initialSize}px`);

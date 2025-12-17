@@ -11,9 +11,8 @@ import {
   LitElement,
   property,
   setAttribute,
-  method,
 } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -403,7 +402,7 @@ export class Sheet extends LitElement {
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize({
+        this.updateSizeInternal({
           block: rect.height + (position === "block-end" ? -stepValue : stepValue),
         });
         event.preventDefault();
@@ -441,8 +440,6 @@ export class Sheet extends LitElement {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
   }
 
   private async setupInteractions(): Promise<void> {
@@ -495,7 +492,7 @@ export class Sheet extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
 
-          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
+          this.updateSizeInternal(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });
