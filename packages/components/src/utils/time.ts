@@ -389,16 +389,28 @@ export function localizeTimePart({
   return getLocalizedTimePart(part, parts, locale);
 }
 
-interface LocalizeTimeStringParameters {
+type LocalizeTimeStringToStringParameters = {
   hour12?: boolean;
   includeSeconds?: boolean;
   locale: Locale;
   numberingSystem?: NumberingSystem;
-  parts?: boolean;
+  parts?: false | undefined;
   step?: number;
   value: string;
-}
+};
+type LocalizeTimeStringToPartsParameters = {
+  hour12?: boolean;
+  includeSeconds?: boolean;
+  locale: Locale;
+  numberingSystem?: NumberingSystem;
+  parts?: true;
+  step?: number;
+  value: string;
+};
+type LocalizeTimeStringParameters = LocalizeTimeStringToStringParameters | LocalizeTimeStringToPartsParameters;
 
+export function localizeTimeString(params: LocalizeTimeStringToStringParameters): string;
+export function localizeTimeString(params: LocalizeTimeStringToPartsParameters): LocalizedTime;
 export function localizeTimeString({
   hour12,
   locale,

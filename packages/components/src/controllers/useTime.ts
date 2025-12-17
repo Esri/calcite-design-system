@@ -14,7 +14,6 @@ import {
   getMeridiemOrder,
   HourFormat,
   isValidTime,
-  LocalizedTime,
   localizeTimePart,
   localizeTimeString,
   maxTenthForMinuteAndSecond,
@@ -542,7 +541,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         parts: true,
         step,
         value: newValue,
-      }) as LocalizedTime;
+      });
       this.hour = hour;
       this.minute = minute;
       this.second = second;

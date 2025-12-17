@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, focusable, themed } from "../../tests/commonTests";
-import { formatTimePart, getLocaleHourFormat, LocalizedTime, localizeTimeString } from "../../utils/time";
+import { formatTimePart, getLocaleHourFormat, localizeTimeString } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { html } from "../../../support/formatting";
@@ -1232,7 +1232,7 @@ describe("calcite-time-picker", () => {
               locale,
               parts: true,
               step,
-            }) as LocalizedTime;
+            });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
             const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
@@ -1295,7 +1295,7 @@ describe("calcite-time-picker", () => {
               locale,
               parts: true,
               step,
-            }) as LocalizedTime;
+            });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
             const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
@@ -1379,7 +1379,7 @@ describe("calcite-time-picker", () => {
               locale,
               parts: true,
               step,
-            }) as LocalizedTime;
+            });
 
             const hourEl = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
             const hourSuffixEl = await page.find(`calcite-time-picker >>> .${CSS.hourSuffix}`);
