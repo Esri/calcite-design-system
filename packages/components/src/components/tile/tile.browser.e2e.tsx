@@ -2,7 +2,14 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, hidden, reflects, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  hidden,
+  reflects,
+  renders,
+  slots,
+} from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
@@ -24,6 +31,10 @@ describe("calcite-tile", () => {
         { propertyName: "selectionMode", defaultValue: "none" },
       ],
     );
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-tile interactive />));
   });
 
   describe("hidden", () => {

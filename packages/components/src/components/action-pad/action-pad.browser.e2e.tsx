@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { userEvent } from "vitest/browser";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -102,5 +103,74 @@ describe("calcite-action-pad", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-action-pad"));
+  });
+
+  describe("selection-modes", () => {
+    it("supports ARIA keyboard navigation and focus management", async () => {
+      const { el } = await mount<"calcite-action-pad">(
+        <calcite-action-pad overflow-actions-disabled>
+          <calcite-action-group selection-mode="single-persist">
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+            <calcite-action icon="trash" text="Delete" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      );
+
+      const [action1, action2, action3] = el.querySelectorAll("calcite-action");
+
+      await userEvent.click(action1);
+      expect(document.activeElement).toBe(action1);
+
+      await userEvent.keyboard("{ArrowRight}");
+      expect(document.activeElement).toBe(action2);
+
+      await userEvent.keyboard("{ArrowLeft}");
+      expect(document.activeElement).toBe(action1);
+
+      await userEvent.keyboard("{End}");
+      expect(document.activeElement).toBe(action3);
+
+      await userEvent.keyboard("{Home}");
+      expect(document.activeElement).toBe(action1);
+
+      await userEvent.keyboard("{Enter}");
+      expect(action1.active).toBe(true);
+    });
+
+    it("has single and none (default) selection modes", async () => {
+      const { el } = await mount<"calcite-action-pad">(
+        <calcite-action-pad overflow-actions-disabled>
+          <calcite-action-group selection-mode="single">
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action icon="layers" text="Layers" />
+            <calcite-action icon="layer-basemap" text="Basemaps" />
+            <calcite-action icon="bookmark" text="Bookmarks" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      );
+
+      const [action1, action2, action3, action4] = el.querySelectorAll("calcite-action");
+
+      await userEvent.click(action1);
+      expect(action1.active).toBe(true);
+      expect(action2.active).toBe(false);
+
+      await userEvent.click(action2);
+      await userEvent.click(action2);
+      expect(action1.active).toBe(false);
+      expect(action2.active).toBe(false);
+
+      await userEvent.click(action3);
+      expect(action3.active).toBe(false);
+      expect(action4.active).toBe(false);
+
+      await userEvent.click(action4);
+      expect(action3.active).toBe(false);
+      expect(action4.active).toBe(false);
+    });
   });
 });

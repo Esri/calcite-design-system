@@ -1,23 +1,11 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
-import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {
   describe("accessible", () => {
     accessible(`<calcite-sortable-list></calcite-sortable-list>`);
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-sortable-list>
-        <div id="one"><calcite-handle></calcite-handle>1</div>
-        <div id="two"><calcite-handle></calcite-handle>2</div>
-        <div id="three"><calcite-handle></calcite-handle>3</div>
-      </calcite-sortable-list>`,
-      { focusTarget: "child" },
-    );
   });
 
   const worksUsingMouse = async (page: E2EPage): Promise<void> => {

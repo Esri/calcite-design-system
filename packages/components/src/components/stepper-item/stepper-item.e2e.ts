@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { disabled, themed, focusable } from "../../tests/commonTests";
+import { themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-stepper-item", () => {
-  describe("disabled", () => {
-    disabled("calcite-stepper-item");
-  });
-
   describe("focusable", () => {
     focusable(html`<calcite-stepper-item layout="vertical"></calcite-stepper-item>`);
   });

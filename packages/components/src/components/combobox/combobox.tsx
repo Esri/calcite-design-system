@@ -218,8 +218,6 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
-
   referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
@@ -248,7 +246,7 @@ export class Combobox
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+      return ["description", "label", "metadata", "shortHeading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
@@ -402,6 +400,9 @@ export class Combobox
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -622,8 +623,9 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
@@ -1375,7 +1377,6 @@ export class Combobox
       label: item.heading,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
-      textLabel: item.textLabel,
       el: item, // used for matching items to data
     }));
   }
@@ -1407,7 +1408,7 @@ export class Combobox
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
+    const existingItem = this.items.find((el) => el.heading === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
@@ -1791,7 +1792,7 @@ export class Combobox
         ariaLabel: item.label,
         ariaSelected: item.selected,
         id: `${IDS.item(item.guid)}`,
-        textContent: item.heading || item.textLabel,
+        textContent: item.heading,
       }),
     );
 
@@ -1833,6 +1834,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
+                  heading={messages.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={messages.selectAll}
@@ -1840,7 +1842,6 @@ export class Combobox
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}

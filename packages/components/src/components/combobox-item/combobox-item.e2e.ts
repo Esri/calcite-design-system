@@ -1,14 +1,10 @@
 import { describe } from "vitest";
-import { disabled, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-combobox-item", () => {
-  describe("disabled", () => {
-    disabled("calcite-combobox-item", { focusTarget: "none" });
-  });
-
   describe("theme", () => {
     describe("default", () => {
       const comboboxHTML = html` <calcite-combobox-item

@@ -1,9 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { disabled, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-swatch", () => {
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-swatch interactive />));
+  });
+
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-swatch"));
   });

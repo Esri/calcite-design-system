@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -63,15 +63,6 @@ describe("calcite-list", () => {
           <div slot="message">Try a different fruit?</div>
         </calcite-notice>
       </calcite-list>`,
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-list>
-        <calcite-list-item label="test" description="hello world"></calcite-list-item>
-      </calcite-list>`,
-      { focusTarget: "child" },
     );
   });
 

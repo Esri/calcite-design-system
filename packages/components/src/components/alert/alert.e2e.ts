@@ -564,14 +564,6 @@ describe("calcite-alert", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderEndEndRadius",
-        },
       ],
       "--calcite-alert-shadow": {
         shadowSelector: `.${CSS.container}`,

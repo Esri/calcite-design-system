@@ -10168,5 +10168,10 @@
     "alias": ["4.4.0", "forms", "combinations", "fields", "data", "historical-records"],
     "category": "Forms",
     "release": "4.4.0"
+  },
+  "file-esl": {
+    "alias": ["4.4.0", "files", "sensing", "image-analysis", "content", "tool", "collections"],
+    "category": "Files",
+    "release": "4.4.0"
   }
 }

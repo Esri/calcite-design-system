@@ -9,7 +9,6 @@ import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-date-picker";
 import "@esri/calcite-components/dist/components/calcite-loader";
 
-import "@esri/calcite-components/dist/calcite/calcite.css";
 import "./style.css";
 
 setAssetPath(location.href);

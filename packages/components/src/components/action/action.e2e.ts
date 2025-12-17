@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -16,13 +16,16 @@ describe("calcite-action", () => {
       "--calcite-action-background-color-hover": {
         shadowSelector: `.${CSS.button}`,
         targetProp: "backgroundColor",
-        expectedValue: "rgba(0, 0, 0, 0.04)",
         state: "hover",
       },
       "--calcite-action-background-color-pressed": {
         shadowSelector: `.${CSS.button}`,
         targetProp: "backgroundColor",
-        expectedValue: "rgba(0, 0, 0, 0.08)",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
         state: { press: { attribute: "class", value: CSS.button } },
       },
     });
@@ -91,10 +94,6 @@ describe("calcite-action", () => {
 
     it("submits", async () => assertOnFormButtonType("submit"));
     it("resets", async () => assertOnFormButtonType("reset"));
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-action");
   });
 
   describe("focusable", () => {

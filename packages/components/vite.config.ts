@@ -10,6 +10,7 @@ import { playwright } from "@vitest/browser-playwright";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
+import customBrowserModeCommands from "./src/tests/browser/commands";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
@@ -58,7 +59,7 @@ export default defineConfig({
     noExternal: nonEsmDependencies,
   },
 
-  plugins: [lumina],
+  plugins: [lumina, customBrowserModeCommands()],
 
   css: {
     postcss: {
