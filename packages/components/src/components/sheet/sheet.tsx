@@ -12,7 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
+import { createRef } from "lit-html/directives/ref.js";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -51,7 +51,7 @@ export class Sheet extends LitElement {
 
   private contentId: string;
 
-  private contentRef = createRef<HTMLElement>();
+  private contentRef = createRef<HTMLDivElement>();
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
