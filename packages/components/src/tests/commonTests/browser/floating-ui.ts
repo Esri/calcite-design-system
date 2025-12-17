@@ -51,8 +51,8 @@ export function floatingUIOwner(
     const shadowSelector = options?.shadowSelector;
     const floatingUIEl = shadowSelector ? el.shadowRoot.querySelector<HTMLElement>(shadowSelector)! : el;
 
-    function getTopLeft(): string {
-      return `${floatingUIEl.style.top}-${floatingUIEl.style.left}`;
+    function getTransform(): string {
+      return floatingUIEl.style.transform;
     }
 
     function scrollTo(x: number, y: number): void {
@@ -69,7 +69,7 @@ export function floatingUIOwner(
       el[togglePropName] = false;
       await waitForAnimationFrame();
 
-      const initialClosedTopLeft = getTopLeft();
+      const initialClosedTransform = getTransform();
 
       // floating-ui's autoUpdate triggers on scroll, so we wait for the event + animation frame to ensure DOM updates take place
 
@@ -77,33 +77,33 @@ export function floatingUIOwner(
       await waitForScrollEvent();
       await waitForAnimationFrame();
 
-      expect(getTopLeft()).toBe(initialClosedTopLeft);
+      expect(getTransform()).toBe(initialClosedTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       scrollTo(0, 0);
       await waitForScrollEvent();
       await waitForAnimationFrame();
 
-      expect(getTopLeft()).toBe(initialClosedTopLeft);
+      expect(getTransform()).toBe(initialClosedTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       el[togglePropName] = true;
       await waitForAnimationFrame();
 
-      const initialOpenTopLeft = getTopLeft();
+      const initialOpenTransform = getTransform();
 
       scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
       await waitForScrollEvent();
       await waitForAnimationFrame();
 
-      expect(getTopLeft()).not.toBe(initialOpenTopLeft);
+      expect(getTransform()).not.toBe(initialOpenTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       scrollTo(0, 0);
       await waitForScrollEvent();
       await waitForAnimationFrame();
 
-      expect(getTopLeft()).toBe(initialOpenTopLeft);
+      expect(getTransform()).toBe(initialOpenTransform);
       await expect.element(floatingUIEl).toBeVisible();
     } finally {
       style.remove();

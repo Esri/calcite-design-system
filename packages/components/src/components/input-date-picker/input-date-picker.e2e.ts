@@ -879,25 +879,20 @@ describe("calcite-input-date-picker", () => {
 
     const inputDatePicker = await page.find("calcite-input-date-picker");
     const floatingEl = await page.find(`calcite-input-date-picker >>> .${CSS.menu}`);
-    let style = await floatingEl.getComputedStyle();
 
     expect(await inputDatePicker.isVisible()).toBe(true);
     expect(await floatingEl.isVisible()).toBe(true);
-
-    expect(style.top).toBe("140px");
-    expect(style.bottom).toBe("122px");
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 140)");
 
     await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
       scrollEl.scrollTo({ top: 100 });
     });
+
     await page.waitForChanges();
-    style = await floatingEl.getComputedStyle();
 
     expect(await inputDatePicker.isVisible()).toBe(true);
     expect(await floatingEl.isVisible()).toBe(true);
-
-    expect(style.top).toBe("40px");
-    expect(style.bottom).toBe("222px");
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 40)");
   });
 
   describe("focus trapping", () => {

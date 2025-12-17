@@ -41,20 +41,19 @@ describe("calcite-popover", () => {
     );
     const positionContainer = await page.find(`calcite-popover >>> .${CSS.positionContainer}`);
 
-    let style: CSSStyleDeclaration = await positionContainer.getComputedStyle();
+    let computedStyle: CSSStyleDeclaration = await positionContainer.getComputedStyle();
 
-    expect(style.top).toBe("0px");
-    expect(style.bottom).toBe("0px");
+    expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-popover", (el): void => {
-      el.referenceElement = document.getElementById("ref");
+    await page.$eval("calcite-popover", (el: Popover["el"]): void => {
+      const referenceElement = document.getElementById("ref");
+      el.referenceElement = referenceElement;
     });
     await page.waitForChanges();
 
-    style = await positionContainer.getComputedStyle();
+    computedStyle = await positionContainer.getComputedStyle();
 
-    expect(style.top).not.toBe("0px");
-    expect(style.bottom).not.toBe("0px");
+    expect(computedStyle.transform).not.toBe("none");
   });
 
   it("open popover should be visible", async () => {
