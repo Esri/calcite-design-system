@@ -233,6 +233,14 @@ module.exports = function Monday(issue, core) {
       },
     ],
     [
+      issueType.i18nL10n,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "i18n-l10n",
+        clearable: true,
+      }
+    ],
+    [
       issueType.newComponent,
       {
         column: mondayColumns.typeDropdown,
