@@ -89,18 +89,54 @@ const config: Omit<Config, "content"> = {
       "6h": ["var(--calcite-font-size-relative-5xl)", { lineHeight: "var(--calcite-font-line-height-5xl)" }],
       "7h": ["var(--calcite-font-size-relative-6xl)", { lineHeight: "var(--calcite-font-line-height-6xl)" }],
       "8h": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-7xl)" }],
-      "n3-wrap": ["var(--calcite-font-size--3)", { lineHeight: "1.375" }],
-      "n2-wrap": ["var(--calcite-font-size--2)", { lineHeight: "1.375" }],
-      "n1-wrap": ["var(--calcite-font-size--1)", { lineHeight: "1.375" }],
-      "0-wrap": ["var(--calcite-font-size-0)", { lineHeight: "1.375" }],
-      "1-wrap": ["var(--calcite-font-size-1)", { lineHeight: "1.375" }],
-      "2-wrap": ["var(--calcite-font-size-2)", { lineHeight: "1.375" }],
-      "3-wrap": ["var(--calcite-font-size-3)", { lineHeight: "1.25" }],
-      "4-wrap": ["var(--calcite-font-size-4)", { lineHeight: "1.25" }],
-      "5-wrap": ["var(--calcite-font-size-5)", { lineHeight: "1.25" }],
-      "6-wrap": ["var(--calcite-font-size-6)", { lineHeight: "1.25" }],
-      "7-wrap": ["var(--calcite-font-size-7)", { lineHeight: "1.25" }],
-      "8-wrap": ["var(--calcite-font-size-8)", { lineHeight: "1.25" }],
+      "n3-wrap": [
+        "var(--calcite-font-size-relative-xs)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n2-wrap": [
+        "var(--calcite-font-size-relative-sm)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n1-wrap": [
+        "var(--calcite-font-size-relative-base)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "0-wrap": [
+        "var(--calcite-font-size-relative-md)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "1-wrap": [
+        "var(--calcite-font-size-relative-lg)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "2-wrap": [
+        "var(--calcite-font-size-relative-xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "3-wrap": [
+        "var(--calcite-font-size-relative-2xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "4-wrap": [
+        "var(--calcite-font-size-relative-3xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "5-wrap": [
+        "var(--calcite-font-size-relative-4xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "6-wrap": [
+        "var(--calcite-font-size-relative-5xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "7-wrap": [
+        "var(--calcite-font-size-relative-6xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "8-wrap": [
+        "var(--calcite-font-size-relative-7xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
     },
     fontWeight: {
       // assets/styles/_type
