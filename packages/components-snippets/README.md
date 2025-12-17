@@ -11,7 +11,7 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
    ```
 3. Run the snippet tool
    ```bash
-   npx demo-snippet
+   npx snippet
    ```
 4. Follow the prompts to select a component and snippet(s).
 5. The `components` package demo page will be updated with the selected snippet(s).

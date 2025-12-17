@@ -22,7 +22,7 @@ type ParsedBlocks = {
 const SNIPPETS_DIR_REL = "../calcite-documentation/documentation/component-sample-snippets";
 const INDEX_HTML_REL = "packages/components/index.html";
 
-yargs(hideBin(process.argv)).scriptName("demo-snippet").strict().help().parseSync();
+yargs(hideBin(process.argv)).scriptName("snippet").strict().help().parseSync();
 
 async function findRepoRoot(startDir: string): Promise<string> {
   let current = path.resolve(startDir);
