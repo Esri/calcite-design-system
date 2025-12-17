@@ -11,15 +11,17 @@ import {
   LitElement,
   property,
   setAttribute,
+  method,
 } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { clamp } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
@@ -50,6 +52,8 @@ export class Sheet extends LitElement {
 
   private contentId: string;
 
+  private contentRef = createRef<HTMLElement>();
+
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
     focusTrapOptions: {
@@ -71,6 +75,14 @@ export class Sheet extends LitElement {
   private interaction: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
+
+  private sizeOverride = useSizeOverride({
+    targetElement: this.contentRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+  });
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
@@ -250,6 +262,11 @@ export class Sheet extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
+
   //#endregion
 
   //#region Events
@@ -380,81 +397,46 @@ export class Sheet extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize({
-          size: rect.height + (position === "block-end" ? stepValue : -stepValue),
-          type: "blockSize",
+        this.updateSizeInternal({
+          block: rect.height + (position === "block-end" ? stepValue : -stepValue),
         });
         event.preventDefault();
         break;
       case "ArrowDown":
         this.updateSize({
-          size: rect.height + (position === "block-end" ? -stepValue : stepValue),
-          type: "blockSize",
+          block: rect.height + (position === "block-end" ? -stepValue : stepValue),
         });
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize({
-          size: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
-          type: "inlineSize",
+        this.updateSizeInternal({
+          inline: rect.width + (position === "inline-end" ? stepValue : -stepValue) * invertRTL,
         });
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize({
-          size: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
-          type: "inlineSize",
+        this.updateSizeInternal({
+          inline: rect.width + (position === "inline-end" ? -stepValue : stepValue) * invertRTL,
         });
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize({
-          size:
-            position === "block-start" || position === "block-end" ? minBlockSize : minInlineSize,
-          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          position === "block-start" || position === "block-end"
+            ? { block: minBlockSize }
+            : { inline: minInlineSize },
+        );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize({
-          size:
-            position === "block-start" || position === "block-end" ? maxBlockSize : maxInlineSize,
-          type: position === "block-start" || position === "block-end" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          position === "block-start" || position === "block-end"
+            ? { block: maxBlockSize }
+            : { inline: maxInlineSize },
+        );
         event.preventDefault();
         break;
     }
-  }
-
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { contentEl, resizeValues } = this;
-
-    if (!contentEl) {
-      return;
-    }
-
-    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
-    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
-
-    const clamped =
-      resizeValues[resizeMin] && resizeValues[resizeMax]
-        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
-        : size;
-
-    const rounded = Math.round(clamped);
-
-    this.resizeValues = {
-      ...resizeValues,
-      [type]: rounded,
-    };
-
-    contentEl.style[type] = size !== null ? `${rounded}px` : null;
   }
 
   private cleanupInteractions(): void {
@@ -513,10 +495,7 @@ export class Sheet extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
 
-          this.updateSize({
-            size: isBlock ? rect.height : rect.width,
-            type: isBlock ? "blockSize" : "inlineSize",
-          });
+          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });
@@ -550,6 +529,7 @@ export class Sheet extends LitElement {
 
   private setContentEl(el: HTMLDivElement): void {
     this.contentEl = el;
+    this.contentRef.value = el;
     this.contentId = ensureId(el);
   }
 
@@ -572,6 +552,25 @@ export class Sheet extends LitElement {
 
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
+  }
+
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+
+    const appliedSize = this.sizeOverride.resize(size);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSize.inline !== undefined && {
+        inlineSize: appliedSize.inline,
+      }),
+      ...(appliedSize.block !== undefined && {
+        blockSize: appliedSize.block,
+      }),
+    };
   }
 
   //#endregion
