@@ -490,25 +490,6 @@ describe("calcite-list-item", () => {
           selection-appearance="border"
           icon-start="banana"
           icon-end="banana"
-        >
-          <calcite-action
-            appearance="transparent"
-            icon="sort-ascending"
-            text="menu"
-            label="menu"
-            scale="s"
-            slot="actions-start"
-          ></calcite-action>
-          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
-          <calcite-avatar scale="s" slot="content-end" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
-          <calcite-action
-            appearance="transparent"
-            icon="sort-ascending"
-            text="menu"
-            label="menu"
-            scale="s"
-            slot="actions-end"
-          ></calcite-action>
         </calcite-list-item>`,
         {
           "--calcite-list-selection-border-color": [
