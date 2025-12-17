@@ -6,6 +6,7 @@ import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -73,6 +74,9 @@ export class Tile extends LitElement implements SelectableComponent {
 
   /** The component header text, which displays between the icon and description. */
   @property({ reflect: true }) heading: string;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When embed is `"false"`, the URL for the component. */
   @property({ reflect: true }) href: string;
@@ -261,6 +265,7 @@ export class Tile extends LitElement implements SelectableComponent {
       hasContentBottom,
       hasContentTop,
       heading,
+      headingLevel,
       icon,
       iconFlipRtl,
       interactive,
@@ -308,7 +313,11 @@ export class Tile extends LitElement implements SelectableComponent {
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <div class={CSS.textContent}>
-              {heading && <div class={CSS.heading}>{heading}</div>}
+              {heading && (
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
+              )}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
           </div>
