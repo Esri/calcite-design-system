@@ -212,7 +212,7 @@ export function getLocalizedTimePartSuffix({
   hour12: boolean;
   locale: Locale;
   numberingSystem: NumberingSystem;
-  part: Extract<"hour" | "minute" | "second", TimePart>;
+  part: Extract<TimePart, "hour" | "minute" | "second">;
   step: number;
 }): string {
   const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds: step < 60, locale, numberingSystem });
