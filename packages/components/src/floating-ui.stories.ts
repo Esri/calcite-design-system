@@ -2,6 +2,11 @@ import { html } from "../support/formatting";
 
 export default {
   title: "Components/Floating UI/Open",
+  parameters: {
+    chromatic: {
+      delay: 1000,
+    },
+  },
 };
 
 const template = html`
