@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.34...@esri/calcite-components@5.0.0-next.35) (2025-12-18)
+
+### Bug Fixes
+
+- update initial floating-ui styles to handle RTL top-layer positioning ([#13489](https://github.com/Esri/calcite-design-system/issues/13489)) ([73442ca](https://github.com/Esri/calcite-design-system/commit/73442caa8ad485b25e1024c981ccfc4268769f93))
+
 ## [5.0.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.33...@esri/calcite-components@5.0.0-next.34) (2025-12-18)
 
 **Note:** Version bump only for package @esri/calcite-components
