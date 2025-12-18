@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.35...@esri/calcite-components@5.0.0-next.36) (2025-12-18)
+
+### Bug Fixes
+
+- **action:** drop extra opacity styles when disabled ([#13510](https://github.com/Esri/calcite-design-system/issues/13510)) ([0f375d0](https://github.com/Esri/calcite-design-system/commit/0f375d0fc6d6af0b4e08c947cf4f43f0636a0119)), closes [#12601](https://github.com/Esri/calcite-design-system/issues/12601)
+
 ## [5.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.34...@esri/calcite-components@5.0.0-next.35) (2025-12-18)
 
 ### Bug Fixes
