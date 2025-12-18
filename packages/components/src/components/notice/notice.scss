@@ -6,6 +6,7 @@
  * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
  * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
+ * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
  * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
  * @prop --calcite-notice-close-icon-color-hover: Specifies the background color of the component's close button when hovered.
@@ -14,6 +15,12 @@
  * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-transparent-background-color
 
 @use "sass:list";
 @use "../../styles/includes";
@@ -171,7 +178,7 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
-  --calcite-action-background-color: pink;
+  --calcite-internal-action-transparent-background-color: var(--calcite-notice-close-background-color, transparent);
   --calcite-action-background-color-hover: var(
     --calcite-notice-close-background-color-focus,
     var(--calcite-color-foreground-2)

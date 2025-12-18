@@ -217,6 +217,7 @@
     @apply bg-transparent
       transition-shadow
       ease-in-out;
+    background-color: var(--calcite-internal-action-transparent-background-color, transparent);
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
