@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.35...@esri/calcite-components@5.0.0-next.36) (2025-12-18)
+
+### Bug Fixes
+
+- **action:** drop extra opacity styles when disabled ([#13510](https://github.com/Esri/calcite-design-system/issues/13510)) ([0f375d0](https://github.com/Esri/calcite-design-system/commit/0f375d0fc6d6af0b4e08c947cf4f43f0636a0119)), closes [#12601](https://github.com/Esri/calcite-design-system/issues/12601)
+
+## [5.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.34...@esri/calcite-components@5.0.0-next.35) (2025-12-18)
+
+### Bug Fixes
+
+- update initial floating-ui styles to handle RTL top-layer positioning ([#13489](https://github.com/Esri/calcite-design-system/issues/13489)) ([73442ca](https://github.com/Esri/calcite-design-system/commit/73442caa8ad485b25e1024c981ccfc4268769f93))
+
+## [5.0.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.33...@esri/calcite-components@5.0.0-next.34) (2025-12-18)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.32...@esri/calcite-components@5.0.0-next.33) (2025-12-17)
+
+### Features
+
+- **list, list-item:** update action slot spacing for 5.0 ([#13463](https://github.com/Esri/calcite-design-system/issues/13463)) ([73bddc3](https://github.com/Esri/calcite-design-system/commit/73bddc3491b4d7d2d6fd8872d3c0b7551a5313ac)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777)
+- **tile:** add headingLevel property ([#13501](https://github.com/Esri/calcite-design-system/issues/13501)) ([a5f56b3](https://github.com/Esri/calcite-design-system/commit/a5f56b3e12a4a631e326a8763191c01a341326c5)), closes [#12460](https://github.com/Esri/calcite-design-system/issues/12460)
+
+## [5.0.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.31...@esri/calcite-components@5.0.0-next.32) (2025-12-17)
+
+### Bug Fixes
+
+- **action:** remove text color change for loading state ([#13498](https://github.com/Esri/calcite-design-system/issues/13498)) ([52311c0](https://github.com/Esri/calcite-design-system/commit/52311c0bbd89fb5f4e9f936ee80bd2c1bab1c0e2)), closes [#12601](https://github.com/Esri/calcite-design-system/issues/12601)
+
+## [5.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.30...@esri/calcite-components@5.0.0-next.31) (2025-12-17)
+
+### Bug Fixes
+
+- **input-time-picker, time-picker:** align time display closer to the browser's intended format ([#13372](https://github.com/Esri/calcite-design-system/issues/13372)) ([7d24300](https://github.com/Esri/calcite-design-system/commit/7d2430013ff1915bdcbac8607884ec7b9cd6e5ca)), closes [#12723](https://github.com/Esri/calcite-design-system/issues/12723) [#13355](https://github.com/Esri/calcite-design-system/issues/13355)
+
+## [5.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.29...@esri/calcite-components@5.0.0-next.30) (2025-12-16)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.28...@esri/calcite-components@5.0.0-next.29) (2025-12-16)
+
+### Features
+
+- **chip:** update to Action 5 spacing ([#13445](https://github.com/Esri/calcite-design-system/issues/13445)) ([ecd6d53](https://github.com/Esri/calcite-design-system/commit/ecd6d535fd9d62c798e411a99b05f4e8d126065b)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777)
+
 ## [5.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.27...@esri/calcite-components@5.0.0-next.28) (2025-12-15)
 
 ### Bug Fixes
