@@ -20,12 +20,14 @@ const template = html`
       </calcite-dropdown-group>
     </calcite-dropdown>
 
-    <div>
-      <calcite-link id="tooltip-button">Tooltip</calcite-link>
-      <calcite-tooltip reference-element="tooltip-button" placement="bottom-end" open>
-        <span>Test</span>
-      </calcite-tooltip>
-    </div>
+    <br />
+
+    <calcite-link id="tooltip-button">Tooltip</calcite-link>
+    <calcite-tooltip reference-element="tooltip-button" placement="bottom-end" open>
+      <span>Test</span>
+    </calcite-tooltip>
+
+    <br />
 
     <calcite-popover heading="Popover" reference-element="popover-button" closable open placement="bottom-start">
       <p>content</p>
@@ -41,6 +43,10 @@ export const ltrPositioning = (): HTMLElement => {
   return container;
 };
 
+ltrPositioning.globals = {
+  addonRtl: "ltr",
+};
+
 export const rtlPositioning = (): HTMLElement => {
   const container = document.createElement("div");
   container.innerHTML = template;
@@ -52,4 +58,8 @@ export const rtlPositioning = (): HTMLElement => {
   document.body.dir = "rtl";
 
   return container;
+};
+
+rtlPositioning.globals = {
+  addonRtl: "rtl",
 };
