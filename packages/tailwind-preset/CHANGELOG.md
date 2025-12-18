@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.1.0-next.0...@esri/calcite-tailwind-preset@1.1.0-next.1) (2025-12-18)
+
+**Note:** Version bump only for package @esri/calcite-tailwind-preset
+
+## [1.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.2-next.14...@esri/calcite-tailwind-preset@1.1.0-next.0) (2025-12-16)
+
+### Features
+
+- **tailwind:** switch text utils to use line-height token CSS props ([#12842](https://github.com/Esri/calcite-design-system/issues/12842)) ([0721c0c](https://github.com/Esri/calcite-design-system/commit/0721c0c98173b28df5337bcb1fcf0f3c4baccc46)), closes [#11555](https://github.com/Esri/calcite-design-system/issues/11555)
+
 ## [1.0.2-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-tailwind-preset@1.0.2-next.13...@esri/calcite-tailwind-preset@1.0.2-next.14) (2025-12-10)
 
 **Note:** Version bump only for package @esri/calcite-tailwind-preset

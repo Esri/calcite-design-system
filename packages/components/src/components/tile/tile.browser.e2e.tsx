@@ -29,6 +29,7 @@ describe("calcite-tile", () => {
         { propertyName: "selected", defaultValue: false },
         { propertyName: "selectionAppearance", defaultValue: "icon" },
         { propertyName: "selectionMode", defaultValue: "none" },
+        { propertyName: "headingLevel", defaultValue: undefined },
       ],
     );
   });
@@ -58,6 +59,7 @@ describe("calcite-tile", () => {
         { propertyName: "selected", value: true },
         { propertyName: "selectionAppearance", value: "border" },
         { propertyName: "selectionMode", value: "single-persist" },
+        { propertyName: "headingLevel", value: 2 },
       ],
     );
   });

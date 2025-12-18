@@ -464,6 +464,13 @@ export const disabled_TestOnly = (): string =>
     </calcite-combobox-item>
   </calcite-combobox>`;
 
+export const placement = (): string =>
+  html`<calcite-combobox placement="top-start" open>
+    <calcite-combobox-item value="1" heading="one" icon="number-circle-1"></calcite-combobox-item>
+    <calcite-combobox-item value="2" heading="two" icon="number-circle-2"></calcite-combobox-item>
+    <calcite-combobox-item value="3" heading="three" icon="number-circle-3"></calcite-combobox-item>
+  </calcite-combobox>`;
+
 export const flipPlacements_TestOnly = (): string => html`
   <style>
     .my-combobox {
