@@ -1,17 +1,6 @@
-import { withThemeByClassName } from "@storybook/addon-themes";
-import { CSS_UTILITY } from "../src/utils/resources";
 import { Scale } from "../src/components/interfaces";
 import { html } from "../support/formatting";
 import { Breakpoints } from "../src/utils/responsive";
-
-export const themeDecorator = withThemeByClassName({
-  themes: {
-    auto: CSS_UTILITY.autoMode,
-    light: CSS_UTILITY.lightMode,
-    dark: CSS_UTILITY.darkMode,
-  },
-  defaultTheme: "light",
-});
 
 export const modesDarkDefault = {
   themeOverride: "dark",
