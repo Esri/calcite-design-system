@@ -604,12 +604,11 @@ export class InputDatePicker
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled || this.readOnly) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
   }
 

@@ -27,7 +27,6 @@ import {
   disconnectFloatingUI,
   reposition,
 } from "../../utils/floating-ui";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -539,8 +538,6 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (!this.open) {
       this.activeIndex = -1;
     }

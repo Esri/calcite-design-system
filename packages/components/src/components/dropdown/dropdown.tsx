@@ -316,12 +316,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
   }
 
