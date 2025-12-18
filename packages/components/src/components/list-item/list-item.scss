@@ -14,10 +14,28 @@
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-list-action-spacing
+
 @use "../../styles/includes";
 
 :host {
   @apply flex flex-col;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
 :host([filter-hidden]),
@@ -164,6 +182,12 @@
   }
 }
 
+.actions-start,
+.actions-end {
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
+  gap: var(--calcite-internal-list-action-spacing);
+}
+
 :host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
   .drag-container {
     padding-inline-end: var(--calcite-spacing-xxs);
@@ -197,11 +221,29 @@
   }
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
+  .drag-container {
+    margin-inline: var(--calcite-internal-list-action-spacing);
+  }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
+:host(
+  [scale="s"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
+      [selection-mode="multiple"],
+      [selection-mode="single"]
+    )
+) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
+}
 :host([scale="s"][display-mode="nested"]) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
@@ -220,9 +262,6 @@
   }
 }
 :host([scale="m"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     min-block-size: 40px;
@@ -249,6 +288,9 @@
   }
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
+  .drag-container {
+    margin-inline: var(--calcite-internal-list-action-spacing);
+  }
   .container {
     padding-inline-start: 0;
   }
@@ -256,7 +298,22 @@
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
+:host(
+  [scale="m"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
+      [selection-mode="multiple"],
+      [selection-mode="single"]
+    )
+) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
+}
 :host([scale="m"][display-mode="nested"]) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
   }
@@ -278,9 +335,6 @@
   }
 }
 :host([scale="l"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-md);
-  }
   .content-container {
     gap: var(--calcite-spacing-md);
     min-block-size: 56px;
@@ -308,6 +362,9 @@
   }
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
+  .drag-container {
+    margin-inline: var(--calcite-internal-list-action-spacing);
+  }
   .container {
     padding-inline-start: 0;
   }
@@ -315,7 +372,22 @@
     padding-inline-end: var(--calcite-spacing-md);
   }
 }
+:host(
+  [scale="s"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
+      [selection-mode="multiple"],
+      [selection-mode="single"]
+    )
+) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
+}
 :host([scale="l"][display-mode="nested"]) {
+  .drag-container {
+    margin-block: 0;
+    margin-inline: var(--calcite-internal-list-action-spacing) 0;
+  }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
   }
@@ -392,13 +464,9 @@
 .content-end,
 .selection-container,
 .drag-container,
-.expanded-container {
+.expanded-container,
+.close {
   @apply flex items-center;
-
-  calcite-action,
-  calcite-sort-handle {
-    @apply self-stretch;
-  }
 }
 
 .drag-container,
@@ -449,6 +517,16 @@
 
 ::slotted(calcite-list:empty) {
   @apply border-t-0;
+}
+
+.drag-container,
+.actions-start,
+.actions-end,
+.close {
+  calcite-action,
+  ::slotted(calcite-action) {
+    @apply self-stretch items-center;
+  }
 }
 
 @include includes.base-component();
