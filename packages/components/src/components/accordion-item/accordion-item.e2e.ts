@@ -122,6 +122,16 @@ describe("calcite-accordion-item", () => {
                 targetProp: "color",
               },
             ],
+            "--calcite-ui-icon-color": [
+              {
+                shadowSelector: `.${CSS.iconStart}`,
+                targetProp: "color",
+              },
+              {
+                shadowSelector: `.${CSS.iconEnd}`,
+                targetProp: "color",
+              },
+            ],
           },
         );
       });
