@@ -53,6 +53,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -547,6 +548,7 @@ export class Autocomplete
       return;
     }
 
+    toggleOpenClose(this);
     this.setFloatingElSize();
     this.reposition(true);
   }
