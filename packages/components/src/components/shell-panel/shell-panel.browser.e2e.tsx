@@ -81,8 +81,8 @@ describe("calcite-shell-panel", () => {
 
         const panel = el.querySelector("calcite-shell-panel")!;
 
-        const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`);
-        const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`);
+        const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
+        const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
 
         panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
         await component.updateComplete;
@@ -150,8 +150,8 @@ describe("calcite-shell-panel", () => {
         const panel = el.querySelector("calcite-shell-panel")!;
         expect(panel).toBeTruthy();
 
-        const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`);
-        const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`);
+        const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
+        const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
         expect(content).toBeTruthy();
         expect(handle).toBeTruthy();
 
