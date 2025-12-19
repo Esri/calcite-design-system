@@ -539,13 +539,13 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    if (!this.open) {
-      this.activeIndex = -1;
-    }
-
     if (this.disabled) {
       this.open = false;
       return;
+    }
+
+    if (!this.open) {
+      this.activeIndex = -1;
     }
 
     toggleOpenClose(this);
