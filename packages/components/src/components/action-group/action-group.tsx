@@ -168,7 +168,11 @@ export class ActionGroup extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (this.hasUpdated || changes.has("selectionMode")) {
-      this.setRoleOnActions();
+      if (this.selectionMode !== "none") {
+        this.setRoleOnActions();
+      } else if (this.selectionMode === "none") {
+        this.clearActionAriaAttributes();
+      }
     }
 
     if (changes.has("expanded")) {
@@ -234,16 +238,18 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    this.actions?.forEach((action) => {
-      action.aria = {
-        ...action.aria,
-        role:
-          this.selectionMode === "single" || this.selectionMode === "single-persist"
-            ? "radio"
-            : "checkbox",
-      };
-      this.setActionAriaChecked(action, action.active);
-    });
+    if (this.selectionMode !== "none") {
+      this.actions?.forEach((action) => {
+        action.aria = {
+          ...action.aria,
+          role:
+            this.selectionMode === "single" || this.selectionMode === "single-persist"
+              ? "radio"
+              : "checkbox",
+        };
+        this.setActionAriaChecked(action, action.active);
+      });
+    }
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {
@@ -251,6 +257,18 @@ export class ActionGroup extends LitElement {
       ...action.aria,
       checked: checked ? "true" : "false",
     };
+  }
+
+  private clearActionAriaAttributes(): void {
+    if (this.selectionMode === "none") {
+      this.actions?.forEach((action) => {
+        if (action.aria) {
+          delete action.aria.checked;
+          delete action.aria.role;
+          action.aria = { ...action.aria };
+        }
+      });
+    }
   }
 
   //#endregion
