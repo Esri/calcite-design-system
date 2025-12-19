@@ -103,8 +103,9 @@ export class SortableList extends LitElement implements SortableComponent {
 
   load(): void {
     logger.deprecated("component", {
+      component: this,
       name: "sortable-list",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "block-group",
     });
   }

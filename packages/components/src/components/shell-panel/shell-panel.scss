@@ -6,7 +6,7 @@
  * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
  * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
- * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
@@ -124,6 +124,21 @@
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
+}
+
+:host([display-mode="float-all"][height="s"]),
+:host([display-mode="float-all"][height-scale="s"]) .content {
+  block-size: var(--calcite-shell-panel-height, 20vh);
+}
+
+:host([display-mode="float-all"][height="m"]),
+:host([display-mode="float-all"][height-scale="m"]) .content {
+  block-size: var(--calcite-shell-panel-height, 30vh);
+}
+
+:host([display-mode="float-all"][height="l"]),
+:host([display-mode="float-all"][height-scale="l"]) .content {
+  block-size: var(--calcite-shell-panel-height, 40vh);
 }
 
 .container {

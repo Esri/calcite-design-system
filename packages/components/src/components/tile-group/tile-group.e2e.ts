@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { createSelectedItemsAsserter, findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { TileGroup } from "./tile-group";
@@ -47,17 +47,6 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
     });
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html` <calcite-tile-group>
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-        <calcite-tile></calcite-tile>
-      </calcite-tile-group>`,
-      { focusTarget: "child" },
-    );
   });
 
   describe("keyboard", () => {

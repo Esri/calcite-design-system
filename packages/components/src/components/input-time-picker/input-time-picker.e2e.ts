@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -19,7 +19,11 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Pro
   const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.innerText || "";
   const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.innerText || "";
   const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.innerText || "";
-  const minuteSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.minuteSuffix}`))?.innerText || "";
+  const minuteSuffix =
+    (await page.find(`calcite-input-time-picker >>> .${CSS.minuteSuffix}`))?.innerText.replaceAll(
+      whitespaceRegexPattern,
+      "",
+    ) || "";
   const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.innerText || "";
   const decimalSeparator = (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.innerText || "";
   const fractionalSecond = (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.innerText || "";
@@ -67,10 +71,6 @@ describe("calcite-input-time-picker", () => {
         shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
       });
     });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-time-picker");
   });
 
   it("resets initial value to empty when it is not a valid time value", async () => {
@@ -467,10 +467,11 @@ describe("calcite-input-time-picker", () => {
       it("value displays correctly in the input when it is directly changed for arabic lang and arab numberingSystem", async () => {
         const locale = "ar";
         const numberingSystem = "arab";
+        const step = 1;
 
         const page = await newE2EPage();
         await page.setContent(
-          `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`,
+          `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="${step}"></calcite-input-time-picker>`,
         );
 
         const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -481,7 +482,7 @@ describe("calcite-input-time-picker", () => {
         date.setSeconds(59);
 
         const expectedValue = date.toISOString().substr(11, 8);
-        const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
+        const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem, step });
 
         inputTimePicker.setProperty("value", expectedValue);
         await page.waitForChanges();
@@ -1089,10 +1090,11 @@ describe("calcite-input-time-picker", () => {
 
         it("directly changing the value updates the displayed value and does not emit a change event", async () => {
           const numberingSystem = "latn";
+          const step = 1;
 
           const page = await newE2EPage();
           await page.setContent(
-            `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`,
+            `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="${step}"></calcite-input-time-picker>`,
           );
 
           const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -1103,7 +1105,7 @@ describe("calcite-input-time-picker", () => {
             date.setSeconds(second);
 
             const expectedValue = date.toISOString().substr(11, 8);
-            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
+            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem, step });
 
             inputTimePicker.setProperty("value", expectedValue);
             await page.waitForChanges();
@@ -1120,7 +1122,7 @@ describe("calcite-input-time-picker", () => {
             date.setMinutes(minute);
 
             const expectedValue = date.toISOString().substr(11, 8);
-            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
+            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem, step });
 
             inputTimePicker.setProperty("value", expectedValue);
 
@@ -1138,7 +1140,7 @@ describe("calcite-input-time-picker", () => {
             date.setHours(hour);
 
             const expectedValue = date.toISOString().substr(11, 8);
-            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
+            const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem, step });
 
             inputTimePicker.setProperty("value", expectedValue);
 

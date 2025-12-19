@@ -1,6 +1,13 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-combobox-item", () => {
@@ -18,7 +25,6 @@ describe("calcite-combobox-item", () => {
         { propertyName: "label", defaultValue: undefined },
         { propertyName: "selected", defaultValue: false },
         { propertyName: "shortHeading", defaultValue: undefined },
-        { propertyName: "textLabel", defaultValue: undefined },
         { propertyName: "value", defaultValue: undefined },
       ],
     );
@@ -48,5 +54,9 @@ describe("calcite-combobox-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-combobox-item"), SLOTS, true);
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-combobox-item"), { focusTarget: "none" });
   });
 });

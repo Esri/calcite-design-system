@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -25,20 +25,6 @@ describe("calcite-radio-button", () => {
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked",
-    });
-  });
-
-  describe("disabled", () => {
-    mockConsole();
-
-    disabled("calcite-radio-button", {
-      focusTarget: {
-        tab: "calcite-radio-button",
-        click: {
-          pointer: "calcite-radio-button",
-          method: "calcite-radio-button",
-        },
-      },
     });
   });
 

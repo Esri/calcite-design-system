@@ -298,16 +298,24 @@ export class AccordionItem extends LitElement {
   //#region Rendering
 
   private renderActionsStart(): JsxNode {
+    const { hasActionsStart } = this;
     return (
-      <div class={CSS.actionsStart} hidden={!this.hasActionsStart}>
+      <div
+        class={{ [CSS.actionsStart]: true, [CSS.hasActions]: hasActionsStart }}
+        hidden={!hasActionsStart}
+      >
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
       </div>
     );
   }
 
   private renderActionsEnd(): JsxNode {
+    const { hasActionsEnd } = this;
     return (
-      <div class={CSS.actionsEnd} hidden={!this.hasActionsEnd}>
+      <div
+        class={{ [CSS.actionsEnd]: true, [CSS.hasActions]: hasActionsEnd }}
+        hidden={!hasActionsEnd}
+      >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
       </div>
     );

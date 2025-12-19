@@ -5,7 +5,7 @@ import { html } from "../../../support/formatting";
 import { accessible, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
-import { CSS as XButtonCSS } from "../functional/XButton";
+import { CSS as TabTitleCSS } from "../tab-title/resources";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -324,7 +324,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should emit tab change events when closing affects selected tab", async () => {
-      await page.click(`#tab-title-4 >>> .${XButtonCSS.button}`);
+      await page.click(`#tab-title-4 >>> .${TabTitleCSS.close}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(1);
@@ -342,7 +342,7 @@ describe("calcite-tabs", () => {
     });
 
     it("should NOT emit tab change events when closing does not affect selected tab", async () => {
-      await page.click(`#tab-title-1 >>> .${XButtonCSS.button}`);
+      await page.click(`#tab-title-1 >>> .${TabTitleCSS.close}`);
       await page.waitForChanges();
 
       expect(tabsActivateSpy).toHaveReceivedEventTimes(0);
@@ -376,7 +376,7 @@ describe("calcite-tabs", () => {
 
       const tab2 = await page.find("#tab-title-2");
 
-      await page.click(`#tab-title-1 >>> .${XButtonCSS.button}`);
+      await page.click(`#tab-title-1 >>> .${TabTitleCSS.close}`);
       await tab2.click();
       await page.waitForChanges();
 
@@ -388,11 +388,11 @@ describe("calcite-tabs", () => {
     describe("hiding/displaying X", () => {
       it("should hide x when tabs 2 to 4 closed and display x closable tab added", async () => {
         for (let i = 2; i <= 4; ++i) {
-          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
+          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
         }
         let tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeNull();
+        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.close}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -402,16 +402,16 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab1 = await page.find(`#tab-title-1`);
         expect(await tab1.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-1 >>> .${XButtonCSS.button}`)).toBeDefined();
+        expect(await page.find(`#tab-title-1 >>> .${TabTitleCSS.close}`)).toBeDefined();
       });
 
       it("should hide x when tabs 1 to 3 closed and display x when closable tab added", async () => {
         for (let i = 1; i <= 3; ++i) {
-          await page.click(`#tab-title-${i} >>> .${XButtonCSS.button}`);
+          await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
         }
         let tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(false);
-        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeNull();
+        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeNull();
 
         await page.evaluate(() => {
           document
@@ -421,7 +421,7 @@ describe("calcite-tabs", () => {
         await page.waitForChanges();
         tab4 = await page.find(`#tab-title-4`);
         expect(await tab4.getProperty("closable")).toBe(true);
-        expect(await page.find(`#tab-title-4 >>> .${XButtonCSS.button}`)).toBeDefined();
+        expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
       });
     });
 
@@ -441,7 +441,7 @@ describe("calcite-tabs", () => {
       const allExceptLast = allTabTitles.slice(0, 3);
 
       for (const tabTitle of allExceptLast) {
-        const closeButton = await tabTitle.find(`:scope >>> .${XButtonCSS.button}`);
+        const closeButton = await tabTitle.find(`:scope >>> .${TabTitleCSS.close}`);
         await closeButton.click();
         await tabCloseSpy.next();
       }

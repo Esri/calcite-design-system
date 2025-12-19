@@ -199,8 +199,9 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -868,7 +869,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
         {closable ? (
           <calcite-action
-            appearance="transparent"
             class={CSS.close}
             icon={ICONS.close}
             key="close-action"

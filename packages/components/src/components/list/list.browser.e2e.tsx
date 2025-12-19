@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   t9n,
+  disabled,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-list", () => {
@@ -125,5 +126,17 @@ describe("calcite-list", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-list"));
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-list>
+            <calcite-list-item description="hello world" label="test" />
+          </calcite-list>,
+        ),
+      { focusTarget: "child" },
+    );
   });
 });

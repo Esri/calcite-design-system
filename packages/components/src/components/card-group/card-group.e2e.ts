@@ -2,15 +2,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed, focusable } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-card-group", () => {
-  describe("disabled", () => {
-    disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", { focusTarget: "none" });
-  });
-
   describe("focusable", () => {
     focusable(
       html` <calcite-card-group>

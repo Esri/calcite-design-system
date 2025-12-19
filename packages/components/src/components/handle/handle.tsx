@@ -138,8 +138,9 @@ export class Handle extends LitElement {
 
   loaded(): void {
     logger.deprecated("component", {
+      component: this,
       name: "handle",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "sort-handle",
     });
   }

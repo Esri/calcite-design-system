@@ -14,6 +14,7 @@ const resources = {
       designTokens: "design-tokens",
       docs: "docs",
       enhancement: "enhancement",
+      i18nL10n: "i18n-l10n",
       newComponent: "new component",
       perf: "perf",
       refactor: "refactor",

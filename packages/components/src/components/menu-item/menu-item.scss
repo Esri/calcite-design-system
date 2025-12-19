@@ -46,6 +46,13 @@
   @apply flex flex-row w-full h-full items-stretch;
 }
 
+.item-content {
+  background-color: var(
+    --calcite-menu-background-color,
+    var(--calcite-internal-menu-background-color, var(--calcite-color-foreground-1))
+  );
+}
+
 .content {
   @apply flex
   items-center
@@ -167,22 +174,18 @@
   @apply pe-3;
 }
 
-calcite-action {
-  @apply relative h-auto;
-  border-inline-start: 1px solid var(--calcite-color-foreground-1);
+.dropdown-action {
+  @apply relative self-center;
   --calcite-action-background-color: var(--calcite-menu-background-color);
   --calcite-action-text-color: var(--calcite-menu-text-color);
+  margin-inline-start: var(--calcite-spacing-xxs);
 
   &::after {
-    @apply block w-px  absolute -start-px;
+    @apply block w-px  absolute;
     content: "";
-    inset-block: theme("spacing.3");
+    inset-inline-start: calc(-1 * var(--calcite-spacing-xxs));
+    inset-block: var(--calcite-spacing-xxs);
     background-color: var(--calcite-color-border-3);
-  }
-
-  &:hover::after {
-    @apply h-full;
-    inset-block: 0;
   }
 
   &:active {
@@ -190,15 +193,8 @@ calcite-action {
   }
 }
 
-// extends the broder block of calcite action when hovered on content
-.content:focus ~ calcite-action,
-.content:hover ~ calcite-action {
-  --calcite-action-text-color: var(--calcite-menu-text-color, var(--calcite-color-text-1));
-
-  &::after {
-    @apply h-full;
-    inset-block: 0;
-  }
+:host([layout="vertical"]) .dropdown-action {
+  margin-inline-end: var(--calcite-spacing-xxs);
 }
 
 .dropdown-menu-items {

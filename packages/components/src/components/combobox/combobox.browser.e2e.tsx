@@ -1,9 +1,19 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, floatingUIOwner, t9n } from "../../tests/commonTests/browser";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  floatingUIOwner,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
@@ -32,6 +42,10 @@ describe("calcite-combobox", () => {
         {
           propertyName: "overlayPositioning",
           defaultValue: "absolute",
+        },
+        {
+          propertyName: "placement",
+          defaultValue: defaultMenuPlacement,
         },
         {
           propertyName: "scale",
@@ -91,6 +105,10 @@ describe("calcite-combobox", () => {
           value: "banana",
         },
         {
+          propertyName: "placement",
+          value: "auto",
+        },
+        {
           propertyName: "placeholderIconFlipRtl",
           value: true,
         },
@@ -135,9 +153,9 @@ describe("calcite-combobox", () => {
       () =>
         mount(
           <calcite-combobox>
-            <calcite-combobox-item icon="banana" id="one" text-label="One" value="one" />
-            <calcite-combobox-item icon="beaker" id="two" selected text-label="Two" value="two" />
-            <calcite-combobox-item id="three" text-label="Three" value="three" />
+            <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
+            <calcite-combobox-item heading="Two" icon="beaker" id="two" selected value="two" />
+            <calcite-combobox-item heading="Three" id="three" value="three" />
           </calcite-combobox>,
         ),
       "open",
@@ -147,5 +165,29 @@ describe("calcite-combobox", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-combobox"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-combobox"), {
+      focusTarget: {
+        tab: "calcite-combobox",
+        click: {
+          pointer: "calcite-combobox",
+          method: "calcite-combobox",
+        },
+      },
+    });
+  });
+
+  it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
+    await mount(
+      <calcite-combobox label="Fruits">
+        <calcite-combobox-item heading="Apple" />
+        <calcite-combobox-item heading="Fallback Heading" />
+      </calcite-combobox>,
+    );
+    const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
+    expect(item1.getAttribute("aria-label")).toBe("Apple");
+    expect(item2.getAttribute("value")).toBe("Fallback Heading");
   });
 });

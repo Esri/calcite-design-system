@@ -3,6 +3,7 @@ import { CamelCase, ReadonlyTuple } from "type-fest";
 
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
+export type Axis = "inline" | "block";
 export interface Dimensions {
   width: number;
   height: number;

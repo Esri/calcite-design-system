@@ -32,7 +32,7 @@ import { setAssetPath } from "@esri/calcite-components/dist/components";
 setAssetPath(window.location.href);
 
 // CDN hosted assets
-// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/cdn/assets");
 ```
 
 Next, import the components used in your application:
@@ -47,18 +47,12 @@ import "@esri/calcite-components/dist/components/calcite-slider";
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
-Lastly, import the global Calcite components stylesheet (only do this once):
-
-```ts
-import "@esri/calcite-components/dist/calcite/calcite.css";
-```
-
 ### Copy the assets
 
 Calcite components' assets need to be copied from `node_modules` to your application (unless you use a CDN). This example leverages the [`vite-plugin-static-copy`](https://github.com/sapphi-red/vite-plugin-static-copy) package. Alternatively, you could use a CLI tool to copy the assets on `postinstall`. For example:
 
 ```sh
-cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public
+cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public
 ```
 
 ## Why not use the web components directly?

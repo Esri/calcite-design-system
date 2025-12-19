@@ -33,7 +33,6 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -499,14 +498,12 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
-          appearance="transparent"
           class={CSS.closeButton}
+          icon="x"
           onClick={this.hide}
           scale={this.scale}
           text={messages.close}
-        >
-          <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-        </calcite-action>
+        />
       </div>
     ) : null;
   }
