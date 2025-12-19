@@ -19,6 +19,7 @@
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "test": "vitest run",
+    "test:ci": "npm test",
     "test:watch": "vitest",
     "clean": "rimraf node_modules dist .turbo",
     "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
