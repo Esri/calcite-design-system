@@ -3,12 +3,14 @@ import { html } from "../../support/formatting";
 export const noticeTokens = {
   calciteNoticeBackgroundColor: "",
   calciteNoticeBorderColor: "",
+  calciteNoticeCloseBackgroundColor: "",
   calciteNoticeCloseBackgroundColorFocus: "",
   calciteNoticeCloseBackgroundColorPress: "",
   calciteNoticeCloseTextColorHover: "",
   calciteNoticeCloseTextColor: "",
   calciteNoticeCloseIconColorHover: "",
   calciteNoticeCloseIconColor: "",
+  calciteNoticeCornerRadius: "",
   calciteNoticeTitleTextColor: "",
   calciteNoticeContentTextColor: "",
 };
