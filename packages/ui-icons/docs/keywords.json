@@ -4923,12 +4923,6 @@
     "release": "3.16.2",
     "codepoint": 60153
   },
-  "effects": {
-    "alias": ["3.16.3", "objects", "flash", "sparkles", "filters", "stars", "constellations", "flashy", "shiny"],
-    "category": "Objects",
-    "release": "3.16.3",
-    "codepoint": 59437
-  },
   "open-book": {
     "alias": ["3.16.4", "learning", "reading", "story", "bookmark", "literature", "objects"],
     "category": "Objects",
@@ -9512,7 +9506,19 @@
     "codepoint": 60131
   },
   "effects": {
-    "alias": ["3.27.4", "objects", "ai", "sparkle", "system", "machine learning"],
+    "alias": [
+      "3.27.4",
+      "objects",
+      "ai",
+      "sparkle",
+      "system",
+      "flash",
+      "stars",
+      "constellations",
+      "flashy",
+      "shiny",
+      "machine learning"
+    ],
     "category": "Objects",
     "release": "3.27.1"
   },
@@ -11015,12 +11021,6 @@
     "release": "4.2.0",
     "codepoint": null
   },
-  "spike-data-visualization-outlined-open": {
-    "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
-    "category": "Generic",
-    "release": "4.2.0",
-    "codepoint": 61759
-  },
   "spike-data-visualization-outlined-open-color-locked": {
     "alias": ["4.2.0", "generic", "display", "raster", "interactive", "data", "shape", "color"],
     "category": "Generic",
@@ -11046,9 +11046,10 @@
     "codepoint": null
   },
   "spike-data-visualization-outlined-open": {
-    "alias": ["4.2.1", "generic", "display", "raster", "data", "interactive"],
+    "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data", "outlined", "shape", "open"],
     "category": "Generic",
-    "release": "4.2.1"
+    "release": "4.2.1",
+    "codepoint": 61759
   },
   "spike-data-visualization-outlined-open-gradient": {
     "alias": ["4.2.1", "generic", "display", "raster", "interactive", "data"],
@@ -11532,5 +11533,11 @@
     "category": "Forms",
     "release": "4.4.0",
     "codepoint": 61837
+  },
+  "file-esl": {
+    "alias": ["4.4.0", "files", "sensing", "image-analysis", "content", "tool", "collections"],
+    "category": "Files",
+    "release": "4.4.0",
+    "codepoint": 61838
   }
 }
