@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.37...@esri/calcite-components@5.0.0-next.38) (2025-12-19)
+
+### Features
+
+- **shell-panel:** improve layout and height functionalities for float all display mode ([#13517](https://github.com/Esri/calcite-design-system/issues/13517)) ([3c02440](https://github.com/Esri/calcite-design-system/commit/3c02440999ad8779255a0785573653d3280aa43e)), closes [#13448](https://github.com/Esri/calcite-design-system/issues/13448)
+
 ## [5.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.36...@esri/calcite-components@5.0.0-next.37) (2025-12-18)
 
 ### Features
