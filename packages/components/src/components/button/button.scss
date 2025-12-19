@@ -595,7 +595,6 @@
 :host([appearance="transparent"]:not(.enable-editing-button)) {
   button,
   a {
-    background-color: var(--calcite-color-transparent);
     &:hover {
       background-color: var(--calcite-color-transparent-hover);
     }
