@@ -326,6 +326,7 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
 export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
+
 export const slottedItemsStretched = (): string => html`
   <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">
@@ -364,6 +365,23 @@ export const withContentStartAndEnd = (): string => html`
     </calcite-accordion-item>
     <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
+      <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+    </calcite-accordion-item>
+  </calcite-accordion>
+`;
+
+export const useDeprecatedIconColor = (): string => html`
+  <calcite-accordion style="--calcite-ui-icon-color: red">
+    <calcite-accordion-item
+      description="Yachts, boats, and dinghies"
+      heading="Watercraft"
+      icon-start="banana"
+      icon-end="banana"
+    >
+      ${accordionItemContent}
+      <calcite-action slot="actions-start" icon="banana" label="Paint"></calcite-action>
+      <calcite-action slot="actions-end" icon="banana" label="Paint"></calcite-action>
       <calcite-icon slot="content-start" icon="banana"></calcite-icon>
       <calcite-icon slot="content-end" icon="banana"></calcite-icon>
     </calcite-accordion-item>
