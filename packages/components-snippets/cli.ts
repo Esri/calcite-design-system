@@ -2,6 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import type { Dirent } from "node:fs";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import select from "@inquirer/select";
@@ -356,7 +357,15 @@ async function run(): Promise<void> {
   console.log(`Updated ${indexHtmlPath} with snippet(s) from ${selectedComponentName}: ${snippetNames.join(", ")}`);
 }
 
-run().catch((error) => {
+try {
+  await run();
+} catch (error) {
+  const userCancelled = error && typeof error === "object" && "name" in error && error.name === "ExitPromptError";
+
+  if (userCancelled) {
+    process.exit(130);
+  }
+
   console.error(error);
   process.exit(1);
-});
+}
