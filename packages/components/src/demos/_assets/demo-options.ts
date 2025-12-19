@@ -47,10 +47,6 @@ class DemoOptions extends HTMLElement {
     return this.shadowRoot!.getElementById("toggle-dom")!;
   }
 
-  get closeHeaderAction(): HTMLElement {
-    return this.shadowRoot!.getElementById("close-header")!;
-  }
-
   get demoHeading(): HTMLElement {
     return this.shadowRoot!.getElementById("demo-heading")!;
   }
@@ -69,14 +65,12 @@ class DemoOptions extends HTMLElement {
     this.toggleDirSwitch.addEventListener("calciteSwitchChange", this.handleToggleDir);
     this.toggleModeSwitch.addEventListener("calciteSwitchChange", this.handleToggleMode);
     this.toggleDomSwitch.addEventListener("calciteSwitchChange", this.handleToggleDom);
-    this.closeHeaderAction.addEventListener("click", this.handleCloseHeader);
   }
 
   removeEventListeners(): void {
     this.toggleDirSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleDir);
     this.toggleModeSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleMode);
     this.toggleDomSwitch?.removeEventListener("calciteSwitchChange", this.handleToggleDom);
-    this.closeHeaderAction?.removeEventListener("click", this.handleCloseHeader);
   }
 
   handleToggleDir = (): void => {
@@ -85,12 +79,6 @@ class DemoOptions extends HTMLElement {
 
   handleToggleMode = (): void => {
     document.body.classList.toggle("calcite-mode-dark");
-  };
-
-  handleCloseHeader = (): void => {
-    const url: URL = new URL(window.location.href);
-    url.searchParams.set("header-disabled", "");
-    window.location.search = url.search;
   };
 
   handleToggleDom = (event: Event): void => {
