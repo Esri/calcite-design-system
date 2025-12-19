@@ -233,6 +233,24 @@ describe("calcite-action", () => {
   });
 
   describe("themed", () => {
+    describe("transparent", () => {
+      themed(html`<calcite-action appearance="transparent"></calcite-action>`, {
+        "--calcite-action-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-background-color-hover": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-action-background-color-press": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.button } },
+        },
+      });
+    });
     describe("solid", () => {
       themed(html`<calcite-action appearance="solid"></calcite-action>`, {
         "--calcite-action-background-color": {
