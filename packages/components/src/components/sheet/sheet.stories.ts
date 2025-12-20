@@ -137,31 +137,31 @@ export const resizableLoremIpsum = (): string =>
     Cras volutpat eros in velit euismod, at accumsan velit pulvinar.
   </calcite-sheet>`;
 
-export const inlineStartFloat_TestOnly = (): string =>
+export const inlineStartFloat = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const blockStartFloat_TestOnly = (): string =>
+export const blockStartFloat = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const inlineStart_TestOnly = (): string =>
+export const inlineStart = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
-export const inlineEnd_TestOnly = (): string =>
+export const inlineEnd = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-end">${panelHTML}</calcite-sheet>`;
 
-export const blockStart_TestOnly = (): string =>
+export const blockStart = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
 
-export const blockEnd_TestOnly = (): string =>
+export const blockEnd = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-end">${panelHTML}</calcite-sheet>`;
 
-export const darkModeFloatRTL_TestOnly = (): string =>
+export const darkModeFloatRTL = (): string =>
   html`<div dir="rtl">
     <calcite-sheet label="libero nunc" open position="inline-start" display-mode="float">${panelHTML}</calcite-sheet>
   </div>`;
 
-darkModeFloatRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeFloatRTL.parameters = { themes: modesDarkDefault };

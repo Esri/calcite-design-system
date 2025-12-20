@@ -675,7 +675,7 @@ export const allVariants = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile heading lorem ipsum"
@@ -686,16 +686,16 @@ export const darkModeRTL_TestOnly = (): string => html`
   >
   </calcite-tile>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const contentTopButton_TestOnly = (): string => html`
+export const contentTopButton = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
     <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const contentTopFullWidth_TestOnly = (): string => html`
+export const contentTopFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -721,7 +721,7 @@ export const contentTopFullWidth_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const contentBottomFullWidth_TestOnly = (): string => html`
+export const contentBottomFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -747,14 +747,14 @@ export const contentBottomFullWidth_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const contentStartRTL_TestOnly = (): string => html`
+export const contentStartRTL = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const overflowingContent_TestOnly = (): string => html`
+export const overflowingContent = (): string => html`
   <calcite-tile
     icon="2d-explore"
     heading="Example long tile heading........................................................................................................................"
@@ -763,7 +763,7 @@ export const overflowingContent_TestOnly = (): string => html`
   ></calcite-tile>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     disabled
@@ -773,7 +773,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-tile>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html` <calcite-tile
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
