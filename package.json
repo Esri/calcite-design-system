@@ -110,7 +110,7 @@
     "stylelint-config-recommended-scss": "15.0.1",
     "stylelint-use-logical-spec": "5.0.1",
     "tailwindcss": "3.4.18",
-    "turbo": "2.6.0",
+    "turbo": "2.6.3",
     "type-fest": "4.41.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.3",
