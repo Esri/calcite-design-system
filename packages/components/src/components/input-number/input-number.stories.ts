@@ -140,7 +140,7 @@ export const darkModeRTL = (): string => html`
 `;
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Infinity = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
+export const infinityAsValue = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 
 export const mediumIconForLargeInputStyling = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number

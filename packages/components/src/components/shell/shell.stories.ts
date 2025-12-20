@@ -1,4 +1,4 @@
-import type { DecoratorFunction } from "@storybook/html";
+import type { Decorator } from "@storybook/web-components-vite";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
@@ -2713,7 +2713,7 @@ customPanelWithOverflowingContent.parameters = {
   },
 };
 
-const embeddedSlotsShellDecorator: DecoratorFunction = (storyFn) => html`
+const embeddedSlotsShellDecorator: Decorator = (storyFn) => html`
   <style>
     calcite-shell {
       position: relative;
