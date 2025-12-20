@@ -115,7 +115,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.3",
     "typescript-strict-plugin": "2.4.4",
-    "vite": "7.2.2",
+    "vite": "7.3.0",
     "vite-plugin-dts": "4.5.4",
     "yargs": "18.0.0"
   },
