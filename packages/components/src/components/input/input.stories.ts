@@ -153,8 +153,7 @@ export const darkModeRTL = (): string => html`
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const negativeInfinity = (): string =>
-  html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
+export const negativeInfinity = (): string => html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
 
 export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;

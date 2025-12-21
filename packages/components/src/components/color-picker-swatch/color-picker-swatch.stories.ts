@@ -19,8 +19,7 @@ export const simple = (args: ColorPickerSwatchStoryArgs): string => html`
 export const active = (): string =>
   html`<calcite-color-picker-swatch active color="#c00f33"></calcite-color-picker-swatch>`;
 
-export const emptyActive = (): string =>
-  html`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`;
+export const emptyActive = (): string => html`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`;
 
 export const withAlpha = (): string =>
   html`<calcite-color-picker-swatch alpha-channel color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;

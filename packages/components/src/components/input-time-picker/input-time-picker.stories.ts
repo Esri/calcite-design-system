@@ -114,9 +114,7 @@ export const darkModeRTL = (): string => html`
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const open = (): string => html`
-  <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>
-`;
+export const open = (): string => html` <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker> `;
 
 export const frenchCanadianLocale = (): string => html`
   <calcite-input-time-picker lang="fr-CA" value="10:37:45.321" step=".001" hour-format="12" open>

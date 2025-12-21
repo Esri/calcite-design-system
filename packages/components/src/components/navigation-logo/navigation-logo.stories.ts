@@ -36,8 +36,7 @@ export const thumbnail = (): string =>
 export const headingAndThumbnail = (): string =>
   html`<calcite-navigation-logo heading="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndIcon = (): string =>
-  html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
+export const headingAndIcon = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
 
 export const descriptionAndThumbnail = (): string =>
   html`<calcite-navigation-logo
