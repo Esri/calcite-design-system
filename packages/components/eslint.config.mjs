@@ -118,6 +118,9 @@ export default tseslint.config(
   {
     files: ["src/**/*.stories.ts"],
     extends: [storybookPlugin.configs["flat/recommended"]],
+    rules: {
+      "storybook/prefer-pascal-case": "error",
+    },
   },
 
   {
