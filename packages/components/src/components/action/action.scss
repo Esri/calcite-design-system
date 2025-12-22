@@ -214,11 +214,9 @@
   }
 
   .button {
-    @apply transition-shadow
+    @apply bg-transparent
+      transition-shadow
       ease-in-out;
-    background-color: var(--calcite-internal-action-transparent-background-color, transparent);
-
-    background-color: var(--calcite-action-background-color, var(--calcite-color-transparent));
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
