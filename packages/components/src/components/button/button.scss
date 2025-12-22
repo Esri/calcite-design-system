@@ -20,8 +20,8 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-button-background-color
-// --calcite-internal-button-background-color-active
 // --calcite-internal-button-background-color-hover
+// --calcite-internal-button-background-color-press
 // --calcite-internal-button-border-color
 // --calcite-internal-button-content-margin
 // --calcite-internal-button-corner-radius
@@ -124,8 +124,8 @@
 
     &:active {
       background-color: var(
-        --calcite-button-background-color-active,
-        var(--calcite-internal-button-background-color-active, var(--calcite-color-transparent))
+        --calcite-button-background-color-press,
+        var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent))
       );
     }
 
@@ -324,7 +324,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-brand-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-brand-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-brand-press);
     }
   }
 }
@@ -339,7 +339,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-status-danger-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-status-danger-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-status-danger-press);
     }
   }
 }
@@ -353,7 +353,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-foreground-1);
+      --calcite-internal-button-background-color-press: var(--calcite-color-foreground-1);
     }
   }
 }
@@ -367,7 +367,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-inverse-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-inverse-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-inverse-press);
     }
   }
 }
@@ -382,7 +382,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-foreground-2);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-foreground-3);
+      --calcite-internal-button-background-color-press: var(--calcite-color-foreground-3);
     }
   }
 }
@@ -459,7 +459,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-border-2);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-border-1);
+      --calcite-internal-button-background-color-press: var(--calcite-color-border-1);
     }
   }
 }
@@ -493,7 +493,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-transparent-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -608,7 +608,7 @@
       --calcite-internal-button-background-color: var(--calcite-color-transparent-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-transparent-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -619,7 +619,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-transparent-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
     }
   }
 }
@@ -699,7 +699,7 @@
       --calcite-internal-button-background-color-hover: var(--calcite-color-transparent-hover);
     }
     &:active {
-      --calcite-internal-button-background-color-active: var(--calcite-color-transparent-press);
+      --calcite-internal-button-background-color-press: var(--calcite-color-transparent-press);
     }
     calcite-loader {
       --calcite-internal-button-text-color: var(--calcite-color-text-inverse);
