@@ -11,7 +11,6 @@ describe("calcite-action", () => {
       "--calcite-action-background-color": {
         shadowSelector: `.${CSS.button}`,
         targetProp: "backgroundColor",
-        expectedValue: "rgba(0, 0, 0, 0)",
       },
       "--calcite-action-background-color-hover": {
         shadowSelector: `.${CSS.button}`,
