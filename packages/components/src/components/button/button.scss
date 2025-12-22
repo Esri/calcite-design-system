@@ -22,7 +22,6 @@
 // --calcite-internal-button-background-color
 // --calcite-internal-button-background-color-active
 // --calcite-internal-button-background-color-hover
-// --calcite-internal-button-background-color-hover-hover
 // --calcite-internal-button-border-color
 // --calcite-internal-button-content-margin
 // --calcite-internal-button-corner-radius
@@ -322,7 +321,7 @@
     --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
 
     &:hover {
-      --calcite-internal-button-background-color-hover-hover: var(--calcite-color-brand-hover);
+      --calcite-internal-button-background-color-hover: var(--calcite-color-brand-hover);
     }
     &:active {
       --calcite-internal-button-background-color-active: var(--calcite-color-brand-press);
@@ -337,7 +336,7 @@
     --calcite-internal-button-loader-color: var(--calcite-color-text-inverse);
 
     &:hover {
-      --calcite-internal-button-background-color-hover-hover: var(--calcite-color-status-danger-hover);
+      --calcite-internal-button-background-color-hover: var(--calcite-color-status-danger-hover);
     }
     &:active {
       --calcite-internal-button-background-color-active: var(--calcite-color-status-danger-press);
