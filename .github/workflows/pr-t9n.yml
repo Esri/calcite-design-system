@@ -9,7 +9,7 @@ jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: "Assign Reviewer"
         uses: actions/github-script@v8
         with:

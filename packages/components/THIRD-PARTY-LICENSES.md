@@ -422,8 +422,8 @@ BSD-3-Clause
 
 ---
 
-@types/sortablejs
 @types/trusted-types
+@types/sortablejs
 
    MIT License
 
