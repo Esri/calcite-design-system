@@ -201,6 +201,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
     if (changes.has("referenceElement")) {
       this.setUpReferenceElement();
+
+      if (!this.referenceElement && this.open) {
+        this.handlePopover();
+      }
     }
   }
 
