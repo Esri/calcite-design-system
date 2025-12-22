@@ -16,12 +16,6 @@
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
  */
 
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-action-transparent-background-color
-
 @use "sass:list";
 @use "../../styles/includes";
 
@@ -178,7 +172,7 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
-  --calcite-internal-action-transparent-background-color: var(--calcite-notice-close-background-color, transparent);
+  --calcite-action-background-color: var(--calcite-notice-close-background-color, transparent);
   --calcite-action-background-color-hover: var(
     --calcite-notice-close-background-color-focus,
     var(--calcite-color-foreground-2)

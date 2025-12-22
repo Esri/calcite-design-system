@@ -145,7 +145,7 @@ describe("calcite-notice", () => {
         ],
         "--calcite-notice-close-background-color": {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-internal-action-transparent-background-color",
+          targetProp: "--calcite-action-background-color",
         },
         "--calcite-notice-close-background-color-focus": [
           {
