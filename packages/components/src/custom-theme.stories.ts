@@ -349,11 +349,11 @@ export default {
   },
 };
 
-export const themingInteractive = (args: Record<string, string>): string => {
+export const ThemingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
 
-export const theming = (): string => {
+export const Theming = (): string => {
   return kitchenSink(
     {
       ...componentTokens,

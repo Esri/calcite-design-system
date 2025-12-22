@@ -31,18 +31,18 @@ const template = html`
   </div>
 `;
 
-export const ltrPositioning = (): HTMLElement => {
+export const LtrPositioning = (): HTMLElement => {
   const container = document.createElement("div");
   container.innerHTML = template;
 
   return container;
 };
 
-ltrPositioning.globals = {
+LtrPositioning.globals = {
   addonRtl: "ltr",
 };
 
-export const rtlPositioning = (): HTMLElement => {
+export const RtlPositioning = (): HTMLElement => {
   const container = document.createElement("div");
   container.innerHTML = template;
 
@@ -55,6 +55,6 @@ export const rtlPositioning = (): HTMLElement => {
   return container;
 };
 
-rtlPositioning.globals = {
+RtlPositioning.globals = {
   addonRtl: "rtl",
 };

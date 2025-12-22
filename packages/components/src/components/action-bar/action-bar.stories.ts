@@ -32,7 +32,7 @@ export default {
   },
 };
 
-export const simple = (args: ActionBarStoryArgs): string => html`
+export const Simple = (args: ActionBarStoryArgs): string => html`
   <calcite-action-bar
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
@@ -50,7 +50,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
   </calcite-action-bar>
 `;
 
-export const floating = (args: ActionBarStoryArgs): string =>
+export const Floating = (args: ActionBarStoryArgs): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar position="${args.position}" floating>
       <calcite-action-group>
@@ -63,7 +63,7 @@ export const floating = (args: ActionBarStoryArgs): string =>
     </calcite-action-bar>
   </div> `;
 
-export const floatingWithDefinedWidths = (): string => html`
+export const FloatingWithDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {
       --calcite-action-bar-expanded-max-width: 150px;
@@ -82,7 +82,7 @@ export const floatingWithDefinedWidths = (): string => html`
   </div>
 `;
 
-export const floatingWithGroups = (): string =>
+export const FloatingWithGroups = (): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar floating layout="horizontal">
       <calcite-action-group>
@@ -105,7 +105,7 @@ export const floatingWithGroups = (): string =>
     </calcite-action-bar>
   </div>`;
 
-export const floatingDarkModeRTL = (): string =>
+export const FloatingDarkModeRTL = (): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">
       <calcite-action-group>
@@ -118,9 +118,9 @@ export const floatingDarkModeRTL = (): string =>
     </calcite-action-bar>
   </div>`;
 
-floatingDarkModeRTL.parameters = { themes: modesDarkDefault };
+FloatingDarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const horizontal = (): string => html`
+export const Horizontal = (): string => html`
   <div style="width: 500px;">
     <calcite-action-bar layout="horizontal" style="width:100%">
       <calcite-action-group>
@@ -138,7 +138,7 @@ export const horizontal = (): string => html`
   </div>
 `;
 
-export const horizontalSmall = (): string => html`
+export const HorizontalSmall = (): string => html`
   <div style="width: 250px;">
     <calcite-action-bar layout="horizontal" style="width:100%">
       <calcite-action-group>
@@ -156,7 +156,7 @@ export const horizontalSmall = (): string => html`
   </div>
 `;
 
-export const horizontalOverflow = (): string => html`
+export const HorizontalOverflow = (): string => html`
   <div style="width: 450px; display:flex;">
     <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
       <calcite-action-group>
@@ -186,7 +186,7 @@ export const horizontalOverflow = (): string => html`
   </div>
 `;
 
-export const withDefinedWidths = (): string => html`
+export const WithDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {
       --calcite-action-bar-expanded-max-width: 150px;
@@ -203,7 +203,7 @@ export const withDefinedWidths = (): string => html`
   </calcite-action-bar>
 `;
 
-export const gridLayout = (): string =>
+export const GridLayout = (): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled floating>
       <calcite-action-group>
@@ -220,7 +220,7 @@ export const gridLayout = (): string =>
     </calcite-action-bar>
   </div>`;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -232,9 +232,9 @@ export const darkModeRTL = (): string => html`
   </calcite-action-bar>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const adjacentTooltipsOpenQuickly = (): string => html`
+export const AdjacentTooltipsOpenQuickly = (): string => html`
   <div style="display:flex; height:500px; width: 200px;">
     <calcite-action-bar>
       <calcite-action-group>
@@ -259,12 +259,12 @@ export const adjacentTooltipsOpenQuickly = (): string => html`
   </div>
 `;
 
-export const hebrewLocale = (): string => `<calcite-action-bar expanded lang="he">
+export const HebrewLocale = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const norwegianLocale = (): string => `<calcite-action-bar expanded lang="nb">
+export const NorwegianLocale = (): string => `<calcite-action-bar expanded lang="nb">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
@@ -274,22 +274,22 @@ export const FrenchLocale = (): string => `<calcite-action-bar expanded lang="fr
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const hongKongLocale = (): string => `<calcite-action-bar expanded lang="zh-HK">
+export const HongKongLocale = (): string => `<calcite-action-bar expanded lang="zh-HK">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const ukrainianLocale = (): string => `<calcite-action-bar expanded lang="uk">
+export const UkrainianLocale = (): string => `<calcite-action-bar expanded lang="uk">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const bosnianLocale = (): string => `<calcite-action-bar expanded lang="bs">
+export const BosnianLocale = (): string => `<calcite-action-bar expanded lang="bs">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const fullWidthActions = (): string => html`
+export const FullWidthActions = (): string => html`
   <style>
     .container {
       display: flex;

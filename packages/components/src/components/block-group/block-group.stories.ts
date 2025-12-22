@@ -56,7 +56,7 @@ const blockHTML = html`<calcite-block
     >My block content!</calcite-block
   >`;
 
-export const simple = (args: BlockGroupStoryArgs): string => html`
+export const Simple = (args: BlockGroupStoryArgs): string => html`
   <calcite-block-group
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-enabled", args.dragEnabled)}
@@ -69,11 +69,11 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
   </calcite-block-group>
 `;
 
-export const dragEnabled = (): string => html`
+export const DragEnabled = (): string => html`
   <calcite-block-group drag-enabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
-export const sortHandleOpen = (): string => html`
+export const SortHandleOpen = (): string => html`
   <calcite-block-group drag-enabled label="My Group">
     <calcite-block sort-handle-open collapsible heading="Invisible ink" description="You can't see me!"
       >My block content!</calcite-block
@@ -82,15 +82,15 @@ export const sortHandleOpen = (): string => html`
   </calcite-block-group>
 `;
 
-export const loading = (): string => html`
+export const Loading = (): string => html`
   <calcite-block-group loading label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
-export const disabled = (): string => html`
+export const Disabled = (): string => html`
   <calcite-block-group disabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
-export const allScales = (): string =>
+export const AllScales = (): string =>
   html` <style>
       .container {
         display: flex;

@@ -48,7 +48,7 @@ export default {
   },
 };
 
-export const simple = (args: NoticeStoryArgs): string => html`
+export const Simple = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", args.showIcon)}
@@ -67,7 +67,7 @@ export const simple = (args: NoticeStoryArgs): string => html`
   </div>
 `;
 
-export const customIcon = (args: NoticeStoryArgs): string => html`
+export const CustomIcon = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice icon="${args.icon}" open closable scale="m" width="auto" kind="brand">
       <div slot="title">Your settings area has changed</div>
@@ -77,7 +77,7 @@ export const customIcon = (args: NoticeStoryArgs): string => html`
   </div>
 `;
 
-export const withAction = (): string => html`
+export const WithAction = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice icon open scale="m" width="auto" kind="danger">
       <div slot="title">Notice with action</div>
@@ -87,7 +87,7 @@ export const withAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice dir="rtl" class="calcite-mode-dark" icon open scale="m" width="auto" kind="danger">
       <div slot="title">This is a destructive action</div>
@@ -96,7 +96,7 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
 const appearances: Notice["appearance"][] = ["outline-fill", "transparent"];
 const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];
@@ -110,7 +110,7 @@ const allKindsAndAppearancesHTML = (kind, appearance): string => `
       </calcite-notice>
       </div>`;
 
-export const allKindsAndAppearances = (): string => {
+export const AllKindsAndAppearances = (): string => {
   let storyHTML = "";
   for (const appearance of appearances) {
     storyHTML += `<div class="appearance-container">`;

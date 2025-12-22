@@ -44,7 +44,7 @@ export default {
   },
 };
 
-export const simple = (args: ButtonStoryArgs): string => html`
+export const Simple = (args: ButtonStoryArgs): string => html`
   <calcite-button
     appearance="${args.appearance}"
     kind="${args.kind}"
@@ -59,7 +59,7 @@ export const simple = (args: ButtonStoryArgs): string => html`
   </calcite-button>
 `;
 
-export const withIconStart = (): string => html`
+export const WithIconStart = (): string => html`
   <calcite-button
     alignment="center"
     appearance="solid"
@@ -73,17 +73,17 @@ export const withIconStart = (): string => html`
   </calcite-button>
 `;
 
-withIconStart.storyName = "With icon-start";
+WithIconStart.storyName = "With icon-start";
 
-export const withIconEnd = (): string => html`
+export const WithIconEnd = (): string => html`
   <calcite-button alignment="center" appearance="solid" icon-end="${iconNames[0]}" kind="brand" scale="m" width="auto">
     button text here
   </calcite-button>
 `;
 
-withIconEnd.storyName = "With icon-end";
+WithIconEnd.storyName = "With icon-end";
 
-export const withIconStartAndIconEnd = (): string => html`
+export const WithIconStartAndIconEnd = (): string => html`
   <calcite-button
     alignment="center"
     appearance="solid"
@@ -98,9 +98,9 @@ export const withIconStartAndIconEnd = (): string => html`
   </calcite-button>
 `;
 
-withIconStartAndIconEnd.storyName = "With icon-start and icon-end";
+WithIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 
-export const setWidthContainer = (): string => html`
+export const SetWidthContainer = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
     <calcite-button
       width="auto"
@@ -116,21 +116,21 @@ export const setWidthContainer = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`
+export const Disabled = (): string => html`
   <calcite-button disabled>disabled</calcite-button>
   <br />
   <calcite-button loading disabled>loading + disabled</calcite-button>
 `;
 
-export const withIconStartEmpty = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
+export const WithIconStartEmpty = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
 
-withIconStartEmpty.storyName = "With icon-start set to empty";
+WithIconStartEmpty.storyName = "With icon-start set to empty";
 
-export const withIconEndEmpty = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
+export const WithIconEndEmpty = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
 
-withIconEndEmpty.storyName = "With icon-end set to empty";
+WithIconEndEmpty.storyName = "With icon-end set to empty";
 
-export const sideBySide = (): string => html`
+export const SideBySide = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button width="half" appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
       Back
@@ -149,7 +149,7 @@ export const sideBySide = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-button
     class="calcite-mode-dark"
     dir="rtl"
@@ -166,9 +166,9 @@ export const darkModeRTL = (): string => html`
   </calcite-button>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const appearanceAndKindCombinations = (): string => html`
+export const AppearanceAndKindCombinations = (): string => html`
   <calcite-button scale="s" appearance="outline" kind="brand">outline+brand</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="danger">outline+danger</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="inverse">outline+inverse</calcite-button>

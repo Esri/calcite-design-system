@@ -4,8 +4,8 @@ export default {
   title: "Components/Handle",
 };
 
-export const simple = (): string => html` <calcite-handle></calcite-handle> `;
+export const Simple = (): string => html` <calcite-handle></calcite-handle> `;
 
-export const activated = (): string => html` <calcite-handle activated></calcite-handle> `;
+export const Activated = (): string => html` <calcite-handle activated></calcite-handle> `;
 
-export const disabled = (): string => html` <calcite-handle disabled></calcite-handle> `;
+export const Disabled = (): string => html` <calcite-handle disabled></calcite-handle> `;

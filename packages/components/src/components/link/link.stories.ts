@@ -35,7 +35,7 @@ export default {
   },
 };
 
-export const simple = (args: LinkStoryArgs): string => html`
+export const Simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
     <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.text}</calcite-link>
@@ -43,7 +43,7 @@ export const simple = (args: LinkStoryArgs): string => html`
   </div>
 `;
 
-export const iconStart = (): string => html`
+export const IconStart = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link icon-start="${iconNames[0]}"> link text here</calcite-link>
@@ -51,7 +51,7 @@ export const iconStart = (): string => html`
   </div>
 `;
 
-export const iconEnd = (): string => html`
+export const IconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link icon-end="${iconNames[0]}"> link text here</calcite-link>
@@ -59,7 +59,7 @@ export const iconEnd = (): string => html`
   </div>
 `;
 
-export const iconStartAndIconEnd = (): string => html`
+export const IconStartAndIconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}"> link text here</calcite-link>
@@ -67,7 +67,7 @@ export const iconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div class="calcite-mode-dark" dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link class="calcite-mode-dark">link text here</calcite-link>
@@ -75,6 +75,6 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;
+export const Disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;

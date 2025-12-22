@@ -27,7 +27,7 @@ export default {
   },
 };
 
-export const simple = (args: ChipGroupStoryArgs): string => html`
+export const Simple = (args: ChipGroupStoryArgs): string => html`
   <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>
@@ -36,7 +36,7 @@ export const simple = (args: ChipGroupStoryArgs): string => html`
   </calcite-chip-group>
 `;
 
-export const singleWithIcon = (): string => html`
+export const SingleWithIcon = (): string => html`
   <calcite-chip-group selection-mode="single">
     <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip icon="layer" value="tundra">Tundra</calcite-chip>
@@ -45,7 +45,7 @@ export const singleWithIcon = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleClosable = (): string => html`
+export const MultipleClosable = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip value="forest" closable>Forest</calcite-chip>
     <calcite-chip selected value="tundra" closable>Tundra</calcite-chip>
@@ -54,7 +54,7 @@ export const multipleClosable = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithIcon = (): string => html`
+export const MultipleWithIcon = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip selected icon="layer" value="tundra">Tundra</calcite-chip>
@@ -63,7 +63,7 @@ export const multipleWithIcon = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleClosableWithAvatar = (): string => html`
+export const MultipleClosableWithAvatar = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip icon="layer" value="forest" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
@@ -84,7 +84,7 @@ export const multipleClosableWithAvatar = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithIconAndClosable = (): string => html`
+export const MultipleWithIconAndClosable = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip closable icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip closable icon="layer" value="tundra">Tundra</calcite-chip>
@@ -93,7 +93,7 @@ export const multipleWithIconAndClosable = (): string => html`
   </calcite-chip-group>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const DarkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-chip-group>
       <calcite-chip value="forest">Forest</calcite-chip>
@@ -104,9 +104,9 @@ export const darkThemeRTL = (): string => html`
   </div>
 `;
 
-darkThemeRTL.parameters = { themes: modesDarkDefault };
+DarkThemeRTL.parameters = { themes: modesDarkDefault };
 
-export const interactivityStates = (): string => html`
+export const InteractivityStates = (): string => html`
   <div>
     <h2>appearance="solid" & kind="neutral"</h2>
     <calcite-chip-group selection-mode="single">

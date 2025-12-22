@@ -43,7 +43,7 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-export const simple = (args: SheetStoryArgs): string => html`
+export const Simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
     ${boolean("open", args.open)}
@@ -54,7 +54,7 @@ export const simple = (args: SheetStoryArgs): string => html`
   >
 `;
 
-export const simpleDarkMode = (args: SheetStoryArgs): string => html`
+export const SimpleDarkMode = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
     ${boolean("open", args.open)}
@@ -63,17 +63,17 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
     >${panelHTML}</calcite-sheet
   >
 `;
-simpleDarkMode.parameters = { themes: modesDarkDefault };
+SimpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const resizable = (): string =>
+export const Resizable = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
-export const resizableRTL = (): string =>
+export const ResizableRTL = (): string =>
   html`<calcite-sheet dir="rtl" resizable label="libero nunc" open position="inline-start"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableWithDropdown = (): string =>
+export const ResizableWithDropdown = (): string =>
   html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start">
       <calcite-panel heading="Map" id="panel-start">
         <calcite-dropdown width="m" overlay-positioning="fixed">
@@ -95,30 +95,30 @@ export const resizableWithDropdown = (): string =>
       });
     </script>`;
 
-export const resizableBlockStart = (): string =>
+export const ResizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
 
-export const resizableFloatInlineStart = (): string =>
+export const ResizableFloatInlineStart = (): string =>
   html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-start"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableFloatInlineEnd = (): string =>
+export const ResizableFloatInlineEnd = (): string =>
   html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="inline-end"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableFloatBlockStart = (): string =>
+export const ResizableFloatBlockStart = (): string =>
   html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-start"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableFloatBlockEnd = (): string =>
+export const ResizableFloatBlockEnd = (): string =>
   html`<calcite-sheet display-mode="float" resizable label="libero nunc" open position="block-end"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const resizableLoremIpsum = (): string =>
+export const ResizableLoremIpsum = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="inline-end"
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel viverra purus. Vestibulum fringilla fringilla orci
     ac elementum. Sed viverra risus eu nibh facilisis imperdiet. Maecenas sed semper lacus, imperdiet placerat risus.
@@ -137,31 +137,31 @@ export const resizableLoremIpsum = (): string =>
     Cras volutpat eros in velit euismod, at accumsan velit pulvinar.
   </calcite-sheet>`;
 
-export const inlineStartFloat = (): string =>
+export const InlineStartFloat = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const blockStartFloat = (): string =>
+export const BlockStartFloat = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start" display-mode="float"
     >${panelHTML}</calcite-sheet
   >`;
 
-export const inlineStart = (): string =>
+export const InlineStart = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start">${panelHTML}</calcite-sheet>`;
 
-export const inlineEnd = (): string =>
+export const InlineEnd = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-end">${panelHTML}</calcite-sheet>`;
 
-export const blockStart = (): string =>
+export const BlockStart = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
 
-export const blockEnd = (): string =>
+export const BlockEnd = (): string =>
   html`<calcite-sheet label="libero nunc" open position="block-end">${panelHTML}</calcite-sheet>`;
 
-export const darkModeFloatRTL = (): string =>
+export const DarkModeFloatRTL = (): string =>
   html`<div dir="rtl">
     <calcite-sheet label="libero nunc" open position="inline-start" display-mode="float">${panelHTML}</calcite-sheet>
   </div>`;
 
-darkModeFloatRTL.parameters = { themes: modesDarkDefault };
+DarkModeFloatRTL.parameters = { themes: modesDarkDefault };

@@ -5,7 +5,7 @@ export default {
   title: "Components/Label",
 };
 
-export const simple = (): string => html`
+export const Simple = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-label>
       Default label wrapping a switch
@@ -91,7 +91,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-mode-dark" dir="rtl">
     <calcite-label class="calcite-mode-dark">
       Default label wrapping a switch
@@ -157,9 +157,9 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const spacingWithLabel = (): string => html`
+export const SpacingWithLabel = (): string => html`
   <style>
     .css-var {
       --calcite-label-margin-bottom: 0;

@@ -54,7 +54,7 @@ export default {
   },
 };
 
-export const simple = (args: InputDatePickerStoryArgs): string => html`
+export const Simple = (args: InputDatePickerStoryArgs): string => html`
   <style>
     .container {
       width: 400px;
@@ -77,7 +77,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
   </div>
 `;
 
-export const withMinMax = (): string =>
+export const WithMinMax = (): string =>
   html` <style>
       .container {
         width: 400px;
@@ -88,7 +88,7 @@ export const withMinMax = (): string =>
       <calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>
     </div>`;
 
-export const rangeWithMinMax = (): string => html`
+export const RangeWithMinMax = (): string => html`
   <style>
     .container {
       width: 650px;
@@ -111,9 +111,9 @@ export const rangeWithMinMax = (): string => html`
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+export const Disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacements = (): string => html`
+export const FlipPlacements = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -133,11 +133,11 @@ export const flipPlacements = (): string => html`
   </script>
 `;
 
-export const readOnlyHasNoDropdownAffordance = (): string => html`
+export const ReadOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
-export const validationMessageAllScales = (): string => html`
+export const ValidationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -172,7 +172,7 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const defaultAllScales = (): string => html`
+export const DefaultAllScales = (): string => html`
   <style>
     .container {
       block-size: 500px;
@@ -188,7 +188,7 @@ export const defaultAllScales = (): string => html`
   </div>
 `;
 
-export const rangeSmallAndLargeScales = (): string => html`
+export const RangeSmallAndLargeScales = (): string => html`
   <style>
     .container {
       inline-size: 1500px;
@@ -222,7 +222,7 @@ export const rangeSmallAndLargeScales = (): string => html`
   </div>
 `;
 
-export const rangeOneCalendarsAllScales = (): string => html`
+export const RangeOneCalendarsAllScales = (): string => html`
   <style>
     .container {
       block-size: 500px;
@@ -271,7 +271,7 @@ export const rangeOneCalendarsAllScales = (): string => html`
   </div>
 `;
 
-export const arabicLocaleDarkModeRTL = (): string => html`
+export const ArabicLocaleDarkModeRTL = (): string => html`
   <style>
     .container {
       width: 400px;
@@ -290,14 +290,14 @@ export const arabicLocaleDarkModeRTL = (): string => html`
     ></calcite-input-date-picker>
   </div>
 `;
-arabicLocaleDarkModeRTL.parameters = { themes: modesDarkDefault };
+ArabicLocaleDarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const widthSetToBreakpoints = (): string =>
+export const WidthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
 
-export const rangeWithValueAsDate = (): string => html`
+export const RangeWithValueAsDate = (): string => html`
   <style>
     .container {
       width: 650px;
@@ -313,7 +313,7 @@ export const rangeWithValueAsDate = (): string => html`
   </script>
 `;
 
-export const rangeWithValue = (): string => html`
+export const RangeWithValue = (): string => html`
   <style>
     .container {
       width: 650px;
@@ -329,7 +329,7 @@ export const rangeWithValue = (): string => html`
   </script>
 `;
 
-export const rangeWithMinAfterCurrentDate = (): string => html`
+export const RangeWithMinAfterCurrentDate = (): string => html`
   <style>
     .container {
       width: 650px;
@@ -341,7 +341,7 @@ export const rangeWithMinAfterCurrentDate = (): string => html`
   </div>
 `;
 
-export const rangeWithMaxBeforeCurrentDate = (): string => html`
+export const RangeWithMaxBeforeCurrentDate = (): string => html`
   <style>
     .container {
       width: 650px;
@@ -363,7 +363,7 @@ export const Focus = (): string =>
       })();
     </script>`;
 
-export const localized = (): string => {
+export const Localized = (): string => {
   const locales = ["ar", "bs", "fr-CA", "it-CH", "zh-CN"];
 
   return html`
@@ -396,7 +396,7 @@ export const localized = (): string => {
     </div>
   `;
 };
-localized.parameters = {
+Localized.parameters = {
   chromatic: {
     delay: 1000,
   },

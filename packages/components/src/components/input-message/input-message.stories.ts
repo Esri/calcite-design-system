@@ -4,7 +4,7 @@ export default {
   title: "Components/InputMessage",
 };
 
-export const status = (): string => html`
+export const Status = (): string => html`
   <calcite-input-message status="invalid" icon="frown">Message</calcite-input-message>
   <calcite-input-message status="valid" icon="smile">Message</calcite-input-message>
   <calcite-input-message status="idle" icon="information">Message</calcite-input-message>

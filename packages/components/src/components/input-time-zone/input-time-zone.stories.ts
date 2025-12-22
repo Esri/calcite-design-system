@@ -48,7 +48,7 @@ export default {
   },
 };
 
-export const simple = (args: InputTimeZoneStoryArgs): string => html`
+export const Simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
@@ -59,13 +59,13 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
   ></calcite-input-time-zone>
 `;
 
-export const internalLabel = (): string => html`
+export const InternalLabel = (): string => html`
   <calcite-input-time-zone scale="m" label-text="Label text" required
     ><calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon
   ></calcite-input-time-zone>
 `;
 
-export const clearable = (): string => html`
+export const Clearable = (): string => html`
   <label>default</label>
   <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
   <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
@@ -77,49 +77,49 @@ export const clearable = (): string => html`
   <calcite-input-time-zone mode="region" clearable value=""></calcite-input-time-zone>
 `;
 
-export const timeZoneNameMode = (): string => html`
+export const TimeZoneNameMode = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
 `;
 
-export const timeZoneRegionMode = (): string => html`
+export const TimeZoneRegionMode = (): string => html`
   <calcite-input-time-zone mode="region" open></calcite-input-time-zone>
 `;
 
-export const initialNameSelected = (): string =>
+export const InitialNameSelected = (): string =>
   // for stability, we use a timezone unaffected by daylight savings time
   html`<calcite-input-time-zone mode="name" value="America/Phoenix"></calcite-input-time-zone>`;
 
-export const initialOffsetSelected = (): string => html`
+export const InitialOffsetSelected = (): string => html`
   <calcite-input-time-zone value="-360"></calcite-input-time-zone>
 `;
 
-export const offsetAndGroupLabelsAreLocalized = (): string => html`
+export const OffsetAndGroupLabelsAreLocalized = (): string => html`
   <calcite-input-time-zone lang="en"></calcite-input-time-zone>
   <calcite-input-time-zone lang="es"></calcite-input-time-zone>
   <calcite-input-time-zone lang="fr"></calcite-input-time-zone>
   <calcite-input-time-zone lang="zh"></calcite-input-time-zone>
 `;
 
-export const offsetAndGroupLabelsBasedOnReferenceDate = (): string => html`
+export const OffsetAndGroupLabelsBasedOnReferenceDate = (): string => html`
   <calcite-input-time-zone></calcite-input-time-zone>
   <calcite-input-time-zone reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
 `;
 
-export const displayingTimeZoneOffsets = (): string => html`
+export const DisplayingTimeZoneOffsets = (): string => html`
   <div style="width: 450px; height: 500px;">
     <calcite-input-time-zone open></calcite-input-time-zone>
   </div>
 `;
 
-export const disabled = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
+export const Disabled = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const validationMessageAllScales = (): string => html`
+export const ValidationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -154,4 +154,4 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const readOnly = (): string => html` <calcite-input-time-zone read-only></calcite-input-time-zone> `;
+export const ReadOnly = (): string => html` <calcite-input-time-zone read-only></calcite-input-time-zone> `;

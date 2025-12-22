@@ -96,7 +96,7 @@ const flowItemContent = `${headerHTML}
   <calcite-button slot="${SLOTS.footer}" width="half">Footer</calcite-button>
   `;
 
-export const simple = (args: FlowItemStoryArgs): string => html`
+export const Simple = (args: FlowItemStoryArgs): string => html`
   <calcite-flow-item
     ${boolean("closed", args.closed)}
     ${boolean("disabled", args.disabled)}
@@ -122,7 +122,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
   </calcite-flow-item>
 `;
 
-export const onlyProps = (): string => html`
+export const OnlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-flow-item
       selected
@@ -134,33 +134,33 @@ export const onlyProps = (): string => html`
   </div>
 `;
 
-export const withIcon = (): string => html`
+export const WithIcon = (): string => html`
   <calcite-flow-item icon="banana" selected heading="Banana"> Hello World! </calcite-flow-item>
 `;
 
-export const collapsed = (): string => html`
+export const Collapsed = (): string => html`
   <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
-export const collapseDirectionUp = (): string => html`
+export const CollapseDirectionUp = (): string => html`
   <calcite-flow-item selected collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
-export const disabledWithStyledSlot = (): string => html`
+export const DisabledWithStyledSlot = (): string => html`
   <calcite-flow-item selected style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-flow-item>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-flow-item selected collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
     ${flowItemContent}
   </calcite-flow-item>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const noDoubleScrollbars = (): string => html`
+export const NoDoubleScrollbars = (): string => html`
   <style>
     #container {
       display: flex;
@@ -207,7 +207,7 @@ export const noDoubleScrollbars = (): string => html`
   </div>
 `;
 
-export const overflowContent = (): string =>
+export const OverflowContent = (): string =>
   html` <style>
       .container {
         max-height: 300px;
@@ -234,7 +234,7 @@ export const overflowContent = (): string =>
       </calcite-flow>
     </div>`;
 
-export const withActionBarAndContentTop = (): string =>
+export const WithActionBarAndContentTop = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item selected height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -250,7 +250,7 @@ export const withActionBarAndContentTop = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerPaddingAndContentBottom = (): string =>
+export const FooterPaddingAndContentBottom = (): string =>
   html` <div style="width: 300px;">
     <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
@@ -261,7 +261,7 @@ export const footerPaddingAndContentBottom = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerStartEndAndContentBottom = (): string =>
+export const FooterStartEndAndContentBottom = (): string =>
   html`<div style="width: 300px; height: 300px;">
     <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
@@ -271,7 +271,7 @@ export const footerStartEndAndContentBottom = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerSlot = (): string =>
+export const FooterSlot = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
@@ -283,7 +283,7 @@ export const footerSlot = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const withNoHeaderBorderBlockEnd = (): string =>
+export const WithNoHeaderBorderBlockEnd = (): string =>
   html`<calcite-flow-item
     selected
     style="--calcite-flow-item-header-border-block-end:none;"
@@ -292,7 +292,7 @@ export const withNoHeaderBorderBlockEnd = (): string =>
     >Slotted content!</calcite-flow-item
   >`;
 
-export const withAlertsSlot = (): string => html`
+export const WithAlertsSlot = (): string => html`
   <calcite-flow-item selected height-scale="s" heading="My Panel" style="width: 500px; height:200px">
     Slotted content!
     <calcite-alert slot="alerts" open label="this is a default alert" scale="s">

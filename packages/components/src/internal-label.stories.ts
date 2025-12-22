@@ -78,6 +78,6 @@ export default {
   title: "Forms/Internal label",
 };
 
-export const internalLabel = (): string => {
+export const InternalLabel = (): string => {
   return kitchenSink();
 };

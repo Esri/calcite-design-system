@@ -9,7 +9,7 @@ export default {
   loading: false,
 };
 
-export const simple = (args: ScrimStoryArgs): string => html`
+export const Simple = (args: ScrimStoryArgs): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim ${boolean("loading", args.loading)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
@@ -39,7 +39,7 @@ export const simple = (args: ScrimStoryArgs): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim dir="rtl" class="calcite-mode-dark"></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
@@ -69,14 +69,14 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const textContent = (): string =>
+export const TextContent = (): string =>
   html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim>This is a test.</calcite-scrim>
   </div>`;
 
-export const noContent = (): string =>
+export const NoContent = (): string =>
   html` <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim></calcite-scrim>
   </div>`;

@@ -29,11 +29,11 @@ export default {
   },
 };
 
-export const simple = (args: IconStoryArgs): string => html`
+export const Simple = (args: IconStoryArgs): string => html`
   <calcite-icon icon="${args.icon}" scale="${args.scale}"></calcite-icon>
 `;
 
-export const customBaseFontSize = (): string => html`
+export const CustomBaseFontSize = (): string => html`
   <style>
     html {
       font-size: 62.5%;
@@ -43,12 +43,12 @@ export const customBaseFontSize = (): string => html`
   <calcite-icon icon="banana" scale="l"></calcite-icon>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-icon class="calcite-mode-dark" dir="rtl" icon="${sampleIcon}" flip-rtl></calcite-icon>
 `;
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const theming = (): string => html`
+export const Theming = (): string => html`
   <style>
     .container {
         ${setCSSVariables(["--calcite-icon-color"])}

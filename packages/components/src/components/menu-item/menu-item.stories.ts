@@ -23,7 +23,7 @@ export default {
   },
 };
 
-export const simple = (args: MenuItemStoryArgs): string => html`
+export const Simple = (args: MenuItemStoryArgs): string => html`
   <calcite-menu>
     <calcite-menu-item
       text="${args.text}"
@@ -38,22 +38,22 @@ export const simple = (args: MenuItemStoryArgs): string => html`
   </calcite-menu>
 `;
 
-export const iconStart = (): string =>
+export const IconStart = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Menu item" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
-export const iconEnd = (): string =>
+export const IconEnd = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" />
   </calcite-menu>`;
 
-export const iconsBoth = (): string =>
+export const IconsBoth = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
-export const allIconsAndSubMenu = (): string =>
+export const AllIconsAndSubMenu = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -66,7 +66,7 @@ export const allIconsAndSubMenu = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item
   ></calcite-menu>`;
 
-export const allIconsAndSubMenuVertical = (): string =>
+export const AllIconsAndSubMenuVertical = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -79,7 +79,7 @@ export const allIconsAndSubMenuVertical = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-export const darkModeRTL = (): string =>
+export const DarkModeRTL = (): string =>
   html`<calcite-menu-item
     text="Menu item"
     active

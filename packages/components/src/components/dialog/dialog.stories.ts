@@ -95,7 +95,7 @@ const menuActionsContent = html` <calcite-action
   <calcite-action text="measure" text-enabled icon="measure" slot="${SLOTS.headerMenuActions}"></calcite-action
   ><calcite-action text="search" text-enabled icon="search" slot="${SLOTS.headerMenuActions}"></calcite-action>`;
 
-export const simple = (args: DialogStoryArgs): string => html`
+export const Simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
     ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("resizable", args.resizable)}
@@ -159,7 +159,7 @@ const customContent = html` <div
   <calcite-button id="custom-content-button" appearance="transparent" scale="s">Close</calcite-button>
 </div>`;
 
-export const slots = (): string => html`
+export const Slots = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
     ${mightyLongTextToScroll}
@@ -176,7 +176,7 @@ export const slots = (): string => html`
   </calcite-dialog>
 `;
 
-export const slotsWithModal = (): string => html`
+export const SlotsWithModal = (): string => html`
   <calcite-dialog heading="My Dialog" open scale="m" width-scale="s" modal>
     <div slot="${SLOTS.contentTop}">Slot for a content-top.</div>
     ${mightyLongTextToScroll}
@@ -193,17 +193,17 @@ export const slotsWithModal = (): string => html`
   </calcite-dialog>
 `;
 
-export const customContentSlot = (): string => html`
+export const CustomContentSlot = (): string => html`
   <calcite-dialog heading="Custom content slot dialog" open placement="cover"> ${customContent} </calcite-dialog>
 `;
 
-export const withIcon = (): string => html`
+export const WithIcon = (): string => html`
   <calcite-dialog icon="banana" heading="Banana" description="This is bananas" open scale="m" width-scale="s" modal>
     Hello world!
   </calcite-dialog>
 `;
 
-export const withKindBrandIcon = (): string => html`
+export const WithKindBrandIcon = (): string => html`
   <calcite-dialog
     kind="brand"
     icon="banana"
@@ -218,7 +218,7 @@ export const withKindBrandIcon = (): string => html`
   </calcite-dialog>
 `;
 
-export const withKindDangerIcon = (): string => html`
+export const WithKindDangerIcon = (): string => html`
   <calcite-dialog
     kind="danger"
     icon="banana"
@@ -233,7 +233,7 @@ export const withKindDangerIcon = (): string => html`
   </calcite-dialog>
 `;
 
-export const withKindInfoIcon = (): string => html`
+export const WithKindInfoIcon = (): string => html`
   <calcite-dialog
     kind="info"
     icon="banana"
@@ -248,7 +248,7 @@ export const withKindInfoIcon = (): string => html`
   </calcite-dialog>
 `;
 
-export const withKindSuccessIcon = (): string => html`
+export const WithKindSuccessIcon = (): string => html`
   <calcite-dialog
     kind="success"
     icon="banana"
@@ -263,7 +263,7 @@ export const withKindSuccessIcon = (): string => html`
   </calcite-dialog>
 `;
 
-export const withKindWarningIcon = (): string => html`
+export const WithKindWarningIcon = (): string => html`
   <calcite-dialog
     kind="warning"
     icon="banana"
@@ -278,7 +278,7 @@ export const withKindWarningIcon = (): string => html`
   </calcite-dialog>
 `;
 
-export const darkModeRTLCustomSizeCSSVars = (): string => html`
+export const DarkModeRTLCustomSizeCSSVars = (): string => html`
   <calcite-dialog
     heading="My Dialog"
     class="calcite-mode-dark"
@@ -295,9 +295,9 @@ export const darkModeRTLCustomSizeCSSVars = (): string => html`
   </calcite-dialog>
 `;
 
-darkModeRTLCustomSizeCSSVars.parameters = { themes: modesDarkDefault };
+DarkModeRTLCustomSizeCSSVars.parameters = { themes: modesDarkDefault };
 
-export const withTooltips = (): string => html`
+export const WithTooltips = (): string => html`
   <calcite-dialog scale="m" width-scale="s" open heading="Dialog title">
     <div>
       Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
@@ -314,11 +314,11 @@ export const withTooltips = (): string => html`
   </script>
 `;
 
-withTooltips.parameters = {
+WithTooltips.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const withCustomHeader = (): string => html`
+export const WithCustomHeader = (): string => html`
   <style>
     #three-quarters-width-header-content {
       width: 75%;
@@ -334,32 +334,32 @@ export const withCustomHeader = (): string => html`
   </calcite-dialog>
 `;
 
-export const withCustomContent = (): string => html`
+export const WithCustomContent = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <div slot="${SLOTS.customContent}">Custom Content!</div>
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const withCustomContentPanel = (): string => html`
+export const WithCustomContentPanel = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <calcite-panel heading="Custom Panel" slot="${SLOTS.customContent}">Custom Panel Content!</calcite-panel>
   </calcite-dialog>
 `;
 
-export const withCustomContentDivPanel = (): string => html`
+export const WithCustomContentDivPanel = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <div slot="${SLOTS.customContent}"><calcite-panel heading="Custom Panel">Custom Panel Content!</calcite-panel></div>
   </calcite-dialog>
 `;
 
-export const loading = (): string => html`
+export const Loading = (): string => html`
   <calcite-dialog loading open modal heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const menuOpen = (): string => html`
+export const MenuOpen = (): string => html`
   <calcite-dialog
     overlay-positioning="fixed"
     open
@@ -379,38 +379,38 @@ export const menuOpen = (): string => html`
   </script>
 `;
 
-export const withFooter = (): string => html`
+export const WithFooter = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <calcite-action text="Action" label="Action" slot="${SLOTS.footer}" icon="attachment"></calcite-action>
     Hello world!
   </calcite-dialog>
 `;
 
-export const scaleS = (): string => html`
+export const ScaleS = (): string => html`
   <calcite-dialog open heading="heading" description="description" scale="s" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const scaleL = (): string => html`
+export const ScaleL = (): string => html`
   <calcite-dialog open heading="heading" description="description" scale="l" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const widthScaleM = (): string => html`
+export const WidthScaleM = (): string => html`
   <calcite-dialog open heading="heading" description="description" scale="m" width-scale="m">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const widthScaleL = (): string => html`
+export const WidthScaleL = (): string => html`
   <calcite-dialog open heading="heading" description="description" scale="m" width-scale="l">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const withAlertsSlot = (): string => html`
+export const WithAlertsSlot = (): string => html`
   <calcite-dialog open heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
     <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
@@ -420,13 +420,13 @@ export const withAlertsSlot = (): string => html`
   </calcite-dialog>
 `;
 
-export const placementTop = (): string => html`
+export const PlacementTop = (): string => html`
   <calcite-dialog modal placement="top" kind="brand" open heading="heading" description="description" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const placementTopStart = (): string => html`
+export const PlacementTopStart = (): string => html`
   <calcite-dialog
     modal
     placement="top-start"
@@ -440,7 +440,7 @@ export const placementTopStart = (): string => html`
   </calcite-dialog>
 `;
 
-export const placementTopEnd = (): string => html`
+export const PlacementTopEnd = (): string => html`
   <calcite-dialog
     modal
     placement="top-end"
@@ -454,7 +454,7 @@ export const placementTopEnd = (): string => html`
   </calcite-dialog>
 `;
 
-export const placementBottom = (): string => html`
+export const PlacementBottom = (): string => html`
   <calcite-dialog
     modal
     placement="bottom"
@@ -468,7 +468,7 @@ export const placementBottom = (): string => html`
   </calcite-dialog>
 `;
 
-export const placementBottomStart = (): string => html`
+export const PlacementBottomStart = (): string => html`
   <calcite-dialog
     modal
     placement="bottom-start"
@@ -482,13 +482,13 @@ export const placementBottomStart = (): string => html`
   </calcite-dialog>
 `;
 
-export const placementBottomEnd = (): string => html`
+export const PlacementBottomEnd = (): string => html`
   <calcite-dialog modal placement="bottom-end" open heading="heading" description="description" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
-export const footerSlot = (): string => html`
+export const FooterSlot = (): string => html`
   <calcite-dialog modal open heading="heading" description="description" width-scale="s">
     <p>Slotted content!</p>
     <calcite-button slot="footer" width="auto" appearance="outline">Cancel</calcite-button>
@@ -500,7 +500,7 @@ const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calc
 --calcite-dialog-size-y: 400px; --calcite-dialog-footer-space: 50px; --calcite-dialog-border-color: pink;
 --calcite-dialog-content-space: 50px; --calcite-dialog-offset-x: 50px; --calcite-dialog-offset-y: -30px;`;
 
-export const withShellInside = (): string =>
+export const WithShellInside = (): string =>
   html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="l">
     <calcite-shell>
       <calcite-shell-panel slot="panel-start">
@@ -521,7 +521,7 @@ export const withShellInside = (): string =>
     <calcite-button slot="footer-end"> Save </calcite-button>
   </calcite-dialog>`;
 
-export const withWrappingHeaderText = (): string =>
+export const WithWrappingHeaderText = (): string =>
   html`<calcite-dialog
     style="--calcite-dialog-max-size-x: 100px"
     scale="s"
@@ -532,7 +532,7 @@ export const withWrappingHeaderText = (): string =>
     Dialog Content
   </calcite-dialog>`;
 
-export const themed = (): string =>
+export const Themed = (): string =>
   html`<calcite-dialog
     style="${themedStyle}"
     open

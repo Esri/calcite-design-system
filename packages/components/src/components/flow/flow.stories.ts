@@ -115,7 +115,7 @@ const item2HTML = html`
   </ul>
 `;
 
-export const simple = (args: FlowStoryArgs): string => html`
+export const Simple = (args: FlowStoryArgs): string => html`
   <calcite-flow>
     <calcite-flow-item
       ${boolean("disabled", args.disabled)}
@@ -139,14 +139,14 @@ export const simple = (args: FlowStoryArgs): string => html`
   </calcite-flow>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-flow class="calcite-mode-dark" dir="rtl">
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item1HTML)} </calcite-flow-item>
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item2HTML)} </calcite-flow-item>
   </calcite-flow>
 `;
 
-export const noDoubleScrollbars = (): string => html`
+export const NoDoubleScrollbars = (): string => html`
   <style>
     #container {
       display: flex;
@@ -192,7 +192,7 @@ export const noDoubleScrollbars = (): string => html`
   </div>
 `;
 
-export const scales = (): string => html`
+export const Scales = (): string => html`
   <calcite-flow style="height: 100px; width: 300px;">
     <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="s" />
   </calcite-flow>

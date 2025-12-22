@@ -125,7 +125,7 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
   `;
 }
 
-export const simple = (args: TileGroupStoryArgs): string => html`
+export const Simple = (args: TileGroupStoryArgs): string => html`
   <calcite-tile-group
     dir="${args.dir}"
     ${boolean("disabled", args.disabled)}
@@ -792,5 +792,5 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
   `;
 }
 
-export const allVariantsHorizontal = createVariantsHtmlStory("horizontal");
-export const allVariantsVertical = createVariantsHtmlStory("vertical");
+export const AllVariantsHorizontal = createVariantsHtmlStory("horizontal");
+export const AllVariantsVertical = createVariantsHtmlStory("vertical");

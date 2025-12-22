@@ -71,7 +71,7 @@ export default {
   },
 };
 
-export const simple = (args: SplitButtonStoryArgs): string => html`
+export const Simple = (args: SplitButtonStoryArgs): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       active
@@ -97,7 +97,7 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
   </div>
 `;
 
-export const allWidths = (): string => html`
+export const AllWidths = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button primary-text="auto" width="auto">
       <calcite-dropdown-group selection-mode="none" group-title="Veggies">
@@ -132,7 +132,7 @@ export const allWidths = (): string => html`
   </div>
 `;
 
-export const iconEnd = (): string => html`
+export const IconEnd = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="solid"
@@ -154,7 +154,7 @@ export const iconEnd = (): string => html`
   </div>
 `;
 
-export const iconStartAndIconEnd = (): string => html`
+export const IconStartAndIconEnd = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="solid"
@@ -177,7 +177,7 @@ export const iconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-export const placementTopStart = (): string => html`
+export const PlacementTopStart = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       active
@@ -202,7 +202,7 @@ export const placementTopStart = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="solid"
@@ -224,9 +224,9 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled = (): string => html`
+export const Disabled = (): string => html`
   <calcite-split-button disabled>
     <calcite-dropdown-group selection-mode="none">
       <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -244,7 +244,7 @@ export const disabled = (): string => html`
   </calcite-split-button>
 `;
 
-export const appearanceAndKindCombinations = (): string => html`
+export const AppearanceAndKindCombinations = (): string => html`
   <calcite-split-button primary-text="outline+brand" appearance="outline" kind="brand"></calcite-split-button>
   <calcite-split-button primary-text="outline+danger" appearance="outline" kind="danger"></calcite-split-button>
   <calcite-split-button primary-text="outline+inverse" appearance="outline" kind="inverse"></calcite-split-button>
@@ -286,9 +286,9 @@ export const appearanceAndKindCombinations = (): string => html`
   ></calcite-split-button>
 `;
 
-export const loadingAndDisabled = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
+export const LoadingAndDisabled = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
 
-export const primaryAsALink = (): string =>
+export const PrimaryAsALink = (): string =>
   html` <calcite-split-button
     scale="m"
     primary-text="Primary Option"
@@ -304,7 +304,7 @@ export const primaryAsALink = (): string =>
     </calcite-dropdown-group>
   </calcite-split-button>`;
 
-export const primaryAsALinkAppearanceOutline = (): string =>
+export const PrimaryAsALinkAppearanceOutline = (): string =>
   html` <calcite-split-button
     appearance="outline"
     scale="m"
@@ -321,7 +321,7 @@ export const primaryAsALinkAppearanceOutline = (): string =>
     </calcite-dropdown-group>
   </calcite-split-button>`;
 
-export const primaryAsADownload = (): string =>
+export const PrimaryAsADownload = (): string =>
   html` <calcite-split-button
     download
     scale="m"
@@ -337,7 +337,7 @@ export const primaryAsADownload = (): string =>
     </calcite-dropdown-group>
   </calcite-split-button>`;
 
-export const primaryAsADownloadAppearanceOutlineFill = (): string =>
+export const PrimaryAsADownloadAppearanceOutlineFill = (): string =>
   html` <calcite-split-button
     download
     appearance="outline-fill"

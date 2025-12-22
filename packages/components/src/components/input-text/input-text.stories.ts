@@ -58,7 +58,7 @@ export default {
   },
 };
 
-export const simple = (args: InputTextStoryArgs): string => html`
+export const Simple = (args: InputTextStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       scale="${args.scale}"
@@ -78,7 +78,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
   </div>
 `;
 
-export const withSlottedAction = (): string => html`
+export const WithSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text id="input-with-slotted-action" status="idle" alignment="start" placeholder="Placeholder text">
       <calcite-button slot="action">Go</calcite-button>
@@ -86,7 +86,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       id="input-dark-mode"
@@ -98,9 +98,9 @@ export const darkModeRTL = (): string => html`
     </calcite-input-text>
   </div>
 `;
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const mediumIconForLargeScaleStyling = (): string => html`
+export const MediumIconForLargeScaleStyling = (): string => html`
   <calcite-label scale="l">
     Input Label
     <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
@@ -114,7 +114,7 @@ export const mediumIconForLargeScaleStyling = (): string => html`
   </calcite-label>
 `;
 
-export const widthSetToBreakpoints = (): string =>
+export const WidthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -134,7 +134,7 @@ export const widthSetToBreakpoints = (): string =>
     ></calcite-input-text>
   `);
 
-export const validationMessageAllScales = (): string => html`
+export const ValidationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -168,7 +168,7 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const fontSizeSetAtRoot = (): string =>
+export const FontSizeSetAtRoot = (): string =>
   html` <style>
       :root {
         font-size: 60px;
@@ -178,7 +178,7 @@ export const fontSizeSetAtRoot = (): string =>
       <calcite-button slot="action"> Search </calcite-button>
     </calcite-input-text>`;
 
-export const alignmentAllOptions = (): string => html`
+export const AlignmentAllOptions = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text alignment="start" placeholder="Placeholder text"></calcite-input-text>
     <br />
@@ -188,7 +188,7 @@ export const alignmentAllOptions = (): string => html`
   </div>
 `;
 
-export const overlayDoesNotObscureIcon = (): string =>
+export const OverlayDoesNotObscureIcon = (): string =>
   html` <style>
       .overlay {
         position: absolute;

@@ -60,7 +60,7 @@ export default {
   },
 };
 
-export const simple = (args: SegmentedControlStoryArgs): string => html`
+export const Simple = (args: SegmentedControlStoryArgs): string => html`
   <calcite-segmented-control
     layout="${args.layout}"
     appearance="${args.appearance}"
@@ -78,7 +78,7 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
   </calcite-segmented-control>
 `;
 
-export const fullWidthWithIcons = (): string => html`
+export const FullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="m">
       My great segmented control
@@ -91,7 +91,7 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-segmented-control
     class="calcite-mode-dark"
     dir="rtl"
@@ -104,9 +104,9 @@ export const darkModeRTL = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled = (): string =>
+export const Disabled = (): string =>
   html`<calcite-segmented-control disabled>
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
@@ -128,7 +128,7 @@ export const WithIconStartAndEnd = (): string =>
     <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
   </calcite-segmented-control>`;
 
-export const validationMessage = (): string => html`
+export const ValidationMessage = (): string => html`
   <style>
     .container {
       display: flex;
@@ -183,7 +183,7 @@ export const validationMessage = (): string => html`
   </div>
 `;
 
-export const iconOnly = (): string => html`
+export const IconOnly = (): string => html`
   <h1>small</h1>
   <calcite-segmented-control scale="s">
     <calcite-segmented-control-item icon-start="banana" value="react" checked></calcite-segmented-control-item>

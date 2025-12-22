@@ -65,7 +65,7 @@ export default {
   title: "Components/Controls/Combobox",
 };
 
-export const single = (): string => html`
+export const Single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       selection-display="all"
@@ -93,7 +93,7 @@ export const single = (): string => html`
   </div>
 `;
 
-export const smallViewport = (): string => html`
+export const SmallViewport = (): string => html`
   <calcite-combobox
     selection-display="all"
     selection-mode="single"
@@ -119,9 +119,9 @@ export const smallViewport = (): string => html`
     <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
   </calcite-combobox>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+SmallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const multiple = (): string => html`
+export const Multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <h2>selection-display="all" (default)</h2>
     <calcite-label>
@@ -364,7 +364,7 @@ export const multiple = (): string => html`
   </div>
 `;
 
-export const nestedItems = (): string => html`
+export const NestedItems = (): string => html`
       <calcite-combobox-item value="ITEM-0-0" heading="Level 1">
         <calcite-combobox-item value="ITEM-0-1" heading="Level 2"></calcite-combobox-item>
         <calcite-combobox-item value="ITEM-0-2" heading="Level 2"></calcite-combobox-item>
@@ -394,10 +394,10 @@ export const nestedItems = (): string => html`
     </calcite-combobox>
 `;
 
-nestedItems.args = {
+NestedItems.args = {
   selectionMode: "multiple",
 };
-nestedItems.decorators = [allScaleComboboxBuilder];
+NestedItems.decorators = [allScaleComboboxBuilder];
 
 const style = html`
   <style>
@@ -410,7 +410,7 @@ const style = html`
   </style>
 `;
 
-export const longItemsAllSelectionModes = (): string => html`
+export const LongItemsAllSelectionModes = (): string => html`
   ${style}
   <div style="display: flex; flex-direction: column;">
     <div style="display: flex; flex-direction: row; margin-block-end: 160px;">
@@ -450,7 +450,7 @@ export const longItemsAllSelectionModes = (): string => html`
   <div>
 `;
 
-export const disabled = (): string =>
+export const Disabled = (): string =>
   html`<calcite-combobox disabled>
     <calcite-combobox-item value="Trees" heading="Trees">
       <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
@@ -464,14 +464,14 @@ export const disabled = (): string =>
     </calcite-combobox-item>
   </calcite-combobox>`;
 
-export const placement = (): string =>
+export const Placement = (): string =>
   html`<calcite-combobox placement="top-start" open>
     <calcite-combobox-item value="1" heading="one" icon="number-circle-1"></calcite-combobox-item>
     <calcite-combobox-item value="2" heading="two" icon="number-circle-2"></calcite-combobox-item>
     <calcite-combobox-item value="3" heading="three" icon="number-circle-3"></calcite-combobox-item>
   </calcite-combobox>`;
 
-export const flipPlacements = (): string => html`
+export const FlipPlacements = (): string => html`
   <style>
     .my-combobox {
       position: unset;
@@ -509,7 +509,7 @@ export const flipPlacements = (): string => html`
   </script>
 `;
 
-export const flipPositioning = (): string => html`
+export const FlipPositioning = (): string => html`
   <div style="position: absolute; bottom: 10px; left: 10px;">
     <calcite-combobox max-items="6" placeholder="placeholder" label="demo" selection-mode="multiple" scale="m" open>
       <calcite-combobox-item value="Trees" heading="Trees">
@@ -533,11 +533,11 @@ export const flipPositioning = (): string => html`
     </calcite-combobox>
   </div>
 `;
-flipPositioning.parameters = {
+FlipPositioning.parameters = {
   layout: "fullscreen",
 };
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
@@ -568,9 +568,9 @@ export const darkModeRTL = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const singleLongLabel = (): string => html`
+export const SingleLongLabel = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" heading="Trees">
       <calcite-combobox-item
@@ -584,7 +584,7 @@ export const singleLongLabel = (): string => html`
   </calcite-combobox>
 `;
 
-export const withPlaceholderIcon = (): string =>
+export const WithPlaceholderIcon = (): string =>
   html` <calcite-combobox
     id="labelFour"
     label="test"
@@ -599,7 +599,7 @@ export const withPlaceholderIcon = (): string =>
     <calcite-combobox-item value="2" heading="Folder 2" icon="folder"></calcite-combobox-item>
   </calcite-combobox>`;
 
-export const withoutPlaceholderIcon = (): string =>
+export const WithoutPlaceholderIcon = (): string =>
   html` <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox placeholder="select folder" selection-mode="multiple" open>
       <calcite-combobox-item value="root" heading="username" icon="home" selected></calcite-combobox-item>
@@ -608,7 +608,7 @@ export const withoutPlaceholderIcon = (): string =>
     </calcite-combobox>
   </div>`;
 
-export const scrollingWithoutMaxItems = (): string => html`
+export const ScrollingWithoutMaxItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox label="demo combobox" open>
       <calcite-combobox-item value="Trees" heading="Trees" selected>
@@ -651,7 +651,7 @@ export const scrollingWithoutMaxItems = (): string => html`
   </div>
 `;
 
-export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): string => html`
+export const OptionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): string => html`
   <style>
     .wrapper {
       display: flex;
@@ -691,7 +691,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): s
   </div>
 `;
 
-export const mediumIconForLargeComboboxItem = (): string => html`
+export const MediumIconForLargeComboboxItem = (): string => html`
   <calcite-combobox open scale="l">
     <calcite-combobox-item
       icon="altitude"
@@ -706,7 +706,7 @@ export const mediumIconForLargeComboboxItem = (): string => html`
   </calcite-combobox>
 `;
 
-export const withSelectorIndicatorAndIcons = (): string => html`
+export const WithSelectorIndicatorAndIcons = (): string => html`
   <calcite-combobox-item heading="Folder 1" icon="folder" selected>
     <calcite-combobox-item heading="Sub Folder 1" icon="folder" selected>
       <calcite-combobox-item heading="Sub Folder 2 " icon="folder" selected></calcite-combobox-item>
@@ -722,12 +722,12 @@ export const withSelectorIndicatorAndIcons = (): string => html`
   </calcite-combobox-item-group>
 `;
 
-withSelectorIndicatorAndIcons.args = {
+WithSelectorIndicatorAndIcons.args = {
   selectionMode: "multiple",
 };
-withSelectorIndicatorAndIcons.decorators = [allScaleComboboxBuilder];
+WithSelectorIndicatorAndIcons.decorators = [allScaleComboboxBuilder];
 
-export const nestedGroups = (): string => html`
+export const NestedGroups = (): string => html`
   <calcite-combobox-item-group label="First item group">
     <calcite-combobox-item value="Pikachu" heading="Pikachu"></calcite-combobox-item>
     <calcite-combobox-item value="Charizard" heading="Charizard"></calcite-combobox-item>
@@ -751,12 +751,12 @@ export const nestedGroups = (): string => html`
   </calcite-combobox-item-group>
 `;
 
-nestedGroups.args = {
+NestedGroups.args = {
   selectionMode: "multiple",
 };
-nestedGroups.decorators = [allScaleComboboxBuilder];
+NestedGroups.decorators = [allScaleComboboxBuilder];
 
-export const clearDisabled = (): string => html`
+export const ClearDisabled = (): string => html`
   <calcite-combobox clear-disabled selection-mode="single" style="width:400px">
     <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
     <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
@@ -777,7 +777,7 @@ export const clearDisabled = (): string => html`
   </calcite-combobox>
 `;
 
-export const openInAllScales = (): string => html`
+export const OpenInAllScales = (): string => html`
   <div style="display: flex">
     <calcite-combobox open placeholder="choose a number" scale="s">
       <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
@@ -799,7 +799,7 @@ export const openInAllScales = (): string => html`
   </div>
 `;
 
-export const openWithPlaceholderIconInAllScales = (): string => html`
+export const OpenWithPlaceholderIconInAllScales = (): string => html`
   <div style="display: flex">
     <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="s">
       <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
@@ -821,7 +821,7 @@ export const openWithPlaceholderIconInAllScales = (): string => html`
   </div>
 `;
 
-export const validationMessageInAllScales = (): string => html`
+export const ValidationMessageInAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -873,7 +873,7 @@ export const validationMessageInAllScales = (): string => html`
   </div>
 `;
 
-export const readOnlyAllModes = (): string => html`
+export const ReadOnlyAllModes = (): string => html`
   <h1>read-only</h1>
 
   <h2>single</h2>
@@ -906,7 +906,7 @@ export const readOnlyAllModes = (): string => html`
   </calcite-combobox>
 `;
 
-export const filterHighlighting = (): string => html`
+export const FilterHighlighting = (): string => html`
   <calcite-combobox filter-text="Susan" max-items="6" open>
     <calcite-combobox-item value="Trees" heading="Trees">
       <calcite-combobox-item value="Pine" heading="Pine">
@@ -936,7 +936,7 @@ export const filterHighlighting = (): string => html`
   </calcite-combobox>
 `;
 
-export const withDescriptionIconsAndContentSlots = (): string => html`
+export const WithDescriptionIconsAndContentSlots = (): string => html`
   <calcite-combobox open>
     <calcite-combobox-item
       icon="layer"
@@ -972,7 +972,7 @@ export const withDescriptionIconsAndContentSlots = (): string => html`
   </calcite-combobox>
 `;
 
-export const selectAllEnabled = (): string => html`
+export const SelectAllEnabled = (): string => html`
   <calcite-combobox selection-mode="multiple" placeholder="placeholder" select-all-enabled open scale="l">
     <calcite-combobox-item value="Trees" heading="Trees" selected>
       <calcite-combobox-item value="Pine" heading="Pine" selected>
@@ -1007,7 +1007,7 @@ export const selectAllEnabled = (): string => html`
   </calcite-combobox>
 `;
 
-export const withDescriptionShortLabelAndContentSlots = (): string => html`
+export const WithDescriptionShortLabelAndContentSlots = (): string => html`
   <calcite-combobox-item
     description="the first installment in this thrilling series"
     selected
@@ -1033,7 +1033,7 @@ export const withDescriptionShortLabelAndContentSlots = (): string => html`
   </calcite-combobox-item>
 `;
 
-export const noMatchesScaledOrAddCustomValue = (): string => html`
+export const NoMatchesScaledOrAddCustomValue = (): string => html`
   <div style="display: flex; gap: 48px; padding: 100px;">
     <div style="display: flex; flex-direction: column; gap: 48px;">
       <calcite-combobox open filter-text="Three" selection-mode="single" scale="s">
@@ -1061,10 +1061,10 @@ export const noMatchesScaledOrAddCustomValue = (): string => html`
   </div>
 `;
 
-withDescriptionShortLabelAndContentSlots.args = {
+WithDescriptionShortLabelAndContentSlots.args = {
   selectionMode: ["single", "multiple"],
 };
-withDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
-withDescriptionShortLabelAndContentSlots.parameters = {
+WithDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
+WithDescriptionShortLabelAndContentSlots.parameters = {
   chromatic: { delay: 1000 },
 };

@@ -22,7 +22,7 @@ export default {
   },
 };
 
-export const simple = (args: SwatchGroupStoryArgs): string => html`
+export const Simple = (args: SwatchGroupStoryArgs): string => html`
   <calcite-swatch-group selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-swatch value="calcite swatch"></calcite-swatch>
     <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
@@ -59,7 +59,7 @@ export const simple = (args: SwatchGroupStoryArgs): string => html`
   </calcite-swatch-group>
 `;
 
-export const darkThemeRTL = (): string => html`
+export const DarkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-swatch-group>
       <calcite-swatch value="calcite swatch"></calcite-swatch>
@@ -106,4 +106,4 @@ export const darkThemeRTL = (): string => html`
   </div>
 `;
 
-darkThemeRTL.parameters = { themes: modesDarkDefault };
+DarkThemeRTL.parameters = { themes: modesDarkDefault };

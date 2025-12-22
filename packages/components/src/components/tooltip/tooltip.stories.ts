@@ -26,7 +26,7 @@ export default {
   },
 };
 
-export const simple = (args: TooltipStoryArgs): string => html`
+export const Simple = (args: TooltipStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
@@ -41,16 +41,16 @@ export const simple = (args: TooltipStoryArgs): string => html`
   </div>
 `;
 
-export const smallViewport = (): string => html`
+export const SmallViewport = (): string => html`
   <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud</calcite-button>
   <calcite-tooltip reference-element="reference-element" open
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
     aliqua</calcite-tooltip
   >
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+SmallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const open = (): string => html`
+export const Open = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
@@ -65,7 +65,7 @@ export const open = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
@@ -81,9 +81,9 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const rightAligned = (): string =>
+export const RightAligned = (): string =>
   html`<div style="width:800px; height:800px;">
     <div style="text-align: right; width: 600px;">
       <a href="#" id="tooltip-button">Hover for Tooltip</a>
@@ -93,7 +93,7 @@ export const rightAligned = (): string =>
     </div>
   </div>`;
 
-export const transparentBG = (): string => html`
+export const TransparentBG = (): string => html`
   <style>
     calcite-tooltip {
       --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
@@ -106,7 +106,7 @@ export const transparentBG = (): string => html`
   </div>
 `;
 
-export const withInteractiveContent = (): string =>
+export const WithInteractiveContent = (): string =>
   html`<div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip reference-element="reference-element" placement="auto" open

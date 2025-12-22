@@ -29,7 +29,7 @@ export default {
   },
 };
 
-export const simple = (args: CarouselStoryArgs): string =>
+export const Simple = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
@@ -77,7 +77,7 @@ export const simple = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
-export const simpleManyItems = (args: CarouselStoryArgs): string =>
+export const SimpleManyItems = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
@@ -153,7 +153,7 @@ export const simpleManyItems = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
-export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
+export const SimpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
   html` <div style="width:400px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
@@ -229,7 +229,7 @@ export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
-export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
+export const SimpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
   html` <div style="width:200px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
@@ -305,7 +305,7 @@ export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
-export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
+export const CarouselAutoplayFullImageWithOverlayAndEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -335,7 +335,7 @@ export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const carouselAutoplayFullImageWithNoOverlay = (): string =>
+export const CarouselAutoplayFullImageWithNoOverlay = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -365,7 +365,7 @@ export const carouselAutoplayFullImageWithNoOverlay = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const carouselFullImageWithOverlay = (): string =>
+export const CarouselFullImageWithOverlay = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -395,7 +395,7 @@ export const carouselFullImageWithOverlay = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const carouselWithAutoplayNoOverlay = (): string =>
+export const CarouselWithAutoplayNoOverlay = (): string =>
   html`<div style="width:600px;height:400px;">
     <style>
       calcite-carousel-item calcite-icon {
@@ -446,7 +446,7 @@ export const carouselWithAutoplayNoOverlay = (): string =>
     </calcite-carousel>
   </div>`;
 
-export const themed_simple = (): string =>
+export const ThemedSimple = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -512,7 +512,7 @@ export const themed_simple = (): string =>
     </calcite-carousel>
   </div>`;
 
-export const themed_carouselFullImageWithOverlay = (): string =>
+export const ThemedCarouselfullimagewithoverlay = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -555,7 +555,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const darkModeRTL = (): string =>
+export const DarkModeRTL = (): string =>
   html` <div style="width:600px;height:400px;" dir="rtl">
     <style>
       calcite-carousel-item calcite-icon {
@@ -613,4 +613,4 @@ export const darkModeRTL = (): string =>
     </calcite-carousel>
   </div>`;
 
-darkModeRTL.parameters = { modes: modesDarkDefault };
+DarkModeRTL.parameters = { modes: modesDarkDefault };

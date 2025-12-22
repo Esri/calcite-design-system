@@ -38,7 +38,7 @@ export default {
   },
 };
 
-export const simple = (args: RadioButtonGroupStoryArgs): string => html`
+export const Simple = (args: RadioButtonGroupStoryArgs): string => html`
   <calcite-radio-button-group
     name="simple"
     ${boolean("disabled", args.disabled)}
@@ -65,7 +65,7 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
   </calcite-radio-button-group>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-radio-button-group
     class="calcite-mode-dark"
     dir="rtl"
@@ -93,9 +93,9 @@ export const darkModeRTL = (): string => html`
   </calcite-radio-button-group>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const validationMessage = (): string => html`
+export const ValidationMessage = (): string => html`
   <style>
     .container {
       display: flex;

@@ -50,7 +50,7 @@ export default {
   },
 };
 
-export const simple = (args: TimePickerStoryArgs): string => html`
+export const Simple = (args: TimePickerStoryArgs): string => html`
   <calcite-time-picker
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
@@ -65,7 +65,7 @@ export const simple = (args: TimePickerStoryArgs): string => html`
   </calcite-time-picker>
 `;
 
-export const koreanLocale = (): string => html`
+export const KoreanLocale = (): string => html`
   <calcite-time-picker lang="ko" value="10:37" step="1"> </calcite-time-picker>
   <calcite-time-picker lang="ko" value="14:37" step="1"> </calcite-time-picker>
 `;

@@ -86,7 +86,7 @@ const wrapperStyles = html`
   </style>
 `;
 
-export const simple = (args: AlertStoryArgs): string => html`
+export const Simple = (args: AlertStoryArgs): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -109,7 +109,7 @@ export const simple = (args: AlertStoryArgs): string => html`
   </div>
 `;
 
-export const titleMessageLink = (): string => html`
+export const TitleMessageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -128,9 +128,9 @@ export const titleMessageLink = (): string => html`
   </div>
 `;
 
-titleMessageLink.storyName = "Title, message, link";
+TitleMessageLink.storyName = "Title, message, link";
 
-export const titleMessage = (): string => html`
+export const TitleMessage = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -148,9 +148,9 @@ export const titleMessage = (): string => html`
   </div>
 `;
 
-titleMessage.storyName = "Title, message";
+TitleMessage.storyName = "Title, message";
 
-export const messageLink = (): string => html`
+export const MessageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -168,9 +168,9 @@ export const messageLink = (): string => html`
   </div>
 `;
 
-messageLink.storyName = "Message, link";
+MessageLink.storyName = "Message, link";
 
-export const message = (): string => html`
+export const Message = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -187,7 +187,7 @@ export const message = (): string => html`
   </div>
 `;
 
-export const customIcon = (): string => html`
+export const CustomIcon = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -205,7 +205,7 @@ export const customIcon = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -225,9 +225,9 @@ export const darkModeRTL = (): string => html`
   </div>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const actionsEndNoQueue = (): string => html`
+export const ActionsEndNoQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -246,7 +246,7 @@ export const actionsEndNoQueue = (): string => html`
   </div>
 `;
 
-export const actionsEndQueued = (): string => html`
+export const ActionsEndQueued = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
@@ -269,7 +269,7 @@ export const actionsEndQueued = (): string => html`
   </div>
 `;
 
-export const textAlignDoesNotAffectComponentAlignment = (): string => html`
+export const TextAlignDoesNotAffectComponentAlignment = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -287,7 +287,7 @@ export const textAlignDoesNotAffectComponentAlignment = (): string => html`
   </div>
 `;
 
-export const withQueue = (): string => html`
+export const WithQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" kind="brand" open>

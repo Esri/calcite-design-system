@@ -29,7 +29,7 @@ export default {
   },
 };
 
-export const simple = (args: ColorPickerStoryArgs): string => html`
+export const Simple = (args: ColorPickerStoryArgs): string => html`
   <calcite-color-picker
     ${boolean("channels-disabled", args.channelsDisabled)}
     ${boolean("hex-disabled", args.hexDisabled)}
@@ -41,21 +41,21 @@ export const simple = (args: ColorPickerStoryArgs): string => html`
   ></calcite-color-picker>
 `;
 
-export const alphaChannelAllScales = (): string => html`
+export const AlphaChannelAllScales = (): string => html`
   <calcite-color-picker scale="s" alpha-channel value="#b33f3333"></calcite-color-picker>
   <calcite-color-picker scale="m" alpha-channel value="#b33f3333"></calcite-color-picker>
   <calcite-color-picker scale="l" alpha-channel value="#b33f3333"></calcite-color-picker>
 `;
 
-export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
+export const Disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-color-picker scale="m" dir="rtl" class="calcite-mode-dark" value="#b33f33"></calcite-color-picker>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const thumbsOnEdgeDoNotOverflowContainer = (): string =>
+export const ThumbsOnEdgeDoNotOverflowContainer = (): string =>
   html`<div style="overflow: auto; width: 274px;">
     <calcite-color-picker value="#04006e"></calcite-color-picker>
   </div>`;
@@ -86,7 +86,7 @@ Focus.parameters = {
   chromatic: { delay: 2000 },
 };
 
-export const responsive = (): string =>
+export const Responsive = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {

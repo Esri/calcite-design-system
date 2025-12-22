@@ -37,7 +37,7 @@ export default {
   },
 };
 
-export const simple = (args: TileStoryArgs): string => html`
+export const Simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
     description="${args.description}"
@@ -51,7 +51,7 @@ export const simple = (args: TileStoryArgs): string => html`
   </calcite-tile>
 `;
 
-export const headingLevelAllScales = (): string => html`
+export const HeadingLevelAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -105,7 +105,7 @@ export const headingLevelAllScales = (): string => html`
   </div>
 `;
 
-export const allVariants = (): string => html`
+export const AllVariants = (): string => html`
   <style>
     .parent {
       display: flex;
@@ -675,7 +675,7 @@ export const allVariants = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     heading="Tile heading lorem ipsum"
@@ -686,16 +686,16 @@ export const darkModeRTL = (): string => html`
   >
   </calcite-tile>
 `;
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const contentTopButton = (): string => html`
+export const ContentTopButton = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
     <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const contentTopFullWidth = (): string => html`
+export const ContentTopFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -721,7 +721,7 @@ export const contentTopFullWidth = (): string => html`
   </calcite-tile>
 `;
 
-export const contentBottomFullWidth = (): string => html`
+export const ContentBottomFullWidth = (): string => html`
   <style>
     .slotted {
       display: inline-flex;
@@ -747,14 +747,14 @@ export const contentBottomFullWidth = (): string => html`
   </calcite-tile>
 `;
 
-export const contentStartRTL = (): string => html`
+export const ContentStartRTL = (): string => html`
   <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
-export const overflowingContent = (): string => html`
+export const OverflowingContent = (): string => html`
   <calcite-tile
     icon="2d-explore"
     heading="Example long tile heading........................................................................................................................"
@@ -763,7 +763,7 @@ export const overflowingContent = (): string => html`
   ></calcite-tile>
 `;
 
-export const disabled = (): string => html`
+export const Disabled = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
     disabled
@@ -773,7 +773,7 @@ export const disabled = (): string => html`
   </calcite-tile>
 `;
 
-export const widthSetToBreakpoints = (): string =>
+export const WidthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html` <calcite-tile
       description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."

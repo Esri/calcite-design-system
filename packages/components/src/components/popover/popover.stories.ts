@@ -49,7 +49,7 @@ export default {
   },
 };
 
-export const simple = (args: PopoverStoryArgs): string => html`
+export const Simple = (args: PopoverStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -68,7 +68,7 @@ export const simple = (args: PopoverStoryArgs): string => html`
   </div>
 `;
 
-export const smallViewport = (): string => html`
+export const SmallViewport = (): string => html`
   ${referenceElementHTML}
   <calcite-popover reference-element="reference-element" open>
     <b>I am a title!</b> <br />
@@ -79,9 +79,9 @@ export const smallViewport = (): string => html`
     <calcite-link>I am an inline link</calcite-link>
   </calcite-popover>
 `;
-smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+SmallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const darkModeRTL = (): string =>
+export const DarkModeRTL = (): string =>
   html` <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -98,9 +98,9 @@ export const darkModeRTL = (): string =>
     </calcite-popover>
   </div>`;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const nested = (): string => html`
+export const Nested = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover closable open reference-element="reference-element" placement="${defaultPopoverPlacement}">
@@ -123,11 +123,11 @@ export const nested = (): string => html`
   </div>
 `;
 
-nested.parameters = {
+Nested.parameters = {
   chromatic: { delay: 1500 },
 };
 
-export const flipPlacements = (): string => html`
+export const FlipPlacements = (): string => html`
   <div style="height: 100px; overflow:scroll; width: 200px;">
     <div class="my-popover-reference">
       <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
@@ -141,7 +141,7 @@ export const flipPlacements = (): string => html`
   </script>
 `;
 
-export const scaleConsistencyPopoverHeadingActionSlottedIcon = (): string => html`
+export const ScaleConsistencyPopoverHeadingActionSlottedIcon = (): string => html`
   <div style="width: 800px; height:800px;">
     <div style="width: 400px;">
       ${referenceElementHTML}
@@ -159,7 +159,7 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon = (): string => htm
   </div>
 `;
 
-export const smallScaleLayout = (): string => html`
+export const SmallScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -175,7 +175,7 @@ export const smallScaleLayout = (): string => html`
   </div>
 `;
 
-export const mediumScaleLayout = (): string => html`
+export const MediumScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -191,7 +191,7 @@ export const mediumScaleLayout = (): string => html`
   </div>
 `;
 
-export const largeScaleLayout = (): string => html`
+export const LargeScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -207,7 +207,7 @@ export const largeScaleLayout = (): string => html`
   </div>
 `;
 
-export const transparentBG = (): string => html`
+export const TransparentBG = (): string => html`
   <style>
     calcite-popover {
       --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
@@ -229,7 +229,7 @@ export const transparentBG = (): string => html`
   </div>
 `;
 
-export const closedShouldNotCauseScrollbars = (): string =>
+export const ClosedShouldNotCauseScrollbars = (): string =>
   html`<calcite-popover reference-element="button">
       <div style="width:10000px; height:10000px;">Popover</div>
     </calcite-popover>

@@ -78,7 +78,7 @@ export default {
   },
 };
 
-export const simple = (args: InputNumberStoryArgs): string => html`
+export const Simple = (args: InputNumberStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
       scale="${args.scale}"
@@ -102,7 +102,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
   </div>
 `;
 
-export const withSlottedAction = (): string => html`
+export const WithSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
       id="input-with-slotted-action"
@@ -119,7 +119,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -138,11 +138,11 @@ export const darkModeRTL = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const infinityAsValue = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
+export const InfinityAsValue = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 
-export const mediumIconForLargeInputStyling = (): string => html`
+export const MediumIconForLargeInputStyling = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
   ><calcite-input-number
     number-button-type="vertical"
@@ -161,10 +161,10 @@ export const mediumIconForLargeInputStyling = (): string => html`
   ></calcite-input-number>
 `;
 
-export const arabicLocaleWithLatinNumberingSystem = (): string =>
+export const ArabicLocaleWithLatinNumberingSystem = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
 
-export const validationMessageAllScales = (): string => html`
+export const ValidationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -198,7 +198,7 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints = (): string =>
+export const WidthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -218,7 +218,7 @@ export const widthSetToBreakpoints = (): string =>
     ></calcite-input-number>
   `);
 
-export const fontSizeSetAtRoot = (): string =>
+export const FontSizeSetAtRoot = (): string =>
   html` <style>
       :root {
         font-size: 60px;
@@ -228,7 +228,7 @@ export const fontSizeSetAtRoot = (): string =>
       <calcite-button slot="action"> Search </calcite-button>
     </calcite-input-number>`;
 
-export const alignmentAllOptions = (): string => html`
+export const AlignmentAllOptions = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number alignment="start" placeholder="Placeholder text"></calcite-input-number>
     <br />
@@ -238,7 +238,7 @@ export const alignmentAllOptions = (): string => html`
   </div>
 `;
 
-export const overlayDoesNotObscureIcon = (): string =>
+export const OverlayDoesNotObscureIcon = (): string =>
   html` <style>
       .overlay {
         position: absolute;

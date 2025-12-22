@@ -25,7 +25,7 @@ export default {
   },
 };
 
-export const simple = (args: AvatarStoryArgs): string => html`
+export const Simple = (args: AvatarStoryArgs): string => html`
   <calcite-avatar
     scale="${args.scale}"
     full-name="${args.fullName}"
@@ -37,7 +37,7 @@ export const simple = (args: AvatarStoryArgs): string => html`
   </calcite-avatar>
 `;
 
-export const missingThumbnail = (): string => html`
+export const MissingThumbnail = (): string => html`
   <calcite-avatar scale="m" full-name="John Doe" username="jdoe" user-id="9a7c50e6b3ce4b859f7b31e302437164">
   </calcite-avatar>
 `;
@@ -81,7 +81,7 @@ const contrastDarkRTL = users
   )
   .join("");
 
-export const contrast = (): string => html`
+export const Contrast = (): string => html`
   <div>
     <style>
       .container {

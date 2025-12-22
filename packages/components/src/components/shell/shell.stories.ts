@@ -265,7 +265,7 @@ const advancedTrailingPanelHTMl = html`
   </calcite-flow>
 `;
 
-export const simple = (args: ShellStoryArgs): string => html`
+export const Simple = (args: ShellStoryArgs): string => html`
   <calcite-shell>
     ${headerHTML}
     <calcite-shell-panel
@@ -297,7 +297,7 @@ export const simple = (args: ShellStoryArgs): string => html`
   </calcite-shell>
 `;
 
-export const darkModeRTL = (): string => html`
+export const DarkModeRTL = (): string => html`
   <calcite-shell dir="rtl" class="calcite-mode-dark">
     ${headerHTML}
     <calcite-shell-panel slot="panel-start" display-mode="dock"> ${advancedLeadingPanelHTML} </calcite-shell-panel>
@@ -309,7 +309,7 @@ export const darkModeRTL = (): string => html`
   </calcite-shell>
 `;
 
-darkModeRTL.parameters = { themes: modesDarkDefault };
+DarkModeRTL.parameters = { themes: modesDarkDefault };
 
 const closedPanelsHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
@@ -340,8 +340,8 @@ const closedPanelsHtml: string[] = [];
     </calcite-shell-panel>
   </calcite-shell>`;
 });
-export const closedPanelsFloat = (): string => closedPanelsHtml[0];
-export const closedPanelsFloatContent = (): string => closedPanelsHtml[1];
+export const ClosedPanelsFloat = (): string => closedPanelsHtml[0];
+export const ClosedPanelsFloatContent = (): string => closedPanelsHtml[1];
 
 const endPanelHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
@@ -483,10 +483,10 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`;
 });
-export const endPanelFloat = (): string => endPanelHtml[0];
-export const endPanelFloatContent = (): string => endPanelHtml[1];
+export const EndPanelFloat = (): string => endPanelHtml[0];
+export const EndPanelFloatContent = (): string => endPanelHtml[1];
 
-export const slottedDialogAndAlert = (): string =>
+export const SlottedDialogAndAlert = (): string =>
   html` <main>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
@@ -566,7 +566,7 @@ export const slottedDialogAndAlert = (): string =>
     </p>
   </main>`;
 
-export const slottedSheetOverlay = (): string => html`
+export const SlottedSheetOverlay = (): string => html`
   <p class="padded-content">
     <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -749,10 +749,10 @@ const slottedSheetHtml: string[] = [];
     </script>
   `;
 });
-export const slottedSheetFloat = (): string => slottedSheetHtml[0];
-export const slottedSheetFloatContent = (): string => slottedSheetHtml[1];
+export const SlottedSheetFloat = (): string => slottedSheetHtml[0];
+export const SlottedSheetFloatContent = (): string => slottedSheetHtml[1];
 
-export const contentBehind = (): string =>
+export const ContentBehind = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
     <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
@@ -762,7 +762,7 @@ export const contentBehind = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const slottedPanelTop = (): string =>
+export const SlottedPanelTop = (): string =>
   html`<calcite-shell
     style="
     width:100%;
@@ -813,10 +813,10 @@ const contentBehindPanelBottomHtml: string[] = [];
     </calcite-shell>
   `;
 });
-export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
-export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
+export const ContentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
+export const ContentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
 
-export const slottedPanelBottom = (): string => html`
+export const SlottedPanelBottom = (): string => html`
   <calcite-shell
     style="
     width:100%;
@@ -842,7 +842,7 @@ export const slottedPanelBottom = (): string => html`
   </calcite-shell>
 `;
 
-export const slottedPanelTopAndBottom = (): string => html`
+export const SlottedPanelTopAndBottom = (): string => html`
   <calcite-shell
     style="
     width:100%;
@@ -869,7 +869,7 @@ export const slottedPanelTopAndBottom = (): string => html`
   </calcite-shell>
 `;
 
-export const slottedPanelTopAndBottomAndSides = (): string => html`
+export const SlottedPanelTopAndBottomAndSides = (): string => html`
   <calcite-shell
     style="
     width:100%;
@@ -902,7 +902,7 @@ export const slottedPanelTopAndBottomAndSides = (): string => html`
   </calcite-shell>
 `;
 
-export const shellCenterRowWithActionBar = (): string =>
+export const ShellCenterRowWithActionBar = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
     <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
@@ -912,7 +912,7 @@ export const shellCenterRowWithActionBar = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const shellPanelZIndex = (): string =>
+export const ShellPanelZIndex = (): string =>
   html` <calcite-shell
       style="
 height:400px;
@@ -934,11 +934,11 @@ position:relative;
       });
     </script>`;
 
-shellPanelZIndex.parameters = {
+ShellPanelZIndex.parameters = {
   chromatic: { delay: 800 },
 };
 
-export const resizableShellPanels = (): string =>
+export const ResizableShellPanels = (): string =>
   html`<calcite-shell
     style="
 width:100%;
@@ -1067,11 +1067,11 @@ position:relative;
     </calcite-shell-panel>
   </calcite-shell>`;
 
-resizableShellPanels.parameters = {
+ResizableShellPanels.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const resizableShellPanelsRTL = (): string =>
+export const ResizableShellPanelsRTL = (): string =>
   html`<calcite-shell
     dir="rtl"
     style="
@@ -1201,11 +1201,11 @@ position:relative;
     </calcite-shell-panel>
   </calcite-shell>`;
 
-resizableShellPanelsRTL.parameters = {
+ResizableShellPanelsRTL.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const overlayDisplayMode = (): string =>
+export const OverlayDisplayMode = (): string =>
   html`<calcite-shell
     style="
 width:800px;
@@ -1428,11 +1428,11 @@ position:relative;
     </calcite-shell-panel>
   </calcite-shell>`;
 
-overlayDisplayMode.parameters = {
+OverlayDisplayMode.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const panelEndWithPositionStart = (): string =>
+export const PanelEndWithPositionStart = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
       <calcite-action-bar slot="action-bar">
@@ -1467,7 +1467,7 @@ export const panelEndWithPositionStart = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatHorizontal = (): string =>
+export const PanelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
       <calcite-action-bar slot="action-bar" expand-disabled layout="horizontal" overlay-positioning="absolute">
@@ -1513,7 +1513,7 @@ export const panelTopFloatHorizontal = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatVertical = (): string =>
+export const PanelTopFloatVertical = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
       <calcite-action-bar slot="action-bar" expand-disabled layout="vertical" overlay-positioning="absolute">
@@ -1569,7 +1569,7 @@ export const panelTopFloatVertical = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const resizeHandlePositioning = (): string =>
+export const ResizeHandlePositioning = (): string =>
   html` <calcite-shell>
     <calcite-shell-panel id="panel-start" slot="panel-start" resizable>
       <calcite-action-bar slot="action-bar">
@@ -1596,7 +1596,7 @@ export const resizeHandlePositioning = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const shellPanelWithTabs = (): string =>
+export const ShellPanelWithTabs = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-start" id="shell-panel-start">
       <calcite-action-bar slot="action-bar">
@@ -1753,7 +1753,7 @@ export const shellPanelWithTabs = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelWithPopoverZIndex = (): string =>
+export const PanelWithPopoverZIndex = (): string =>
   html` <style>
       #viewDiv {
         padding: 0;
@@ -1777,7 +1777,7 @@ export const panelWithPopoverZIndex = (): string =>
       <calcite-panel height-scale="m" heading="popover panel header" style="height: 400px;"> </calcite-panel
     ></calcite-popover>`;
 
-export const popoverZIndex = (): string =>
+export const PopoverZIndex = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-start" id="shell-panel-start">
       <calcite-action-bar slot="action-bar">
@@ -1809,7 +1809,7 @@ export const popoverZIndex = (): string =>
     <calcite-panel heading="Content"></calcite-panel>
   </calcite-shell>`;
 
-export const floatAllArrangements = (): string =>
+export const FloatAllArrangements = (): string =>
   html` <calcite-shell content-behind>
     <div
       style="
@@ -1899,7 +1899,7 @@ export const floatAllArrangements = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const resizableShellPanelWithDropdown = (): string =>
+export const ResizableShellPanelWithDropdown = (): string =>
   html`<calcite-shell>
     <div
       style="
@@ -1934,7 +1934,7 @@ export const resizableShellPanelWithDropdown = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const floatAllArrangementsStart = (): string =>
+export const FloatAllArrangementsStart = (): string =>
   html` <calcite-shell content-behind>
     <div
       style="
@@ -2024,7 +2024,7 @@ export const floatAllArrangementsStart = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelsWithOverflowingContent = (): string =>
+export const PanelsWithOverflowingContent = (): string =>
   html` <calcite-shell content-behind>
     <div
       style="
@@ -2329,7 +2329,7 @@ export const panelsWithOverflowingContent = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-panelsWithOverflowingContent.parameters = {
+PanelsWithOverflowingContent.parameters = {
   chromatic: {
     modes: {
       specific: {
@@ -2343,7 +2343,7 @@ panelsWithOverflowingContent.parameters = {
   },
 };
 
-export const panelsWithHeightsDefined = (): string =>
+export const PanelsWithHeightsDefined = (): string =>
   html`<style>
       #start,
       #end {
@@ -2373,7 +2373,7 @@ export const panelsWithHeightsDefined = (): string =>
       <calcite-shell-panel id="end" slot="panel-end">End</calcite-shell-panel>
     </calcite-shell>`;
 
-panelsWithHeightsDefined.parameters = {
+PanelsWithHeightsDefined.parameters = {
   chromatic: {
     modes: {
       specific: {
@@ -2387,7 +2387,7 @@ panelsWithHeightsDefined.parameters = {
   },
 };
 
-export const customPanelWithOverflowingContent = (): string =>
+export const CustomPanelWithOverflowingContent = (): string =>
   html` <calcite-shell content-behind>
     <div
       style="
@@ -2699,7 +2699,7 @@ export const customPanelWithOverflowingContent = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-customPanelWithOverflowingContent.parameters = {
+CustomPanelWithOverflowingContent.parameters = {
   chromatic: {
     modes: {
       specific: {
@@ -2749,7 +2749,7 @@ const embeddedSlotsShellDecorator: Decorator = (storyFn) => html`
   </main>
 `;
 
-export const embeddedSlots = (): string => html`
+export const EmbeddedSlots = (): string => html`
   <calcite-shell>
     <div slot="header">Header Example</div>
     <calcite-dialog open modal slot="dialogs"
@@ -2821,9 +2821,9 @@ export const embeddedSlots = (): string => html`
   </calcite-shell>
 `;
 
-embeddedSlots.decorators = [embeddedSlotsShellDecorator];
+EmbeddedSlots.decorators = [embeddedSlotsShellDecorator];
 
-export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): string => html`
+export const EmbeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): string => html`
   <calcite-shell>
     <div slot="header">Header Example</div>
     <calcite-dialog
@@ -2892,7 +2892,7 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
   </calcite-shell>
 `;
 
-export const floatAllHeights = (): string => html`
+export const FloatAllHeights = (): string => html`
   <h3>layout="vertical" & display-mode="float-all" & height="s"</h3>
   <div style="position:relative; height: 180px">
     <calcite-shell>
@@ -2921,12 +2921,12 @@ export const floatAllHeights = (): string => html`
   </div>
 `;
 
-embeddedSlotsInteractive.args = {
+EmbeddedSlotsInteractive.args = {
   dialogPlacement: "center",
   dialogHeight: "300px",
   dialogWidth: "800px",
 };
-embeddedSlotsInteractive.argTypes = {
+EmbeddedSlotsInteractive.argTypes = {
   dialogPlacement: {
     control: { type: "select" },
     options: dialogPlacements,
@@ -2938,4 +2938,4 @@ embeddedSlotsInteractive.argTypes = {
     control: "text",
   },
 };
-embeddedSlotsInteractive.decorators = [embeddedSlotsShellDecorator];
+EmbeddedSlotsInteractive.decorators = [embeddedSlotsShellDecorator];
