@@ -51,7 +51,7 @@
     "@storybook/builder-vite": "10.1.4",
     "@storybook/html": "10.1.4",
     "@storybook/web-components-vite": "10.1.4",
-    "@tokens-studio/sd-transforms": "2.0.2",
+    "@tokens-studio/sd-transforms": "2.0.3",
     "@types/dedent": "0.7.2",
     "@types/eslint": "9.6.1",
     "@types/estree": "1.0.8",
