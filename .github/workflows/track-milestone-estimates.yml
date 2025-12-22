@@ -9,7 +9,7 @@ jobs:
   estimates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Create estimates data
         uses: actions/github-script@v8
         with:
