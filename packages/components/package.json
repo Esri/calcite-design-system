@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "5.0.0-next.36",
+  "version": "5.0.0-next.38",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -53,6 +53,7 @@
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig.demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
+    "test:ci": "concurrently --passthrough-arguments --names stable,experimental \"npm run test:stable 2>test-stable.err.log\" \"npm run test:experimental 2>test-experimental.err.log\" || node ./support/log-test-output.mts",
     "test:stable": "vitest run",
     "test:experimental": "npm run util:ensure-playwright-workaround && HEADLESS=${HEADLESS:-true} EXPERIMENTAL_TESTS=true vitest run --browser.headless=$HEADLESS",
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
@@ -66,7 +67,6 @@
     "util:copy-icons": "cpy \"../ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
     "util:generate-t9n-docs-json": "node support/generate-t9n-docs-json.ts",
     "util:generate-supported-browsers-json": "node support/generate-supported-browsers-json.ts",
-    "util:hydration-styles": "node support/hydrationStyles.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
     "util:prep-build-reqs": "npm run util:copy-assets",
     "util:sync-t9n-en-bundles": "node support/sync-en-t9n-bundles.ts",
