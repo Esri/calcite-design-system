@@ -42,6 +42,7 @@ $icon-size-l: 32px;
 
 .svg {
   @apply block;
+  color: var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor));
 }
 
 @include includes.base-component();
