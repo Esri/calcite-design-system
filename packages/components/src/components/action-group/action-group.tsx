@@ -57,7 +57,7 @@ export class ActionGroup extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   @queryAssignedElements({ selector: "calcite-action" })
-  private actions: Action["el"][];
+  private actions!: Action["el"][];
 
   //#endregion
 
@@ -158,7 +158,6 @@ export class ActionGroup extends LitElement {
   constructor() {
     super();
     this.listen("click", this.handleActionClick);
-    this.setRoleOnActions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -238,18 +237,16 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    if (this.selectionMode !== "none") {
-      this.actions?.forEach((action) => {
-        action.aria = {
-          ...action.aria,
-          role:
-            this.selectionMode === "single" || this.selectionMode === "single-persist"
-              ? "radio"
-              : "checkbox",
-        };
-        this.setActionAriaChecked(action, action.active);
-      });
-    }
+    this.actions.forEach((action) => {
+      action.aria = {
+        ...action.aria,
+        role:
+          this.selectionMode === "single" || this.selectionMode === "single-persist"
+            ? "radio"
+            : "checkbox",
+      };
+      this.setActionAriaChecked(action, action.active);
+    });
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {
@@ -261,10 +258,10 @@ export class ActionGroup extends LitElement {
 
   private clearActionAriaAttributes(): void {
     if (this.selectionMode === "none") {
-      this.actions?.forEach((action) => {
+      this.actions.forEach((action) => {
         if (action.aria) {
-          delete action.aria.checked;
-          delete action.aria.role;
+          action.aria.checked = undefined;
+          action.aria.role = undefined;
           action.aria = { ...action.aria };
         }
       });
