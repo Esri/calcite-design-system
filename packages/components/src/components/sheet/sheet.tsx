@@ -287,7 +287,6 @@ export class Sheet extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       toggleOpenClose(this);
-      this.handlePopover();
     }
 
     if (
@@ -524,6 +523,7 @@ export class Sheet extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -541,6 +541,7 @@ export class Sheet extends LitElement {
   onClose(): void {
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
+    this.handlePopover();
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {
@@ -559,7 +560,6 @@ export class Sheet extends LitElement {
     }
 
     this.transitionEl = el;
-    this.handlePopover();
   }
 
   private handleOutsideClose(): void {
