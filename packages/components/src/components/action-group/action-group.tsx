@@ -57,7 +57,7 @@ export class ActionGroup extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   @queryAssignedElements({ selector: "calcite-action" })
-  private actions: Action["el"][];
+  private actions!: Action["el"][];
 
   //#endregion
 
@@ -158,7 +158,6 @@ export class ActionGroup extends LitElement {
   constructor() {
     super();
     this.listen("click", this.handleActionClick);
-    this.setRoleOnActions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -168,7 +167,11 @@ export class ActionGroup extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (this.hasUpdated || changes.has("selectionMode")) {
-      this.setRoleOnActions();
+      if (this.selectionMode !== "none") {
+        this.setRoleOnActions();
+      } else if (this.selectionMode === "none") {
+        this.clearActionAriaAttributes();
+      }
     }
 
     if (changes.has("expanded")) {
@@ -234,7 +237,7 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    this.actions?.forEach((action) => {
+    this.actions.forEach((action) => {
       action.aria = {
         ...action.aria,
         role:
@@ -251,6 +254,18 @@ export class ActionGroup extends LitElement {
       ...action.aria,
       checked: checked ? "true" : "false",
     };
+  }
+
+  private clearActionAriaAttributes(): void {
+    if (this.selectionMode === "none") {
+      this.actions.forEach((action) => {
+        if (action.aria) {
+          action.aria.checked = undefined;
+          action.aria.role = undefined;
+          action.aria = { ...action.aria };
+        }
+      });
+    }
   }
 
   //#endregion
