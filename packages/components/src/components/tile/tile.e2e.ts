@@ -287,7 +287,7 @@ describe("calcite-tile", () => {
           },
         );
       });
-      describe(`applies to selected item's border using selection-appearance="border"`, () => {
+      describe(`applies to selected item's outline using selection-appearance="border"`, () => {
         themed(
           html`
             <calcite-tile
@@ -304,7 +304,29 @@ describe("calcite-tile", () => {
           {
             "--calcite-tile-accent-color-press": {
               shadowSelector: `.${CSS.container}`,
-              targetProp: "boxShadow",
+              targetProp: "outline",
+            },
+          },
+        );
+      });
+      describe(`applies to selected item's outline using selection-appearance="highlight"`, () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+              icon="layers"
+              interactive
+              selection-mode="single"
+              selection-appearance="highlight"
+              selected
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-tile-accent-color-press": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "outline",
             },
           },
         );
