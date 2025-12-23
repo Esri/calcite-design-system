@@ -116,10 +116,7 @@
 
     &:focus {
       @apply focus-outset;
-      background-color: var(
-        --calcite-button-background-color-focus,
-        var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent))
-      );
+      background-color: var(--calcite-button-background-color-focus, var(--calcite-internal-button-background-color));
     }
 
     &:active {
