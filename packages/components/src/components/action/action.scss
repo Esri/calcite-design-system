@@ -273,6 +273,12 @@
 .indicator-with-icon {
   @include action-indicator();
 }
+
+.indicator-without-icon {
+  @apply w-4 mx-1;
+  @include action-indicator();
+}
+
 :host([scale="s"]) {
   .indicator-with-icon {
     @include action-indicator(-0.125rem);
@@ -281,13 +287,7 @@
       inline-size: 0.375rem;
     }
   }
-}
 
-.indicator-without-icon {
-  @apply w-4 mx-1;
-  @include action-indicator();
-}
-:host([scale="s"]) {
   .indicator-without-icon {
     @include action-indicator(-0.175rem);
     &::after {
