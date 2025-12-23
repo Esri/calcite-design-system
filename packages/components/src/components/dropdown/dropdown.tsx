@@ -316,14 +316,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -501,6 +499,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onBeforeOpen(): void {
     this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -514,6 +513,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteDropdownClose.emit();
     hideFloatingUI(this);
+    this.handlePopover();
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
@@ -525,7 +525,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
