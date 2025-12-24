@@ -366,12 +366,7 @@ export class TreeItem extends LitElement {
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint =
-      this.selectionMode === "single" ||
-      this.selectionMode === "children" ||
-      this.selectionMode === "single-persist";
-    const showCheckmark =
-      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+    const showCheckmark = this.selectionMode !== "none";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
@@ -406,17 +401,10 @@ export class TreeItem extends LitElement {
           />
         </div>
       ) : null;
-    const selectedIcon = showBulletPoint
-      ? ICONS.bulletPoint
-      : showCheckmark
-        ? ICONS.checkmark
-        : showBlank
-          ? ICONS.blank
-          : null;
+    const selectedIcon = showCheckmark ? ICONS.checkmark : showBlank ? ICONS.blank : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon
         class={{
-          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
           [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
           [CSS_UTILITY.rtl]: rtl,
         }}
