@@ -218,6 +218,13 @@ calcite-link {
   }
 }
 
+:host([selection-appearance="border"]),
+:host([selection-appearance="highlight"]) {
+  .container.selected {
+    background-color: var(--calcite-color-surface-highlight);
+  }
+}
+
 :host(:hover:not([disabled])),
 :host([active]:not([disabled])) {
   .heading {
