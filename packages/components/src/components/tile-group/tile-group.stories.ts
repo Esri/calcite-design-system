@@ -237,6 +237,50 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
+    <!-- single selection-appearance="highlight" -->
+    <div class="parent">
+      <div class="child right-aligned-text">single selection-appearance="highlight"</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "s",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "m",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "l",
+          "highlight",
+        )}
+      </div>
+    </div>
+
     <!-- single selection-appearance="border" -->
     <div class="parent">
       <div class="child right-aligned-text">single selection-appearance="border"</div>
@@ -318,6 +362,50 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "multiple",
           "l",
+        )}
+      </div>
+    </div>
+
+    <!-- multiple selection-appearance="highlight" -->
+    <div class="parent">
+      <div class="child right-aligned-text">multiple selection-appearance="highlight"</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "s",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "m",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "l",
+          "highlight",
         )}
       </div>
     </div>
