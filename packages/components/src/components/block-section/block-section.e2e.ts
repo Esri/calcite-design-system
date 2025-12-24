@@ -1,61 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, focusable, hidden, reflects, renders, themed, t9n } from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
-  describe("renders", () => {
-    renders("calcite-block-section", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-block-section");
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-block-section", [
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-block-section", [
-      {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
-        propertyName: "expanded",
-        defaultValue: false,
-      },
-      {
-        propertyName: "toggleDisplay",
-        defaultValue: "button",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-block-section");
-  });
-
   describe("setFocus", () => {
     describe("focuses toggle switch", () => {
       focusable(

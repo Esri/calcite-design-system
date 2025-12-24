@@ -8,7 +8,6 @@
  * @prop --calcite-inline-editable-button-background-color: Specifies the button element's background color when appearance="solid" or appearance="outline-fill".
  * @prop --calcite-inline-editable-button-corner-radius: Specifies the button element's corner radius.
  * @prop --calcite-inline-editable-button-loader-color: Specifies the button element's loader color.
- * @prop --calcite-inline-editable-button-shadow-color: Specifies the button element's box-shadow color.
  * @prop --calcite-inline-editable-button-text-color: Specifies the button element's text color.
  */
 
@@ -96,7 +95,6 @@ calcite-button {
   --calcite-button-background-color: var(--calcite-inline-editable-button-background-color);
   --calcite-button-corner-radius: var(--calcite-inline-editable-button-corner-radius);
   --calcite-button-loader-color: var(--calcite-inline-editable-button-loader-color);
-  --calcite-button-shadow-color: var(--calcite-inline-editable-button-shadow-color);
   --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
 }
 

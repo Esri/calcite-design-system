@@ -2,23 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  t9n,
-  themed,
-  handlesActionMenuPlacements,
-} from "../../tests/commonTests";
-import { GlobalTestProps, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
-import { defaultEndMenuPlacement } from "../../utils/floating-ui";
+import { accessible, focusable, themed } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import type { Panel } from "./panel";
 
@@ -42,7 +29,7 @@ const panelTemplate = (scrollable = false) =>
     </calcite-panel>
   </div>`;
 
-export const scrollingContentHtml = html`
+const scrollingContentHtml = html`
   <p>
     Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo
     semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus
@@ -89,164 +76,10 @@ export const scrollingContentHtml = html`
   </p>
 `;
 
-export const scrollingHeightStyle = "height: 200px;";
+const scrollingHeightStyle = "height: 200px;";
 
 describe("calcite-panel", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("calcite-panel", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-panel");
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-panel>
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-      </calcite-panel>
-    `);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-panel", [
-      {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "widthScale",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "headingLevel",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "menuPlacement",
-        defaultValue: defaultEndMenuPlacement,
-      },
-      {
-        propertyName: "menuFlipPlacements",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-panel", [
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: "true",
-      },
-    ]);
-  });
-
-  describe("slots", () => {
-    slots("calcite-panel", SLOTS);
-  });
-
-  describe("disabled", () => {
-    describe("with scrolling content", () => {
-      disabled(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
-        focusTarget: {
-          tab: "calcite-panel",
-          click: "body",
-        },
-      });
-
-      describe("closable", () => {
-        disabled(
-          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
-          {
-            focusTarget: {
-              tab: "calcite-panel",
-              click: "body",
-            },
-          },
-        );
-      });
-    });
-
-    describe("without scrolling content", () => {
-      disabled(html`<calcite-panel>non-scrolling content</calcite-panel>`, {
-        focusTarget: "none",
-      });
-
-      describe("closable", () => {
-        disabled(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
-          focusTarget: "none",
-        });
-      });
-    });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-panel");
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-panel>
-        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      </calcite-panel>`,
-      "calcite-action-menu",
-    );
-  });
 
   it("honors closed prop", async () => {
     const page = await newE2EPage();

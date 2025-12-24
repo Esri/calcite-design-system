@@ -33,7 +33,6 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -298,7 +297,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
@@ -320,6 +319,10 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
     if (changes.has("referenceElement")) {
       this.referenceElementHandler();
+
+      if (!this.referenceElement && this.open) {
+        this.handlePopover();
+      }
     }
   }
 
@@ -364,7 +367,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
-    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -401,7 +403,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {
@@ -468,6 +469,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   onBeforeOpen(): void {
     this.calcitePopoverBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -483,6 +485,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.calcitePopoverClose.emit();
     hideFloatingUI(this);
     this.focusTrap.deactivate();
+    this.handlePopover();
   }
 
   private setArrowEl(el: SVGSVGElement): void {
@@ -499,14 +502,12 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
-          appearance="transparent"
           class={CSS.closeButton}
+          icon="x"
           onClick={this.hide}
           scale={this.scale}
           text={messages.close}
-        >
-          <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-        </calcite-action>
+        />
       </div>
     ) : null;
   }

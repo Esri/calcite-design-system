@@ -27,12 +27,6 @@ import {
   disconnectFloatingUI,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -58,6 +52,8 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -79,12 +75,7 @@ declare global {
  */
 export class Autocomplete
   extends LitElement
-  implements
-    FloatingUIComponent,
-    FormComponent,
-    InteractiveComponent,
-    LabelableComponent,
-    TextualInputComponent
+  implements FloatingUIComponent, FormComponent, LabelableComponent, TextualInputComponent
 {
   //#region Static Members
 
@@ -144,6 +135,16 @@ export class Autocomplete
 
   private getAllItemsDebounced = debounce(this.getAllItems, 0);
 
+  get isOpen(): boolean {
+    return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
+  }
+
+  get enabledItems(): AutocompleteItem["el"][] {
+    return this.items.filter((item) => !item.disabled);
+  }
+
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
@@ -159,14 +160,6 @@ export class Autocomplete
   @state() items: AutocompleteItem["el"][] = [];
 
   @state() groups: AutocompleteItemGroup["el"][] = [];
-
-  get isOpen(): boolean {
-    return this.open && (this.hasContentTop || this.hasContentBottom || this.items.length > 0);
-  }
-
-  get enabledItems(): AutocompleteItem["el"][] {
-    return this.items.filter((item) => !item.disabled);
-  }
 
   //#endregion
 
@@ -493,10 +486,6 @@ export class Autocomplete
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value || "");
     this.defaultInputValue = this.inputValue || "";
@@ -550,20 +539,18 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
-    if (!this.open) {
-      this.activeIndex = -1;
-    }
-
     if (this.disabled) {
       this.open = false;
       return;
     }
 
+    if (!this.open) {
+      this.activeIndex = -1;
+    }
+
+    toggleOpenClose(this);
     this.setFloatingElSize();
     this.reposition(true);
-    this.handlePopover();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -591,6 +578,7 @@ export class Autocomplete
 
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -603,6 +591,7 @@ export class Autocomplete
 
   onClose(): void {
     this.calciteAutocompleteClose.emit();
+    this.handlePopover();
   }
 
   private emitChange(): void {
@@ -771,7 +760,6 @@ export class Autocomplete
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   //#endregion
@@ -786,7 +774,7 @@ export class Autocomplete
     const inputMode = this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"];
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -879,7 +867,7 @@ export class Autocomplete
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

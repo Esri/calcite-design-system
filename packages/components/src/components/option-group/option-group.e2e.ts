@@ -1,37 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 
 describe("calcite-option-group", () => {
-  describe("renders", () => {
-    renders("calcite-option-group", { display: "block" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-option-group");
-  });
-
   describe("accessible", () => {
     accessible("calcite-option-group");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-option-group", [
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-option-group", [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-    ]);
   });
 
   it("has a label", async () => {

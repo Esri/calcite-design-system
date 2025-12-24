@@ -1,20 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -29,54 +16,12 @@ describe("calcite-select", () => {
     </calcite-select>
   `;
 
-  describe("renders", () => {
-    renders(simpleTestMarkup, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-select");
-  });
-
   describe("accessible", () => {
     accessible(simpleTestMarkup);
   });
 
   describe("is focusable", () => {
     focusable(simpleTestMarkup);
-  });
-
-  describe("InternalLabel", () => {
-    internalLabel(`calcite-select`);
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-select", [
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects(simpleTestMarkup, [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ]);
   });
 
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
@@ -90,10 +35,6 @@ describe("calcite-select", () => {
 
   describe("labelable", () => {
     labelable("calcite-select");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-select");
   });
 
   describe("flat options", () => {
@@ -465,10 +406,6 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-select");
   });
 
   describe("theme", () => {

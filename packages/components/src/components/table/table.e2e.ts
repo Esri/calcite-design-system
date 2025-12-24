@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, defaults, reflects, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   getFocusedElementProp,
@@ -18,88 +18,6 @@ import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
 describe("calcite-table", () => {
-  describe("renders", () => {
-    renders(
-      html`<calcite-table caption="Simple table">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-      </calcite-table>`,
-      { display: "flex" },
-    );
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-table", [
-      {
-        propertyName: "bordered",
-        defaultValue: false,
-      },
-      {
-        propertyName: "groupSeparator",
-        defaultValue: false,
-      },
-      {
-        propertyName: "layout",
-        defaultValue: "auto",
-      },
-      {
-        propertyName: "numbered",
-        defaultValue: false,
-      },
-      {
-        propertyName: "pageSize",
-        defaultValue: 0,
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "selectionMode",
-        defaultValue: "none",
-      },
-      {
-        propertyName: "striped",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-table", [
-      {
-        propertyName: "layout",
-        value: "auto",
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "none",
-      },
-    ]);
-  });
-
-  describe("hidden", () => {
-    hidden("calcite-table");
-  });
-
   describe("accessible", () => {
     describe("is accessible simple", () => {
       accessible(

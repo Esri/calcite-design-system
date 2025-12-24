@@ -1,19 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  labelable,
-  openClose,
-  reflects,
-  renders,
-  t9n,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -79,14 +67,6 @@ describe("calcite-input-time-zone", () => {
     );
   });
 
-  describe("hidden", () => {
-    hidden(simpleTestProvider);
-  });
-
-  describe("renders", () => {
-    renders(simpleTestProvider, { display: "block" });
-  });
-
   describe("labelable", () => {
     labelable({
       tagOrHTML: html`<calcite-input-time-zone></calcite-input-time-zone>`,
@@ -94,44 +74,6 @@ describe("calcite-input-time-zone", () => {
         await page.emulateTimezone(testTimeZoneItems[0].name);
       },
     });
-  });
-
-  describe("reflects", () => {
-    reflects(simpleTestProvider, [
-      { propertyName: "disabled", value: true },
-      { propertyName: "maxItems", value: 0 },
-      { propertyName: "mode", value: "offset" },
-      { propertyName: "open", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "overlayPositioning", value: "absolute" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ]);
-  });
-
-  describe("defaults", () => {
-    defaults(simpleTestProvider, [
-      { propertyName: "disabled", defaultValue: false },
-      { propertyName: "maxItems", defaultValue: 0 },
-      { propertyName: "messageOverrides", defaultValue: undefined },
-      { propertyName: "mode", defaultValue: "offset" },
-      { propertyName: "open", defaultValue: false },
-      { propertyName: "overlayPositioning", defaultValue: "absolute" },
-      { propertyName: "scale", defaultValue: "m" },
-      { propertyName: "status", defaultValue: "idle" },
-      { propertyName: "validationIcon", defaultValue: undefined },
-      { propertyName: "validationMessage", defaultValue: undefined },
-    ]);
-  });
-
-  describe("disabled", () => {
-    disabled(simpleTestProvider, {
-      shadowAriaAttributeTargetSelector: "calcite-combobox",
-    });
-  });
-
-  describe("translation support", () => {
-    t9n(simpleTestProvider);
   });
 
   describe("openClose", () => {
@@ -162,7 +104,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(label);
+            expect(await timeZoneItem.getProperty("heading")).toMatch(label);
           });
         });
       });
@@ -180,7 +122,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
+        expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[1].label);
       });
 
       it("ignores invalid values", async () => {
@@ -194,7 +136,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[0].label);
+        expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[0].label);
       });
 
       it("omits filtered or non-localized time zones (incoming to browser)", async () => {
@@ -208,7 +150,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[2].label);
+        expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[2].label);
       });
 
       it("looks up in label and time zone groups (not displayed)", async () => {
@@ -298,7 +240,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(name);
+            expect(await timeZoneItem.getProperty("heading")).toMatch(name);
           });
         });
       });
@@ -316,7 +258,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].name);
+        expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[1].name);
       });
 
       it("ignores invalid values", async () => {
@@ -332,7 +274,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[0].name);
+        expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[0].name);
       });
     });
 
@@ -350,7 +292,7 @@ describe("calcite-input-time-zone", () => {
 
             const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-            expect(await timeZoneItem.getProperty("textLabel")).toMatch(toUserFriendlyName(getCity(name)));
+            expect(await timeZoneItem.getProperty("heading")).toMatch(toUserFriendlyName(getCity(name)));
           });
         });
       });
@@ -368,7 +310,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe("Phoenix, United States");
+        expect(await timeZoneItem.getProperty("heading")).toBe("Phoenix, United States");
       });
 
       it("ignores invalid values", async () => {
@@ -385,7 +327,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe("Mexico City, Mexico");
+        expect(await timeZoneItem.getProperty("heading")).toBe("Mexico City, Mexico");
       });
 
       it("properly sets region label when setting value programmatically", async () => {
@@ -404,7 +346,7 @@ describe("calcite-input-time-zone", () => {
 
         const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-        expect(await timeZoneItem.getProperty("textLabel")).toBe("New York, United States");
+        expect(await timeZoneItem.getProperty("heading")).toBe("New York, United States");
       });
 
       it("updates the label and shows selection immediately on user interaction", async () => {
@@ -432,7 +374,7 @@ describe("calcite-input-time-zone", () => {
         // we use page click to avoid the internal call to waitForChanges that E2EElement interaction APIs have
         await page.click(testTimeZoneItemSelector);
 
-        expect(await page.$eval(testTimeZoneItemSelector, async (el) => el.textLabel)).toBe("New York, United States");
+        expect(await page.$eval(testTimeZoneItemSelector, async (el) => el.heading)).toBe("New York, United States");
       });
 
       it("maps deprecated time zones to aliases", async () => {
@@ -479,14 +421,14 @@ describe("calcite-input-time-zone", () => {
       const input = await page.find("calcite-input-time-zone");
 
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
-      expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
+      expect(await selectedTimeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[1].label);
 
       input.setProperty("value", "");
       await page.waitForChanges();
 
       selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
-      expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
+      expect(await selectedTimeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[1].label);
     });
 
     describe("clearing by value", () => {
@@ -655,7 +597,7 @@ describe("calcite-input-time-zone", () => {
       // all items are formatted equally, so we only need to check the first one
       const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
 
-      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
+      expect(await firstTimeZoneItem.getProperty("heading")).toContain(offsetMarker);
     }
 
     beforeEach(async () => {

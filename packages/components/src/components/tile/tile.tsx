@@ -1,15 +1,12 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
 
@@ -23,7 +20,7 @@ declare global {
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
  */
-export class Tile extends LitElement implements InteractiveComponent, SelectableComponent {
+export class Tile extends LitElement implements SelectableComponent {
   // #region Static Members
 
   static override styles = styles;
@@ -35,6 +32,8 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   private containerEl: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   // #endregion
 
@@ -51,7 +50,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
   /**
    * When `true`, the component is active.
    *
-   * @deprecated
+   * @deprecated in v2.8.0, removal target v6.0.0 - No longer necessary.
    */
   @property({ reflect: true }) active = false;
 
@@ -69,12 +68,15 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
    *
    * When `true`, renders without a border and padding for use by other components.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v2.6.0, removal target v6.0.0 - No longer necessary.
    */
   @property({ reflect: true }) embed = false;
 
   /** The component header text, which displays between the icon and description. */
   @property({ reflect: true }) heading: string;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When embed is `"false"`, the URL for the component. */
   @property({ reflect: true }) href: string;
@@ -178,10 +180,6 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
     this.listen("keydown", this.keyDownHandler);
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   // #endregion
 
   // #region Private Methods
@@ -267,6 +265,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
       hasContentBottom,
       hasContentTop,
       heading,
+      headingLevel,
       icon,
       iconFlipRtl,
       interactive,
@@ -314,7 +313,11 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
           {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <div class={CSS.textContent}>
-              {heading && <div class={CSS.heading}>{heading}</div>}
+              {heading && (
+                <Heading class={CSS.heading} level={headingLevel}>
+                  {heading}
+                </Heading>
+              )}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
           </div>
@@ -328,7 +331,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
     const { disabled } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
@@ -336,7 +339,7 @@ export class Tile extends LitElement implements InteractiveComponent, Selectable
         ) : (
           this.renderTile()
         )}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

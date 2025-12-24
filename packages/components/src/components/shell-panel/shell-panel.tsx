@@ -2,19 +2,19 @@
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
+import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
+import { createRef } from "lit-html/directives/ref.js";
 import {
   getElementDir,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { clamp } from "../../utils/math";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
@@ -58,6 +58,14 @@ export class ShellPanel extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private sizeOverride = useSizeOverride({
+    targetElement: this.contentRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+  });
+
   //#endregion
 
   //#region State Properties
@@ -98,14 +106,14 @@ export class ShellPanel extends LitElement {
   /**
    * When `layout` is `horizontal`, specifies the maximum height of the component.
    *
-   * @deprecated Use the `height` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale;
 
   /**
    * The direction of the component.
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -115,7 +123,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated No longer necessary.
+   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
@@ -128,12 +136,21 @@ export class ShellPanel extends LitElement {
   /**
    * When `layout` is `vertical`, specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
+
+  //#endregion
+
+  //#region Public Methods
+
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
 
   //#endregion
 
@@ -159,7 +176,7 @@ export class ShellPanel extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
     }
@@ -182,6 +199,25 @@ export class ShellPanel extends LitElement {
 
   private getContentElDOMRect(): DOMRect {
     return this.contentRef.value.getBoundingClientRect();
+  }
+
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+
+    const appliedSize = this.sizeOverride.resize(size);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSize.inline !== undefined && {
+        inlineSize: appliedSize.inline,
+      }),
+      ...(appliedSize.block !== undefined && {
+        blockSize: appliedSize.block,
+      }),
+    };
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -210,85 +246,48 @@ export class ShellPanel extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          block:
             rect.height + (layout === "horizontal" && position === "end" ? stepValue : -stepValue),
-          type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowDown":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          block:
             rect.height + (layout === "horizontal" && position === "end" ? -stepValue : stepValue),
-          type: "blockSize",
         });
         event.preventDefault();
         break;
       case "ArrowLeft":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          inline:
             rect.width +
             (layout === "vertical" && position === "end" ? stepValue : -stepValue) * invertRTL,
-          type: "inlineSize",
         });
         event.preventDefault();
         break;
       case "ArrowRight":
-        this.updateSize({
-          size:
+        this.updateSizeInternal({
+          inline:
             rect.width +
             (layout === "vertical" && position === "end" ? -stepValue : stepValue) * invertRTL,
-          type: "inlineSize",
         });
         event.preventDefault();
         break;
       case "Home":
-        this.updateSize({
-          size: layout === "horizontal" ? minBlockSize : minInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: minBlockSize } : { inline: minInlineSize },
+        );
         event.preventDefault();
         break;
       case "End":
-        this.updateSize({
-          size: layout === "horizontal" ? maxBlockSize : maxInlineSize,
-          type: layout === "horizontal" ? "blockSize" : "inlineSize",
-        });
+        this.updateSizeInternal(
+          layout === "horizontal" ? { block: maxBlockSize } : { inline: maxInlineSize },
+        );
         event.preventDefault();
         break;
     }
-  }
-
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { contentRef, resizeValues } = this;
-
-    if (!contentRef.value) {
-      return;
-    }
-
-    const resizeMin = type === "blockSize" ? "minBlockSize" : "minInlineSize";
-    const resizeMax = type === "blockSize" ? "maxBlockSize" : "maxInlineSize";
-
-    const clamped =
-      resizeValues[resizeMin] && resizeValues[resizeMax]
-        ? clamp(size, resizeValues[resizeMin], resizeValues[resizeMax])
-        : size;
-
-    const rounded = Math.round(clamped);
-
-    this.resizeValues = {
-      ...resizeValues,
-      [type]: rounded,
-    };
-
-    contentRef.value.style[type] = size !== null ? `${rounded}px` : null;
   }
 
   private cleanupInteractions(): void {
@@ -353,10 +352,7 @@ export class ShellPanel extends LitElement {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
-          this.updateSize({
-            size: isBlock ? rect.height : rect.width,
-            type: isBlock ? "blockSize" : "inlineSize",
-          });
+          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
     });

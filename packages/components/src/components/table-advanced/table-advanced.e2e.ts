@@ -1,33 +1,47 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
+import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
+import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 
 describe("calcite-table-advanced", () => {
-  describe("renders", () => {
-    renders(html`<calcite-table-advanced caption="Simple table"> </calcite-table-advanced>`, { display: "flex" });
-  });
-
   describe("defaults", () => {
-    defaults("calcite-table-advanced", [
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-    ]);
+    defaults(
+      () => mount("calcite-table-advanced"),
+      [
+        {
+          propertyName: "scale",
+          defaultValue: "m",
+        },
+      ],
+    );
   });
 
   describe("reflects", () => {
-    reflects("calcite-table-advanced", [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ]);
+    reflects(
+      () => mount("calcite-table-advanced"),
+      [
+        {
+          propertyName: "scale",
+          value: "m",
+        },
+      ],
+    );
   });
 
   describe("hidden", () => {
-    hidden("calcite-table-advanced");
+    hidden(() => mount("calcite-table-advanced"));
+  });
+
+  describe("renders", () => {
+    renders(() => mount("calcite-table-advanced"), {
+      display: "flex",
+    });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-table-advanced"));
   });
 
   describe("accessible", () => {

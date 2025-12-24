@@ -76,7 +76,7 @@ export class BlockSection extends LitElement {
   /**
    * When `true`, expands the component and its contents.
    *
-   * @deprecated Use `expanded` prop instead.
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
    */
   @property({ reflect: true })
   get open(): boolean {
@@ -84,8 +84,9 @@ export class BlockSection extends LitElement {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -97,7 +98,7 @@ export class BlockSection extends LitElement {
   /**
    * Displays a status-related indicator icon.
    *
-   * @deprecated Use `icon-start` instead.
+   * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
    */
   @property({ reflect: true }) status: Status;
 

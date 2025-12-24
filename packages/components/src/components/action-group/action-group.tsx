@@ -10,13 +10,16 @@ import {
   ToEvents,
   createEvent,
 } from "@arcgis/lumina";
+import { queryAssignedElements } from "lit/decorators.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
+import type { Action } from "../action/action";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { SelectionMode } from "../interfaces";
 import { Columns } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -52,6 +55,9 @@ export class ActionGroup extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  @queryAssignedElements({ selector: "calcite-action" })
+  private actions!: Action["el"][];
 
   //#endregion
 
@@ -103,6 +109,22 @@ export class ActionGroup extends LitElement {
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"single-persist"` allows one selection and prevents de-selection.
+   *
+   * `"none"` disables selection (default).
+   */
+  @property({ reflect: true }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple" | "none",
+    SelectionMode
+  > = "none";
+
   //#endregion
 
   //#region Public Methods
@@ -133,11 +155,24 @@ export class ActionGroup extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    this.listen("click", this.handleActionClick);
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+
+    if (this.hasUpdated || changes.has("selectionMode")) {
+      if (this.selectionMode !== "none") {
+        this.setRoleOnActions();
+      } else if (this.selectionMode === "none") {
+        this.clearActionAriaAttributes();
+      }
+    }
 
     if (changes.has("expanded")) {
       if (this.hasUpdated || this.expanded !== false) {
@@ -157,12 +192,80 @@ export class ActionGroup extends LitElement {
 
   //#region Private Methods
 
+  private setActiveAction(index: number, active: Action["el"]): void {
+    if (this.selectionMode === "multiple") {
+      active.active = !active.active;
+      this.setActionAriaChecked(active, active.active);
+      return;
+    }
+    if (this.selectionMode === "single") {
+      this.actions.forEach((action, i) => {
+        action.active = i === index && !action.active;
+        this.setActionAriaChecked(action, action.active);
+      });
+      return;
+    }
+    if (this.selectionMode === "single-persist") {
+      if (!this.actions[index].active) {
+        this.actions.forEach((action, i) => {
+          action.active = i === index;
+          this.setActionAriaChecked(action, action.active);
+        });
+      }
+      return;
+    }
+  }
+
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
     this.menuOpen = !!event.currentTarget.open;
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
+  }
+
+  private handleActionClick(event: MouseEvent): void {
+    const target = event.target as Action["el"];
+    if (!target) {
+      return;
+    }
+    const index = this.actions.indexOf(target);
+    if (index === -1 || this.selectionMode === "none") {
+      return;
+    }
+    this.setActiveAction(index, target);
+  }
+
+  private setRoleOnActions(): void {
+    this.actions.forEach((action) => {
+      action.aria = {
+        ...action.aria,
+        role:
+          this.selectionMode === "single" || this.selectionMode === "single-persist"
+            ? "radio"
+            : "checkbox",
+      };
+      this.setActionAriaChecked(action, action.active);
+    });
+  }
+
+  private setActionAriaChecked(action: Action["el"], checked: boolean): void {
+    action.aria = {
+      ...action.aria,
+      checked: checked ? "true" : "false",
+    };
+  }
+
+  private clearActionAriaAttributes(): void {
+    if (this.selectionMode === "none") {
+      this.actions.forEach((action) => {
+        if (action.aria) {
+          action.aria.checked = undefined;
+          action.aria.role = undefined;
+          action.aria = { ...action.aria };
+        }
+      });
+    }
   }
 
   //#endregion
@@ -212,7 +315,15 @@ export class ActionGroup extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div ariaLabel={this.label} class={CSS.container} role="group">
+      <div
+        ariaLabel={this.label}
+        class={CSS.container}
+        role={
+          this.selectionMode === "multiple" || this.selectionMode === "none"
+            ? "group"
+            : "radiogroup"
+        }
+      >
         <slot />
         {this.renderMenu()}
       </div>

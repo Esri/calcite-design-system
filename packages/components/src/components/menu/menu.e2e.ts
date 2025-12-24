@@ -2,20 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 
 describe("calcite-menu", () => {
-  describe("renders", () => {
-    renders(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
-      display: "flex",
-    });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
-  });
-
   describe("accessible", () => {
     accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
   });
@@ -24,10 +14,6 @@ describe("calcite-menu", () => {
     focusable(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
       focusTargetSelector: "calcite-menu-item",
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-menu");
   });
 
   describe("mouse support", () => {

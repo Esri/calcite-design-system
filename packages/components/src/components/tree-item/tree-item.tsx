@@ -9,16 +9,12 @@ import {
   slotChangeHasAssignedElement,
   toAriaBoolean,
 } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import type { Tree } from "../tree/tree";
+import { useInteractive } from "../../controllers/useInteractive";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tree-item.scss";
@@ -34,7 +30,7 @@ declare global {
  * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
-export class TreeItem extends LitElement implements InteractiveComponent {
+export class TreeItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -52,6 +48,8 @@ export class TreeItem extends LitElement implements InteractiveComponent {
   private parentTreeItem?: TreeItem["el"];
 
   private userChangedValue = false;
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -155,7 +153,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded")) {
       if (this.hasUpdated || this.expanded !== false) {
         this.updateChildTree();
@@ -176,10 +174,6 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     if (changes.has("selectionMode")) {
       this.getSelectionMode();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -477,7 +471,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
     setAttribute(this.el, "tabIndex", this.disabled ? -1 : 0);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={{ [CSS.itemExpanded]: isExpanded }}>
           <div class={CSS.nodeAndActionsContainer}>
             <div
@@ -514,7 +508,7 @@ export class TreeItem extends LitElement implements InteractiveComponent {
             <slot name={SLOTS.children} onSlotChange={this.handleChildrenSlotChange} />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

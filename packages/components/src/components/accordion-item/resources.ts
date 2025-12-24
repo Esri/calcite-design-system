@@ -14,6 +14,7 @@ export const CSS = {
   content: "content",
   description: "description",
   expandIcon: "expand-icon",
+  hasActions: "has-actions",
   header: "header",
   headerContainer: "header-container",
   headerContent: "header-content",

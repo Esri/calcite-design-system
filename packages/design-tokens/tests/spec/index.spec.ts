@@ -10,7 +10,7 @@ const platforms: {
 }[] = [
   {
     name: "css",
-    files: ["breakpoints", "classes", "component", "core", "dark", "global", "index", "light", "semantic"],
+    files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"],
   },
   { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
   { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },

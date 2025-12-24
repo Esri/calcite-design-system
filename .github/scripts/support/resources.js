@@ -14,6 +14,7 @@ const resources = {
       designTokens: "design-tokens",
       docs: "docs",
       enhancement: "enhancement",
+      i18nL10n: "i18n-l10n",
       newComponent: "new component",
       perf: "perf",
       refactor: "refactor",
@@ -66,6 +67,7 @@ const resources = {
       medium: "estimate - design - md",
       large: "estimate - design - lg",
     },
+    productColor: "006B75",
   },
   milestone: {
     backlog: "Dev Backlog",

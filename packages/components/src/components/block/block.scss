@@ -21,6 +21,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-block-actions-spacing
+// --calcite-internal-block-header-content-padding
 // --calcite-internal-block-padding-block
 // --calcite-internal-block-padding-inline
 
@@ -30,10 +32,6 @@
 :host([scale="s"]) {
   .header {
     gap: var(--calcite-spacing-sm);
-  }
-
-  .header--has-content {
-    padding: var(--calcite-spacing-sm);
   }
 
   .icon-end-container {
@@ -49,6 +47,8 @@
     font-size: var(--calcite-font-size-xs);
   }
 
+  --calcite-internal-block-actions-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-block-header-content-padding: var(--calcite-spacing-sm);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-xxs))
@@ -64,10 +64,6 @@
     gap: var(--calcite-spacing-md);
   }
 
-  .header--has-content {
-    padding: var(--calcite-spacing-md);
-  }
-
   .icon-end-container {
     gap: var(--calcite-spacing-md);
     padding-inline-end: var(--calcite-spacing-md);
@@ -81,6 +77,8 @@
     font-size: var(--calcite-font-size-sm);
   }
 
+  --calcite-internal-block-actions-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-block-header-content-padding: var(--calcite-spacing-md);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-sm))
@@ -96,10 +94,6 @@
     gap: var(--calcite-spacing-lg);
   }
 
-  .header--has-content {
-    padding: var(--calcite-spacing-lg);
-  }
-
   .icon-end-container {
     gap: var(--calcite-spacing-lg);
     padding-inline-end: var(--calcite-spacing-lg);
@@ -113,6 +107,8 @@
     font-size: var(--calcite-font-size);
   }
 
+  --calcite-internal-block-actions-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-block-header-content-padding: var(--calcite-spacing-lg);
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
     var(--calcite-block-padding, var(--calcite-spacing-md))
@@ -136,6 +132,12 @@
 .header {
   @apply justify-start;
 }
+.header--has-content {
+  padding: var(--calcite-internal-block-header-content-padding);
+}
+.header--draggable {
+  padding-inline-start: var(--calcite-spacing-xxs);
+}
 
 .header,
 .toggle {
@@ -154,7 +156,12 @@
 }
 
 .actions-end {
+  align-items: center;
+  display: flex;
+  gap: var(--calcite-internal-block-actions-spacing);
   grid-area: actions-end;
+  padding-block: var(--calcite-internal-block-actions-spacing);
+  padding-inline-end: var(--calcite-internal-block-actions-spacing);
 }
 
 .toggle {
@@ -187,7 +194,10 @@ calcite-loader[inline] {
 }
 
 calcite-sort-handle {
+  align-self: center;
   grid-area: handle;
+  margin-block: var(--calcite-internal-block-actions-spacing);
+  padding-inline-start: var(--calcite-spacing-xxs);
 }
 
 .title {
@@ -196,12 +206,10 @@ calcite-sort-handle {
 
 .header .title .heading {
   @apply word-break
-    transition-color
-    ease-in-out
     p-0;
 
-  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
-  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
+  font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
@@ -265,6 +273,7 @@ calcite-sort-handle {
   padding-inline: var(--calcite-internal-block-padding-inline);
 }
 
+.content-end,
 .content-start {
   @apply flex items-center;
 
@@ -273,11 +282,9 @@ calcite-sort-handle {
 }
 
 calcite-action-menu {
+  align-self: center;
   grid-area: menu;
-}
-
-.actions-end {
-  @apply flex items-stretch;
+  margin-inline-end: var(--calcite-internal-block-actions-spacing);
 }
 
 :host([expanded]) {
@@ -288,6 +295,7 @@ calcite-action-menu {
       --calcite-block-heading-text-color,
       var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1))
     );
+    font-weight: var(--calcite-font-weight-medium);
   }
 
   .description {

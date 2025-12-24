@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { renders, hidden, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-label", () => {
-  describe("renders", () => {
-    renders("calcite-label", { display: "flex" });
-  });
-
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -35,10 +31,6 @@ describe("calcite-label", () => {
 
     const element = await page.find("calcite-label");
     expect(element).toEqualAttribute("layout", "inline-space-between");
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-label");
   });
 
   describe("alignment prop", () => {

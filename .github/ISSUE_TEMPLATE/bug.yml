@@ -179,7 +179,7 @@ body:
     id: regression
     attributes:
       label: Regression?
-      description: Please provide the last working version if the issue is a regression. If a value is entered, the issue will be considered a regression and prioritized accordingly.
+      description: Please provide the last working version if the issue is a regression. If a valid semantic version is entered, the issue will be considered a regression and prioritized accordingly.
     validations:
       required: false
   - type: dropdown
@@ -251,6 +251,7 @@ body:
         - ArcGIS Network Analyst
         - ArcGIS Online
         - ArcGIS Pro
+        - ArcGIS Maps for Adobe Creative Cloud
         - ArcGIS Maps SDK for JavaScript
         - ArcGIS Scene Viewer
         - ArcGIS Site Scan

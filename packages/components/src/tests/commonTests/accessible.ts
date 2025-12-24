@@ -1,8 +1,9 @@
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { expect, it } from "vitest";
-import { GlobalTestProps, skipAnimations } from "../utils/puppeteer";
-import { getTagAndPage } from "./utils";
+import { skipAnimations } from "../utils/puppeteer";
+import { GlobalTestProps } from "../utils/interfaces";
+import { getTagAndPage } from "./puppeteer/utils";
 import { ComponentTestSetup, ComponentTag } from "./interfaces";
 
 expect.extend(toHaveNoViolations);

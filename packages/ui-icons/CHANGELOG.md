@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.15...@esri/calcite-ui-icons@4.4.0-next.16) (2025-12-11)
+
+### Features
+
+- add file-esl ([#13457](https://github.com/Esri/calcite-design-system/issues/13457)) ([1527a05](https://github.com/Esri/calcite-design-system/commit/1527a05e1f8adfef344f0e65a07c8a819b921bcb))
+
+## [4.4.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.14...@esri/calcite-ui-icons@4.4.0-next.15) (2025-12-09)
+
+### Features
+
+- **semantic-tokens:** update tokens named using xxxl to 3xl (and similar) ([#13392](https://github.com/Esri/calcite-design-system/issues/13392)) ([d08aedc](https://github.com/Esri/calcite-design-system/commit/d08aedcbc7254c07c2e2e0a4a80060ed62473c87)), closes [#13129](https://github.com/Esri/calcite-design-system/issues/13129)
+
+## [4.4.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.13...@esri/calcite-ui-icons@4.4.0-next.14) (2025-12-04)
+
+### Features
+
+- add contingent values retire ([#13403](https://github.com/Esri/calcite-design-system/issues/13403)) ([7e9a9d2](https://github.com/Esri/calcite-design-system/commit/7e9a9d2af2c2bf1b72dd75c4a2450f0e9ada3e39))
+
+## [4.4.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.12...@esri/calcite-ui-icons@4.4.0-next.13) (2025-12-03)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
 ## [4.4.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.11...@esri/calcite-ui-icons@4.4.0-next.12) (2025-11-12)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

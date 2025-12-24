@@ -8,8 +8,13 @@
  * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
  * @prop --calcite-popover-text-color: Specifies the component's text color.
- * @prop --calcite-popover-z-index: [Deprecated] No longer necessary. Specifies the component's z-index value.
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-popover-close-spacing
 
 @use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
@@ -35,6 +40,10 @@
   }
 }
 
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
+}
+
 :host([scale="m"]) {
   .heading {
     @apply text-0-wrap
@@ -44,6 +53,8 @@
 }
 
 :host([scale="l"]) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
+
   .heading {
     @apply text-1-wrap
     px-5
@@ -116,13 +127,14 @@
   self-center;
 }
 
+.close-button {
+  margin: auto;
+  margin-inline-end: var(--calcite-internal-popover-close-spacing);
+}
+
 .close-button-container {
-  @apply flex overflow-hidden;
+  @apply flex;
   flex: 0 0 auto;
-  border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
-  --calcite-action-corner-radius-start-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
-  --calcite-action-corner-radius-end-end: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 ::slotted(calcite-panel),

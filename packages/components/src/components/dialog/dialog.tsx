@@ -235,7 +235,7 @@ export class Dialog extends LitElement {
   /**
    * Specifies the width of the component.
    *
-   * @deprecated Use the `width` property instead.
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
@@ -321,7 +321,7 @@ export class Dialog extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -370,6 +370,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -387,6 +388,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
+    this.handlePopover();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -430,7 +432,6 @@ export class Dialog extends LitElement {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
-    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -721,7 +722,6 @@ export class Dialog extends LitElement {
 
     this.transitionEl = el;
     this.setupInteractions();
-    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {

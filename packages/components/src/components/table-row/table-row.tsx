@@ -7,14 +7,10 @@ import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
 
@@ -25,7 +21,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
-export class TableRow extends LitElement implements InteractiveComponent {
+export class TableRow extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -58,6 +54,8 @@ export class TableRow extends LitElement implements InteractiveComponent {
       this.handleRowSelection();
     }
   };
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -165,7 +163,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("bodyRowCount") ||
       changes.has("scale") ||
@@ -190,10 +188,6 @@ export class TableRow extends LitElement implements InteractiveComponent {
     ) {
       this.calciteInternalTableRowSelect.emit();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -449,7 +443,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <tr
           ariaRowIndex={this.positionAll + 1}
           ariaSelected={this.selected}
@@ -473,7 +467,7 @@ export class TableRow extends LitElement implements InteractiveComponent {
             );
           }}
         />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -1,25 +1,13 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  hidden,
-  reflects,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { findAll, GlobalTestProps } from "../../tests/utils/puppeteer";
-import { scrollingContentHtml, scrollingHeightStyle } from "../panel/panel.e2e";
+import { findAll } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
+import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, SLOTS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
@@ -29,154 +17,6 @@ type TestWindow = GlobalTestProps<{
 
 describe("calcite-flow-item", () => {
   mockConsole();
-
-  describe("renders", () => {
-    renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-flow-item");
-  });
-
-  describe("defaults", () => {
-    defaults("calcite-flow-item", [
-      {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "closable",
-        defaultValue: false,
-      },
-      {
-        propertyName: "closed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "disabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "icon",
-        defaultValue: undefined,
-      },
-      {
-        propertyName: "iconFlipRtl",
-        defaultValue: false,
-      },
-      {
-        propertyName: "loading",
-        defaultValue: false,
-      },
-      {
-        propertyName: "menuOpen",
-        defaultValue: false,
-      },
-      {
-        propertyName: "selected",
-        defaultValue: false,
-      },
-      {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
-      },
-      {
-        propertyName: "scale",
-        defaultValue: "m",
-      },
-      {
-        propertyName: "showBackButton",
-        defaultValue: false,
-      },
-    ]);
-  });
-
-  describe("reflects", () => {
-    reflects("calcite-flow-item", [
-      {
-        propertyName: "closable",
-        value: true,
-      },
-      {
-        propertyName: "closed",
-        value: true,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "menuOpen",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-    ]);
-  });
-
-  describe("slots", () => {
-    slots("calcite-flow-item", SLOTS);
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-flow-item selected style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-flow-item>`,
-      {
-        focusTarget: {
-          tab: "calcite-flow-item",
-          click: "body",
-        },
-      },
-    );
-
-    describe("closable", () => {
-      disabled(
-        html`<calcite-flow-item closable selected style="${scrollingHeightStyle}"
-          >${scrollingContentHtml}</calcite-flow-item
-        >`,
-        {
-          focusTarget: {
-            tab: "calcite-flow-item",
-            click: "body",
-          },
-        },
-      );
-    });
-  });
 
   describe("accessible", () => {
     accessible(html`
@@ -208,19 +48,6 @@ describe("calcite-flow-item", () => {
     focusable(`<calcite-flow-item show-back-button selected>test</calcite-flow-item>`, {
       shadowFocusTargetSelector: "calcite-action",
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-flow-item");
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-flow-item>
-        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      </calcite-flow-item>`,
-      "calcite-panel",
-    );
   });
 
   it("showBackButton", async () => {
@@ -465,10 +292,6 @@ describe("calcite-flow-item", () => {
         targetProp: "--calcite-panel-description-text-color",
       },
       "--calcite-flow-border-color": [
-        {
-          shadowSelector: `.${CSS.backButton}`,
-          targetProp: "borderColor",
-        },
         {
           shadowSelector: "calcite-panel",
           targetProp: "--calcite-panel-border-color",

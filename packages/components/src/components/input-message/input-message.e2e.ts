@@ -1,21 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { StatusIconDefaults } from "./interfaces";
 import { CSS } from "./resources";
 
 describe("calcite-input-message", () => {
-  describe("renders", () => {
-    renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
-    renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden(`<calcite-input-message>Text</calcite-input-message>`);
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-input-message>Text</calcite-input-message>`);
   });

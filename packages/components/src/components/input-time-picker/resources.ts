@@ -12,8 +12,6 @@ export const CSS = {
   input: "input",
   inputContainer: "input-container",
   meridiem: "meridiem",
-  meridiemStart: "meridiem--start",
-  meridiemEnd: "meridiem--end",
   minute: "minute",
   minuteSuffix: "minute-suffix",
   readOnly: "read-only",

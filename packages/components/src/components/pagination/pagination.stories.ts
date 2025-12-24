@@ -1,4 +1,6 @@
-import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
+import { defaultLocale } from "@arcgis/toolkit/intl";
+import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -27,7 +29,7 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: locales,
+      options: supportedNlsLocales,
       control: { type: "select" },
     },
     numberingSystem: {

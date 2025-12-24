@@ -2,18 +2,14 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { getIconScale, warnIfMissingRequiredProp } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item.scss";
 
@@ -28,7 +24,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
  */
-export class ComboboxItem extends LitElement implements InteractiveComponent {
+export class ComboboxItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -38,6 +34,10 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   //#region Private Properties
 
   private _selected = false;
+
+  private _value: any;
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -74,7 +74,11 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @property({ reflect: true }) guid = guid();
 
-  /** The component's text. */
+  /**
+   * The component's text.
+   *
+   * @required
+   */
   @property() heading: string;
 
   /** Specifies an icon to display. */
@@ -137,19 +141,14 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
    */
   @property() shortHeading: string;
 
-  /**
-   * The component's text.
-   *
-   * @deprecated Use `heading` instead.
-   */
-  @property({ reflect: true }) textLabel: string;
-
-  /**
-   * The component's value.
-   *
-   * @required
-   */
-  @property() value: any;
+  /** The component's value. Falls back to `heading` if not provided. */
+  @property({ reflect: true })
+  get value(): any {
+    return this._value ?? this.heading;
+  }
+  set value(val: any) {
+    this._value = val ?? this.heading;
+  }
 
   /**
    * When `true`, the item will be hidden
@@ -208,24 +207,13 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.ancestors = getAncestors(this.el);
   }
 
-  load(): void {
-    warnIfMissingRequiredProp(this, "value", "textLabel");
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       this.hasUpdated &&
-      (changes.has("disabled") ||
-        changes.has("heading") ||
-        changes.has("label") ||
-        changes.has("textLabel"))
+      (changes.has("disabled") || changes.has("heading") || changes.has("label"))
     ) {
       this.emitItemChange();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   //#endregion
@@ -285,16 +273,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
   }
 
   override render(): JsxNode {
-    const {
-      disabled,
-      heading,
-      label,
-      textLabel,
-      value,
-      filterTextMatchPattern,
-      description,
-      shortHeading,
-    } = this;
+    const { disabled, heading, label, value, filterTextMatchPattern, description, shortHeading } =
+      this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const icon = disabled || isSingleSelect ? undefined : ICONS.checked;
     const selectionIcon = isSingleSelect
@@ -306,8 +286,8 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
         : this.selected
           ? ICONS.checked
           : ICONS.unchecked;
-    const headingText = heading || textLabel;
-    const itemLabel = label || value;
+    const itemLabel = label || value || heading;
+    const headingText = heading || value;
 
     const classes = {
       [CSS.label]: true,
@@ -322,7 +302,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
     this.el.ariaLabel = itemLabel;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -362,7 +342,7 @@ export class ComboboxItem extends LitElement implements InteractiveComponent {
           </li>
           {this.renderChildren()}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

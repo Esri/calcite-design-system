@@ -75,6 +75,12 @@ calcite-time-picker {
   }
 }
 
+.hour-suffix,
+.minute-suffix,
+.second-suffix {
+  white-space: pre;
+}
+
 .input-container {
   display: flex;
   flex-grow: 1;
@@ -108,13 +114,6 @@ calcite-time-picker {
   &:hover {
     --calcite-icon-color: var(--calcite-input-time-picker-icon-color-hover);
   }
-}
-
-.meridiem--start {
-  margin-inline-end: var(--calcite-spacing-xxs);
-}
-.meridiem--end {
-  margin-inline-start: var(--calcite-spacing-xxs);
 }
 
 :host([scale="s"]) {

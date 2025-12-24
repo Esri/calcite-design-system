@@ -1,33 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  defaults,
-  disabled,
-  focusable,
-  formAssociated,
-  hidden,
-  internalLabel,
-  labelable,
-  reflects,
-  renders,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
-    describe("renders", () => {
-      renders("<calcite-rating></calcite-rating>", { display: "flex" });
-    });
-
-    describe("honors hidden attribute", () => {
-      hidden("calcite-rating");
-    });
-
     describe("accessible", () => {
       accessible(`<calcite-rating></calcite-rating>`);
     });
@@ -36,22 +15,10 @@ describe("calcite-rating", () => {
       labelable("calcite-rating");
     });
 
-    describe("disabled", () => {
-      disabled("<calcite-rating value='3'></calcite-rating>");
-    });
-
-    describe("translation support", () => {
-      t9n("calcite-rating");
-    });
-
     describe("should focus input element in shadow DOM", () => {
       focusable("calcite-rating", {
         shadowFocusTargetSelector: "label",
       });
-    });
-
-    describe("InternalLabel", () => {
-      internalLabel(`calcite-rating`);
     });
 
     describe("focuses the first star when the label is clicked and no-rating value exists", () => {
@@ -68,32 +35,6 @@ describe("calcite-rating", () => {
 
     describe("is form-associated", () => {
       formAssociated("calcite-rating", { testValue: 3 });
-    });
-
-    describe("defaults", () => {
-      defaults("calcite-rating", [
-        { propertyName: "scale", defaultValue: "m" },
-        { propertyName: "status", defaultValue: "idle" },
-        { propertyName: "validationIcon", defaultValue: undefined },
-        { propertyName: "validationMessage", defaultValue: undefined },
-      ]);
-    });
-
-    describe("reflects", () => {
-      reflects("calcite-rating", [
-        {
-          propertyName: "scale",
-          value: "m",
-        },
-        {
-          propertyName: "status",
-          value: "invalid",
-        },
-        {
-          propertyName: "validationIcon",
-          value: true,
-        },
-      ]);
     });
   });
 

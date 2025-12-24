@@ -1,8 +1,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
+import { HYDRATED_ATTR, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS as XButtonCSS } from "../functional/XButton";
 import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
@@ -40,20 +39,7 @@ describe("calcite-tab-title", () => {
   `;
   const iconStartSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
-  const closeSelector = `calcite-tab-title >>> .${XButtonCSS.button}`;
-
-  describe("renders", () => {
-    renders("calcite-tab-title", { display: "block" });
-    renders(multiTabTitleClosableMarkup, { display: "flex" });
-  });
-
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tab-title");
-  });
-
-  describe("disabled", () => {
-    disabled("<calcite-tab-title selected></calcite-tab-title>");
-  });
+  const closeSelector = `calcite-tab-title >>> .${CSS.close}`;
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
@@ -124,7 +110,7 @@ describe("calcite-tab-title", () => {
       `);
 
       let containerElOne = await page.find(`calcite-tab-title[id='one']`);
-      const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${XButtonCSS.button}`);
+      const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
       expect(containerElOne).toHaveAttribute(HYDRATED_ATTR);
 
       await closeOne.click();
@@ -133,7 +119,7 @@ describe("calcite-tab-title", () => {
       containerElOne = await page.find(`calcite-tab-title[id='one']>>> .${CSS.container}`);
       expect(await containerElOne.getProperty("hidden")).toBe(true);
 
-      const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${XButtonCSS.button}`);
+      const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.close}`);
       expect(await closeTwo.getProperty("closable")).not.toBe(true);
     });
   });
@@ -153,7 +139,7 @@ describe("calcite-tab-title", () => {
 
         tabEl = await page.find(`#${id}`);
         tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
-        const tabTitleCloseButtonEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${XButtonCSS.button}`);
+        const tabTitleCloseButtonEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
 
         expect(await tabTitleContainerEl.getProperty("hidden")).not.toBe(true);
 
@@ -185,13 +171,13 @@ describe("calcite-tab-title", () => {
     });
 
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
-        tab-title and corresponding tab become hidden, 
+        tab-title and corresponding tab become hidden  
         and selection fallback is the next tab`, async () => {
       await closeTabsInSequenceOfGivenArrayOfIds(["title1", "title2", "title3", "title4"]);
     });
 
     it(`when closing tab-titles in sequence 4 (last selected) through 1, 
-        tab-title and corresponding tab become hidden, 
+        tab-title and corresponding tab become hidden  
         and selection fallback is the previous tab`, async () => {
       const arrayOfReversedIds = ["title1", "title2", "title3", "title4"].reverse();
 
@@ -209,7 +195,7 @@ describe("calcite-tab-title", () => {
 
       const carTabTitleContainerEl = await page.find(`#title2 >>> .${CSS.container}`);
       matchingTabEl = await page.find("#tab2");
-      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -222,7 +208,7 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#title3 >>> .${CSS.container}`);
       matchingTabEl = await page.find("#tab3");
-      tabTitleCloseButtonEl = await page.find(`#title3 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title3 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -237,7 +223,7 @@ describe("calcite-tab-title", () => {
 
       const bikingTabTitleContainerEl = await page.find(`#title4 >>> .${CSS.container}`);
       matchingTabEl = await page.find("#tab4");
-      tabTitleCloseButtonEl = await page.find(`#title4 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title4 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -262,7 +248,7 @@ describe("calcite-tab-title", () => {
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#title1 >>> .${CSS.container}`);
-      tabTitleCloseButtonEl = await page.find(`#title1 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title1 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -274,7 +260,7 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#title3 >>> .${CSS.container}`);
       matchingTabEl = await page.find("#tab3");
-      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -296,7 +282,7 @@ describe("calcite-tab-title", () => {
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#title1 >>> .${CSS.container}`);
-      tabTitleCloseButtonEl = await page.find(`#title1 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title1 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -316,7 +302,7 @@ describe("calcite-tab-title", () => {
       const planeTabTitleContainerEl = await page.find(`#title3 >>> .${CSS.container}`);
       const bikingTabTitleContainerEl = await page.find(`#title4 >>> .${CSS.container}`);
       matchingTabEl = await page.find("#title3");
-      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${XButtonCSS.button}`);
+      tabTitleCloseButtonEl = await page.find(`#title2 >>> .${CSS.close}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -361,18 +347,23 @@ describe("calcite-tab-title", () => {
           state: { press: `calcite-tab-title >>> .${CSS.selectedIndicator}` },
         },
         "--calcite-tab-close-icon-color": {
-          shadowSelector: `.${XButtonCSS.button}`,
-          targetProp: "color",
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color",
         },
         "--calcite-tab-close-icon-color-press": {
-          shadowSelector: `.${XButtonCSS.button}`,
-          targetProp: "color",
-          state: { press: `calcite-tab-title >>> .${XButtonCSS.button}` },
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-tab-title >>> .${CSS.close}` },
         },
         "--calcite-tab-close-icon-background-color-press": {
-          shadowSelector: `.${XButtonCSS.button}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-tab-title >>> .${XButtonCSS.button}` },
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-tab-title >>> .${CSS.close}` },
+        },
+        "--calcite-tab-close-icon-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: `calcite-tab-title >>> .${CSS.close}` },
         },
         "--calcite-tab-background-color": {
           shadowSelector: `.${CSS.container}`,
@@ -398,8 +389,8 @@ describe("calcite-tab-title", () => {
           targetProp: "color",
         },
         "--calcite-tab-close-icon-background-color": {
-          shadowSelector: `.${XButtonCSS.button}`,
-          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
         },
       });
     });

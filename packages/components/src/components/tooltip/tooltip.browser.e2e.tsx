@@ -1,11 +1,14 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
+import { defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
+import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 describe("calcite-tooltip", () => {
+  mockConsole();
+
   describe("pointer movement toggling", () => {
     async function dispatchPointerEvent(selector: string): Promise<void> {
       const eventOptions = { bubbles: true, cancelable: true };
@@ -19,8 +22,6 @@ describe("calcite-tooltip", () => {
       property: string;
       value: boolean;
     }
-
-    mockConsole();
 
     beforeAll(() => {
       vi.useFakeTimers();
@@ -135,6 +136,73 @@ describe("calcite-tooltip", () => {
         await dispatchPointerEvent(selector);
         expect(await tooltip[pointerMove.property]).toBe(pointerMove.value);
       }
+    });
+  });
+
+  describe("defaults", () => {
+    defaults(
+      () => mount("calcite-tooltip"),
+      [
+        {
+          propertyName: "open",
+          defaultValue: false,
+        },
+        {
+          propertyName: "placement",
+          defaultValue: "auto",
+        },
+        {
+          propertyName: "offsetDistance",
+          defaultValue: 6,
+        },
+        {
+          propertyName: "offsetSkidding",
+          defaultValue: 0,
+        },
+        {
+          propertyName: "referenceElement",
+          defaultValue: undefined,
+        },
+        {
+          propertyName: "overlayPositioning",
+          defaultValue: "absolute",
+        },
+      ],
+    );
+  });
+
+  describe("honors hidden attribute", () => {
+    hidden(() => mount(<calcite-tooltip open />));
+  });
+
+  describe("renders", () => {
+    renders(
+      () =>
+        mount(
+          <>
+            <calcite-tooltip open placement="auto" reference-element="ref">
+              content
+            </calcite-tooltip>
+            <button id="ref">referenceElement</button>
+          </>,
+        ),
+      { display: "contents" },
+    );
+  });
+
+  describe("floating-ui", () => {
+    describe("owns a floating-ui", () => {
+      floatingUIOwner(
+        () =>
+          mount(
+            <>
+              <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+              <div id="ref">referenceElement</div>
+            </>,
+          ),
+        "open",
+        { shadowSelector: `.${CSS.positionContainer}` },
+      );
     });
   });
 });
