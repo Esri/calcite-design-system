@@ -21,7 +21,7 @@
     items-center
     no-underline;
 
-  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
 }
 
 :host {
@@ -132,10 +132,6 @@
 :host([selected]) .dropdown-link {
   @apply font-medium;
   color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
-
-  calcite-icon {
-    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
-  }
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
