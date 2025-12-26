@@ -68,7 +68,7 @@ function getTileGroupHtml(
       layout="${layout}"
       selection-mode="${selectionMode}"
       scale="${scale}"
-      ${selectionAppearance ? `selection-appearance="${selectionAppearance}"` : ""}
+      ${selectionAppearance && `selection-appearance="${selectionAppearance}"`}
     >
       ${Array(4)
         .fill(null)
