@@ -281,7 +281,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
-    <!-- single selection-appearance="border" -->
+    <!-- single selection-appearance="border" (deprecated) -->
     <div class="parent">
       <div class="child right-aligned-text">single selection-appearance="border"</div>
       <div class="child">
@@ -410,7 +410,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
-    <!-- multiple selection-appearance="border" -->
+    <!-- multiple selection-appearance="border" (deprecated) -->
     <div class="parent">
       <div class="child right-aligned-text">multiple selection-appearance="border"</div>
       <div class="child">
