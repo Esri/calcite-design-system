@@ -201,6 +201,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
     if (changes.has("referenceElement")) {
       this.setUpReferenceElement();
+
+      if (!this.referenceElement && this.open) {
+        this.handlePopover();
+      }
     }
   }
 
@@ -236,11 +240,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   onBeforeOpen(): void {
     this.calciteTooltipBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -254,6 +258,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteTooltipClose.emit();
     hideFloatingUI(this);
+    this.handlePopover();
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -277,7 +282,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {

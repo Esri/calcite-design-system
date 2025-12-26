@@ -27,7 +27,6 @@ import {
   disconnectFloatingUI,
   reposition,
 } from "../../utils/floating-ui";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
@@ -54,6 +53,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -539,20 +539,18 @@ export class Autocomplete
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
-    if (!this.open) {
-      this.activeIndex = -1;
-    }
-
     if (this.disabled) {
       this.open = false;
       return;
     }
 
+    if (!this.open) {
+      this.activeIndex = -1;
+    }
+
+    toggleOpenClose(this);
     this.setFloatingElSize();
     this.reposition(true);
-    this.handlePopover();
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -580,6 +578,7 @@ export class Autocomplete
 
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -592,6 +591,7 @@ export class Autocomplete
 
   onClose(): void {
     this.calciteAutocompleteClose.emit();
+    this.handlePopover();
   }
 
   private emitChange(): void {
@@ -760,7 +760,6 @@ export class Autocomplete
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   //#endregion

@@ -370,6 +370,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -387,6 +388,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
+    this.handlePopover();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -430,7 +432,6 @@ export class Dialog extends LitElement {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
-    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -721,7 +722,6 @@ export class Dialog extends LitElement {
 
     this.transitionEl = el;
     this.setupInteractions();
-    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {

@@ -604,14 +604,12 @@ export class InputDatePicker
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled || this.readOnly) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
@@ -698,6 +696,7 @@ export class InputDatePicker
 
   onBeforeOpen(): void {
     this.calciteInputDatePickerBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -715,6 +714,7 @@ export class InputDatePicker
     this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
+    this.handlePopover();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -813,7 +813,6 @@ export class InputDatePicker
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setStartWrapper(el: HTMLDivElement): void {
