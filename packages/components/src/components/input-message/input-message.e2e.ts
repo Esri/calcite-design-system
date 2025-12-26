@@ -170,6 +170,11 @@ describe("calcite-input-message", () => {
           targetProp: "marginBlockStart",
         },
       });
+      themed(html`<calcite-input-message>Message</calcite-input-message>`, {
+        "--calcite-ui-icon-color": {
+          targetProp: "color",
+        },
+      });
     });
   });
 });
