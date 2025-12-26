@@ -234,7 +234,10 @@ input:focus {
     absolute
     block
     z-default; // needed for firefox to display the icon properly
-  --calcite-icon-color: var(--calcite-input-number-icon-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(
+    --calcite-input-number-icon-color,
+    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
+  );
 }
 
 .clear-button {
