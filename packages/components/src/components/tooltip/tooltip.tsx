@@ -27,6 +27,7 @@ import {
 import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { ARIA_DESCRIBED_BY, CSS, IDS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
@@ -59,6 +60,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   transitionProp = "opacity" as const;
 
   transitionRef = createRef<HTMLDivElement>();
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.open && !!this.referenceEl,
+    target: () => this.floatingEl,
+  })(this);
 
   // #endregion
 
@@ -203,7 +209,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
       this.setUpReferenceElement();
 
       if (!this.referenceElement && this.open) {
-        this.handlePopover();
+        this.topLayer.hide();
       }
     }
   }
@@ -223,20 +229,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   // #region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open && this.referenceEl) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
@@ -244,7 +236,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   onBeforeOpen(): void {
     this.calciteTooltipBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -258,7 +250,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteTooltipClose.emit();
     hideFloatingUI(this);
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
