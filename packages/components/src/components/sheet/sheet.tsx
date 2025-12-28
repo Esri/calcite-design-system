@@ -217,6 +217,13 @@ export class Sheet extends LitElement {
   /** When `true`, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
