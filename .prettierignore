@@ -7,4 +7,4 @@
 # calcite-design-tokens
 
 ## source tokens are managed by the Tokens Studio plugin, which syncs directly to GitHub
-packages/calcite-design-tokens/src/tokens/**/*.json
+packages/design-tokens/src/tokens/**/*.json

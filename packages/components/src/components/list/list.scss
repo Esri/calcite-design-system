@@ -1,0 +1,88 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-background-color: Specifies the component's background color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-list-action-spacing
+
+@use "../../styles/includes";
+
+:host {
+  @apply block;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
+}
+
+@include includes.disabled();
+
+.container {
+  position: relative;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+}
+
+.container-height {
+  @apply h-full;
+}
+
+.table-container {
+  @apply box-border
+  flex
+  w-full
+  flex-col
+  bg-transparent;
+  * {
+    @apply box-border;
+  }
+}
+
+.table {
+  @apply w-full;
+}
+
+.stack {
+  --calcite-stack-padding-inline: 0;
+  --calcite-stack-padding-block: 0;
+}
+
+.sticky-pos {
+  @apply sticky
+  top-0
+  z-sticky;
+  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+::slotted(:is(calcite-action[slot="filter-actions-start"], calcite-action[slot="filter-actions-end"])) {
+  gap: var(--calcite-internal-list-action-spacing);
+  align-self: center;
+}
+
+::slotted(calcite-action[slot="filter-actions-start"]) {
+  margin-inline-start: var(--calcite-internal-list-action-spacing);
+}
+
+::slotted(calcite-action[slot="filter-actions-end"]) {
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
+}
+
+@include includes.base-component();

@@ -79,16 +79,13 @@ module.exports = {
     return labels.every((label) => !lifecycleLabels.includes(label.name));
   },
   /**
-   * Checks if the labels do not include the "Ready for Dev" label
-   * @param {import('@octokit/webhooks-types').Label[] | undefined} labels - The list of labels for the issue
-   * @return {boolean} `true` if "Ready for Dev" label is not present, `false` otherwise
+   * Check if an issues' labels includes a specified label
+   * @param {import('@octokit/webhooks-types').Label[] | undefined} issueLabels - The list of labels for the issue
+   * @param {string} label - The label to check for
+   * @return {boolean} `true` if the label is present, `false` otherwise
    */
-  notReadyForDev: (labels) => {
-    if (!labels) {
-      return true;
-    }
-
-    return labels.every((label) => label.name !== issueWorkflow.readyForDev);
+  includesLabel: (issueLabels, label) => {
+    return issueLabels?.some((issueLabel) => issueLabel.name === label) ?? false;
   },
   /**
    * Validates that no values in an array are undefined or null. If any are,
@@ -96,16 +93,14 @@ module.exports = {
    *
    * @template {readonly unknown[]} T - Tuple type of the input array
    * @param {T} array - Array of values to validate
+   * @param {import('@actions/core')} core - The GitHub Actions core module for logging
    * @param {string} [errorMessage] - Optional custom error message to log
    * @returns {{ [K in keyof T]: NonNullable<T[K]> }} The validated array with non-nullable types
    */
-  assertRequired: (array, errorMessage) => {
-    for (const item of array) {
-      if (item === undefined || item === null) {
-        const message = errorMessage || `${String(item)} is required but is not defined, exiting.`;
-        console.error(message);
-        process.exit(0);
-      }
+  assertRequired: (array, core, errorMessage) => {
+    if (array.some((item) => item === undefined || item === null)) {
+      core.warning(errorMessage || `One or more required items are not defined, exiting.`, { title: "Assert Required" });
+      process.exit(0);
     }
 
     return /** @type {{ [K in keyof T]: NonNullable<T[K]> }} */ (array);

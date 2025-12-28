@@ -1,33 +1,35 @@
 // @ts-check
 const Monday = require("../support/monday");
+const { assertRequired, includesLabel } = require("../support/utils");
 const {
   labels: {
     planning: { spike, spikeComplete },
     issueType: { designTokens },
   },
-  packages: { tokens }
+  packages: { tokens: tokensPackage },
 } = require("../support/resources");
-const { assertRequired } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context }) => {
+module.exports = async ({ context, core }) => {
   const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (context.payload);
-  const [labelName] = assertRequired([label?.name]);
+  const { labels: issueLabels } = issue;
+  const [labelName, labelColor] = assertRequired([label?.name, label?.color], core, "No label found in payload.");
+  const logParams = { title: "Remove Label" };
 
-  const isSpike = labelName === spike;
-  if (isSpike && issue.labels) {
-    const isSpikeComplete = issue.labels.some((label) => label.name === spikeComplete);
-    assertRequired([isSpikeComplete], "Issue is marked as a spike complete. Skipping label removal.");
+  if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
+    core.warning("Issue is marked as a spike complete. Skipping label removal.", logParams);
+    return;
   }
 
-  const tokensLabels = [designTokens, tokens];
-  const isTokens = tokensLabels.includes(labelName);
-  if (isTokens && issue.labels) {
-    const areTokensStillPresent = issue.labels.some((label) => label.name === designTokens);
-    assertRequired([areTokensStillPresent], "Issue is still marked as a design token issue. Skipping label removal.");
+  const remainingTokenLabel =
+    labelName === designTokens ? tokensPackage : labelName === tokensPackage ? designTokens : null;
+  if (remainingTokenLabel && includesLabel(issueLabels, remainingTokenLabel)) {
+    core.warning("Issue is still marked as a design token issue. Skipping label removal.", logParams);
+    return;
   }
 
-  const monday = Monday(issue);
-  monday.clearLabel(labelName);
+  const monday = Monday(issue, core);
+  monday.setAssignedStatus();
+  monday.clearLabel(labelName, labelColor);
   await monday.commit();
 };

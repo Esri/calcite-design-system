@@ -1,0 +1,283 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tile-accent-color-press: When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+ * @prop --calcite-tile-background-color: Specifies the component's background color.
+ * @prop --calcite-tile-border-color: Specifies the component's border color.
+ * @prop --calcite-tile-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-tile-heading-text-color: Specifies the component's `heading` text color.
+ * @prop --calcite-tile-link-color: When `href` is present, specifies the component's link color.
+ * @prop --calcite-tile-shadow: Specifies the shadow around the component.
+ * @prop --calcite-tile-text-color: Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+ * @prop --calcite-tile-link-text-color: Specifies the component's link text color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tile-spacing
+
+@use "../../styles/includes";
+
+:host {
+  box-shadow: var(--calcite-tile-shadow, var(--calcite-shadow-none));
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+calcite-link {
+  --calcite-link-text-color: var(--calcite-tile-link-text-color);
+}
+
+.container {
+  background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
+  block-size: var(--calcite-container-size-content-fluid);
+  border-radius: var(--calcite-tile-corner-radius, var(--calcite-corner-radius));
+  box-sizing: border-box;
+  color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
+  inline-size: var(--calcite-container-size-content-fluid);
+  outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color, var(--calcite-color-border-2));
+  padding: var(--calcite-internal-tile-spacing);
+  position: relative;
+  user-select: none;
+
+  .selection-icon {
+    color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
+  }
+
+  &.interactive {
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &.selected {
+      outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+      z-index: var(--calcite-z-index);
+
+      .selection-icon {
+        color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+      }
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 1px var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+      z-index: calc(var(--calcite-z-index) + 1);
+    }
+  }
+}
+
+.content-container,
+.row {
+  align-items: flex-start;
+  display: flex;
+}
+
+.content-container {
+  flex-direction: column;
+  @include includes.word-break();
+  inline-size: var(--calcite-container-size-content-fluid);
+}
+
+.text-content-container {
+  inline-size: 100%;
+  outline-color: transparent;
+  padding: 0;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  @apply m-0 p-0;
+  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: 1.20313rem;
+  overflow-wrap: break-word;
+}
+
+.description {
+  font-weight: var(--calcite-font-weight-regular);
+  overflow-wrap: break-word;
+}
+
+/* [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead */
+.large-visual-deprecated {
+  align-items: center;
+  justify-content: center;
+  min-block-size: 12rem;
+  text-align: center;
+
+  .icon {
+    align-self: center;
+    block-size: 64px;
+    inline-size: 64px;
+  }
+
+  .selection-icon {
+    position: absolute;
+    inset-inline-start: var(--calcite-internal-tile-spacing);
+    inset-block-start: var(--calcite-internal-tile-spacing);
+    z-index: var(--calcite-z-index);
+  }
+
+  .text-content-container {
+    justify-content: center;
+  }
+}
+
+:host([alignment="center"]) {
+  .icon {
+    align-self: center;
+  }
+  .text-content-container {
+    justify-content: center;
+  }
+  .text-content {
+    text-align: center;
+  }
+  slot[name="content-bottom"]::slotted(*),
+  slot[name="content-top"]::slotted(*) {
+    align-self: center;
+  }
+}
+
+:host([scale="s"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-sm);
+
+  max-inline-size: 400px;
+  min-inline-size: 100px;
+  .heading {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
+  }
+  .description {
+    font-size: var(--calcite-font-size--3);
+    line-height: 0.85938rem;
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-md);
+
+  max-inline-size: 460px;
+  min-inline-size: 140px;
+  .heading {
+    font-size: var(--calcite-font-size--1);
+    line-height: 1.20313rem;
+  }
+  .description {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-internal-tile-spacing: var(--calcite-spacing-lg);
+
+  max-inline-size: 520px;
+  min-inline-size: 160px;
+
+  .heading {
+    font-size: var(--calcite-font-size-0);
+    line-height: 1.375rem;
+  }
+  .description {
+    font-size: var(--calcite-font-size--1);
+    line-height: 1.20313rem;
+  }
+}
+
+.content-container--has-content,
+.row {
+  gap: var(--calcite-internal-tile-spacing);
+}
+
+.content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+  margin-block-end: var(--calcite-internal-tile-spacing);
+}
+
+:host([selection-appearance="border"][layout="horizontal"]),
+:host([selection-appearance="border"][layout="vertical"]) {
+  .container.selected:focus::before {
+    block-size: 100%;
+    box-shadow: inset 0 0 0 1px var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+    content: "";
+    display: block;
+    inline-size: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    position: absolute;
+  }
+}
+
+:host([selection-appearance="border"][layout="horizontal"]) {
+  .container.selected {
+    box-shadow: inset 0 -4px 0 0 var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+  }
+}
+
+:host([selection-appearance="border"][layout="vertical"]) {
+  .container.selected {
+    box-shadow: inset 4px 0 0 0 var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+  }
+}
+
+:host(:hover:not([disabled])),
+:host([active]:not([disabled])) {
+  .heading {
+    color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
+  }
+  .description {
+    color: var(--calcite-tile-text-color, var(--calcite-color-text-2));
+  }
+}
+
+:host([href]:focus:not([disabled])),
+:host([href]:hover:not([disabled])) {
+  .container {
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+    z-index: var(--calcite-z-index);
+  }
+  .icon {
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+  }
+  .heading {
+    color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+  }
+}
+
+:host([href]:active:not([disabled])) {
+  .container {
+    box-shadow: inset 0 0 0 1px var(--calcite-tile-link-color, var(--calcite-color-text-link));
+    outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
+  }
+}
+
+:host([embed]) {
+  .container {
+    padding: 0;
+  }
+}
+
+:host([selection-mode="none"]) {
+  .container {
+    &:hover,
+    &.selected {
+      outline-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
+    }
+    &:focus {
+      outline-color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
+    }
+  }
+}
+
+@include includes.disabled();
+@include includes.base-component();
+
+::slotted(*) {
+  max-inline-size: 100%;
+}

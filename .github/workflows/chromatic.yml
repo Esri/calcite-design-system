@@ -9,10 +9,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - name: Build storybook
@@ -21,10 +21,10 @@ jobs:
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
         run: |
           npm install
-          npm --workspace="packages/calcite-design-tokens" run build
-          npm --workspace="packages/calcite-tailwind-preset" run build
-          npm --workspace="packages/calcite-ui-icons" run build
-          npm --workspace="packages/calcite-components" run build-storybook
+          npm --workspace="packages/design-tokens" run build
+          npm --workspace="packages/tailwind-preset" run build
+          npm --workspace="packages/ui-icons" run build
+          npm --workspace="packages/components" run build-storybook
       - name: Publish to Chromatic
         if: |
           (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
@@ -34,7 +34,7 @@ jobs:
           zip: true
           exitOnceUploaded: true
           autoAcceptChanges: ${{ github.base_ref || github.ref_name }}
-          workingDir: packages/calcite-components
+          workingDir: packages/components
           storybookBuildDir: docs
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true

@@ -1,0 +1,13 @@
+@use "../../styles/includes";
+
+:host {
+  display: block;
+}
+
+.offset {
+  white-space: nowrap;
+}
+
+@include includes.base-component();
+@include includes.disabled();
+@include includes.hidden-form-input();
