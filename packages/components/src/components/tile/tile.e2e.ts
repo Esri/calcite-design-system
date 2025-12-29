@@ -304,7 +304,7 @@ describe("calcite-tile", () => {
           {
             "--calcite-tile-accent-color-press": {
               shadowSelector: `.${CSS.container}`,
-              targetProp: "outline",
+              targetProp: "boxShadow",
             },
           },
         );
