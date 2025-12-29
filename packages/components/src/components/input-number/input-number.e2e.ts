@@ -2056,9 +2056,9 @@ describe("calcite-input-number", () => {
   });
 
   describe("deprecated", () => {
-    themed(html`<calcite-input-number value="42"></calcite-input-number>`, {
+    themed(html`<calcite-input-number value="42" icon="layers"></calcite-input-number>`, {
       "--calcite-ui-icon-color": {
-        shadowSelector: `input`,
+        shadowSelector: `.${CSS.inputIcon}`,
         targetProp: "--calcite-icon-color",
       },
     });
