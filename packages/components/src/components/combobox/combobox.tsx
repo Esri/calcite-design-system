@@ -691,14 +691,12 @@ export class Combobox
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.setMaxScrollerHeight();
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -988,6 +986,7 @@ export class Combobox
   onBeforeOpen(): void {
     this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -1002,6 +1001,7 @@ export class Combobox
   onClose(): void {
     this.calciteComboboxClose.emit();
     hideFloatingUI(this);
+    this.handlePopover();
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
@@ -1171,7 +1171,6 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({
