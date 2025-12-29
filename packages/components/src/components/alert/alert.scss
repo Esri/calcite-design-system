@@ -71,6 +71,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     transition:
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
       all var(--calcite-animation-timing) ease-in-out;
+    overflow: visible;
   }
 
   &--bottom,
