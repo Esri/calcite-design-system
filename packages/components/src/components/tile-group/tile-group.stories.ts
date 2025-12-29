@@ -283,7 +283,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
 
     <!-- single selection-appearance="border" (deprecated) -->
     <div class="parent">
-      <div class="child right-aligned-text">single selection-appearance="border"</div>
+      <div class="child right-aligned-text">single selection-appearance="border" (deprecated)</div>
       <div class="child">
         ${getTileGroupHtml(
           {
