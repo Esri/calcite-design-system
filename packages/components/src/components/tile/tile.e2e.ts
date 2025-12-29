@@ -287,7 +287,7 @@ describe("calcite-tile", () => {
           },
         );
       });
-      describe(`applies to selected item's outline using selection-appearance="border"`, () => {
+      describe(`applies to selected item's border using selection-appearance="border"`, () => {
         themed(
           html`
             <calcite-tile
