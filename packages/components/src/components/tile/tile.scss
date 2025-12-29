@@ -48,6 +48,10 @@ calcite-link {
     color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
   }
 
+  ::slotted(calcite-chip) {
+    --calcite-icon-color: var(--calcite-tile-text-color, var(--calcite-color-text-3));
+  }
+
   &.interactive {
     cursor: pointer;
 
@@ -61,7 +65,8 @@ calcite-link {
         color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       }
 
-      .heading {
+      .heading,
+      .icon {
         color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
       }
 
@@ -69,12 +74,8 @@ calcite-link {
         color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
       }
 
-      .icon {
-        color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
-      }
-
-      slot::slotted(calcite-chip) {
-        --calcite-icon-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
+      ::slotted(calcite-chip) {
+        --calcite-icon-color: var(--calcite-tile-text-color, var(--calcite-color-text-1));
       }
     }
     &:focus {
