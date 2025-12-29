@@ -314,8 +314,6 @@ describe("calcite-tile", () => {
           html`
             <calcite-tile
               heading="Tile heading lorem ipsum"
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
-              icon="layers"
               interactive
               selection-mode="single"
               selection-appearance="highlight"
