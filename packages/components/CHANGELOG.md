@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.38...@esri/calcite-components@5.0.0-next.39) (2025-12-23)
+
+### Features
+
+- **action:** adjust indicator size and position on small scale ([#13558](https://github.com/Esri/calcite-design-system/issues/13558)) ([e8172bb](https://github.com/Esri/calcite-design-system/commit/e8172bbdce8dcefd378521fd5539260d8c43ac40)), closes [#13516](https://github.com/Esri/calcite-design-system/issues/13516)
+- **shell-panel:** update min-height to avoid content being cut off ([#13561](https://github.com/Esri/calcite-design-system/issues/13561)) ([391999c](https://github.com/Esri/calcite-design-system/commit/391999ca4020b3efe8c56c97eea172bda7954309)), closes [#13448](https://github.com/Esri/calcite-design-system/issues/13448)
+
+### Bug Fixes
+
+- **action-group:** skip ARIA attributes when selectionMode is `none` ([#13522](https://github.com/Esri/calcite-design-system/issues/13522)) ([528f528](https://github.com/Esri/calcite-design-system/commit/528f52812601e94c31ecb178336b82f3ffe72f4a)), closes [#13483](https://github.com/Esri/calcite-design-system/issues/13483)
+- **action:** allow background color to be changed with transparent appearance ([#13527](https://github.com/Esri/calcite-design-system/issues/13527)) ([d87955f](https://github.com/Esri/calcite-design-system/commit/d87955fc9fb750ece428c0c6d3eda6bfa807f764)), closes [#13462](https://github.com/Esri/calcite-design-system/issues/13462)
+- ensure popovers are toggled outside animations ([#13490](https://github.com/Esri/calcite-design-system/issues/13490)) ([89955ce](https://github.com/Esri/calcite-design-system/commit/89955ceb3efea794ac9dac10000fe6782725e9ca)), closes [#13211](https://github.com/Esri/calcite-design-system/issues/13211)
+
 ## [5.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.37...@esri/calcite-components@5.0.0-next.38) (2025-12-19)
 
 ### Features

@@ -288,7 +288,6 @@ export class Alert extends LitElement {
     } else {
       manager.unregisterElement(this.el);
     }
-    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -347,7 +346,6 @@ export class Alert extends LitElement {
     }
 
     this.transitionEl = el;
-    this.handlePopover();
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
@@ -358,6 +356,7 @@ export class Alert extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteAlertBeforeOpen.emit();
+    this.handlePopover();
   }
 
   onOpen(): void {
@@ -370,6 +369,7 @@ export class Alert extends LitElement {
 
   onClose(): void {
     this.calciteAlertClose.emit();
+    this.handlePopover();
   }
 
   private actionsEndSlotChangeHandler(event: Event): void {

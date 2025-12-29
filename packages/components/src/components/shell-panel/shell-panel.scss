@@ -128,17 +128,17 @@
 
 :host([display-mode="float-all"][height="s"]),
 :host([display-mode="float-all"][height-scale="s"]) .content {
-  block-size: var(--calcite-shell-panel-height, 20vh);
+  min-block-size: var(--calcite-shell-panel-height, 20vh);
 }
 
 :host([display-mode="float-all"][height="m"]),
 :host([display-mode="float-all"][height-scale="m"]) .content {
-  block-size: var(--calcite-shell-panel-height, 30vh);
+  min-block-size: var(--calcite-shell-panel-height, 30vh);
 }
 
 :host([display-mode="float-all"][height="l"]),
 :host([display-mode="float-all"][height-scale="l"]) .content {
-  block-size: var(--calcite-shell-panel-height, 40vh);
+  min-block-size: var(--calcite-shell-panel-height, 40vh);
 }
 
 .container {
