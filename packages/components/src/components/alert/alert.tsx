@@ -168,13 +168,6 @@ export class Alert extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * When true, disables top layer placement when the component is open.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
-   */
-  @property({ reflect: true }) topLayerDisabled = false;
-
   //#endregion
 
   //#region Public Methods
