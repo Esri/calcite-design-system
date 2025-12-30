@@ -12,6 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -84,7 +85,7 @@ export class Sheet extends LitElement {
 
   private resizeHandleEl: HTMLDivElement;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -311,14 +312,14 @@ export class Sheet extends LitElement {
   private async handlePopover(): Promise<void> {
     await this.componentOnReady();
 
-    if (this.embedded || !this.transitionEl) {
+    if (this.embedded || !this.transitionRef.value) {
       return;
     }
 
     if (this.opened) {
-      this.transitionEl.showPopover();
+      this.transitionRef.value.showPopover();
     } else {
-      this.transitionEl.hidePopover();
+      this.transitionRef.value.hidePopover();
     }
   }
 
@@ -554,14 +555,6 @@ export class Sheet extends LitElement {
     this.contentId = ensureId(el);
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   private handleOutsideClose(): void {
     if (this.outsideCloseDisabled) {
       return;
@@ -606,7 +599,7 @@ export class Sheet extends LitElement {
           ),
         }}
         popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        ref={this.transitionRef}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
