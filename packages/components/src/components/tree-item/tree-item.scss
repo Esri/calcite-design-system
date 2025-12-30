@@ -72,7 +72,7 @@
     padding-block: var(--calcite-internal-tree-item-padding-block);
   }
 
-  color: var(--calcite-tree-text-color, var(--calcite-color-text-1));
+  color: var(--calcite-tree-text-color, var(--calcite-color-text-3));
 }
 
 @include includes.calcite-hydrated-hidden();
