@@ -366,7 +366,7 @@ export class TreeItem extends LitElement {
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showCheckmark = this.selectionMode !== "none";
+    const showCheckmark = this.selectionMode !== "none" && this.selectionMode !== "ancestors";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
