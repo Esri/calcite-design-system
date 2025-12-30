@@ -85,6 +85,9 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
+  /** Specifies the placement of the `calcite-action-bar` (when slotted). */
+  @property({ reflect: true }) actionBarPosition: Position;
+
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
 
@@ -178,6 +181,9 @@ export class ShellPanel extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
+      this.setActionBarsLayout(this.actionBars);
+    }
+    if (changes.has("actionBarPosition") && this.hasUpdated) {
       this.setActionBarsLayout(this.actionBars);
     }
     if (changes.has("collapsed") && this.hasUpdated) {
@@ -364,7 +370,18 @@ export class ShellPanel extends LitElement {
   }
 
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
-    actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
+    actionBars.forEach((actionBar) => {
+      if (!actionBar.hasAttribute("layout")) {
+        if (this.actionBarPosition) {
+          actionBar.layout =
+            this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
+              ? "horizontal"
+              : "vertical";
+        } else {
+          actionBar.layout = this.layout;
+        }
+      }
+    });
   }
 
   private handleActionBarSlotChange(event: Event): void {
@@ -477,9 +494,10 @@ export class ShellPanel extends LitElement {
       </div>
     );
 
+    const effectivePosition = this.actionBarPosition || position;
     const mainNodes = [actionBarNode, contentNode];
 
-    if (position === "end") {
+    if (effectivePosition === "end" || effectivePosition === "bottom") {
       mainNodes.reverse();
     }
 

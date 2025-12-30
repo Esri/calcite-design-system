@@ -5,16 +5,805 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background-color: white;
+      }
+
+      body {
+        padding: 2rem;
+      }
+
+      .shell-config-text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-5deg);
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 1rem;
+        border: 1px solid blue;
+        width: max-content;
+        transition: opacity 0.2s;
+        line-height: 2;
+      }
+
+      .rhombo {
+        display: grid;
+        /* grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr)); */
+        gap: 2rem;
+        grid-auto-rows: 1fr;
+      }
+
+      .rhombo__item {
+        /* border: 1px solid red; */
+        position: relative;
+        min-height: 700px;
+      }
+
+      .media {
+        height: 100%;
+        position: relative;
+        inset: 0 0 0 0;
+        background-color: LightBlue;
+      }
+
+      calcite-shell {
+        height: 100%;
+      }
+    </style>
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
+    <demo-dom-swapper class="rhombo">
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-start"<br />
+          action-bar-position="start"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-start" action-bar-position="start" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-end"<br />
+          action-bar-position="end"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-end" action-bar-position="end" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
 
-      <!-- demo snippet end -->
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-start"<br />
+          action-bar-position="end"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-start" action-bar-position="end" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-end"<br />
+          action-bar-position="start"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-end" action-bar-position="start" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-start"<br />
+          action-bar-position="top"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-start" action-bar-position="top" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-end"<br />
+          action-bar-position="top"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-end" action-bar-position="top" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-start"<br />
+          action-bar-position="bottom"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-start" action-bar-position="bottom" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-end"<br />
+          action-bar-position="bottom"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-end" action-bar-position="bottom" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-top"<br />
+          action-bar-position="top"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-top" action-bar-position="top" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-bottom"<br />
+          action-bar-position="bottom"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="bottom" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-top"<br />
+          action-bar-position="bottom"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-top" action-bar-position="bottom" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-bottom"<br />
+          action-bar-position="top"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="top" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-top"<br />
+          action-bar-position="start"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-top" action-bar-position="start" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading"> Some kind of slotted content </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-bottom"<br />
+          action-bar-position="start"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="start" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading"> Some kind of slotted content </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-top"<br />
+          action-bar-position="end"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-top" action-bar-position="end" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading"> Some kind of slotted content </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+
+      <div class="rhombo__item">
+        <div class="shell-config-text">
+          slot="panel-bottom"<br />
+          action-bar-position="end"
+        </div>
+        <calcite-shell style="position: relative">
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="end" resizablex>
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                <calcite-action text="Add" icon="gear"> </calcite-action>
+                <calcite-action text="Save" icon="gear"> </calcite-action>
+                <calcite-action text="Layers" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Something" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Hey" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Hello" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading"> Some kind of slotted content </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>

@@ -326,6 +326,33 @@
   flex-direction: column;
 }
 
+:host([action-bar-position="top"]),
+:host([action-bar-position="bottom"]) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+:host([action-bar-position="top"]),
+:host([action-bar-position="bottom"]) {
+  .action-bar-container {
+    flex-direction: row;
+  }
+}
+
+:host([slot="panel-top"][action-bar-position="start"]),
+:host([slot="panel-top"][action-bar-position="end"]),
+:host([slot="panel-bottom"][action-bar-position="start"]),
+:host([slot="panel-bottom"][action-bar-position="end"]) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+:host ::slotted(calcite-action-bar[layout="horizontal"]) {
+  inline-size: 100%;
+}
+
 .content {
   @apply pointer-events-auto
   flex
