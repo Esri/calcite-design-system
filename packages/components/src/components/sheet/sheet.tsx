@@ -299,7 +299,7 @@ export class Sheet extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
+    if (changes.has("opened") && (this.hasUpdated || this.opened !== false) && this.transitionEl) {
       toggleOpenClose(this);
       this.handlePopover();
     }
