@@ -174,8 +174,7 @@
 .node-container {
   @apply relative flex grow items-center min-w-0;
 
-  .checkmark,
-  .bullet-point {
+  .checkmark {
     @apply transition-default opacity-0;
     color: var(--calcite-color-border-1);
   }
@@ -184,8 +183,7 @@
 .node-container:hover,
 :host([selected]) .node-container:hover,
 :host(:focus:not([disabled])) .node-container {
-  .checkmark,
-  .bullet-point {
+  .checkmark {
     @apply opacity-100;
   }
 }
@@ -196,7 +194,6 @@
 
   color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
 
-  .bullet-point,
   .checkmark {
     @apply opacity-100;
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
@@ -205,7 +202,6 @@
 
 // dropdown with children
 :host([has-children]) .node-container {
-  .bullet-point,
   .checkmark {
     @apply hidden;
   }
@@ -229,8 +225,7 @@
 }
 
 :host([selected]) {
-  .checkmark,
-  .bullet-point {
+  .checkmark {
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
   .checkbox {
