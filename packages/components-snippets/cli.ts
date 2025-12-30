@@ -23,7 +23,24 @@ type ParsedBlocks = {
 const SNIPPETS_DIR_REL = "../calcite-documentation/documentation/component-sample-snippets";
 const INDEX_HTML_REL = "packages/components/index.html";
 
-yargs(hideBin(process.argv)).scriptName("snippet").strict().help().parseSync();
+type CliArgs = {
+  component?: string;
+};
+
+const args = yargs(hideBin(process.argv))
+  .scriptName("snippet")
+  .command("$0 [component]", "Insert demo snippet for a specific component", (y) =>
+    y.positional("component", {
+      describe: "Component name (optional)",
+      type: "string",
+    }),
+  )
+  .usage("Usage: $0 [component]")
+  .strict()
+  .help()
+  .parseSync() as CliArgs;
+
+const component = args.component;
 
 async function findRepoRoot(startDir: string): Promise<string> {
   let current = path.resolve(startDir);
@@ -284,7 +301,7 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
   await fs.writeFile(indexHtmlPath, updatedContent, "utf8");
 }
 
-async function run(): Promise<void> {
+async function run(component?: string): Promise<void> {
   const repoRoot = await findRepoRoot(process.cwd());
   const snippetsRoot = path.join(repoRoot, SNIPPETS_DIR_REL);
   const indexHtmlPath = path.join(repoRoot, INDEX_HTML_REL);
@@ -297,16 +314,30 @@ async function run(): Promise<void> {
     process.exit(1);
   }
 
-  const selectedComponentIndex = await promptForChoice("Select a component", componentNames);
-  const selectedComponentName = componentNames[selectedComponentIndex];
-  const component = componentsMap.get(selectedComponentName);
+  let selectedComponentIndex = -1;
 
-  if (!component) {
+  if (component) {
+    const normalizedArg = component.toLowerCase();
+    selectedComponentIndex = componentNames.findIndex((name) => name.toLowerCase() === normalizedArg);
+
+    if (selectedComponentIndex === -1) {
+      console.error(`Component "${component}" not found.`);
+    }
+  }
+
+  if (selectedComponentIndex === -1) {
+    selectedComponentIndex = await promptForChoice("Select a component", componentNames);
+  }
+
+  const selectedComponentName = componentNames[selectedComponentIndex];
+  const componentEntry = componentsMap.get(selectedComponentName);
+
+  if (!componentEntry) {
     console.error(`Component not found for selection: ${selectedComponentName}`);
     process.exit(1);
   }
 
-  const files = component.files;
+  const files = componentEntry.files;
 
   // read titles from frontmatter for each snippet
   const snippetTitles = await Promise.all(
@@ -358,7 +389,7 @@ async function run(): Promise<void> {
 }
 
 try {
-  await run();
+  await run(component);
 } catch (error) {
   const userCancelled = error && typeof error === "object" && "name" in error && error.name === "ExitPromptError";
 
