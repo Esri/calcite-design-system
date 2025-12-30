@@ -116,7 +116,14 @@ describe("calcite-popover", () => {
   });
 
   describe("top layer placement", () => {
-    topLayer(() => mount("calcite-popover"));
+    topLayer(() =>
+      mount(
+        <>
+          <calcite-popover reference-element="ref">content</calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
   });
 
   describe("translation support", () => {
