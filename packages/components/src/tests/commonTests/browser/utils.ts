@@ -16,7 +16,3 @@ declare module "vitest/browser" {
     locator: (selector: string) => Locator;
   }
 }
-
-export function shadowQuery(el: HTMLElement, selector: string): HTMLElement {
-  return el.shadowRoot!.querySelector(selector)!;
-}
