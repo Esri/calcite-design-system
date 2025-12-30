@@ -20,9 +20,9 @@ import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
-import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
@@ -46,8 +46,6 @@ export class Sheet extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  private contentEl: HTMLDivElement;
 
   private contentId: string;
 
@@ -74,14 +72,6 @@ export class Sheet extends LitElement {
   private interaction: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
-
-  private sizeOverride = useSizeOverride({
-    targetElement: this.contentRef,
-    getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
-    }),
-  });
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.handleMutationObserver(),
@@ -113,6 +103,14 @@ export class Sheet extends LitElement {
       this.open = false;
     }
   };
+
+  private sizeOverride = useSizeOverride({
+    targetElement: this.contentRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+  });
 
   //#endregion
 
@@ -313,6 +311,10 @@ export class Sheet extends LitElement {
     ) {
       this.setupInteractions();
     }
+
+    if (this.contentRef.value) {
+      this.contentId = ensureId(this.contentRef.value);
+    }
   }
 
   override disconnectedCallback(): void {
@@ -365,16 +367,16 @@ export class Sheet extends LitElement {
       : ICONS.dragHorizontal;
   }
 
-  private getContentElDOMRect(): DOMRect {
-    return this.contentEl.getBoundingClientRect();
+  private getContentRefDOMRect(): DOMRect {
+    return this.contentRef.value?.getBoundingClientRect();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, defaultPrevented, shiftKey } = event;
     const {
+      contentRef,
       position,
       resizable,
-      contentEl,
       el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
@@ -386,11 +388,11 @@ export class Sheet extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentEl || defaultPrevented || !keys.includes(key)) {
+    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
+    const rect = this.getContentRefDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
@@ -438,23 +440,44 @@ export class Sheet extends LitElement {
     }
   }
 
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+
+    const appliedSize = this.sizeOverride.resize(size);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSize.inline !== undefined && {
+        inlineSize: appliedSize.inline,
+      }),
+      ...(appliedSize.block !== undefined && {
+        blockSize: appliedSize.block,
+      }),
+    };
+  }
+
   private cleanupInteractions(): void {
     this.interaction?.unset();
+    this.updateSizeInternal({ inline: null });
+    this.updateSizeInternal({ block: null });
   }
 
   private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
-    const { el, contentEl, resizable, position, open, resizeHandleEl } = this;
+    const { contentRef, el, resizable, position, open, resizeHandleEl } = this;
 
-    if (!contentEl || !open || !resizable || !resizeHandleEl) {
+    if (!contentRef.value || !open || !resizable || !resizeHandleEl) {
       return;
     }
 
     await this.el.componentOnReady();
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentEl);
+      window.getComputedStyle(contentRef.value);
 
     const values: ResizeValues = {
       inlineSize: getStylePixelValue(inlineSize),
@@ -469,7 +492,7 @@ export class Sheet extends LitElement {
 
     const rtl = getElementDir(el) === "rtl";
 
-    this.interaction = interact(contentEl, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
         top: position === "block-end" ? resizeHandleEl : false,
         right: position === (rtl ? "inline-end" : "inline-start") ? resizeHandleEl : false,
@@ -491,7 +514,6 @@ export class Sheet extends LitElement {
       listeners: {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
-
           this.updateSizeInternal(isBlock ? { block: rect.height } : { inline: rect.width });
         },
       },
@@ -524,12 +546,6 @@ export class Sheet extends LitElement {
     this.setupInteractions();
   }
 
-  private setContentEl(el: HTMLDivElement): void {
-    this.contentEl = el;
-    this.contentRef.value = el;
-    this.contentId = ensureId(el);
-  }
-
   private setTransitionEl(el: HTMLDivElement): void {
     if (!el) {
       return;
@@ -549,25 +565,6 @@ export class Sheet extends LitElement {
 
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
-  }
-
-  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
-  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
-    if (!this.contentRef.value) {
-      return;
-    }
-
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
   }
 
   //#endregion
@@ -605,7 +602,7 @@ export class Sheet extends LitElement {
         ref={this.setTransitionEl}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
+        <div class={CSS.content} id={IDS.sheetContent} ref={this.contentRef}>
           <div class={CSS.contentContainer}>
             <slot />
           </div>
