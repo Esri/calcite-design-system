@@ -65,13 +65,8 @@ calcite-link {
         color: var(--calcite-tile-accent-color-press, var(--calcite-color-brand));
       }
 
-      .heading,
       .icon {
         color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
-      }
-
-      .description {
-        color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
       }
 
       ::slotted(calcite-chip) {
@@ -110,10 +105,14 @@ calcite-link {
 
 .heading {
   @apply m-0 p-0;
-  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
   font-weight: var(--calcite-font-weight-medium);
   line-height: 1.20313rem;
   overflow-wrap: break-word;
+}
+
+.description {
+  color: var(--calcite-tile-text-color, var(--calcite-color-text-2));
 }
 
 .description {
