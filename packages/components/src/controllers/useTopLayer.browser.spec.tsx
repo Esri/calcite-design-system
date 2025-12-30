@@ -5,7 +5,7 @@ import { createRef } from "lit/directives/ref.js";
 import { isInTopLayer } from "../tests/utils/dom";
 import { useTopLayer } from "./useTopLayer";
 
-describe("usePopoverPositioning", () => {
+describe("useTopLayer", () => {
   it("places elements on the top layer", async () => {
     class Test extends LitElement {
       overlayRef = createRef<HTMLDivElement>();
