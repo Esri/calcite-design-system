@@ -62,7 +62,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   transitionRef = createRef<HTMLDivElement>();
 
   private topLayer = useTopLayer<this>({
-    disabledOverride: () => this.open && !!this.referenceEl,
+    disabledOverride: () => this.open && !this.referenceEl,
     target: () => this.floatingEl,
   })(this);
 

@@ -103,7 +103,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private topLayer = useTopLayer<this>({
-    disabledOverride: () => this.open && !!this.referenceEl,
+    disabledOverride: () => this.open && !this.referenceEl,
     target: () => this.floatingEl,
   })(this);
 
