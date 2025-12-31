@@ -43,7 +43,7 @@ export const useTopLayer = <T extends TopLayerComponent>(
       await component.componentOnReady();
       const nativePopoverEl = typeof options.target === "function" ? options.target() : options.target.value;
 
-      if (!nativePopoverEl) {
+      if (!nativePopoverEl || !nativePopoverEl.hasAttribute("popover")) {
         return;
       }
 
