@@ -35,7 +35,7 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
   it("supports being placed in top layer", async () => {
     const { el } = await setup();
     const openProp = options?.openProp ?? "open";
-    const targetLocator = options?.topLayerTarget ?? page.locator("[popover]");
+    const targetLocator = options?.topLayerTarget ?? page.getBySelector("[popover]");
     const topLayerEl = targetLocator.element();
 
     expect(isInTopLayer(topLayerEl)).toBe(false);
