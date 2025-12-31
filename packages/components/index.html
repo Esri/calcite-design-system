@@ -12,11 +12,11 @@
 
       html,
       body {
-        background-color: white;
+        background-color: black;
       }
 
       body {
-        padding: 2rem;
+        padding: 5rem;
       }
 
       .shell-config-text {
@@ -31,26 +31,36 @@
         width: max-content;
         transition: opacity 0.2s;
         line-height: 2;
+        background: pink;
+        font-weight: bold;
       }
 
       .rhombo {
         display: grid;
         /* grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr)); */
-        gap: 2rem;
+        gap: 5rem;
         grid-auto-rows: 1fr;
       }
 
       .rhombo__item {
-        /* border: 1px solid red; */
         position: relative;
-        min-height: 700px;
+        min-height: 1100px;
+        padding: 5rem;
+        background: white;
       }
 
       .media {
         height: 100%;
         position: relative;
         inset: 0 0 0 0;
-        background-color: LightBlue;
+        background: linear-gradient(
+          90deg,
+          rgba(42, 123, 155, 1) 0%,
+          rgba(87, 199, 133, 1) 50%,
+          rgba(237, 221, 83, 1) 100%
+        );
+        background: skyblue;
+        /* background: white; */
       }
 
       calcite-shell {

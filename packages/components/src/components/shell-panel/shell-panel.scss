@@ -558,4 +558,74 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
+:host([slot="panel-start"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-end"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-bottom"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-bottom"][action-bar-position="top"]) ::slotted(calcite-action-bar),
+:host([slot="panel-bottom"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-bottom"][action-bar-position="start"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-bottom"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
+  border-block-start-width: 0;
+}
+
+:host([slot="panel-bottom"][action-bar-position="end"]) {
+  border-block-end: 1px solid;
+}
+
+:host([slot="panel-bottom"][action-bar-position="end"]) ::slotted(calcite-action-bar) {
+  border-block-width: 0;
+}
+
+:host([slot="panel-top"][action-bar-position="end"]) ::slotted(calcite-action-bar) {
+  border-block-width: 0;
+}
+
+:host([slot="panel-bottom"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
+  border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-top"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
+  border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-bottom"][action-bar-position="start"]) .content-container ::slotted(calcite-panel) {
+  border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-bottom"][action-bar-position="start"]) ::slotted(calcite-action-bar) {
+  border-block-width: 0;
+}
+
+:host([slot="panel-bottom"][action-bar-position="start"]) {
+  border-block-end: 1px solid;
+}
+
+:host([slot="panel-top"][action-bar-position="end"]) {
+  border-block-start: 1px solid;
+}
+
+:host([slot="panel-top"][action-bar-position="start"]) ::slotted(calcite-action-bar) {
+  border-block-width: 0;
+}
+
+:host([slot="panel-top"][action-bar-position="start"]) {
+  border-block-start: 1px solid;
+}
+
+:host([slot="panel-top"][action-bar-position="start"]) .content-container ::slotted(calcite-panel) {
+  border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-bottom"][action-bar-position="top"]) {
+  border-block-start: 1px solid;
+}
+
+:host([slot="panel-start"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-end"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-top"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-top"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
+:host([slot="panel-top"][action-bar-position="bottom"]) ::slotted(calcite-action-bar) {
+  border-block-end-width: 0;
+}
+
 @include includes.base-component();
