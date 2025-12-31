@@ -49,8 +49,8 @@
 // item icon
 .dropdown-item-icon {
   @apply relative
-  opacity-0
-  ease-in-out;
+    opacity-0
+    ease-in-out;
   transform: scale(0.9);
 }
 
@@ -139,7 +139,7 @@
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-icon-color-hover, var(--calcite-color-brand));
+  color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
 :host([selected]) .dropdown-item-icon {
