@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.41...@esri/calcite-components@5.0.0-next.42) (2025-12-30)
+
+### Features
+
+- **list:** add `highlight` selection appearance ([#13570](https://github.com/Esri/calcite-design-system/issues/13570)) ([81ad34e](https://github.com/Esri/calcite-design-system/commit/81ad34e94c38a17d2d012296f7e658a597bc06c1)), closes [#10778](https://github.com/Esri/calcite-design-system/issues/10778)
+- **menu:** update vertical layout design ([#13576](https://github.com/Esri/calcite-design-system/issues/13576)) ([06f0913](https://github.com/Esri/calcite-design-system/commit/06f09137f9df8729bef112ab9f12f8d47427defc)), closes [#10767](https://github.com/Esri/calcite-design-system/issues/10767)
+
+## [5.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.40...@esri/calcite-components@5.0.0-next.41) (2025-12-29)
+
+### Bug Fixes
+
+- **alert:** disable `dismissProgress` animation when reduced motion preferred ([#13583](https://github.com/Esri/calcite-design-system/issues/13583)) ([bb93ee0](https://github.com/Esri/calcite-design-system/commit/bb93ee02b0e292aba61c94c35a9729a1ad5866a6)), closes [#6358](https://github.com/Esri/calcite-design-system/issues/6358)
+- **alert:** enable visibilty of `dismiss-progress` element ([#13582](https://github.com/Esri/calcite-design-system/issues/13582)) ([4379ca8](https://github.com/Esri/calcite-design-system/commit/4379ca839632d60a1362a00c0ec56fb2f2b1da6a)), closes [#13581](https://github.com/Esri/calcite-design-system/issues/13581) [#12904](https://github.com/Esri/calcite-design-system/issues/12904)
+
 ## [5.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.39...@esri/calcite-components@5.0.0-next.40) (2025-12-29)
 
 ### Bug Fixes

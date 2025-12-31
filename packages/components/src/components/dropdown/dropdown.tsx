@@ -27,6 +27,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -84,6 +85,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -301,20 +306,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
     if (this.disabled) {
       return;
@@ -499,7 +490,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onBeforeOpen(): void {
     this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -513,7 +504,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteDropdownClose.emit();
     hideFloatingUI(this);
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private setReferenceEl(el: HTMLDivElement): void {

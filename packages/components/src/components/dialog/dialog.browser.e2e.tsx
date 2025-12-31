@@ -2,7 +2,15 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
@@ -205,6 +213,12 @@ describe("calcite-dialog", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount(<calcite-dialog heading="heading" />), {
+      topLayerTarget: page.getByLabelText("heading"),
+    });
   });
 
   describe("translation support", () => {

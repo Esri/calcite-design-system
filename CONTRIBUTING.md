@@ -160,7 +160,7 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 **NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
-## Starting the demos
+## Starting development
 
 First, clone the repo and then install the NPM dependencies:
 
@@ -176,7 +176,9 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-The demos will open in the browser after building. Edit the pages in [`packages/components/src/demos`](packages/components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/components/index.html`](./packages/components/index.html) so others can find it. You can also edit the component code in [`packages/components/src/components/`](packages/components/src/components/), and the changes will be reflected in the demos.
+This will open main demo page in the browser. You can edit `index.html` under [`packages/components/src/demos`](packages/components/src/demos) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
+
+By default, the page is blank with a few controls for common test scenarios, such as toggling between dark and light modes. You can add a documentation snippet by running `npx snippet` and following the prompts. You can also paste code from an issue repro case or a Storybook story.
 
 ## Linting
 
