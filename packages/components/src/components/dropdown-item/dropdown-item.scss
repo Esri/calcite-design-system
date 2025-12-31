@@ -11,6 +11,12 @@
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dropdown-item-text-color
+
 @use "../../styles/includes";
 
 @mixin item-styling {
@@ -52,6 +58,11 @@
     opacity-0
     ease-in-out;
   transform: scale(0.9);
+}
+
+.dropdown-item-icon--start,
+.dropdown-item-icon--end {
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 :host([scale="s"]) {
@@ -131,10 +142,20 @@
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .dropdown-link {
   @apply font-medium;
-  color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+  --calcite-internal-dropdown-item-text-color: var(
+    --calcite-dropdown-item-text-color-press,
+    var(--calcite-color-text-1)
+  );
+
+  color: var(--calcite-internal-dropdown-item-text-color);
 
   .dropdown-item-icon {
-    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+    --calcite-icon-color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+  }
+
+  .dropdown-item-icon--start,
+  .dropdown-item-icon--end {
+    --calcite-icon-color: var(--calcite-internal-dropdown-item-text-color);
   }
 }
 
