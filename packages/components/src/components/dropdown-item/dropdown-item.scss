@@ -49,8 +49,8 @@
 // item icon
 .dropdown-item-icon {
   @apply relative
-    opacity-0
-    ease-in-out;
+  opacity-0
+  ease-in-out;
   transform: scale(0.9);
 }
 
@@ -132,10 +132,14 @@
 :host([selected]) .dropdown-link {
   @apply font-medium;
   color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+
+  .dropdown-item-icon {
+    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+  }
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-icon-color-hover);
+  color: var(--calcite-dropdown-item-icon-color-hover, var(--calcite-color-brand));
 }
 
 :host([selected]) .dropdown-item-icon {
