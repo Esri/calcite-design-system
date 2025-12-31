@@ -14,7 +14,6 @@ import customBrowserModeCommands from "./src/tests/browser/commands";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
-
 const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
@@ -82,7 +81,13 @@ export default defineConfig({
   },
 
   test: {
-    browser: { enabled: runBrowserTests, provider: playwright(), screenshotFailures: false },
+    browser: {
+      enabled: runBrowserTests,
+      provider: playwright(),
+      screenshotFailures: false,
+      headless: process.env.HEADLESS !== "false",
+      ui: false,
+    },
     include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,
