@@ -72,7 +72,11 @@
     padding-block: var(--calcite-internal-tree-item-padding-block);
   }
 
-  color: var(--calcite-tree-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-tree-text-color, var(--calcite-color-text-1));
+}
+
+.icon-start {
+  color: var(--calcite-color-text-3);
 }
 
 @include includes.calcite-hydrated-hidden();
@@ -192,7 +196,10 @@
 :host([selected]) .node-container:hover {
   @apply font-medium;
 
-  color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+  &,
+  .icon-start {
+    color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+  }
 
   .checkmark {
     @apply opacity-100;
