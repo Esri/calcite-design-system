@@ -17,6 +17,7 @@
 // --calcite-internal-tree-item-line-left-position
 // --calcite-internal-tree-item-padding-block
 // --calcite-internal-tree-item-spacing-unit
+// --calcite-internal-tree-item-text-color
 
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
@@ -76,7 +77,7 @@
 }
 
 .icon-start {
-  color: var(--calcite-color-text-3);
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 @include includes.calcite-hydrated-hidden();
@@ -194,11 +195,13 @@
 
 :host([selected]) .node-container,
 :host([selected]) .node-container:hover {
-  @apply font-medium;
+  --calcite-internal-tree-item-text-color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
 
-  &,
+  @apply font-medium;
+  color: var(--calcite-internal-tree-item-text-color);
+
   .icon-start {
-    color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+    --calcite-icon-color: var(--calcite-internal-tree-item-text-color);
   }
 
   .checkmark {
