@@ -3,7 +3,7 @@ import { PascalCase } from "type-fest";
 import { type Locator, locators } from "vitest/browser";
 
 locators.extend({
-  locator(selector: string): string {
+  getBySelector(selector: string): string {
     return selector;
   },
 });
@@ -15,7 +15,7 @@ declare module "vitest/browser" {
      *
      * Note: prefer using more specific locators when possible for better test reliability.
      */
-    locator: (selector: string) => Locator;
+    getBySelector: (selector: string) => Locator;
   }
 }
 

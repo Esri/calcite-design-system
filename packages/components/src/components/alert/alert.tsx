@@ -10,6 +10,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
@@ -67,7 +68,7 @@ export class Alert extends LitElement {
 
   private totalOpenTime = 0;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -80,7 +81,7 @@ export class Alert extends LitElement {
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
-    target: () => this.transitionEl,
+    target: this.transitionRef,
   })(this);
 
   //#endregion
@@ -332,14 +333,6 @@ export class Alert extends LitElement {
     this.autoCloseTimeoutId = null;
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-  }
-
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert(): void {
     this.open = false;
@@ -424,7 +417,7 @@ export class Alert extends LitElement {
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
         popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        ref={this.transitionRef}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
         <div
