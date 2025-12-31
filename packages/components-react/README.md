@@ -2,6 +2,12 @@
 
 This package provides React wrappers for [Calcite components](https://developers.arcgis.com/calcite-design-system/components/). Refer to the [React example](https://github.com/Esri/calcite-design-system/tree/dev/examples/components/react) for a minimal application using this package.
 
+## ⚠️ Deprecation Notice
+
+Calcite Components React will be deprecated in v5.0.0 and fully removed in v6.0.0 (targeted for February 2027). The `@esri/calcite-components-react` package was originally developed for use with React 18 where wrappers were necessary to use custom elements. With React 19's native support for custom elements, these wrappers are no longer needed.
+
+Consider upgrading to React 19+ and using `@esri/calcite-components` directly.
+
 ## Installation
 
 ```sh
