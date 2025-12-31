@@ -224,8 +224,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---
 
-lit
 lit-element
+lit
 @lit/reactive-element
 
 BSD 3-Clause License
@@ -389,8 +389,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 ---
 
-@floating-ui/core
 @floating-ui/dom
+@floating-ui/core
 @floating-ui/utils
 
 MIT License
@@ -422,8 +422,8 @@ BSD-3-Clause
 
 ---
 
-@types/trusted-types
 @types/sortablejs
+@types/trusted-types
 
    MIT License
 
