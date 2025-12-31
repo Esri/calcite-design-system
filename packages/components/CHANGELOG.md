@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.42...@esri/calcite-components@5.0.0-next.43) (2025-12-31)
+
+### Features
+
+- **dialog, sheet:** add `topLayerDisabled` prop ([#13600](https://github.com/Esri/calcite-design-system/issues/13600)) ([2ed7eb7](https://github.com/Esri/calcite-design-system/commit/2ed7eb7066d323a545071baf11389e499a3294fb))
+
 ## [5.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.41...@esri/calcite-components@5.0.0-next.42) (2025-12-30)
 
 ### Features

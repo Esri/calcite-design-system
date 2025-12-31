@@ -46,7 +46,3 @@ export function waitForEvent(el: HTMLElement, eventName: string): Promise<void> 
     el.addEventListener(eventName, () => resolve(), { once: true });
   });
 }
-
-export function shadowQuery(el: HTMLElement, selector: string): HTMLElement {
-  return el.shadowRoot!.querySelector(selector)!;
-}
