@@ -239,6 +239,15 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
    * Specifies the width of the component.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
