@@ -43,19 +43,19 @@ export const useTopLayer = <T extends TopLayerComponent>(
       await component.componentOnReady();
       const nativePopoverEl = typeof options.target === "function" ? options.target() : options.target.value;
 
-      if (
-        !nativePopoverEl ||
-        options.disabledOverride?.() ||
-        ("topLayerDisabled" in component && component.topLayerDisabled === true)
-      ) {
+      if (!nativePopoverEl) {
         return;
       }
 
-      if (open) {
-        nativePopoverEl.showPopover();
-      } else {
+      const isDisabled =
+        options.disabledOverride?.() || ("topLayerDisabled" in component && component.topLayerDisabled === true);
+
+      if (isDisabled || !open) {
         nativePopoverEl.hidePopover();
+        return;
       }
+
+      nativePopoverEl.showPopover();
     }
 
     return {
