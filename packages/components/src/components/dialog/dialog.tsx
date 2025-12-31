@@ -19,6 +19,7 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -103,6 +104,11 @@ export class Dialog extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.popoverRef,
+  })(this);
 
   //#endregion
 
@@ -370,7 +376,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -388,7 +394,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -407,20 +413,6 @@ export class Dialog extends LitElement {
     }
 
     this.opened = value;
-  }
-
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.popoverRef.value) {
-      return;
-    }
-
-    if (this.open) {
-      this.popoverRef.value.showPopover();
-    } else {
-      this.popoverRef.value.hidePopover();
-    }
   }
 
   private handleOpenedChange(value: boolean): void {

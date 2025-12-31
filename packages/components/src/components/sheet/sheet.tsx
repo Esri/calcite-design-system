@@ -26,6 +26,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -103,6 +104,11 @@ export class Sheet extends LitElement {
       this.open = false;
     }
   };
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -309,20 +315,6 @@ export class Sheet extends LitElement {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionRef.value) {
-      return;
-    }
-
-    if (this.opened) {
-      this.transitionRef.value.showPopover();
-    } else {
-      this.transitionRef.value.hidePopover();
-    }
-  }
-
   private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {
       try {
@@ -524,7 +516,7 @@ export class Sheet extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -542,7 +534,7 @@ export class Sheet extends LitElement {
   onClose(): void {
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {

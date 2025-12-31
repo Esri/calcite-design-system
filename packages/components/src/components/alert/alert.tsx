@@ -21,6 +21,7 @@ import { KindIcons } from "../resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -77,6 +78,11 @@ export class Alert extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -269,20 +275,6 @@ export class Alert extends LitElement {
     }
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionRef.value) {
-      return;
-    }
-
-    if (this.open) {
-      this.transitionRef.value.showPopover();
-    } else {
-      this.transitionRef.value.hidePopover();
-    }
-  }
-
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
@@ -349,7 +341,7 @@ export class Alert extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteAlertBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -362,7 +354,7 @@ export class Alert extends LitElement {
 
   onClose(): void {
     this.calciteAlertClose.emit();
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private actionsEndSlotChangeHandler(event: Event): void {
