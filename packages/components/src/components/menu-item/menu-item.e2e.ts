@@ -272,4 +272,22 @@ describe("calcite-menu-item", () => {
       themed(iconMenuItemHTML, tokens);
     });
   });
+
+  describe("deprecated", () => {
+    themed(
+      html`<calcite-menu-item breadcrumb text="Trees" icon-start="layers" icon-end="layers"></calcite-menu-item>`,
+      {
+        "--calcite-ui-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+        ],
+      },
+    );
+  });
 });
