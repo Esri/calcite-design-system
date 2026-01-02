@@ -534,21 +534,36 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
-        "--calcite-button-corner-radius": {
+        "--calcite-button-background-color-hover": {
           shadowSelector: "button",
-          targetProp: "borderRadius",
+          targetProp: "backgroundColor",
+          state: "hover",
         },
-        "--calcite-button-text-color": {
+        "--calcite-button-background-color-focus": {
           shadowSelector: "button",
-          targetProp: "color",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
         },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
         },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
         "--calcite-button-shadow": {
           shadowSelector: "button",
           targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
         },
       });
     });
@@ -558,34 +573,228 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
         "--calcite-button-corner-radius": {
           shadowSelector: "button",
           targetProp: "borderRadius",
-        },
-        "--calcite-button-text-color": {
-          shadowSelector: "button",
-          targetProp: "color",
         },
         "--calcite-button-loader-color": {
           shadowSelector: `.${CSS.loadingIn}`,
           targetProp: "color",
         },
-        "--calcite-button-border-color": {
+        "--calcite-button-shadow": {
           shadowSelector: "button",
-          targetProp: "borderColor",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
         },
       });
     });
     describe("outline", () => {
       themed(html`<calcite-button appearance="outline"></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
+      });
+    });
+    describe("outline-fill", () => {
+      themed(html`<calcite-button appearance="outline-fill"></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
+      });
+    });
+    describe("solid", () => {
+      themed(html`<calcite-button appearance="solid"></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
+      });
+    });
+    describe("transparent", () => {
+      themed(html`<calcite-button appearance="transparent"></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
         },
       });
     });
     describe("icons", () => {
       themed(html`<calcite-button icon-start="layer" icon-end="layer"></calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-button-background-color-focus": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-button-background-color-press": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "type", value: "button" } },
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: "button",
+          targetProp: "borderRadius",
+        },
         "--calcite-button-icon-color": [
           {
             shadowSelector: `.${CSS.iconStart}`,
@@ -596,6 +805,14 @@ describe("calcite-button", () => {
             targetProp: "color",
           },
         ],
+        "--calcite-button-shadow": {
+          shadowSelector: "button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: "button",
+          targetProp: "color",
+        },
       });
     });
     describe("deprecated", () => {

@@ -9,6 +9,7 @@ import {
   renders,
   floatingUIOwner,
   t9n,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -145,6 +146,17 @@ describe("calcite-popover", () => {
         { shadowSelector: `.${CSS.positionContainer}` },
       );
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() =>
+      mount(
+        <>
+          <calcite-popover reference-element="ref">content</calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
   });
 
   describe("translation support", () => {

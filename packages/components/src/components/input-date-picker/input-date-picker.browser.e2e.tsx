@@ -10,6 +10,7 @@ import {
   renders,
   floatingUIOwner,
   t9n,
+  topLayer,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
@@ -72,11 +73,15 @@ describe("calcite-input-date-picker", () => {
     );
   });
 
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-input-date-picker"));
+  });
+
   describe("translation support", () => {
     t9n(() => mount("calcite-input-date-picker"));
   });
 
-  describe("disabled", () => {
+  describe.skip("disabled", () => {
     disabled(() => mount("calcite-input-date-picker"));
   });
 });

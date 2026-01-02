@@ -11,6 +11,7 @@ import {
   renders,
   slots,
   t9n,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -241,6 +242,12 @@ describe("calcite-dialog", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount(<calcite-dialog heading="heading" />), {
+      topLayerTarget: page.getByLabelText("heading"),
+    });
   });
 
   describe("translation support", () => {

@@ -2760,9 +2760,8 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEventSpy.next();
 
-    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
-    await close.press(" ");
-    await page.waitForChanges();
+    await combobox.press("ArrowLeft");
+    await page.keyboard.press(" ");
 
     const remainingChips = await findAll(page, "calcite-combobox >>> calcite-chip");
     expect(remainingChips.length).toBe(2);

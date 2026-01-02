@@ -1,6 +1,7 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -105,5 +106,32 @@ describe("calcite-action-group", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-action-group"));
+  });
+
+  describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
+    it("does not activate actions or set ARIA attributes", async () => {
+      const { el } = await mount<"calcite-action-group">(
+        <calcite-action-group selection-mode="none">
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>,
+      );
+
+      const [action1, action2] = el.querySelectorAll("calcite-action");
+
+      await userEvent.click(action1);
+      expect(action1.active).toBe(false);
+      expect(action2.active).toBe(false);
+
+      await userEvent.click(action2);
+      expect(action1.active).toBe(false);
+      expect(action2.active).toBe(false);
+
+      expect(action1.getAttribute("aria-checked")).toBeNull();
+      expect(action1.getAttribute("role")).toBeNull();
+
+      expect(action2.getAttribute("aria-checked")).toBeNull();
+      expect(action2.getAttribute("role")).toBeNull();
+    });
   });
 });
