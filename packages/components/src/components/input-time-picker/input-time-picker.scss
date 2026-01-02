@@ -49,7 +49,10 @@ calcite-time-picker {
 }
 
 .container {
-  --calcite-icon-color: var(--calcite-input-time-picker-icon-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(
+    --calcite-input-time-picker-icon-color,
+    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
+  );
   align-items: center;
   background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
