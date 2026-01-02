@@ -1,7 +1,13 @@
 import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
-import { defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  renders,
+  floatingUIOwner,
+  topLayer,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
 import { Tooltip } from "./tooltip";
@@ -204,5 +210,16 @@ describe("calcite-tooltip", () => {
         { shadowSelector: `.${CSS.positionContainer}` },
       );
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() =>
+      mount(
+        <>
+          <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+          <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
   });
 });
