@@ -271,9 +271,9 @@ export class List extends LitElement implements SortableComponent {
    */
   @property() selectedItems: ListItem["el"][] = [];
 
-  /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border). */
+  /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead. */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "border" | "highlight",
     SelectionAppearance
   > = "icon";
 

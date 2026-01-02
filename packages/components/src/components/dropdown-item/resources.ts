@@ -12,5 +12,4 @@ export const CSS = {
 
 export const ICONS: Record<string, IconName> = {
   check: "check",
-  bulletPoint: "bullet-point",
 };

@@ -70,7 +70,7 @@ describe("calcite-tile", () => {
     it("renders without a link by default", async () => {
       await mount("calcite-tile");
 
-      const link = page.locator("calcite-tile calcite-link");
+      const link = page.getBySelector("calcite-tile calcite-link");
 
       await expect.element(link).not.toBeInTheDocument();
     });
@@ -78,8 +78,8 @@ describe("calcite-tile", () => {
     it("renders a link when href attribute is supplied", async () => {
       await mount(<calcite-tile href="http://www.esri.com" />);
 
-      const link = page.locator("calcite-tile calcite-link");
-      const anchor = page.locator("calcite-tile calcite-link a");
+      const link = page.getBySelector("calcite-tile calcite-link");
+      const anchor = page.getBySelector("calcite-tile calcite-link a");
 
       await expect.element(link).toHaveAttribute("href", "http://www.esri.com");
       await expect.element(anchor).toHaveAttribute("href", "http://www.esri.com");
@@ -88,9 +88,9 @@ describe("calcite-tile", () => {
     it("renders heading only when supplied", async () => {
       await mount(<calcite-tile heading="My Calcite Tile" />);
 
-      const icon = page.locator(`calcite-tile .${CSS.icon}`);
-      const heading = page.locator(`calcite-tile .${CSS.heading}`);
-      const description = page.locator(`calcite-tile .${CSS.description}`);
+      const icon = page.getBySelector(`calcite-tile .${CSS.icon}`);
+      const heading = page.getBySelector(`calcite-tile .${CSS.heading}`);
+      const description = page.getBySelector(`calcite-tile .${CSS.description}`);
 
       await expect.element(icon).not.toBeInTheDocument();
       await expect.element(heading).toHaveTextContent("My Calcite Tile");
@@ -100,9 +100,9 @@ describe("calcite-tile", () => {
     it("renders icon only when supplied", async () => {
       await mount(<calcite-tile icon="layers" />);
 
-      const icon = page.locator(`calcite-tile .${CSS.icon}`);
-      const heading = page.locator(`calcite-tile .${CSS.heading}`);
-      const description = page.locator(`calcite-tile .${CSS.description}`);
+      const icon = page.getBySelector(`calcite-tile .${CSS.icon}`);
+      const heading = page.getBySelector(`calcite-tile .${CSS.heading}`);
+      const description = page.getBySelector(`calcite-tile .${CSS.description}`);
 
       await expect.element(icon).toBeInTheDocument();
       await expect.element(heading).not.toBeInTheDocument();
@@ -112,9 +112,9 @@ describe("calcite-tile", () => {
     it("renders description only when supplied", async () => {
       await mount(<calcite-tile description="My Calcite Tile Description." />);
 
-      const icon = page.locator(`calcite-tile .${CSS.icon}`);
-      const heading = page.locator(`calcite-tile .${CSS.heading}`);
-      const description = page.locator(`calcite-tile .${CSS.description}`);
+      const icon = page.getBySelector(`calcite-tile .${CSS.icon}`);
+      const heading = page.getBySelector(`calcite-tile .${CSS.heading}`);
+      const description = page.getBySelector(`calcite-tile .${CSS.description}`);
 
       await expect.element(icon).not.toBeInTheDocument();
       await expect.element(heading).not.toBeInTheDocument();
@@ -124,9 +124,9 @@ describe("calcite-tile", () => {
     it("renders large icon when only icon and heading are supplied", async () => {
       await mount(<calcite-tile heading="My Large Visual Calcite Tile" icon="layers" />);
 
-      const icon = page.locator(`calcite-tile .${CSS.icon}`);
-      const heading = page.locator(`calcite-tile .${CSS.heading}`);
-      const description = page.locator(`calcite-tile .${CSS.description}`);
+      const icon = page.getBySelector(`calcite-tile .${CSS.icon}`);
+      const heading = page.getBySelector(`calcite-tile .${CSS.heading}`);
+      const description = page.getBySelector(`calcite-tile .${CSS.description}`);
 
       await expect.element(icon).toHaveAttribute("icon", "layers");
       await expect.element(icon).toHaveAttribute("scale", "l");
