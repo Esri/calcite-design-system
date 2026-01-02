@@ -148,7 +148,7 @@
           }
         },
         "scrim": {
-          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})",
+          "value": "rgba({core.color.neutral.blk-240},{core.opacity.70})",
           "type": "color",
           "attributes": {
             "category": "color",
