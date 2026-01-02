@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.45...@esri/calcite-components@5.0.0-next.46) (2026-01-02)
+
+### Bug Fixes
+
+- ensure top layer placement when open component is reconnected ([#13622](https://github.com/Esri/calcite-design-system/issues/13622)) ([5a15056](https://github.com/Esri/calcite-design-system/commit/5a150562d64a1cd594ae3ef5a501278c2fd634d7)), closes [#13621](https://github.com/Esri/calcite-design-system/issues/13621)
+
+## [5.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.44...@esri/calcite-components@5.0.0-next.45) (2026-01-01)
+
+### Features
+
+- **dropdown:** update selection appearance ([#13571](https://github.com/Esri/calcite-design-system/issues/13571)) ([dcf7a36](https://github.com/Esri/calcite-design-system/commit/dcf7a3687004013d625b12acd5653aa07f1efcaa))
+
+## [5.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.43...@esri/calcite-components@5.0.0-next.44) (2025-12-31)
+
+### Features
+
+- **tree:** update selection appearance ([#13572](https://github.com/Esri/calcite-design-system/issues/13572)) ([dd27a3c](https://github.com/Esri/calcite-design-system/commit/dd27a3c8265afcc6b2972a129335b9b2529f5e8a)), closes [#10776](https://github.com/Esri/calcite-design-system/issues/10776)
+
+## [5.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.42...@esri/calcite-components@5.0.0-next.43) (2025-12-31)
+
+### Features
+
+- **dialog, sheet:** add `topLayerDisabled` prop ([#13600](https://github.com/Esri/calcite-design-system/issues/13600)) ([2ed7eb7](https://github.com/Esri/calcite-design-system/commit/2ed7eb7066d323a545071baf11389e499a3294fb))
+
 ## [5.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.41...@esri/calcite-components@5.0.0-next.42) (2025-12-30)
 
 ### Features

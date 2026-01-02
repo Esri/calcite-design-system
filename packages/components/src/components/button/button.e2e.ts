@@ -538,21 +538,6 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
-        },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
@@ -576,21 +561,6 @@ describe("calcite-button", () => {
         "--calcite-button-background-color": {
           shadowSelector: "button",
           targetProp: "backgroundColor",
-        },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
         },
         "--calcite-button-border-color": {
           shadowSelector: "button",
@@ -620,21 +590,6 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
-        },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
@@ -658,21 +613,6 @@ describe("calcite-button", () => {
         "--calcite-button-background-color": {
           shadowSelector: "button",
           targetProp: "backgroundColor",
-        },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
         },
         "--calcite-button-border-color": {
           shadowSelector: "button",
@@ -698,21 +638,6 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
-        },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
@@ -737,21 +662,6 @@ describe("calcite-button", () => {
           shadowSelector: "button",
           targetProp: "backgroundColor",
         },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
-        },
         "--calcite-button-border-color": {
           shadowSelector: "button",
           targetProp: "borderColor",
@@ -775,21 +685,6 @@ describe("calcite-button", () => {
         "--calcite-button-background-color": {
           shadowSelector: "button",
           targetProp: "backgroundColor",
-        },
-        "--calcite-button-background-color-hover": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-button-background-color-focus": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-button-background-color-press": {
-          shadowSelector: "button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "type", value: "button" } },
         },
         "--calcite-button-border-color": {
           shadowSelector: "button",
