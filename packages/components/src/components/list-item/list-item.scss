@@ -93,6 +93,10 @@
   }
 }
 
+.container--highlight-selected {
+  background-color: var(--calcite-color-surface-highlight);
+}
+
 .nested-container {
   @apply hidden flex-col
     border-solid
@@ -189,6 +193,11 @@
 }
 
 :host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
+  .drag-container {
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+}
+:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="highlight"])) {
   .drag-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }

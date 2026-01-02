@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.44...@esri/calcite-components@5.0.0-next.45) (2026-01-01)
+
+### Features
+
+- **dropdown:** update selection appearance ([#13571](https://github.com/Esri/calcite-design-system/issues/13571)) ([dcf7a36](https://github.com/Esri/calcite-design-system/commit/dcf7a3687004013d625b12acd5653aa07f1efcaa))
+
+## [5.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.43...@esri/calcite-components@5.0.0-next.44) (2025-12-31)
+
+### Features
+
+- **tree:** update selection appearance ([#13572](https://github.com/Esri/calcite-design-system/issues/13572)) ([dd27a3c](https://github.com/Esri/calcite-design-system/commit/dd27a3c8265afcc6b2972a129335b9b2529f5e8a)), closes [#10776](https://github.com/Esri/calcite-design-system/issues/10776)
+
+## [5.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.42...@esri/calcite-components@5.0.0-next.43) (2025-12-31)
+
+### Features
+
+- **dialog, sheet:** add `topLayerDisabled` prop ([#13600](https://github.com/Esri/calcite-design-system/issues/13600)) ([2ed7eb7](https://github.com/Esri/calcite-design-system/commit/2ed7eb7066d323a545071baf11389e499a3294fb))
+
+## [5.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.41...@esri/calcite-components@5.0.0-next.42) (2025-12-30)
+
+### Features
+
+- **list:** add `highlight` selection appearance ([#13570](https://github.com/Esri/calcite-design-system/issues/13570)) ([81ad34e](https://github.com/Esri/calcite-design-system/commit/81ad34e94c38a17d2d012296f7e658a597bc06c1)), closes [#10778](https://github.com/Esri/calcite-design-system/issues/10778)
+- **menu:** update vertical layout design ([#13576](https://github.com/Esri/calcite-design-system/issues/13576)) ([06f0913](https://github.com/Esri/calcite-design-system/commit/06f09137f9df8729bef112ab9f12f8d47427defc)), closes [#10767](https://github.com/Esri/calcite-design-system/issues/10767)
+
+## [5.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.40...@esri/calcite-components@5.0.0-next.41) (2025-12-29)
+
+### Bug Fixes
+
+- **alert:** disable `dismissProgress` animation when reduced motion preferred ([#13583](https://github.com/Esri/calcite-design-system/issues/13583)) ([bb93ee0](https://github.com/Esri/calcite-design-system/commit/bb93ee02b0e292aba61c94c35a9729a1ad5866a6)), closes [#6358](https://github.com/Esri/calcite-design-system/issues/6358)
+- **alert:** enable visibilty of `dismiss-progress` element ([#13582](https://github.com/Esri/calcite-design-system/issues/13582)) ([4379ca8](https://github.com/Esri/calcite-design-system/commit/4379ca839632d60a1362a00c0ec56fb2f2b1da6a)), closes [#13581](https://github.com/Esri/calcite-design-system/issues/13581) [#12904](https://github.com/Esri/calcite-design-system/issues/12904)
+
 ## [5.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.39...@esri/calcite-components@5.0.0-next.40) (2025-12-29)
 
 ### Bug Fixes

@@ -51,6 +51,6 @@ export async function renders(
         ? options.visible.locator
         : page.elementLocator(el);
 
-    await (visible ? expect(locator).toBeVisible() : expect(locator).not.toBeVisible());
+    await (visible ? expect.element(locator).toBeVisible() : expect.element(locator).not.toBeVisible());
   });
 }
