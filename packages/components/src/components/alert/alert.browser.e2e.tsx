@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-alert", () => {
   describe("defaults", () => {
@@ -42,6 +49,10 @@ describe("calcite-alert", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-alert"), { visible: false, display: "block" });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-alert"));
   });
 
   describe("translation support", () => {

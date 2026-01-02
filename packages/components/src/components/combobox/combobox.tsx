@@ -58,6 +58,7 @@ import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -288,6 +289,10 @@ export class Combobox
   }
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -667,20 +672,6 @@ export class Combobox
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
   }
@@ -986,7 +977,7 @@ export class Combobox
   onBeforeOpen(): void {
     this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -1001,7 +992,7 @@ export class Combobox
   onClose(): void {
     this.calciteComboboxClose.emit();
     hideFloatingUI(this);
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private async setMaxScrollerHeight(): Promise<void> {

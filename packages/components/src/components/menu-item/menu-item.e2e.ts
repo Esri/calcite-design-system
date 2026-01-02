@@ -104,46 +104,54 @@ describe("calcite-menu-item", () => {
         </calcite-menu-item>
       </calcite-menu>
     `;
+
     describe("slotted submenu", () => {
-      const tokens = (layout: Layout): ComponentTestTokens => {
-        return {
-          "--calcite-menu-background-color": [
-            {
-              selector: "calcite-menu-item",
-              shadowSelector: `calcite-action`,
-              targetProp: "--calcite-action-background-color-press",
-              state: { press: { attribute: "class", value: CSS.dropdownAction } },
-            },
-            {
-              selector: "calcite-menu-item",
-              shadowSelector: `calcite-action`,
-              targetProp: "--calcite-action-background-color",
-            },
-          ],
-          "--calcite-menu-text-color": {
+      const commonTokens: ComponentTestTokens = {
+        "--calcite-menu-background-color": [
+          {
             selector: "calcite-menu-item",
             shadowSelector: `calcite-action`,
-            targetProp: "--calcite-action-text-color",
+            targetProp: "--calcite-action-background-color-press",
+            state: { press: { attribute: "class", value: CSS.dropdownAction } },
           },
-          "--calcite-menu-item-sub-menu-corner-radius": {
+          {
             selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.dropdownMenuItems}`,
-            targetProp: "borderRadius",
+            shadowSelector: `calcite-action`,
+            targetProp: "--calcite-action-background-color",
           },
-          "--calcite-menu-item-sub-menu-border-color": {
-            selector: "calcite-menu-item",
-            shadowSelector: `.${CSS.dropdownMenuItems}`,
-            targetProp: layout === "horizontal" ? "borderColor" : "borderBlockColor",
-          },
-        };
+        ],
+        "--calcite-menu-text-color": {
+          selector: "calcite-menu-item",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-menu-item-sub-menu-corner-radius": {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.dropdownMenuItems}`,
+          targetProp: "borderRadius",
+        },
       };
 
       describe("horizontal layout", () => {
-        themed(menuWithSlottedSubmenuHTML("horizontal"), tokens("horizontal"));
+        themed(menuWithSlottedSubmenuHTML("horizontal"), {
+          ...commonTokens,
+          "--calcite-menu-item-sub-menu-border-color": {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.dropdownMenuItems}`,
+            targetProp: "borderColor",
+          },
+        });
       });
 
       describe("vertical layout", () => {
-        themed(menuWithSlottedSubmenuHTML("vertical"), tokens("vertical"));
+        themed(menuWithSlottedSubmenuHTML("vertical"), {
+          ...commonTokens,
+          "--calcite-menu-item-sub-menu-border-color": {
+            selector: "calcite-menu-item",
+            shadowSelector: `.${CSS.dropdownMenuItems}::after`,
+            targetProp: "borderBlockStartColor",
+          },
+        });
       });
     });
 
