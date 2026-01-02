@@ -48,20 +48,20 @@
   }
 }
 
-.dropdown-item-content {
+.content {
   @apply flex-auto;
 }
 
 // item icon
-.dropdown-item-icon {
+.icon {
   @apply relative
     opacity-0
     ease-in-out;
   transform: scale(0.9);
 }
 
-.dropdown-item-icon--start,
-.dropdown-item-icon--end {
+.icon--start,
+.icon--end {
   --calcite-icon-color: var(--calcite-color-text-3);
 }
 
@@ -70,12 +70,12 @@
     @apply text-n2h py-1 px-2;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-sm);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-sm);
   }
 }
@@ -85,12 +85,12 @@
     @apply text-n1h py-2 px-3;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-md);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-md);
   }
 }
@@ -100,12 +100,12 @@
     @apply text-0h py-2.5 px-4;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-lg);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-lg);
   }
 }
@@ -134,13 +134,13 @@
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
-  .dropdown-link {
+  .link {
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 }
 
 :host([selected]) .container:not(.container--none-selection),
-:host([selected]) .dropdown-link {
+:host([selected]) .link {
   @apply font-medium;
   --calcite-internal-dropdown-item-text-color: var(
     --calcite-dropdown-item-text-color-press,
@@ -149,21 +149,21 @@
 
   color: var(--calcite-internal-dropdown-item-text-color);
 
-  .dropdown-item-icon {
+  .icon {
     --calcite-icon-color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
 
-  .dropdown-item-icon--start,
-  .dropdown-item-icon--end {
+  .icon--start,
+  .icon--end {
     --calcite-icon-color: var(--calcite-internal-dropdown-item-text-color);
   }
 }
 
-:host(:hover:not([disabled])) .dropdown-item-icon {
+:host(:hover:not([disabled])) .icon {
   color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
-:host([selected]) .dropdown-item-icon {
+:host([selected]) .icon {
   @apply opacity-100;
 }
 
