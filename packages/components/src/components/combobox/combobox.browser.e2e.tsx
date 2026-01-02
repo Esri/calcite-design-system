@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   t9n,
   disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -189,5 +190,9 @@ describe("calcite-combobox", () => {
     const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
     expect(item1.getAttribute("aria-label")).toBe("Apple");
     expect(item2.getAttribute("value")).toBe("Fallback Heading");
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-combobox"));
   });
 });
