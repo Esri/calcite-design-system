@@ -324,11 +324,7 @@ export class DropdownItem extends LitElement {
           }}
         >
           {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? ICONS.check : ICONS.bulletPoint}
-              scale={getIconScale(this.scale)}
-            />
+            <calcite-icon class={CSS.icon} icon={ICONS.check} scale={getIconScale(this.scale)} />
           ) : null}
           {contentEl}
         </div>

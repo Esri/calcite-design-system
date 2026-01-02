@@ -12,6 +12,7 @@ import {
   floatingUIOwner,
   t9n,
   disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -267,6 +268,10 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.floatingUIContainer}`,
       });
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-autocomplete"));
   });
 
   describe("translation support", () => {

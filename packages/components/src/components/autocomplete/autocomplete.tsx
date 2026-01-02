@@ -54,6 +54,7 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -144,6 +145,10 @@ export class Autocomplete
   }
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -504,20 +509,6 @@ export class Autocomplete
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private setFloatingElSize(): void {
     const { referenceEl, floatingEl } = this;
 
@@ -578,7 +569,7 @@ export class Autocomplete
 
   onBeforeOpen(): void {
     this.calciteAutocompleteBeforeOpen.emit();
-    this.handlePopover();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -591,7 +582,7 @@ export class Autocomplete
 
   onClose(): void {
     this.calciteAutocompleteClose.emit();
-    this.handlePopover();
+    this.topLayer.hide();
   }
 
   private emitChange(): void {

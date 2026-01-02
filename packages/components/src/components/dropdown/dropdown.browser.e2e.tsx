@@ -9,6 +9,7 @@ import {
   renders,
   floatingUIOwner,
   disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -124,5 +125,9 @@ describe("calcite-dropdown", () => {
         },
       },
     );
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-dropdown"));
   });
 });
