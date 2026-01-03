@@ -230,12 +230,14 @@ describe("calcite-scrim", () => {
     });
 
     describe("when mode attribute is not provided", () => {
-      it("should render scrim background with default value tied to mode", async () => {
+      it("should render scrim background and opacity with default value tied to mode", async () => {
         page = await newE2EPage({ html: scrimSnippet });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(255, 255, 255, 0.85)");
+        const scrimOpacity = await scrimStyles.getPropertyValue("opacity");
+        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.5)");
+        expect(scrimOpacity).toEqual("0.7");
       });
     });
 
@@ -247,17 +249,19 @@ describe("calcite-scrim", () => {
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.85)");
+        expect(scrimBgStyle).toEqual("rgba(0, 0, 0, 0.7)");
       });
     });
 
     it("should allow the CSS custom property to be overridden when parent token is altered at :root", async () => {
-      const overrideStyle = "rgb(128, 0, 128)";
+      const overrideBackgroundColor = "rgb(128, 0, 128)";
+      const overrideOpacity = "0.5";
       page = await newE2EPage({
         html: `
         <style>
           :root {
-            --calcite-color-transparent-scrim: ${overrideStyle};
+            --calcite-color-transparent-scrim: ${overrideBackgroundColor};
+            --calcite-scrim-opacity: ${overrideOpacity};
           }
         </style>
         ${scrimSnippet}
@@ -266,16 +270,20 @@ describe("calcite-scrim", () => {
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-      expect(scrimBgStyle).toEqual(overrideStyle);
+      const scrimOpacity = await scrimStyles.getPropertyValue("opacity");
+      expect(scrimBgStyle).toEqual(overrideBackgroundColor);
+      expect(scrimOpacity).toEqual(overrideOpacity);
     });
 
     it("should allow the CSS custom property to be overridden when applied to element", async () => {
-      const overrideStyle = "rgb(128, 0, 128)";
+      const overrideBackgroundColor = "rgb(128, 0, 128)";
+      const overrideOpacity = "0.5";
       page = await newE2EPage({
         html: `
         <style>
           calcite-scrim {
-            --calcite-scrim-background: ${overrideStyle};
+            --calcite-scrim-background: ${overrideBackgroundColor};
+            --calcite-scrim-opacity: ${overrideOpacity};
           }
         </style>
         ${scrimSnippet}
@@ -284,7 +292,9 @@ describe("calcite-scrim", () => {
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
-      expect(scrimBgStyle).toEqual(overrideStyle);
+      const scrimOpacity = await scrimStyles.getPropertyValue("opacity");
+      expect(scrimBgStyle).toEqual(overrideBackgroundColor);
+      expect(scrimOpacity).toEqual(overrideOpacity);
     });
   });
 });

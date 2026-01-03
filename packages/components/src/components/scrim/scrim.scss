@@ -40,7 +40,7 @@
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
   background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
-  opacity: var(--calcite-scrim-opacity, var(--calcite-opacity-half));
+  opacity: var(--calcite-scrim-opacity, 0.7);
 }
 
 .content {
