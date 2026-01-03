@@ -921,23 +921,19 @@ exports[`generated tokens > CSS > dark should match 1`] = `
  */
 
 :root {
-  --calcite-color-surface-1: #212121;
-  --calcite-color-surface-2: #2b2b2b;
-  --calcite-color-surface-3: #363636;
-  --calcite-color-surface-4: #404040;
-  --calcite-color-surface-highlight: #2b465f;
-  --calcite-color-background: #212121; /** Deprecated, use \`--calcite-color-surface-1\` instead */
+  --calcite-color-background: #212121;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
+  --calcite-color-foreground-1: #2b2b2b;
+  --calcite-color-foreground-2: #363636;
+  --calcite-color-foreground-3: #404040;
   --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-surface-highlight: #2b465f;
   --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-brand: #009af2;
   --calcite-color-brand-hover: #007ac2;
@@ -1188,23 +1184,19 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f7f7f7; /** Deprecated, use \`--calcite-color-surface-1\` instead */
   --calcite-color-surface-highlight: #d6efff;
-  --calcite-color-surface-4: #ebebeb;
-  --calcite-color-surface-3: #f2f2f2;
-  --calcite-color-surface-2: #ffffff;
-  --calcite-color-surface-1: #f7f7f7;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-1: #ffffff;
+  --calcite-color-background-none: rgba(255, 255, 255, 0);
+  --calcite-color-background: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
 }
 @media (prefers-color-scheme: light) {
@@ -1241,23 +1233,19 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand-hover: #00619b;
     --calcite-color-brand: #007ac2;
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-    --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
     --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent: rgba(0, 0, 0, 0);
-    --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
-    --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-    --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-    --calcite-color-foreground-1: #ffffff; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-    --calcite-color-background-none: rgba(255, 255, 255, 0);
-    --calcite-color-background: #f7f7f7; /** Deprecated, use \`--calcite-color-surface-1\` instead */
     --calcite-color-surface-highlight: #d6efff;
-    --calcite-color-surface-4: #ebebeb;
-    --calcite-color-surface-3: #f2f2f2;
-    --calcite-color-surface-2: #ffffff;
-    --calcite-color-surface-1: #f7f7f7;
+    --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+    --calcite-color-foreground-3: #ebebeb;
+    --calcite-color-foreground-2: #f2f2f2;
+    --calcite-color-foreground-1: #ffffff;
+    --calcite-color-background-none: rgba(255, 255, 255, 0);
+    --calcite-color-background: #f7f7f7;
     --calcite-color-focus: var(--calcite-color-brand);
   }
 }
@@ -1295,23 +1283,19 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand-hover: #007ac2;
     --calcite-color-brand: #009af2;
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
     --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent: rgba(255, 255, 255, 0);
-    --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
-    --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-    --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-    --calcite-color-foreground-1: #2b2b2b; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-    --calcite-color-background-none: rgba(255, 255, 255, 0);
-    --calcite-color-background: #212121; /** Deprecated, use \`--calcite-color-surface-1\` instead */
     --calcite-color-surface-highlight: #2b465f;
-    --calcite-color-surface-4: #404040;
-    --calcite-color-surface-3: #363636;
-    --calcite-color-surface-2: #2b2b2b;
-    --calcite-color-surface-1: #212121;
+    --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
+    --calcite-color-foreground-3: #404040;
+    --calcite-color-foreground-2: #363636;
+    --calcite-color-foreground-1: #2b2b2b;
+    --calcite-color-background-none: rgba(255, 255, 255, 0);
+    --calcite-color-background: #212121;
     --calcite-color-focus: var(--calcite-color-brand);
   }
 }
@@ -1348,23 +1332,19 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f7f7f7; /** Deprecated, use \`--calcite-color-surface-1\` instead */
   --calcite-color-surface-highlight: #d6efff;
-  --calcite-color-surface-4: #ebebeb;
-  --calcite-color-surface-3: #f2f2f2;
-  --calcite-color-surface-2: #ffffff;
-  --calcite-color-surface-1: #f7f7f7;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-1: #ffffff;
+  --calcite-color-background-none: rgba(255, 255, 255, 0);
+  --calcite-color-background: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
 }
 .calcite-mode-dark {
@@ -1400,23 +1380,19 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-  --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #212121; /** Deprecated, use \`--calcite-color-surface-1\` instead */
   --calcite-color-surface-highlight: #2b465f;
-  --calcite-color-surface-4: #404040;
-  --calcite-color-surface-3: #363636;
-  --calcite-color-surface-2: #2b2b2b;
-  --calcite-color-surface-1: #212121;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-foreground-3: #404040;
+  --calcite-color-foreground-2: #363636;
+  --calcite-color-foreground-1: #2b2b2b;
+  --calcite-color-background-none: rgba(255, 255, 255, 0);
+  --calcite-color-background: #212121;
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1429,23 +1405,19 @@ exports[`generated tokens > CSS > light should match 1`] = `
  */
 
 :root {
-  --calcite-color-surface-1: #f7f7f7;
-  --calcite-color-surface-2: #ffffff;
-  --calcite-color-surface-3: #f2f2f2;
-  --calcite-color-surface-4: #ebebeb;
-  --calcite-color-surface-highlight: #d6efff;
-  --calcite-color-background: #f7f7f7; /** Deprecated, use \`--calcite-color-surface-1\` instead */
+  --calcite-color-background: #f7f7f7;
   --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-1: #ffffff; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
+  --calcite-color-foreground-1: #ffffff;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-3: #ebebeb;
   --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-surface-highlight: #d6efff;
   --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-brand: #007ac2;
   --calcite-color-brand-hover: #00619b;
@@ -18134,141 +18106,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
     {
-      "key": "{semantic.color.surface.1}",
-      "value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "color",
-        "item": "surface",
-        "subitem": "1",
-        "names": {
-          "scss": "$calcite-color-surface-1",
-          "css": "var(--calcite-color-surface-1)",
-          "docs": "semantic.color.surface.1",
-          "es6": "calciteColorSurface1"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 1",
-      "path": ["semantic", "color", "surface", "1"]
-    },
-    {
-      "key": "{semantic.color.surface.2}",
-      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "color",
-        "item": "surface",
-        "subitem": "2",
-        "names": {
-          "scss": "$calcite-color-surface-2",
-          "css": "var(--calcite-color-surface-2)",
-          "docs": "semantic.color.surface.2",
-          "es6": "calciteColorSurface2"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 2",
-      "path": ["semantic", "color", "surface", "2"]
-    },
-    {
-      "key": "{semantic.color.surface.3}",
-      "value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "color",
-        "item": "surface",
-        "subitem": "3",
-        "names": {
-          "scss": "$calcite-color-surface-3",
-          "css": "var(--calcite-color-surface-3)",
-          "docs": "semantic.color.surface.3",
-          "es6": "calciteColorSurface3"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 3",
-      "path": ["semantic", "color", "surface", "3"]
-    },
-    {
-      "key": "{semantic.color.surface.4}",
-      "value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "color",
-        "item": "surface",
-        "subitem": "4",
-        "names": {
-          "scss": "$calcite-color-surface-4",
-          "css": "var(--calcite-color-surface-4)",
-          "docs": "semantic.color.surface.4",
-          "es6": "calciteColorSurface4"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface 4",
-      "path": ["semantic", "color", "surface", "4"]
-    },
-    {
-      "key": "{semantic.color.surface.highlight}",
-      "value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "surface",
-        "type": "color",
-        "item": "surface",
-        "subitem": "highlight",
-        "names": {
-          "scss": "$calcite-color-surface-highlight",
-          "css": "var(--calcite-color-surface-highlight)",
-          "docs": "semantic.color.surface.highlight",
-          "es6": "calciteColorSurfaceHighlight"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Surface Highlight",
-      "path": ["semantic", "color", "surface", "highlight"]
-    },
-    {
       "key": "{semantic.color.background.default}",
       "value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
       "type": "color",
@@ -18278,14 +18115,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "type": "color",
         "item": "background",
         "subitem": "default",
-        "value": "#f7f7f7",
-        "description": "Deprecated, use \`--calcite-color-surface-1\` instead",
-        "filePath": "src/tokens/semantic/color/light.json",
-        "isSource": false,
-        "key": "{semantic.color.background.default}",
-        "name": "calcite-semantic-color-background-default",
-        "path": ["semantic", "color", "background", "default"],
-        "comment": "Deprecated, use \`--calcite-color-surface-1\` instead",
         "names": {
           "scss": "$calcite-color-background",
           "css": "var(--calcite-color-background)",
@@ -18298,12 +18127,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
-      "description": "Deprecated, use \`--calcite-color-surface-1\` instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Background",
-      "path": ["semantic", "color", "background", "default"],
-      "comment": "Deprecated, use \`--calcite-color-surface-1\` instead"
+      "path": ["semantic", "color", "background", "default"]
     },
     {
       "key": "{semantic.color.background.none}",
@@ -18342,14 +18169,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "type": "color",
         "item": "foreground",
         "subitem": "1",
-        "value": "#ffffff",
-        "description": "Deprecated, use \`--calcite-color-surface-2\` instead",
-        "filePath": "src/tokens/semantic/color/light.json",
-        "isSource": false,
-        "key": "{semantic.color.foreground.1}",
-        "name": "calcite-semantic-color-foreground-1",
-        "path": ["semantic", "color", "foreground", "1"],
-        "comment": "Deprecated, use \`--calcite-color-surface-2\` instead",
         "names": {
           "scss": "$calcite-color-foreground-1",
           "css": "var(--calcite-color-foreground-1)",
@@ -18362,12 +18181,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
-      "description": "Deprecated, use \`--calcite-color-surface-2\` instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 1",
-      "path": ["semantic", "color", "foreground", "1"],
-      "comment": "Deprecated, use \`--calcite-color-surface-2\` instead"
+      "path": ["semantic", "color", "foreground", "1"]
     },
     {
       "key": "{semantic.color.foreground.2}",
@@ -18379,14 +18196,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "type": "color",
         "item": "foreground",
         "subitem": "2",
-        "value": "#f2f2f2",
-        "description": "Deprecated, use \`--calcite-color-surface-3\` instead",
-        "filePath": "src/tokens/semantic/color/light.json",
-        "isSource": false,
-        "key": "{semantic.color.foreground.2}",
-        "name": "calcite-semantic-color-foreground-2",
-        "path": ["semantic", "color", "foreground", "2"],
-        "comment": "Deprecated, use \`--calcite-color-surface-3\` instead",
         "names": {
           "scss": "$calcite-color-foreground-2",
           "css": "var(--calcite-color-foreground-2)",
@@ -18399,12 +18208,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
-      "description": "Deprecated, use \`--calcite-color-surface-3\` instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 2",
-      "path": ["semantic", "color", "foreground", "2"],
-      "comment": "Deprecated, use \`--calcite-color-surface-3\` instead"
+      "path": ["semantic", "color", "foreground", "2"]
     },
     {
       "key": "{semantic.color.foreground.3}",
@@ -18416,14 +18223,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "type": "color",
         "item": "foreground",
         "subitem": "3",
-        "value": "#ebebeb",
-        "description": "Deprecated, use \`--calcite-color-surface-4\` instead",
-        "filePath": "src/tokens/semantic/color/light.json",
-        "isSource": false,
-        "key": "{semantic.color.foreground.3}",
-        "name": "calcite-semantic-color-foreground-3",
-        "path": ["semantic", "color", "foreground", "3"],
-        "comment": "Deprecated, use \`--calcite-color-surface-4\` instead",
         "names": {
           "scss": "$calcite-color-foreground-3",
           "css": "var(--calcite-color-foreground-3)",
@@ -18436,12 +18235,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
           "type": "color"
         }
       },
-      "description": "Deprecated, use \`--calcite-color-surface-4\` instead",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Foreground 3",
-      "path": ["semantic", "color", "foreground", "3"],
-      "comment": "Deprecated, use \`--calcite-color-surface-4\` instead"
+      "path": ["semantic", "color", "foreground", "3"]
     },
     {
       "key": "{semantic.color.foreground.current}",
@@ -18479,6 +18276,33 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "name": "Color Foreground Current",
       "path": ["semantic", "color", "foreground", "current"],
       "comment": "deprecated, use --calcite-color-surface-highlight instead"
+    },
+    {
+      "key": "{semantic.color.surface.highlight}",
+      "value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "foreground",
+        "type": "color",
+        "item": "surface",
+        "subitem": "highlight",
+        "names": {
+          "scss": "$calcite-color-surface-highlight",
+          "css": "var(--calcite-color-surface-highlight)",
+          "docs": "semantic.color.surface.highlight",
+          "es6": "calciteColorSurfaceHighlight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Surface Highlight",
+      "path": ["semantic", "color", "surface", "highlight"]
     },
     {
       "key": "{semantic.color.transparent.default.default}",
@@ -18624,7 +18448,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.color.transparent.scrim}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.5)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.7)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -33466,23 +33290,19 @@ exports[`generated tokens > ES6 > global should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorSurface1 = { light: "#f7f7f7", dark: "#212121" };
-export const calciteColorSurface2 = { light: "#ffffff", dark: "#2b2b2b" };
-export const calciteColorSurface3 = { light: "#f2f2f2", dark: "#363636" };
-export const calciteColorSurface4 = { light: "#ebebeb", dark: "#404040" };
-export const calciteColorSurfaceHighlight = {
-  light: "#d6efff",
-  dark: "#2b465f",
-};
-export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" }; // Deprecated, use \`--calcite-color-surface-1\` instead
+export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" };
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)";
-export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" }; // Deprecated, use \`--calcite-color-surface-2\` instead
-export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#363636" }; // Deprecated, use \`--calcite-color-surface-3\` instead
-export const calciteColorForeground3 = { light: "#ebebeb", dark: "#404040" }; // Deprecated, use \`--calcite-color-surface-4\` instead
+export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" };
+export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#363636" };
+export const calciteColorForeground3 = { light: "#ebebeb", dark: "#404040" };
 export const calciteColorForegroundCurrent = {
   light: "#d6efff",
   dark: "#2b465f",
 }; // deprecated, use --calcite-color-surface-highlight instead
+export const calciteColorSurfaceHighlight = {
+  light: "#d6efff",
+  dark: "#2b465f",
+};
 export const calciteColorTransparent = {
   light: "rgba(0, 0, 0, 0)",
   dark: "rgba(255, 255, 255, 0)",
@@ -33504,8 +33324,8 @@ export const calciteColorTransparentInversePress = {
   dark: "rgba(0, 0, 0, 0.08)",
 };
 export const calciteColorTransparentScrim = {
-  light: "rgba(255, 255, 255, 0.85)",
-  dark: "rgba(0, 0, 0, 0.85)",
+  light: "rgba(0, 0, 0, 0.5)",
+  dark: "rgba(0, 0, 0, 0.7)",
 };
 export const calciteColorTransparentTint = {
   light: "rgba(255, 255, 255, 0.8)",
@@ -34040,22 +33860,14 @@ exports[`generated tokens > ES6 > global types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorSurface1: { light: string; dark: string };
-export const calciteColorSurface2: { light: string; dark: string };
-export const calciteColorSurface3: { light: string; dark: string };
-export const calciteColorSurface4: { light: string; dark: string };
-export const calciteColorSurfaceHighlight: { light: string; dark: string };
-/** Deprecated, use \`--calcite-color-surface-1\` instead */
 export const calciteColorBackground: { light: string; dark: string };
 export const calciteColorBackgroundNone: string;
-/** Deprecated, use \`--calcite-color-surface-2\` instead */
 export const calciteColorForeground1: { light: string; dark: string };
-/** Deprecated, use \`--calcite-color-surface-3\` instead */
 export const calciteColorForeground2: { light: string; dark: string };
-/** Deprecated, use \`--calcite-color-surface-4\` instead */
 export const calciteColorForeground3: { light: string; dark: string };
 /** deprecated, use --calcite-color-surface-highlight instead */
 export const calciteColorForegroundCurrent: { light: string; dark: string };
+export const calciteColorSurfaceHighlight: { light: string; dark: string };
 export const calciteColorTransparent: { light: string; dark: string };
 export const calciteColorTransparentHover: { light: string; dark: string };
 export const calciteColorTransparentPress: { light: string; dark: string };
@@ -35710,23 +35522,19 @@ exports[`generated tokens > SCSS > dark should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-surface-1: #212121;
-$calcite-color-surface-2: #2b2b2b;
-$calcite-color-surface-3: #363636;
-$calcite-color-surface-4: #404040;
-$calcite-color-surface-highlight: #2b465f;
-$calcite-color-background: #212121; // Deprecated, use \`--calcite-color-surface-1\` instead
+$calcite-color-background: #212121;
 $calcite-color-background-none: rgba(255, 255, 255, 0);
-$calcite-color-foreground-1: #2b2b2b; // Deprecated, use \`--calcite-color-surface-2\` instead
-$calcite-color-foreground-2: #363636; // Deprecated, use \`--calcite-color-surface-3\` instead
-$calcite-color-foreground-3: #404040; // Deprecated, use \`--calcite-color-surface-4\` instead
+$calcite-color-foreground-1: #2b2b2b;
+$calcite-color-foreground-2: #363636;
+$calcite-color-foreground-3: #404040;
 $calcite-color-foreground-current: #2b465f; // deprecated, use --calcite-color-surface-highlight instead
+$calcite-color-surface-highlight: #2b465f;
 $calcite-color-transparent: rgba(255, 255, 255, 0);
 $calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-brand: #009af2;
 $calcite-color-brand-hover: #007ac2;
@@ -35974,23 +35782,19 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-  --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-1: #ffffff; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #f7f7f7; /** Deprecated, use \`--calcite-color-surface-1\` instead */
   --calcite-color-surface-highlight: #d6efff;
-  --calcite-color-surface-4: #ebebeb;
-  --calcite-color-surface-3: #f2f2f2;
-  --calcite-color-surface-2: #ffffff;
-  --calcite-color-surface-1: #f7f7f7;
+  --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-1: #ffffff;
+  --calcite-color-background-none: rgba(255, 255, 255, 0);
+  --calcite-color-background: #f7f7f7;
   --calcite-color-focus: var(--calcite-color-brand);
 }
 @mixin calcite-mode-dark {
@@ -36026,23 +35830,19 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
-  --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
-  --calcite-color-foreground-1: #2b2b2b; /** Deprecated, use \`--calcite-color-surface-2\` instead */
-  --calcite-color-background-none: rgba(255, 255, 255, 0);
-  --calcite-color-background: #212121; /** Deprecated, use \`--calcite-color-surface-1\` instead */
   --calcite-color-surface-highlight: #2b465f;
-  --calcite-color-surface-4: #404040;
-  --calcite-color-surface-3: #363636;
-  --calcite-color-surface-2: #2b2b2b;
-  --calcite-color-surface-1: #212121;
+  --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
+  --calcite-color-foreground-3: #404040;
+  --calcite-color-foreground-2: #363636;
+  --calcite-color-foreground-1: #2b2b2b;
+  --calcite-color-background-none: rgba(255, 255, 255, 0);
+  --calcite-color-background: #212121;
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -36053,23 +35853,19 @@ exports[`generated tokens > SCSS > light should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-color-surface-1: #f7f7f7;
-$calcite-color-surface-2: #ffffff;
-$calcite-color-surface-3: #f2f2f2;
-$calcite-color-surface-4: #ebebeb;
-$calcite-color-surface-highlight: #d6efff;
-$calcite-color-background: #f7f7f7; // Deprecated, use \`--calcite-color-surface-1\` instead
+$calcite-color-background: #f7f7f7;
 $calcite-color-background-none: rgba(255, 255, 255, 0);
-$calcite-color-foreground-1: #ffffff; // Deprecated, use \`--calcite-color-surface-2\` instead
-$calcite-color-foreground-2: #f2f2f2; // Deprecated, use \`--calcite-color-surface-3\` instead
-$calcite-color-foreground-3: #ebebeb; // Deprecated, use \`--calcite-color-surface-4\` instead
+$calcite-color-foreground-1: #ffffff;
+$calcite-color-foreground-2: #f2f2f2;
+$calcite-color-foreground-3: #ebebeb;
 $calcite-color-foreground-current: #d6efff; // deprecated, use --calcite-color-surface-highlight instead
+$calcite-color-surface-highlight: #d6efff;
 $calcite-color-transparent: rgba(0, 0, 0, 0);
 $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
 $calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-brand: #007ac2;
 $calcite-color-brand-hover: #00619b;
