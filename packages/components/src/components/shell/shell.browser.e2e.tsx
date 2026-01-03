@@ -1,6 +1,7 @@
 import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, accessible } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -14,5 +15,20 @@ describe("calcite-shell", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-shell"), SLOTS);
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-shell>
+          <calcite-shell-panel position="start" slot="${SLOTS.panelStart}">
+            <p>Primary Content</p>
+          </calcite-shell-panel>
+          <calcite-shell-panel position="end" slot="${SLOTS.panelEnd}">
+            <p>Primary Content</p>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      ),
+    );
   });
 });

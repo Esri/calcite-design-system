@@ -2,15 +2,11 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`);
-  });
-
   describe("page links", () => {
     it("should render only one page when totalItems is less than pageSize", async () => {
       const page = await newE2EPage();

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -43,24 +43,6 @@ describe("calcite-dialog", () => {
   describe("openClose", () => {
     openClose("calcite-dialog");
     openClose.initial("calcite-dialog");
-  });
-
-  describe("accessible", () => {
-    accessible(async () => {
-      const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      await page.evaluate(() => {
-        const dialog = document.createElement("calcite-dialog");
-        dialog.open = true;
-        dialog.heading = "My Dialog";
-        dialog.description = "My Description";
-        document.body.append(dialog);
-      });
-      await openEventSpy.next();
-
-      return { page, tag: "calcite-dialog" };
-    });
   });
 
   describe("focus-trap", () => {

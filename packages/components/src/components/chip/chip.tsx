@@ -44,7 +44,7 @@ export class Chip extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -360,7 +360,9 @@ export class Chip extends LitElement {
           ? "radio"
           : this.interactive
             ? "button"
-            : "img";
+            : this.closable
+              ? undefined
+              : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
         <div

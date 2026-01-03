@@ -10,6 +10,7 @@ import {
   internalLabel,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -88,5 +89,16 @@ describe("calcite-input-time-picker", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          Input Time Picker
+          <calcite-input-time-picker name="test" />
+        </calcite-label>,
+      ),
+    );
   });
 });

@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -8,6 +9,7 @@ import {
   renders,
   slots,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
@@ -62,5 +64,9 @@ describe("calcite-accordion-item", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-accordion-item"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-accordion-item heading="My Heading" />));
   });
 });

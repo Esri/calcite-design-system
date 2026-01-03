@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -24,35 +24,6 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 describe("calcite-combobox", () => {
   mockConsole();
-
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-      </calcite-combobox>
-    `);
-  });
-
-  describe("accessible with item group", () => {
-    accessible(html`
-      <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-        </calcite-combobox-item-group>
-      </calcite-combobox>
-    `);
-  });
-
-  describe("accessible with open selected items", () => {
-    accessible(html`
-      <calcite-combobox open label="Trees" value="Trees">
-        <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Spruce" heading="Spruce"></calcite-combobox-item>
-        </calcite-combobox-item-group>
-      </calcite-combobox>
-    `);
-  });
 
   describe("labelable", () => {
     labelable("calcite-combobox");

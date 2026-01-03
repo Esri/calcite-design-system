@@ -7,6 +7,7 @@ import {
   renders,
   floatingUIOwner,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
@@ -221,5 +222,33 @@ describe("calcite-tooltip", () => {
         </>,
       ),
     );
+  });
+
+  describe("accessible", () => {
+    describe("when closed", () => {
+      accessible(() =>
+        mount(
+          <>
+            <calcite-tooltip label="hello world" referenceElement="ref">
+              Hello World!
+            </calcite-tooltip>
+            <div id="ref">Tooltip Reference</div>
+          </>,
+        ),
+      );
+    });
+
+    describe("when open", () => {
+      accessible(() =>
+        mount(
+          <>
+            <calcite-tooltip label="hello world" open referenceElement="ref">
+              Hello World!
+            </calcite-tooltip>
+            <div id="ref">Tooltip Reference</div>
+          </>,
+        ),
+      );
+    });
   });
 });

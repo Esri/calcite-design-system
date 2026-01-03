@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -9,25 +9,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
 describe("calcite-tree-item", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-tree-item></calcite-tree-item>`);
-  });
-
-  describe("accessible: with nested children", () => {
-    accessible(
-      html`<calcite-tree lines>
-        <calcite-tree-item>
-          <a href="#">Child 2</a>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <a href="http://www.esri.com">Grandchild 1</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>`,
-    );
-  });
-
   it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

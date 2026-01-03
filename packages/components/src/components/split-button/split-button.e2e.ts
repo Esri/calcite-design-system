@@ -2,54 +2,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
-  const content = `
-  <calcite-dropdown-group>
-    <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
-  </calcite-dropdown-group>`;
-
-  describe("accessible", () => {
-    accessible(
-      html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-        ${content}
-      </calcite-split-button>`,
-    );
-  });
-
-  describe("accessible when disabled", () => {
-    accessible(`<calcite-split-button
-    disabled
-    primary-text="Button Text"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-  });
-
-  describe("accessible when loading", () => {
-    accessible(`<calcite-split-button
-    loading
-    primary-text="Button Text"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-  });
-
-  describe("accessible with icons and no text", () => {
-    accessible(`<calcite-split-button
-    icon-end="plus"
-    icon-start="plus"
-    primary-label="Button label"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-  });
-
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

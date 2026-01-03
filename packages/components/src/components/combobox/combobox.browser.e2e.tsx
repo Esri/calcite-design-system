@@ -13,6 +13,7 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -206,5 +207,42 @@ describe("calcite-combobox", () => {
 
   describe("top layer placement", () => {
     topLayer(() => mount("calcite-combobox"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-combobox label="Trees" value="Trees">
+            <calcite-combobox-item heading="Pine" value="Pine" />
+          </calcite-combobox>,
+        ),
+      );
+    });
+
+    describe("with item group", () => {
+      accessible(() =>
+        mount(
+          <calcite-combobox label="Trees" value="Trees">
+            <calcite-combobox-item-group label="Conifers">
+              <calcite-combobox-item heading="Pine" value="Pine" />
+            </calcite-combobox-item-group>
+          </calcite-combobox>,
+        ),
+      );
+    });
+
+    describe("with open selected items", () => {
+      accessible(() =>
+        mount(
+          <calcite-combobox label="Trees" open value="Trees">
+            <calcite-combobox-item-group label="Conifers">
+              <calcite-combobox-item heading="Pine" selected value="Pine" />
+              <calcite-combobox-item heading="Spruce" selected value="Spruce" />
+            </calcite-combobox-item-group>
+          </calcite-combobox>,
+        ),
+      );
+    });
   });
 });

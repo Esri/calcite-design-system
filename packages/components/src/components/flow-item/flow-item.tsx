@@ -271,7 +271,6 @@ export class FlowItem extends LitElement {
 
     return showBackButton ? (
       <calcite-action
-        ariaLabel={label}
         class={CSS.backButton}
         icon={icon}
         key="flow-back-button"

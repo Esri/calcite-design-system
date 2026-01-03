@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-chip-group", () => {
   describe("honors hidden attribute", () => {
@@ -49,5 +49,51 @@ describe("calcite-chip-group", () => {
         focusTarget: "child",
       },
     );
+  });
+
+  describe("accessible", () => {
+    describe("is accessible in selection mode none (default)", () => {
+      accessible(() =>
+        mount(
+          <calcite-chip-group label="test-label">
+            <calcite-chip label="test-label" />
+            <calcite-chip label="test-label" />
+          </calcite-chip-group>,
+        ),
+      );
+    });
+
+    describe("is accessible in selection mode single", () => {
+      accessible(() =>
+        mount(
+          <calcite-chip-group label="test-label" selection-mode="single">
+            <calcite-chip label="test-label" />
+            <calcite-chip label="test-label" />
+          </calcite-chip-group>,
+        ),
+      );
+    });
+
+    describe("is accessible in selection mode single persists", () => {
+      accessible(() =>
+        mount(
+          <calcite-chip-group label="test-label" selection-mode="single-persist">
+            <calcite-chip label="test-label" />
+            <calcite-chip label="test-label" />
+          </calcite-chip-group>,
+        ),
+      );
+    });
+
+    describe("is accessible in selection mode multiple", () => {
+      accessible(() =>
+        mount(
+          <calcite-chip-group label="test-label" selection-mode="multiple">
+            <calcite-chip label="test-label" />
+            <calcite-chip label="test-label" />
+          </calcite-chip-group>,
+        ),
+      );
+    });
   });
 });

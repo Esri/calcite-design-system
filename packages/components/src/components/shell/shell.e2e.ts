@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -15,19 +15,6 @@ describe("calcite-shell", () => {
     const content = await page.find(`calcite-shell >>> .${CSS.content}`);
 
     expect(content).not.toBeNull();
-  });
-
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-shell>
-        <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
-          <p>Primary Content</p>
-        </calcite-shell-panel>
-        <calcite-shell-panel slot="${SLOTS.panelEnd}" position="end">
-          <p>Primary Content</p>
-        </calcite-shell-panel>
-      </calcite-shell>
-    `);
   });
 
   it("should set 'layout' and 'position' on slotted panels", async () => {

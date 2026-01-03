@@ -1,7 +1,8 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  accessible,
   defaults,
   reflects,
   hidden,
@@ -9,6 +10,7 @@ import {
   t9n,
   topLayer,
 } from "../../tests/commonTests/browser";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 describe("calcite-alert", () => {
   describe("defaults", () => {
@@ -57,5 +59,45 @@ describe("calcite-alert", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-alert"));
+  });
+
+  describe("accessible", () => {
+    function renderAlertContent(): JsxNode {
+      return (
+        <>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+          <a href="" slot="link">
+            Action
+          </a>
+        </>
+      );
+    }
+
+    describe("open", () => {
+      accessible(async () => {
+        const openEvent = waitForEvent(document.body, "calciteAlertOpen");
+        const renderResult = await mount(
+          <calcite-alert label="test" open>
+            {renderAlertContent()}
+          </calcite-alert>,
+        );
+        await openEvent;
+        return renderResult;
+      });
+    });
+
+    describe("accessible with auto-close", () => {
+      accessible(async () => {
+        const openEvent = waitForEvent(document.body, "calciteAlertOpen");
+        const renderResult = await mount(
+          <calcite-alert autoClose={true} autoCloseDuration="slow" label="test" open>
+            {renderAlertContent()}
+          </calcite-alert>,
+        );
+        await openEvent;
+        return renderResult;
+      });
+    });
   });
 });

@@ -1,6 +1,7 @@
 import { describe } from "vitest";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-accordion", () => {
   describe("defaults", () => {
@@ -65,5 +66,32 @@ describe("calcite-accordion", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-accordion"), { display: "block" });
+  });
+
+  function renderAccordionContent(): JsxNode {
+    return (
+      <>
+        <calcite-accordion-item heading="Accordion Title 1" id="1">
+          <calcite-action icon="brush-tip" label="Paint" scale="s" slot="actions-start" />
+          Accordion Item Content
+          <calcite-action icon="sound" label="Volume" scale="s" slot="actions-end" />
+        </calcite-accordion-item>
+        <calcite-accordion-item
+          description="A description"
+          expanded
+          heading="Accordion Title 1"
+          id="2"
+        >
+          Accordion Item Content
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Accordion Title 3" id="3">
+          Accordion Item Content
+        </calcite-accordion-item>
+      </>
+    );
+  }
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-accordion>{renderAccordionContent()}</calcite-accordion>));
   });
 });

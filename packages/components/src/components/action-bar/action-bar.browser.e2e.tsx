@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -204,6 +205,32 @@ describe("calcite-action-bar", () => {
       await userEvent.click(action4);
       expect(action3.active).toBe(true);
       expect(action4.active).toBe(false);
+    });
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-action-bar>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      );
+    });
+
+    describe("when expanded", () => {
+      accessible(() =>
+        mount(
+          <calcite-action-bar expanded>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      );
     });
   });
 });

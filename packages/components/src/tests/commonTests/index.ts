@@ -1,4 +1,3 @@
-export { accessible } from "./accessible";
 export { openClose } from "./openClose";
 export { formAssociated } from "./formAssociated";
 export { labelable } from "./labelable";

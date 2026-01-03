@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -10,6 +11,7 @@ import {
   internalLabel,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-text-area", () => {
@@ -103,5 +105,16 @@ describe("calcite-text-area", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-text-area"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          add notes
+          <calcite-text-area max-length="50" name="something" required />
+        </calcite-label>,
+      ),
+    );
   });
 });

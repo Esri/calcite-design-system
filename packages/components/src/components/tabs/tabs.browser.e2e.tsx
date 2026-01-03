@@ -2,7 +2,7 @@ import { h, Fragment } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-tabs", () => {
   describe("defaults", () => {
@@ -31,7 +31,7 @@ describe("calcite-tabs", () => {
     hidden(() => mount("calcite-tabs"));
   });
 
-  function createTabsContent(): JsxNode {
+  function renderTabsContent(): JsxNode {
     return (
       <>
         <calcite-tab-nav slot="title-group">
@@ -49,6 +49,12 @@ describe("calcite-tabs", () => {
   }
 
   describe("renders", () => {
-    renders(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>), { display: "flex" });
+    renders(() => mount(<calcite-tabs>{renderTabsContent()}</calcite-tabs>), { display: "flex" });
+  });
+
+  describe("accessible", () => {
+    describe("checked", () => {
+      accessible(() => mount(<calcite-tabs>{renderTabsContent()}</calcite-tabs>));
+    });
   });
 });

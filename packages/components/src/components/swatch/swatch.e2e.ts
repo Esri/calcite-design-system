@@ -1,18 +1,10 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS } from "./resources";
 
 describe("calcite-swatch", () => {
-  describe("accessible", () => {
-    accessible("calcite-swatch");
-    accessible(`<calcite-swatch label="swatch" value="123" selected></calcite-swatch>`);
-    accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
-    accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
-    accessible(`<calcite-swatch label="swatch" value="123" selected color='#c0ffee'></calcite-swatch>`);
-  });
-
   it("should not emit event after the swatch is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-swatch id="swatch-1"></calcite-swatch>`);

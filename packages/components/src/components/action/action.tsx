@@ -255,7 +255,7 @@ export class Action extends LitElement implements FormOwner {
         ariaLive="polite"
         class={CSS.indicatorText}
         ref={this.indicatorRef}
-        role="region"
+        role="img"
       >
         {indicator ? messages.indicator : null}
       </div>

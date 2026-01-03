@@ -1,15 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
-  });
-
   it("flips icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);

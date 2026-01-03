@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, t9n, accessible } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-scrim", () => {
@@ -29,5 +29,15 @@ describe("calcite-scrim", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-scrim"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() => mount(<calcite-scrim>My content</calcite-scrim>));
+    });
+
+    describe("when loading", () => {
+      accessible(() => mount(<calcite-scrim loading>My content</calcite-scrim>));
+    });
   });
 });

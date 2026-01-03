@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY, resizeStep } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -97,21 +97,6 @@ describe("calcite-shell-panel", () => {
     );
 
     expect(divElementIsFirst).toBe(true);
-  });
-
-  describe("accessible", () => {
-    accessible(`
-    <calcite-shell-panel slot="panel-start" position="start">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Save" icon="save"></calcite-action>
-          <calcite-action text="Layers" icon="layers"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    `);
   });
 
   it("should have floatContent class when detached", async () => {

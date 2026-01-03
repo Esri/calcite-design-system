@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -10,39 +10,6 @@ import { centerItemsByBreakpoint, CSS } from "./resources";
 const customDuration = 1000;
 
 describe("calcite-carousel", () => {
-  describe("accessible", () => {
-    accessible(
-      html`<calcite-carousel label="Carousel example"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
-    );
-  });
-
-  describe("accessible with autoplay paused", () => {
-    accessible(
-      html`<calcite-carousel autoplay="paused" label="Carousel example" autoplay-duration="${customDuration}"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
-    );
-  });
-
-  describe("accessible with autoplay when autoplay", () => {
-    accessible(
-      html`<calcite-carousel autoplay label="Carousel example" autoplay-duration="${customDuration}"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
-    );
-  });
-
   describe("first render", () => {
     it("should not render arrow items when requested", async () => {
       const page = await newE2EPage();

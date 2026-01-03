@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -13,14 +13,6 @@ describe("calcite-block", () => {
 
   describe("openClose", () => {
     openClose("calcite-block");
-  });
-
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-block heading="heading" description="description" expanded collapsible>
-        <div>content</div>
-      </calcite-block>
-    `);
   });
 
   it("has a loading state", async () => {

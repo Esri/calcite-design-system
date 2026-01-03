@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -46,15 +46,6 @@ async function assertDisplayedTime(page: E2EPage, incomingValue, locale?: Suppor
 }
 
 describe("calcite-input-time-picker", () => {
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-label>
-        Input Time Picker
-        <calcite-input-time-picker name="test"></calcite-input-time-picker>
-      </calcite-label>
-    `);
-  });
-
   describe("labelable", () => {
     labelable("calcite-input-time-picker");
   });

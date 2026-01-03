@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -11,20 +11,6 @@ import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   mockConsole();
-
-  describe("accessible", () => {
-    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
-  });
-
-  describe("accessible when open", () => {
-    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
-  });
-
-  describe("accessible with close button", () => {
-    accessible(
-      `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
-    );
-  });
 
   describe("openClose", () => {
     openClose(html`

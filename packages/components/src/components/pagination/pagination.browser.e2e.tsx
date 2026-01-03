@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
@@ -45,5 +52,11 @@ describe("calcite-pagination", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-pagination"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(<calcite-pagination page-size="10" start-item="50" total-items="100" />),
+    );
   });
 });

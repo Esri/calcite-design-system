@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { HYDRATED_ATTR } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -15,28 +15,6 @@ describe("calcite-alert", () => {
     <div slot="message">Message Text</div>
     <a slot="link" href="">Action</a>
   `;
-
-  describe("accessible", () => {
-    accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
-      await skipAnimations(page);
-      await page.waitForTimeout(alertQueueTimeoutMs);
-      return { page, tag: "calcite-alert" };
-    });
-  });
-
-  describe("accessible with auto-close", () => {
-    accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
-      `);
-      await skipAnimations(page);
-      await page.waitForTimeout(alertQueueTimeoutMs);
-      return { page, tag: "calcite-alert" };
-    });
-  });
 
   describe("openClose", () => {
     openClose("calcite-alert");

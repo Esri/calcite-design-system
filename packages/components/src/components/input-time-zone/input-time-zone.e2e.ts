@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -43,10 +43,6 @@ describe("calcite-input-time-zone", () => {
       tag: "calcite-input-time-zone",
     };
   }
-
-  describe("accessible", () => {
-    accessible(simpleTestProvider);
-  });
 
   describe("formAssociated", () => {
     formAssociated(

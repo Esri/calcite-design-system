@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -11,10 +11,6 @@ import { CSS } from "./resources";
 
 describe("calcite-filter", () => {
   mockConsole();
-
-  describe("accessible", () => {
-    accessible("calcite-filter");
-  });
 
   it("sets scale on the input", async () => {
     const scale = "s";

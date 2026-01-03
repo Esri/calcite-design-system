@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -8,6 +9,7 @@ import {
   defaults,
   reflects,
   hidden,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-radio-button", () => {
@@ -57,6 +59,25 @@ describe("calcite-radio-button", () => {
           method: "body",
         },
       },
+    });
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-label>
+            <calcite-radio-button id="example" name="example" value="one" />
+            label
+          </calcite-label>,
+        ),
+      );
+    });
+
+    describe("without calcite-label", () => {
+      accessible(() =>
+        mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+      );
     });
   });
 });

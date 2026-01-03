@@ -11,6 +11,7 @@ import {
   handlesActionMenuPlacements,
   focusable,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -133,5 +134,16 @@ describe("calcite-action-group", () => {
       expect(action2.getAttribute("aria-checked")).toBeNull();
       expect(action2.getAttribute("role")).toBeNull();
     });
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-group scale="l">
+          <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+          <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+        </calcite-action-group>,
+      ),
+    );
   });
 });

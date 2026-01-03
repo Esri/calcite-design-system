@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   disabled,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -136,5 +137,36 @@ describe("calcite-dropdown", () => {
 
   describe("top layer placement", () => {
     topLayer(() => mount("calcite-dropdown"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group id="group-1" selection-mode="multiple">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Dropdown Item Content
+            </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3" selected>
+              Dropdown Item Content
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group id="group-2" selection-mode="single">
+            <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-5" selected>
+              Dropdown Item Content
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+          <calcite-dropdown-group id="group-3" selection-mode="none">
+            <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item href="google.com" id="item-7">
+              Dropdown Item Content
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      ),
+    );
   });
 });

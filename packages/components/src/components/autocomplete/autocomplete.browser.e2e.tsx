@@ -14,6 +14,7 @@ import {
   t9n,
   disabled,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -285,5 +286,72 @@ describe("calcite-autocomplete", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-autocomplete"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-autocomplete id="myAutocomplete" label="Item list">
+            <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+            <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+            <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+            <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+            <calcite-autocomplete-item
+              disabled
+              heading="Item five"
+              label="Item five"
+              value="five"
+            />
+          </calcite-autocomplete>,
+        ),
+      );
+      accessible(() =>
+        mount(
+          <form>
+            <calcite-autocomplete id="myAutocomplete" label="Item list" name="test">
+              <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+              <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+              <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+              <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+              <calcite-autocomplete-item
+                disabled
+                heading="Item five"
+                label="Item five"
+                value="five"
+              />
+            </calcite-autocomplete>
+          </form>,
+        ),
+      );
+      accessible(() =>
+        mount(
+          <calcite-autocomplete label="Pets">
+            <calcite-autocomplete-item-group heading="Dogs">
+              <calcite-autocomplete-item heading="Rover" label="Rover" value="rover" />
+              <calcite-autocomplete-item heading="Fido" label="Fido" value="one" />
+            </calcite-autocomplete-item-group>
+            <calcite-autocomplete-item-group heading="Cats">
+              <calcite-autocomplete-item heading="Felix" label="Felix" value="felix" />
+              <calcite-autocomplete-item heading="Garfield" label="Garfield" value="garfield" />
+            </calcite-autocomplete-item-group>
+          </calcite-autocomplete>,
+        ),
+      );
+      accessible(() =>
+        mount(
+          <calcite-autocomplete label="Pets">
+            <calcite-autocomplete-item-group heading="Dogs">
+              <calcite-autocomplete-item heading="Rover" label="Rover" value="rover" />
+              <calcite-autocomplete-item heading="Fido" label="Fido" value="one" />
+            </calcite-autocomplete-item-group>
+            <calcite-autocomplete-item-group heading="Cats">
+              <calcite-autocomplete-item heading="Felix" label="Felix" value="felix" />
+              <calcite-autocomplete-item heading="Garfield" label="Garfield" value="garfield" />
+            </calcite-autocomplete-item-group>
+          </calcite-autocomplete>,
+        ),
+      );
+    });
   });
 });

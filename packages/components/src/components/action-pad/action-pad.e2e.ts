@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -160,26 +160,6 @@ describe("calcite-action-pad", () => {
     expect(action).not.toBeNull();
     expect(await group.getProperty("expanded")).toBe(false);
     expect(await action.getProperty("textEnabled")).toBe(false);
-  });
-
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-action-pad>
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-pad>
-    `);
-  });
-
-  describe("should be accessible when expanded", () => {
-    accessible(html`
-      <calcite-action-pad expanded>
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-pad>
-    `);
   });
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {

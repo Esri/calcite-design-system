@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-navigation-user", () => {
   describe("defaults", () => {
@@ -41,5 +49,9 @@ describe("calcite-navigation-user", () => {
 
   describe("is focusable", () => {
     focusable(() => mount("calcite-navigation-user"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-navigation-user label="user" />));
   });
 });

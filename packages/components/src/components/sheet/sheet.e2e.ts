@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
@@ -13,44 +13,6 @@ import type { Sheet } from "./sheet";
 
 describe("calcite-sheet", () => {
   mockConsole();
-
-  describe("accessible", () => {
-    accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-sheet label="hello world">Hello everyone!</calcite-sheet>`);
-      const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
-      const sheet = await page.find("calcite-sheet");
-      sheet.setProperty("open", true);
-      await page.waitForChanges();
-      await openEventSpy.next();
-      return { page, tag: "calcite-sheet" };
-    });
-
-    accessible(async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-sheet label="hello world">
-          <calcite-panel closable heading="Ultrices neque"
-            ><p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
-            </p>
-            <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-          </calcite-panel>
-        </calcite-sheet>
-      `);
-      const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
-      const sheet = await page.find("calcite-sheet");
-      sheet.setProperty("open", true);
-      await page.waitForChanges();
-      await openEventSpy.next();
-      return { page, tag: "calcite-sheet" };
-    });
-  });
 
   describe("openClose", () => {
     openClose("calcite-sheet");

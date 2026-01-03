@@ -10,6 +10,7 @@ import {
   focusable,
   t9n,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -103,5 +104,12 @@ describe("calcite-color-picker", () => {
 
   describe("disabled", () => {
     disabled(() => mount(<calcite-color-picker value={centerColorFieldColor} />));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() => mount("calcite-color-picker"));
+      accessible(() => mount(<calcite-color-picker clearable value="" />));
+    });
   });
 });

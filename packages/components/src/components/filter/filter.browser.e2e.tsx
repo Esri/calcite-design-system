@@ -9,6 +9,7 @@ import {
   focusable,
   t9n,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -76,5 +77,9 @@ describe("calcite-filter", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-filter"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-filter"));
   });
 });

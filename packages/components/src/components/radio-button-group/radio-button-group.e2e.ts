@@ -1,18 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
 import { CSS } from "./resources";
 
 describe("calcite-radio-button-group", () => {
-  describe("accessible", () => {
-    accessible(
-      `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`,
-    );
-  });
-
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

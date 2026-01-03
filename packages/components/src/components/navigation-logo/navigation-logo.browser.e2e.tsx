@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-navigation-logo", () => {
   describe("defaults", () => {
@@ -70,5 +77,9 @@ describe("calcite-navigation-logo", () => {
 
   describe("is focusable", () => {
     focusable(() => mount(<calcite-navigation-logo heading="esri" href=" " />));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-navigation-logo"));
   });
 });

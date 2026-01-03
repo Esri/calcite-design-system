@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -11,18 +11,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  describe("accessible", () => {
-    accessible("calcite-card");
-  });
-
-  describe("accessible when selectable (deprecated)", () => {
-    accessible(
-      html`<calcite-card label="example-label" selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`,
-    );
-  });
-
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

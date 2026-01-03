@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders } from "../../tests/commonTests/browser";
+import { hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-carousel-item", () => {
   describe("honors hidden attribute", () => {
@@ -12,5 +12,9 @@ describe("calcite-carousel-item", () => {
     renders(() => mount(<calcite-carousel-item selected>content</calcite-carousel-item>), {
       display: "flex",
     });
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-carousel-item"));
   });
 });

@@ -1,6 +1,7 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-icon", () => {
   describe("defaults", () => {
@@ -31,5 +32,9 @@ describe("calcite-icon", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-icon"), { display: "inline-flex" });
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-icon icon="a-z" text-label="sort options" />));
   });
 });

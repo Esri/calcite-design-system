@@ -11,6 +11,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -188,6 +189,32 @@ describe("calcite-action-pad", () => {
       await userEvent.click(action4);
       expect(action3.active).toBe(false);
       expect(action4.active).toBe(false);
+    });
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-action-pad>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-pad>,
+        ),
+      );
+    });
+
+    describe("should be accessible when expanded", () => {
+      accessible(() =>
+        mount(
+          <calcite-action-pad expanded>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-pad>,
+        ),
+      );
     });
   });
 });

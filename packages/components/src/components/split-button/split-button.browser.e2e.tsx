@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-split-button", () => {
@@ -98,7 +99,7 @@ describe("calcite-split-button", () => {
     focusable(
       () =>
         mount(
-          <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          <calcite-split-button dropdownLabel="Show options" primary-text="Button Text">
             {renderContent()}
           </calcite-split-button>,
         ),
@@ -110,5 +111,51 @@ describe("calcite-split-button", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-split-button"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-split-button dropdownLabel="Show options" primaryText="Button Text">
+            {renderContent()}
+          </calcite-split-button>,
+        ),
+      );
+    });
+
+    describe("when disabled", () => {
+      accessible(() =>
+        mount(
+          <calcite-split-button disabled dropdownLabel="Show options" primaryText="Button Text">
+            {renderContent()}
+          </calcite-split-button>,
+        ),
+      );
+    });
+
+    describe("when loading", () => {
+      accessible(() =>
+        mount(
+          <calcite-split-button dropdownLabel="Show options" loading primaryText="Button Text">
+            {renderContent()}
+          </calcite-split-button>,
+        ),
+      );
+    });
+
+    describe("with icons and no text", () => {
+      accessible(() =>
+        mount(
+          <calcite-split-button
+            dropdownLabel="Show options"
+            primaryIconStart="plus"
+            primaryLabel="Button label"
+          >
+            {renderContent()}
+          </calcite-split-button>,
+        ),
+      );
+    });
   });
 });

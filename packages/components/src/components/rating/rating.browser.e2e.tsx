@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-rating", () => {
@@ -69,5 +70,9 @@ describe("calcite-rating", () => {
 
   describe("disabled", () => {
     disabled(() => mount(<calcite-rating value={3} />));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-rating"));
   });
 });

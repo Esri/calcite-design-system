@@ -1,46 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-swatch-group", () => {
-  describe("is accessible in selection mode none (default)", () => {
-    accessible(
-      html`<calcite-swatch-group label="test-label">
-        <calcite-swatch label="test-label"></calcite-swatch>
-        <calcite-swatch label="test-label"></calcite-swatch>
-      </calcite-swatch-group>`,
-    );
-  });
-
-  describe("is accessible in selection mode single", () => {
-    accessible(
-      html` <calcite-swatch-group label="test-label" selection-mode="single">
-        <calcite-swatch label="test-label"></calcite-swatch>
-        <calcite-swatch label="test-label"></calcite-swatch>
-      </calcite-swatch-group>`,
-    );
-  });
-
-  describe("is selection mode single persists", () => {
-    accessible(
-      html`<calcite-swatch-group label="test-label" selection-mode="single-persist">
-        <calcite-swatch label="test-label"></calcite-swatch>
-        <calcite-swatch label="test-label"></calcite-swatch>
-      </calcite-swatch-group>`,
-    );
-  });
-
-  describe("is accessible in selection mode multiple", () => {
-    accessible(
-      html`<calcite-swatch-group label="test-label" selection-mode="multiple">
-        <calcite-swatch label="test-label"></calcite-swatch>
-        <calcite-swatch label="test-label"></calcite-swatch>
-      </calcite-swatch-group>`,
-    );
-  });
-
   describe("selection modes function as intended", () => {
     it("selection mode single allows one or no swatches to be selected", async () => {
       const page = await newE2EPage();

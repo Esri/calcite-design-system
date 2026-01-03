@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -8,6 +9,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-action", () => {
@@ -149,5 +151,9 @@ describe("calcite-action", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-action"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-action text="hello world" />));
   });
 });

@@ -2,7 +2,15 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, describe } from "vitest";
 import { commands, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { SLOTS } from "./resources";
@@ -207,5 +215,22 @@ describe("calcite-shell-panel", () => {
         expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
       });
     });
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-shell-panel position="start" slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+              <calcite-action icon="save" text="Save" />
+              <calcite-action icon="layers" text="Layers" />
+            </calcite-action-group>
+          </calcite-action-bar>
+          <p>Primary Content</p>
+        </calcite-shell-panel>,
+      ),
+    );
   });
 });

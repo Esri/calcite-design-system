@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -266,46 +266,6 @@ describe("calcite-panel", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
-  });
-
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-panel>
-        <calcite-action-bar slot="${SLOTS.actionBar}">
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Save" icon="save"></calcite-action>
-            <calcite-action text="Layers" icon="layers"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-        <div slot="${SLOTS.headerActionsStart}">test start</div>
-        <div slot="${SLOTS.headerContent}">test content</div>
-        <div slot="${SLOTS.headerActionsEnd}">test end</div>
-        <p>Content</p>
-        <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-        <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-      </calcite-panel>
-    `);
-
-    describe("collapsible and closable", () => {
-      accessible(html`
-        <calcite-panel collapsible closable>
-          <calcite-action-bar slot="${SLOTS.actionBar}">
-            <calcite-action-group>
-              <calcite-action text="Add" icon="plus"></calcite-action>
-              <calcite-action text="Save" icon="save"></calcite-action>
-              <calcite-action text="Layers" icon="layers"></calcite-action>
-            </calcite-action-group>
-          </calcite-action-bar>
-          <div slot="${SLOTS.headerActionsStart}">test start</div>
-          <div slot="${SLOTS.headerContent}">test content</div>
-          <div slot="${SLOTS.headerActionsEnd}">test end</div>
-          <p>Content</p>
-          <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-          <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-        </calcite-panel>
-      `);
-    });
   });
 
   it("honors calcitePanelScroll event", async () => {

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -199,13 +199,6 @@ describe("calcite-autocomplete", () => {
         targetProp: "--calcite-input-suffix-text-color",
       },
     });
-  });
-
-  describe("accessible", () => {
-    accessible(simpleHTML);
-    accessible(simpleFormHTML);
-    accessible(simpleGroupHTML);
-    accessible(simpleGroupHTML);
   });
 
   describe("labelable", () => {

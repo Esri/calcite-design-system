@@ -2,7 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -319,16 +319,6 @@ describe("calcite-flow", () => {
 
       expect(await items[2].getProperty("selected")).toBe(true);
       expect(await items[2].getProperty("showBackButton")).toBe(true);
-    });
-
-    describe("accessible", () => {
-      accessible(html`
-        <calcite-flow>
-          <calcite-flow-item> </calcite-flow-item>
-          <calcite-flow-item> </calcite-flow-item>
-          <calcite-flow-item> </calcite-flow-item>
-        </calcite-flow>
-      `);
     });
 
     it("should also work with descendant slotted items", async () => {

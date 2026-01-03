@@ -2,47 +2,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { CSS as CHIP_CSS } from "../chip/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-chip-group", () => {
-  describe("is accessible in selection mode none (default)", () => {
-    accessible(
-      html`<calcite-chip-group label="test-label">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-    );
-  });
-
-  describe("is accessible in selection mode single", () => {
-    accessible(
-      html`<calcite-chip-group label="test-label" selection-mode="single">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-    );
-  });
-
-  describe("is accessible in selection mode single persists", () => {
-    accessible(
-      html`<calcite-chip-group label="test-label" selection-mode="single-persist">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-    );
-  });
-
-  describe("is accessible in selection mode multiple", () => {
-    accessible(
-      html`<calcite-chip-group label="test-label" selection-mode="multiple">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-    );
-  });
-
   describe("selection modes function as intended", () => {
     it("selection mode single allows one or no chips to be selected", async () => {
       const page = await newE2EPage();

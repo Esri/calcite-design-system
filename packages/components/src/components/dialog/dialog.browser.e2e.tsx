@@ -12,8 +12,10 @@ import {
   slots,
   t9n,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-dialog", () => {
@@ -252,5 +254,16 @@ describe("calcite-dialog", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-dialog"));
+  });
+
+  describe("accessible", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document.body, "calciteDialogOpen");
+      const renderResult = await mount(
+        <calcite-dialog description="My description" heading="My dialog" open={true} />,
+      );
+      await openEvent;
+      return renderResult;
+    });
   });
 });

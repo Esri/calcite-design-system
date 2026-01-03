@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -12,22 +12,6 @@ describe("calcite-notice", () => {
     <div slot="message">Message Text</div>
     <calcite-link slot="link" href="">Action</calcite-link>
   `;
-
-  describe("accessible", () => {
-    accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("accessible with icon", () => {
-    accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("accessible with icon with close button", () => {
-    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("accessible with icon and close button", () => {
-    accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
-  });
 
   describe("openClose", () => {
     openClose("calcite-notice", {

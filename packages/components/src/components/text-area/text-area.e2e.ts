@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -9,15 +9,6 @@ import { CSS } from "./resources";
 describe("calcite-text-area", () => {
   describe("labelable", () => {
     labelable("calcite-text-area");
-  });
-
-  describe("accessible", () => {
-    accessible(
-      html`<calcite-label>
-        add notes
-        <calcite-text-area max-length="50" required name="something"></calcite-text-area>
-      </calcite-label>`,
-    );
   });
 
   describe("is form associated", () => {

@@ -10,6 +10,7 @@ import {
   renders,
   disabled,
   focusable,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-block-group", () => {
@@ -113,5 +114,9 @@ describe("calcite-block-group", () => {
     disabled(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {
       focusTarget: "child",
     });
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>));
   });
 });

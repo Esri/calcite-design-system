@@ -1,6 +1,13 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, hidden, renders, t9n, disabled } from "../../tests/commonTests/browser";
+import {
+  focusable,
+  hidden,
+  renders,
+  t9n,
+  disabled,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-handle", () => {
   describe("honors hidden attribute", () => {
@@ -21,5 +28,9 @@ describe("calcite-handle", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-handle"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-handle"));
   });
 });

@@ -1,16 +1,8 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
-  describe("accessible", () => {
-    accessible("calcite-color-picker-swatch");
-    accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);
-    accessible(`<calcite-color-picker-swatch color='#c0ffee'></calcite-color-picker-swatch>`);
-    accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
-  });
-
   describe("accepts CSS color strings", () => {
     let page: E2EPage;
     const fillSwatchPartSelector = `.${CSS.swatch} rect:nth-child(4)`;

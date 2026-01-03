@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose } from "../../tests/commonTests";
+import { openClose } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -1006,10 +1006,6 @@ describe("calcite-dropdown", () => {
     await page.waitForChanges();
     expect(await dropdownWrapper.isVisible()).toBe(false);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
-  });
-
-  describe("accessible", () => {
-    accessible(html`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {

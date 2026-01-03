@@ -58,7 +58,7 @@ export class Pagination extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -320,9 +320,11 @@ export class Pagination extends LitElement {
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
-      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
-        &hellip;
-      </span>
+      <li>
+        <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
+          &hellip;
+        </span>
+      </li>
     );
   }
 

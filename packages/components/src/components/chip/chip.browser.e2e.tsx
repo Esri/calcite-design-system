@@ -10,6 +10,7 @@ import {
   renders,
   slots,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
@@ -75,5 +76,11 @@ describe("calcite-chip", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-chip"));
+  });
+
+  describe("accessible", () => {
+    describe("with icon only", () => {
+      accessible(() => mount(<calcite-chip icon="basemap" label="Gray basemap" />));
+    });
   });
 });

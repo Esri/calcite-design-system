@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { hidden, renders, focusable, accessible } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-flow", () => {
@@ -63,6 +63,18 @@ describe("calcite-flow", () => {
           </calcite-flow>,
         ),
       { display: "flex" },
+    );
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-flow>
+          <calcite-flow-item />
+          <calcite-flow-item />
+          <calcite-flow-item />
+        </calcite-flow>,
+      ),
     );
   });
 });

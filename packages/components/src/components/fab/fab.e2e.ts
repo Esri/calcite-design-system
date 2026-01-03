@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -84,11 +84,6 @@ describe("calcite-fab", () => {
 
     const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
     expect(fab.getAttribute("appearance")).toBe("outline-fill");
-  });
-
-  describe("accessible", () => {
-    accessible(`<calcite-fab label="hello world" text="hello world"></calcite-fab>`);
-    accessible(`<calcite-fab label="hello world" text="hello world" disabled text-enabled></calcite-fab>`);
   });
 
   describe("when invalid appearance values are passed", () => {

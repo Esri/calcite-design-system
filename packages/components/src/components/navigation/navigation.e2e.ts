@@ -1,19 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-navigation", () => {
-  describe("accessible", () => {
-    accessible(
-      html`<calcite-navigation label="test" navigation-action
-        ><calcite-navigation-logo heading="Test"
-      /></calcite-navigation>`,
-    );
-  });
-
   it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
     const page = await newE2EPage();
     await page.setContent(

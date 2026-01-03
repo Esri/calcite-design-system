@@ -8,6 +8,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -66,5 +67,9 @@ describe("calcite-input-time-zone", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-input-time-zone"));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount("calcite-input-time-zone"));
   });
 });

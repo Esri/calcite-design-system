@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, focusable, hidden, t9n, disabled } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  t9n,
+  disabled,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-button", () => {
   describe("defaults", () => {
@@ -105,5 +113,45 @@ describe("calcite-button", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-button"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() => mount(<calcite-button>Continue</calcite-button>));
+    });
+
+    describe("href", () => {
+      accessible(() => mount(<calcite-button href="/">Continue</calcite-button>));
+    });
+
+    describe("style props", () => {
+      accessible(() =>
+        mount(
+          <calcite-button appearance="outline" kind="danger" scale="l" width="half">
+            Continue
+          </calcite-button>,
+        ),
+      );
+    });
+
+    describe("href and target", () => {
+      accessible(() =>
+        mount(
+          <calcite-button href="google.com" rel="noopener noreferrer" target="_blank">
+            Continue
+          </calcite-button>,
+        ),
+      );
+    });
+
+    describe("icons and loading", () => {
+      accessible(() =>
+        mount(
+          <calcite-button icon-end="plus" icon-start="plus" loading>
+            Continue
+          </calcite-button>,
+        ),
+      );
+    });
   });
 });

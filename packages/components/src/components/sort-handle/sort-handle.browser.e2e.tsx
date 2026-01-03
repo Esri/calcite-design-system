@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-sort-handle", () => {
@@ -70,5 +71,9 @@ describe("calcite-sort-handle", () => {
 
   describe("disabled", () => {
     disabled(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+  });
+
+  describe("accessible", () => {
+    accessible(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
   });
 });

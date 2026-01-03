@@ -1,20 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { StatusIconDefaults } from "./interfaces";
 import { CSS } from "./resources";
 
 describe("calcite-input-message", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-input-message>Text</calcite-input-message>`);
-  });
-
-  describe("accessible with icon", () => {
-    accessible(`<calcite-input-message icon>Text</calcite-input-message>`);
-  });
-
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`

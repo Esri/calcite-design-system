@@ -1,8 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
 import {
@@ -22,39 +21,7 @@ import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
 
-const placeholder = placeholderImage({
-  width: 140,
-  height: 100,
-});
-
 describe("calcite-list", () => {
-  describe("accessible", () => {
-    accessible(
-      html`<calcite-list>
-        <calcite-list-item label="candy" description="kingdom">
-          <calcite-action icon="banana" label="finn" slot="actions-start" />
-          <calcite-icon icon="banana" slot="content-start" />
-          <img slot="content-start" src="${placeholder}" alt="Test image" />
-          <calcite-icon icon="banana" slot="content-end" />
-          <calcite-action icon="banana" label="jake" slot="actions-end" />
-        </calcite-list-item>
-        <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
-        <calcite-list-item label="test" description="hello world"></calcite-list-item>
-      </calcite-list>`,
-    );
-    accessible(
-      html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
-        <calcite-list-item label="Apples" value="apples"></calcite-list-item>
-        <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
-        <calcite-list-item label="Pears" value="pears"></calcite-list-item>
-        <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
-          <div slot="title">No fruits found</div>
-          <div slot="message">Try a different fruit?</div>
-        </calcite-notice>
-      </calcite-list>`,
-    );
-  });
-
   it("should set the displayMode property on items", async () => {
     const page = await newE2EPage();
     await page.setContent(

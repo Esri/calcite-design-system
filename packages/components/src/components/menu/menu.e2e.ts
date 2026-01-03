@@ -2,14 +2,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 
 describe("calcite-menu", () => {
-  describe("accessible", () => {
-    accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
-  });
-
   describe("mouse support", () => {
     it("should open the submenu on click", async () => {
       const page = await newE2EPage();

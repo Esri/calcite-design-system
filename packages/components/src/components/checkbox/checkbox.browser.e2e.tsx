@@ -1,6 +1,14 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, internalLabel, t9n } from "../../tests/commonTests/browser";
+import {
+  disabled,
+  focusable,
+  hidden,
+  internalLabel,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-checkbox", () => {
   describe("honors hidden attribute", () => {
@@ -30,6 +38,24 @@ describe("calcite-checkbox", () => {
           method: "body",
         },
       },
+    });
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-label>
+            <calcite-checkbox id="example" name="example" value="one" /> label
+          </calcite-label>,
+        ),
+      );
+    });
+
+    describe("without calcite-label", () => {
+      accessible(() =>
+        mount(<calcite-checkbox id="example" label="label" name="example" value="one" />),
+      );
     });
   });
 });

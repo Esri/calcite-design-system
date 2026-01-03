@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
@@ -147,5 +148,18 @@ describe("calcite-radio-button-group", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-radio-button-group"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-radio-button-group>
+          <calcite-label>
+            <calcite-radio-button />
+            Label
+          </calcite-label>
+        </calcite-radio-button-group>,
+      ),
+    );
   });
 });

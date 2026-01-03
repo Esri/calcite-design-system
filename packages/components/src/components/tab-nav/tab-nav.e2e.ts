@@ -1,16 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-tab-nav", () => {
-  describe("accessible: checked", () => {
-    accessible("calcite-tab-nav");
-  });
-
   describe("calciteTabChange event", () => {
     let page: E2EPage;
     let activeEventSpy: EventSpy;

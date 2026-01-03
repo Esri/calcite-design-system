@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
@@ -26,10 +26,6 @@ describe("calcite-tabs", () => {
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
   `;
-
-  describe("accessible: checked", () => {
-    accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);
-  });
 
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();

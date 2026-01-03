@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
@@ -83,5 +84,17 @@ describe("calcite-select", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-select"));
+  });
+
+  describe("accessible", () => {
+    accessible(() =>
+      mount(
+        <calcite-select label="required-for-a11y-test">
+          <calcite-option>uno</calcite-option>
+          <calcite-option>dos</calcite-option>
+          <calcite-option>tres</calcite-option>
+        </calcite-select>,
+      ),
+    );
   });
 });

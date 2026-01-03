@@ -1,25 +1,13 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Select } from "./select";
 
 describe("calcite-select", () => {
-  const simpleTestMarkup = html`
-    <calcite-select label="required-for-a11y-test">
-      <calcite-option>uno</calcite-option>
-      <calcite-option>dos</calcite-option>
-      <calcite-option>tres</calcite-option>
-    </calcite-select>
-  `;
-
-  describe("accessible", () => {
-    accessible(simpleTestMarkup);
-  });
-
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(
       "calcite-select",

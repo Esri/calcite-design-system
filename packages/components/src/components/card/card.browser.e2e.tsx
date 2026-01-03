@@ -1,10 +1,23 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, focusable, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  hidden,
+  focusable,
+  renders,
+  slots,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { SLOTS } from "./resources";
 
 describe("calcite-card", () => {
+  const placeholder = placeholderImage({
+    width: 350,
+    height: 150,
+  });
+
   describe("focusable", () => {
     describe("default", () => {
       focusable(() => mount("calcite-card"));
@@ -35,5 +48,21 @@ describe("calcite-card", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-card"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() => mount("calcite-card"));
+    });
+
+    describe("when selectable (deprecated)", () => {
+      accessible(() =>
+        mount(
+          <calcite-card label="example-label" selectable>
+            <img alt="Test image" slot="thumbnail" src={placeholder} />
+          </calcite-card>,
+        ),
+      );
+    });
   });
 });

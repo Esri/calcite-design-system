@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   slots,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 
@@ -142,5 +143,43 @@ describe("calcite-tile", () => {
 
   describe("focusable", () => {
     focusable(() => mount(<calcite-tile interactive />));
+  });
+
+  describe("accessible", () => {
+    describe("without label", () => {
+      accessible(() => mount(<calcite-tile />));
+    });
+
+    describe("with label only", () => {
+      accessible(() => mount(<calcite-tile label="my-tile" />));
+    });
+
+    describe("in single selection-mode", () => {
+      accessible(() => mount(<calcite-tile label="my-tile" selection-mode="single" />));
+    });
+
+    describe("in single-persist selection-mode", () => {
+      accessible(() => mount(<calcite-tile label="my-tile" selection-mode="single-persist" />));
+    });
+
+    describe("in multiple selection-mode", () => {
+      accessible(() => mount(<calcite-tile label="my-tile" selection-mode="multiple" />));
+    });
+
+    describe("as link with heading", () => {
+      accessible(() => mount(<calcite-tile heading="My link" href="#" />));
+    });
+
+    describe("as link with description", () => {
+      accessible(() => mount(<calcite-tile description="My link" href="#" />));
+    });
+
+    describe("as link with heading and label", () => {
+      accessible(() => mount(<calcite-tile heading="My link" href="#" label="my-tile" />));
+    });
+
+    describe("as link with description and label", () => {
+      accessible(() => mount(<calcite-tile description="My link" href="#" label="my-tile" />));
+    });
   });
 });

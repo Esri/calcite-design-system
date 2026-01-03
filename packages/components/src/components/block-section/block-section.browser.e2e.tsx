@@ -8,6 +8,7 @@ import {
   hidden,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -96,5 +97,47 @@ describe("calcite-block-section", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-block-section"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section expanded text="text" toggle-display="switch">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
+
+    describe("when collapsed", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section text="text" toggle-display="switch">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
+
+    describe("when expanded", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section expanded text="text">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
+
+    describe("when collapsed", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section text="text">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
   });
 });

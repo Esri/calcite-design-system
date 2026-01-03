@@ -1,13 +1,8 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 
 describe("calcite-sortable-list", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-sortable-list></calcite-sortable-list>`);
-  });
-
   const worksUsingMouse = async (page: E2EPage): Promise<void> => {
     await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);
 

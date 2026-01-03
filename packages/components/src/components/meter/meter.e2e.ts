@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-meter", () => {
-  describe("accessible", () => {
-    accessible(`<calcite-meter label="A great meter"></calcite-meter>`);
-  });
-
   describe("correctly sets range and value properties", () => {
     it("correctly sets range and value properties if not present", async () => {
       const page = await newE2EPage({

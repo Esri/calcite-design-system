@@ -1,9 +1,11 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, focusable, renders, t9n } from "../../tests/commonTests/browser";
+import { hidden, focusable, renders, t9n, accessible } from "../../tests/commonTests/browser";
 
 describe("calcite-carousel", () => {
+  const customDuration = 1000;
+
   describe("honors hidden attribute", () => {
     hidden(() =>
       mount(
@@ -55,5 +57,56 @@ describe("calcite-carousel", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-carousel"));
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() =>
+        mount(
+          <calcite-carousel label="Carousel example">
+            <calcite-carousel-item label="Carousel Item 1">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+            <calcite-carousel-item label="Carousel Item 2">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+          </calcite-carousel>,
+        ),
+      );
+    });
+
+    describe("with autoplay paused", () => {
+      accessible(() =>
+        mount(() => (
+          <calcite-carousel
+            autoplay="paused"
+            autoplayDuration={customDuration}
+            label="Carousel example"
+          >
+            <calcite-carousel-item label="Carousel Item 1">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+            <calcite-carousel-item label="Carousel Item 2">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+          </calcite-carousel>
+        )),
+      );
+    });
+
+    describe("with autoplay when autoplay", () => {
+      accessible(() =>
+        mount(() => (
+          <calcite-carousel autoplay autoplayDuration={customDuration} label="Carousel example">
+            <calcite-carousel-item label="Carousel Item 1">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+            <calcite-carousel-item label="Carousel Item 2">
+              <p>carousel item content</p>
+            </calcite-carousel-item>
+          </calcite-carousel>
+        )),
+      );
+    });
   });
 });

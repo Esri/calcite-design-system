@@ -2,7 +2,14 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, disabled, hidden, renders, slots } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  hidden,
+  renders,
+  slots,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
@@ -80,5 +87,28 @@ describe("calcite-tree-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-tree-item"), SLOTS);
+  });
+
+  describe("accessible", () => {
+    describe("default", () => {
+      accessible(() => mount("calcite-tree-item"));
+    });
+
+    describe("with nested children", () => {
+      accessible(() =>
+        mount(
+          <calcite-tree lines>
+            <calcite-tree-item>
+              <a href="#">Child 2</a>
+              <calcite-tree slot="children">
+                <calcite-tree-item>
+                  <a href="http://www.esri.com">Grandchild 1</a>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      );
+    });
   });
 });
