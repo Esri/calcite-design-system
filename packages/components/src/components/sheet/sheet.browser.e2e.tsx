@@ -8,6 +8,7 @@ import {
   renders,
   focusable,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -122,5 +123,9 @@ describe("calcite-sheet", () => {
 
   describe("top layer placement", () => {
     topLayer(() => mount("calcite-sheet"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-sheet"));
   });
 });

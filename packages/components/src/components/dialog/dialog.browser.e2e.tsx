@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -252,5 +253,9 @@ describe("calcite-dialog", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-dialog"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-dialog"));
   });
 });

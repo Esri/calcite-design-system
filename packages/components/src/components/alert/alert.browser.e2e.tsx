@@ -8,6 +8,7 @@ import {
   renders,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-alert", () => {
@@ -57,5 +58,9 @@ describe("calcite-alert", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-alert"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-alert"));
   });
 });

@@ -10,6 +10,7 @@ import {
   internalLabel,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -88,5 +89,9 @@ describe("calcite-input-time-picker", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-input-time-picker"));
   });
 });

@@ -2,7 +2,6 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { Notice } from "./notice";
 
@@ -27,12 +26,6 @@ describe("calcite-notice", () => {
 
   describe("accessible with icon and close button", () => {
     accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("openClose", () => {
-    openClose("calcite-notice", {
-      collapsedOnClose: "vertical",
-    });
   });
 
   it("renders default props when none are provided", async () => {

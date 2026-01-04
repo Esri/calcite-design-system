@@ -12,6 +12,7 @@ import {
   handlesActionMenuPlacements,
   t9n,
   disabled,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -202,5 +203,9 @@ describe("calcite-block", () => {
     disabled(() =>
       mount(<calcite-block collapsible description="description" heading="heading" />),
     );
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-block"));
   });
 });

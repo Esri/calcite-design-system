@@ -10,6 +10,7 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -161,5 +162,18 @@ describe("calcite-popover", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-popover"));
+  });
+
+  describe("openClose", () => {
+    openClose(() =>
+      mount(
+        <>
+          <calcite-popover placement="auto" reference-element="ref">
+            content
+          </calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
   });
 });

@@ -8,6 +8,7 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -66,5 +67,9 @@ describe("calcite-input-time-zone", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-input-time-zone"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount("calcite-input-time-zone"));
   });
 });

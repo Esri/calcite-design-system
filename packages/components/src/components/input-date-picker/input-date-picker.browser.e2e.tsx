@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
@@ -83,5 +84,9 @@ describe("calcite-input-date-picker", () => {
 
   describe.skip("disabled", () => {
     disabled(() => mount("calcite-input-date-picker"));
+  });
+
+  describe("openClose", () => {
+    openClose(() => mount(<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08" />));
   });
 });

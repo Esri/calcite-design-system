@@ -7,8 +7,10 @@ import {
   renders,
   floatingUIOwner,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { css } from "../../../support/formatting";
 import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
 import { Tooltip } from "./tooltip";
 
@@ -218,6 +220,56 @@ describe("calcite-tooltip", () => {
         <>
           <calcite-tooltip reference-element="ref">content</calcite-tooltip>
           <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("openClose", () => {
+    openClose(() =>
+      mount(
+        <>
+          <calcite-tooltip placement="auto" reference-element="ref">
+            content
+          </calcite-tooltip>
+          <button id="ref">referenceElement</button>
+        </>,
+      ),
+    );
+  });
+
+  describe("parent has display none", () => {
+    openClose(() =>
+      mount(
+        <>
+          <div class="container">
+            <div class="template">
+              <calcite-tooltip placement="auto" reference-element="ref">
+                content
+              </calcite-tooltip>
+              <button id="ref">referenceElement</button>
+            </div>
+          </div>
+          <button class="hoverOutsideContainer">some other content</button>
+          <style
+            ref={(el) => {
+              if (el) {
+                el.innerHTML = css`
+                  .container {
+                    height: 100px;
+                    width: 100px;
+                    border: 1px solid red;
+                  }
+                  .container:hover .template {
+                    display: initial;
+                  }
+                  .template {
+                    display: none;
+                  }
+                `;
+              }
+            }}
+          />
         </>,
       ),
     );

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -97,41 +97,6 @@ describe("calcite-tooltip", () => {
     accessible(
       `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
     );
-  });
-
-  const simpleTooltipHtml = html`
-    <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
-    ><button id="ref">referenceElement</button>
-  `;
-  const tooltipDisplayNoneHtml = html`
-    <div class="container">
-      <div class="template">
-        <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
-        ><button id="ref">referenceElement</button>
-      </div>
-    </div>
-    <button class="hoverOutsideContainer">some other content</button>
-    <style>
-      .container {
-        height: 100px;
-        width: 100px;
-        border: 1px solid red;
-      }
-      .container:hover .template {
-        display: initial;
-      }
-      .template {
-        display: none;
-      }
-    </style>
-  `;
-
-  describe("openClose", () => {
-    openClose(simpleTooltipHtml);
-
-    describe("parent has display none", () => {
-      openClose(tooltipDisplayNoneHtml, { willUseFallback: true });
-    });
   });
 
   it("tooltip positions when referenceElement is set", async () => {

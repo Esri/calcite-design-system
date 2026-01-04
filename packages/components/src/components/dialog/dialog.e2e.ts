@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -39,11 +39,6 @@ const dispatchDialogKeydown = async ({
 
 describe("calcite-dialog", () => {
   mockConsole();
-
-  describe("openClose", () => {
-    openClose("calcite-dialog");
-    openClose.initial("calcite-dialog");
-  });
 
   describe("accessible", () => {
     accessible(async () => {

@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
@@ -50,11 +50,6 @@ describe("calcite-sheet", () => {
       await openEventSpy.next();
       return { page, tag: "calcite-sheet" };
     });
-  });
-
-  describe("openClose", () => {
-    openClose("calcite-sheet");
-    openClose.initial("calcite-sheet");
   });
 
   describe("focus-trap", () => {

@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   disabled,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -136,5 +137,23 @@ describe("calcite-dropdown", () => {
 
   describe("top layer placement", () => {
     topLayer(() => mount("calcite-dropdown"));
+  });
+
+  describe("openClose", () => {
+    openClose(() =>
+      mount(
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group id="group-1">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              {" "}
+              Dropdown Item Content{" "}
+            </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>,
+      ),
+    );
   });
 });
