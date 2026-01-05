@@ -5,6 +5,7 @@ import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
+  focusable,
   hidden,
   reflects,
   renders,
@@ -137,5 +138,9 @@ describe("calcite-tile", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-tile"), SLOTS);
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount(<calcite-tile interactive />));
   });
 });

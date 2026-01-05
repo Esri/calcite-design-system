@@ -8,6 +8,7 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  focusable,
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
@@ -83,6 +84,20 @@ describe("calcite-flow-item", () => {
           defaultValue: false,
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-flow-item selected show-back-button>
+            test
+          </calcite-flow-item>,
+        ),
+      {
+        shadowFocusTargetSelector: "calcite-action",
+      },
     );
   });
 

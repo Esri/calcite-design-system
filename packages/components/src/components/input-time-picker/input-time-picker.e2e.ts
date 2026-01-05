@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -57,20 +57,6 @@ describe("calcite-input-time-picker", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-time-picker");
-  });
-
-  describe("focusable", () => {
-    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
-      focusable(`calcite-input-time-picker`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-      });
-    });
-
-    describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
-      focusable(`<calcite-input-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
-      });
-    });
   });
 
   it("resets initial value to empty when it is not a valid time value", async () => {

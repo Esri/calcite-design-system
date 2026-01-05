@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
 
 describe("calcite-navigation", () => {
   describe("defaults", () => {
@@ -42,5 +42,11 @@ describe("calcite-navigation", () => {
         ),
       { display: "block" },
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-navigation navigation-action />), {
+      shadowFocusTargetSelector: "calcite-action",
+    });
   });
 });

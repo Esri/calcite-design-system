@@ -6,6 +6,7 @@ import {
   reflects,
   hidden,
   renders,
+  focusable,
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
@@ -37,6 +38,12 @@ describe("calcite-filter", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-filter"), {
+      shadowFocusTargetSelector: "calcite-input",
+    });
   });
 
   describe("reflects", () => {
