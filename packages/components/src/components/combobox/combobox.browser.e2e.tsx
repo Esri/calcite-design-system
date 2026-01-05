@@ -4,13 +4,14 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
   defaults,
+  disabled,
+  focusable,
   reflects,
   hidden,
   internalLabel,
   renders,
   floatingUIOwner,
   t9n,
-  disabled,
   topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -147,6 +148,17 @@ describe("calcite-combobox", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-combobox"), { display: "block" });
+  });
+
+  describe("focusable", () => {
+    focusable(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+          <calcite-combobox-item heading="Spruce" value="Spruce" />
+        </calcite-combobox>,
+      ),
+    );
   });
 
   describe("owns a floating-ui", () => {

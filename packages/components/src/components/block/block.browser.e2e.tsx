@@ -8,13 +8,14 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  focusable,
   handlesActionMenuPlacements,
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   mockConsole();
@@ -69,6 +70,47 @@ describe("calcite-block", () => {
         },
       ],
     );
+  });
+
+  describe("setFocus", () => {
+    describe("focuses block heading toggle", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-block collapsible description="summary" expanded heading="Heading">
+              <calcite-block-section expanded text="input block-section">
+                <calcite-input
+                  icon="form-field"
+                  placeholder="This is an input field... enter something here"
+                />
+              </calcite-block-section>
+            </calcite-block>,
+          ),
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
+        },
+      );
+    });
+
+    const blockSectionClass = "my-block-section";
+    describe("focuses block section", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-block description="summary" expanded heading="Heading">
+              <calcite-block-section class={blockSectionClass} expanded text="input block-section">
+                <calcite-input
+                  icon="form-field"
+                  placeholder="This is an input field... enter something here"
+                />
+              </calcite-block-section>
+            </calcite-block>,
+          ),
+        {
+          focusTargetSelector: `.${blockSectionClass}`,
+        },
+      );
+    });
   });
 
   describe("reflects", () => {

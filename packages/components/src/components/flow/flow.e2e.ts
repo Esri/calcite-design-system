@@ -2,7 +2,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -20,31 +20,6 @@ async function slowPageAnimations(page: E2EPage): Promise<void> {
 
 describe("calcite-flow", () => {
   mockConsole();
-
-  describe("is focusable", () => {
-    focusable(
-      html`<calcite-flow>
-        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
-        <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
-      </calcite-flow>`,
-      {
-        focusTargetSelector: "#two",
-      },
-    );
-  });
-
-  describe("is focusable on selected flow item", () => {
-    focusable(
-      html`<calcite-flow>
-        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
-        <calcite-flow-item id="two" selected heading="two">Hello World</calcite-flow-item>
-        <calcite-flow-item id="three" heading="three">Hello World</calcite-flow-item>
-      </calcite-flow>`,
-      {
-        focusTargetSelector: "#two",
-      },
-    );
-  });
 
   it("frame defaults", async () => {
     const page = await newE2EPage();
