@@ -90,14 +90,5 @@ describe("calcite-navigation", () => {
       };
       themed(navigationHtml, tokens);
     });
-
-    describe("deprecated", () => {
-      themed(navigationHtml, {
-        "--calcite-ui-icon-color": {
-          shadowSelector: "calcite-navigation-logo",
-          targetProp: "--calcite-ui-icon-color",
-        },
-      });
-    });
   });
 });
