@@ -4,9 +4,6 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-button-background-color: Specifies the component's background color.
- * @prop --calcite-button-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-button-background-color-focus: Specifies the component's background color when focused.
- * @prop --calcite-button-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-button-border-color: Specifies the component's border color.
  * @prop --calcite-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
@@ -108,22 +105,16 @@
 
     &:hover {
       @apply no-underline;
-      background-color: var(
-        --calcite-button-background-color-hover,
-        var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent))
-      );
+      background-color: var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent));
     }
 
     &:focus {
       @apply focus-outset;
-      background-color: var(--calcite-button-background-color-focus, var(--calcite-internal-button-background-color));
+      background-color: var(--calcite-internal-button-background-color);
     }
 
     &:active {
-      background-color: var(
-        --calcite-button-background-color-press,
-        var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent))
-      );
+      background-color: var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent));
     }
 
     span {

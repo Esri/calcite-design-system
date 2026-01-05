@@ -9,6 +9,7 @@ import {
   hidden,
   renders,
   disabled,
+  focusable,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-block-group", () => {
@@ -101,6 +102,12 @@ describe("calcite-block-group", () => {
       </calcite-block>
     );
   }
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {
+      focusTargetSelector: "calcite-block",
+    });
+  });
 
   describe("disabled", () => {
     disabled(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {

@@ -1,6 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, hidden, t9n, disabled } from "../../tests/commonTests/browser";
+import { defaults, focusable, hidden, t9n, disabled } from "../../tests/commonTests/browser";
 
 describe("calcite-button", () => {
   describe("defaults", () => {
@@ -93,6 +93,10 @@ describe("calcite-button", () => {
 
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-button"));
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount("calcite-button"));
   });
 
   describe("translation support", () => {
