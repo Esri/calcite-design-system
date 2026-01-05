@@ -3,7 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -145,12 +145,6 @@ describe("calcite-input-number", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).toBeNull();
     expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input-number`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   describe.skip("increment/decrement functionality", () => {

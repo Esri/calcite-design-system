@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -18,10 +18,6 @@ describe("calcite-select", () => {
 
   describe("accessible", () => {
     accessible(simpleTestMarkup);
-  });
-
-  describe("is focusable", () => {
-    focusable(simpleTestMarkup);
   });
 
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {

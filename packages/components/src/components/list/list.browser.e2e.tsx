@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  focusable,
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
@@ -121,6 +122,20 @@ describe("calcite-list", () => {
           </calcite-list>,
         ),
       { display: "block" },
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-list>
+            <calcite-list-item active description="hello world" label="test" />
+          </calcite-list>,
+        ),
+      {
+        focusTargetSelector: "calcite-list-item",
+      },
     );
   });
 

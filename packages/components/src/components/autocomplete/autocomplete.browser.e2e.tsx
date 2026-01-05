@@ -2,6 +2,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  focusable,
   cancelable,
   defaults,
   reflects,
@@ -248,6 +249,10 @@ describe("calcite-autocomplete", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-autocomplete"), SLOTS);
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-autocomplete"));
   });
 
   function renderAutocomplete(): JsxNode {

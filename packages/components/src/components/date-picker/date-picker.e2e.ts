@@ -3,7 +3,6 @@ import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it } from "vitest";
 import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
-import { focusable } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
@@ -12,12 +11,6 @@ import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import type { DatePicker } from "./date-picker";
 
 describe("calcite-date-picker", () => {
-  describe("focusable", () => {
-    focusable("calcite-date-picker", {
-      shadowFocusTargetSelector: "calcite-date-picker-month",
-    });
-  });
-
   describe("calciteDatePickerChange & calciteDatePickerRangeChange events", () => {
     it("fires a calciteDatePickerChange event when changing year in header", async () => {
       const page = await newE2EPage();
