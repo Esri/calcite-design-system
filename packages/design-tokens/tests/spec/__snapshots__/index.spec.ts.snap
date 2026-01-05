@@ -937,7 +937,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-brand: #009af2;
   --calcite-color-brand-hover: #007ac2;
@@ -35726,7 +35726,7 @@ $calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-brand: #009af2;
 $calcite-color-brand-hover: #007ac2;
