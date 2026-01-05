@@ -1920,10 +1920,10 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("deprecated", () => {
-    themed(html`<calcite-input-time-picker open></calcite-input-time-picker>`, {
+    themed(html`<calcite-input-time-picker></calcite-input-time-picker>`, {
       "--calcite-ui-icon-color": {
-        shadowSelector: "calcite-time-picker",
-        targetProp: "--calcite-time-picker-icon-color",
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "--calcite-icon-color",
       },
     });
   });
