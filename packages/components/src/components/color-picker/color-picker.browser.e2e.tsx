@@ -7,10 +7,12 @@ import {
   reflects,
   hidden,
   renders,
+  focusable,
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-color-picker", () => {
   mockConsole();
@@ -61,6 +63,12 @@ describe("calcite-color-picker", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-color-picker"), {
+      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
+    });
   });
 
   describe("reflects", () => {
