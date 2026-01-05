@@ -1,5 +1,5 @@
-import { h } from "@arcgis/lumina";
-import { describe, it, expect } from "vitest";
+import { h, JsxNode } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import {
@@ -9,6 +9,7 @@ import {
   renders,
   slots,
   handlesActionMenuPlacements,
+  focusable,
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -88,6 +89,19 @@ describe("calcite-action-group", () => {
         ),
       );
     });
+  });
+
+  function renderActionGroup(): JsxNode {
+    return (
+      <calcite-action-group scale="l">
+        <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      </calcite-action-group>
+    );
+  }
+
+  describe("focusable", () => {
+    focusable(() => mount(renderActionGroup), { shadowFocusTargetSelector: "calcite-action" });
   });
 
   describe("translation support", () => {
