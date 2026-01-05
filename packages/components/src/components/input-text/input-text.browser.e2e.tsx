@@ -2,12 +2,13 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
-  reflects,
+  disabled,
+  focusable,
   hidden,
   internalLabel,
   renders,
+  reflects,
   t9n,
-  disabled,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-input-text", () => {
@@ -77,6 +78,12 @@ describe("calcite-input-text", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-input-text"), { display: "block" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(`calcite-input-text`), {
+      shadowFocusTargetSelector: "input",
+    });
   });
 
   describe("translation support", () => {

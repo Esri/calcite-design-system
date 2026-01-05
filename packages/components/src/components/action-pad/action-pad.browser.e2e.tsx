@@ -9,6 +9,7 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  focusable,
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -46,6 +47,22 @@ describe("calcite-action-pad", () => {
           defaultValue: "neutral",
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-pad>
+            <calcite-action-group>
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-group>
+          </calcite-action-pad>,
+        ),
+      {
+        focusTargetSelector: "calcite-action",
+      },
     );
   });
 

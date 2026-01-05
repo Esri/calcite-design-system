@@ -3,11 +3,12 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
-  reflects,
+  disabled,
+  focusable,
   hidden,
+  reflects,
   renders,
   t9n,
-  disabled,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-sort-handle", () => {
@@ -57,6 +58,10 @@ describe("calcite-sort-handle", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-sort-handle"), { display: "flex" });
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
   });
 
   describe("translation support", () => {

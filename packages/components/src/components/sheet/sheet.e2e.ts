@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
@@ -49,21 +49,6 @@ describe("calcite-sheet", () => {
       await page.waitForChanges();
       await openEventSpy.next();
       return { page, tag: "calcite-sheet" };
-    });
-  });
-
-  describe("setFocus", () => {
-    const createSheetHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-sheet open ${attrs}>${contentHTML}</calcite-sheet>`;
-
-    const focusableContentTargetClass = "test";
-
-    const focusableContentHTML = html`<button class=${focusableContentTargetClass}>test</button>`;
-
-    describe("focuses content by default", () => {
-      focusable(createSheetHTML(focusableContentHTML), {
-        focusTargetSelector: `.${focusableContentTargetClass}`,
-      });
     });
   });
 
