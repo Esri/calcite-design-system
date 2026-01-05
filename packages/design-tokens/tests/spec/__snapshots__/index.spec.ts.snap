@@ -937,7 +937,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-brand: #009af2;
   --calcite-color-brand-hover: #007ac2;
@@ -1188,7 +1188,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -1241,7 +1241,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand-hover: #00619b;
     --calcite-color-brand: #007ac2;
     --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-    --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
     --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
     --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
     --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -1295,7 +1295,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-brand-hover: #007ac2;
     --calcite-color-brand: #009af2;
     --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
     --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
     --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
     --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -1348,7 +1348,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -1400,7 +1400,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -1445,7 +1445,7 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-brand: #007ac2;
   --calcite-color-brand-hover: #00619b;
@@ -18624,7 +18624,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.color.transparent.scrim}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.5)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.7)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
@@ -33504,8 +33504,8 @@ export const calciteColorTransparentInversePress = {
   dark: "rgba(0, 0, 0, 0.08)",
 };
 export const calciteColorTransparentScrim = {
-  light: "rgba(255, 255, 255, 0.85)",
-  dark: "rgba(0, 0, 0, 0.85)",
+  light: "rgba(0, 0, 0, 0.5)",
+  dark: "rgba(0, 0, 0, 0.7)",
 };
 export const calciteColorTransparentTint = {
   light: "rgba(255, 255, 255, 0.8)",
@@ -35726,7 +35726,7 @@ $calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-brand: #009af2;
 $calcite-color-brand-hover: #007ac2;
@@ -35974,7 +35974,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
@@ -36026,7 +36026,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.7);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
@@ -36069,7 +36069,7 @@ $calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
 $calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.5);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-brand: #007ac2;
 $calcite-color-brand-hover: #00619b;
