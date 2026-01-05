@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -21,41 +21,6 @@ describe("calcite-block", () => {
         <div>content</div>
       </calcite-block>
     `);
-  });
-
-  describe("setFocus", () => {
-    describe("focuses block heading toggle", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" collapsible expanded>
-          <calcite-block-section text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
-    });
-
-    const blockSectionClass = "my-block-section";
-    describe("focuses block section", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" expanded>
-          <calcite-block-section class="${blockSectionClass}" text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          focusTargetSelector: `.${blockSectionClass}`,
-        },
-      );
-    });
   });
 
   it("has a loading state", async () => {

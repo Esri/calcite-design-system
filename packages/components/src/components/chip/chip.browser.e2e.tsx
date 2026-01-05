@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
   disabled,
+  focusable,
   reflects,
   hidden,
   renders,
@@ -32,6 +33,10 @@ describe("calcite-chip", () => {
         { propertyName: "value", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-chip interactive>doritos</calcite-chip>));
   });
 
   describe("disabled", () => {

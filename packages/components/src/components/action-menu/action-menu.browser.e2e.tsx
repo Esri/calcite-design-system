@@ -8,6 +8,7 @@ import {
   renders,
   slots,
   delegatesToFloatingUiOwningComponent,
+  focusable,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -48,6 +49,22 @@ describe("calcite-action-menu", () => {
           defaultValue: "m",
         },
       ],
+    );
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-menu>
+            <calcite-action icon="plus" id="triggerAction" slot={SLOTS.trigger} text="Add" />
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-menu>,
+        ),
+      {
+        focusTargetSelector: `#triggerAction`,
+      },
     );
   });
 
