@@ -4,12 +4,13 @@ import { describe } from "vitest";
 import { TemplateResult } from "lit/html.js";
 import {
   defaults,
-  reflects,
+  disabled,
+  focusable,
   hidden,
   internalLabel,
+  reflects,
   renders,
   t9n,
-  disabled,
 } from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
@@ -26,7 +27,7 @@ describe("calcite-select", () => {
     );
   });
 
-  function createSimpleSelect(): TemplateResult {
+  function renderSelect(): TemplateResult {
     return (
       <calcite-select label="required-for-a11y-test">
         <calcite-option>uno</calcite-option>
@@ -38,7 +39,7 @@ describe("calcite-select", () => {
 
   describe("reflects", () => {
     reflects(
-      () => mount<Select>(createSimpleSelect()),
+      () => mount<Select>(renderSelect()),
       [
         {
           propertyName: "disabled",
@@ -69,7 +70,11 @@ describe("calcite-select", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount(createSimpleSelect()), { display: "flex" });
+    renders(() => mount(renderSelect()), { display: "flex" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(renderSelect()));
   });
 
   describe("translation support", () => {

@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  focusable,
   internalLabel,
   renders,
   disabled,
@@ -39,6 +40,12 @@ describe("calcite-radio-button", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-radio-button"), { display: "block" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-radio-button"), {
+      shadowFocusTargetSelector: ".container",
+    });
   });
 
   describe("disabled", () => {

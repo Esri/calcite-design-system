@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -305,39 +305,6 @@ describe("calcite-panel", () => {
           <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
         </calcite-panel>
       `);
-    });
-  });
-
-  describe("focusable", () => {
-    describe("with scrolling content", () => {
-      describe("closable", () => {
-        focusable(
-          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
-          {
-            shadowFocusTargetSelector: "calcite-action",
-          },
-        );
-      });
-
-      describe("should focus on container", () => {
-        focusable(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
-          shadowFocusTargetSelector: `.${CSS.contentWrapper}`,
-        });
-      });
-    });
-
-    describe("without scrolling content", () => {
-      describe("closable", () => {
-        focusable(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
-          shadowFocusTargetSelector: "calcite-action",
-        });
-      });
-
-      describe("should not focus on container", () => {
-        focusable(html`<calcite-panel>non-scrolling-content</calcite-panel>`, {
-          focusTargetSelector: "body",
-        });
-      });
     });
   });
 
