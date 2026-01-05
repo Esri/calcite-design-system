@@ -6,11 +6,11 @@
  * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
  * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
- * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
- * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
- * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
- * @prop --calcite-notice-close-icon-color-hover: Specifies the background color of the component's close button when hovered.
- * @prop --calcite-notice-close-icon-color: Specifies the text color of the component's close button.
+ * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close element.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close element when focused or hovered.
+ * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close element when active.
+ * @prop --calcite-notice-close-icon-color-hover: Specifies the icon color of the component's close element when hovered or active.
+ * @prop --calcite-notice-close-icon-color: Specifies the icon color of the component's close element.
  * @prop --calcite-notice-title-text-color: Specifies the component's title text color.
  * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
@@ -172,23 +172,16 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
-  --calcite-action-background-color: var(--calcite-action-background-color, transparent);
-
-  &:hover,
-  &:focus {
-    --calcite-action-background-color-hover: var(
-      --calcite-notice-close-background-color-focus,
-      var(--calcite-color-foreground-2)
-    );
-    --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
-  }
-
-  &:active {
-    --calcite-action-background-color-press: var(
-      --calcite-notice-close-background-color-press,
-      var(--calcite-color-foreground-3)
-    );
-  }
+  --calcite-action-background-color: var(--calcite-notice-close-background-color, transparent);
+  --calcite-action-background-color-hover: var(
+    --calcite-notice-close-background-color-focus,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
+  --calcite-action-background-color-press: var(
+    --calcite-notice-close-background-color-press,
+    var(--calcite-color-foreground-3)
+  );
 }
 
 .actions-end {
