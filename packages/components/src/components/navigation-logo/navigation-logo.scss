@@ -51,7 +51,7 @@
   @apply flex h-7 m-0 px-4;
   color: var(
     --calcite-navigation-logo-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, inherit))
+    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, var(--calcite-ui-icon-color, inherit)))
   );
 }
 
