@@ -40,7 +40,15 @@ export interface TopLayerComponent extends LitElement {
 export const useTopLayer = <T extends TopLayerComponent>(
   options: UseTopLayerOptions,
 ): ReturnType<typeof makeGenericController<UseTopLayer, T>> => {
-  return makeGenericController<UseTopLayer, T>((component) => {
+  return makeGenericController<UseTopLayer, T>((component, controller) => {
+    let opened = false;
+
+    controller.onConnected(() => {
+      if (opened) {
+        togglePopover(true);
+      }
+    });
+
     async function togglePopover(open: boolean): Promise<void> {
       await component.componentOnReady();
       const nativePopoverEl = typeof options.target === "function" ? options.target() : options.target.value;
@@ -53,10 +61,12 @@ export const useTopLayer = <T extends TopLayerComponent>(
         options.disabledOverride?.() || ("topLayerDisabled" in component && component.topLayerDisabled === true);
 
       if (isDisabled || !open) {
+        opened = false;
         nativePopoverEl.hidePopover();
         return;
       }
 
+      opened = true;
       nativePopoverEl.showPopover();
     }
 

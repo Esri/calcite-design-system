@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import {
   testHiddenInputSyncing,
@@ -33,12 +33,6 @@ describe("calcite-input-text", () => {
 
     const icon = await page.find("calcite-input-text >>> .icon");
     expect(icon).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input-text`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {

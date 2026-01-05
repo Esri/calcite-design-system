@@ -3,13 +3,14 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
-  reflects,
+  disabled,
+  focusable,
   hidden,
+  reflects,
   renders,
   slots,
-  disabled,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
   describe("defaults", () => {
@@ -134,6 +135,12 @@ describe("calcite-list-item", () => {
 
   describe("slots", () => {
     slots(() => mount("calcite-list-item"), SLOTS);
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-list-item active />), {
+      shadowFocusTargetSelector: `.${CSS.container}`,
+    });
   });
 
   describe("disabled", () => {

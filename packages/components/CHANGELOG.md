@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.45...@esri/calcite-components@5.0.0-next.46) (2026-01-02)
+
+### Bug Fixes
+
+- ensure top layer placement when open component is reconnected ([#13622](https://github.com/Esri/calcite-design-system/issues/13622)) ([5a15056](https://github.com/Esri/calcite-design-system/commit/5a150562d64a1cd594ae3ef5a501278c2fd634d7)), closes [#13621](https://github.com/Esri/calcite-design-system/issues/13621)
+
 ## [5.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.44...@esri/calcite-components@5.0.0-next.45) (2026-01-01)
 
 ### Features
