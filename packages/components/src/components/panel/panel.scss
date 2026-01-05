@@ -301,7 +301,7 @@ calcite-action-menu {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
+  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
 }
 
 @include includes.base-component();
