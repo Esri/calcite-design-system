@@ -18,7 +18,9 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { IconName } from "../icon/interfaces";
+import { ResizeValues } from "../interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -91,9 +93,9 @@ export class Dialog extends LitElement {
 
   private popoverRef = createRef<HTMLDivElement>();
 
-  private resizePosition: DialogResizePosition = { ...initialResizePosition };
+  transitionRef = createRef<HTMLDivElement>();
 
-  transitionEl: HTMLDivElement;
+  private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
   /**
    * Made into a prop for testing purposes only
@@ -103,6 +105,14 @@ export class Dialog extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private sizeOverride = useSizeOverride({
+    targetElement: this.transitionRef,
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+  });
 
   //#endregion
 
@@ -117,6 +127,15 @@ export class Dialog extends LitElement {
   @state() hasFooter = true;
 
   @state() opened = false;
+
+  @state() resizeValues: ResizeValues = {
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
+  };
 
   get preventDocumentScroll(): boolean {
     return !this.embedded && this.modal;
@@ -289,6 +308,11 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
+
   //#endregion
 
   //#region Events
@@ -330,6 +354,10 @@ export class Dialog extends LitElement {
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
       this.setupInteractions();
+    }
+    if (this.transitionRef.value) {
+      this.setupInteractions();
+      this.handlePopover();
     }
 
     if (
@@ -422,13 +450,13 @@ export class Dialog extends LitElement {
   }
 
   private handleOpenedChange(value: boolean): void {
-    const { transitionEl } = this;
+    const { transitionRef } = this;
 
-    if (!transitionEl) {
+    if (!transitionRef.value) {
       return;
     }
 
-    transitionEl.classList.toggle(CSS.openingActive, value);
+    transitionRef.value.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
     this.handlePopover();
   }
@@ -449,13 +477,13 @@ export class Dialog extends LitElement {
     });
   }
 
-  private getTransitionElDOMRect(): DOMRect {
-    return this.transitionEl.getBoundingClientRect();
+  private getTransitionRefDOMRect(): DOMRect {
+    return this.transitionRef.value.getBoundingClientRect();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, shiftKey, defaultPrevented } = event;
-    const { dragEnabled, resizable, resizePosition, dragPosition, transitionEl } = this;
+    const { dragEnabled, resizable, resizePosition, dragPosition, transitionRef } = this;
 
     const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
 
@@ -465,18 +493,17 @@ export class Dialog extends LitElement {
 
     switch (key) {
       case "ArrowUp":
-        if (shiftKey && resizable && transitionEl) {
-          const { minBlockSize } = window.getComputedStyle(transitionEl);
+        if (shiftKey && resizable && transitionRef.value) {
+          const { minBlockSize } = window.getComputedStyle(transitionRef.value);
           const minHeight = getStylePixelValue(minBlockSize);
-          const height = this.getTransitionElDOMRect().height;
+          const height = this.getTransitionRefDOMRect().height;
 
           if (height <= minHeight) {
             return;
           }
 
-          this.updateSize({
-            size: height - resizeShiftStep,
-            type: "blockSize",
+          this.updateSizeInternal({
+            block: height - resizeShiftStep,
           });
           resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
@@ -490,10 +517,9 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowDown":
-        if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().height + resizeShiftStep,
-            type: "blockSize",
+        if (shiftKey && resizable && transitionRef.value) {
+          this.updateSizeInternal({
+            block: this.getTransitionRefDOMRect().height + resizeShiftStep,
           });
           resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
@@ -507,18 +533,17 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowLeft":
-        if (shiftKey && resizable && transitionEl) {
-          const { minInlineSize } = window.getComputedStyle(transitionEl);
+        if (shiftKey && resizable && transitionRef.value) {
+          const { minInlineSize } = window.getComputedStyle(transitionRef.value);
           const minWidth = getStylePixelValue(minInlineSize);
-          const width = this.getTransitionElDOMRect().width;
+          const width = this.getTransitionRefDOMRect().width;
 
           if (width <= minWidth) {
             return;
           }
 
-          this.updateSize({
-            size: width - resizeShiftStep,
-            type: "inlineSize",
+          this.updateSizeInternal({
+            inline: width - resizeShiftStep,
           });
           resizePosition.right -= resizeShiftStep;
           this.updateTransform();
@@ -532,10 +557,9 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowRight":
-        if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().width + resizeShiftStep,
-            type: "inlineSize",
+        if (shiftKey && resizable && transitionRef.value) {
+          this.updateSizeInternal({
+            inline: this.getTransitionRefDOMRect().width + resizeShiftStep,
           });
           resizePosition.right += resizeShiftStep;
           this.updateTransform();
@@ -555,17 +579,17 @@ export class Dialog extends LitElement {
     const {
       dragPosition: { x, y },
       resizePosition,
-      transitionEl,
+      transitionRef,
       dragEnabled,
       resizable,
     } = this;
 
-    if (!transitionEl) {
+    if (!transitionRef.value) {
       return;
     }
 
     if (!dragEnabled && !resizable) {
-      transitionEl.style.transform = null;
+      transitionRef.value.style.transform = null;
       return;
     }
 
@@ -574,30 +598,14 @@ export class Dialog extends LitElement {
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    transitionEl.style.transform =
+    transitionRef.value.style.transform =
       translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
-  }
-
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
+    this.updateSizeInternal({ inline: null });
+    this.updateSizeInternal({ block: null });
     this.dragPosition = { ...initialDragPosition };
     this.resizePosition = { ...initialResizePosition };
     this.updateTransform();
@@ -606,21 +614,22 @@ export class Dialog extends LitElement {
   private async setupInteractions(): Promise<void> {
     this.cleanupInteractions();
 
-    const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
+    const { el, transitionRef, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
-    if (!transitionEl || !this.open) {
+    if (!transitionRef.value || !this.open) {
       return;
     }
 
     if (resizable || dragEnabled) {
-      this.interaction = interact(transitionEl, { context: el.ownerDocument });
+      this.interaction = interact(transitionRef.value, { context: el.ownerDocument });
     }
 
     if (resizable) {
       await this.el.componentOnReady();
 
-      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
-        window.getComputedStyle(transitionEl);
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } = window.getComputedStyle(
+        transitionRef.value,
+      );
 
       this.interaction.resizable({
         edges: {
@@ -652,8 +661,8 @@ export class Dialog extends LitElement {
               resizePosition.bottom += deltaRect.bottom;
               resizePosition.left += deltaRect.left;
             }
-            this.updateSize({ size: rect.width, type: "inlineSize" });
-            this.updateSize({ size: rect.height, type: "blockSize" });
+            this.updateSizeInternal({ inline: rect.width });
+            this.updateSizeInternal({ block: rect.height });
             this.updateTransform();
           },
         },
@@ -714,16 +723,6 @@ export class Dialog extends LitElement {
     }
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.setupInteractions();
-    this.handlePopover();
-  }
-
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
     if (event.target !== this.panelRef.value) {
       return;
@@ -761,6 +760,26 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    const dialogElement = this.transitionRef.value;
+    if (!dialogElement) {
+      return;
+    }
+
+    const appliedSize = this.sizeOverride.resize(size);
+
+    this.resizeValues = {
+      ...this.resizeValues,
+      ...(appliedSize.inline !== undefined && {
+        inlineSize: appliedSize.inline,
+      }),
+      ...(appliedSize.block !== undefined && {
+        blockSize: appliedSize.block,
+      }),
+    };
+  }
+
   //#endregion
 
   //#region Rendering
@@ -790,7 +809,7 @@ export class Dialog extends LitElement {
             ),
           }}
           onKeyDown={this.handleKeyDown}
-          ref={this.setTransitionEl}
+          ref={this.transitionRef}
         >
           {assistiveText ? (
             <div ariaLive="polite" class={CSS.assistiveText} key="assistive-text">

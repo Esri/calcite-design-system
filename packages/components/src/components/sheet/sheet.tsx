@@ -26,8 +26,9 @@ import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { ResizeValues } from "../interfaces";
 import { CSS, ICONS, IDS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import { DisplayMode } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./sheet.scss";
 
