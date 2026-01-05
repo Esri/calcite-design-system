@@ -171,17 +171,11 @@
   @apply flex cursor-pointer items-center transition-default box-border;
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
+  --calcite-action-background-color: var(--calcite-notice-close-background-color);
+  --calcite-action-background-color-hover: var(--calcite-notice-close-background-color-focus);
+  --calcite-action-background-color-press: var(--calcite-notice-close-background-color-press);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
-  --calcite-action-background-color: var(--calcite-notice-close-background-color, transparent);
-  --calcite-action-background-color-hover: var(
-    --calcite-notice-close-background-color-focus,
-    var(--calcite-color-foreground-2)
-  );
-  --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover, var(--calcite-color-text-1));
-  --calcite-action-background-color-press: var(
-    --calcite-notice-close-background-color-press,
-    var(--calcite-color-foreground-3)
-  );
+  --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover);
 }
 
 .actions-end {
