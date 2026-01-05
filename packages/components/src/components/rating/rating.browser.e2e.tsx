@@ -2,13 +2,14 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
-  internalLabel,
-  renders,
-  t9n,
   disabled,
   defaults,
-  reflects,
+  focusable,
   hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-rating", () => {
@@ -22,6 +23,12 @@ describe("calcite-rating", () => {
         { propertyName: "validationMessage", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-rating"), {
+      shadowFocusTargetSelector: "label",
+    });
   });
 
   describe("reflects", () => {

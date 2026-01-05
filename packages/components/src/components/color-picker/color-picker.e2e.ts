@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
@@ -34,12 +34,6 @@ describe("calcite-color-picker", () => {
   function getScopeCenter(X: number, Y: number): [number, number] {
     return [X + SCOPE_SIZE / 2, Y + SCOPE_SIZE / 2];
   }
-
-  describe("should focus scope by default", () => {
-    focusable("<calcite-color-picker></calcite-color-picker>", {
-      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
-    });
-  });
 
   describe("accessible", () => {
     accessible("calcite-color-picker");

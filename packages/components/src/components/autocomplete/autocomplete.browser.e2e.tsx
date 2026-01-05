@@ -2,6 +2,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  focusable,
   cancelable,
   defaults,
   reflects,
@@ -12,6 +13,7 @@ import {
   floatingUIOwner,
   t9n,
   disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -249,6 +251,10 @@ describe("calcite-autocomplete", () => {
     slots(() => mount("calcite-autocomplete"), SLOTS);
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-autocomplete"));
+  });
+
   function renderAutocomplete(): JsxNode {
     return (
       <calcite-autocomplete id="myAutocomplete" label="Item list">
@@ -267,6 +273,10 @@ describe("calcite-autocomplete", () => {
         shadowSelector: `.${CSS.floatingUIContainer}`,
       });
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-autocomplete"));
   });
 
   describe("translation support", () => {

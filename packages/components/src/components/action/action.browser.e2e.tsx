@@ -2,11 +2,12 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
-  reflects,
+  disabled,
+  focusable,
   hidden,
+  reflects,
   renders,
   t9n,
-  disabled,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-action", () => {
@@ -136,6 +137,10 @@ describe("calcite-action", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action"), { display: "flex" });
+  });
+
+  describe("focusable", () => {
+    focusable(() => mount("calcite-action"));
   });
 
   describe("translation support", () => {

@@ -3,12 +3,14 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
+  disabled,
+  focusable,
   hidden,
   internalLabel,
   renders,
   floatingUIOwner,
   t9n,
-  disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
@@ -44,6 +46,12 @@ describe("calcite-input-date-picker", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount(`calcite-input-date-picker`), {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
+  });
+
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input-date-picker"));
   });
@@ -63,6 +71,10 @@ describe("calcite-input-date-picker", () => {
       "open",
       { shadowSelector: ".menu-container" },
     );
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-input-date-picker"));
   });
 
   describe("translation support", () => {

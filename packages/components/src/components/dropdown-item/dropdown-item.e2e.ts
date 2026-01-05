@@ -1,14 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { focusable, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown-item", () => {
-  describe("can be focused", () => {
-    focusable(`calcite-dropdown-item`);
-  });
-
   it("should emit calciteDropdownItemSelect", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>`);

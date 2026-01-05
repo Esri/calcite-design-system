@@ -2,7 +2,6 @@ import { IconName } from "../icon/interfaces";
 
 export const CSS = {
   actionsEnd: "actions-end",
-  bulletPointIcon: "bullet-point",
   checkbox: "checkbox",
   checkboxContainer: "checkbox-container",
   checkboxLabel: "checkbox-label",
@@ -22,7 +21,6 @@ export const SLOTS = {
 
 export const ICONS: Record<string, IconName> = {
   blank: "blank",
-  bulletPoint: "bullet-point",
   checkmark: "check",
   checkSquareF: "check-square-f",
   chevronRight: "chevron-right",
