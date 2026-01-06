@@ -218,7 +218,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) resizable = false;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When 'true', disables top layer placement when the component is open.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
