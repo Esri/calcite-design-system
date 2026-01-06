@@ -472,7 +472,7 @@ describe("calcite-tree-item", () => {
           },
           "--calcite-tree-selected-icon-color": {
             targetProp: "color",
-            shadowSelector: `.${CSS.bulletPointIcon}`,
+            shadowSelector: `.${CSS.checkmarkIcon}`,
             selector: "calcite-tree-item",
           },
         },

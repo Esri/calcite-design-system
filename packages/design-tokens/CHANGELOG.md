@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.14...@esri/calcite-design-tokens@4.0.0-next.15) (2025-12-31)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.13...@esri/calcite-design-tokens@4.0.0-next.14) (2025-12-23)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.12...@esri/calcite-design-tokens@4.0.0-next.13) (2025-12-18)
+
+### Features
+
+- **semantic-tokens:** add surface colors ([#13496](https://github.com/Esri/calcite-design-system/issues/13496)) ([b2e5420](https://github.com/Esri/calcite-design-system/commit/b2e5420991e2ba1dce5cbb8674d5b8302cbf8fe3)), closes [#10023](https://github.com/Esri/calcite-design-system/issues/10023)
+
 ## [4.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.11...@esri/calcite-design-tokens@4.0.0-next.12) (2025-12-10)
 
 ### ⚠ BREAKING CHANGES

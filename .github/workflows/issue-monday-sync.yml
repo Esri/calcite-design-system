@@ -52,7 +52,7 @@ jobs:
       issues: write
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: "Create Task"
         if: github.event.action == 'opened' ||

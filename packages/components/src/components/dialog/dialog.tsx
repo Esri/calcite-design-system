@@ -21,6 +21,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { IconName } from "../icon/interfaces";
 import { ResizeValues } from "../interfaces";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -113,6 +114,11 @@ export class Dialog extends LitElement {
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
   });
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.popoverRef,
+  })(this);
 
   //#endregion
 
@@ -252,6 +258,15 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
    * Specifies the width of the component.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
@@ -357,7 +372,6 @@ export class Dialog extends LitElement {
     }
     if (this.transitionRef.value) {
       this.setupInteractions();
-      this.handlePopover();
     }
 
     if (
@@ -398,6 +412,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -415,6 +430,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
+    this.topLayer.hide();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -435,20 +451,6 @@ export class Dialog extends LitElement {
     this.opened = value;
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.popoverRef.value) {
-      return;
-    }
-
-    if (this.open) {
-      this.popoverRef.value.showPopover();
-    } else {
-      this.popoverRef.value.hidePopover();
-    }
-  }
-
   private handleOpenedChange(value: boolean): void {
     const { transitionRef } = this;
 
@@ -458,7 +460,6 @@ export class Dialog extends LitElement {
 
     transitionRef.value.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
-    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {

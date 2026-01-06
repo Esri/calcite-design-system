@@ -1,8 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands, userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  topLayer,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
@@ -59,6 +66,24 @@ describe("calcite-sheet", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    const focusableContentTargetClass = "test";
+
+    describe("focuses content by default", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-sheet open>
+              <button class={focusableContentTargetClass}>test</button>
+            </calcite-sheet>,
+          ),
+        {
+          focusTargetSelector: `.${focusableContentTargetClass}`,
+        },
+      );
+    });
   });
 
   describe("reflects", () => {
@@ -241,5 +266,9 @@ describe("calcite-sheet", () => {
         expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
       });
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-sheet"));
   });
 });

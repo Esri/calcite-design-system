@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -79,10 +79,6 @@ describe("calcite-tile", () => {
 
       expect(eventSpy).toHaveReceivedEvent();
     });
-  });
-
-  describe("focusable", () => {
-    focusable(html` <calcite-tile interactive></calcite-tile> `);
   });
 
   describe("keyboard", () => {

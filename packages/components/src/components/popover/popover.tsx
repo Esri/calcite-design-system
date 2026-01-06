@@ -36,6 +36,7 @@ import { FloatingArrow } from "../functional/FloatingArrow";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -100,6 +101,11 @@ export class Popover extends LitElement implements FloatingUIComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.open && !this.referenceEl,
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -319,6 +325,10 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
     if (changes.has("referenceElement")) {
       this.referenceElementHandler();
+
+      if (!this.referenceElement && this.open) {
+        this.topLayer.hide();
+      }
     }
   }
 
@@ -340,20 +350,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open && this.referenceEl) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
@@ -363,7 +359,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
-    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -400,7 +395,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {
@@ -467,6 +461,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   onBeforeOpen(): void {
     this.calcitePopoverBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -482,6 +477,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.calcitePopoverClose.emit();
     hideFloatingUI(this);
     this.focusTrap.deactivate();
+    this.topLayer.hide();
   }
 
   private setArrowEl(el: SVGSVGElement): void {

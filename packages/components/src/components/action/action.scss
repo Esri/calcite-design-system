@@ -200,10 +200,6 @@
     }
   }
 
-  .text-container {
-    @apply opacity-disabled;
-  }
-
   calcite-loader[inline] {
     margin-inline-end: theme("spacing.0");
   }
@@ -218,9 +214,10 @@
   }
 
   .button {
-    @apply bg-transparent
-      transition-shadow
+    @apply transition-shadow
       ease-in-out;
+
+    background-color: var(--calcite-action-background-color, var(--calcite-color-transparent));
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
@@ -277,19 +274,27 @@
 .indicator-with-icon {
   @include action-indicator();
 }
-:host([scale="s"]) {
-  .indicator-with-icon {
-    @include action-indicator(-0.075rem);
-  }
-}
 
 .indicator-without-icon {
   @apply w-4 mx-1;
   @include action-indicator();
 }
+
 :host([scale="s"]) {
+  .indicator-with-icon {
+    @include action-indicator(-0.125rem);
+    &::after {
+      block-size: 0.375rem;
+      inline-size: 0.375rem;
+    }
+  }
+
   .indicator-without-icon {
-    @include action-indicator(-0.075rem);
+    @include action-indicator(-0.175rem);
+    &::after {
+      block-size: 0.375rem;
+      inline-size: 0.375rem;
+    }
   }
 }
 
@@ -298,29 +303,4 @@
 }
 
 @include includes.base-component();
-@include includes.disabled {
-  .button,
-  .button:hover,
-  .button:focus {
-    @apply opacity-disabled cursor-default;
-    background-color: var(
-      --calcite-action-background-color,
-      var(--calcite-action-background-color, var(--calcite-color-foreground-1))
-    );
-  }
-
-  &:host([active]) {
-    .button,
-    .button:hover,
-    .button:focus {
-      @apply opacity-disabled;
-      background-color: var(
-        --calcite-action-background-color-press,
-        var(
-          --calcite-action-background-color-press,
-          var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
-        )
-      );
-    }
-  }
-}
+@include includes.disabled();
