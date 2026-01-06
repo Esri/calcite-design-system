@@ -318,6 +318,10 @@ describe("calcite-tile", () => {
             </calcite-tile>
           `,
           {
+            "--calcite-color-surface-highlight": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
             "--calcite-tile-accent-color-press": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "outline",
