@@ -17,7 +17,7 @@ jobs:
             const action = require('${{ github.workspace }}/.github/scripts/trackMilestoneEstimates.js')
             await action({github, context, core})
       - name: Upload estimates data
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: milestone-estimates
           path: milestone-estimates.*
