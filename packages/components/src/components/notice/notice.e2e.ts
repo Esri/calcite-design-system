@@ -123,6 +123,10 @@ describe("calcite-notice", () => {
             state: { hover: { attribute: "class", value: CSS.close } },
           },
         ],
+        "--calcite-notice-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+        },
         "--calcite-notice-close-background-color-focus": [
           {
             shadowSelector: `.${CSS.close}`,
