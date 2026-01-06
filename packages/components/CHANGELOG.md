@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.46...@esri/calcite-components@5.0.0-next.47) (2026-01-06)
+
+### Bug Fixes
+
+- **notice:** allow customizing backgroundColor of close action ([#13467](https://github.com/Esri/calcite-design-system/issues/13467)) ([6e03202](https://github.com/Esri/calcite-design-system/commit/6e03202f53b9cb693497c8c5631a867e57151a79))
+- **notice:** apply correct colors for close action when hovered or active ([#13605](https://github.com/Esri/calcite-design-system/issues/13605)) ([7de7bec](https://github.com/Esri/calcite-design-system/commit/7de7becac037699ad90fd14e17006efbe4772836)), closes [#13504](https://github.com/Esri/calcite-design-system/issues/13504)
+
+### Reverts
+
+- **button:** remove stateful background color css tokens ([#13627](https://github.com/Esri/calcite-design-system/issues/13627)) ([85a90e4](https://github.com/Esri/calcite-design-system/commit/85a90e46b2abcaabfef2c9564f4c6c97eab140af)), closes [#13548](https://github.com/Esri/calcite-design-system/issues/13548)
+
 ## [5.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.45...@esri/calcite-components@5.0.0-next.46) (2026-01-02)
 
 ### Bug Fixes
