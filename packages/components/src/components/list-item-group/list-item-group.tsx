@@ -37,7 +37,7 @@ export class ListItemGroup extends LitElement {
    */
   @property({ reflect: true }) filterHidden = false;
 
-  /** Specifies heading text for the component. */
+  /** Specifies heading text for the component's nested `calcite-list-item` rows. */
   @property({ reflect: true }) heading: string;
 
   /**
