@@ -3,16 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-notice-background-color: Specifies the component's background color when `appearance="outline-fill"`.
- * @prop --calcite-notice-border-color: Specifies the component's border color when `appearance="outline-fill"`.
+ * @prop --calcite-notice-background-color: When `appearance="outline-fill"`, specifies the component's background color.
+ * @prop --calcite-notice-border-color: When `appearance="outline-fill"`, specifies the component's border color.
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
- * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close element.
- * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close element when focused or hovered.
- * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close element when active.
- * @prop --calcite-notice-close-icon-color-hover: Specifies the icon color of the component's close element when hovered or active.
- * @prop --calcite-notice-close-icon-color: Specifies the icon color of the component's close element.
- * @prop --calcite-notice-title-text-color: Specifies the component's title text color.
- * @prop --calcite-notice-content-text-color: Specifies the component's content text color.
+ * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close button.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close button when focused or hovered.
+ * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close button when active.
+ * @prop --calcite-notice-close-icon-color-hover: Specifies the icon color of the component's close button when hovered or active.
+ * @prop --calcite-notice-close-icon-color: Specifies the icon color of the component's close button.
+ * @prop --calcite-notice-title-text-color: Specifies the component's slotted `"title"` content text color.
+ * @prop --calcite-notice-content-text-color: Specifies the component's slotted `"message"` content text color.
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
  */
 
