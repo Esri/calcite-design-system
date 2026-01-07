@@ -11541,7 +11541,7 @@
     "codepoint": 61838
   },
   "table-download": {
-    "alias": ["4.4.0", "generic", "data", "format", "collection", "web", "layer"],
+    "alias": ["4.4.0", "generic", "data", "format", "collection", "web", "layer", "save"],
     "category": "Generic",
     "release": "4.4.0"
   },
