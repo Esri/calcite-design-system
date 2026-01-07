@@ -82,7 +82,13 @@ export default defineConfig({
   },
 
   test: {
-    browser: { enabled: runBrowserTests, provider: playwright(), screenshotFailures: false },
+    browser: {
+      enabled: runBrowserTests,
+      provider: playwright(),
+      screenshotFailures: false,
+      headless: process.env.HEADLESS !== "false",
+      ui: false,
+    },
     include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
     exclude: runBrowserTests ? undefined : [...defaultExclude, browserTestMatch],
     passWithNoTests: true,

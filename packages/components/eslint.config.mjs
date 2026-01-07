@@ -152,4 +152,10 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
+    },
+  },
 );
