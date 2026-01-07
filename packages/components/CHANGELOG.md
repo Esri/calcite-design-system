@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.48...@esri/calcite-components@5.0.0-next.49) (2026-01-07)
+
+### Bug Fixes
+
+- **flow-item:** back button action uses the provided scale ([#13638](https://github.com/Esri/calcite-design-system/issues/13638)) ([1d71e76](https://github.com/Esri/calcite-design-system/commit/1d71e76fbfc6267234e0b6e17facef2b1658b473)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777)
+
+## [5.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.47...@esri/calcite-components@5.0.0-next.48) (2026-01-06)
+
+### Features
+
+- **accordion-item:** update heading and description styling for system consistency for 5.0 ([#13642](https://github.com/Esri/calcite-design-system/issues/13642)) ([4626f64](https://github.com/Esri/calcite-design-system/commit/4626f64c3ba377aae3e681e04437b3fafc9e8902)), closes [#12306](https://github.com/Esri/calcite-design-system/issues/12306)
+- **alert:** remove title slot bottom margin on large scale ([#13646](https://github.com/Esri/calcite-design-system/issues/13646)) ([6946535](https://github.com/Esri/calcite-design-system/commit/694653565b1caf1cdf2f3dc56ef57c37457161d8)), closes [#11597](https://github.com/Esri/calcite-design-system/issues/11597)
+- **tile:** Add `highlight` type for `selectionAppearance` prop ([#13565](https://github.com/Esri/calcite-design-system/issues/13565)) ([9c0d2a2](https://github.com/Esri/calcite-design-system/commit/9c0d2a26eb430a5b90fb2f7b79e4ea8a85998a9d)), closes [#10779](https://github.com/Esri/calcite-design-system/issues/10779)
+
+## [5.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.46...@esri/calcite-components@5.0.0-next.47) (2026-01-06)
+
+### Bug Fixes
+
+- **notice:** allow customizing backgroundColor of close action ([#13467](https://github.com/Esri/calcite-design-system/issues/13467)) ([6e03202](https://github.com/Esri/calcite-design-system/commit/6e03202f53b9cb693497c8c5631a867e57151a79))
+- **notice:** apply correct colors for close action when hovered or active ([#13605](https://github.com/Esri/calcite-design-system/issues/13605)) ([7de7bec](https://github.com/Esri/calcite-design-system/commit/7de7becac037699ad90fd14e17006efbe4772836)), closes [#13504](https://github.com/Esri/calcite-design-system/issues/13504)
+
+### Reverts
+
+- **button:** remove stateful background color css tokens ([#13627](https://github.com/Esri/calcite-design-system/issues/13627)) ([85a90e4](https://github.com/Esri/calcite-design-system/commit/85a90e46b2abcaabfef2c9564f4c6c97eab140af)), closes [#13548](https://github.com/Esri/calcite-design-system/issues/13548)
+
+## [5.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.45...@esri/calcite-components@5.0.0-next.46) (2026-01-02)
+
+### Bug Fixes
+
+- ensure top layer placement when open component is reconnected ([#13622](https://github.com/Esri/calcite-design-system/issues/13622)) ([5a15056](https://github.com/Esri/calcite-design-system/commit/5a150562d64a1cd594ae3ef5a501278c2fd634d7)), closes [#13621](https://github.com/Esri/calcite-design-system/issues/13621)
+
+## [5.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.44...@esri/calcite-components@5.0.0-next.45) (2026-01-01)
+
+### Features
+
+- **dropdown:** update selection appearance ([#13571](https://github.com/Esri/calcite-design-system/issues/13571)) ([dcf7a36](https://github.com/Esri/calcite-design-system/commit/dcf7a3687004013d625b12acd5653aa07f1efcaa))
+
+## [5.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.43...@esri/calcite-components@5.0.0-next.44) (2025-12-31)
+
+### Features
+
+- **tree:** update selection appearance ([#13572](https://github.com/Esri/calcite-design-system/issues/13572)) ([dd27a3c](https://github.com/Esri/calcite-design-system/commit/dd27a3c8265afcc6b2972a129335b9b2529f5e8a)), closes [#10776](https://github.com/Esri/calcite-design-system/issues/10776)
+
+## [5.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.42...@esri/calcite-components@5.0.0-next.43) (2025-12-31)
+
+### Features
+
+- **dialog, sheet:** add `topLayerDisabled` prop ([#13600](https://github.com/Esri/calcite-design-system/issues/13600)) ([2ed7eb7](https://github.com/Esri/calcite-design-system/commit/2ed7eb7066d323a545071baf11389e499a3294fb))
+
+## [5.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.41...@esri/calcite-components@5.0.0-next.42) (2025-12-30)
+
+### Features
+
+- **list:** add `highlight` selection appearance ([#13570](https://github.com/Esri/calcite-design-system/issues/13570)) ([81ad34e](https://github.com/Esri/calcite-design-system/commit/81ad34e94c38a17d2d012296f7e658a597bc06c1)), closes [#10778](https://github.com/Esri/calcite-design-system/issues/10778)
+- **menu:** update vertical layout design ([#13576](https://github.com/Esri/calcite-design-system/issues/13576)) ([06f0913](https://github.com/Esri/calcite-design-system/commit/06f09137f9df8729bef112ab9f12f8d47427defc)), closes [#10767](https://github.com/Esri/calcite-design-system/issues/10767)
+
+## [5.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.40...@esri/calcite-components@5.0.0-next.41) (2025-12-29)
+
+### Bug Fixes
+
+- **alert:** disable `dismissProgress` animation when reduced motion preferred ([#13583](https://github.com/Esri/calcite-design-system/issues/13583)) ([bb93ee0](https://github.com/Esri/calcite-design-system/commit/bb93ee02b0e292aba61c94c35a9729a1ad5866a6)), closes [#6358](https://github.com/Esri/calcite-design-system/issues/6358)
+- **alert:** enable visibilty of `dismiss-progress` element ([#13582](https://github.com/Esri/calcite-design-system/issues/13582)) ([4379ca8](https://github.com/Esri/calcite-design-system/commit/4379ca839632d60a1362a00c0ec56fb2f2b1da6a)), closes [#13581](https://github.com/Esri/calcite-design-system/issues/13581) [#12904](https://github.com/Esri/calcite-design-system/issues/12904)
+
 ## [5.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.39...@esri/calcite-components@5.0.0-next.40) (2025-12-29)
 
 ### Bug Fixes

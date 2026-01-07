@@ -1,16 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { focusable, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-list-item", () => {
-  describe("is focusable", () => {
-    focusable("<calcite-list-item active></calcite-list-item>", {
-      shadowFocusTargetSelector: `.${CSS.container}`,
-    });
-  });
-
   it("displays hover class", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);

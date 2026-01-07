@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -13,12 +13,6 @@ describe("calcite-rating", () => {
 
     describe("labelable", () => {
       labelable("calcite-rating");
-    });
-
-    describe("should focus input element in shadow DOM", () => {
-      focusable("calcite-rating", {
-        shadowFocusTargetSelector: "label",
-      });
     });
 
     describe("focuses the first star when the label is clicked and no-rating value exists", () => {

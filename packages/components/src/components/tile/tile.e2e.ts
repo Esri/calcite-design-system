@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -79,10 +79,6 @@ describe("calcite-tile", () => {
 
       expect(eventSpy).toHaveReceivedEvent();
     });
-  });
-
-  describe("focusable", () => {
-    focusable(html` <calcite-tile interactive></calcite-tile> `);
   });
 
   describe("keyboard", () => {
@@ -305,6 +301,30 @@ describe("calcite-tile", () => {
             "--calcite-tile-accent-color-press": {
               shadowSelector: `.${CSS.container}`,
               targetProp: "boxShadow",
+            },
+          },
+        );
+      });
+      describe(`applies to selected item's outline using selection-appearance="highlight"`, () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              interactive
+              selection-mode="single"
+              selection-appearance="highlight"
+              selected
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-color-surface-highlight": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
+            "--calcite-tile-accent-color-press": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "outline",
             },
           },
         );

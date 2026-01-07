@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
@@ -95,26 +95,6 @@ describe("calcite-notice", () => {
     expect(await notice1.isVisible()).not.toBe(true);
   });
 
-  describe("focusable", () => {
-    describe("with link and closable => focuses on link", () => {
-      focusable(html` <calcite-notice id="notice-1" open closable> ${noticeContent}</calcite-notice>`, {
-        focusTargetSelector: `calcite-link`,
-      });
-    });
-
-    describe("when closable => focuses on close button", () => {
-      focusable(
-        html` <calcite-notice id="notice-1" open closable>
-          <div slot="title">Title Text</div>
-          <div slot="message">Message Text</div>
-        </calcite-notice>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.close}`,
-        },
-      );
-    });
-  });
-
   describe("theme", () => {
     const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
       html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
@@ -143,6 +123,10 @@ describe("calcite-notice", () => {
             state: { hover: { attribute: "class", value: CSS.close } },
           },
         ],
+        "--calcite-notice-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+        },
         "--calcite-notice-close-background-color-focus": [
           {
             shadowSelector: `.${CSS.close}`,

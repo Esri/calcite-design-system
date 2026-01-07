@@ -4,13 +4,15 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
   defaults,
+  disabled,
+  focusable,
   reflects,
   hidden,
   internalLabel,
   renders,
   floatingUIOwner,
   t9n,
-  disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -148,6 +150,17 @@ describe("calcite-combobox", () => {
     renders(() => mount("calcite-combobox"), { display: "block" });
   });
 
+  describe("focusable", () => {
+    focusable(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+          <calcite-combobox-item heading="Spruce" value="Spruce" />
+        </calcite-combobox>,
+      ),
+    );
+  });
+
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
@@ -189,5 +202,9 @@ describe("calcite-combobox", () => {
     const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
     expect(item1.getAttribute("aria-label")).toBe("Apple");
     expect(item2.getAttribute("value")).toBe("Fallback Heading");
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-combobox"));
   });
 });
