@@ -139,8 +139,8 @@ export class Sheet extends LitElement {
   @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` (separates content from main layout),
-   * or `"overlay"` (displays on top of center content).
+   * Specifies the display mode - `"float"` separates content from main layout,
+   * and `"overlay"` displays on top of center content.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
@@ -164,7 +164,7 @@ export class Sheet extends LitElement {
    * `"allowOutsideClick"` allows outside clicks,
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (such as 3rd-party components appending elements to the document body).
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
@@ -218,7 +218,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) resizable = false;
 
   /**
-   * When 'true', disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
