@@ -169,9 +169,9 @@
   @apply flex w-full;
 }
 
-:host .stepper-item-heading,
-:host .stepper-item-description,
-:host .stepper-item-number {
+.stepper-item-heading,
+.stepper-item-description,
+.stepper-item-number {
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
