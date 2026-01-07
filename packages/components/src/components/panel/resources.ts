@@ -2,7 +2,6 @@ import { IconName } from "../icon/interfaces";
 
 export const CSS = {
   actionBarContainer: "action-bar-container",
-  backButton: "back-button",
   container: "container",
   contentBottom: "content-bottom",
   contentTop: "content-top",

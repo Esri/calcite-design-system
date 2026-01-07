@@ -58,6 +58,7 @@ import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -218,8 +219,6 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
-
   referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
@@ -290,6 +289,10 @@ export class Combobox
   }
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -402,6 +405,9 @@ export class Combobox
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -622,8 +628,9 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
@@ -665,20 +672,6 @@ export class Combobox
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
   }
@@ -689,14 +682,12 @@ export class Combobox
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.setMaxScrollerHeight();
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -986,6 +977,7 @@ export class Combobox
   onBeforeOpen(): void {
     this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -1000,6 +992,7 @@ export class Combobox
   onClose(): void {
     this.calciteComboboxClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
@@ -1169,7 +1162,6 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({

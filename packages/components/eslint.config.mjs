@@ -115,6 +115,22 @@ export default tseslint.config(
   },
 
   {
+    files: ["**/*.browser.*.tsx"],
+    extends: [calciteCoreConfig],
+    rules: {
+      "no-restricted-properties": [
+        "warn",
+        {
+          object: "page",
+          property: "getBySelector",
+          message:
+            "Prefer using more specific locators when possible for better test reliability – see https://vitest.dev/api/browser/locators",
+        },
+      ],
+    },
+  },
+
+  {
     plugins: {
       unicorn: unicornPlugin,
     },
@@ -125,6 +141,7 @@ export default tseslint.config(
       "src/demos/**/*",
       "src/internal-label/**/*",
       "src/tests/commonTests/browser/**/*",
+      "support/**/*",
     ],
     rules: {
       "unicorn/filename-case": [
@@ -133,6 +150,12 @@ export default tseslint.config(
           case: "kebabCase",
         },
       ],
+    },
+  },
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
     },
   },
 );

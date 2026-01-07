@@ -218,11 +218,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead.
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border" | "highlight",
+    SelectionAppearance
+  >;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
@@ -734,7 +737,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
 
-    if (selectionMode === "none" || selectionAppearance === "border") {
+    if (selectionMode === "none" || selectionAppearance !== "icon") {
       return null;
     }
 
@@ -1030,10 +1033,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     const wrapperBordered = bordered && hasContentBottom;
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
-
     const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const selectionBorderSelected = showSelectionBorder && selected;
-    const selectionBorderUnselected = showSelectionBorder && !selected;
+    const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -1054,8 +1055,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
               [CSS.containerBorder]: showSelectionBorder,
-              [CSS.containerBorderSelected]: selectionBorderSelected,
-              [CSS.containerBorderUnselected]: selectionBorderUnselected,
+              [CSS.containerBorderSelected]: showSelectionBorder && selected,
+              [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}

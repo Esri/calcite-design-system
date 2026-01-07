@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, focusable, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -24,15 +24,6 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 describe("calcite-combobox", () => {
   mockConsole();
-
-  describe("focusable", () => {
-    focusable(html`
-      <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-        <calcite-combobox-item value="Spruce" heading="Spruce"></calcite-combobox-item>
-      </calcite-combobox>
-    `);
-  });
 
   describe("accessible", () => {
     accessible(html`
@@ -2769,9 +2760,8 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEventSpy.next();
 
-    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
-    await close.press(" ");
-    await page.waitForChanges();
+    await combobox.press("ArrowLeft");
+    await page.keyboard.press(" ");
 
     const remainingChips = await findAll(page, "calcite-combobox >>> calcite-chip");
     expect(remainingChips.length).toBe(2);

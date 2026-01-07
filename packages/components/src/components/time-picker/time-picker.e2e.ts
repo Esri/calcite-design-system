@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
-import { formatTimePart, getLocaleHourFormat, localizeTimeStringToParts } from "../../utils/time";
+import { accessible, themed } from "../../tests/commonTests";
+import { formatTimePart, getLocaleHourFormat, localizeTimeString } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { html } from "../../../support/formatting";
@@ -49,18 +49,6 @@ describe("calcite-time-picker", () => {
   });
 
   describe("focusing", () => {
-    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
-      focusable(`calcite-time-picker`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-      });
-    });
-
-    describe("should focus the first focusable element when setFocus is called (rtl)", () => {
-      focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
-      });
-    });
-
     it("should focus input when corresponding nudge up button is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-time-picker step=".001"></calcite-time-picker>`);
@@ -1227,9 +1215,10 @@ describe("calcite-time-picker", () => {
               decimalSeparator: expectedLocalizedDecimalSeparator,
               fractionalSecond: expectedLocalizedFractionalSecond,
               meridiem: expectedLocalizedMeridiem,
-            } = localizeTimeStringToParts({
+            } = localizeTimeString({
               value: initialDelocalizedValue,
               locale,
+              parts: true,
               step,
             });
 
@@ -1288,10 +1277,11 @@ describe("calcite-time-picker", () => {
               decimalSeparator: expectedLocalizedDecimalSeparator,
               fractionalSecond: expectedLocalizedFractionalSecond,
               meridiem: expectedLocalizedMeridiem,
-            } = localizeTimeStringToParts({
+            } = localizeTimeString({
               hour12: true,
               value: initialDelocalizedValue,
               locale,
+              parts: true,
               step,
             });
 
@@ -1371,10 +1361,11 @@ describe("calcite-time-picker", () => {
               secondSuffix: expectedLocalizedSecondSuffix,
               decimalSeparator: expectedLocalizedDecimalSeparator,
               fractionalSecond: expectedLocalizedFractionalSecond,
-            } = localizeTimeStringToParts({
+            } = localizeTimeString({
               hour12: false,
               value: initialDelocalizedValue,
               locale,
+              parts: true,
               step,
             });
 

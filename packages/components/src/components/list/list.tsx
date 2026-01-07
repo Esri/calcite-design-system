@@ -274,12 +274,15 @@ export class List extends LitElement implements SortableComponent {
   /**
    * Specifies the selection appearance, where
    *
-   * `"icon"` displays a checkmark or dot, or
+   * `"icon"` displays a checkmark or dot,
    *
-   * `"border"` displays a border.
+   * `"border"` [Deprecated] - Use `"highlight"` instead - displays a border, or
+   *
+   * `"highlight"` displays background highlight.
+   *
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "border" | "highlight",
     SelectionAppearance
   > = "icon";
 

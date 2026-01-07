@@ -4,11 +4,13 @@ import { describe } from "vitest";
 import { JsxNode } from "@arcgis/lumina";
 import {
   defaults,
+  focusable,
   reflects,
   hidden,
   renders,
   floatingUIOwner,
   disabled,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -77,6 +79,12 @@ describe("calcite-dropdown", () => {
     renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
   });
 
+  describe("focusable", () => {
+    focusable(() => mount(createSimpleDropdownHTML), {
+      focusTargetSelector: '[slot="trigger"]',
+    });
+  });
+
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
@@ -124,5 +132,9 @@ describe("calcite-dropdown", () => {
         },
       },
     );
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-dropdown"));
   });
 });

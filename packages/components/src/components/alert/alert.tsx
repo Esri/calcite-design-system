@@ -10,6 +10,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
@@ -20,6 +21,7 @@ import { KindIcons } from "../resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -66,7 +68,7 @@ export class Alert extends LitElement {
 
   private totalOpenTime = 0;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -76,6 +78,11 @@ export class Alert extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -268,27 +275,12 @@ export class Alert extends LitElement {
     }
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.transitionEl.showPopover();
-    } else {
-      this.transitionEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
     } else {
       manager.unregisterElement(this.el);
     }
-    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -341,15 +333,6 @@ export class Alert extends LitElement {
     this.autoCloseTimeoutId = null;
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.handlePopover();
-  }
-
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert(): void {
     this.open = false;
@@ -358,6 +341,7 @@ export class Alert extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteAlertBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -370,6 +354,7 @@ export class Alert extends LitElement {
 
   onClose(): void {
     this.calciteAlertClose.emit();
+    this.topLayer.hide();
   }
 
   private actionsEndSlotChangeHandler(event: Event): void {
@@ -432,7 +417,7 @@ export class Alert extends LitElement {
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
         popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        ref={this.transitionRef}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
         <div

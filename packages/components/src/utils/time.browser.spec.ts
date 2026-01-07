@@ -436,7 +436,7 @@ describe("localizeTimeString", () => {
       meridiem: null,
     });
 
-    expect(localizeTimeString({ parts: true, value: "06:45:30", locale: "fr" })).toEqual({
+    expect(localizeTimeString({ step: 1, parts: true, value: "06:45:30", locale: "fr" })).toEqual({
       hour: "06",
       hourSuffix: ":",
       minute: "45",
