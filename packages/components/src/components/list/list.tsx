@@ -190,7 +190,7 @@ export class List extends LitElement implements SortableComponent {
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
 
-  /** Placeholder text for the component's filter input field. */
+  /** Specifies placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
   /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
@@ -214,20 +214,20 @@ export class List extends LitElement implements SortableComponent {
   @property() filteredItems: ListItem["el"][] = [];
 
   /**
-   * The list's group identifier.
+   * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies the interaction mode of the component.
+   * Specifies the interaction mode of the component, where
    *
-   * `"interactive"` allows interaction styling and pointer changes on hover
+   * `"interactive"` allows interaction styling and pointer changes on hover,
    *
-   * `"static"` does not allow interaction styling and pointer changes on hover
+   * `"static"` does not allow interaction styling and pointer changes on hover -
    *
-   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   * the `"static"` value should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
@@ -243,7 +243,7 @@ export class List extends LitElement implements SortableComponent {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -271,7 +271,13 @@ export class List extends LitElement implements SortableComponent {
    */
   @property() selectedItems: ListItem["el"][] = [];
 
-  /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border). */
+  /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, or
+   *
+   * `"border"` displays a border.
+   */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border",
     SelectionAppearance
