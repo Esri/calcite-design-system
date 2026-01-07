@@ -305,6 +305,30 @@ describe("calcite-tile", () => {
           },
         );
       });
+      describe(`applies to selected item's outline using selection-appearance="highlight"`, () => {
+        themed(
+          html`
+            <calcite-tile
+              heading="Tile heading lorem ipsum"
+              interactive
+              selection-mode="single"
+              selection-appearance="highlight"
+              selected
+            >
+            </calcite-tile>
+          `,
+          {
+            "--calcite-color-surface-highlight": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
+            "--calcite-tile-accent-color-press": {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "outline",
+            },
+          },
+        );
+      });
       describe(`selection-mode="none"`, () => {
         describe("applies --calcite-tile-border-color when idle and selected attribute is present", () => {
           themed(
