@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.48...@esri/calcite-components@5.0.0-next.49) (2026-01-07)
+
+### Bug Fixes
+
+- **flow-item:** back button action uses the provided scale ([#13638](https://github.com/Esri/calcite-design-system/issues/13638)) ([1d71e76](https://github.com/Esri/calcite-design-system/commit/1d71e76fbfc6267234e0b6e17facef2b1658b473)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777)
+
 ## [5.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.47...@esri/calcite-components@5.0.0-next.48) (2026-01-06)
 
 ### Features
