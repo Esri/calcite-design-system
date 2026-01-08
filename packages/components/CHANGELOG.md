@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.50...@esri/calcite-components@5.0.0-next.51) (2026-01-08)
+
+### Features
+
+- **stepper-item:** reduce height and update styling for improved UX ([#13656](https://github.com/Esri/calcite-design-system/issues/13656)) ([6486b3d](https://github.com/Esri/calcite-design-system/commit/6486b3dbc23e7804a7de1f4a69cbe76b5a230a18)), closes [#10720](https://github.com/Esri/calcite-design-system/issues/10720)
+
 ## [5.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.49...@esri/calcite-components@5.0.0-next.50) (2026-01-07)
 
 **Note:** Version bump only for package @esri/calcite-components
