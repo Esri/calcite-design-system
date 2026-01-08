@@ -144,12 +144,12 @@
 // stepper item icon
 :host .stepper-item-icon {
   margin-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
-  @apply mt-px
-    inline-flex
+  @apply inline-flex
     h-3
     flex-shrink-0
     self-start;
 
+  margin-block-start: var(--calcite-spacing-base);
   color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
 }
 
