@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-scrim-background: Specifies the background color of the scrim.
+ * @prop --calcite-scrim-opacity: Specifies the opacity of the scrim.
  */
 
 @use "../../styles/includes";
@@ -39,6 +40,7 @@
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
   background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
+  opacity: var(--calcite-scrim-opacity, theme("opacity.70"));
 }
 
 .content {
