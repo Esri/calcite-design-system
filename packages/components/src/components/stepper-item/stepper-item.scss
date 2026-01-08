@@ -29,7 +29,6 @@
 //
 // --calcite-internal-stepper-action-inline-size
 // --calcite-internal-stepper-item-header-padding
-// --calcite-internal-stepper-item-padding
 // --calcite-internal-stepper-item-spacing-unit-l
 // --calcite-internal-stepper-item-spacing-unit-m
 // --calcite-internal-stepper-item-spacing-unit-s
@@ -41,7 +40,6 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-stepper-item-padding: var(--calcite-spacing-md);
   --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-md);
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
   @apply text-n1h;
@@ -55,7 +53,6 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.5");
-  --calcite-internal-stepper-item-padding: var(--calcite-spacing-lg);
   --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-lg);
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
   @apply text-0h;
@@ -69,7 +66,6 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.6");
-  --calcite-internal-stepper-item-padding: var(--calcite-spacing-xl);
   --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-xl);
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
   @apply text-1h;
@@ -101,8 +97,6 @@
     border-solid
     no-underline
     outline-none;
-
-  padding-block: var(--calcite-internal-stepper-item-padding);
 
   &:active {
     background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
