@@ -52,7 +52,7 @@ export class Menu extends LitElement {
    */
   @property() label: string;
 
-  /** Defines the layout of the component. */
+  /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Layout = "horizontal";
 
   /** Overrides individual strings used by the component. */
