@@ -4,7 +4,7 @@ This package provides React wrappers for [Calcite components](https://developers
 
 ## Deprecation Notice
 
-Calcite Components React will be deprecated in v5.0.0 and fully removed in v6.0.0 (targeted for February 2027). The `@esri/calcite-components-react` package was originally developed for use with React 18 where wrappers were necessary to use custom elements. With React 19's native support for custom elements, these wrappers are no longer needed.
+Calcite Components React is deprecated in v5.0.0 and will be fully removed in v6.0.0 (targeted for February 2027). The `@esri/calcite-components-react` package was originally developed for use with React 18 where wrappers were necessary to use custom elements. With React 19's custom element support, these wrappers are no longer needed.
 
 Consider upgrading to React 19+ and using <code>@esri/calcite-components</code> directly.
 
