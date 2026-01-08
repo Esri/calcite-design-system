@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.51...@esri/calcite-components@5.0.0-next.52) (2026-01-08)
+
+### Features
+
+- **carousel:** Improve single Carousel Item display ([#13644](https://github.com/Esri/calcite-design-system/issues/13644)) ([109ec94](https://github.com/Esri/calcite-design-system/commit/109ec941b614713ae727244c402a786e44c20df5)), closes [#12270](https://github.com/Esri/calcite-design-system/issues/12270)
+
 ## [5.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.50...@esri/calcite-components@5.0.0-next.51) (2026-01-08)
 
 ### Features
