@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "5.0.0-next.46",
+  "version": "5.0.0-next.52",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -55,13 +55,13 @@
     "test": "concurrently --passthrough-arguments \"npm:test:stable -- {@}\" \"npm:test:experimental -- {@}\" --",
     "test:ci": "concurrently --passthrough-arguments --names stable,experimental \"npm run test:stable 2>test-stable.err.log\" \"npm run test:experimental 2>test-experimental.err.log\" || node ./support/log-test-output.mts",
     "test:stable": "vitest run",
-    "test:experimental": "npm run util:ensure-playwright-workaround && HEADLESS=${HEADLESS:-true} EXPERIMENTAL_TESTS=true vitest run --browser.headless=$HEADLESS",
+    "test:experimental": "npm run util:install-playwright && EXPERIMENTAL_TESTS=true vitest run",
     "test:watch": "concurrently --passthrough-arguments \"npm run test:watch:stable -- {@}\" \"npm run test:watch:experimental -- {@}\" --",
     "test:watch:stable": "vitest watch",
-    "test:watch:experimental": "npm run util:ensure-playwright-workaround && HEADLESS=${HEADLESS:-true} EXPERIMENTAL_TESTS=true vitest watch --browser.headless=$HEADLESS",
+    "test:watch:experimental": "npm run util:install-playwright && EXPERIMENTAL_TESTS=true vitest watch",
     "util:add-internal-custom-css-prop-doc": "node support/add-internal-custom-prop-doc.ts",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
-    "util:ensure-playwright-workaround": "npx playwright install",
+    "util:install-playwright": "node support/install-playwright.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",
@@ -76,7 +76,7 @@
   "dependencies": {
     "@arcgis/lumina": ">=5.0.0-next.75 <6.0.0",
     "@arcgis/toolkit": ">=5.0.0-next.75 <6.0.0",
-    "@esri/calcite-ui-icons": "4.4.0-next.17",
+    "@esri/calcite-ui-icons": "4.4.0-next.18",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
     "@types/sortablejs": "^1.15.8",
@@ -93,7 +93,7 @@
   "devDependencies": {
     "@arcgis/lumina-compiler": ">=5.0.0-next.75 <6.0.0",
     "@esri/calcite-design-tokens": "4.0.0-next.15",
-    "@esri/calcite-tailwind-preset": "1.1.0-next.3",
+    "@esri/calcite-tailwind-preset": "1.1.0-next.4",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.7",
     "playwright": "1.57.0",
     "sass-embedded": "1.97.1",

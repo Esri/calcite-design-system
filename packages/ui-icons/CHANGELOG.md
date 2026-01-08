@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.17...@esri/calcite-ui-icons@4.4.0-next.18) (2026-01-07)
+
+### Features
+
+- add table download and table upload ([#13658](https://github.com/Esri/calcite-design-system/issues/13658)) ([4e7f388](https://github.com/Esri/calcite-design-system/commit/4e7f38832bede0633b2a0439bd2b3947d0081de8))
+
 ## [4.4.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.16...@esri/calcite-ui-icons@4.4.0-next.17) (2025-12-23)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons

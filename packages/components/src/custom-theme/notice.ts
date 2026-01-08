@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 export const noticeTokens = {
   calciteNoticeBackgroundColor: "",
   calciteNoticeBorderColor: "",
+  calciteNoticeCloseBackgroundColor: "",
   calciteNoticeCloseBackgroundColorFocus: "",
   calciteNoticeCloseBackgroundColorHover: "",
   calciteNoticeCloseBackgroundColorPress: "",
@@ -10,6 +11,7 @@ export const noticeTokens = {
   calciteNoticeCloseTextColor: "",
   calciteNoticeCloseIconColorHover: "",
   calciteNoticeCloseIconColor: "",
+  calciteNoticeCornerRadius: "",
   calciteNoticeTitleTextColor: "",
   calciteNoticeContentTextColor: "",
 };
