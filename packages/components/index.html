@@ -5,13 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+    <style></style>
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- demo snippet start --><!-- demo snippet end -->
-    </demo-dom-swapper>
-    <demo-options></demo-options>
+    <div>
+      <a href="./typography.html" target="_self">typography</a>
+    </div>
+    <div>
+      <a href="./truncation-demo.html" target="_self">truncation</a>
+    </div>
+    <!-- <calcite-list label="Park features">
+      <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-typography slot="description" ellipsis tooltip-enabled>
+          Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
+          from shady forest tunnels to open vistas.
+        </calcite-typography>
+        <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+      </calcite-list-item>
+    </calcite-list> -->
+
+    <calcite-list label="Park features">
+      <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-typography slot="description" id="tooltip-button" tooltip-enabled max-lines="2">
+          Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
+          from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including
+          switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a local favorite
+          for its peaceful atmosphere and breathtaking natural beauty</calcite-typography
+        >
+        <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+      </calcite-list-item>
+    </calcite-list>
+    <calcite-tooltip>
+      <span
+        >Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
+        from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including
+        switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a local favorite
+        for its peaceful atmosphere and breathtaking natural beauty</span
+      >
+    </calcite-tooltip>
+    <br />
+
+    <calcite-typography max-lines="2" ellipsis>
+      Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience, from
+      shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including switchbacks and
+      rocky sections, and should be prepared for some elevation gain. This trail is a local favorite for its peaceful
+      atmosphere and breathtaking natural beauty</calcite-typography
+    >
+
+    <script>
+      const typography = document.querySelector("calcite-typography");
+      const tooltip = document.querySelector("calcite-tooltip");
+      typography.addEventListener("calciteTypographyTruncated", (event) => {
+        console.log("truncated:", event.target);
+        tooltip.referenceElement = typography.id;
+      });
+      typography.addEventListener("calciteTypographyUnTruncated", (event) => {
+        console.log("Untruncated:", event.target);
+        tooltip.referenceElement = typography.id;
+      });
+    </script>
   </body>
 </html>
