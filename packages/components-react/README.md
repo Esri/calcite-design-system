@@ -70,7 +70,7 @@ cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public/assets/
 
 With React 19+'s native support for custom elements, you can now use <code>@esri/calcite-components</code> directly. See the [Calcite Components React Deprecation Notice](#deprecation-notice) for additional information.
 
-With React 18, because it uses a synthetic event system, the custom events emitted from Calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
+Because React 18 and earlier use a synthetic event system, the custom events emitted from Calcite components won't work with JSX in React. For example, say you want to update some value when the `calcite-slider` component changes. When using the standard web components, you need to save a ref to the element, and add a listener:
 
 ```jsx
 const sliderEl = useRef(null);
