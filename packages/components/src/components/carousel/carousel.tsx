@@ -98,6 +98,8 @@ export class Carousel extends LitElement {
 
   @state() direction: "forward" | "backward" | "standby" = "standby";
 
+  @state() hasMultiple = false;
+
   @state() items: CarouselItem["el"][] = [];
 
   @state() maxItems = centerItemsByBreakpoint.xxsmall;
@@ -169,7 +171,7 @@ export class Carousel extends LitElement {
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
     if (
       this.playing ||
-      this.items.length < 2 ||
+      !this.hasMultiple ||
       (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")
     ) {
       return;
@@ -239,7 +241,7 @@ export class Carousel extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (this.hasUpdated && this.items.length < 2) {
+    if (this.hasUpdated && !this.hasMultiple) {
       this.handlePause(false);
     }
 
@@ -380,6 +382,7 @@ export class Carousel extends LitElement {
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
+    this.hasMultiple = items.length > 1;
 
     this.setSelectedItem(requestedSelectedIndex, false);
   }
@@ -510,7 +513,7 @@ export class Carousel extends LitElement {
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (this.items.length < 2) {
+        if (!this.hasMultiple) {
           return;
         }
         this.direction = "forward";
@@ -518,7 +521,7 @@ export class Carousel extends LitElement {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (this.items.length < 2) {
+        if (!this.hasMultiple) {
           return;
         }
         this.direction = "backward";
@@ -606,11 +609,11 @@ export class Carousel extends LitElement {
         ref={this.tabListRef}
       >
         {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
-          this.items.length > 1 &&
+          this.hasMultiple &&
           this.renderRotationControl()}
-        {this.arrowType === "inline" && this.items.length > 1 && this.renderArrow("previous")}
+        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
         {this.renderPaginationItems()}
-        {this.arrowType === "inline" && this.items.length > 1 && this.renderArrow("next")}
+        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("next")}
       </div>
     );
   }
@@ -716,8 +719,8 @@ export class Carousel extends LitElement {
             <slot onSlotChange={this.handleSlotChange} />
           </section>
           {this.renderPaginationArea()}
-          {this.arrowType === "edge" && this.items.length > 1 && this.renderArrow("previous")}
-          {this.arrowType === "edge" && this.items.length > 1 && this.renderArrow("next")}
+          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
+          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
         </div>
       </this.interactiveContainer>
     );
