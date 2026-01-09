@@ -17,7 +17,7 @@ import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { KindIcons } from "../resources";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -395,7 +395,11 @@ export class Alert extends LitElement {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const effectiveIcon = setRequestedIcon(
+      this.kind === "brand" ? KindIcons : KindIconsFilled,
+      this.icon,
+      this.kind,
+    );
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;

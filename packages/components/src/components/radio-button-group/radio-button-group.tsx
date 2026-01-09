@@ -69,10 +69,10 @@ export class RadioButtonGroup extends LitElement {
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Defines the layout of the component. */
+  /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
