@@ -170,17 +170,17 @@ export class Sheet extends LitElement {
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the height of the component. */
+  /** Specifies the component's height. */
   @property({ reflect: true }) height: Height;
 
   /**
-   * Specifies the label of the component.
+   * Specifies the component's label.
    *
    * @required
    */
@@ -208,7 +208,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true`, disables closing the component when the area outside of the component is clicked. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -226,15 +226,14 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
   /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the components width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -254,7 +253,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the element(s) that are included in the focus-trap of the component.
+   * Updates the element(s) that are included in the component's focus-trap.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */

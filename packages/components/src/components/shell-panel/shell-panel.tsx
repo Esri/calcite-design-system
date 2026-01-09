@@ -89,7 +89,7 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the display mode of the component, where:
+   * Specifies the component's display mode, where:
    *
    * `"dock"` displays at full height adjacent to center content,
    *
@@ -104,14 +104,14 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
   /**
-   * When `layout` is `horizontal`, specifies the maximum height of the component.
+   * When `layout` is `horizontal`, specifies the component's maximum height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale;
 
   /**
-   * The direction of the component.
+   * Specifies the component's direction.
    *
    * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
    */
@@ -130,17 +130,17 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the height of the component. */
+  /** Specifies the component's height. */
   @property({ reflect: true }) height: Height;
 
   /**
-   * When `layout` is `vertical`, specifies the width of the component.
+   * When `layout` is `vertical`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
