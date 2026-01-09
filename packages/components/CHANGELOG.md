@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.54...@esri/calcite-components@5.0.0-next.55) (2026-01-09)
+
+### Features
+
+- **autocomplete:** add token for max menu height ([#13616](https://github.com/Esri/calcite-design-system/issues/13616)) ([75eaf0d](https://github.com/Esri/calcite-design-system/commit/75eaf0d706493981da5331faf19f0f569c6f8259)), closes [#13227](https://github.com/Esri/calcite-design-system/issues/13227) [#13227](https://github.com/Esri/calcite-design-system/issues/13227)
+
 ## [5.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.53...@esri/calcite-components@5.0.0-next.54) (2026-01-09)
 
 ### Features
