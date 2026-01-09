@@ -6,6 +6,7 @@
  * @prop --calcite-autocomplete-background-color: Specifies the background color of the component.
  * @prop --calcite-autocomplete-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-autocomplete-text-color: Specifies the text color of the component.
+ * @prop --calcite-autocomplete-menu-max-size-y: Specifies the maximum height of the component's menu.
  *
  * @prop --calcite-autocomplete-input-prefix-size: Specifies the Input's prefix width, when present.
  * @prop --calcite-autocomplete-input-suffix-size: Specifies the Input's suffix width, when present.
@@ -93,9 +94,9 @@
 @include floating-ui.floating-ui-elem-anim(".floating-ui-container");
 
 .content-container .calcite-floating-ui-anim {
-  @apply max-h-menu
-    overflow-y-auto
+  @apply overflow-y-auto
     w-full;
+  max-block-size: var(--calcite-autocomplete-menu-max-size-y, theme("maxHeight.menu"));
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-autocomplete-corner-radius, var(--calcite-corner-radius-round));
