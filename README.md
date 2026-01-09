@@ -450,14 +450,21 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/brendan-vincent-rice">
+      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
+      <br />
+      <sub><b>Brendan Rice</b></sub>
+    </a>
+  </td>
+</tr>
+<tr>
+  <td align="center">
     <a href="https://github.com/bsvensson">
       <img src="https://avatars.githubusercontent.com/u/808357?v=4" width="100;" alt="bsvensson"/>
       <br />
       <sub><b>Bjorn Svensson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/drewdaemon">
       <img src="https://avatars.githubusercontent.com/u/315764?v=4" width="100;" alt="drewdaemon"/>
@@ -472,7 +479,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT © Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
