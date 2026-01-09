@@ -35,7 +35,7 @@ declare global {
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
@@ -43,8 +43,8 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement {
   //#region Static Members
@@ -124,7 +124,7 @@ export class Panel extends LitElement {
     }
   }
 
-  /** When `collapsible` is present, specifies the direction of the collapse icon. */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -133,13 +133,13 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component. */
+  /** Specifies the component's description text. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** The component header text. */
+  /** Specifies the component's header text. */
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
@@ -163,7 +163,7 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
