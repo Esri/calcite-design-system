@@ -86,7 +86,7 @@ export class Meter extends LitElement implements FormComponent {
 
   // #region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
@@ -95,7 +95,11 @@ export class Meter extends LitElement implements FormComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
+  /**
+   * Specifies the component's display, where
+   * `"single"` displays a single color, and
+   * `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
+   */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
@@ -121,10 +125,10 @@ export class Meter extends LitElement implements FormComponent {
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
   @property({ reflect: true }) low: number;
 
-  /** Specifies the highest allowed value of the component. */
+  /** Specifies the component's highest allowed value. */
   @property({ reflect: true }) max = 100;
 
-  /** Specifies the lowest allowed value of the component. */
+  /** Specifies the component's lowest allowed value. */
   @property({ reflect: true }) min = 0;
 
   /**
@@ -149,10 +153,10 @@ export class Meter extends LitElement implements FormComponent {
   /** When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
   @property() unitLabel = "";
 
-  /** Specifies the current value of the component. */
+  /** Specifies the component's value. */
   @property() value: number;
 
-  /** When `true`, displays the current value. */
+  /** When `true`, displays the `value`. */
   @property({ reflect: true }) valueLabel = false;
 
   /** When `valueLabel` is `true`, specifies the format of displayed label. */

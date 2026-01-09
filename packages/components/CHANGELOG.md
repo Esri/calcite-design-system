@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.54...@esri/calcite-components@5.0.0-next.55) (2026-01-09)
+
+### Features
+
+- **autocomplete:** add token for max menu height ([#13616](https://github.com/Esri/calcite-design-system/issues/13616)) ([75eaf0d](https://github.com/Esri/calcite-design-system/commit/75eaf0d706493981da5331faf19f0f569c6f8259)), closes [#13227](https://github.com/Esri/calcite-design-system/issues/13227) [#13227](https://github.com/Esri/calcite-design-system/issues/13227)
+
+## [5.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.53...@esri/calcite-components@5.0.0-next.54) (2026-01-09)
+
+### Features
+
+- **alert:** use filled status icon for consistency ([#13665](https://github.com/Esri/calcite-design-system/issues/13665)) ([d743d0d](https://github.com/Esri/calcite-design-system/commit/d743d0dbd823f345909ac3f1b9b35be6426cfb71)), closes [#12464](https://github.com/Esri/calcite-design-system/issues/12464)
+
+## [5.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.52...@esri/calcite-components@5.0.0-next.53) (2026-01-09)
+
+### Bug Fixes
+
+- **list-item:** fix spacing issues to match Action 5 design ([#13659](https://github.com/Esri/calcite-design-system/issues/13659)) ([41f0808](https://github.com/Esri/calcite-design-system/commit/41f080878d04646b2630af505f8e68e1483475c4)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777) [#issuecomment-3706465653](https://github.com/Esri/calcite-design-system/issues/issuecomment-3706465653) [/github.com/Esri/calcite-design-system/issues/10777#issuecomment-3706465653](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/10777/issues/issuecomment-3706465653) [/github.com/Esri/calcite-design-system/issues/10777#issuecomment-3706465653](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/10777/issues/issuecomment-3706465653)
+
+## [5.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.51...@esri/calcite-components@5.0.0-next.52) (2026-01-08)
+
+### Features
+
+- **carousel:** Improve single Carousel Item display ([#13644](https://github.com/Esri/calcite-design-system/issues/13644)) ([109ec94](https://github.com/Esri/calcite-design-system/commit/109ec941b614713ae727244c402a786e44c20df5)), closes [#12270](https://github.com/Esri/calcite-design-system/issues/12270)
+
+## [5.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.50...@esri/calcite-components@5.0.0-next.51) (2026-01-08)
+
+### Features
+
+- **stepper-item:** reduce height and update styling for improved UX ([#13656](https://github.com/Esri/calcite-design-system/issues/13656)) ([6486b3d](https://github.com/Esri/calcite-design-system/commit/6486b3dbc23e7804a7de1f4a69cbe76b5a230a18)), closes [#10720](https://github.com/Esri/calcite-design-system/issues/10720)
+
+## [5.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.49...@esri/calcite-components@5.0.0-next.50) (2026-01-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.48...@esri/calcite-components@5.0.0-next.49) (2026-01-07)
 
 ### Bug Fixes
