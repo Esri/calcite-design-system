@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.52...@esri/calcite-components@5.0.0-next.53) (2026-01-09)
+
+### Bug Fixes
+
+- **list-item:** fix spacing issues to match Action 5 design ([#13659](https://github.com/Esri/calcite-design-system/issues/13659)) ([41f0808](https://github.com/Esri/calcite-design-system/commit/41f080878d04646b2630af505f8e68e1483475c4)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777) [#issuecomment-3706465653](https://github.com/Esri/calcite-design-system/issues/issuecomment-3706465653) [/github.com/Esri/calcite-design-system/issues/10777#issuecomment-3706465653](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/10777/issues/issuecomment-3706465653) [/github.com/Esri/calcite-design-system/issues/10777#issuecomment-3706465653](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/10777/issues/issuecomment-3706465653)
+
 ## [5.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.51...@esri/calcite-components@5.0.0-next.52) (2026-01-08)
 
 ### Features
