@@ -146,6 +146,13 @@
     --calcite-internal-accordion-item-padding,
     var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
   );
+
+  background: none;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .content {
