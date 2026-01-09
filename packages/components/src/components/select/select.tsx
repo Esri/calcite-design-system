@@ -135,7 +135,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
    */
   @property() selectedOption: Option["el"];
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
@@ -172,7 +172,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
