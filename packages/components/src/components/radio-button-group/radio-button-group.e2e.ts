@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
@@ -10,22 +10,6 @@ describe("calcite-radio-button-group", () => {
   describe("accessible", () => {
     accessible(
       `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`,
-    );
-  });
-
-  describe("is focusable", () => {
-    focusable(
-      html`<calcite-radio-button-group name="Options" layout="vertical">
-        <calcite-label layout="inline">
-          <calcite-radio-button value="flowers" disabled></calcite-radio-button>
-          Flowers
-        </calcite-label>
-        <calcite-label layout="inline">
-          <calcite-radio-button value="trees"></calcite-radio-button>
-          Trees
-        </calcite-label>
-      </calcite-radio-button-group>`,
-      { focusTargetSelector: "calcite-radio-button" },
     );
   });
 

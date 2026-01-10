@@ -63,7 +63,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT © Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

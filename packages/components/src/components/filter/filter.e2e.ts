@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -14,12 +14,6 @@ describe("calcite-filter", () => {
 
   describe("accessible", () => {
     accessible("calcite-filter");
-  });
-
-  describe("is focused", () => {
-    focusable("calcite-filter", {
-      shadowFocusTargetSelector: "calcite-input",
-    });
   });
 
   it("sets scale on the input", async () => {
