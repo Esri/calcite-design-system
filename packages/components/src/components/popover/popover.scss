@@ -21,6 +21,7 @@
 
 :host {
   @apply contents;
+  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
 }
 
 .position-container {

@@ -18,6 +18,7 @@
 
 :host {
   @apply inline-block;
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
 .wrapper {
