@@ -167,7 +167,7 @@ export class Dialog extends LitElement {
    * `"allowOutsideClick`" allows outside clicks,
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
@@ -237,6 +237,15 @@ export class Dialog extends LitElement {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /**
    * Specifies the width of the component.

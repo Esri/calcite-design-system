@@ -32,10 +32,10 @@ const focusMap = new Map<List["el"], number>();
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
- * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
- * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
- * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
+ * @slot content-start - A slot for adding non-actionable elements before the component's `label` and `description`.
+ * @slot content - A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
+ * @slot content-end - A slot for adding non-actionable elements after the component's `label` and `description`.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the component's content.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 export class ListItem extends LitElement implements SortableComponentItem {
@@ -125,7 +125,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component, displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -158,10 +158,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() interactionMode: InteractionMode = null;
 
-  /** The label text of the component. Displays above the description text. */
+  /** Specifies the label of the component, displays above the `description`. */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
@@ -254,7 +254,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When `true`, the component's content appears inactive. */
+  /** When `true`, the component's content displays as inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */

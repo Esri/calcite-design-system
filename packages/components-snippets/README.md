@@ -18,7 +18,7 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT © Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

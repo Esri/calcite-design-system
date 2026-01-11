@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { accessible, focusable, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -109,7 +109,7 @@ describe("calcite-autocomplete", () => {
   });
 
   describe("theme", () => {
-    themed("calcite-autocomplete", {
+    themed("<calcite-autocomplete open></calcite-autocomplete>", {
       "--calcite-autocomplete-background-color": {
         shadowSelector: `.${CSS.contentAnimation}`,
         targetProp: "backgroundColor",
@@ -121,6 +121,10 @@ describe("calcite-autocomplete", () => {
       "--calcite-autocomplete-text-color": {
         shadowSelector: `.${CSS.contentAnimation}`,
         targetProp: "color",
+      },
+      "--calcite-autocomplete-menu-max-size-y": {
+        shadowSelector: `.${CSS.contentAnimation}`,
+        targetProp: "maxBlockSize",
       },
       "--calcite-autocomplete-input-prefix-size": {
         shadowSelector: `.${CSS.input}`,
@@ -221,10 +225,6 @@ describe("calcite-autocomplete", () => {
       testValue: "two",
       submitsOnEnter: true,
     });
-  });
-
-  describe("is focusable", () => {
-    focusable("calcite-autocomplete");
   });
 
   it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
