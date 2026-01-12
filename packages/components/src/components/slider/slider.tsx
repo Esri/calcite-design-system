@@ -204,37 +204,37 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   * For single selections, determines the track's fill relative to the component's handle.
    *
-   * Range mode will always display the fill between the min and max handles.
+   * For multiple selections, displays the fill between the min and max handles.
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /** When `true`, number values display with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, indicates a histogram is present. */
   @property({ reflect: true }) hasHistogram = false;
 
   /**
-   * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
+   * Specifies a list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
    * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/interfaces.ts#L5).
    */
   @property() histogram: DataSeries;
 
-  /** A set of single color stops for a histogram, sorted by offset ascending. */
+  /** Specifies a list of single color stops for a histogram, sorted by offset in ascending order. */
   @property() histogramStops: ColorStop[];
 
   /** When specified, allows users to customize handle labels. */
@@ -244,7 +244,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays label handles with their numeric value. */
+  /** When `true`, displays handle labels with their numeric value. */
   @property({ reflect: true }) labelHandles = false;
 
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
@@ -253,19 +253,19 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** The component's maximum selectable value. */
   @property({ reflect: true }) max = 100;
 
-  /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
+  /** For multiple selections, specifies the accessible name for the second handle, such as `"Temperature, upper bound"`. */
   @property() maxLabel: string;
 
-  /** For multiple selections, the component's upper value. */
+  /** For multiple selections, specifies the component's upper value. */
   @property() maxValue: number;
 
-  /** The component's minimum selectable value. */
+  /** Specifies the component's minimum selectable value. */
   @property({ reflect: true }) min = 0;
 
-  /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
+  /** Specifies the accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies label text on the component. */
   @property() labelText: string;
 
   /** Use this property to override individual strings used by the component. */
@@ -282,7 +282,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) mirrored = false;
 
   /**
-   * Specifies the name of the component.
+   * Specifies the component's name.
    *
    * Required to pass the component's `value` on form submission.
    */
@@ -291,7 +291,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /** Specifies the interval to move with the page up, or page down keys. */
+  /** Specifies the interval to move with the `page up` or `page down` keys. */
   @property({ reflect: true }) pageStep: number;
 
   /** When `true`, sets a finer point for handles. */
@@ -299,23 +299,23 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a value in order to submit the form.
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
+  /** When `true` and `step` is specified, enables snap selection via a mouse. */
   @property({ reflect: true }) snap = false;
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the interval to move with the up, or down keys. */
   @property({ reflect: true }) step = 1;
 
-  /** Displays tick marks on the number line at a specified interval. */
+  /** Specifies the interval between tick marks on the number line. */
   @property({ reflect: true }) ticks: number;
 
   /** Specifies the validation icon to display under the component. */
@@ -327,7 +327,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -346,7 +346,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     valueMissing: false,
   };
 
-  /** The component's value. */
+  /** Specifies the component's value. */
   @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
   //#endregion
@@ -370,7 +370,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   //#region Events
 
   /**
-   * Fires when the thumb is released on the component.
+   * Fires when the component's handle is released.
    *
    * Note: To constantly listen to the drag event,
    * use `calciteSliderInput` instead.
