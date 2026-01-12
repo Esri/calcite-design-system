@@ -66,7 +66,7 @@ export class SplitButton extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -93,15 +93,15 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** When `true`, a busy indicator is displayed on the primary button. */
+  /** When `true`, displays a busy indicator on the primary button. */
   @property({ reflect: true }) loading = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` positions the component inside of overflowing parent containers and will affect the container's layout.
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * Use `"fixed"` to escape an overflowing parent container or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -128,10 +128,10 @@ export class SplitButton extends LitElement {
   /** Specifies an icon to display at the start of the primary button. */
   @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
-  /** Accessible name for the primary button. */
+  /** Speficies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;
 
-  /** Text displayed in the primary button. */
+  /** Specifies text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
   /** Specifies the size of the component. */
