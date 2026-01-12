@@ -2,22 +2,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, t9n } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 
 describe("calcite-menu", () => {
   describe("accessible", () => {
     accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
-  });
-
-  describe("focusable", () => {
-    focusable(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
-      focusTargetSelector: "calcite-menu-item",
-    });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-menu");
   });
 
   describe("mouse support", () => {

@@ -9,7 +9,7 @@ export const CSS = {
   containerHeight: "container-height",
 };
 
-export type SelectionAppearance = "border" | "icon";
+export type SelectionAppearance = "border" | "highlight" | "icon";
 
 export const SLOTS = {
   filterNoResults: "filter-no-results",

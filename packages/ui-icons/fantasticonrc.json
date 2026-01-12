@@ -1296,6 +1296,11 @@
     "sort-descending-view": 61833,
     "sort-ascending-view": 61834,
     "duplicate-values": 61835,
-    "update-table": 61836
+    "update-table": 61836,
+    "contingent-values-retire": 61837,
+    "file-esl": 61838,
+    "table-upload": 61839,
+    "table-download": 61840,
+    "variable-generic": 61841
   }
 }

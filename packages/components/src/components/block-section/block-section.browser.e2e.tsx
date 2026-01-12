@@ -1,6 +1,15 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
   describe("defaults", () => {
@@ -25,6 +34,36 @@ describe("calcite-block-section", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    describe("focuses toggle switch", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-block-section expanded text="text" toggle-display="switch">
+              <div>some content</div>
+            </calcite-block-section>,
+          ),
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
+        },
+      );
+    });
+
+    describe("focuses toggle button", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-block-section expanded text="text" toggle-display="button">
+              <div>some content</div>
+            </calcite-block-section>,
+          ),
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`,
+        },
+      );
+    });
   });
 
   describe("reflects", () => {
@@ -53,5 +92,9 @@ describe("calcite-block-section", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-block-section"), { display: "block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-block-section"));
   });
 });

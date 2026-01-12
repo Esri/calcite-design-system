@@ -1,7 +1,16 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, floatingUIOwner } from "../../tests/commonTests/browser";
+import { TemplateResult } from "lit/html.js";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  floatingUIOwner,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
@@ -50,6 +59,37 @@ describe("calcite-popover", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    function renderPopover(content?: JsxNode, closable = false): TemplateResult {
+      return (
+        <>
+          <calcite-popover closable={closable} open reference-element="ref">
+            {content}
+          </calcite-popover>
+          <button id="ref">Button</button>
+        </>
+      );
+    }
+
+    const contentButtonClass = "my-button";
+
+    function renderButton(): JsxNode {
+      return <button class={contentButtonClass}>My Button</button>;
+    }
+
+    describe("should focus content by default", () => {
+      focusable(() => mount(renderPopover(renderButton())), {
+        focusTargetSelector: `.${contentButtonClass}`,
+      });
+    });
+
+    describe("should focus close button", () => {
+      focusable(() => mount(renderPopover("Hello World", true)), {
+        shadowFocusTargetSelector: `.${CSS.closeButton}`,
+      });
+    });
   });
 
   describe("honors hidden attribute", () => {
@@ -106,5 +146,20 @@ describe("calcite-popover", () => {
         { shadowSelector: `.${CSS.positionContainer}` },
       );
     });
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() =>
+      mount(
+        <>
+          <calcite-popover reference-element="ref">content</calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-popover"));
   });
 });

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -81,7 +81,9 @@ export class Action extends LitElement implements FormOwner {
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
-    >
+      | "checked"
+    > &
+      Pick<LuminaJsx.HTMLAttributes, "role">
   >;
 
   /** When `true`, the component is highlighted. */
@@ -96,8 +98,13 @@ export class Action extends LitElement implements FormOwner {
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment: Alignment;
 
-  /** Specifies the appearance of the component. */
-  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
+   */
+  @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
+    "transparent";
 
   /**
    * When `true`, the side padding of the component is reduced.
@@ -214,7 +221,6 @@ export class Action extends LitElement implements FormOwner {
 
   private handleClick(): void {
     const { type } = this;
-
     if (type === "submit") {
       submitForm(this);
     } else if (type === "reset") {
@@ -360,6 +366,7 @@ export class Action extends LitElement implements FormOwner {
     return (
       <button
         ariaBusy={loading}
+        ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
@@ -373,6 +380,7 @@ export class Action extends LitElement implements FormOwner {
         id={buttonId}
         onClick={this.handleClick}
         ref={this.buttonRef}
+        role={this.aria?.role}
       >
         {buttonContent}
       </button>

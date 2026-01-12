@@ -3,7 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -40,10 +40,6 @@ describe("calcite-input-number", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-number");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-number");
   });
 
   it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
@@ -149,12 +145,6 @@ describe("calcite-input-number", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).toBeNull();
     expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input-number`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   describe.skip("increment/decrement functionality", () => {
@@ -1805,10 +1795,6 @@ describe("calcite-input-number", () => {
   });
 
   testWorkaroundForGlobalPropRemoval("calcite-input-number");
-
-  describe("translation support", () => {
-    t9n("calcite-input-number");
-  });
 
   it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();

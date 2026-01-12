@@ -32,10 +32,10 @@ const focusMap = new Map<List["el"], number>();
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
- * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
- * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
- * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
+ * @slot content-start - A slot for adding non-actionable elements before the component's `label` and `description`.
+ * @slot content - A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
+ * @slot content-end - A slot for adding non-actionable elements after the component's `label` and `description`.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the component's content.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
 export class ListItem extends LitElement implements SortableComponentItem {
@@ -125,7 +125,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component, displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -158,10 +158,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() interactionMode: InteractionMode = null;
 
-  /** The label text of the component. Displays above the description text. */
+  /** Specifies the label of the component, displays above the `description`. */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
@@ -199,8 +199,9 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -217,11 +218,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead.
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border" | "highlight",
+    SelectionAppearance
+  >;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
@@ -250,7 +254,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When `true`, the component's content appears inactive. */
+  /** When `true`, the component's content displays as inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */
@@ -733,7 +737,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
 
-    if (selectionMode === "none" || selectionAppearance === "border") {
+    if (selectionMode === "none" || selectionAppearance !== "icon") {
       return null;
     }
 
@@ -868,7 +872,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
         {closable ? (
           <calcite-action
-            appearance="transparent"
             class={CSS.close}
             icon={ICONS.close}
             key="close-action"
@@ -1030,10 +1033,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     const wrapperBordered = bordered && hasContentBottom;
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
-
     const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const selectionBorderSelected = showSelectionBorder && selected;
-    const selectionBorderUnselected = showSelectionBorder && !selected;
+    const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -1054,8 +1055,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
               [CSS.containerBorder]: showSelectionBorder,
-              [CSS.containerBorderSelected]: selectionBorderSelected,
-              [CSS.containerBorderUnselected]: selectionBorderUnselected,
+              [CSS.containerBorderSelected]: showSelectionBorder && selected,
+              [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}

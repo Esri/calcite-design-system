@@ -2,27 +2,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-card-group", () => {
-  describe("disabled", () => {
-    disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", { focusTarget: "none" });
-  });
-
-  describe("focusable", () => {
-    focusable(
-      html` <calcite-card-group>
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
-      </calcite-card-group>`,
-      {
-        focusTargetSelector: "calcite-card:first-of-type",
-      },
-    );
-  });
-
   describe("is accessible in selection mode none (default)", () => {
     accessible(
       html`<calcite-card-group label="test-label-group">

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -234,19 +234,6 @@ describe("calcite-action-bar", () => {
   });
 
   describe("should focus on toggle button", () => {
-    focusable(
-      html`
-        <calcite-action-bar>
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-      `,
-      {
-        focusTargetSelector: "calcite-action",
-      },
-    );
-
     it("should not focus any action element when clicked on non-focusable region", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -427,7 +414,7 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(7);
 
       await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-        element.style.height = "550px";
+        element.style.height = "490px";
       });
 
       await page.waitForTimeout(DEBOUNCE.resize + 10);
@@ -436,10 +423,6 @@ describe("calcite-action-bar", () => {
       expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await findAll(page, slottedActionsSelector)).toHaveLength(2);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action-bar");
   });
 
   it("should set layout on child action-groups", async () => {

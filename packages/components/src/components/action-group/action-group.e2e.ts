@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -12,10 +12,6 @@ const actionGroupHTML = `<calcite-action-group scale="l">
 
 describe("calcite-action-group", () => {
   mockConsole();
-
-  describe("focusable", () => {
-    focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" });
-  });
 
   describe("accessible", () => {
     accessible(actionGroupHTML);
@@ -47,10 +43,6 @@ describe("calcite-action-group", () => {
     await page.waitForChanges();
     const container = await page.find(`calcite-action-group >>> .${CSS.container}`);
     expect(await container.getProperty("ariaLabel")).toBe("test");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-action-group");
   });
 
   describe("theme", () => {

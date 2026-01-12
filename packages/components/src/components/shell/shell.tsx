@@ -60,7 +60,7 @@ export class Shell extends LitElement {
 
   // #region Public Properties
 
-  /** Positions the center content behind any `calcite-shell-panel`s. */
+  /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
   // #endregion

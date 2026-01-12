@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  labelable,
-  openClose,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -35,22 +26,8 @@ describe("calcite-input-date-picker", () => {
     labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
   });
 
-  describe("disabled", () => {
-    disabled("calcite-input-date-picker");
-  });
-
   describe("openClose", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-input-date-picker");
-  });
-
-  describe("should focus the input when setFocus is called", () => {
-    focusable(`calcite-input-date-picker`, {
-      shadowFocusTargetSelector: "calcite-input-text",
-    });
   });
 
   describe("event emitting when the value changes", () => {

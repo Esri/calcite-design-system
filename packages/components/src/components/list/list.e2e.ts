@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -28,21 +28,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-list", () => {
-  describe("is focusable", () => {
-    focusable(
-      html`<calcite-list>
-        <calcite-list-item active label="test" description="hello world"></calcite-list-item>
-      </calcite-list>`,
-      {
-        focusTargetSelector: "calcite-list-item",
-      },
-    );
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-list");
-  });
-
   describe("accessible", () => {
     accessible(
       html`<calcite-list>
@@ -67,15 +52,6 @@ describe("calcite-list", () => {
           <div slot="message">Try a different fruit?</div>
         </calcite-notice>
       </calcite-list>`,
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-list>
-        <calcite-list-item label="test" description="hello world"></calcite-list-item>
-      </calcite-list>`,
-      { focusTarget: "child" },
     );
   });
 

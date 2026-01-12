@@ -1,6 +1,15 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 describe("calcite-filter", () => {
@@ -31,6 +40,12 @@ describe("calcite-filter", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-filter"), {
+      shadowFocusTargetSelector: "calcite-input",
+    });
+  });
+
   describe("reflects", () => {
     reflects(
       () => mount("calcite-filter"),
@@ -53,5 +68,13 @@ describe("calcite-filter", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-filter"), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-filter"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-filter"));
   });
 });

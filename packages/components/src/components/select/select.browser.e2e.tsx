@@ -1,8 +1,17 @@
-import { h, JsxNode } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import { TemplateResult } from "lit/html.js";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
 describe("calcite-select", () => {
@@ -18,7 +27,7 @@ describe("calcite-select", () => {
     );
   });
 
-  function createSimpleSelect(): JsxNode {
+  function renderSelect(): TemplateResult {
     return (
       <calcite-select label="required-for-a11y-test">
         <calcite-option>uno</calcite-option>
@@ -30,7 +39,7 @@ describe("calcite-select", () => {
 
   describe("reflects", () => {
     reflects(
-      () => mount<Select>(createSimpleSelect),
+      () => mount<Select>(renderSelect()),
       [
         {
           propertyName: "disabled",
@@ -61,6 +70,18 @@ describe("calcite-select", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount(createSimpleSelect), { display: "flex" });
+    renders(() => mount(renderSelect()), { display: "flex" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(renderSelect()));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-select"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-select"));
   });
 });

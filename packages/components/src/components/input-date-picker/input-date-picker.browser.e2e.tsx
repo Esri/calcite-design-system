@@ -1,8 +1,17 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders, floatingUIOwner } from "../../tests/commonTests/browser";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  internalLabel,
+  renders,
+  floatingUIOwner,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
   describe("defaults", () => {
@@ -37,6 +46,12 @@ describe("calcite-input-date-picker", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount(`calcite-input-date-picker`), {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
+  });
+
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input-date-picker"));
   });
@@ -56,5 +71,17 @@ describe("calcite-input-date-picker", () => {
       "open",
       { shadowSelector: ".menu-container" },
     );
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-input-date-picker"));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-date-picker"));
+  });
+
+  describe.skip("disabled", () => {
+    disabled(() => mount("calcite-input-date-picker"));
   });
 });

@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, focusable, openClose } from "../../tests/commonTests";
+import { accessible, openClose } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -14,6 +14,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
@@ -27,21 +28,6 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown-group>
     </calcite-dropdown>
   `;
-
-  describe("focusable", () => {
-    focusable(simpleDropdownHTML, {
-      focusTargetSelector: '[slot="trigger"]',
-    });
-  });
-
-  describe("disabled", () => {
-    disabled(simpleDropdownHTML, {
-      focusTarget: {
-        tab: "calcite-button",
-        click: "calcite-dropdown-item",
-      },
-    });
-  });
 
   describe("openClose", () => {
     openClose(simpleDropdownHTML);
@@ -123,14 +109,14 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
     );
 
-    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--start");
-    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--end");
-    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--start");
-    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--end");
-    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--start");
-    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--end");
-    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--start");
-    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--end");
+    const item1IconStart = await page.find(`calcite-dropdown-item[id='item-1'] >>> .${DROPDOWN_ITEM_CSS.iconStart}`);
+    const item1IconEnd = await page.find(`calcite-dropdown-item[id='item-1'] >>> .${DROPDOWN_ITEM_CSS.iconEnd}`);
+    const item2IconStart = await page.find(`calcite-dropdown-item[id='item-2'] >>> .${DROPDOWN_ITEM_CSS.iconStart}`);
+    const item2IconEnd = await page.find(`calcite-dropdown-item[id='item-2'] >>> .${DROPDOWN_ITEM_CSS.iconEnd}`);
+    const item3IconStart = await page.find(`calcite-dropdown-item[id='item-3'] >>> .${DROPDOWN_ITEM_CSS.iconStart}`);
+    const item3IconEnd = await page.find(`calcite-dropdown-item[id='item-3'] >>> .${DROPDOWN_ITEM_CSS.iconEnd}`);
+    const item4IconStart = await page.find(`calcite-dropdown-item[id='item-4'] >>> .${DROPDOWN_ITEM_CSS.iconStart}`);
+    const item4IconEnd = await page.find(`calcite-dropdown-item[id='item-4'] >>> .${DROPDOWN_ITEM_CSS.iconEnd}`);
     expect(item1IconStart).not.toBeNull();
     expect(item1IconEnd).toBeNull();
     expect(item2IconStart).toBeNull();

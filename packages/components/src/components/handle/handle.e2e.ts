@@ -1,20 +1,12 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, themed, t9n, focusable } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
 
 describe("calcite-handle", () => {
-  describe("disabled", () => {
-    disabled("calcite-handle");
-  });
-
-  describe("focusable", () => {
-    focusable("calcite-handle");
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-handle></calcite-handle>`);
   });
@@ -124,10 +116,6 @@ describe("calcite-handle", () => {
 
     expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
     expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-handle");
   });
 
   it("sets radio role properly", async () => {

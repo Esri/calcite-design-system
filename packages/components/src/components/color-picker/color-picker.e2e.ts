@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
@@ -35,23 +35,9 @@ describe("calcite-color-picker", () => {
     return [X + SCOPE_SIZE / 2, Y + SCOPE_SIZE / 2];
   }
 
-  describe("should focus scope by default", () => {
-    focusable("<calcite-color-picker></calcite-color-picker>", {
-      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
-    });
-  });
-
   describe("accessible", () => {
     accessible("calcite-color-picker");
     accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
-  });
-
-  describe("disabled", () => {
-    disabled(html`<calcite-color-picker value="${centerColorFieldColor}"></calcite-color-picker>`);
-  });
-
-  describe("translation support", () => {
-    t9n("<calcite-color-picker></calcite-color-picker>");
   });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {

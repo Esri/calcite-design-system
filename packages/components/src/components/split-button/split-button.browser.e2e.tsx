@@ -1,6 +1,14 @@
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  disabled,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -73,5 +81,34 @@ describe("calcite-split-button", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-split-button"), { display: "inline-block" });
+  });
+
+  function renderContent(): JsxNode {
+    return (
+      <calcite-dropdown-group>
+        <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected>
+          Item2
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    );
+  }
+
+  describe("focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+            {renderContent()}
+          </calcite-split-button>,
+        ),
+      {
+        shadowFocusTargetSelector: "calcite-button",
+      },
+    );
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-split-button"));
   });
 });

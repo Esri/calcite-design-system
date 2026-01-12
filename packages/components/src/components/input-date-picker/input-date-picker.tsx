@@ -72,6 +72,7 @@ import type { Label } from "../label/label";
 import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -176,6 +177,10 @@ export class InputDatePicker
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -302,6 +307,15 @@ export class InputDatePicker
 
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
@@ -536,20 +550,6 @@ export class InputDatePicker
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private handleDisabledAndReadOnlyChange(value: boolean): void {
     if (!value) {
       this.open = false;
@@ -604,14 +604,12 @@ export class InputDatePicker
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled || this.readOnly) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private calciteInternalInputInputHandler(event: CustomEvent<any>): void {
@@ -698,6 +696,7 @@ export class InputDatePicker
 
   onBeforeOpen(): void {
     this.calciteInputDatePickerBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -715,6 +714,7 @@ export class InputDatePicker
     this.focusTrap.deactivate();
     this.focusOnOpen = false;
     this.datePickerEl?.reset();
+    this.topLayer.hide();
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
@@ -813,7 +813,6 @@ export class InputDatePicker
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setStartWrapper(el: HTMLDivElement): void {

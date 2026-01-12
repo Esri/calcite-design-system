@@ -2,7 +2,12 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -15,9 +20,10 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
+import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { overflowActions, queryActions, isAction } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -42,6 +48,8 @@ export class ActionBar extends LitElement {
 
   private actions: Action["el"][] = [];
 
+  private containerRef = createRef<HTMLDivElement>();
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -65,11 +73,53 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount =
+    const groupCount: number =
       this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
 
+    let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+      }
+    }
+
     const overflowCount = getOverflowCount({
-      bufferSize: groupCount, // 1px border for each group
+      bufferSize,
       containerSize: layout === "horizontal" ? width : height,
       itemSizes,
     });
@@ -211,6 +261,7 @@ export class ActionBar extends LitElement {
   constructor() {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
@@ -361,6 +412,46 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.setActionTabIndexes(current);
+        break;
+    }
+  }
+
+  private setActionTabIndexes(active: Action["el"]): void {
+    this.actions.forEach((action: Action["el"]) => {
+      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    });
+  }
+
   //#endregion
 
   //#region Rendering
@@ -413,7 +504,12 @@ export class ActionBar extends LitElement {
 
   override render(): JsxNode {
     return (
-      <div class={CSS.container}>
+      <div
+        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        class={CSS.container}
+        ref={this.containerRef}
+        role="toolbar"
+      >
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </div>

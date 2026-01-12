@@ -51,6 +51,60 @@ export const simple = (args: TileStoryArgs): string => html`
   </calcite-tile>
 `;
 
+export const headingLevelAllScales = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      gap: 25px;
+    }
+
+    .scale-container {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+  <div class="container">
+    <div class="scale-container">
+      <h2>Small</h2>
+      <calcite-tile-group scale="s" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+
+    <div class="scale-container">
+      <h2>Medium</h2>
+      <calcite-tile-group scale="m" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+
+    <div class="scale-container">
+      <h2>Large</h2>
+      <calcite-tile-group scale="l" layout="vertical">
+        <calcite-tile heading="No Heading Level" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 1" heading-level="1" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 2" heading-level="2" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 3" heading-level="3" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 4" heading-level="4" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 5" heading-level="5" description="Description for item"></calcite-tile>
+        <calcite-tile heading="Heading Level = 6" heading-level="6" description="Description for item"></calcite-tile>
+      </calcite-tile-group>
+    </div>
+  </div>
+`;
+
 export const allVariants = (): string => html`
   <style>
     .parent {

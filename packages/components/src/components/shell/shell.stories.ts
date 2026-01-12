@@ -2892,6 +2892,35 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
   </calcite-shell>
 `;
 
+export const floatAllHeights = (): string => html`
+  <h3>layout="vertical" & display-mode="float-all" & height="s"</h3>
+  <div style="position:relative; height: 180px">
+    <calcite-shell>
+      <calcite-shell-panel layout="vertical" display-mode="float-all" height="s">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+  <br />
+  <h3>layout="horizontal" & display-mode="float-all" & height-scale="m"</h3>
+  <div style="position:relative; height: 280px">
+    <calcite-shell>
+      <calcite-shell-panel layout="horizontal" display-mode="float-all" height-scale="m">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+  <br/ >
+  <h3>layout="vertical" & display-mode="float-all" & height="l"</h3>
+  <div style="position:relative; height: 350px">
+    <calcite-shell>
+      <calcite-shell-panel layout="vertical" display-mode="float-all" height="l">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+`;
+
 embeddedSlotsInteractive.args = {
   dialogPlacement: "center",
   dialogHeight: "300px",

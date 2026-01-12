@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, t9n, openClose, focusable } from "../../tests/commonTests";
+import { accessible, openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
@@ -9,14 +9,6 @@ import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
 
 describe("calcite-sort-handle", () => {
-  describe("disabled", () => {
-    disabled(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
-  });
-
-  describe("focusable", () => {
-    focusable(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
-  });
-
   describe("accessible", () => {
     accessible(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
   });
@@ -223,10 +215,6 @@ describe("calcite-sort-handle", () => {
     await page.waitForChanges();
 
     expect(await page.find(`calcite-sort-handle >>> #${IDS.reorder}`)).toBeNull();
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-sort-handle");
   });
 
   describe("openClose", () => {

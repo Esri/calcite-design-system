@@ -1,0 +1,17 @@
+{
+  "name": "@esri/calcite-components-snippets",
+  "version": "0.0.2-next.3",
+  "private": true,
+  "type": "module",
+  "description": "Internal CLI tool to add snippets from the doc site to the calcite-components index page for development",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/components-snippets"
+  },
+  "license": "SEE LICENSE.md",
+  "bin": {
+    "snippet": "cli.ts"
+  }
+}

@@ -14,10 +14,28 @@
  * @prop --calcite-list-selection-border-color: Specifies the component's selection border color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-list-action-spacing
+
 @use "../../styles/includes";
 
 :host {
   @apply flex flex-col;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
 :host([filter-hidden]),
@@ -73,6 +91,10 @@
     box-shadow: inset var(--calcite-border-width-lg) 0 0 0
       var(--calcite-list-selection-border-color, var(--calcite-color-brand));
   }
+}
+
+.container--highlight-selected {
+  background-color: var(--calcite-color-surface-highlight);
 }
 
 .nested-container {
@@ -164,15 +186,13 @@
   }
 }
 
-:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
-  .drag-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
+.actions-start,
+.actions-end {
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
+  gap: var(--calcite-internal-list-action-spacing);
 }
+
 :host([scale="s"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     min-block-size: 32px;
@@ -220,9 +240,6 @@
   }
 }
 :host([scale="m"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     min-block-size: 40px;
@@ -278,9 +295,6 @@
   }
 }
 :host([scale="l"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-md);
-  }
   .content-container {
     gap: var(--calcite-spacing-md);
     min-block-size: 56px;
@@ -392,13 +406,9 @@
 .content-end,
 .selection-container,
 .drag-container,
-.expanded-container {
+.expanded-container,
+.close {
   @apply flex items-center;
-
-  calcite-action,
-  calcite-sort-handle {
-    @apply self-stretch;
-  }
 }
 
 .drag-container,
@@ -461,6 +471,27 @@
 
 ::slotted(calcite-list:empty) {
   @apply border-t-0;
+}
+
+.drag-container,
+.actions-start,
+.actions-end,
+.close {
+  calcite-action,
+  ::slotted(calcite-action) {
+    @apply self-stretch items-center;
+  }
+}
+
+.drag-container {
+  margin-inline: var(--calcite-spacing-xxs);
+}
+
+:host([display-mode="nested"]),
+:host([selection-appearance="icon"]:not([selection-mode="none"])) {
+  .drag-container {
+    margin-inline: var(--calcite-spacing-xxs) 0;
+  }
 }
 
 @include includes.base-component();

@@ -43,13 +43,6 @@
 
 @include includes.disabled();
 
-.back-button {
-  @apply border-0
-  border-solid;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
-  border-color: var(--calcite-flow-border-color, var(--calcite-color-border-3));
-}
-
 calcite-panel {
   --calcite-panel-background-color: var(--calcite-flow-background-color);
   --calcite-panel-border-color: var(--calcite-flow-border-color, var(--calcite-flow-item-header-border-block-end));

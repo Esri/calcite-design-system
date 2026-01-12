@@ -27,6 +27,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -84,6 +85,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
 
   //#endregion
 
@@ -146,6 +151,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    * @readonly
    */
   @property() selectedItems: DropdownItem["el"][] = [];
+
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the action to open the component from the container element. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
@@ -301,29 +315,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -501,6 +499,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onBeforeOpen(): void {
     this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -514,6 +513,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteDropdownClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
@@ -525,7 +525,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

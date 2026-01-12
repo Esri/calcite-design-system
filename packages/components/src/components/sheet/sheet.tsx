@@ -12,6 +12,7 @@ import {
   property,
   setAttribute,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { ensureId, getElementDir, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -25,6 +26,7 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode, ResizeValues } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -84,7 +86,7 @@ export class Sheet extends LitElement {
 
   private resizeHandleEl: HTMLDivElement;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -102,6 +104,11 @@ export class Sheet extends LitElement {
       this.open = false;
     }
   };
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -132,8 +139,8 @@ export class Sheet extends LitElement {
   @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` (content is separated detached),
-   * or `"overlay"` (displays on top of center content).
+   * Specifies the display mode - `"float"` separates content from main layout,
+   * and `"overlay"` displays on top of center content.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
@@ -154,32 +161,32 @@ export class Sheet extends LitElement {
   /**
    * Specifies custom focus trap configuration on the component, where
    *
-   * `"allowOutsideClick`" allows outside clicks,
+   * `"allowOutsideClick"` allows outside clicks,
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the height of the component. */
+  /** Specifies the component's height. */
   @property({ reflect: true }) height: Height;
 
   /**
-   * Specifies the label of the component.
+   * Specifies the component's label.
    *
    * @required
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
@@ -201,7 +208,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true`, disables closing the component when the area outside of the component is clicked. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -210,15 +217,23 @@ export class Sheet extends LitElement {
   /** When `true`, the component is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
   /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the components width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -238,7 +253,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the element(s) that are included in the focus-trap of the component.
+   * Updates the element(s) that are included in the component's focus-trap.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
@@ -287,7 +302,6 @@ export class Sheet extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
       toggleOpenClose(this);
-      this.handlePopover();
     }
 
     if (
@@ -308,20 +322,6 @@ export class Sheet extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionEl) {
-      return;
-    }
-
-    if (this.opened) {
-      this.transitionEl.showPopover();
-    } else {
-      this.transitionEl.hidePopover();
-    }
-  }
 
   private async setOpenState(value: boolean): Promise<void> {
     if (this.beforeClose && !value) {
@@ -524,6 +524,7 @@ export class Sheet extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteSheetBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -541,6 +542,7 @@ export class Sheet extends LitElement {
   onClose(): void {
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
+    this.topLayer.hide();
   }
 
   private setResizeHandleEl(el: HTMLDivElement): void {
@@ -551,15 +553,6 @@ export class Sheet extends LitElement {
   private setContentEl(el: HTMLDivElement): void {
     this.contentEl = el;
     this.contentId = ensureId(el);
-  }
-
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.handlePopover();
   }
 
   private handleOutsideClose(): void {
@@ -606,7 +599,7 @@ export class Sheet extends LitElement {
           ),
         }}
         popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        ref={this.transitionRef}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         <div class={CSS.content} id={IDS.sheetContent} ref={this.setContentEl}>
