@@ -209,7 +209,7 @@
 }
 
 :host([top-layer-disabled]) .floating-ui-container {
-  z-index: var(--calcite-z-index-dropdown);
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
 @include floating-ui.floating-ui-elem-anim(".floating-ui-container");
