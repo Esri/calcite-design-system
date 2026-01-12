@@ -86,10 +86,12 @@ export const stackingWhenTopLayerDisabled = (): string => html`
         margin-inline-start: 40px;
       }
     </style>
-    <calcite-alert icon="banana" kind="brand" open label="A report alert" placement="top" top-layer-disabled>
+    <calcite-alert icon="banana" kind="brand" open label="A report alert" top-layer-disabled>
       <div slot="title">Trail Camera Report</div>
       <div slot="message">
-        all<br />work<br />and<br />no<br />play<br />make<br />Jack<br />a<br />dull<br />boy<br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </div>
     </calcite-alert>
 
@@ -135,8 +137,10 @@ export const stackingWhenTopLayerDisabled = (): string => html`
     </calcite-popover>
     <calcite-button id="popover-button">Popover trigger</calcite-button>
 
-    <calcite-dialog heading="Dialog" modal open placement="top" top-layer-disabled>
-      all<br />work<br />and<br />no<br />play<br />make<br />Jack<br />a<br />dull<br />boy
+    <calcite-dialog heading="Dialog" modal open top-layer-disabled>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </calcite-dialog>
   </div>
 `;
