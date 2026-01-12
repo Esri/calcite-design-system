@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.56...@esri/calcite-components@5.0.0-next.57) (2026-01-12)
+
+### Features
+
+- **alert, autocomplete, combobox, dropdown, input-date-picker, popover, tooltip:** add `topLayerDisabled` prop ([#13604](https://github.com/Esri/calcite-design-system/issues/13604)) ([f37d836](https://github.com/Esri/calcite-design-system/commit/f37d836afac35084490b29e577f60ff97e264db5))
+
 ## [5.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.55...@esri/calcite-components@5.0.0-next.56) (2026-01-12)
 
 **Note:** Version bump only for package @esri/calcite-components
