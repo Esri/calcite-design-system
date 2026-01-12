@@ -57,23 +57,23 @@ export class SortableList extends LitElement implements SortableComponent {
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: DragDetail) => boolean;
 
-  /** When `true`, disabled prevents interaction. This state shows items with lower opacity/grayed. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies which items inside the element should be draggable. */
   @property({ reflect: true }) dragSelector?: string;
 
   /**
-   * The list's group identifier.
+   * Specifies the list's group.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
-  /** The selector for the handle elements. */
+  /** Specifies the selector for the handle elements. */
   @property({ reflect: true }) handleSelector = "calcite-handle";
 
-  /** Indicates the horizontal or vertical orientation of the component. */
+  /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
@@ -84,7 +84,7 @@ export class SortableList extends LitElement implements SortableComponent {
 
   //#region Events
 
-  /** Emitted when the order of the list has changed. */
+  /** Emits when the order of the list changes. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
   //#endregion
