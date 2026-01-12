@@ -64,16 +64,16 @@ export class SortHandle extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and displays the component with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** Specifies the label of the component. */
+  /** Specifies the component's label. */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -108,19 +108,19 @@ export class SortHandle extends LitElement {
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** The current position of the handle. */
+  /** Specifies the handle's current position. */
   @property() setPosition: number;
 
-  /** The total number of sortable items. */
+  /** Specifies the total number of sortable items. */
   @property() setSize: number;
 
-  /** When `true`, items are no longer sortable. */
+  /** When `true`, prevents sorting of items. */
   @property({ reflect: true }) sortDisabled = false;
 
-  /** Specifies the width of the component. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) widthScale: Scale;
 
   //#endregion
