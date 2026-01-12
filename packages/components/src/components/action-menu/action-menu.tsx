@@ -356,9 +356,11 @@ export class ActionMenu extends LitElement {
     el.open = this.open;
   }
 
-  private handleCalciteActionClick(): void {
-    this.open = false;
-    this.setFocus();
+  private handleCalciteActionClick(event): void {
+    if (event.target.tagName === "CALCITE-ACTION") {
+      this.open = false;
+      this.setFocus();
+    }
   }
 
   private updateTooltip(event: Event): void {
