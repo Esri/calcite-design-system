@@ -18,7 +18,6 @@
 
 :host {
   @apply inline-block;
-  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
 .wrapper {
@@ -26,7 +25,7 @@
 }
 
 :host([top-layer-disabled]) .wrapper {
-  z-index: var(--calcite-z-index-dropdown);
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
 @include floating-ui.floating-ui-elem-anim(".wrapper");
