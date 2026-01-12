@@ -78,19 +78,19 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** A description for the component. Displays below the header text. */
+  /** Describes the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and displays the component with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** The component header text. */
+  /** Specifies the component header text. */
   @property() heading: string;
 
   /**
@@ -117,7 +117,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) layout: StepperLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -137,7 +137,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /** When `true`, selects the component. */
   @property({ reflect: true }) selected = false;
 
   //#endregion
