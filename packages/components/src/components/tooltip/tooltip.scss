@@ -15,6 +15,9 @@
 
 :host {
   @apply contents;
+}
+
+:host([top-layer-disabled]) {
   --calcite-floating-ui-z-index: var(--calcite-z-index-tooltip);
 }
 
