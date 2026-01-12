@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.19...@esri/calcite-ui-icons@4.4.0-next.20) (2026-01-12)
+
+### Features
+
+- add variable generic ([#13666](https://github.com/Esri/calcite-design-system/issues/13666)) ([6c7c956](https://github.com/Esri/calcite-design-system/commit/6c7c9564c56d0191dd066d401b7e56066ad9ab36))
+
 ## [4.4.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.18...@esri/calcite-ui-icons@4.4.0-next.19) (2026-01-09)
 
 **Note:** Version bump only for package @esri/calcite-ui-icons
