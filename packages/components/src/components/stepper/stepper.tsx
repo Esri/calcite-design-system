@@ -27,7 +27,7 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-stepper-item` elements. */
+/** @slot - A slot for adding `calcite-stepper-item`s. */
 export class Stepper extends LitElement {
   //#region Static Members
 
@@ -72,10 +72,10 @@ export class Stepper extends LitElement {
   /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
   @property({ reflect: true }) icon = false;
 
-  /** Defines the layout of the component. */
+  /** Defines the component's layout. */
   @property({ reflect: true }) layout: StepperLayout = "horizontal";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
@@ -84,7 +84,7 @@ export class Stepper extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
