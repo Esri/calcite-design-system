@@ -34,7 +34,7 @@ export class AutocompleteItemGroup extends LitElement {
    */
   @property() heading: string;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible name for the component. */
   @property() label: any;
 
   /**

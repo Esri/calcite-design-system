@@ -188,7 +188,7 @@ export class Autocomplete
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the form that is associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -200,10 +200,10 @@ export class Autocomplete
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** The component's input value. */
+  /** Specifies the component's input value. */
   @property() inputValue: string;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible name for the component. */
   @property() label: string;
 
   /** When provided, displays label text on the component. */
@@ -220,7 +220,7 @@ export class Autocomplete
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -244,11 +244,11 @@ export class Autocomplete
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` positions the component inside of overflowing parent containers and will affect the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -269,13 +269,13 @@ export class Autocomplete
   @property() placeholder: string;
 
   /**
-   * Determines where the component will be positioned relative to the container element.
+   * Specifies where the component is positioned relative to the container element.
    *
    * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Adds text to the start of the component. */
+  /** Specifies the component's prefix text. */
   @property() prefixText: string;
 
   /**
@@ -297,7 +297,7 @@ export class Autocomplete
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Adds text to the end of the component. */
+  /** Specifies the component's suffix text. */
   @property() suffixText: string;
 
   /**
@@ -318,7 +318,7 @@ export class Autocomplete
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * Specifies the current validation state of the component.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -337,7 +337,7 @@ export class Autocomplete
     valueMissing: false,
   };
 
-  /** The component's value. */
+  /** Specifies the component's value. */
   @property() value = "";
 
   //#endregion
