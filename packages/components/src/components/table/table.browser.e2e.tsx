@@ -97,11 +97,11 @@ describe("calcite-table", () => {
   });
 
   describe("accessible", () => {
-    describe("is accessible simple", () => {
+    describe("simple", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -122,11 +122,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with selection mode multiple", () => {
+    describe("with selection mode multiple", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" selection-mode="multiple">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -147,11 +147,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with selection mode multiple selected at load", () => {
+    describe("with selection mode multiple selected at load", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" selection-mode="multiple">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -172,11 +172,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with selection mode single", () => {
+    describe("with selection mode single", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" selection-mode="single">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -197,11 +197,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with numbered", () => {
+    describe("with numbered", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" numbered>
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -222,11 +222,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with numbered and selection", () => {
+    describe("with numbered and selection", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" numbered selection-mode="multiple">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -247,11 +247,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with pagination", () => {
+    describe("with pagination", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" page-size="4">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -288,11 +288,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with pagination and interaction mode static", () => {
+    describe("with pagination and interaction mode static", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" interaction-mode="static" page-size="4">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>
@@ -329,11 +329,11 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with pagination and selection mode", () => {
+    describe("with pagination and selection mode", () => {
       accessible(() =>
         mount(
           <calcite-table caption="Simple table" page-size="4" selection-mode="multiple">
-            <calcite-table-row slot="${SLOTS.tableHeader}">
+            <calcite-table-row slot={SLOTS.tableHeader}>
               <calcite-table-header description="Description" heading="Heading" />
               <calcite-table-header description="Description" heading="Heading" />
             </calcite-table-row>

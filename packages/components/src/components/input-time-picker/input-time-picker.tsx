@@ -524,7 +524,7 @@ export class InputTimePicker
   //#region Rendering
 
   override render(): JsxNode {
-    const { messages, readOnly, scale } = this;
+    const { open, messages, readOnly, scale } = this;
     const {
       fractionalSecond,
       handleHourKeyDownEvent,
@@ -568,6 +568,7 @@ export class InputTimePicker
         <div
           aria-controls={IDS.inputContainer}
           aria-labelledby={IDS.inputContainer}
+          ariaExpanded={open}
           class={{
             [CSS.container]: true,
             [CSS.readOnly]: readOnly,

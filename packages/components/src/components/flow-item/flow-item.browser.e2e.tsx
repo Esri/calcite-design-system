@@ -220,12 +220,12 @@ describe("calcite-flow-item", () => {
     accessible(() =>
       mount(
         <calcite-flow-item>
-          <div slot="${SLOTS.headerActionsStart}">test start</div>
-          <div slot="${SLOTS.headerContent}">test content</div>
-          <div slot="${SLOTS.headerActionsEnd}">test end</div>
+          <div slot={SLOTS.headerActionsStart}>test start</div>
+          <div slot={SLOTS.headerContent}>test content</div>
+          <div slot={SLOTS.headerActionsEnd}>test end</div>
           <p>Content</p>
-          <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-          <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
+          <calcite-button slot={SLOTS.footerStart}>test button 1</calcite-button>
+          <calcite-button slot={SLOTS.footerEnd}>test button 2</calcite-button>
         </calcite-flow-item>,
       ),
     );

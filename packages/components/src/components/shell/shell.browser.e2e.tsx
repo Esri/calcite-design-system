@@ -21,10 +21,10 @@ describe("calcite-shell", () => {
     accessible(() =>
       mount(
         <calcite-shell>
-          <calcite-shell-panel position="start" slot="${SLOTS.panelStart}">
+          <calcite-shell-panel position="start" slot={SLOTS.panelStart}>
             <p>Primary Content</p>
           </calcite-shell-panel>
-          <calcite-shell-panel position="end" slot="${SLOTS.panelEnd}">
+          <calcite-shell-panel position="end" slot={SLOTS.panelEnd}>
             <p>Primary Content</p>
           </calcite-shell-panel>
         </calcite-shell>,
