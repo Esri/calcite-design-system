@@ -1298,6 +1298,9 @@
     "duplicate-values": 61835,
     "update-table": 61836,
     "contingent-values-retire": 61837,
-    "file-esl": 61838
+    "file-esl": 61838,
+    "table-upload": 61839,
+    "table-download": 61840,
+    "variable-generic": 61841
   }
 }

@@ -11539,5 +11539,20 @@
     "category": "Files",
     "release": "4.4.0",
     "codepoint": 61838
+  },
+  "table-download": {
+    "alias": ["4.4.0", "generic", "data", "format", "collection", "web", "layer", "save"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "table-upload": {
+    "alias": ["4.4.0", "generic", "data", "collection", "web", "layer", "import", "external"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "variable-generic": {
+    "alias": ["4.4.0", "text", "values", "equations", "datasets", "general"],
+    "category": "Text",
+    "release": "4.4.0"
   }
 }

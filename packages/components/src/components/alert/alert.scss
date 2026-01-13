@@ -222,7 +222,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([scale="l"]) {
   @include includes.slotted("title", "*") {
-    @apply text-1-wrap mb-1;
+    @apply text-1-wrap;
   }
   @include includes.slotted("message", "*") {
     @apply text-0-wrap;
@@ -336,11 +336,13 @@ $alert-durations:
   }
 }
 
-/**
- * Conditional styles for when Alert is slotted in Shell
- */
+:host([top-layer-disabled]) .container,
 .container--embedded {
-  @apply absolute z-toast;
+  z-index: var(--calcite-z-index-toast);
+}
+
+.container--embedded {
+  position: absolute;
 }
 
 @include includes.base-component();
