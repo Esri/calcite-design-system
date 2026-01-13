@@ -11549,5 +11549,10 @@
     "alias": ["4.4.0", "generic", "data", "collection", "web", "layer", "import", "external"],
     "category": "Generic",
     "release": "4.4.0"
+  },
+  "variable-generic": {
+    "alias": ["4.4.0", "text", "values", "equations", "datasets", "general"],
+    "category": "Text",
+    "release": "4.4.0"
   }
 }
