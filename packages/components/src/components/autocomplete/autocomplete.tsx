@@ -300,6 +300,15 @@ export class Autocomplete
   /** Adds text to the end of the component. */
   @property() suffixText: string;
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
     | IconName
