@@ -378,7 +378,7 @@ export class AccordionItem extends LitElement {
           {this.renderActionsStart()}
           <button
             aria-controls={IDS.section}
-            aria-expanded={expanded}
+            ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
