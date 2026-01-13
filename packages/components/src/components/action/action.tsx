@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx, createEvent } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  JsxNode,
+  Fragment,
+  LuminaJsx,
+  createEvent,
+} from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -220,7 +229,7 @@ export class Action extends LitElement implements FormOwner {
   //#region Events
 
   /** @internal Fires when the action's button is being pressed down. */
-  calciteActionMouseDown =  createEvent({ cancelable: false });
+  calciteInternalActionMouseDown = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -236,7 +245,7 @@ export class Action extends LitElement implements FormOwner {
   }
 
   private handleMouseDown(): void {
-    this.calciteActionMouseDown.emit();
+    this.calciteInternalActionMouseDown.emit();
   }
 
   //#endregion

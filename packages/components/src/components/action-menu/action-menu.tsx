@@ -211,7 +211,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
-    this.el.addEventListener("calciteActionMouseDown", this.actionMouseDownHandler);
+    this.el.addEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -241,7 +241,7 @@ export class ActionMenu extends LitElement {
 
   override disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
-    this.el.removeEventListener("calciteActionMouseDown", this.actionMouseDownHandler);
+    this.el.removeEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
   }
 
   //#endregion
