@@ -146,7 +146,7 @@ describe("calcite-tile", () => {
   });
 
   describe("accessible", () => {
-    describe("without label", () => {
+    describe("default", () => {
       accessible(() => mount(<calcite-tile />));
     });
 
@@ -166,20 +166,22 @@ describe("calcite-tile", () => {
       accessible(() => mount(<calcite-tile label="my-tile" selection-mode="multiple" />));
     });
 
-    describe("as link with heading", () => {
-      accessible(() => mount(<calcite-tile heading="My link" href="#" />));
-    });
+    describe("as link", () => {
+      describe("with heading", () => {
+        accessible(() => mount(<calcite-tile heading="My link" href="#" />));
+      });
 
-    describe("as link with description", () => {
-      accessible(() => mount(<calcite-tile description="My link" href="#" />));
-    });
+      describe("with description", () => {
+        accessible(() => mount(<calcite-tile description="My link" href="#" />));
+      });
 
-    describe("as link with heading and label", () => {
-      accessible(() => mount(<calcite-tile heading="My link" href="#" label="my-tile" />));
-    });
+      describe("with heading and label", () => {
+        accessible(() => mount(<calcite-tile heading="My link" href="#" label="my-tile" />));
+      });
 
-    describe("as link with description and label", () => {
-      accessible(() => mount(<calcite-tile description="My link" href="#" label="my-tile" />));
+      describe("with description and label", () => {
+        accessible(() => mount(<calcite-tile description="My link" href="#" label="my-tile" />));
+      });
     });
   });
 });

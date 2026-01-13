@@ -44,17 +44,17 @@ describe("calcite-checkbox", () => {
   describe("accessible", () => {
     describe("default", () => {
       accessible(() =>
+        mount(<calcite-checkbox id="example" label="label" name="example" value="one" />),
+      );
+    });
+
+    describe("with label", () => {
+      accessible(() =>
         mount(
           <calcite-label>
             <calcite-checkbox id="example" name="example" value="one" /> label
           </calcite-label>,
         ),
-      );
-    });
-
-    describe("without calcite-label", () => {
-      accessible(() =>
-        mount(<calcite-checkbox id="example" label="label" name="example" value="one" />),
       );
     });
   });

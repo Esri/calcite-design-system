@@ -92,13 +92,19 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("accessible", () => {
-    accessible(() =>
-      mount(
-        <calcite-label>
-          Input Time Picker
-          <calcite-input-time-picker name="test" />
-        </calcite-label>,
-      ),
-    );
+    describe("default", () => {
+      accessible(() => mount(<calcite-input-time-picker label="test label" name="test" />));
+    });
+
+    describe("with label", () => {
+      accessible(() =>
+        mount(
+          <calcite-label>
+            Input Time Picker
+            <calcite-input-time-picker name="test" />
+          </calcite-label>,
+        ),
+      );
+    });
   });
 });

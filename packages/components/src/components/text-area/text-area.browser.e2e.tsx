@@ -108,13 +108,21 @@ describe("calcite-text-area", () => {
   });
 
   describe("accessible", () => {
-    accessible(() =>
-      mount(
-        <calcite-label>
-          add notes
-          <calcite-text-area max-length="50" name="something" required />
-        </calcite-label>,
-      ),
-    );
+    describe("default", () => {
+      accessible(() =>
+        mount(<calcite-text-area label="test" max-length="50" name="something" required />),
+      );
+    });
+
+    describe("with label", () => {
+      accessible(() =>
+        mount(
+          <calcite-label>
+            add notes
+            <calcite-text-area max-length="50" name="something" required />
+          </calcite-label>,
+        ),
+      );
+    });
   });
 });

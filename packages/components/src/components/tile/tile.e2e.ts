@@ -6,8 +6,6 @@ import { isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("calcite-tile", () => {
-  describe("accessibility", () => {});
-
   describe("click", () => {
     it("should not receive focus when clicked", async () => {
       const page = await newE2EPage();

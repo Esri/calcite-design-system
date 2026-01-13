@@ -100,7 +100,7 @@ describe("calcite-block-section", () => {
   });
 
   describe("accessible", () => {
-    describe("default", () => {
+    describe("expanded", () => {
       accessible(() =>
         mount(
           <calcite-block-section expanded text="text" toggle-display="switch">
@@ -110,7 +110,7 @@ describe("calcite-block-section", () => {
       );
     });
 
-    describe("when collapsed", () => {
+    describe("collapsed", () => {
       accessible(() =>
         mount(
           <calcite-block-section text="text" toggle-display="switch">
@@ -120,24 +120,26 @@ describe("calcite-block-section", () => {
       );
     });
 
-    describe("when expanded", () => {
-      accessible(() =>
-        mount(
-          <calcite-block-section expanded text="text">
-            <div>some content</div>
-          </calcite-block-section>,
-        ),
-      );
-    });
+    describe("toggle-display = 'switch'", () => {
+      describe("expanded", () => {
+        accessible(() =>
+          mount(
+            <calcite-block-section expanded text="text">
+              <div>some content</div>
+            </calcite-block-section>,
+          ),
+        );
+      });
 
-    describe("when collapsed", () => {
-      accessible(() =>
-        mount(
-          <calcite-block-section text="text">
-            <div>some content</div>
-          </calcite-block-section>,
-        ),
-      );
+      describe("collapsed", () => {
+        accessible(() =>
+          mount(
+            <calcite-block-section text="text">
+              <div>some content</div>
+            </calcite-block-section>,
+          ),
+        );
+      });
     });
   });
 });

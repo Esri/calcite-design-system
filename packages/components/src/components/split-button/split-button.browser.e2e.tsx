@@ -99,7 +99,7 @@ describe("calcite-split-button", () => {
     focusable(
       () =>
         mount(
-          <calcite-split-button dropdownLabel="Show options" primary-text="Button Text">
+          <calcite-split-button dropdownLabel="Show options" primaryText="Button Text">
             {renderContent()}
           </calcite-split-button>,
         ),
