@@ -76,7 +76,13 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
-        const targetElement = context.targetElement.value;
+        const targetElement =
+          context.targetElement && "value" in context.targetElement
+            ? context.targetElement.value
+            : (context.targetElement as HTMLElement | null);
+        if (!targetElement) {
+          return { inline: undefined, block: undefined };
+        }
         const inline = applyAxis(sizes.inline, "inline", targetElement);
         const block = applyAxis(sizes.block, "block", targetElement);
 
