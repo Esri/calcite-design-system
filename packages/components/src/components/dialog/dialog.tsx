@@ -517,7 +517,7 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowDown":
-        if (shiftKey && resizable && this.transitionEl) {
+        if (shiftKey && resizable && transitionEl) {
           this.updateSizeInternal({
             block: this.getTransitionRefDOMRect().height + resizeShiftStep,
           });
@@ -533,8 +533,8 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowLeft":
-        if (shiftKey && resizable && this.transitionEl) {
-          const { minInlineSize } = window.getComputedStyle(this.transitionEl);
+        if (shiftKey && resizable && transitionEl) {
+          const { minInlineSize } = window.getComputedStyle(transitionEl);
           const minWidth = getStylePixelValue(minInlineSize);
           const width = this.getTransitionRefDOMRect().width;
 
@@ -557,7 +557,7 @@ export class Dialog extends LitElement {
         }
         break;
       case "ArrowRight":
-        if (shiftKey && resizable && this.transitionEl) {
+        if (shiftKey && resizable && transitionEl) {
           this.updateSizeInternal({
             inline: this.getTransitionRefDOMRect().width + resizeShiftStep,
           });
