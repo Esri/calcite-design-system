@@ -325,6 +325,12 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /**
+   * Updates the dialog's inline and/or block size via method call.
+   *
+   * Use this method to programmatically override the dialog's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
+   */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
     this.updateSizeInternal(size);
