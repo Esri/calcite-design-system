@@ -371,6 +371,7 @@ export class ActionMenu extends LitElement {
       if (composedPath.includes(action)) {
         this.open = false;
         this.setFocus();
+        return true;
       }
     });
   }
