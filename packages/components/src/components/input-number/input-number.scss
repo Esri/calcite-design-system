@@ -327,14 +327,14 @@ input:focus {
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 .suffix {
   @apply order-5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }
 
 // alignment type

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.58...@esri/calcite-components@5.0.0-next.59) (2026-01-13)
+
+### Features
+
+- **accordion-item:** update header to use semantic button instead of div ([#13664](https://github.com/Esri/calcite-design-system/issues/13664)) ([4022e50](https://github.com/Esri/calcite-design-system/commit/4022e500199688172d409d7b8f6e4dfcec6abb79)), closes [#4123](https://github.com/Esri/calcite-design-system/issues/4123)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** update color of prefix and suffix ([#13682](https://github.com/Esri/calcite-design-system/issues/13682)) ([7b77dcd](https://github.com/Esri/calcite-design-system/commit/7b77dcd27c72a69d40670734135bda801b759dc4)), closes [#13568](https://github.com/Esri/calcite-design-system/issues/13568)
+
+## [5.0.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.57...@esri/calcite-components@5.0.0-next.58) (2026-01-12)
+
+### Bug Fixes
+
+- **notice:** no longer changes close action backgroundColor on focus ([#13625](https://github.com/Esri/calcite-design-system/issues/13625)) ([c53594f](https://github.com/Esri/calcite-design-system/commit/c53594f4332448d6283d7d0f56ec15333d31e735)), closes [#13624](https://github.com/Esri/calcite-design-system/issues/13624)
+
+## [5.0.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.56...@esri/calcite-components@5.0.0-next.57) (2026-01-12)
+
+### Features
+
+- **alert, autocomplete, combobox, dropdown, input-date-picker, popover, tooltip:** add `topLayerDisabled` prop ([#13604](https://github.com/Esri/calcite-design-system/issues/13604)) ([f37d836](https://github.com/Esri/calcite-design-system/commit/f37d836afac35084490b29e577f60ff97e264db5))
+
 ## [5.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.55...@esri/calcite-components@5.0.0-next.56) (2026-01-12)
 
 **Note:** Version bump only for package @esri/calcite-components
