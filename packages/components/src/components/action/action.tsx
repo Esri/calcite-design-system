@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx, createEvent } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -217,6 +217,13 @@ export class Action extends LitElement implements FormOwner {
 
   //#endregion
 
+  //#region Events
+
+  /** @internal Fires when the action's button is being pressed down. */
+  calciteActionMouseDown =  createEvent({ cancelable: false });
+
+  //#endregion
+
   //#region Private Methods
 
   private handleClick(): void {
@@ -226,6 +233,10 @@ export class Action extends LitElement implements FormOwner {
     } else if (type === "reset") {
       resetForm(this);
     }
+  }
+
+  private handleMouseDown(): void {
+    this.calciteActionMouseDown.emit();
   }
 
   //#endregion
@@ -379,6 +390,7 @@ export class Action extends LitElement implements FormOwner {
         disabled={disabled}
         id={buttonId}
         onClick={this.handleClick}
+        onMouseDown={this.handleMouseDown}
         ref={this.buttonRef}
         role={this.aria?.role}
       >

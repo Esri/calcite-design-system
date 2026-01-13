@@ -211,6 +211,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
+    this.el.addEventListener("calciteActionMouseDown", this.actionMouseDownHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -240,11 +241,17 @@ export class ActionMenu extends LitElement {
 
   override disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
+    this.el.removeEventListener("calciteActionMouseDown", this.actionMouseDownHandler);
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private actionMouseDownHandler = (event): void => {
+    event.stopPropagation();
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => { action === event.target });
+  }
 
   private expandedHandler(): void {
     this.open = false;
