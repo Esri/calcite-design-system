@@ -18,7 +18,7 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: { value?: HTMLElement | null };
+  readonly targetElement: { value?: HTMLElement | null } | HTMLElement | null;
 }
 
 export interface UseSizeOverride {
