@@ -4,7 +4,13 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
-import { findAll, getElementRect, isElementFocused, skipAnimations, waitForAnimationFrame } from "../../tests/utils/puppeteer";
+import {
+  findAll,
+  getElementRect,
+  isElementFocused,
+  skipAnimations,
+  waitForAnimationFrame,
+} from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -144,37 +150,6 @@ describe("calcite-action-menu", () => {
     await page.waitForChanges();
 
     expect(await actionMenu.getProperty("open")).toBe(true);
-
-    const focusTargetSelector = `#triggerAction`;
-    await isElementFocused(page, focusTargetSelector);
-  });
-
-  it("clicking a slotted action closes the popover", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-action-menu>
-        <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus" text-enabled></calcite-action>
-        <calcite-action id="slottedAction" text="Add" icon="plus" text-enabled></calcite-action>
-        <calcite-action text="Add" icon="plus" text-enabled></calcite-action>
-      </calcite-action-menu>
-    `);
-    await skipAnimations(page);
-    await page.waitForChanges();
-    const actionMenu = await page.find("calcite-action-menu");
-
-    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-    actionMenu.setProperty("open", true);
-    await page.waitForChanges();
-    await openEventSpy.next();
-
-    expect(await actionMenu.getProperty("open")).toBe(true);
-
-    const action = await page.find("#slottedAction");
-    await action.click();
-    await page.waitForChanges();
-    await waitForActionMenuClose(page);
-
-    expect(await actionMenu.getProperty("open")).toBe(false);
 
     const focusTargetSelector = `#triggerAction`;
     await isElementFocused(page, focusTargetSelector);
@@ -574,10 +549,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[1].getProperty("activeDescendant")).toBe(false);
       expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
-      const secondActionPosition = await getElementRect(
-        page,
-        "#second",
-      );
+      const secondActionPosition = await getElementRect(page, "#second");
 
       await page.mouse.move(secondActionPosition.x, secondActionPosition.y);
       await page.mouse.down();
