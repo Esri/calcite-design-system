@@ -250,8 +250,10 @@ export class ActionMenu extends LitElement {
 
   private actionMouseDownHandler = (event): void => {
     event.stopPropagation();
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => { action === event.target });
-  }
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
+      action === event.target;
+    });
+  };
 
   private expandedHandler(): void {
     this.open = false;
@@ -364,10 +366,13 @@ export class ActionMenu extends LitElement {
   }
 
   private handleCalciteActionClick(event): void {
-    if (event.target.tagName === "CALCITE-ACTION") {
-      this.open = false;
-      this.setFocus();
-    }
+    const composedPath = event.composedPath();
+    this.actionElements?.forEach((action) => {
+      if (composedPath.includes(action)) {
+        this.open = false;
+        this.setFocus();
+      }
+    });
   }
 
   private updateTooltip(event: Event): void {
