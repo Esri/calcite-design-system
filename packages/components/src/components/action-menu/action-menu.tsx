@@ -366,14 +366,10 @@ export class ActionMenu extends LitElement {
   }
 
   private handleCalciteActionClick(event): void {
-    const composedPath = event.composedPath();
-    this.actionElements?.some((action) => {
-      if (composedPath.includes(action)) {
-        this.open = false;
-        this.setFocus();
-        return true;
-      }
-    });
+    if (this.actionElements?.some((action) => event.composedPath().includes(action))) {
+      this.open = false;
+      this.setFocus();
+    }
   }
 
   private updateTooltip(event: Event): void {
