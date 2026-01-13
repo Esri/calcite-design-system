@@ -109,7 +109,7 @@ describe("calcite-autocomplete", () => {
   });
 
   describe("theme", () => {
-    themed("calcite-autocomplete", {
+    themed("<calcite-autocomplete open></calcite-autocomplete>", {
       "--calcite-autocomplete-background-color": {
         shadowSelector: `.${CSS.contentAnimation}`,
         targetProp: "backgroundColor",
@@ -121,6 +121,10 @@ describe("calcite-autocomplete", () => {
       "--calcite-autocomplete-text-color": {
         shadowSelector: `.${CSS.contentAnimation}`,
         targetProp: "color",
+      },
+      "--calcite-autocomplete-menu-max-size-y": {
+        shadowSelector: `.${CSS.contentAnimation}`,
+        targetProp: "maxBlockSize",
       },
       "--calcite-autocomplete-input-prefix-size": {
         shadowSelector: `.${CSS.input}`,

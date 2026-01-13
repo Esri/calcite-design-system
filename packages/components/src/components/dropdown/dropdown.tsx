@@ -152,6 +152,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @property() selectedItems: DropdownItem["el"][] = [];
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the action to open the component from the container element. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 

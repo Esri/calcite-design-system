@@ -276,7 +276,7 @@ export class FlowItem extends LitElement {
         key="flow-back-button"
         onClick={backButtonClick}
         ref={this.backButtonRef}
-        scale="s"
+        scale={this.scale}
         slot={SLOTS.headerActionsStart}
         text={label}
         title={label}
