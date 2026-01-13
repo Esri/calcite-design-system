@@ -149,7 +149,7 @@ describe("calcite-action-menu", () => {
     await isElementFocused(page, focusTargetSelector);
   });
 
-  it("when the mouse pressed down on a slotted action, it should update the menu's activeMenuItemIndex to that action", async () => {
+  it("clicking a slotted action closes the popover", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-action-menu>
