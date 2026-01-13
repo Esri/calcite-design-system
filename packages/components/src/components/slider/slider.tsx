@@ -221,7 +221,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, number values display with a group separator corresponding to the language and country format. */
+  /** When `true`, displays number values with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, indicates a histogram is present. */
@@ -265,10 +265,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** Specifies label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple selections, the component's lower value. */
@@ -312,7 +312,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the interval to move with the up, or down keys. */
+  /** Specifies the interval to move with the `arrow up` or `arrow down` keys. */
   @property({ reflect: true }) step = 1;
 
   /** Specifies the interval between tick marks on the number line. */
@@ -327,7 +327,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * Specifies the component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

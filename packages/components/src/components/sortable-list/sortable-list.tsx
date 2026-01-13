@@ -73,7 +73,7 @@ export class SortableList extends LitElement implements SortableComponent {
   /** Specifies the selector for the handle elements. */
   @property({ reflect: true }) handleSelector = "calcite-handle";
 
-  /** Specifies the layout of the component. */
+  /** Specifies the component's layout. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
