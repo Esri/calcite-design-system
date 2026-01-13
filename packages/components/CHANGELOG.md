@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.59...@esri/calcite-components@5.0.0-next.60) (2026-01-13)
+
+### Bug Fixes
+
+- **action-menu:** clicking in between actions doesn't close popup ([#13680](https://github.com/Esri/calcite-design-system/issues/13680)) ([ca8ef20](https://github.com/Esri/calcite-design-system/commit/ca8ef20c4edf0c4cafb5db33e71465e20026c380)), closes [#13453](https://github.com/Esri/calcite-design-system/issues/13453)
+
 ## [5.0.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.58...@esri/calcite-components@5.0.0-next.59) (2026-01-13)
 
 ### Features
