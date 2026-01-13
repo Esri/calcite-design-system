@@ -367,7 +367,7 @@ export class ActionMenu extends LitElement {
 
   private handleCalciteActionClick(event): void {
     const composedPath = event.composedPath();
-    this.actionElements?.forEach((action) => {
+    this.actionElements?.some((action) => {
       if (composedPath.includes(action)) {
         this.open = false;
         this.setFocus();
