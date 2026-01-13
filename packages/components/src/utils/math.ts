@@ -9,7 +9,7 @@ const decimalNumberRegex = new RegExp(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
  *
  * @param decimal - decimal value
  * @param value
- * @returns {number} the amount of decimal places in a number
+ * @returns the amount of decimal places in a number
  */
 export const decimalPlaces = (value: number | string): number => {
   const match = ("" + value).match(decimalNumberRegex);
@@ -42,7 +42,7 @@ export function remap(value: number, fromMin: number, fromMax: number, toMin: nu
  * @param value
  * @param range
  * @param threshold
- * @returns -1 if close to lower edge, 1 if close to upper edge, 0 otherwise.
+ * @returns if close to lower edge, 1 if close to upper edge, 0 otherwise.
  */
 export function closeToRangeEdge(value: number, range: number, threshold: number): number {
   return value < threshold ? -1 : value > range - threshold ? 1 : 0;
