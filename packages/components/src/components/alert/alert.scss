@@ -336,11 +336,13 @@ $alert-durations:
   }
 }
 
-/**
- * Conditional styles for when Alert is slotted in Shell
- */
+:host([top-layer-disabled]) .container,
 .container--embedded {
-  @apply absolute z-toast;
+  z-index: var(--calcite-z-index-toast);
+}
+
+.container--embedded {
+  position: absolute;
 }
 
 @include includes.base-component();

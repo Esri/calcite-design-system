@@ -1300,6 +1300,7 @@
     "contingent-values-retire": 61837,
     "file-esl": 61838,
     "table-upload": 61839,
-    "table-download": 61840
+    "table-download": 61840,
+    "variable-generic": 61841
   }
 }
