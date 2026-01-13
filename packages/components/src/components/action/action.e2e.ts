@@ -171,7 +171,7 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
-  it("should have a indicator live region", async () => {
+  it("should have a aria-active indicator", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action></calcite-action>`);
     await page.waitForChanges();

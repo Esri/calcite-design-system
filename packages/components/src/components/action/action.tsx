@@ -348,6 +348,7 @@ export class Action extends LitElement implements FormOwner {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
+          // label should update when indicator is change and have this be the live region
           ariaLabel={ariaLabel}
           ariaLabelledByElements={this.aria?.labelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}

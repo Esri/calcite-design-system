@@ -361,7 +361,7 @@ export class Chip extends LitElement {
           : this.interactive
             ? "button"
             : this.closable
-              ? undefined
+              ? undefined // should update close button to indicate that it's labelled/described by the chip
               : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
