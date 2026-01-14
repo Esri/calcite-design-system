@@ -32,7 +32,7 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding `calcite-action` elements.
+ * @slot - A slot for adding `calcite-action`s.
  * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
