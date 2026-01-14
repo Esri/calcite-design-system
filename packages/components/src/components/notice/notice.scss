@@ -7,7 +7,8 @@
  * @prop --calcite-notice-border-color: When `appearance="outline-fill"`, specifies the component's border color.
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
  * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close element.
- * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's close element when focused or hovered.
+ * @prop --calcite-notice-close-background-color-hover: Specifies the background color of the component's close element when hovered.
+ * @prop --calcite-notice-close-background-color-focus: [Deprecated] Specifies the background color of the component's close element when hovered. Use `--calcite-notice-close-background-color-hover` instead.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close element when active.
  * @prop --calcite-notice-close-icon-color-hover: Specifies the icon color of the component's close element when hovered or active.
  * @prop --calcite-notice-close-icon-color: Specifies the icon color of the component's close element.
@@ -172,7 +173,10 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-spacing-xs);
   --calcite-action-background-color: var(--calcite-notice-close-background-color);
-  --calcite-action-background-color-hover: var(--calcite-notice-close-background-color-focus);
+  --calcite-action-background-color-hover: var(
+    --calcite-notice-close-background-color-hover,
+    var(--calcite-notice-close-background-color-focus)
+  );
   --calcite-action-background-color-press: var(--calcite-notice-close-background-color-press);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
   --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover);
