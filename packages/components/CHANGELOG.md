@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.61...@esri/calcite-components@5.0.0-next.62) (2026-01-14)
+
+### Bug Fixes
+
+- **input-time-picker:** enable support for deprecated icon color variable ([#13623](https://github.com/Esri/calcite-design-system/issues/13623)) ([f6f80bf](https://github.com/Esri/calcite-design-system/commit/f6f80bf8650c1a365d2d668ffffc39e782a309f9)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+- **list-item:** maintain vertical alignment of slotted elements on focus ([#13425](https://github.com/Esri/calcite-design-system/issues/13425)) ([242c3db](https://github.com/Esri/calcite-design-system/commit/242c3db7905168aa77ba6ec6c32d622f7123f959)), closes [#12940](https://github.com/Esri/calcite-design-system/issues/12940)
+- **panel:** enable support for deprecated icon color variable ([#13635](https://github.com/Esri/calcite-design-system/issues/13635)) ([812aa5a](https://github.com/Esri/calcite-design-system/commit/812aa5a50ff67a625b86032729eaff8b459b5628)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+
 ## [5.0.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.60...@esri/calcite-components@5.0.0-next.61) (2026-01-13)
 
 ### Bug Fixes
