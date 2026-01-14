@@ -10,7 +10,8 @@ import { List } from "./list";
 const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
-  extends Pick<
+  extends
+    Pick<
       List,
       | "disabled"
       | "displayMode"
@@ -5309,10 +5310,22 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-export const stretchSlottedContent = (): string => html`
+export const actionsSlots = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description.">
-      <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action-menu appearance="transparent" slot="actions-start">
+        <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+      </calcite-action-menu>
+      <calcite-dropdown slot="actions-start">
+        <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+        <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item>Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
       <calcite-action
         slot="actions-start"
         appearance="transparent"
