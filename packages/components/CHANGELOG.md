@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.63](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.62...@esri/calcite-components@5.0.0-next.63) (2026-01-14)
+
+### Bug Fixes
+
+- **list-item:** don't vertically stretch slotted action and dropdown component trigger buttons ([#13693](https://github.com/Esri/calcite-design-system/issues/13693)) ([f9e5d39](https://github.com/Esri/calcite-design-system/commit/f9e5d39e956b4376dffde2c5884d29bb1525d84b)), closes [#10777](https://github.com/Esri/calcite-design-system/issues/10777)
+
 ## [5.0.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.61...@esri/calcite-components@5.0.0-next.62) (2026-01-14)
 
 ### Bug Fixes
