@@ -137,8 +137,8 @@
 .loader {
   position: absolute;
   inset-block-start: 0;
-  inset-block-start: 1px;
-  inset-inline: 1px;
+  inset-block-start: var(--calcite-spacing-px);
+  inset-inline: var(--calcite-spacing-px);
 }
 
 .footer {
