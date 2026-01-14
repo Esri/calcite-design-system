@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.60...@esri/calcite-components@5.0.0-next.61) (2026-01-13)
+
+### Bug Fixes
+
+- **action:** resolve specificity conflict between `selection-mode="highlight"` and `appearance="transparent"` ([#13686](https://github.com/Esri/calcite-design-system/issues/13686)) ([25f6965](https://github.com/Esri/calcite-design-system/commit/25f696578ea86db39973123755fe54ca74209075)), closes [#13462](https://github.com/Esri/calcite-design-system/issues/13462) [#10758](https://github.com/Esri/calcite-design-system/issues/10758)
+
+## [5.0.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.59...@esri/calcite-components@5.0.0-next.60) (2026-01-13)
+
+### Bug Fixes
+
+- **action-menu:** clicking in between actions doesn't close popup ([#13680](https://github.com/Esri/calcite-design-system/issues/13680)) ([ca8ef20](https://github.com/Esri/calcite-design-system/commit/ca8ef20c4edf0c4cafb5db33e71465e20026c380)), closes [#13453](https://github.com/Esri/calcite-design-system/issues/13453)
+
+## [5.0.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.58...@esri/calcite-components@5.0.0-next.59) (2026-01-13)
+
+### Features
+
+- **accordion-item:** update header to use semantic button instead of div ([#13664](https://github.com/Esri/calcite-design-system/issues/13664)) ([4022e50](https://github.com/Esri/calcite-design-system/commit/4022e500199688172d409d7b8f6e4dfcec6abb79)), closes [#4123](https://github.com/Esri/calcite-design-system/issues/4123)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** update color of prefix and suffix ([#13682](https://github.com/Esri/calcite-design-system/issues/13682)) ([7b77dcd](https://github.com/Esri/calcite-design-system/commit/7b77dcd27c72a69d40670734135bda801b759dc4)), closes [#13568](https://github.com/Esri/calcite-design-system/issues/13568)
+
 ## [5.0.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.57...@esri/calcite-components@5.0.0-next.58) (2026-01-12)
 
 ### Bug Fixes
