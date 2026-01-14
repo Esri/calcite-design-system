@@ -719,6 +719,8 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
+    this.setValueFromMinMax();
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
