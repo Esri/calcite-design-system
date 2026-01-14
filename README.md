@@ -304,6 +304,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/ashetland">
+      <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
+      <br />
+      <sub><b>Aaron Shetland</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/ethanbdev">
       <img src="https://avatars.githubusercontent.com/u/52869490?v=4" width="100;" alt="ethanbdev"/>
       <br />
@@ -317,20 +324,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Mike Horn</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/Apahadi73">
       <img src="https://avatars.githubusercontent.com/u/36856709?v=4" width="100;" alt="Apahadi73"/>
       <br />
       <sub><b>Amir Pahadi</b></sub>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td align="center">
-    <a href="https://github.com/ashetland">
-      <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
-      <br />
-      <sub><b>Aaron Shetland</b></sub>
     </a>
   </td>
   <td align="center">
