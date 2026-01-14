@@ -208,9 +208,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) disabled = false;
 
   /**
-   * For single selections, determines the track's fill relative to the component's handle.
+   * When `value` is specified for single values, determines the track's fill relative to the component's handle.
    *
-   * For multiple selections, displays the fill between the min and max handles.
+   * When `minValue` and `maxValue` are specified for multiple values, displays the fill between the `minValue` and `maxValue` handles.
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
@@ -244,7 +244,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays handle labels with their numeric value. */
+  /** When `true`, displays numeric value labels on handles. */
   @property({ reflect: true }) labelHandles = false;
 
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
@@ -253,16 +253,16 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** The component's maximum selectable value. */
   @property({ reflect: true }) max = 100;
 
-  /** For multiple selections, specifies the accessible name for the second handle, such as `"Temperature, upper bound"`. */
+  /** When `minValue` and `maxValue` are specified for multiple values, specifies the accessible name for the `maxValue` handle, such as `"Temperature, upper bound"`. */
   @property() maxLabel: string;
 
-  /** For multiple selections, specifies the component's upper value. */
+  /** For multiple values, specifies the component's upper value. */
   @property() maxValue: number;
 
   /** Specifies the component's minimum selectable value. */
   @property({ reflect: true }) min = 0;
 
-  /** Specifies the accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
+  /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). */
   @property() minLabel: string;
 
   /** Specifies the component's label text. */
@@ -271,7 +271,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Overrides individual strings used by the component */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** For multiple selections, the component's lower value. */
+  /** For multiple values, the component's lower value. */
   @property() minValue: number;
 
   /**
