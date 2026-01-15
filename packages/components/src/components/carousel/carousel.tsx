@@ -148,6 +148,11 @@ export class Carousel extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
+   * When `true`, pagination controls are hidden.
+   */
+  @property() paginationDisabled: boolean = false;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @private
@@ -612,7 +617,7 @@ export class Carousel extends LitElement {
           this.hasMultiple &&
           this.renderRotationControl()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
-        {this.renderPaginationItems()}
+        {this.paginationDisabled ? this.renderPaginationAriaLive() : this.renderPaginationItems()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("next")}
       </div>
     );
@@ -661,6 +666,15 @@ export class Carousel extends LitElement {
             </button>
           );
         })}
+      </div>
+    );
+  }
+
+  private renderPaginationAriaLive(): JsxNode {
+    const { selectedIndex, items } = this;
+    return (
+      <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
+        {`Item ${selectedIndex + 1} of ${items.length}`}
       </div>
     );
   }
