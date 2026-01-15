@@ -11,6 +11,7 @@ import {
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
+import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
@@ -671,10 +672,22 @@ export class Carousel extends LitElement {
   }
 
   private renderPaginationAriaLive(): JsxNode {
-    const { selectedIndex, items } = this;
+    const {
+      messages,
+      messages: { _lang: effectiveLocale },
+      selectedIndex,
+      items,
+    } = this;
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+    };
+
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
-        {`Item ${selectedIndex + 1} of ${items.length}`}
+        {messages.paginationStatus
+          .replace("{current}", `${selectedIndex + 1}`)
+          .replace("{total}", `${items.length}`)}
       </div>
     );
   }
