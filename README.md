@@ -253,6 +253,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/brendan-vincent-rice">
+      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
+      <br />
+      <sub><b>Brendan Rice</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/jrowlingson">
       <img src="https://avatars.githubusercontent.com/u/3051781?v=4" width="100;" alt="jrowlingson"/>
       <br />
@@ -273,6 +280,8 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>John Gibson</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/rmstinson">
       <img src="https://avatars.githubusercontent.com/u/12650705?v=4" width="100;" alt="rmstinson"/>
@@ -280,20 +289,11 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Mike Stinson</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
     <a href="https://github.com/DintaMel">
       <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
       <br />
       <sub><b>Mel Dintaman</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/brendan-vincent-rice">
-      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
-      <br />
-      <sub><b>Brendan Rice</b></sub>
     </a>
   </td>
   <td align="center">
