@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { throttle } from "es-toolkit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,

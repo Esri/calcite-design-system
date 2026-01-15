@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";

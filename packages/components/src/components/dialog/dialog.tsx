@@ -2,7 +2,7 @@
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
