@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.66](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.65...@esri/calcite-components@5.0.0-next.66) (2026-01-15)
+
+### Features
+
+- **text-area:** add loading property ([#13679](https://github.com/Esri/calcite-design-system/issues/13679)) ([d0c9b6a](https://github.com/Esri/calcite-design-system/commit/d0c9b6ad8872f071be62e05049dbd2ed112435ed)), closes [#13389](https://github.com/Esri/calcite-design-system/issues/13389)
+
 ## [5.0.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.64...@esri/calcite-components@5.0.0-next.65) (2026-01-15)
 
 ### Bug Fixes
