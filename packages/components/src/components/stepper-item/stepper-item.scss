@@ -9,7 +9,7 @@
  * @prop --calcite-stepper-item-selected-header-text-color: When `selected`, specifies the component's header text color.
  * @prop --calcite-stepper-item-icon-color: Specifies the component's icon color.
  * @prop --calcite-stepper-item-complete-icon-color: When `complete`, specifies the component's icon color.
- * @prop --calcite-stepper-item-error-icon-color: When the component contains an `error`, specifies the component's icon and number color.
+ * @prop --calcite-stepper-item-error-icon-color: When `error` is `true`, specifies the component's icon and number color.
  * @prop --calcite-stepper-item-selected-icon-color: When `selected`, specifies the component's icon and number color.
  * @prop --calcite-stepper-item-description-text-color: Specifies the component's description and number text color.
  * @prop --calcite-stepper-item-description-text-color-hover: Specifies the component's description text color when hovered, focused or `selected`.
@@ -18,8 +18,8 @@
  * @prop --calcite-stepper-bar-fill-color-hover: Specifies the component's fill color when hovered or focused.
  * @prop --calcite-stepper-bar-complete-fill-color: When `complete`, specifies the component's fill color.
  * @prop --calcite-stepper-bar-complete-fill-color-hover: When `complete`, specifies the component's fill color when hovered or focused.
- * @prop --calcite-stepper-bar-error-fill-color: When the component contains an `error`, specifies the component's fill color.
- * @prop --calcite-stepper-bar-error-fill-color-hover: When the component contains an `error`, specifies the component's fill color when hovered or focused.
+ * @prop --calcite-stepper-bar-error-fill-color: When `error` is `true`, specifies the component's fill color.
+ * @prop --calcite-stepper-bar-error-fill-color-hover: When `error` is `true`, specifies the component's fill color when hovered or focused.
  * @prop --calcite-stepper-bar-selected-fill-color: When `selected`, specifies the component's fill color.
 */
 
