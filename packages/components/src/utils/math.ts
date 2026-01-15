@@ -42,7 +42,7 @@ export function remap(value: number, fromMin: number, fromMax: number, toMin: nu
  * @param value
  * @param range
  * @param threshold
- * @returns if close to lower edge, 1 if close to upper edge, 0 otherwise.
+ * @returns -1 if close to lower edge, 1 if close to upper edge, 0 otherwise.
  */
 export function closeToRangeEdge(value: number, range: number, threshold: number): number {
   return value < threshold ? -1 : value > range - threshold ? 1 : 0;
