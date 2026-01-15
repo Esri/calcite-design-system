@@ -268,9 +268,11 @@ calcite-sort-handle {
 }
 
 .content {
-  @apply animate-in flex-1 relative min-h-0;
+  @apply flex-1 relative min-h-0 opacity-0;
   padding-block: var(--calcite-internal-block-padding-block);
   padding-inline: var(--calcite-internal-block-padding-inline);
+  transition-property: opacity;
+  transition-duration: var(--calcite-animation-timing);
 }
 
 .content-end,
@@ -305,6 +307,10 @@ calcite-action-menu {
   .icon--start,
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
+  }
+
+  .content {
+    @apply opacity-100;
   }
 }
 
