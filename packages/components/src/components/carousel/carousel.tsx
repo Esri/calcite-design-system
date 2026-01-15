@@ -148,7 +148,7 @@ export class Carousel extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, pagination controls are hidden.
+   * When `true`, the component's pagination controls are hidden.
    */
   @property() paginationDisabled: boolean = false;
 
