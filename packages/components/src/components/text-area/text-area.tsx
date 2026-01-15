@@ -177,7 +177,7 @@ export class TextArea
   /** Accessible name for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Displays label text on the component. */
   @property() labelText: string;
 
   /**

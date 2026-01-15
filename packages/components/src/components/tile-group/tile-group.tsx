@@ -71,7 +71,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   /**
    * Specifies the selection appearance, where:
    *
-   * - `"icon"` (displays a checkmark or dot), or
+   * - `"icon"` (displays a checkmark or dot),
    * - `"highlight"` (changes the background color), or
    * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    */

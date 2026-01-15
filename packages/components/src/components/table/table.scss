@@ -13,16 +13,16 @@
  * @prop --calcite-table-selection-cell-background-color: Specifies the background color of the component's `selectionMode` cell.
  * @prop --calcite-table-selection-cell-background-color-selected: Specifies the background color of the component's `selectionMode` cell.
  * @prop --calcite-table-selection-cell-icon-color: Specifies the icon color of the component's `selectionMode` selection icon.
- * @prop --calcite-table-selection-cell-icon-color-selected: Specifies the icon color of the component's `selectionMode` selection icon when selected.
+ * @prop --calcite-table-selection-cell-icon-color-selected: Specifies the icon color of the component's `selectionMode` selection icon for `selected` `calcite-table-row`s,.
 
  * @prop --calcite-table-selection-chip-background-color: Specifies the background color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-border-color: Specifies the border color of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-corner-radius: Specifies the corner radius of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-shadow: Specifies the shadow of the component's `selectionMode` selection chip.
  * @prop --calcite-table-selection-chip-text-color: Specifies the text color of the component's `selectionMode` selection chip.
- * @prop --calcite-table-selection-chip-background-color-selected: Specifies the background color of the component's `selectionMode` selection chip when Table Rows are selected.
- * @prop --calcite-table-selection-chip-border-color-selected: Specifies the border color of the component's `selectionMode` selection chip when Table Rows are selected.
- * @prop --calcite-table-selection-chip-text-color-selected: Specifies the text color of the component's `selectionMode` selection chip when Table Rows are selected.
+ * @prop --calcite-table-selection-chip-background-color-selected: When `calcite-table-row`s are selected, specifies the background color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-border-color-selected: When `calcite-table-row`s are selected, specifies the border color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-text-color-selected: When `calcite-table-row`s are selected, specifies the text color of the component's `selectionMode` selection chip.
 
  * @prop --calcite-table-selection-out-of-view-chip-background-color: Specifies the background color of the component's `selectionMode` selection out of view chip.
  * @prop --calcite-table-selection-out-of-view-chip-border-color: Specifies the border color of the component's `selectionMode` selection out of view chip.
@@ -43,12 +43,12 @@
  * @prop --calcite-table-selection-dismiss-button-text-color-hover: Specifies the text color of the component's `selectionMode` selection dismiss chip when hovered.
  * @prop --calcite-table-selection-dismiss-button-text-color: Specifies the text color of the component's `selectionMode` selection dismiss chip.
 
- * @prop --calcite-table-pagination-color: Specifies the component's `pageSize` pagination item color.
- * @prop --calcite-table-pagination-color-hover: Specifies the component's `pageSize` pagination item color when hovered or selected.
- * @prop --calcite-table-pagination-color-border-hover: Specifies the component's `pageSize` pagination item bottom border color when hovered.
- * @prop --calcite-table-pagination-color-border-active: Specifies the component's `pageSize` pagination item bottom border color when selected.
- * @prop --calcite-table-pagination-background-color: Specifies the component's `pageSize` pagination item background color when active.
- * @prop --calcite-table-pagination-icon-color-background-hover: Specifies the component's `pageSize` pagination chevron item background color when hovered.
+ * @prop --calcite-table-pagination-color: When `pageSize` is specified, specifies the component's pagination item color.
+ * @prop --calcite-table-pagination-color-hover: When `pageSize` is specified, specifies the component's pagination item color when hovered or selected.
+ * @prop --calcite-table-pagination-color-border-hover: When `pageSize` is specified, specifies the component's pagination item bottom border color when hovered.
+ * @prop --calcite-table-pagination-color-border-active: When `pageSize` is specified, specifies the component's pagination item bottom border color when selected.
+ * @prop --calcite-table-pagination-background-color: When `pageSize` is specified, specifies the component's pagination item background color when active.
+ * @prop --calcite-table-pagination-icon-color-background-hover: When `pageSize` is specified, specifies the component's pagination chevron item background color when hovered.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.

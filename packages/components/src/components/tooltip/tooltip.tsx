@@ -114,7 +114,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * The `referenceElement` to position the component according to its `"placement"` value.
+   * Specifies the `referenceElement` to position the component according to its `"placement"` value.
    *
    * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
    *
@@ -125,7 +125,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property() referenceElement: ReferenceElement | string;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true`, disables top layer placement when the component is open.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *

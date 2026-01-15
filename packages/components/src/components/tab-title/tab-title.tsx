@@ -116,7 +116,7 @@ export class TabTitle extends LitElement {
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
    *
-   *  `@internal`
+   *  @internal
    */
   @property() position: TabPosition = "top";
 

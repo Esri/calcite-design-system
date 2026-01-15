@@ -54,7 +54,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the alignment of the Tile's content. */
+  /** Specifies the alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /** A description for the component, which displays below the heading. */
@@ -64,7 +64,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The component's embed mode.
+   * Specifies the component's embed mode.
    *
    * When `true`, renders without a border and padding for use by other components.
    *
@@ -78,7 +78,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** When embed is `"false"`, the URL for the component. */
+  /** When embed is `false`, specifies the URL for the component. */
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
@@ -116,7 +116,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * Specifies the selection appearance, where:
    *
-   * - `"icon"` (displays a checkmark or dot), or
+   * - `"icon"` (displays a checkmark or dot),
    * - `"highlight"` (changes the background color), or
    * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    *

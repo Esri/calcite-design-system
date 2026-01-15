@@ -82,7 +82,7 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays borders in the component. */
+  /** When `true`, displays borders between `calcite-table-rows`. */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -130,7 +130,7 @@ export class Table extends LitElement {
     return this._selectedItems;
   }
 
-  /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+  /** When `selection-mode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selection-mode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
@@ -147,7 +147,7 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
-  /** When `true`, displays striped styling in the component. */
+  /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
 
   //#endregion
