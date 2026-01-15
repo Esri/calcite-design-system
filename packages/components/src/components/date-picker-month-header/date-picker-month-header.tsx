@@ -37,6 +37,7 @@ declare global {
   }
 }
 
+/** @private */
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
