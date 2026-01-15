@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.65](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.64...@esri/calcite-components@5.0.0-next.65) (2026-01-15)
+
+### Bug Fixes
+
+- **navigation-logo:** enable support for deprecated icon color variable ([#13633](https://github.com/Esri/calcite-design-system/issues/13633)) ([8c6746a](https://github.com/Esri/calcite-design-system/commit/8c6746a1eb435fb48260d0d7b15053f84b1f6f8f)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+
 ## [5.0.0-next.64](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.63...@esri/calcite-components@5.0.0-next.64) (2026-01-15)
 
 ### Bug Fixes
