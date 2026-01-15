@@ -533,9 +533,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([display-mode="float-all"]),
 :host([display-mode="overlay"]) {
   .resize-handle-bar {
-    border-block-start: 1px solid var(--calcite-color-border-3);
-    border-inline-end: 1px solid var(--calcite-color-border-3);
-    border-block-end: 1px solid var(--calcite-color-border-3);
+    border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
   }
 }
 
