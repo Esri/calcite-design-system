@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
-import { literal } from "lit-html/static.js";
+import { createRef } from "lit/directives/ref.js";
+import { literal } from "lit/static-html.js";
 import {
   LitElement,
   property,

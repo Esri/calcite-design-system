@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
-import { createRef, Ref } from "lit-html/directives/ref.js";
+import { createRef, Ref } from "lit/directives/ref.js";
 import {
   createEvent,
   h,

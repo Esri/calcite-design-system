@@ -176,7 +176,7 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-This will open main demo page in the browser. You can edit `index.html` under [`packages/components/src/demos`](packages/components/src/demos) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
+This will open main demo page in the browser. You can edit `index.html` under [`packages/components`](packages/components) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
 
 By default, the page is blank with a few controls for common test scenarios, such as toggling between dark and light modes. You can add a documentation snippet by running `npx snippet` and following the prompts. You can also paste code from an issue repro case or a Storybook story.
 

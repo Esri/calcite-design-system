@@ -348,7 +348,6 @@ export class Autocomplete
    * Updates the position of the component.
    *
    * @param delayed - `true` if the placement should be updated after the component is finished rendering.
-   * @returns {Promise<void>}
    */
   @method()
   async reposition(delayed = false): Promise<void> {
@@ -378,7 +377,7 @@ export class Autocomplete
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -387,8 +386,6 @@ export class Autocomplete
 
   /**
    * Selects the text of the component's `value`.
-   *
-   * @returns {Promise<void>}
    */
   @method()
   async selectText(): Promise<void> {
@@ -401,7 +398,6 @@ export class Autocomplete
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
