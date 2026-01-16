@@ -172,7 +172,7 @@ export class InputText
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component's button or hyperlink. */
+  /** Specifies an accessible label for the component's button or hyperlink. */
   @property() label: string;
 
   @property() labelText: string;

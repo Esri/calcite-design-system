@@ -50,7 +50,7 @@ export class NavigationLogo extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /**

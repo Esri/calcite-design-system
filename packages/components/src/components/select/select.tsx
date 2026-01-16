@@ -103,7 +103,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) form: string;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */

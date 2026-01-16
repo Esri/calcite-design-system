@@ -87,7 +87,7 @@ export class ComboboxItem extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** The component's label. */
+  /** Specifies an accessible label for the component. */
   @property() label: any;
 
   /** Provides additional metadata to the component used in filtering. */
