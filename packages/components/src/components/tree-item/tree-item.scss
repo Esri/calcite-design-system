@@ -167,7 +167,7 @@
   transition: max-block-size 200ms ease-out;
 
   .item--expanded > & {
-    max-block-size: 400px;
+    max-block-size: 200px;
   }
 
   > * {
