@@ -72,7 +72,7 @@ jobs:
       - name: Update 3rd party licenses
         run: |
           npm install
-          npm run util:update-3rd-party-licenses
+          npm run util:update-3rd-party-notices
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v7
         with:
