@@ -144,7 +144,7 @@ export class InputTimePicker
    */
   @property({ reflect: true }) max: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**

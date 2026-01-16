@@ -268,7 +268,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple selections, the component's lower value. */

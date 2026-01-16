@@ -236,7 +236,7 @@ export class InputDatePicker
   /** Specifies the latest allowed date as a full date object. */
   @property() maxAsDate: Date;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**

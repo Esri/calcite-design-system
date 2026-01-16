@@ -117,7 +117,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) layout: StepperLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

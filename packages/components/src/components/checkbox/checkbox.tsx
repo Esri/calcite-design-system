@@ -105,7 +105,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
