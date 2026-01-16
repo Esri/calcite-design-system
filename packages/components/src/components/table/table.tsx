@@ -130,7 +130,7 @@ export class Table extends LitElement {
     return this._selectedItems;
   }
 
-  /** When `selection-mode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selection-mode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed. */
+  /** When `selectionMode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selectionMode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**

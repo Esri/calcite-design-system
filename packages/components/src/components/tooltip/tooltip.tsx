@@ -114,7 +114,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * Specifies the `referenceElement` to position the component according to its `"placement"` value.
+   * The `referenceElement` to position the component according to its `"placement"` value.
    *
    * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
    *

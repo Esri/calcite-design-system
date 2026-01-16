@@ -46,7 +46,7 @@ export class Tab extends LitElement {
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component's contents are selected.
+   * When `true`, the component is selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
