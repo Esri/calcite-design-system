@@ -1,4 +1,4 @@
-## Third Party Licenses
+## Third Party Notices
 
 fdir
 

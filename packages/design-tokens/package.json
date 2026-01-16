@@ -13,7 +13,7 @@
   "types": "./dist/es6/global.d.ts",
   "files": [
     "./dist/**/*",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "repository": {
     "type": "git",

@@ -39,7 +39,7 @@
     "sprite-16.svg",
     "sprite-24.svg",
     "sprite-32.svg",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "node bin/cli.js",

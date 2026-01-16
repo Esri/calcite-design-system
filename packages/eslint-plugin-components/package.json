@@ -11,7 +11,7 @@
   "main": "dist/index.js",
   "files": [
     "dist/index.js",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "vite build",

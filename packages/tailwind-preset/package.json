@@ -12,7 +12,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "vite build",

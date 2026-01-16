@@ -32,7 +32,7 @@
   "files": [
     "dist/",
     "hydrate/",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && vite build",
