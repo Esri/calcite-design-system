@@ -148,7 +148,7 @@ export class Action extends LitElement implements FormOwner {
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies an accessible name for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */

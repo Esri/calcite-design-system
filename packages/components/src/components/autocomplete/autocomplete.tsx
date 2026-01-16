@@ -203,7 +203,7 @@ export class Autocomplete
   /** Specifies the component's input value. */
   @property() inputValue: string;
 
-  /** Specifies an accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** When provided, displays label text on the component. */

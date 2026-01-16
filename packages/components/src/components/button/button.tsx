@@ -135,7 +135,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */

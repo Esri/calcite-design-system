@@ -81,7 +81,7 @@ export class Card extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */

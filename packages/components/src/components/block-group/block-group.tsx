@@ -101,7 +101,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * When `dragEnabled` is `true` and multiple group sorting is enabled with `group`, specifies the component's name for dragging between groups.
    *

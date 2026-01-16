@@ -72,7 +72,7 @@ export class Navigation extends LitElement {
 
   // #region Public Properties
 
-  /** When `navigationAction` is `true`, specifies the label of the `calcite-action`. */
+  /** When `navigationAction` is `true`, specifies an accessible label for the `calcite-action`. */
   @property() label: string;
 
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */

@@ -363,7 +363,7 @@ export class Combobox
   @property({ reflect: true }) form: string;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
