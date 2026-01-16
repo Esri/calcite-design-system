@@ -1,4 +1,4 @@
-import { TemplateResult } from "lit-html";
+import { TemplateResult } from "lit";
 import { h, LuminaJsx } from "@arcgis/lumina";
 import { Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";

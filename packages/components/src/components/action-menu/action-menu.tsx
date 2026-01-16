@@ -121,6 +121,13 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private actionMouseDownHandler = (event): void => {
+    event.stopPropagation();
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
+      action === event.target;
+    });
+  };
+
   //#endregion
 
   //#region State Properties
@@ -247,13 +254,6 @@ export class ActionMenu extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  private actionMouseDownHandler = (event): void => {
-    event.stopPropagation();
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
-      action === event.target;
-    });
-  };
 
   private expandedHandler(): void {
     this.open = false;
