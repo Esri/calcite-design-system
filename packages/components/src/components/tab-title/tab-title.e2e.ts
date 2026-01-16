@@ -341,6 +341,11 @@ describe("calcite-tab-title", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "color",
         },
+        "--calcite-tab-text-color-press": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+          state: { press: `calcite-tab-title >>> .${CSS.container}` },
+        },
         "--calcite-tab-accent-color-press": {
           shadowSelector: `.${CSS.selectedIndicator}`,
           targetProp: "backgroundColor",
@@ -410,20 +415,20 @@ describe("calcite-tab-title", () => {
 
     describe("start/end icons", () => {
       themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
-        "--calcite-tab-icon-start-color": {
+        "--calcite-tab-icon-color-start": {
           shadowSelector: `.${CSS.iconStart}`,
           targetProp: "color",
         },
-        "--calcite-tab-icon-start-color-press": {
+        "--calcite-tab-icon-color-start-press": {
           shadowSelector: `.${CSS.iconStart}`,
           targetProp: "color",
           state: { press: `calcite-tab-title >>> .${CSS.container}` },
         },
-        "--calcite-tab-icon-end-color": {
+        "--calcite-tab-icon-color-end": {
           shadowSelector: `.${CSS.iconEnd}`,
           targetProp: "color",
         },
-        "--calcite-tab-icon-end-color-press": {
+        "--calcite-tab-icon-color-end-press": {
           shadowSelector: `.${CSS.iconEnd}`,
           targetProp: "color",
           state: { press: `calcite-tab-title >>> .${CSS.container}` },
