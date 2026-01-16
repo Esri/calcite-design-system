@@ -679,6 +679,10 @@ export class Carousel extends LitElement {
       items,
     } = this;
 
+    if (messages._loading) {
+      return;
+    }
+
     numberStringFormatter.numberFormatOptions = {
       locale: effectiveLocale,
     };
