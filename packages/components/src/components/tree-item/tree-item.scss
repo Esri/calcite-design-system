@@ -162,17 +162,21 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  transform: scaleY(0);
-  transition:
-    var(--calcite-animation-timing) animation.$easing-function,
-    opacity var(--calcite-animation-timing) animation.$easing-function,
-    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+  @apply relative overflow-hidden origin-top;
+  max-block-size: 0;
+  transition: max-block-size 200ms ease-out;
 
   .item--expanded > & {
-    @apply overflow-visible opacity-100;
-    transform: none;
-    block-size: auto;
+    max-block-size: 400px;
+  }
+
+  > * {
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+
+  .item--expanded > & > * {
+    opacity: 1;
   }
 }
 
