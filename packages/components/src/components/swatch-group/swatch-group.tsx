@@ -40,13 +40,13 @@ export class SwatchGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies the component's accessible name.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
+  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's `label` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -57,7 +57,7 @@ export class SwatchGroup extends LitElement {
   @property() selectedItems: Swatch["el"][] = [];
 
   /**
-   * Specifies the component's selection mode, where:
+   * Specifies the selection mode of the component, where:
    *
    * `"multiple"` allows any number of selections,
    *

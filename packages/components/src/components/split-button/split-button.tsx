@@ -60,7 +60,7 @@ export class SplitButton extends LitElement {
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the component's appearance. */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid" | "transparent",
     Appearance
@@ -93,15 +93,15 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** When `true`, displays a busy indicator on the primary button. */
+  /** When `true`, a busy indicator is displayed on the primary button. */
   @property({ reflect: true }) loading = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   *  Specifies the type of positioning to use for overlaid content, where:
    *
-   * `"absolute"` positions the component inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * Use `"fixed"` to escape an overflowing parent container or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -134,7 +134,7 @@ export class SplitButton extends LitElement {
   /** Specifies text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

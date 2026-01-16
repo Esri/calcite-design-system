@@ -215,13 +215,11 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
   /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if any.
+   * Specifies the id of the component's associated form. When not set, the component is associated with its ancestor form element, if one exists
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, displays number values with a group separator corresponding to the language and country format. */
+  /** When true, displays number values with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, indicates a histogram is present. */
@@ -268,7 +266,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Overrides individual strings used by the component */
+  /** Use this property to override individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple values, the component's lower value. */
@@ -282,9 +280,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) mirrored = false;
 
   /**
-   * Specifies the component's name.
+   * Specifies the name of the component.
    *
-   * Required to pass the component's `value` on form submission.
+   * Required to pass the component's `value` on form submission
    */
   @property({ reflect: true }) name: string;
 
@@ -299,7 +297,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order to submit the form.
+   * the component must have a value in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
@@ -309,7 +307,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** When `true` and `step` is specified, enables snap selection via a mouse. */
   @property({ reflect: true }) snap = false;
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the interval to move with the `arrow up` or `arrow down` keys. */
@@ -327,7 +325,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * Specifies the component's current validation state.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

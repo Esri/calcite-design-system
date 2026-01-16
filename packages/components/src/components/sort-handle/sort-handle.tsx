@@ -64,13 +64,13 @@ export class SortHandle extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and displays the component with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** Specifies the component's label. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** Overrides individual strings used by the component. */

@@ -75,7 +75,7 @@ export class Swatch extends LitElement {
   @property() interactive = false;
 
   /**
-   * Specifies the component's accessible name.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -87,7 +87,7 @@ export class Swatch extends LitElement {
   /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, selects the component. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /**

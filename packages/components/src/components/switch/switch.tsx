@@ -57,13 +57,13 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies the `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
-  /** Specifies the component's accessible name. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** Displays label text at the end of the component */
@@ -73,7 +73,7 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   @property() labelTextStart: string;
 
   /**
-   * Specifies the component's name.
+   * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
    */

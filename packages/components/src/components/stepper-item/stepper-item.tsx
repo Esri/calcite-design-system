@@ -81,16 +81,16 @@ export class StepperItem extends LitElement {
   /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** Describes the component. Displays below the header text. */
+  /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, prevents interaction and displays the component with lower opacity. */
+  /** When true, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** Specifies the component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /**
@@ -137,7 +137,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, selects the component. */
+  /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   //#endregion
