@@ -128,7 +128,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
   /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
   @property({ reflect: true }) flipDisabled = false;
 
-  /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */

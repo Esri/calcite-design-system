@@ -83,7 +83,7 @@ export class SplitButton extends LitElement {
   /** Accessible name for the dropdown menu. */
   @property({ reflect: true }) dropdownLabel: string;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
