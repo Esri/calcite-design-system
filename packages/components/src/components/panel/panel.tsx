@@ -192,7 +192,7 @@ export class Panel extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
