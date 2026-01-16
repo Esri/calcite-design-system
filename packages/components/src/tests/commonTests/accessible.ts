@@ -19,7 +19,7 @@ type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
  * describe("accessible"), () => {
  *    accessible(`<calcite-tree></calcite-tree>`);
  * });
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * @param componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export function accessible(componentTestSetup: ComponentTestSetup): void {
   it("is accessible", async () => {

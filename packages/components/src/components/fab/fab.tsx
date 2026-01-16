@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";

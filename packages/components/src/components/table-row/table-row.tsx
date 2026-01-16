@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import { render } from "lit-html";
+import { createRef } from "lit/directives/ref.js";
+import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";

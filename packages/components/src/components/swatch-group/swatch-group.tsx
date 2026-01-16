@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
