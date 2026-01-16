@@ -107,6 +107,15 @@ describe("calcite-navigation-logo", () => {
       themed(navigationLogoHtml({ link: true }), tokens);
     });
 
+    describe("deprecated", () => {
+      themed(navigationLogoHtml(), {
+        "--calcite-ui-icon-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      });
+    });
+
     describe("with link + active", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-accent-color": {

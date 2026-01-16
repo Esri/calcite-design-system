@@ -70,7 +70,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  * @see https://github.com/Esri/calcite-design-system/issues/9387
  *
  * @param locale – the BCP 47 locale code
- * @returns {string} a BCP 47 locale code
+ * @returns a BCP 47 locale code
  */
 export function getDateFormatSupportedLocale(locale: string): string {
   switch (locale) {

@@ -1838,6 +1838,7 @@ describe("calcite-input-time-picker", () => {
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
   });
+
   describe("theming", () => {
     themed(html`<calcite-input-time-picker open></calcite-input-time-picker>`, {
       "--calcite-input-time-picker-background-color": {
@@ -1891,6 +1892,15 @@ describe("calcite-input-time-picker", () => {
       "--calcite-input-time-picker-border-color": {
         shadowSelector: "calcite-time-picker",
         targetProp: "--calcite-time-picker-border-color",
+      },
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-input-time-picker></calcite-input-time-picker>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "--calcite-icon-color",
       },
     });
   });
