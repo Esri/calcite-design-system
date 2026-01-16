@@ -690,8 +690,8 @@ export class Carousel extends LitElement {
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
         {messages.paginationStatus
-          .replace("{current}", `${selectedIndex + 1}`)
-          .replace("{total}", `${items.length}`)}
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
+          .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );
   }
