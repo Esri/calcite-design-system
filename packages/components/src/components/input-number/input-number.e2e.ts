@@ -2048,4 +2048,13 @@ describe("calcite-input-number", () => {
       });
     });
   });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-input-number value="42" icon="layers"></calcite-input-number>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    });
+  });
 });

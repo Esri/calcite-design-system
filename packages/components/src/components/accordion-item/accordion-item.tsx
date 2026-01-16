@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
@@ -42,7 +42,7 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  private headerRef = createRef<HTMLDivElement>();
+  private headerRef = createRef<HTMLButtonElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -376,15 +376,14 @@ export class AccordionItem extends LitElement {
           }}
         >
           {this.renderActionsStart()}
-          <div
+          <button
             aria-controls={IDS.section}
             ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
             ref={this.headerRef}
-            role="button"
-            tabIndex="0"
+            type="button"
           >
             <div class={CSS.headerContainer}>
               {this.renderContentStart()}
@@ -412,7 +411,7 @@ export class AccordionItem extends LitElement {
               scale={getIconScale(this.scale)}
               title={expandIconTitle}
             />
-          </div>
+          </button>
           {this.renderActionsEnd()}
         </div>
         <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>

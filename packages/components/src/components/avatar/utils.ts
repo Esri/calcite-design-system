@@ -27,8 +27,7 @@ export function stringToHex(string: string): string {
 /**
  * The function splits the string into two halves, reverses each half, and then concatenates them.
  *
- * @param {string} string - The input string to be mixed.
- * @returns {string} - The mixed string.
+ * @param string - The input string to be mixed.
  */
 function mixStringDeterministically(string: string): string {
   const midPoint = Math.floor(string.length / 2);
