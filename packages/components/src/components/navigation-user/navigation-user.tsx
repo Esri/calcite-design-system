@@ -33,7 +33,7 @@ export class NavigationUser extends LitElement {
   /** Specifies the full name of the user. */
   @property() fullName: string;
 
-  /** Specifies an accessible label for the component. */
+  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
   @property() label: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */

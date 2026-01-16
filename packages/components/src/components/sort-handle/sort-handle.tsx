@@ -70,7 +70,7 @@ export class SortHandle extends LitElement {
   /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** Specifies an accessible label for the component. */
+  /** Specifies the label of the component. */
   @property() label: string;
 
   /** Use this property to override individual strings used by the component. */

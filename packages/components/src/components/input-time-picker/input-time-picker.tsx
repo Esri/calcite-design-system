@@ -130,7 +130,7 @@ export class InputTimePicker
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Specifies an accessible label for the component. */
+  /** Accessible name for the component. */
   @property() label: string;
 
   /** When provided, displays label text on the component. */

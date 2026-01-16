@@ -45,7 +45,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
+   * Accessible name for the component.
    *
    * @required
    */

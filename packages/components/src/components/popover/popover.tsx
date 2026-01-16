@@ -152,7 +152,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies an accessible label for the component.
+   * Accessible name for the component.
    *
    * @required
    */

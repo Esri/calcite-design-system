@@ -200,7 +200,7 @@ export class InputNumber
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
 
-  /** Specifies an accessible label for the component's button or hyperlink. */
+  /** Accessible name for the component's button or hyperlink. */
   @property() label: string;
 
   /** When provided, displays label text on the component. */

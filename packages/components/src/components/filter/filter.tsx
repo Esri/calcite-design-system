@@ -82,7 +82,7 @@ export class Filter extends LitElement {
   @property() items: object[] = [];
 
   /**
-   * Specifies an accessible label for the component.
+   * Specifies an accessible name for the component.
    */
   @property() label: string;
 

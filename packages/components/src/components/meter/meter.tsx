@@ -116,7 +116,7 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) high: number;
 
   /**
-   * Specifies an accessible label for the component.
+   * Accessible name for the component.
    *
    * @required
    */

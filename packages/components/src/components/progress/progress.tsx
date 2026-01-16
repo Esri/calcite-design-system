@@ -20,7 +20,7 @@ export class Progress extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies an accessible label for the component. */
+  /** Accessible name for the component. */
   @property() label: string;
 
   /** When `true` and type is `"indeterminate"`, reverses the animation direction. */

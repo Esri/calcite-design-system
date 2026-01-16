@@ -138,7 +138,7 @@ export class Carousel extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
+   * Accessible name for the component.
    *
    * @required
    */

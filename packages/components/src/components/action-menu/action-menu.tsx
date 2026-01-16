@@ -150,7 +150,7 @@ export class ActionMenu extends LitElement {
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies an accessible label for the component.
+   * Specifies the text string for the component.
    *
    * @required
    */

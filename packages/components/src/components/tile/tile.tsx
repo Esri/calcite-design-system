@@ -95,7 +95,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Specifies an accessible label for the component. */
+  /** Accessible name for the component. */
   @property() label: string;
 
   /**

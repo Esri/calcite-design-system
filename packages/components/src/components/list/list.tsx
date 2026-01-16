@@ -232,7 +232,7 @@ export class List extends LitElement implements SortableComponent {
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
-   * Specifies an accessible label for the component.
+   * Specifies an accessible name for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
    *

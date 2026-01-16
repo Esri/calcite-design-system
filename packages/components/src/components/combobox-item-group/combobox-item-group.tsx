@@ -40,7 +40,7 @@ export class ComboboxItemGroup extends LitElement {
   @property() ancestors: ComboboxChildElement[];
 
   /**
-   * Specifies an accessible label for the component.
+   * Specifies the title of the component.
    *
    * @required
    */

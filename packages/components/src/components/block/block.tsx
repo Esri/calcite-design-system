@@ -127,7 +127,7 @@ export class Block extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies an accessible label for the component.
+   * Specifies an accessible name for the component.
    */
   @property() label: string;
 
