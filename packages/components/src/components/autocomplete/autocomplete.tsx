@@ -188,9 +188,9 @@ export class Autocomplete
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies the `id` of the component's associated form.
+   * Specifies the `id` of the form that is associated with the component.
    *
-   * When not set, the component is associated with its ancestor form element, if one exists.
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
 

@@ -68,9 +68,9 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   @property({ reflect: true }) focused = false;
 
   /**
-   * Specifies the `id` of the component's associated form.
+   * The `id` of the form that will be associated with the component.
    *
-   * When not set, the component is associated with its ancestor form element, if one exists.
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
   @property({ reflect: true }) form: string;
 
