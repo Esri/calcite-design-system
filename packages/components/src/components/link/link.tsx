@@ -1,7 +1,7 @@
 // @ts-strict-ignore
-import { literal } from "lit-html/static.js";
+import { literal } from "lit/static-html.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";

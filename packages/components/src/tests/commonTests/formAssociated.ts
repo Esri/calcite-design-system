@@ -61,8 +61,8 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  *
- * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
- * @param {FormAssociatedOptions} options - form associated options
+ * @param componentTagOrHtml - the component tag or HTML markup to test against
+ * @param options - form associated options
  */
 export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,

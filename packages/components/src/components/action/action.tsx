@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -212,6 +212,16 @@ export class Action extends LitElement implements FormOwner {
 
   //#endregion
 
+  //#region Events
+
+  /**
+   * Fires when the action's button is being pressed down.
+   * @internal
+   */
+  calciteInternalActionMouseDown = createEvent({ cancelable: false });
+
+  //#endregion
+
   //#region Lifecycle
 
   override connectedCallback(): void {
@@ -223,13 +233,6 @@ export class Action extends LitElement implements FormOwner {
     this.formEl = null;
     this.mutationObserver?.disconnect();
   }
-
-  //#endregion
-
-  //#region Events
-
-  /** @internal Fires when the action's button is being pressed down. */
-  calciteInternalActionMouseDown = createEvent({ cancelable: false });
 
   //#endregion
 
