@@ -4,5 +4,6 @@
   "play": "تشغيل",
   "pause": "إيقاف مؤقت",
   "carousel": "عرض دوار",
-  "carouselItemProgress": "مؤشر التقدم لعنصر العرض الدوار"
+  "carouselItemProgress": "مؤشر التقدم لعنصر العرض الدوار",
+  "paginationStatus": "Item {current} of {total}"
 }

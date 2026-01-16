@@ -4,5 +4,6 @@
   "play": "Atskaņot",
   "pause": "Pauze",
   "carousel": "Karuselis",
-  "carouselItemProgress": "Progresa indikators karuseļa vienībai"
+  "carouselItemProgress": "Progresa indikators karuseļa vienībai",
+  "paginationStatus": "Item {current} of {total}"
 }
