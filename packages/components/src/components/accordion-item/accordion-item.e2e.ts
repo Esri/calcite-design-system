@@ -73,7 +73,7 @@ describe("calcite-accordion-item", () => {
         },
       );
     });
-    describe("deprecate", () => {
+    describe("deprecated", () => {
       describe("default", async () => {
         themed(
           html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
