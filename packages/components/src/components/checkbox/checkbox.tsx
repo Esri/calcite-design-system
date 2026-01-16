@@ -77,9 +77,9 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
