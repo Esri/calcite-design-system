@@ -206,7 +206,7 @@
 }
 
 :host([appearance="transparent"]) {
-  &:host([active]) .button {
+  &[active] .button {
     background-color: var(
       --calcite-action-background-color-press,
       var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
