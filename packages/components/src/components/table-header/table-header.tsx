@@ -61,7 +61,7 @@ export class TableHeader extends LitElement {
   /** A description to display beneath heading content. */
   @property({ reflect: true }) description: string;
 
-  /** A heading to display above description content. */
+  /** Specifies the component's heading text. */
   @property({ reflect: true }) heading: string;
 
   /** @private */

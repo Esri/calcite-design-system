@@ -139,7 +139,7 @@ export class Panel extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */

@@ -28,7 +28,7 @@ export class AutocompleteItemGroup extends LitElement {
   @property() disableSpacing = false;
 
   /**
-   * Specifies heading text for the component.
+   * Specifies the component's heading text.
    *
    * @required
    */

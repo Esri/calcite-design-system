@@ -82,7 +82,7 @@ export class AccordionItem extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies heading text for the component. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies an icon to display at the end of the component. */

@@ -172,7 +172,7 @@ export class Dialog extends LitElement {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */

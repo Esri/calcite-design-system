@@ -106,7 +106,7 @@ export class Block extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /**
-   * The component header text.
+   * Specifies the component's heading text.
    *
    */
   @property() heading: string;

@@ -35,7 +35,7 @@ export class NavigationLogo extends LitElement {
   /** Specifies a description for the component, which displays below the `heading`. */
   @property() description: string;
 
-  /** Specifies heading text for the component, such as a product or organization name. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
