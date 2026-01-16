@@ -695,7 +695,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /**
    * Set prop value(s) if changed at the component level
    *
-   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @param values - a set of key/value pairs delineating what properties in the component to update
    */
   private setValue(
     values: Partial<{

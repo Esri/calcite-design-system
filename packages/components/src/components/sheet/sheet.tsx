@@ -133,8 +133,6 @@ export class Sheet extends LitElement {
 
   /**
    * Passes a function to run before the component closes.
-   *
-   * @returns {Promise<void>}
    */
   @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 

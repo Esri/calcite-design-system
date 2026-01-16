@@ -39,8 +39,8 @@ const defaultOptions: OpenCloseOptions = {
  *     }
  *   });
  * });
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {object} [options] - Additional options to assert.
+ * @param componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param options - Additional options to assert.
  */
 export function openClose(componentTestSetup: ComponentTestSetup, options?: OpenCloseOptions): void {
   const effectiveOptions = { ...defaultOptions, ...options };

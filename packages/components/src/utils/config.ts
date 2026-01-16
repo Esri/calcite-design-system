@@ -1,4 +1,4 @@
-import { isServer } from "lit-html/is-server.js";
+import { isServer } from "lit";
 import { FocusTrap } from "../controllers/useFocusTrap";
 import { LogLevel } from "./logger";
 

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   CheckableFormComponent,
   connectForm,
