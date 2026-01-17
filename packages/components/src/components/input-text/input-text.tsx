@@ -252,7 +252,7 @@ export class InputText
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
