@@ -131,11 +131,7 @@ export class Meter extends LitElement implements FormComponent {
   /** Specifies the component's lowest allowed value. */
   @property({ reflect: true }) min = 0;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */

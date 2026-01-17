@@ -113,11 +113,7 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */

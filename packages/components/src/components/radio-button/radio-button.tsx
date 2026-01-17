@@ -91,11 +91,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /**
-   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /**
