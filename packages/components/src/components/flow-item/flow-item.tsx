@@ -75,7 +75,7 @@ export class FlowItem extends LitElement {
   /** When `true`, displays a close button in the trailing side of the component's header. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /**

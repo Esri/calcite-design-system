@@ -92,7 +92,7 @@ export class TabTitle extends LitElement {
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
