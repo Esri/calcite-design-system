@@ -109,7 +109,7 @@ export class Panel extends LitElement {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the header. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
