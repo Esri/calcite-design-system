@@ -1,6 +1,16 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+} from "../../tests/commonTests/browser";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
   describe("defaults", () => {
@@ -121,5 +131,19 @@ describe("calcite-list-item", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-list-item"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-list-item"), SLOTS);
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount(<calcite-list-item active />), {
+      shadowFocusTargetSelector: `.${CSS.container}`,
+    });
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-list-item active label="test" />));
   });
 });

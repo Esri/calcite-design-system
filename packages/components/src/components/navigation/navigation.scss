@@ -118,3 +118,8 @@ slot[name="content-center"] ~ slot[name="user"],
 slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
 }
+
+slot[name="navigation-action"] calcite-action {
+  @apply self-center;
+  margin-inline-start: var(--calcite-spacing-sm);
+}

@@ -17,11 +17,6 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -31,6 +26,8 @@ import { Scale, SingleItemSlotArray, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -45,16 +42,16 @@ declare global {
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
-export class Dropdown extends LitElement implements InteractiveComponent, FloatingUIComponent {
-  // #region Static Members
+export class Dropdown extends LitElement implements FloatingUIComponent {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -87,9 +84,15 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
+
+  //#endregion
+
+  //#region Public Properties
 
   /**
    * When `true`, the component will remain open after a selection is made.
@@ -149,6 +152,15 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
    */
   @property() selectedItems: DropdownItem["el"][] = [];
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the action to open the component from the container element. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
@@ -162,9 +174,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -211,9 +223,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     return this.focusSetter(() => this.referenceEl, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteDropdownBeforeClose = createEvent({ cancelable: false });
@@ -230,9 +242,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   /** Fires when a `calcite-dropdown-item`'s selection changes. */
   calciteDropdownSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -256,7 +268,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -288,10 +300,6 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.updateSelectedItems();
     connectFloatingUI(this);
@@ -303,33 +311,17 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
-
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
+  //#region Private Methods
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -507,6 +499,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   onBeforeOpen(): void {
     this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -520,6 +513,7 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   onClose(): void {
     this.calciteDropdownClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
@@ -531,7 +525,6 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
@@ -615,14 +608,14 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { open, guid } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={CSS.triggerContainer}
           id={IDS.menuButton(guid)}
@@ -662,9 +655,9 @@ export class Dropdown extends LitElement implements InteractiveComponent, Floati
             <slot onSlotChange={this.updateGroups} />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

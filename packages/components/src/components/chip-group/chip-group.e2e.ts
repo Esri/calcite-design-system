@@ -2,29 +2,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, focusable } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { CSS as CHIP_CSS } from "../chip/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 
 describe("calcite-chip-group", () => {
-  describe("disabled", () => {
-    disabled("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
-      focusTarget: "child",
-    });
-  });
-
-  describe("focusable", () => {
-    focusable(
-      html` <calcite-chip-group label="test-label">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-      {
-        focusTargetSelector: "calcite-chip:first-of-type",
-      },
-    );
-  });
-
   describe("is accessible in selection mode none (default)", () => {
     accessible(
       html`<calcite-chip-group label="test-label">

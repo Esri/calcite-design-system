@@ -1,8 +1,16 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -40,6 +48,52 @@ describe("calcite-segmented-control", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    describe("focuses the first item if there is no selection", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-segmented-control>
+              <calcite-segmented-control-item id="child-1" value="1">
+                one
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item id="child-2" value="2">
+                two
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item id="child-3" value="3">
+                three
+              </calcite-segmented-control-item>
+            </calcite-segmented-control>,
+          ),
+        {
+          focusTargetSelector: "#child-1",
+        },
+      );
+    });
+
+    describe("focuses the selected item", () => {
+      focusable(
+        () =>
+          mount(
+            <calcite-segmented-control>
+              <calcite-segmented-control-item id="child-1" value="1">
+                one
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item id="child-2" value="2">
+                two
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item checked id="child-3" value="3">
+                three
+              </calcite-segmented-control-item>
+            </calcite-segmented-control>,
+          ),
+        {
+          focusTargetSelector: "#child-3",
+        },
+      );
+    });
   });
 
   describe("reflects", () => {
@@ -91,6 +145,24 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>,
         ),
       { display: "flex" },
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-segmented-control"));
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="1" />
+            <calcite-segmented-control-item value="2" />
+            <calcite-segmented-control-item value="3" />
+          </calcite-segmented-control>,
+        ),
+      { focusTarget: "child" },
     );
   });
 });

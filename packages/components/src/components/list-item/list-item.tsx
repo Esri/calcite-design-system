@@ -1,13 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
@@ -21,6 +16,7 @@ import { ListDisplayMode } from "../list/interfaces";
 import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
@@ -36,13 +32,13 @@ const focusMap = new Map<List["el"], number>();
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
- * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
- * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
- * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
+ * @slot content-start - A slot for adding non-actionable elements before the component's `label` and `description`.
+ * @slot content - A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
+ * @slot content-end - A slot for adding non-actionable elements after the component's `label` and `description`.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the component's content.
  * @slot content-bottom - A slot for adding content below the component's `label` and `description`.
  */
-export class ListItem extends LitElement implements InteractiveComponent, SortableComponentItem {
+export class ListItem extends LitElement implements SortableComponentItem {
   //#region Static Members
 
   static override styles = [styles, sortableStyles];
@@ -73,6 +69,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -127,7 +125,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component, displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -160,10 +158,10 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
    */
   @property() interactionMode: InteractionMode = null;
 
-  /** The label text of the component. Displays above the description text. */
+  /** Specifies the label of the component, displays above the `description`. */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
@@ -201,8 +199,9 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   }
   set open(value: boolean) {
     logger.deprecated("property", {
+      component: this,
       name: "open",
-      removalVersion: 4,
+      removalVersion: 5,
       suggested: "expanded",
     });
     this.expanded = value;
@@ -219,11 +218,14 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot), `"border"` (displays a border) or `"highlight"` (displays background highlight). [Deprecated] The `"border"` value is deprecated, use `"highlight"` instead.
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: SelectionAppearance = null;
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "border" | "highlight",
+    SelectionAppearance
+  >;
 
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
@@ -252,7 +254,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When `true`, the component's content appears inactive. */
+  /** When `true`, the component's content displays as inactive. */
   @property({ reflect: true }) unavailable = false;
 
   /** The component's value. */
@@ -388,10 +390,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     this.setSelectionDefaults();
   }
 
-  disconnectedCallback() {
-    focusMap.clear();
-  }
-
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
    *
@@ -401,7 +399,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("active") && (this.hasUpdated || this.active !== false)) {
       this.activeHandler(this.active);
     }
@@ -436,8 +434,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
+  disconnectedCallback() {
+    focusMap.clear();
   }
 
   //#endregion
@@ -739,7 +737,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
   private renderSelected(): JsxNode {
     const { selected, selectionMode, selectionAppearance } = this;
 
-    if (selectionMode === "none" || selectionAppearance === "border") {
+    if (selectionMode === "none" || selectionAppearance !== "icon") {
       return null;
     }
 
@@ -874,7 +872,6 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
         {closable ? (
           <calcite-action
-            appearance="transparent"
             class={CSS.close}
             icon={ICONS.close}
             key="close-action"
@@ -1036,10 +1033,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
 
     const wrapperBordered = bordered && hasContentBottom;
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
-
     const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
-    const selectionBorderSelected = showSelectionBorder && selected;
-    const selectionBorderUnselected = showSelectionBorder && !selected;
+    const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
 
     const containerInteractive =
       interactionMode === "interactive" ||
@@ -1048,7 +1043,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
         selectionAppearance === "border");
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
             ariaExpanded={expandable ? expanded : null}
@@ -1060,8 +1055,8 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
               [CSS.containerBorder]: showSelectionBorder,
-              [CSS.containerBorderSelected]: selectionBorderSelected,
-              [CSS.containerBorderUnselected]: selectionBorderUnselected,
+              [CSS.containerBorderSelected]: showSelectionBorder && selected,
+              [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
@@ -1088,7 +1083,7 @@ export class ListItem extends LitElement implements InteractiveComponent, Sortab
           {this.renderContentBottom()}
         </div>
         {this.renderDefaultContainer()}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

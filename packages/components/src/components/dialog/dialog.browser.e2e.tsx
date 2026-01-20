@@ -1,9 +1,20 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { TemplateResult } from "lit/html.js";
+import { page } from "vitest/browser";
+import {
+  defaults,
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-dialog", () => {
   mockConsole();
@@ -98,6 +109,33 @@ describe("calcite-dialog", () => {
         },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    const focusableContentTargetClass = "test";
+    const shadowFocusTargetSelector = `.${CSS.panel}`;
+    const focusTargetSelector = `.${focusableContentTargetClass}`;
+
+    function renderDialog(closeDisabled = false): TemplateResult {
+      return (
+        <calcite-dialog closeDisabled={closeDisabled} heading="Title" open>
+          This is the content
+          <button class={focusableContentTargetClass}>test</button>
+        </calcite-dialog>
+      );
+    }
+
+    describe("focuses internal panel by default", () => {
+      focusable(() => mount(renderDialog), {
+        shadowFocusTargetSelector,
+      });
+    });
+
+    describe("focuses content if there is no close button", () => {
+      focusable(() => mount(renderDialog(true)), {
+        focusTargetSelector,
+      });
+    });
   });
 
   describe("reflects", () => {
@@ -200,5 +238,19 @@ describe("calcite-dialog", () => {
         },
       },
     );
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-dialog"), SLOTS);
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount(<calcite-dialog heading="heading" />), {
+      topLayerTarget: page.getByLabelText("heading"),
+    });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-dialog"));
   });
 });

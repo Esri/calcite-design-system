@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -24,11 +24,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -54,6 +49,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -70,12 +66,7 @@ declare global {
  */
 export class InputNumber
   extends LitElement
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    NumericInputComponent,
-    TextualInputComponent
+  implements LabelableComponent, FormComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
 
@@ -143,6 +134,12 @@ export class InputNumber
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
 
   //#endregion
 
@@ -460,10 +457,6 @@ export class InputNumber
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -476,10 +469,6 @@ export class InputNumber
   //#endregion
 
   //#region Private Methods
-
-  get isClearable(): boolean {
-    return this.clearable && this.value.length > 0;
-  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -1047,7 +1036,7 @@ export class InputNumber
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -1095,7 +1084,7 @@ export class InputNumber
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

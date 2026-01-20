@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, focusable, openClose, slots, t9n, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -9,7 +9,7 @@ import { resizeShiftStep } from "../../utils/resources";
 import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import type { Dialog } from "./dialog";
 
 type TestWindow = GlobalTestProps<{
@@ -43,14 +43,6 @@ describe("calcite-dialog", () => {
   describe("openClose", () => {
     openClose("calcite-dialog");
     openClose.initial("calcite-dialog");
-  });
-
-  describe("slots", () => {
-    slots("calcite-dialog", SLOTS);
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-dialog");
   });
 
   describe("accessible", () => {
@@ -517,30 +509,6 @@ describe("calcite-dialog", () => {
       await openEventSpy.next();
 
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
-    });
-  });
-
-  describe("focusable", () => {
-    const createDialogHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
-
-    const focusableContentTargetClass = "test";
-    const shadowFocusTargetSelector = `.${CSS.panel}`;
-    const focusTargetSelector = `.${focusableContentTargetClass}`;
-
-    const focusableContentHTML = html`This is the content
-      <button class="${focusableContentTargetClass}">test</button> `;
-
-    describe("focuses internal panel by default", () => {
-      focusable(createDialogHTML(focusableContentHTML), {
-        shadowFocusTargetSelector,
-      });
-    });
-
-    describe("focuses content if there is no close button", () => {
-      focusable(createDialogHTML(focusableContentHTML, "close-disabled"), {
-        focusTargetSelector,
-      });
     });
   });
 

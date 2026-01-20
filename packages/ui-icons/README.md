@@ -145,13 +145,31 @@ svg:hover {
 }
 ```
 
+## Icon Font Usage
+
+In addition to SVG icons, an icon font is available for streamlined integration.
+
+To install the font, run:
+
+`npm install @esri/calcite-ui-icons --save`
+
+### Recommended Icon Sizes & Font Selection for Optimal Clarity
+
+We provide three fonts, each designed for a standard size, for pixel perfection use at their designed sizes; 16px, 24px, and 32px.
+
+- **16px font** → Use for 16px and smaller sizes.
+- **24px font** → Use for 24px and mid-range sizes.
+- **32px font** → Use for 32px and larger sizes.
+
+**Avoid odd or non-standard sizes** like 13px, 17px, or 23px, as these break pixel alignment and can appear fuzzy.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT © Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

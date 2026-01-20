@@ -1,7 +1,17 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  slots,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   mockConsole();
@@ -42,6 +52,22 @@ describe("calcite-action-menu", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-action-menu>
+            <calcite-action icon="plus" id="triggerAction" slot={SLOTS.trigger} text="Add" />
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-menu>,
+        ),
+      {
+        focusTargetSelector: `#triggerAction`,
+      },
+    );
+  });
+
   describe("reflects", () => {
     reflects(
       () => mount("calcite-action-menu"),
@@ -68,5 +94,21 @@ describe("calcite-action-menu", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-action-menu"), { display: "flex" });
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-action-menu"), SLOTS);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      () =>
+        mount(
+          <calcite-action-menu>
+            <calcite-action icon="plus" text="Plus" text-enabled />
+          </calcite-action-menu>,
+        ),
+      "calcite-popover",
+    );
   });
 });

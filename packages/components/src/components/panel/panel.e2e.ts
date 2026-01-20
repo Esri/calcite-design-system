@@ -2,16 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  slots,
-  t9n,
-  themed,
-  handlesActionMenuPlacements,
-} from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -38,7 +29,7 @@ const panelTemplate = (scrollable = false) =>
     </calcite-panel>
   </div>`;
 
-export const scrollingContentHtml = html`
+const scrollingContentHtml = html`
   <p>
     Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo
     semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus
@@ -85,70 +76,10 @@ export const scrollingContentHtml = html`
   </p>
 `;
 
-export const scrollingHeightStyle = "height: 200px;";
+const scrollingHeightStyle = "height: 200px;";
 
 describe("calcite-panel", () => {
   mockConsole();
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-panel>
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-      </calcite-panel>
-    `);
-  });
-
-  describe("slots", () => {
-    slots("calcite-panel", SLOTS);
-  });
-
-  describe("disabled", () => {
-    describe("with scrolling content", () => {
-      disabled(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
-        focusTarget: {
-          tab: "calcite-panel",
-          click: "body",
-        },
-      });
-
-      describe("closable", () => {
-        disabled(
-          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
-          {
-            focusTarget: {
-              tab: "calcite-panel",
-              click: "body",
-            },
-          },
-        );
-      });
-    });
-
-    describe("without scrolling content", () => {
-      disabled(html`<calcite-panel>non-scrolling content</calcite-panel>`, {
-        focusTarget: "none",
-      });
-
-      describe("closable", () => {
-        disabled(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
-          focusTarget: "none",
-        });
-      });
-    });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-panel");
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-panel>
-        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      </calcite-panel>`,
-      "calcite-action-menu",
-    );
-  });
 
   it("honors closed prop", async () => {
     const page = await newE2EPage();
@@ -374,39 +305,6 @@ describe("calcite-panel", () => {
           <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
         </calcite-panel>
       `);
-    });
-  });
-
-  describe("focusable", () => {
-    describe("with scrolling content", () => {
-      describe("closable", () => {
-        focusable(
-          html`<calcite-panel closable style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`,
-          {
-            shadowFocusTargetSelector: "calcite-action",
-          },
-        );
-      });
-
-      describe("should focus on container", () => {
-        focusable(html`<calcite-panel style="${scrollingHeightStyle}">${scrollingContentHtml}</calcite-panel>`, {
-          shadowFocusTargetSelector: `.${CSS.contentWrapper}`,
-        });
-      });
-    });
-
-    describe("without scrolling content", () => {
-      describe("closable", () => {
-        focusable(html`<calcite-panel closable>non-scrolling content</calcite-panel>`, {
-          shadowFocusTargetSelector: "calcite-action",
-        });
-      });
-
-      describe("should not focus on container", () => {
-        focusable(html`<calcite-panel>non-scrolling-content</calcite-panel>`, {
-          focusTargetSelector: "body",
-        });
-      });
     });
   });
 
@@ -847,5 +745,14 @@ describe("calcite-panel", () => {
         },
       },
     );
+  });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-panel heading="Hello World" icon="smile"> </calcite-panel>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    });
   });
 });

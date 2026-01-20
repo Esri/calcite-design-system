@@ -1,11 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Scale } from "../interfaces";
 import {
   FlipPlacement,
@@ -16,6 +11,7 @@ import {
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
 import {
@@ -33,22 +29,18 @@ declare global {
   }
 }
 
-export class SortHandle extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class SortHandle extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private dropdownEl: Dropdown["el"];
 
   private focusSetter = useSetFocus<this>()(this);
-
-  // #endregion
-
-  // #region State Properties
 
   get hasSetInfo(): boolean {
     return typeof this.setPosition === "number" && typeof this.setSize === "number";
@@ -66,9 +58,11 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
   }
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -129,9 +123,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -145,9 +139,12 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.dropdownEl, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
+
+  /** Fires when an add item has been selected. */
+  calciteSortHandleAdd = createEvent<AddEventDetail>({ cancelable: true });
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteSortHandleBeforeClose = createEvent({ cancelable: false });
@@ -161,36 +158,29 @@ export class SortHandle extends LitElement implements InteractiveComponent {
   /** Fires when a move item has been selected. */
   calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
-  /** Fires when an add item has been selected. */
-  calciteSortHandleAdd = createEvent<AddEventDetail>({ cancelable: true });
-
   /** Fires when the component is open and animation is complete. */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
   /** Fires when a reorder has been selected. */
   calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
+  //#endregion
 
-  // #endregion
-
-  // #region Private Methods
+  //#region Private Methods
 
   private openHandler(): void {
     if (this.disabled) {
@@ -271,9 +261,9 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     this.calciteSortHandleAdd.emit({ addTo });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -291,7 +281,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
     const isDisabled = disabled || hasNoItems;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <calcite-dropdown
           class={CSS.dropdown}
           disabled={isDisabled}
@@ -308,7 +298,6 @@ export class SortHandle extends LitElement implements InteractiveComponent {
         >
           <calcite-action
             active={open}
-            appearance="transparent"
             aria={{ expanded: open }}
             class={CSS.handle}
             dragHandle
@@ -323,7 +312,7 @@ export class SortHandle extends LitElement implements InteractiveComponent {
           {this.renderMoveToGroup()}
           {this.renderAddToGroup()}
         </calcite-dropdown>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
@@ -441,5 +430,5 @@ export class SortHandle extends LitElement implements InteractiveComponent {
       : null;
   }
 
-  // #endregion
+  //#endregion
 }

@@ -1,7 +1,18 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { cancelable, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  t9n,
+  disabled,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-color-picker", () => {
   mockConsole();
@@ -54,6 +65,12 @@ describe("calcite-color-picker", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-color-picker"), {
+      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`,
+    });
+  });
+
   describe("reflects", () => {
     reflects(
       () => mount("calcite-color-picker"),
@@ -76,5 +93,15 @@ describe("calcite-color-picker", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-color-picker"), { display: "inline-block" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-color-picker"));
+  });
+
+  const centerColorFieldColor = "#408047";
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-color-picker value={centerColorFieldColor} />));
   });
 });

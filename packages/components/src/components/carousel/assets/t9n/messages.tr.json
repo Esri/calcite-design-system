@@ -4,5 +4,6 @@
   "play": "Oynat",
   "pause": "Duraklat",
   "carousel": "Döngü",
-  "carouselItemProgress": "Döngü Ögesi için ilerleme göstergesi"
+  "carouselItemProgress": "Döngü Ögesi için ilerleme göstergesi",
+  "paginationStatus": "Item {current} of {total}"
 }

@@ -1,20 +1,17 @@
 // @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
+import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { styles } from "./chip.scss";
@@ -29,7 +26,7 @@ declare global {
  * @slot - A slot for adding text.
  * @slot image - A slot for adding an image.
  */
-export class Chip extends LitElement implements InteractiveComponent {
+export class Chip extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -38,7 +35,7 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   //#region Private Properties
 
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -50,6 +47,8 @@ export class Chip extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -192,14 +191,10 @@ export class Chip extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && this.hasUpdated) {
       this.watchSelected(this.selected);
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -332,16 +327,15 @@ export class Chip extends LitElement implements InteractiveComponent {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.dismissLabel}
+      <calcite-action
         class={CSS.close}
+        icon={ICONS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         ref={this.closeButtonRef}
-        tabIndex={this.disabled ? -1 : 0}
-      >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.dismissLabel}
+      />
     );
   }
 
@@ -368,7 +362,7 @@ export class Chip extends LitElement implements InteractiveComponent {
             ? "button"
             : "img";
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
@@ -405,7 +399,7 @@ export class Chip extends LitElement implements InteractiveComponent {
           </span>
           {this.closable && this.renderCloseButton()}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

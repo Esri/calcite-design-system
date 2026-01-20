@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { getElementDir } from "../../utils/dom";
 import {
@@ -10,16 +10,12 @@ import {
   disconnectForm,
   HiddenFormInputSlot,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -29,17 +25,14 @@ declare global {
   }
 }
 
-export class RadioButton
-  extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class RadioButton extends LitElement implements LabelableComponent, CheckableFormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerRef = createRef<HTMLDivElement>();
 
@@ -55,9 +48,11 @@ export class RadioButton
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is checked. */
   @property({ reflect: true }) checked = false;
@@ -119,9 +114,9 @@ export class RadioButton
    */
   @property() value: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** @private */
   @method()
@@ -141,9 +136,9 @@ export class RadioButton
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the radio button is blurred.
@@ -175,9 +170,9 @@ export class RadioButton
    */
   calciteRadioButtonChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -202,7 +197,7 @@ export class RadioButton
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (this.hasUpdated && changes.has("checked")) {
       this.checkedChanged(this.checked);
     }
@@ -214,10 +209,6 @@ export class RadioButton
     if (changes.has("name")) {
       this.checkLastRadioButton();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -232,9 +223,9 @@ export class RadioButton
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private checkedChanged(newChecked: boolean): void {
     if (newChecked) {
@@ -473,14 +464,14 @@ export class RadioButton
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const tabIndex = this.getTabIndex();
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
@@ -495,9 +486,9 @@ export class RadioButton
           {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
         <HiddenFormInputSlot component={this} />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

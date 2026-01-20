@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  delegatesToFloatingUiOwningComponent,
-  disabled,
-  focusable,
-  handlesActionMenuPlacements,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
@@ -24,71 +15,10 @@ describe("calcite-block", () => {
     openClose("calcite-block");
   });
 
-  describe("slots", () => {
-    slots("calcite-block", SLOTS);
-  });
-
   describe("accessible", () => {
     accessible(html`
       <calcite-block heading="heading" description="description" expanded collapsible>
         <div>content</div>
-      </calcite-block>
-    `);
-  });
-
-  describe("setFocus", () => {
-    describe("focuses block heading toggle", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" collapsible expanded>
-          <calcite-block-section text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
-    });
-
-    const blockSectionClass = "my-block-section";
-    describe("focuses block section", () => {
-      focusable(
-        html`<calcite-block heading="Heading" description="summary" expanded>
-          <calcite-block-section class="${blockSectionClass}" text="input block-section" expanded>
-            <calcite-input
-              icon="form-field"
-              placeholder="This is an input field... enter something here"
-            ></calcite-input>
-          </calcite-block-section>
-        </calcite-block>`,
-        {
-          focusTargetSelector: `.${blockSectionClass}`,
-        },
-      );
-    });
-  });
-
-  describe("disabled", () => {
-    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
-  });
-
-  describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-block>
-        <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
-      </calcite-block>`,
-      "calcite-action-menu",
-    );
-  });
-
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(html`
-      <calcite-block heading="heading" description="description">
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        <div class="content">content</div>
       </calcite-block>
     `);
   });
@@ -331,10 +261,6 @@ describe("calcite-block", () => {
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
 
-  describe("translation support", () => {
-    t9n("calcite-block");
-  });
-
   describe("theme", () => {
     describe("default", () => {
       themed(
@@ -347,6 +273,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {
@@ -426,6 +353,7 @@ describe("calcite-block", () => {
           icon-start="pen"
         >
           <calcite-icon icon="compass" slot="content-start"></calcite-icon>
+          <calcite-icon icon="compass" slot="content-end"></calcite-icon>
           <div>content</div>
         </calcite-block>`,
         {

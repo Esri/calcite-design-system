@@ -24,11 +24,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -40,6 +35,7 @@ import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -58,19 +54,16 @@ function isRange(value: number | number[]): value is number[] {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Slider
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class Slider extends LitElement implements LabelableComponent, FormComponent {
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: Slider["value"];
 
@@ -191,9 +184,11 @@ export class Slider
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() activeProp: ActiveSliderProperty = "value";
 
@@ -205,9 +200,9 @@ export class Slider
 
   @state() private tickValues: number[] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -354,9 +349,9 @@ export class Slider
   /** The component's value. */
   @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -370,9 +365,9 @@ export class Slider
     return this.focusSetter(() => this.minHandle || this.maxHandle, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /**
    * Fires when the thumb is released on the component.
@@ -391,9 +386,9 @@ export class Slider
    */
   calciteSliderInput = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -421,7 +416,7 @@ export class Slider
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("histogram")) {
       this.hasHistogram = !!this.histogram;
     }
@@ -450,7 +445,6 @@ export class Slider
       }
     }
     this.hideObscuredBoundingTickLabels();
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -459,9 +453,9 @@ export class Slider
     this.removeDragListeners();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
@@ -701,7 +695,7 @@ export class Slider
   /**
    * Set prop value(s) if changed at the component level
    *
-   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @param values - a set of key/value pairs delineating what properties in the component to update
    */
   private setValue(
     values: Partial<{
@@ -1096,9 +1090,9 @@ export class Slider
     return formattedValue;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const id = this.el.id || this.guid;
@@ -1154,7 +1148,7 @@ export class Slider
     setAttribute(this.el, "id", id);
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -1229,7 +1223,7 @@ export class Slider
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
@@ -1364,5 +1358,5 @@ export class Slider
     ) : null;
   }
 
-  // #endregion
+  //#endregion
 }

@@ -32,6 +32,6 @@ describe("calcite-option-group", () => {
   });
 
   describe("renders", () => {
-    renders(() => mount("calcite-option-group"), { display: "block", visible: false });
+    renders(() => mount("calcite-option-group"), { display: "inline", visible: false });
   });
 });

@@ -2,7 +2,7 @@
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -19,6 +19,7 @@ import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentSc
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
@@ -104,6 +105,11 @@ export class Dialog extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.popoverRef,
+  })(this);
+
   //#endregion
 
   //#region State Properties
@@ -161,7 +167,7 @@ export class Dialog extends LitElement {
    * `"allowOutsideClick`" allows outside clicks,
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
@@ -233,6 +239,15 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /**
    * Specifies the width of the component.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
@@ -256,7 +271,7 @@ export class Dialog extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -269,7 +284,7 @@ export class Dialog extends LitElement {
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
+   * @returns A promise that is resolved when the operation has completed.
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -321,7 +336,7 @@ export class Dialog extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
@@ -370,6 +385,7 @@ export class Dialog extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteDialogBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -387,6 +403,7 @@ export class Dialog extends LitElement {
   onClose(): void {
     this.focusTrap.deactivate();
     this.calciteDialogClose.emit();
+    this.topLayer.hide();
   }
 
   private async setOpenState(value: boolean): Promise<void> {
@@ -407,20 +424,6 @@ export class Dialog extends LitElement {
     this.opened = value;
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.popoverRef.value) {
-      return;
-    }
-
-    if (this.open) {
-      this.popoverRef.value.showPopover();
-    } else {
-      this.popoverRef.value.hidePopover();
-    }
-  }
-
   private handleOpenedChange(value: boolean): void {
     const { transitionEl } = this;
 
@@ -430,7 +433,6 @@ export class Dialog extends LitElement {
 
     transitionEl.classList.toggle(CSS.openingActive, value);
     toggleOpenClose(this);
-    this.handlePopover();
   }
 
   private async triggerInteractModifiers(): Promise<void> {
@@ -721,7 +723,6 @@ export class Dialog extends LitElement {
 
     this.transitionEl = el;
     this.setupInteractions();
-    this.handlePopover();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {

@@ -33,10 +33,10 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -102,6 +102,11 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.open && !this.referenceEl,
+    target: () => this.floatingEl,
+  })(this);
+
   //#endregion
 
   //#region State Properties
@@ -134,8 +139,8 @@ export class Popover extends LitElement implements FloatingUIComponent {
    *
    * `"allowOutsideClick`" allows outside clicks,
    * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"returnFocusOnDeactivate"` returns focus when not active,
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
@@ -153,7 +158,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -199,6 +204,15 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /**
    * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
@@ -298,7 +312,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
@@ -320,6 +334,10 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
     if (changes.has("referenceElement")) {
       this.referenceElementHandler();
+
+      if (!this.referenceElement && this.open) {
+        this.topLayer.hide();
+      }
     }
   }
 
@@ -341,20 +359,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open && this.referenceEl) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
@@ -364,7 +368,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     toggleOpenClose(this);
     this.reposition(true);
     this.setExpandedAttr();
-    this.handlePopover();
   }
 
   private referenceElementHandler(): void {
@@ -401,7 +404,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     }
 
     this.addReferences();
-    this.handlePopover();
   }
 
   private getId(): string {
@@ -468,6 +470,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   onBeforeOpen(): void {
     this.calcitePopoverBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -483,6 +486,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.calcitePopoverClose.emit();
     hideFloatingUI(this);
     this.focusTrap.deactivate();
+    this.topLayer.hide();
   }
 
   private setArrowEl(el: SVGSVGElement): void {
@@ -499,14 +503,12 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
-          appearance="transparent"
           class={CSS.closeButton}
+          icon="x"
           onClick={this.hide}
           scale={this.scale}
           text={messages.close}
-        >
-          <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-        </calcite-action>
+        />
       </div>
     ) : null;
   }

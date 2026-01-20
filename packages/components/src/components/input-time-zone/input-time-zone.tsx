@@ -9,13 +9,8 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
@@ -32,6 +27,7 @@ import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
@@ -54,10 +50,7 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimeZone
-  extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent
-{
+export class InputTimeZone extends LitElement implements FormComponent, LabelableComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -92,6 +85,8 @@ export class InputTimeZone
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -296,7 +291,7 @@ export class InputTimeZone
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("value") && this.hasUpdated) {
       this.handleValueChange(this.value, changes.get("value"));
     }
@@ -312,10 +307,6 @@ export class InputTimeZone
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openChanged();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -388,7 +379,7 @@ export class InputTimeZone
       return;
     }
 
-    this.comboboxRef.value.selectedItems[0].textLabel = this.getItemLabel(
+    this.comboboxRef.value.selectedItems[0].heading = this.getItemLabel(
       this.selectedTimeZoneItem,
       open,
     );
@@ -503,7 +494,7 @@ export class InputTimeZone
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <calcite-combobox
           clearDisabled={!this.clearable}
           disabled={this.disabled}
@@ -538,7 +529,7 @@ export class InputTimeZone
           <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
         <HiddenFormInputSlot component={this} />
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
@@ -554,10 +545,10 @@ export class InputTimeZone
       return (
         <calcite-combobox-item
           data-label={label}
+          heading={label}
           key={label}
           metadata={metadata}
           selected={selected}
-          textLabel={label}
           value={value}
         />
       );
@@ -570,15 +561,15 @@ export class InputTimeZone
         {items.map((item) => {
           const selected = this.selectedTimeZoneItem === item;
           const { label, metadata, value } = item;
-          const textLabel = this.getItemLabel(item);
+          const heading = this.getItemLabel(item);
           return (
             <calcite-combobox-item
               data-label={label}
               description={metadata.country}
+              heading={heading}
               key={label}
               metadata={metadata}
               selected={selected}
-              textLabel={textLabel}
               value={value}
             >
               <span class={CSS.offset} slot="content-end">

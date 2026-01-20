@@ -21,15 +21,16 @@
  * @prop --calcite-accordion-item-start-icon-color: Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
  * @prop --calcite-accordion-item-text-color: [Deprecated] Use `--calcite-accordion-text-color`. Specifies the component's text color.
  * @prop --calcite-accordion-item-text-color-hover: [Deprecated] Use `--calcite-accordion-text-color-hover`. Specifies the component's text color on hover.
- * @prop --calcite-accordion-item-text-color-press: [Deprecated] Use `--calcite-accordion-text-color-press`. Specifies the component's text color on press.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-accordion-item-action-slot-spacing
 // --calcite-internal-accordion-item-active-icon-rotation
 // --calcite-internal-accordion-item-active-icon-rotation-rtl
+// --calcite-internal-accordion-item-description-font-size
 // --calcite-internal-accordion-item-flex-direction
 // --calcite-internal-accordion-item-header-background-color-hover
 // --calcite-internal-accordion-item-header-background-color-press
@@ -46,6 +47,19 @@
   --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.0");
   --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.90");
   --calcite-internal-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+}
+
+:host([scale="s"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--3);
+}
+:host([scale="m"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--2);
+}
+:host([scale="l"]) {
+  --calcite-internal-accordion-item-action-slot-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-accordion-item-description-font-size: var(--calcite-font-size--1);
 }
 
 :host {
@@ -132,6 +146,14 @@
     --calcite-internal-accordion-item-padding,
     var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
   );
+
+  background: none;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+  outline: none;
+  font-family: inherit;
 }
 
 .content {
@@ -155,6 +177,16 @@
       items-center
       ease-in-out;
     @include includes.word-break();
+  }
+  .has-actions {
+    gap: var(--calcite-internal-accordion-item-action-slot-spacing);
+    padding-block: var(--calcite-internal-accordion-item-action-slot-spacing);
+  }
+  .actions-start.has-actions {
+    padding-inline: var(--calcite-internal-accordion-item-action-slot-spacing) 0;
+  }
+  .actions-end.has-actions {
+    padding-inline: 0 var(--calcite-internal-accordion-item-action-slot-spacing);
   }
 }
 
@@ -201,6 +233,7 @@
 .heading,
 .description {
   @apply flex w-full;
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .heading {
@@ -217,13 +250,6 @@
 
 :host([scale="l"]) .heading {
   font-size: var(--calcite-font-size-0);
-}
-
-.actions-start,
-.actions-end {
-  ::slotted(calcite-action) {
-    @apply self-stretch;
-  }
 }
 
 .icon {
@@ -267,7 +293,7 @@
 }
 
 .description {
-  @apply mt-1;
+  font-size: var(--calcite-internal-accordion-item-description-font-size);
 }
 
 .content {
@@ -281,9 +307,10 @@
       --calcite-accordion-item-heading-text-color,
       var(
         --calcite-accordion-text-color-hover,
-        var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
+        var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-1))
       )
     );
+    font-weight: var(--calcite-font-weight-normal);
   }
 }
 

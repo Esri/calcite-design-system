@@ -3,7 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -13,7 +13,8 @@ import {
   selectText,
 } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { locales, numberStringFormatter } from "../../utils/locale";
+import { numberStringFormatter } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
@@ -39,10 +40,6 @@ describe("calcite-input-number", () => {
 
   describe("labelable", () => {
     labelable("calcite-input-number");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input-number");
   });
 
   it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
@@ -148,12 +145,6 @@ describe("calcite-input-number", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).toBeNull();
     expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input-number`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   describe.skip("increment/decrement functionality", () => {
@@ -1071,7 +1062,7 @@ describe("calcite-input-number", () => {
       "pl",
       "pt-PT",
     ];
-    locales
+    supportedNlsLocales
       .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
@@ -1805,10 +1796,6 @@ describe("calcite-input-number", () => {
 
   testWorkaroundForGlobalPropRemoval("calcite-input-number");
 
-  describe("translation support", () => {
-    t9n("calcite-input-number");
-  });
-
   it("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-number></calcite-input-number>");
@@ -2059,6 +2046,15 @@ describe("calcite-input-number", () => {
           state: "focus",
         },
       });
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-input-number value="42" icon="layers"></calcite-input-number>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
     });
   });
 });

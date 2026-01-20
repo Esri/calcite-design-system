@@ -1,15 +1,11 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import type { Button } from "../button/button";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./fab.scss";
 
@@ -19,22 +15,24 @@ declare global {
   }
 }
 
-export class Fab extends LitElement implements InteractiveComponent {
-  // #region Static Members
+export class Fab extends LitElement {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private buttonRef = createRef<Button["el"]>();
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
@@ -71,9 +69,9 @@ export class Fab extends LitElement implements InteractiveComponent {
   /** When `true`, displays the `text` value in the component. */
   @property({ reflect: true }) textEnabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -87,17 +85,9 @@ export class Fab extends LitElement implements InteractiveComponent {
     return this.focusSetter(() => this.buttonRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
-  // #endregion
-
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const {
@@ -116,7 +106,7 @@ export class Fab extends LitElement implements InteractiveComponent {
     const title = !textEnabled ? label || text || null : null;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <calcite-button
           appearance={appearance === "solid" ? "solid" : "outline-fill"}
           class={CSS.button}
@@ -135,9 +125,9 @@ export class Fab extends LitElement implements InteractiveComponent {
         >
           {this.textEnabled ? this.text : null}
         </calcite-button>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

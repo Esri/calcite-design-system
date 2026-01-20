@@ -2,10 +2,11 @@
 import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { locales, numberStringFormatter } from "../../utils/locale";
+import { numberStringFormatter } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import {
   assertCaretPosition,
   findAll,
@@ -36,10 +37,6 @@ describe("calcite-input", () => {
 
   describe("labelable", () => {
     labelable("calcite-input");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-input");
   });
 
   it("spinner buttons on disabled number input should not be interactive/should not nudge the number", async () => {
@@ -161,12 +158,6 @@ describe("calcite-input", () => {
     expect(numberVerticalWrapper).toBeNull();
     expect(numberHorizontalItemDown).toBeNull();
     expect(numberHorizontalItemUp).toBeNull();
-  });
-
-  describe("is focusable", () => {
-    focusable(`calcite-input`, {
-      shadowFocusTargetSelector: "input",
-    });
   });
 
   describe("input type number increment/decrement functionality", () => {
@@ -1240,7 +1231,7 @@ describe("calcite-input", () => {
       "pl",
       "pt-PT",
     ];
-    locales
+    supportedNlsLocales
       .filter((locale) => !localesWithDifferentBrowserAndNodeFormatting.includes(locale))
       .forEach((locale) => {
         it(`displays decimal separator on initial load for ${locale} locale`, async () => {
@@ -1772,35 +1763,6 @@ describe("calcite-input", () => {
       page = await newE2EPage();
     });
 
-    it("works for type textarea", async () => {
-      await page.setContent(`<calcite-input type="textarea"></calcite-input>`);
-      const element = await page.find("calcite-input");
-
-      await element.callMethod("setFocus");
-      await page.waitForChanges();
-      await page.keyboard.type("test");
-      await page.waitForChanges();
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-        position: 0,
-      });
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      await assertCaretPosition({
-        page,
-        componentTag: "calcite-input",
-        shadowInputTypeSelector: "textarea",
-      });
-    });
-
     it("works for type text", async () => {
       await page.setContent(`<calcite-input type="text"></calcite-input>`);
       const element = await page.find("calcite-input");
@@ -1976,10 +1938,6 @@ describe("calcite-input", () => {
   });
 
   testWorkaroundForGlobalPropRemoval("calcite-input");
-
-  describe("translation support", () => {
-    t9n("calcite-input");
-  });
 
   describe("theme", () => {
     themed(

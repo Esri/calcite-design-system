@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, t9n, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -10,17 +10,6 @@ import { centerItemsByBreakpoint, CSS } from "./resources";
 const customDuration = 1000;
 
 describe("calcite-carousel", () => {
-  describe("focusable", () => {
-    focusable(
-      html`<calcite-carousel label="Carousel example"
-        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Carousel Item 2"
-          ><p>carousel item content</p></calcite-carousel-item
-        ></calcite-carousel
-      >`,
-    );
-  });
-
   describe("accessible", () => {
     accessible(
       html`<calcite-carousel label="Carousel example"
@@ -54,8 +43,15 @@ describe("calcite-carousel", () => {
     );
   });
 
-  describe("translation support", () => {
-    t9n("calcite-carousel");
+  describe("accessible with pagination disabled", () => {
+    accessible(
+      html`<calcite-carousel label="Carousel example" pagination-disabled
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
+      >`,
+    );
   });
 
   describe("first render", () => {
@@ -792,7 +788,7 @@ describe("calcite-carousel", () => {
       expect(selectedItem.id).toEqual("one");
     });
 
-    it("pagination should be hidden if there is 1 or fewer items", async () => {
+    it("pagination should show when there is a single item", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-carousel label="Carousel example"
@@ -803,7 +799,27 @@ describe("calcite-carousel", () => {
       );
 
       const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);
-      expect(pagination).toBeNull();
+      expect(pagination).not.toBeNull();
+    });
+
+    it("pagination should be replaced with aria-live info when paginationDisabled is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-carousel label="Carousel example" pagination-disabled
+          ><calcite-carousel-item label="Carousel Item 1"><p>first item default selected</p></calcite-carousel-item
+          ><calcite-carousel-item label="Carousel Item 2"
+            ><p>carousel item content</p></calcite-carousel-item
+          ></calcite-carousel
+        >`,
+      );
+
+      const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);
+      const paginationItems = await pagination.find(`.${CSS.paginationItems}`);
+      expect(paginationItems).toBeNull();
+
+      const paginationAriaLive = await pagination.find(`.${CSS.paginationAriaLive}`);
+      const ariaTextContent = paginationAriaLive.textContent;
+      expect(ariaTextContent).toBe("Item 1 of 2");
     });
   });
 
@@ -1138,6 +1154,35 @@ describe("calcite-carousel", () => {
     expect(animationStartEventSpy).toHaveReceivedEventTimes(5);
     expect(animationEndEventSpy).toHaveReceivedEventTimes(5);
   });
+
+  it("does not animate when attempting to use arrow keys and only one item is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <style>
+          :root {
+            /* speeds up animations without preventing them from being triggered in test */
+            --calcite-duration-factor: 0.1;
+          }
+        </style>
+        <calcite-carousel label="carousel">
+          <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        </calcite-carousel>`,
+    );
+
+    const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+    const animationStartEventSpy = await container.spyOnEvent("animationstart");
+    const animationEndEventSpy = await container.spyOnEvent("animationend");
+    const carousel = await page.find("calcite-carousel");
+
+    await carousel.focus();
+    await page.keyboard.press("ArrowRight");
+    await page.waitForTimeout(customDuration);
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForTimeout(customDuration);
+
+    expect(animationStartEventSpy).not.toHaveReceivedEvent();
+    expect(animationEndEventSpy).not.toHaveReceivedEvent();
+  });
 });
 
 describe("renders the expected number of pagination items when overflowing", () => {
@@ -1221,6 +1266,24 @@ describe("renders the expected number of pagination items when overflowing", () 
 
     const items = await findAll(page, `calcite-carousel >>> .${CSS.paginationItemVisible}`);
     expect(items).toHaveLength(centerItemsByBreakpoint["medium"] + 2);
+  });
+
+  it("does not render autoplay or navigation buttons when only one item is present", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-carousel label="Carousel example" autoplay>
+        <calcite-carousel-item label="Carousel Item 1" id="one"><p>only item</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const autoplayControl = await page.find(`calcite-carousel >>> .${CSS.autoplayControl}`);
+    expect(autoplayControl).toBeNull();
+
+    const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+    expect(nextButton).toBeNull();
+
+    const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+    expect(previousButton).toBeNull();
   });
 
   describe("themed", () => {

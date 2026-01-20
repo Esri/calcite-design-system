@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, floatingUIOwner, focusable, openClose, t9n, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -11,10 +11,6 @@ import type { Popover } from "./popover";
 
 describe("calcite-popover", () => {
   mockConsole();
-
-  describe("translation support", () => {
-    t9n("calcite-popover");
-  });
 
   describe("accessible", () => {
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
@@ -554,14 +550,6 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
-      "open",
-      { shadowSelector: `.${CSS.positionContainer}` },
-    );
-  });
-
   it("should autoClose shadow popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
@@ -691,27 +679,6 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  describe("setFocus", () => {
-    const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
-
-    const contentButtonClass = "my-button";
-    const contentHTML = "Hello World!";
-    const buttonContentHTML = `<button class="${contentButtonClass}">My Button</button>`;
-
-    describe("should focus content by default", () => {
-      focusable(createPopoverHTML(buttonContentHTML), {
-        focusTargetSelector: `.${contentButtonClass}`,
-      });
-    });
-
-    describe("should focus close button", () => {
-      focusable(createPopoverHTML(contentHTML, "closable"), {
-        shadowFocusTargetSelector: `.${CSS.closeButton}`,
-      });
-    });
-  });
-
   describe("warning messages", () => {
     it("does not warn if reference element is present", async () => {
       const page = await newE2EPage();
@@ -798,27 +765,6 @@ describe("calcite-popover", () => {
             {
               shadowSelector: `.${CSS.headerContainer}`,
               targetProp: "color",
-            },
-          ],
-        },
-      );
-    });
-    describe("closable", () => {
-      themed(
-        html`
-          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!" closable>
-            Lorem Ipsum
-          </calcite-popover>
-        `,
-        {
-          "--calcite-popover-corner-radius": [
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderStartEndRadius",
-            },
-            {
-              shadowSelector: `.${CSS.closeButtonContainer}`,
-              targetProp: "borderEndEndRadius",
             },
           ],
         },

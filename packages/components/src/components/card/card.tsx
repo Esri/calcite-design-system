@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -12,16 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { LogicalFlowPosition, SelectionMode } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
@@ -40,7 +36,7 @@ declare global {
  * @slot footer-start - A slot for adding a leading footer.
  * @slot footer-end - A slot for adding a trailing footer.
  */
-export class Card extends LitElement implements InteractiveComponent {
+export class Card extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -59,6 +55,8 @@ export class Card extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -144,14 +142,6 @@ export class Card extends LitElement implements InteractiveComponent {
 
   /** @private */
   calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  //#endregion
-
-  //#region Lifecycle
-
-  override updated(): void {
-    updateHostInteraction(this);
-  }
 
   //#endregion
 
@@ -296,7 +286,7 @@ export class Card extends LitElement implements InteractiveComponent {
           ? "radio"
           : undefined;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.selectionMode !== "none" ? this.selected : undefined}
           ariaLabel={this.label}
@@ -327,7 +317,7 @@ export class Card extends LitElement implements InteractiveComponent {
           </section>
           {!thumbnailStart && this.renderThumbnail()}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

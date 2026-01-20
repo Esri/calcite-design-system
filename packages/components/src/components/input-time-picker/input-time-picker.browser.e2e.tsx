@@ -1,9 +1,18 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS } from "./resources";
 
 describe("calcite-input-time-picker", () => {
   mockConsole();
@@ -20,6 +29,20 @@ describe("calcite-input-time-picker", () => {
         { propertyName: "validationMessage", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    describe("should focus the first focusable element when setFocus is called (ltr)", () => {
+      focusable(() => mount(`calcite-input-time-picker`), {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+      });
+    });
+
+    describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
+      focusable(() => mount(<calcite-input-time-picker dir="rtl" lang="ar" />), {
+        shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
+      });
+    });
   });
 
   describe("reflects", () => {
@@ -57,5 +80,13 @@ describe("calcite-input-time-picker", () => {
         display: "inline-block",
       });
     });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-input-time-picker"));
   });
 });

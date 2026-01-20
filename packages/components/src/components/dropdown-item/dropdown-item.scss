@@ -11,6 +11,12 @@
  * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
 */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dropdown-item-text-color
+
 @use "../../styles/includes";
 
 @mixin item-styling {
@@ -21,20 +27,20 @@
     items-center
     no-underline;
 
-  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
 }
 
 :host {
   @apply relative
     flex
     flex-grow
-    focus-base
-    items-center;
+    items-center
+    outline-none;
 }
 
 .container {
   @include item-styling;
-  @apply focus-base text-start;
+  @apply text-start;
 
   & a {
     outline: none;
@@ -42,16 +48,21 @@
   }
 }
 
-.dropdown-item-content {
-  @apply flex-auto py-0.5;
+.content {
+  @apply flex-auto;
 }
 
 // item icon
-.dropdown-item-icon {
+.icon {
   @apply relative
     opacity-0
     ease-in-out;
   transform: scale(0.9);
+}
+
+.icon--start,
+.icon--end {
+  --calcite-icon-color: var(--calcite-color-text-3);
 }
 
 :host([scale="s"]) {
@@ -59,12 +70,12 @@
     @apply text-n2h py-1 px-2;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-sm);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-sm);
   }
 }
@@ -74,12 +85,12 @@
     @apply text-n1h py-2 px-3;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-md);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-md);
   }
 }
@@ -89,12 +100,12 @@
     @apply text-0h py-2.5 px-4;
   }
 
-  .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .icon,
+  .icon--start {
     padding-inline-end: var(--calcite-spacing-lg);
   }
 
-  .dropdown-item-icon--end {
+  .icon--end {
     padding-inline-start: var(--calcite-spacing-lg);
   }
 }
@@ -123,26 +134,36 @@
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
-  .dropdown-link {
+  .link {
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 }
 
 :host([selected]) .container:not(.container--none-selection),
-:host([selected]) .dropdown-link {
+:host([selected]) .link {
   @apply font-medium;
-  color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+  --calcite-internal-dropdown-item-text-color: var(
+    --calcite-dropdown-item-text-color-press,
+    var(--calcite-color-text-1)
+  );
 
-  calcite-icon {
-    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+  color: var(--calcite-internal-dropdown-item-text-color);
+
+  .icon {
+    --calcite-icon-color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+  }
+
+  .icon--start,
+  .icon--end {
+    --calcite-icon-color: var(--calcite-internal-dropdown-item-text-color);
   }
 }
 
-:host(:hover:not([disabled])) .dropdown-item-icon {
+:host(:hover:not([disabled])) .icon {
   color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
-:host([selected]) .dropdown-item-icon {
+:host([selected]) .icon {
   @apply opacity-100;
 }
 

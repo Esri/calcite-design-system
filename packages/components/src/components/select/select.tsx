@@ -19,11 +19,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
@@ -35,6 +30,7 @@ import type { Option } from "../option/option";
 import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -60,17 +56,14 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
  * @slot - A slot for adding `calcite-option`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Select
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class Select extends LitElement implements LabelableComponent, FormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
@@ -93,9 +86,11 @@ export class Select
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -140,7 +135,7 @@ export class Select
    */
   @property() selectedOption: Option["el"];
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
@@ -177,12 +172,12 @@ export class Select
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -196,16 +191,16 @@ export class Select
     return this.focusSetter(() => this.selectRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `selectedOption` changes. */
   calciteSelectChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -227,7 +222,7 @@ export class Select
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
       this.updateItemsFromValue(this.value);
     }
@@ -235,10 +230,6 @@ export class Select
     if (changes.has("selectedOption")) {
       this.value = this.selectedOption?.value;
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -259,9 +250,9 @@ export class Select
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleInternalSelectChange(): void {
     const selected = this.selectRef.value.selectedOptions[0];
@@ -395,9 +386,9 @@ export class Select
     this.calciteSelectChange.emit();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderChevron(): JsxNode {
     return (
@@ -411,7 +402,7 @@ export class Select
     const { disabled } = this;
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -445,9 +436,9 @@ export class Select
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

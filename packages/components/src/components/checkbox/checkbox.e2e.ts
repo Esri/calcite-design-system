@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  focusable,
-  formAssociated,
-  HYDRATED_ATTR,
-  labelable,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
@@ -34,18 +25,6 @@ describe("calcite-checkbox", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-checkbox", {
-      focusTarget: {
-        tab: "calcite-checkbox",
-        click: {
-          pointer: "calcite-checkbox",
-          method: "calcite-checkbox",
-        },
-      },
-    });
   });
 
   it("renders with correct default attributes", async () => {
@@ -174,12 +153,6 @@ describe("calcite-checkbox", () => {
     expect(await checked.getProperty("checked")).toBe(true);
   });
 
-  describe("is focusable", () => {
-    focusable("calcite-checkbox", {
-      shadowFocusTargetSelector: ".toggle",
-    });
-  });
-
   describe("WCAG AA recommended minimum 24px click area", () => {
     const testCheckboxClick = async (scale: Scale, maxExtraPixels: number, direction: "ltr" | "rtl"): Promise<void> => {
       const page = await newE2EPage();
@@ -219,10 +192,6 @@ describe("calcite-checkbox", () => {
         });
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-checkbox");
   });
 
   describe("theme", () => {

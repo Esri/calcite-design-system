@@ -3,7 +3,7 @@ import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -39,11 +39,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -62,6 +57,8 @@ import { highlightText } from "../../utils/text";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
+import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -86,7 +83,7 @@ declare global {
  */
 export class Combobox
   extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+  implements LabelableComponent, FormComponent, FloatingUIComponent
 {
   //#region Static Members
 
@@ -222,8 +219,6 @@ export class Combobox
 
   transitionProp = "opacity" as const;
 
-  placement: LogicalPlacement = defaultMenuPlacement;
-
   referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", () => {
@@ -252,7 +247,7 @@ export class Combobox
 
   private get effectiveFilterProps(): string[] {
     if (!this.filterProps) {
-      return ["description", "label", "metadata", "shortHeading", "textLabel"];
+      return ["description", "label", "metadata", "shortHeading"];
     }
 
     return this.filterProps.filter((prop) => prop !== "el");
@@ -273,24 +268,6 @@ export class Combobox
     this.addCustomChip(this.filterText, true);
   };
 
-  //#endregion
-
-  //#region State Properties
-
-  @state() activeChipIndex = -1;
-
-  @state() activeDescendant = "";
-
-  @state() activeItemIndex = -1;
-
-  @state() compactSelectionDisplay = false;
-
-  @state() selectedHiddenChipsCount = 0;
-
-  @state() selectedVisibleChipsCount = 0;
-
-  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
-
   get allSelected(): boolean {
     return this.selectedItems.length === this.items.length;
   }
@@ -310,6 +287,30 @@ export class Combobox
 
     return filteredItems;
   }
+
+  private interactiveContainer = useInteractive(this);
+
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() activeChipIndex = -1;
+
+  @state() activeDescendant = "";
+
+  @state() activeItemIndex = -1;
+
+  @state() compactSelectionDisplay = false;
+
+  @state() selectedHiddenChipsCount = 0;
+
+  @state() selectedVisibleChipsCount = 0;
+
+  @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() noMatchesFound: boolean;
 
@@ -405,6 +406,9 @@ export class Combobox
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
@@ -465,6 +469,15 @@ export class Combobox
 
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
@@ -602,11 +615,15 @@ export class Combobox
     this.cancelable.add(this.filterItems);
   }
 
+  async load(): Promise<void> {
+    this.handleSelectionModeWarning();
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -620,8 +637,9 @@ export class Combobox
     }
 
     if (
-      changes.has("overlayPositioning") &&
-      (this.hasUpdated || this.overlayPositioning !== "absolute")
+      (changes.has("overlayPositioning") &&
+        (this.hasUpdated || this.overlayPositioning !== "absolute")) ||
+      (changes.has("placement") && (this.hasUpdated || this.placement !== defaultMenuPlacement))
     ) {
       this.reposition(true);
     }
@@ -641,12 +659,7 @@ export class Combobox
       this.inputHeight = this.el.offsetHeight;
     }
 
-    updateHostInteraction(this);
     this.refreshSelectionDisplay();
-  }
-
-  async load(): Promise<void> {
-    this.handleSelectionModeWarning();
   }
 
   loaded(): void {
@@ -668,20 +681,6 @@ export class Combobox
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private emitComboboxChange(): void {
     this.calciteComboboxChange.emit();
   }
@@ -692,14 +691,12 @@ export class Combobox
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.setMaxScrollerHeight();
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -989,6 +986,7 @@ export class Combobox
   onBeforeOpen(): void {
     this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -1003,6 +1001,7 @@ export class Combobox
   onClose(): void {
     this.calciteComboboxClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private async setMaxScrollerHeight(): Promise<void> {
@@ -1172,7 +1171,6 @@ export class Combobox
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private setCompactSelectionDisplay({
@@ -1378,7 +1376,6 @@ export class Combobox
       label: item.heading,
       metadata: item.metadata,
       shortHeading: item.shortHeading,
-      textLabel: item.textLabel,
       el: item, // used for matching items to data
     }));
   }
@@ -1410,12 +1407,12 @@ export class Combobox
   }
 
   private addCustomChip(value: string, focus?: boolean): void {
-    const existingItem = this.items.find((el) => (el.heading || el.textLabel) === value);
+    const existingItem = this.items.find((el) => el.heading === value);
     if (existingItem) {
       this.toggleSelection(existingItem, true);
     } else {
       const item = document.createElement(
-        // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
+        // TODO: [MIGRATION] If this is dynamically creating a web component, please read the docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#rendering-jsx-outside-the-component
         "calcite-combobox-item",
       );
       item.value = value;
@@ -1794,7 +1791,7 @@ export class Combobox
         ariaLabel: item.label,
         ariaSelected: item.selected,
         id: `${IDS.item(item.guid)}`,
-        textContent: item.heading || item.textLabel,
+        textContent: item.heading,
       }),
     );
 
@@ -1836,6 +1833,7 @@ export class Combobox
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
+                  heading={messages.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
                   label={messages.selectAll}
@@ -1843,7 +1841,6 @@ export class Combobox
                   scale={scale}
                   selected={this.allSelected}
                   tabIndex="-1"
-                  text-label={messages.selectAll}
                   value="select-all"
                 />
               )}
@@ -1919,7 +1916,7 @@ export class Combobox
       !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -2001,7 +1998,7 @@ export class Combobox
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -1,19 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { findAll } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
-  describe("disabled", () => {
-    disabled("calcite-fab");
-  });
-
-  describe("focusable", () => {
-    focusable("calcite-fab");
-  });
-
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
       html: "<calcite-fab></calcite-fab>",

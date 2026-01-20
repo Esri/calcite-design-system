@@ -10,11 +10,11 @@
  * @prop --calcite-panel-border-color: Specifies the component's border color.
  * @prop --calcite-panel-background-color: Specifies the component's background color.
  * @prop --calcite-panel-header-background-color: Specifies the background color of the component's header.
- * @prop --calcite-panel-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
- * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
- * @prop --calcite-panel-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+ * @prop --calcite-panel-header-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+ * @prop --calcite-panel-header-action-background-color-press: Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+ * @prop --calcite-panel-header-action-text-color: Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-panel-header-action-text-color-press: Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
  * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-panel-space: Specifies the padding of the component's `"unnamed (default)"` slot.
  * @prop --calcite-panel-header-content-space: Specifies the padding of the `"header-content"` slot.
@@ -29,6 +29,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-panel-action-spacing
 // --calcite-internal-panel-default-space
 // --calcite-internal-panel-header-vertical-padding
 
@@ -84,7 +85,12 @@ slot[name="alerts"]::slotted(calcite-alert) {
   }
 }
 
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xxs);
+}
+
 :host([scale="l"]) {
+  --calcite-internal-panel-action-spacing: var(--calcite-spacing-xs);
   --calcite-internal-panel-default-space: var(--calcite-spacing-lg);
   --calcite-internal-panel-header-vertical-padding: var(--calcite-spacing-xl);
 
@@ -191,7 +197,6 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 #close,
 #collapse,
-.back-button,
 calcite-action-menu {
   --calcite-action-background-color: var(--calcite-panel-header-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
@@ -200,22 +205,23 @@ calcite-action-menu {
   --calcite-action-text-color-press: var(--calcite-panel-header-action-text-color-press);
 }
 
-.back-button {
-  @apply border-0
-  border-solid;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
-  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
-}
-
 .header-actions {
   @apply flex
   flex-row
-  flex-nowrap
-  items-stretch;
+  flex-nowrap;
+  margin: auto;
+}
+
+.header-actions {
+  gap: var(--calcite-internal-panel-action-spacing);
+}
+
+.header-actions--start {
+  margin-inline-start: var(--calcite-internal-panel-action-spacing);
 }
 
 .header-actions--end {
-  margin-inline-start: theme("margin.auto");
+  margin-inline-end: var(--calcite-internal-panel-action-spacing);
 }
 
 .content-wrapper {
@@ -295,7 +301,7 @@ calcite-action-menu {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-color-text-1));
+  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
 }
 
 @include includes.base-component();

@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
@@ -12,10 +12,6 @@ describe("calcite-slider", () => {
 
   describe("labelable", () => {
     labelable("calcite-slider");
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-slider");
   });
 
   it("sets aria attributes properly for single value", async () => {
@@ -1131,10 +1127,6 @@ describe("calcite-slider", () => {
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
       });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-slider");
   });
 
   describe("themed", () => {

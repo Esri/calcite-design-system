@@ -1,9 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, slots, t9n, themed, focusable } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 const placeholder = placeholderImage({
   width: 350,
@@ -11,20 +11,6 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  describe("focusable", () => {
-    describe("default", () => {
-      focusable("calcite-card");
-    });
-
-    describe("with interactive children", () => {
-      focusable(html`
-        <calcite-card id="parent">
-          <div tabindex="0">focusable child</div>
-        </calcite-card>
-      `);
-    });
-  });
-
   describe("accessible", () => {
     accessible("calcite-card");
   });
@@ -35,10 +21,6 @@ describe("calcite-card", () => {
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`,
     );
-  });
-
-  describe("slots", () => {
-    slots("calcite-card", SLOTS, true);
   });
 
   it("renders with default props if none are provided", async () => {
@@ -102,10 +84,6 @@ describe("calcite-card", () => {
       expect(await checkbox.getProperty("checked")).toBe(true);
       expect(await card.getProperty("selected")).toBe(true);
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-card");
   });
 
   it("should have aria-live attribute set to polite on loader container when loading", async () => {

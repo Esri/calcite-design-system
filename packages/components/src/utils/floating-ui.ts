@@ -421,7 +421,6 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
  * @param options.arrowEl - A customizable arrow element.
  * @param options.type - The type of floating UI.
  * @param delayed - Reposition the component after a delay.
- * @returns {Promise<void>}
  */
 export async function reposition(
   component: FloatingUIComponent,
@@ -434,8 +433,11 @@ export async function reposition(
 
   Object.assign(options.floatingEl.style, {
     display: "block",
+    inset: "unset",
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    left: "0",
     position: options.overlayPositioning ?? "absolute",
+    top: "0",
   });
 
   const trackedState = autoUpdatingComponentMap.get(component);
@@ -548,8 +550,10 @@ export function hideFloatingUI(component: FloatingUIComponent): void {
 
   Object.assign(floatingEl.style, {
     display: "",
+    left: "",
     pointerEvents: "",
     position: "",
+    top: "",
     transform: "",
     visibility: "",
   });
@@ -559,7 +563,6 @@ export function hideFloatingUI(component: FloatingUIComponent): void {
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component - A floating-ui component.
- * @returns {Promise<void>}
  */
 export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
   const { floatingEl, referenceEl } = component;

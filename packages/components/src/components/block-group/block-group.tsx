@@ -3,11 +3,6 @@ import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import {
   connectSortableComponent,
@@ -28,6 +23,7 @@ import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale } from "../interfaces";
+import { useInteractive } from "../../controllers/useInteractive";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -42,14 +38,14 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-block` elements.
  */
-export class BlockGroup extends LitElement implements InteractiveComponent, SortableComponent {
-  // #region Static Members
+export class BlockGroup extends LitElement implements SortableComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   dragSelector = blockSelector;
 
@@ -71,17 +67,19 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region State Properties
+  //#endregion
+
+  //#region State Properties
 
   @state() assistiveText: string;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
   @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
@@ -120,22 +118,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
   /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
-
-  /**
-   * Sets focus on the component's first focusable element.
-   *
-   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
-   */
-  @method()
-  async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.el, options);
-  }
+  //#region Public Methods
 
   /**
    * Emits the `calciteBlockGroupOrderChange` event.
@@ -147,18 +132,27 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     this.calciteBlockGroupOrderChange.emit(detail);
   }
 
-  // #endregion
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
+  }
 
-  // #region Events
+  //#endregion
+
+  //#region Events
 
   /** Fires when the component's dragging has ended. */
   calciteBlockGroupDragEnd = createEvent<BlockDragDetail>({ cancelable: false });
 
   /** Fires when the component's dragging has started. */
   calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
-
-  /** Fires when the component's item order changes. */
-  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
   /**
    * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
@@ -167,9 +161,12 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
    */
   calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
 
-  // #endregion
+  /** Fires when the component's item order changes. */
+  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
-  // #region Lifecycle
+  //#endregion
+
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -207,18 +204,14 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private updateBlockItems(): void {
     this.updateGroupItems();
@@ -541,14 +534,14 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { loading, label } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
@@ -560,9 +553,9 @@ export class BlockGroup extends LitElement implements InteractiveComponent, Sort
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

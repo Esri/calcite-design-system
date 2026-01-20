@@ -15,10 +15,7 @@ The most common approach for loading Calcite components is to use the version ho
 <!-- x-release-please-start-version -->
 
 ```html
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@3.3.3/dist/calcite/calcite.esm.js"
-></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@5.0.0/dist/cdn/index.js"></script>
 ```
 
 <!-- x-release-please-end -->
@@ -57,7 +54,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](https://github.c
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT © Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

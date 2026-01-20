@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, disabled, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -13,17 +13,6 @@ describe("calcite-split-button", () => {
     <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
     <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
   </calcite-dropdown-group>`;
-
-  describe("focusable", () => {
-    focusable(
-      `<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-        ${content}
-        </calcite-split-button>`,
-      {
-        shadowFocusTargetSelector: "calcite-button",
-      },
-    );
-  });
 
   describe("accessible", () => {
     accessible(
@@ -59,10 +48,6 @@ describe("calcite-split-button", () => {
     dropdown-label="Show options">
       ${content}
     </calcite-split-button>`);
-  });
-
-  describe("disabled", () => {
-    disabled("calcite-split-button");
   });
 
   it("renders default props when none are provided", async () => {

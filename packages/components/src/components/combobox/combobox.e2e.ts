@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  accessible,
-  disabled,
-  floatingUIOwner,
-  focusable,
-  formAssociated,
-  labelable,
-  openClose,
-  t9n,
-} from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -34,19 +25,10 @@ const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 describe("calcite-combobox", () => {
   mockConsole();
 
-  describe("focusable", () => {
-    focusable(html`
-      <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item value="Spruce" text-label="Spruce"></calcite-combobox-item>
-      </calcite-combobox>
-    `);
-  });
-
   describe("accessible", () => {
     accessible(html`
       <calcite-combobox label="Trees" value="Trees">
-        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
       </calcite-combobox>
     `);
   });
@@ -55,7 +37,7 @@ describe("calcite-combobox", () => {
     accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
     `);
@@ -65,8 +47,8 @@ describe("calcite-combobox", () => {
     accessible(html`
       <calcite-combobox open label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Spruce" heading="Spruce"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
     `);
@@ -76,24 +58,12 @@ describe("calcite-combobox", () => {
     labelable("calcite-combobox");
   });
 
-  describe("disabled", () => {
-    disabled("calcite-combobox", {
-      focusTarget: {
-        tab: "calcite-combobox",
-        click: {
-          pointer: "calcite-combobox",
-          method: "calcite-combobox",
-        },
-      },
-    });
-  });
-
   const simpleComboboxHTML = html`
     <calcite-combobox id="myCombobox">
-      <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-      <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-      <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-      <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
+      <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
+      <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
+      <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
     </calcite-combobox>
   `;
 
@@ -107,25 +77,25 @@ describe("calcite-combobox", () => {
       await page.setContent(html`
         <calcite-combobox>
           <calcite-combobox-item
-            text-label="text-label-1"
+            heading="text-heading-1"
             description="description-1"
             value="value-1"
             short-heading="short-heading-1"
           ></calcite-combobox-item>
           <calcite-combobox-item
-            text-label="text-label-2"
+            heading="text-heading-2"
             description="description-2"
             value="value-2"
             short-heading="short-heading-2"
           ></calcite-combobox-item>
           <calcite-combobox-item
-            text-label="text-label-3"
+            heading="text-heading-3"
             description="description-3"
             value="value-3"
             short-heading="short-heading-3"
           ></calcite-combobox-item>
           <calcite-combobox-item
-            text-label="text-label-4"
+            heading="text-heading-4"
             description="description-4"
             value="value-4"
             short-heading="short-heading-4"
@@ -136,14 +106,14 @@ describe("calcite-combobox", () => {
       const combobox = await page.find("calcite-combobox");
       const filterEventSpy = await combobox.spyOnEvent("calciteComboboxFilterChange");
 
-      await clearAndType(combobox, "text-label-1");
+      await clearAndType(combobox, "text-heading-1");
 
       let items = await findAll(page, "calcite-combobox-item");
       expect(await items[0].isVisible()).toBe(true);
       expect(await items[1].isVisible()).toBe(false);
       expect(await items[2].isVisible()).toBe(false);
       expect(await items[3].isVisible()).toBe(false);
-      expect(await combobox.getProperty("filterText")).toBe("text-label-1");
+      expect(await combobox.getProperty("filterText")).toBe("text-heading-1");
       expect((await combobox.getProperty("filteredItems")).length).toBe(1);
       expect(filterEventSpy).toHaveReceivedEventTimes(1);
 
@@ -207,10 +177,10 @@ describe("calcite-combobox", () => {
 
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+          <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
+          <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -241,10 +211,10 @@ describe("calcite-combobox", () => {
 
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+          <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
+          <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -266,10 +236,10 @@ describe("calcite-combobox", () => {
 
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+          <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
+          <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -293,14 +263,14 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox clear-disabled="true" selection-mode="single-persist" placeholder="Select a field">
-          <calcite-combobox-item id="item-1" value="France/Germany" text-label="France/Germany"></calcite-combobox-item>
-          <calcite-combobox-item id="item-2" value="Spain/Portugal" text-label="Spain/Portugal"></calcite-combobox-item>
+          <calcite-combobox-item id="item-1" value="France/Germany" heading="France/Germany"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2" value="Spain/Portugal" heading="Spain/Portugal"></calcite-combobox-item>
           <calcite-combobox-item
             id="item-3"
             value="Indonesia/Malaysia"
-            text-label="Indonesia/Malaysia"
+            heading="Indonesia/Malaysia"
           ></calcite-combobox-item>
-          <calcite-combobox-item id="item-4" value="Libya/Algeria" text-label="Libya/Algeria"></calcite-combobox-item>
+          <calcite-combobox-item id="item-4" value="Libya/Algeria" heading="Libya/Algeria"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -326,9 +296,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(`
       <calcite-combobox selection-mode="single">
-        <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
-        <calcite-combobox-item id="two" value="two" text-label="Two" ></calcite-combobox-item>
-        <calcite-combobox-item id="three" value="three" text-label="Three" filter-disabled></calcite-combobox-item>
+        <calcite-combobox-item id="one" value="one" heading="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" heading="Two" ></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" heading="Three" filter-disabled></calcite-combobox-item>
       </calcite-combobox>
     `);
 
@@ -349,25 +319,25 @@ describe("calcite-combobox", () => {
 
     const nestedComboboxChildren = html`
       <calcite-combobox-item-group id="group-1" label="group 1">
-        <calcite-combobox-item id="item-1-1" value="a" text-label="item 1.1"></calcite-combobox-item>
-        <calcite-combobox-item id="item-1-2" value="b" text-label="item 1.2"></calcite-combobox-item>
+        <calcite-combobox-item id="item-1-1" value="a" heading="item 1.1"></calcite-combobox-item>
+        <calcite-combobox-item id="item-1-2" value="b" heading="item 1.2"></calcite-combobox-item>
 
         <calcite-combobox-item-group id="subgroup-1-1" label="subgroup 1.1">
-          <calcite-combobox-item id="item-1-1-1" value="c" text-label="item 1.1.1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-1-1-1" value="c" heading="item 1.1.1"></calcite-combobox-item>
           <calcite-combobox-item-group id="subgroup-1-1-1" label="subgroup 1.1.1 (empty)"></calcite-combobox-item-group>
 
           <calcite-combobox-item-group id="subgroup-1-1-2" label="subgroup 1.1.2">
-            <calcite-combobox-item id="item-1-1-2-1" value="d" text-label="item 1.1.2.1">
-              <calcite-combobox-item id="item-1-1-2-2" value="e" text-label="subitem 1.1.2.2"></calcite-combobox-item>
+            <calcite-combobox-item id="item-1-1-2-1" value="d" heading="item 1.1.2.1">
+              <calcite-combobox-item id="item-1-1-2-2" value="e" heading="subitem 1.1.2.2"></calcite-combobox-item>
             </calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox-item-group>
       </calcite-combobox-item-group>
 
       <calcite-combobox-item-group id="group-2" label="group 2">
-        <calcite-combobox-item id="item-2-1" value="f" text-label="item 2.1">
-          <calcite-combobox-item id="item-2-1-1" value="g" text-label="subitem 2.1.1"></calcite-combobox-item>
-          <calcite-combobox-item id="item-2-1-2" value="h" text-label="subitem 2.1.2"></calcite-combobox-item>
+        <calcite-combobox-item id="item-2-1" value="f" heading="item 2.1">
+          <calcite-combobox-item id="item-2-1-1" value="g" heading="subitem 2.1.1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2-1-2" value="h" heading="subitem 2.1.2"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox-item-group>
     `;
@@ -461,13 +431,13 @@ describe("calcite-combobox", () => {
 
         const item1 = document.createElement("calcite-combobox-item");
         item1.value = "1";
-        item1.textLabel = "One";
+        item1.heading = "One";
         item1.metadata = { foo: "foo" };
         combobox.append(item1);
 
         const item2 = document.createElement("calcite-combobox-item");
         item2.value = "2";
-        item2.textLabel = "Two";
+        item2.heading = "Two";
         item2.metadata = { bar: "bar" };
         combobox.append(item2);
 
@@ -494,14 +464,14 @@ describe("calcite-combobox", () => {
       await page.setContent(
         html` <calcite-combobox placeholder="typing 'group1' or 'group2' should show group with all items">
           <calcite-combobox-item-group id="group1" label="group1">
-            <calcite-combobox-item id="value1" value="value1" text-label="value1"></calcite-combobox-item>
-            <calcite-combobox-item id="value2" value="value2" text-label="value2"></calcite-combobox-item>
-            <calcite-combobox-item id="value3" value="value3" text-label="value3"></calcite-combobox-item>
+            <calcite-combobox-item id="value1" value="value1" heading="value1"></calcite-combobox-item>
+            <calcite-combobox-item id="value2" value="value2" heading="value2"></calcite-combobox-item>
+            <calcite-combobox-item id="value3" value="value3" heading="value3"></calcite-combobox-item>
           </calcite-combobox-item-group>
           <calcite-combobox-item-group id="group2" label="group2">
-            <calcite-combobox-item id="value4" value="value4" text-label="value4"></calcite-combobox-item>
-            <calcite-combobox-item id="value5" value="value5" text-label="value5"></calcite-combobox-item>
-            <calcite-combobox-item id="value6" value="value6" text-label="value6"></calcite-combobox-item>
+            <calcite-combobox-item id="value4" value="value4" heading="value4"></calcite-combobox-item>
+            <calcite-combobox-item id="value5" value="value5" heading="value5"></calcite-combobox-item>
+            <calcite-combobox-item id="value6" value="value6" heading="value6"></calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox>`,
       );
@@ -552,11 +522,11 @@ describe("calcite-combobox", () => {
           <calcite-combobox-item
             id="one"
             value="Natural Resources"
-            text-label="Natural Resources"
+            heading="Natural Resources"
             selected
           ></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="Transportation" text-label="Transportation"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="Agriculture" heading="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="Transportation" heading="Transportation"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -593,36 +563,36 @@ describe("calcite-combobox", () => {
       await page.setContent(html`
         <calcite-combobox filter-text="match">
           <calcite-combobox-item
-            id="text-label-match"
-            text-label="match"
+            id="text-heading-match"
+            heading="match"
             description="description-1"
             value="value-1"
             short-heading="short-heading-1"
           ></calcite-combobox-item>
           <calcite-combobox-item
             id="description-match"
-            text-label="text-label-2"
+            heading="text-heading-2"
             description="match"
             value="value-2"
             short-heading="short-heading-2"
           ></calcite-combobox-item>
           <calcite-combobox-item
             id="value-match"
-            text-label="text-label-3"
+            heading="text-heading-3"
             description="description-3"
             value="match"
             short-heading="short-heading-3"
           ></calcite-combobox-item>
           <calcite-combobox-item
             id="short-heading-match"
-            text-label="text-label-4"
+            heading="text-heading-4"
             description="description-4"
             value="value-4"
             short-heading="match"
           ></calcite-combobox-item>
           <calcite-combobox-item
             id="no-match"
-            text-label="text-label-5"
+            heading="text-heading-5"
             description="description-5"
             value="value-5"
             short-heading="short-heading-5"
@@ -632,15 +602,15 @@ describe("calcite-combobox", () => {
 
       await page.waitForChanges();
       const combobox = await page.find("calcite-combobox");
-      combobox.setProperty("filterProps", ["textLabel", "description"]);
+      combobox.setProperty("filterProps", ["description"]);
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE.filter);
 
-      expect(await combobox.getProperty("filteredItems")).toHaveLength(2);
+      expect(await combobox.getProperty("filteredItems")).toHaveLength(1);
 
       const visibleItems = await findAll(page, "calcite-combobox-item:not([hidden]):not([item-hidden])");
 
-      expect(visibleItems.map((item) => item.id)).toEqual(["text-label-match", "description-match"]);
+      expect(visibleItems.map((item) => item.id)).toEqual(["description-match"]);
     });
   });
 
@@ -676,14 +646,6 @@ describe("calcite-combobox", () => {
 
     expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
 
-    const textLabel = "textLabel";
-    item.setProperty("textLabel", textLabel);
-    await page.waitForChanges();
-    await page.waitForTimeout(DEBOUNCE.nextTick);
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
-
-    expect(await a11yItem.getProperty("textContent")).toBe(textLabel);
-
     const heading = "heading";
     item.setProperty("heading", heading);
     await page.waitForChanges();
@@ -705,18 +667,18 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-combobox max-items="${maxItems}">
-        <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
-          <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
-          <calcite-combobox-item id="item-2" value="item-2" text-label="item-2"></calcite-combobox-item>
-          <calcite-combobox-item id="item-3" value="item-3" text-label="item-3"></calcite-combobox-item>
-          <calcite-combobox-item id="item-4" value="item-4" text-label="item-4"></calcite-combobox-item>
-          <calcite-combobox-item id="item-5" value="item-5" text-label="item-5"></calcite-combobox-item>
+        <calcite-combobox-item id="item-0" value="item-0" heading="item-0">
+          <calcite-combobox-item id="item-1" value="item-1" heading="item-1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2" value="item-2" heading="item-2"></calcite-combobox-item>
+          <calcite-combobox-item id="item-3" value="item-3" heading="item-3"></calcite-combobox-item>
+          <calcite-combobox-item id="item-4" value="item-4" heading="item-4"></calcite-combobox-item>
+          <calcite-combobox-item id="item-5" value="item-5" heading="item-5"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item id="item-6" value="item-6" text-label="item-6">
-          <calcite-combobox-item id="item-7" value="item-7" text-label="item-7"></calcite-combobox-item>
-          <calcite-combobox-item id="item-8" value="item-8" text-label="item-8"></calcite-combobox-item>
-          <calcite-combobox-item id="item-9" value="item-9" text-label="item-9"></calcite-combobox-item>
-          <calcite-combobox-item id="item-10" value="item-10" text-label="item-10"></calcite-combobox-item>
+        <calcite-combobox-item id="item-6" value="item-6" heading="item-6">
+          <calcite-combobox-item id="item-7" value="item-7" heading="item-7"></calcite-combobox-item>
+          <calcite-combobox-item id="item-8" value="item-8" heading="item-8"></calcite-combobox-item>
+          <calcite-combobox-item id="item-9" value="item-9" heading="item-9"></calcite-combobox-item>
+          <calcite-combobox-item id="item-10" value="item-10" heading="item-10"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
     `);
@@ -747,18 +709,18 @@ describe("calcite-combobox", () => {
 
     await page.setContent(`
       <calcite-combobox max-items="${maxItems}">
-        <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
-          <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
-          <calcite-combobox-item id="item-2" value="item-2" text-label="item-2"></calcite-combobox-item>
-          <calcite-combobox-item id="item-3" value="item-3" text-label="item-3"></calcite-combobox-item>
-          <calcite-combobox-item id="item-4" value="item-4" text-label="item-4"></calcite-combobox-item>
-          <calcite-combobox-item id="item-5" value="item-5" text-label="item-5"></calcite-combobox-item>
+        <calcite-combobox-item id="item-0" value="item-0" heading="item-0">
+          <calcite-combobox-item id="item-1" value="item-1" heading="item-1"></calcite-combobox-item>
+          <calcite-combobox-item id="item-2" value="item-2" heading="item-2"></calcite-combobox-item>
+          <calcite-combobox-item id="item-3" value="item-3" heading="item-3"></calcite-combobox-item>
+          <calcite-combobox-item id="item-4" value="item-4" heading="item-4"></calcite-combobox-item>
+          <calcite-combobox-item id="item-5" value="item-5" heading="item-5"></calcite-combobox-item>
         </calcite-combobox-item>
         <calcite-combobox-item-group id="item-6" label="item-6">
-          <calcite-combobox-item id="item-7" value="item-7" text-label="item-7"></calcite-combobox-item>
-          <calcite-combobox-item id="item-8" value="item-8" text-label="item-8"></calcite-combobox-item>
-          <calcite-combobox-item id="item-9" value="item-9" text-label="item-9"></calcite-combobox-item>
-          <calcite-combobox-item id="item-10" value="item-10" text-label="item-10"></calcite-combobox-item>
+          <calcite-combobox-item id="item-7" value="item-7" heading="item-7"></calcite-combobox-item>
+          <calcite-combobox-item id="item-8" value="item-8" heading="item-8"></calcite-combobox-item>
+          <calcite-combobox-item id="item-9" value="item-9" heading="item-9"></calcite-combobox-item>
+          <calcite-combobox-item id="item-10" value="item-10" heading="item-10"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
     `);
@@ -790,26 +752,26 @@ describe("calcite-combobox", () => {
 
     await page.setContent(`
     <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-      <calcite-combobox-item value="Trees" text-label="Trees" selected>
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+      <calcite-combobox-item value="Trees" heading="Trees" selected>
+        <calcite-combobox-item value="Pine" heading="Pine">
+          <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
       </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" heading="Flowers">
+        <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" heading="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
       </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      <calcite-combobox-item value="Animals" heading="Animals">
+        <calcite-combobox-item value="Birds" heading="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" heading="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" heading="Amphibians"></calcite-combobox-item>
       </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" heading="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" heading="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" heading="Rivers"></calcite-combobox-item>
     </calcite-combobox>
     `);
     await page.waitForChanges();
@@ -836,14 +798,14 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-        <calcite-combobox-item value="Trees" text-label="Trees" selected>
-          <calcite-combobox-item value="Pine" text-label="Pine">
-            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        <calcite-combobox-item value="Trees" heading="Trees" selected>
+          <calcite-combobox-item value="Pine" heading="Pine">
+            <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" hidden text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" hidden heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" heading="Rocks"></calcite-combobox-item>
       </calcite-combobox>
     `);
     await page.waitForChanges();
@@ -861,14 +823,14 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-        <calcite-combobox-item value="Trees" text-label="Trees" hidden>
-          <calcite-combobox-item value="Pine" text-label="Pine">
-            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+        <calcite-combobox-item value="Trees" heading="Trees" hidden>
+          <calcite-combobox-item value="Pine" heading="Pine">
+            <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" heading="Rocks"></calcite-combobox-item>
       </calcite-combobox>
     `);
     await page.waitForChanges();
@@ -887,17 +849,17 @@ describe("calcite-combobox", () => {
     const maxItems = 6;
     await page.setContent(html`
       <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+        <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" heading="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
+        <calcite-combobox-item value="Birds" heading="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" heading="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" heading="Amphibians"></calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" heading="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Insects" heading="Insects"></calcite-combobox-item>
+        <calcite-combobox-item value="Rivers" heading="Rivers"></calcite-combobox-item>
       </calcite-combobox>
     `);
     const element = await page.find("calcite-combobox");
@@ -937,8 +899,8 @@ describe("calcite-combobox", () => {
           const page = await newE2EPage();
           await page.setContent(html`
             <calcite-combobox selection-mode="single">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" heading="two"></calcite-combobox-item>
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
@@ -965,8 +927,8 @@ describe("calcite-combobox", () => {
           const page = await newE2EPage();
           await page.setContent(html`
             <calcite-combobox selection-mode="single-persist">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" heading="two"></calcite-combobox-item>
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
@@ -1034,8 +996,8 @@ describe("calcite-combobox", () => {
           const page = await newE2EPage();
           await page.setContent(html`
             <calcite-combobox selection-mode="multiple">
-              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" heading="two"></calcite-combobox-item>
             </calcite-combobox>
           `);
           const combobox = await page.find("calcite-combobox");
@@ -1063,9 +1025,9 @@ describe("calcite-combobox", () => {
           const page = await newE2EPage();
           await page.setContent(html`
             <calcite-combobox selection-mode="ancestors">
-              <calcite-combobox-item value="one" text-label="parent">
-                <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
-                <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
+              <calcite-combobox-item value="one" heading="parent">
+                <calcite-combobox-item value="two" heading="child1"></calcite-combobox-item>
+                <calcite-combobox-item value="three" heading="child2"></calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox>
           `);
@@ -1096,8 +1058,8 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="ancestors">
-          <calcite-combobox-item value="one" text-label="one">
-            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+          <calcite-combobox-item value="one" heading="one">
+            <calcite-combobox-item value="child1" heading="child1"></calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox>
       `);
@@ -1121,9 +1083,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="ancestors">
-          <calcite-combobox-item value="parent" text-label="parent">
-            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
-            <calcite-combobox-item value="child2" text-label="child2"></calcite-combobox-item>
+          <calcite-combobox-item value="parent" heading="parent">
+            <calcite-combobox-item value="child1" heading="child1"></calcite-combobox-item>
+            <calcite-combobox-item value="child2" heading="child2"></calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox>
       `);
@@ -1154,8 +1116,8 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox>
-          <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item value="two" heading="two"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
@@ -1187,7 +1149,7 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox>
-          <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item value="one" selected heading="one"></calcite-combobox-item>
         </calcite-combobox>`,
       );
       const eventSpy = await page.spyOnEvent("calciteComboboxChipClose");
@@ -1204,9 +1166,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values selection-mode="single">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const input = await page.find("calcite-combobox >>> input");
@@ -1231,9 +1193,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values selection-mode="single">
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       await skipAnimations(page);
@@ -1261,9 +1223,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values>
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item selected id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
@@ -1293,9 +1255,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="single">
-          <calcite-combobox-item value="1" text-label="first"></calcite-combobox-item>
-          <calcite-combobox-item value="2" text-label="second"></calcite-combobox-item>
-          <calcite-combobox-item value="3" text-label="third"></calcite-combobox-item>
+          <calcite-combobox-item value="1" heading="first"></calcite-combobox-item>
+          <calcite-combobox-item value="2" heading="second"></calcite-combobox-item>
+          <calcite-combobox-item value="3" heading="third"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -1317,9 +1279,9 @@ describe("calcite-combobox", () => {
           selectionMode: "single",
           html: html`
             <calcite-combobox selection-mode="single">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1327,9 +1289,9 @@ describe("calcite-combobox", () => {
           selectionMode: "single-persist",
           html: html`
             <calcite-combobox selection-mode="single-persist">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1337,9 +1299,9 @@ describe("calcite-combobox", () => {
           selectionMode: "multiple",
           html: html`
             <calcite-combobox selection-mode="multiple">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1347,9 +1309,9 @@ describe("calcite-combobox", () => {
           selectionMode: "ancestors",
           html: html`
             <calcite-combobox selection-mode="ancestors">
-              <calcite-combobox-item value="parent" text-label="parent">
-                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
-                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              <calcite-combobox-item value="parent" heading="parent">
+                <calcite-combobox-item value="child1" heading="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" heading="child2"></calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox>
           `,
@@ -1387,9 +1349,9 @@ describe("calcite-combobox", () => {
           selectionMode: "single",
           html: html`
             <calcite-combobox clear-disabled selection-mode="single">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1397,9 +1359,9 @@ describe("calcite-combobox", () => {
           selectionMode: "single-persist",
           html: html`
             <calcite-combobox clear-disabled selection-mode="single-persist">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1407,9 +1369,9 @@ describe("calcite-combobox", () => {
           selectionMode: "multiple",
           html: html`
             <calcite-combobox clear-disabled selection-mode="multiple">
-              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+              <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" heading="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" heading="three"></calcite-combobox-item>
             </calcite-combobox>
           `,
         },
@@ -1417,9 +1379,9 @@ describe("calcite-combobox", () => {
           selectionMode: "ancestors",
           html: html`
             <calcite-combobox clear-disabled selection-mode="ancestors">
-              <calcite-combobox-item value="parent" text-label="parent">
-                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
-                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              <calcite-combobox-item value="parent" heading="parent">
+                <calcite-combobox-item value="child1" heading="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" heading="child2"></calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox>
           `,
@@ -1478,14 +1440,14 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox id="myCombobox" placeholder="Select a field">
-          <calcite-combobox-item value="Natural Resources" text-label="Natural Resources"></calcite-combobox-item>
-          <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
-          <calcite-combobox-item value="Forestry" text-label="Forestry"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Mining" text-label="Mining"></calcite-combobox-item>
-          <calcite-combobox-item value="Business" text-label="Business"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Education" text-label="Education"></calcite-combobox-item>
-          <calcite-combobox-item selected value="Utilities" text-label="Utilities"></calcite-combobox-item>
-          <calcite-combobox-item value="Transportation" text-label="Transportation"></calcite-combobox-item>
+          <calcite-combobox-item value="Natural Resources" heading="Natural Resources"></calcite-combobox-item>
+          <calcite-combobox-item value="Agriculture" heading="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item value="Forestry" heading="Forestry"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Mining" heading="Mining"></calcite-combobox-item>
+          <calcite-combobox-item value="Business" heading="Business"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Education" heading="Education"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Utilities" heading="Utilities"></calcite-combobox-item>
+          <calcite-combobox-item value="Transportation" heading="Transportation"></calcite-combobox-item>
         </calcite-combobox>
       `);
     });
@@ -1603,10 +1565,10 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item-group text-label="Last Item">
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item-group heading="Last Item">
+            <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
@@ -1883,10 +1845,10 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-display="fit" style="width:350px">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item-group text-label="Last Item">
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item-group heading="Last Item">
+            <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
@@ -1910,10 +1872,10 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-display="fit" style="width:450px">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item-group text-label="Last Item">
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item-group heading="Last Item">
+            <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
@@ -1939,9 +1901,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
 
@@ -1966,9 +1928,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="multiple">
-          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       await page.waitForChanges();
@@ -1990,9 +1952,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one" selected></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>`,
       );
       await page.waitForChanges();
@@ -2079,9 +2041,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values>
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
@@ -2112,9 +2074,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values>
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const eventSpy = await page.spyOnEvent("calciteComboboxChange");
@@ -2158,9 +2120,9 @@ describe("calcite-combobox", () => {
       await page.setContent(html`
         <div class="child" style="display: flex; flex-direction: row">
           <calcite-combobox allow-custom-values>
-            <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
           </calcite-combobox>
           <button>OK</button>
           <div></div>
@@ -2205,9 +2167,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values>
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       let chip = await page.find("calcite-combobox >>> calcite-chip");
@@ -2236,9 +2198,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const chip = await page.find("calcite-combobox >>> calcite-chip");
@@ -2276,9 +2238,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox>
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" icon="banana" value="one" heading="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" heading="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const chip = await page.find("calcite-combobox >>> calcite-chip");
@@ -2309,9 +2271,9 @@ describe("calcite-combobox", () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" icon="banana" value="one" heading="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" heading="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const element = await page.find("calcite-combobox");
@@ -2355,9 +2317,9 @@ describe("calcite-combobox", () => {
       <div></div>
       <template>
         <calcite-combobox selection-mode="single">
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+          <calcite-combobox-item id="one" icon="banana" value="one" heading="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" heading="Two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
         </calcite-combobox>
       </template>
       <script>
@@ -2379,25 +2341,11 @@ describe("calcite-combobox", () => {
   describe("is form-associated", () => {
     formAssociated(
       html`<calcite-combobox selection-mode="single">
-        <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-        <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-        <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+        <calcite-combobox-item id="one" icon="banana" value="one" heading="One"></calcite-combobox-item>
+        <calcite-combobox-item id="two" icon="beaker" value="two" heading="Two" selected></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       { testValue: "two", submitsOnEnter: true, validation: true, changeValueKeys: ["Space", "Enter"] },
-    );
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      html`
-        <calcite-combobox>
-          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-      "open",
-      { shadowSelector: `.${CSS.floatingUIContainer}` },
     );
   });
 
@@ -2405,10 +2353,9 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-combobox placeholder="What's scarier than 5G?" selection-mode="single" placeholder-icon="car">
-        <calcite-combobox-item value="Bluetooth" text-label="Bluetooth" icon="bluetooth"> </calcite-combobox-item>
-        <calcite-combobox-item value="Exercise" text-label="Exercise"> </calcite-combobox-item>
-        <calcite-combobox-item value="Space Lasers" text-label="Space Lasers" icon="satellite-3">
-        </calcite-combobox-item>
+        <calcite-combobox-item value="Bluetooth" heading="Bluetooth" icon="bluetooth"> </calcite-combobox-item>
+        <calcite-combobox-item value="Exercise" heading="Exercise"> </calcite-combobox-item>
+        <calcite-combobox-item value="Space Lasers" heading="Space Lasers" icon="satellite-3"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
 
@@ -2428,7 +2375,7 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-combobox>
-        <calcite-combobox-item value="Bluetooth" text-label="Bluetooth"> </calcite-combobox-item>
+        <calcite-combobox-item value="Bluetooth" heading="Bluetooth"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
 
@@ -2442,15 +2389,11 @@ describe("calcite-combobox", () => {
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
 
-  describe("translation support", () => {
-    t9n("calcite-combobox");
-  });
-
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-combobox open id="demoId">
-        <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+        <calcite-combobox-item value="test-value" heading="test"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
     const item = await page.find("calcite-combobox-item");
@@ -2470,7 +2413,7 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-combobox open id="demoId">
-        <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+        <calcite-combobox-item value="test-value" heading="test"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
     await skipAnimations(page);
@@ -2489,7 +2432,7 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-combobox id="demoId">
-        <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
+        <calcite-combobox-item value="test-value" heading="test"> </calcite-combobox-item>
       </calcite-combobox>`,
     );
     await skipAnimations(page);
@@ -2519,8 +2462,8 @@ describe("calcite-combobox", () => {
       it("shows the first item as active if there is no previous selection", async () =>
         assertActiveItem(
           html`<calcite-combobox selection-mode="single">
-            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item1" heading="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2"></calcite-combobox-item>
           </calcite-combobox>`,
           "item1",
         ));
@@ -2528,9 +2471,9 @@ describe("calcite-combobox", () => {
       it("shows the selected item as active when opened", async () =>
         assertActiveItem(
           html`<calcite-combobox selection-mode="single">
-            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
-            <calcite-combobox-item value="item3" text-label="item3" selected></calcite-combobox-item>
+            <calcite-combobox-item value="item1" heading="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" heading="item3" selected></calcite-combobox-item>
           </calcite-combobox>`,
           "item3",
         ));
@@ -2540,30 +2483,30 @@ describe("calcite-combobox", () => {
 
         await page.setContent(
           html`<calcite-combobox open max-items="6" selection-mode="single">
-            <calcite-combobox-item value="Trees" text-label="Trees">
-              <calcite-combobox-item value="Pine" text-label="Pine">
-                <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+            <calcite-combobox-item value="Trees" heading="Trees">
+              <calcite-combobox-item value="Pine" heading="Pine">
+                <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
               </calcite-combobox-item>
-              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Flowers" text-label="Flowers">
-              <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Flowers" heading="Flowers">
+              <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
               <calcite-combobox-item
                 value="Black Eyed Susan"
-                text-label="Black Eyed Susan"
+                heading="Black Eyed Susan"
                 selected
               ></calcite-combobox-item>
-              <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+              <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Animals" text-label="Animals">
-              <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-              <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-              <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+            <calcite-combobox-item value="Animals" heading="Animals">
+              <calcite-combobox-item value="Birds" heading="Birds"></calcite-combobox-item>
+              <calcite-combobox-item value="Reptiles" heading="Reptiles"></calcite-combobox-item>
+              <calcite-combobox-item value="Amphibians" heading="Amphibians"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-            <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-            <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+            <calcite-combobox-item value="Rocks" heading="Rocks"></calcite-combobox-item>
+            <calcite-combobox-item value="Insects" heading="Insects"></calcite-combobox-item>
+            <calcite-combobox-item value="Rivers" heading="Rivers"></calcite-combobox-item>
           </calcite-combobox>`,
         );
         await page.waitForChanges();
@@ -2579,9 +2522,9 @@ describe("calcite-combobox", () => {
       it("shows the first item as active if there is no previous selection", async () =>
         assertActiveItem(
           html` <calcite-combobox selection-mode="multiple">
-            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
-            <calcite-combobox-item value="item3" text-label="item3"></calcite-combobox-item>
+            <calcite-combobox-item value="item1" heading="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" heading="item3"></calcite-combobox-item>
           </calcite-combobox>`,
           "item1",
         ));
@@ -2589,9 +2532,9 @@ describe("calcite-combobox", () => {
       it("shows the last selected item as active", async () =>
         assertActiveItem(
           html` <calcite-combobox selection-mode="multiple">
-            <calcite-combobox-item selected value="item1" text-label="item1"></calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2" selected></calcite-combobox-item>
-            <calcite-combobox-item selected value="item3" text-label="item3"></calcite-combobox-item>
+            <calcite-combobox-item selected value="item1" heading="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2" selected></calcite-combobox-item>
+            <calcite-combobox-item selected value="item3" heading="item3"></calcite-combobox-item>
           </calcite-combobox>`,
           "item3",
         ));
@@ -2601,30 +2544,30 @@ describe("calcite-combobox", () => {
 
         await page.setContent(
           html`<calcite-combobox open max-items="6" selection-mode="multiple">
-            <calcite-combobox-item value="Trees" text-label="Trees">
-              <calcite-combobox-item value="Pine" text-label="Pine">
-                <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+            <calcite-combobox-item value="Trees" heading="Trees">
+              <calcite-combobox-item value="Pine" heading="Pine">
+                <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
               </calcite-combobox-item>
-              <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-              <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+              <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+              <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Flowers" text-label="Flowers">
-              <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Flowers" heading="Flowers">
+              <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
               <calcite-combobox-item
                 value="Black Eyed Susan"
-                text-label="Black Eyed Susan"
+                heading="Black Eyed Susan"
                 selected
               ></calcite-combobox-item>
-              <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+              <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Animals" text-label="Animals">
-              <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-              <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-              <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+            <calcite-combobox-item value="Animals" heading="Animals">
+              <calcite-combobox-item value="Birds" heading="Birds"></calcite-combobox-item>
+              <calcite-combobox-item value="Reptiles" heading="Reptiles"></calcite-combobox-item>
+              <calcite-combobox-item value="Amphibians" heading="Amphibians"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Rocks" text-label="Rocks" selected></calcite-combobox-item>
-            <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-            <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+            <calcite-combobox-item value="Rocks" heading="Rocks" selected></calcite-combobox-item>
+            <calcite-combobox-item value="Insects" heading="Insects"></calcite-combobox-item>
+            <calcite-combobox-item value="Rivers" heading="Rivers"></calcite-combobox-item>
           </calcite-combobox>`,
         );
         await page.waitForChanges();
@@ -2643,11 +2586,11 @@ describe("calcite-combobox", () => {
       it("shows the first item as active if there is no previous selection", async () =>
         assertActiveItem(
           html` <calcite-combobox selection-mode="ancestors">
-            <calcite-combobox-item value="item1" text-label="parent">
-              <calcite-combobox-item value="item1_1" text-label="item1_1"></calcite-combobox-item>
+            <calcite-combobox-item value="item1" heading="parent">
+              <calcite-combobox-item value="item1_1" heading="item1_1"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
-            <calcite-combobox-item value="item3" text-label="item3"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" heading="item3"></calcite-combobox-item>
           </calcite-combobox>`,
           "item1",
         ));
@@ -2655,11 +2598,11 @@ describe("calcite-combobox", () => {
       it("shows the last selected item as active", async () =>
         assertActiveItem(
           html` <calcite-combobox selection-mode="ancestors">
-            <calcite-combobox-item value="item1" text-label="parent" selected>
-              <calcite-combobox-item value="item1_1" text-label="item1_1"></calcite-combobox-item>
+            <calcite-combobox-item value="item1" heading="parent" selected>
+              <calcite-combobox-item value="item1_1" heading="item1_1"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
-            <calcite-combobox-item value="item3" text-label="item3" selected></calcite-combobox-item>
+            <calcite-combobox-item value="item2" heading="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" heading="item3" selected></calcite-combobox-item>
           </calcite-combobox>`,
           "item3",
         ));
@@ -2671,9 +2614,9 @@ describe("calcite-combobox", () => {
     await page.setContent(html`
       <calcite-combobox label="Trees" value="Trees" scale="l" selection-mode="single">
         <calcite-combobox-item-group label="Conifers">
-          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
-        <calcite-combobox-item value="DisabledItem" text-label="DisabledItem" disabled></calcite-combobox-item>
+        <calcite-combobox-item value="DisabledItem" heading="DisabledItem" disabled></calcite-combobox-item>
       </calcite-combobox>
     `);
     const comboboxItems = await findAll(page, "calcite-combobox-item");
@@ -2691,8 +2634,8 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
         </calcite-combobox>
       `);
     });
@@ -2743,8 +2686,8 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox id="myCombobox">
-          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" heading="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
         </calcite-combobox>
       `);
     });
@@ -2784,15 +2727,15 @@ describe("calcite-combobox", () => {
     await page.setContent(html`
       <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
         <calcite-combobox-item-group label="Pokemon">
-          <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
-          <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
-          <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          <calcite-combobox-item value="Pikachu" heading="Pikachu"></calcite-combobox-item>
+          <calcite-combobox-item value="Venusaur" heading="Venusaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Charizard" heading="Charizard"></calcite-combobox-item>
           <calcite-combobox-item-group label="Cutest Pokemon">
-            <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
-            <calcite-combobox-item value="Squirtle1" text-label="Squirtle1">
-              <calcite-combobox-item value="Squirtle2" text-label="Squirtle2">
-                <calcite-combobox-item value="Squirtle3" text-label="Squirtle3">
-                  <calcite-combobox-item value="Squirtle4" text-label="Squirtle4"></calcite-combobox-item>
+            <calcite-combobox-item value="Bulbasaur" heading="Bulbasaur"></calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle1" heading="Squirtle1">
+              <calcite-combobox-item value="Squirtle2" heading="Squirtle2">
+                <calcite-combobox-item value="Squirtle3" heading="Squirtle3">
+                  <calcite-combobox-item value="Squirtle4" heading="Squirtle4"></calcite-combobox-item>
                 </calcite-combobox-item>
               </calcite-combobox-item>
             </calcite-combobox-item>
@@ -2817,9 +2760,8 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEventSpy.next();
 
-    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
-    await close.press(" ");
-    await page.waitForChanges();
+    await combobox.press("ArrowLeft");
+    await page.keyboard.press(" ");
 
     const remainingChips = await findAll(page, "calcite-combobox >>> calcite-chip");
     expect(remainingChips.length).toBe(2);
@@ -2831,13 +2773,13 @@ describe("calcite-combobox", () => {
     await page.setContent(html`
       <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
         <calcite-combobox-item-group label="Pokemon">
-          <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
-          <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
-          <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          <calcite-combobox-item value="Pikachu" heading="Pikachu"></calcite-combobox-item>
+          <calcite-combobox-item value="Venusaur" heading="Venusaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Charizard" heading="Charizard"></calcite-combobox-item>
           <calcite-combobox-item-group label="Cutest Pokemon">
-            <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
-            <calcite-combobox-item value="Squirtle1" text-label="Squirtle1">
-              <calcite-combobox-item value="Squirtle2" text-label="Squirtle2"> </calcite-combobox-item>
+            <calcite-combobox-item value="Bulbasaur" heading="Bulbasaur"></calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle1" heading="Squirtle1">
+              <calcite-combobox-item value="Squirtle2" heading="Squirtle2"> </calcite-combobox-item>
             </calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox-item-group>
@@ -2867,10 +2809,10 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox id="myCombobox" read-only>
-        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+        <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
       </calcite-combobox>
     `);
 
@@ -2895,9 +2837,9 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-combobox>
-        <calcite-combobox-item text-label="Item 1" value="one"></calcite-combobox-item>
-        <calcite-combobox-item text-label="Item 2" value="two"></calcite-combobox-item>
-        <calcite-combobox-item id="tres" text-label="Item 3" value="three" disabled></calcite-combobox-item>
+        <calcite-combobox-item heading="Item 1" value="one"></calcite-combobox-item>
+        <calcite-combobox-item heading="Item 2" value="two"></calcite-combobox-item>
+        <calcite-combobox-item id="tres" heading="Item 3" value="three" disabled></calcite-combobox-item>
       </calcite-combobox>
     `);
     const combobox = await page.find("calcite-combobox");
@@ -2920,9 +2862,9 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-combobox selection-mode="single">
-        <calcite-combobox-item id="one" value="one" text-label="one" selected></calcite-combobox-item>
-        <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-        <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        <calcite-combobox-item id="one" value="one" heading="one" selected></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
+        <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
       </calcite-combobox>`,
     );
     await page.waitForChanges();
@@ -2941,9 +2883,9 @@ describe("calcite-combobox", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-combobox selection-mode="single" select-all-enabled read-only>
-        <calcite-combobox-item value="one" text-label="one" selected=""></calcite-combobox-item>
-        <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-        <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+        <calcite-combobox-item value="one" heading="one" selected=""></calcite-combobox-item>
+        <calcite-combobox-item value="two" heading="two"></calcite-combobox-item>
+        <calcite-combobox-item value="three" heading="three"></calcite-combobox-item>
       </calcite-combobox>`,
     );
     const input = await page.find("calcite-combobox >>> input");
@@ -2957,15 +2899,15 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees">
-            <calcite-combobox-item value="Pine" text-label="Pine">
-              <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          <calcite-combobox-item value="Trees" heading="Trees">
+            <calcite-combobox-item value="Pine" heading="Pine">
+              <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
             </calcite-combobox-item>
-            <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+            <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Flowers" text-label="Flowers">
-            <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-            <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+          <calcite-combobox-item value="Flowers" heading="Flowers">
+            <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
+            <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
@@ -3096,8 +3038,8 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Pine" />
+          <calcite-combobox-item value="Trees" heading="Trees" selected>
+            <calcite-combobox-item value="Pine" heading="Pine" />
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
@@ -3109,8 +3051,8 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Pine" selected />
+          <calcite-combobox-item value="Trees" heading="Trees" selected>
+            <calcite-combobox-item value="Pine" heading="Pine" selected />
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
@@ -3123,9 +3065,9 @@ describe("calcite-combobox", () => {
       page = await newE2EPage();
       await page.setContent(
         html`<calcite-combobox selection-mode="multiple" select-all-enabled>
-          <calcite-combobox-item value="Trees" text-label="Trees" selected>
-            <calcite-combobox-item value="Pine" text-label="Maple" selected />
-            <calcite-combobox-item value="Pine" text-label="Pine" selected />
+          <calcite-combobox-item value="Trees" heading="Trees" selected>
+            <calcite-combobox-item value="Pine" heading="Maple" selected />
+            <calcite-combobox-item value="Pine" heading="Pine" selected />
           </calcite-combobox-item>
         </calcite-combobox>`,
       );
@@ -3170,12 +3112,12 @@ describe("calcite-combobox", () => {
     describe("default", () => {
       const comboboxHTML = html`<calcite-combobox label="test" max-items="6" open>
         <calcite-combobox-item-group value="Trees" label="Trees">
-          <calcite-combobox-item value="Pine" text-label="Pine">
-            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          <calcite-combobox-item value="Pine" heading="Pine">
+            <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox-item-group>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
       </calcite-combobox>`;
 
       const comboboxTokens: ComponentTestTokens = {
@@ -3230,9 +3172,9 @@ describe("calcite-combobox", () => {
         placeholder="select element"
         placeholder-icon="layers"
       >
-        <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+        <calcite-combobox-item value="Trees" heading="Trees"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
       </calcite-combobox>`;
 
       const comboboxTokens: ComponentTestTokens = {
@@ -3247,9 +3189,9 @@ describe("calcite-combobox", () => {
 
     describe("single select", () => {
       const singleSelectComboboxHTML = html` <calcite-combobox label="test" selection-mode="single">
-        <calcite-combobox-item value="Trees" text-label="Trees"></calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Trees" heading="Trees"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
       </calcite-combobox>`;
 
       const comboboxTokens: ComponentTestTokens = {
@@ -3264,8 +3206,8 @@ describe("calcite-combobox", () => {
 
     const comboboxSelectAllEnabledHTML = html`
       <calcite-combobox select-all-enabled>
-          </calcite-combobox-item value="Pine" text-label="Pine">
-          </calcite-combobox-item value="Not Pine" text-label="Not Pine">
+          </calcite-combobox-item value="Pine" heading="Pine">
+          </calcite-combobox-item value="Not Pine" heading="Not Pine">
         </calcite-combobox>
     `;
 
@@ -3293,8 +3235,8 @@ describe("calcite-combobox", () => {
           const page = await newE2EPage();
           await page.setContent(`
             <calcite-combobox open allow-custom-values>
-              <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-              <calcite-combobox-item value="Maple" text-label="Maple"></calcite-combobox-item>
+              <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
+              <calcite-combobox-item value="Maple" heading="Maple"></calcite-combobox-item>
             </calcite-combobox>
           `);
 
@@ -3321,13 +3263,13 @@ describe("calcite-combobox", () => {
     describe("groups", () => {
       const comboboxGroupHTML = html`<calcite-combobox label="test" placeholder="placeholder">
         <calcite-combobox-item-group label="Parent group">
-          <calcite-combobox-item value="group item 1" text-label="group item 1"></calcite-combobox-item>
-          <calcite-combobox-item value="group item 2" text-label="group item 2"></calcite-combobox-item>
-          <calcite-combobox-item value="group item 3" text-label="group item 3"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 1" heading="group item 1"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 2" heading="group item 2"></calcite-combobox-item>
+          <calcite-combobox-item value="group item 3" heading="group item 3"></calcite-combobox-item>
           <calcite-combobox-item-group label="Nested group">
-            <calcite-combobox-item value="group item 4" text-label="group item 4"></calcite-combobox-item>
-            <calcite-combobox-item value="group item 5" text-label="group item 5"></calcite-combobox-item>
-            <calcite-combobox-item value="group item 6" text-label="group item 6"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 4" heading="group item 4"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 5" heading="group item 5"></calcite-combobox-item>
+            <calcite-combobox-item value="group item 6" heading="group item 6"></calcite-combobox-item>
           </calcite-combobox-item-group>
         </calcite-combobox-item-group>
       </calcite-combobox>`;

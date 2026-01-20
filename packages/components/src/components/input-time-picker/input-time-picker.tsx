@@ -19,11 +19,6 @@ import {
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -42,6 +37,7 @@ import type { Label } from "../label/label";
 import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -57,7 +53,7 @@ declare global {
  */
 export class InputTimePicker
   extends LitElement
-  implements FormComponent, InteractiveComponent, LabelableComponent, TimeComponent
+  implements FormComponent, LabelableComponent, TimeComponent
 {
   //#region Static Members
 
@@ -103,6 +99,8 @@ export class InputTimePicker
   private secondRef = createRef<HTMLSpanElement>();
 
   private time = useTime(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -296,7 +294,7 @@ export class InputTimePicker
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -323,10 +321,6 @@ export class InputTimePicker
         this.previousEmittedValue = this.value;
       }
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -562,7 +556,7 @@ export class InputTimePicker
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
           <InternalLabel
             labelText={this.labelText}
@@ -594,7 +588,7 @@ export class InputTimePicker
             id={IDS.inputContainer}
             role="group"
           >
-            {showMeridiem && meridiemStart && this.renderMeridiem("start")}
+            {showMeridiem && meridiemStart && this.renderMeridiem()}
             <span
               aria-label={this.messages.hour}
               aria-valuemax="23"
@@ -634,7 +628,7 @@ export class InputTimePicker
             >
               {localizedMinute || emptyPlaceholder}
             </span>
-            {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
+            <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
             {showSecond && (
               <span
                 aria-label={this.messages.second}
@@ -681,7 +675,7 @@ export class InputTimePicker
               </span>
             )}
             {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem("end")}
+            {showMeridiem && !meridiemStart && this.renderMeridiem()}
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -726,11 +720,11 @@ export class InputTimePicker
             status={this.status}
           />
         ) : null}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  private renderMeridiem(position: "start" | "end"): JsxNode {
+  private renderMeridiem(): JsxNode {
     const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
     const isInteractive = !this.disabled && !this.readOnly;
     return (
@@ -744,8 +738,6 @@ export class InputTimePicker
           [CSS.empty]: !localizedMeridiem,
           [CSS.input]: true,
           [CSS.meridiem]: true,
-          [CSS.meridiemStart]: position === "start",
-          [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}

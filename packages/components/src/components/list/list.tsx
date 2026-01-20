@@ -4,11 +4,6 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
@@ -41,6 +36,7 @@ import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
@@ -62,7 +58,7 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List extends LitElement implements InteractiveComponent, SortableComponent {
+export class List extends LitElement implements SortableComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -117,22 +113,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
 
   private focusSetter = useSetFocus<this>()(this);
 
-  //#endregion
-
-  //#region State Properties
-
-  @state() assistiveText: string;
-
-  @state() dataForFilter: ItemData[] = [];
-
-  @state() hasFilterActionsEnd = false;
-
-  @state() hasFilterActionsStart = false;
-
-  @state() hasFilterNoResults = false;
-
-  @state() sortHandleMenuItems: SortMenuItem[] = [];
-
   get hasActiveFilter(): boolean {
     return (
       this.filterEnabled &&
@@ -150,6 +130,32 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       !this.filteredItems.length
     );
   }
+
+  private interactiveContainer = useInteractive(this);
+
+  private get effectiveFilterProps(): string[] {
+    if (!this.filterProps) {
+      return ["description", "label", "metadata", "heading"];
+    }
+
+    return this.filterProps.filter((prop) => prop !== "el");
+  }
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() assistiveText: string;
+
+  @state() dataForFilter: ItemData[] = [];
+
+  @state() hasFilterActionsEnd = false;
+
+  @state() hasFilterActionsStart = false;
+
+  @state() hasFilterNoResults = false;
+
+  @state() sortHandleMenuItems: SortMenuItem[] = [];
 
   //#endregion
 
@@ -184,14 +190,14 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** Specifies an accessible name for the filter input field. */
   @property({ reflect: true }) filterLabel: string;
 
-  /** Placeholder text for the component's filter input field. */
+  /** Specifies placeholder text for the component's filter input field. */
   @property({ reflect: true }) filterPlaceholder: string;
 
   /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
   @property() filterProps: string[];
 
   /** Text for the component's filter input field. */
-  @property({ reflect: true }) filterText: string;
+  @property({ reflect: true }) filterText: string = "";
 
   /**
    * The currently filtered `calcite-list-item` data.
@@ -208,20 +214,20 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   @property() filteredItems: ListItem["el"][] = [];
 
   /**
-   * The list's group identifier.
+   * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies the interaction mode of the component.
+   * Specifies the interaction mode of the component, where
    *
-   * `"interactive"` allows interaction styling and pointer changes on hover
+   * `"interactive"` allows interaction styling and pointer changes on hover,
    *
-   * `"static"` does not allow interaction styling and pointer changes on hover
+   * `"static"` does not allow interaction styling and pointer changes on hover -
    *
-   * The `"static"` value should only be used when `selectionMode` is `"none"`.
+   * the `"static"` value should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
@@ -237,7 +243,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -265,9 +271,18 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
    */
   @property() selectedItems: ListItem["el"][] = [];
 
-  /** Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border). */
+  /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot,
+   *
+   * `"border"` [Deprecated] - Use `"highlight"` instead - displays a border, or
+   *
+   * `"highlight"` displays background highlight.
+   *
+   */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "border" | "highlight",
     SelectionAppearance
   > = "icon";
 
@@ -295,12 +310,21 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
   //#region Public Methods
 
   /**
+   * Emits the `calciteListOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: ListDragDetail): void {
+    this.calciteListOrderChange.emit(detail);
+  }
+
+  /**
    * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -311,16 +335,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
           : this.focusableItems.find((listItem) => listItem.active),
       options,
     );
-  }
-
-  /**
-   * Emits the `calciteListOrderChange` event.
-   *
-   * @private
-   */
-  @method()
-  emitOrderChangeEvent(detail: ListDragDetail): void {
-    this.calciteListOrderChange.emit(detail);
   }
 
   //#endregion
@@ -409,7 +423,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("filterText") || changes.has("filterProps") || changes.has("filterPredicate")) {
       this.performFilter();
     }
@@ -430,10 +444,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     ) {
       this.handleListItemChange();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -854,14 +864,6 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
     this.updateFilteredData();
   }
 
-  private get effectiveFilterProps(): string[] {
-    if (!this.filterProps) {
-      return ["description", "label", "metadata", "heading"];
-    }
-
-    return this.filterProps.filter((prop) => prop !== "el");
-  }
-
   private performFilter(): void {
     const { filterEl, filterText, effectiveFilterProps } = this;
 
@@ -1195,7 +1197,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
       effectiveFilterProps,
     } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={{
             [CSS.container]: true,
@@ -1263,7 +1265,7 @@ export class List extends LitElement implements InteractiveComponent, SortableCo
             />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

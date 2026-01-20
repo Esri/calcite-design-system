@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,13 +12,14 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Kind, Scale, Width } from "../interfaces";
-import { KindIcons } from "../resources";
+import { Appearance, Kind, Scale, Width } from "../interfaces";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./notice.scss";
@@ -35,10 +36,10 @@ declare global {
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  *
- * @slot title - A slot for adding the title.
- * @slot message - A slot for adding the message.
+ * @slot title - A slot for adding a title.
+ * @slot message - A slot for adding a message.
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
  */
 export class Notice extends LitElement {
   //#region Static Members
@@ -50,10 +51,12 @@ export class Notice extends LitElement {
   //#region Private Properties
 
   /** The close button element. */
-  private closeButtonRef = createRef<HTMLButtonElement>();
+  private closeButtonRef = createRef<Action["el"]>();
 
   /** The computed icon to render. */
   private requestedIcon?: IconName;
+
+  private kindIcons: Record<string, IconName>;
 
   transitionProp = "opacity" as const;
 
@@ -78,6 +81,10 @@ export class Notice extends LitElement {
 
   //#region Public Properties
 
+  /** Specifies the appearance of the component. */
+  @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
+    "outline-fill";
+
   /** When `true`, a close button is added to the component. */
   @property({ reflect: true }) closable = false;
 
@@ -87,13 +94,13 @@ export class Notice extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to top border and icon. */
+  /** Specifies the kind of the component, which will apply to the top border and icon. */
   @property({ reflect: true }) kind: Extract<
-    "brand" | "danger" | "info" | "success" | "warning",
+    "brand" | "danger" | "info" | "success" | "warning" | "neutral",
     Kind
   > = "brand";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */
@@ -145,14 +152,15 @@ export class Notice extends LitElement {
   //#region Lifecycle
 
   async load(): Promise<void> {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.kindIcons = { ...KindIconsFilled, brand: KindIcons.brand };
+    this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       toggleOpenClose(this);
     }
@@ -161,7 +169,7 @@ export class Notice extends LitElement {
       changes.has("icon") ||
       (changes.has("kind") && (this.hasUpdated || this.kind !== "brand"))
     ) {
-      this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+      this.requestedIcon = setRequestedIcon(this.kindIcons, this.icon, this.kind);
     }
   }
 
@@ -199,14 +207,14 @@ export class Notice extends LitElement {
 
   override render(): JsxNode {
     const closeButton = (
-      <button
-        ariaLabel={this.messages.close}
+      <calcite-action
         class={CSS.close}
+        icon="x"
         onClick={this.close}
         ref={this.closeButtonRef}
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.close}
+      />
     );
 
     return (

@@ -1,9 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, slots, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
+import { Notice } from "./notice";
 
 describe("calcite-notice", () => {
   const noticeContent = html`
@@ -32,10 +33,6 @@ describe("calcite-notice", () => {
     openClose("calcite-notice", {
       collapsedOnClose: "vertical",
     });
-  });
-
-  describe("slots", () => {
-    slots("calcite-notice", SLOTS);
   });
 
   it("renders default props when none are provided", async () => {
@@ -98,80 +95,97 @@ describe("calcite-notice", () => {
     expect(await notice1.isVisible()).not.toBe(true);
   });
 
-  describe("focusable", () => {
-    describe("with link and closable => focuses on link", () => {
-      focusable(html` <calcite-notice id="notice-1" open closable> ${noticeContent}</calcite-notice>`, {
-        focusTargetSelector: `calcite-link`,
+  describe("theme", () => {
+    const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
+      html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
+        <div slot="title">Title</div>
+        <div slot="message">Message</div>
+        <calcite-link slot="link" title="my action">Retry</calcite-link>
+      </calcite-notice>`;
+
+    const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
+
+    describe("default", () => {
+      themed(noticeHTML("brand"), {
+        "--calcite-notice-close-icon-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-notice-close-icon-color-hover": [
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { focus: { attribute: "class", value: CSS.close } },
+          },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { hover: { attribute: "class", value: CSS.close } },
+          },
+        ],
+        "--calcite-notice-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-notice-close-background-color-hover": [
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "focus",
+          },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+        ],
+        "--calcite-notice-close-background-color-press": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-notice-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
       });
     });
 
-    describe("when closable => focuses on close button", () => {
-      focusable(
-        html` <calcite-notice id="notice-1" open closable>
-          <div slot="title">Title Text</div>
-          <div slot="message">Message Text</div>
-        </calcite-notice>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.close}`,
-        },
-      );
+    kinds.forEach((kind) => {
+      describe(`kind = "${kind}" `, () => {
+        themed(noticeHTML(kind), {
+          "--calcite-notice-background-color": [
+            {
+              shadowSelector: `.${CSS.container}`,
+              targetProp: "backgroundColor",
+            },
+          ],
+        });
+      });
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-notice");
-  });
-
-  describe("theme", () => {
-    describe("default", () => {
-      themed(
-        html`
-          <calcite-notice kind="danger" open closable>
-            <div slot="title">Title</div>
-            <div slot="message">Message</div>
-            <calcite-link slot="link" title="my action">Retry</calcite-link>
-          </calcite-notice>
-        `,
-        {
-          "--calcite-notice-background-color": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-          "--calcite-notice-close-icon-color": {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "color",
-          },
-          "--calcite-notice-close-icon-color-hover": [
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "color",
-              state: { focus: { attribute: "class", value: CSS.close } },
-            },
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "color",
-              state: { hover: { attribute: "class", value: CSS.close } },
-            },
-          ],
-          "--calcite-notice-close-background-color-focus": [
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.close}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-          ],
-          "--calcite-notice-close-background-color-press": {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: CSS.close } },
-          },
+    describe("deprecated", () => {
+      themed(noticeHTML("brand"), {
+        "--calcite-notice-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "width",
         },
-      );
+        "--calcite-notice-close-background-color-focus": [
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "focus",
+          },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+        ],
+      });
     });
   });
 });

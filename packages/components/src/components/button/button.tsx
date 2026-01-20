@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
-import { literal } from "lit-html/static.js";
+import { createRef } from "lit/directives/ref.js";
+import { literal } from "lit/static-html.js";
 import {
   LitElement,
   property,
@@ -14,11 +14,6 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -28,6 +23,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -46,10 +42,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button
-  extends LitElement
-  implements LabelableComponent, InteractiveComponent, FormOwner
-{
+export class Button extends LitElement implements LabelableComponent, FormOwner {
   //#region Static Members
 
   static override styles = styles;
@@ -82,6 +75,8 @@ export class Button
    * @private
    */
   messages = useT9n<typeof T9nStrings>();
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -217,10 +212,6 @@ export class Button
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     this.setTooltipText();
   }
@@ -329,7 +320,7 @@ export class Button
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <DynamicHtmlTag
           ariaBusy={this.loading}
           ariaExpanded={
@@ -369,7 +360,7 @@ export class Button
           {this.hasContent ? contentEl : null}
           {this.iconEnd ? iconEndEl : null}
         </DynamicHtmlTag>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

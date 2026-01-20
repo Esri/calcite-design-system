@@ -63,8 +63,7 @@
     padding-inline: var(--calcite-spacing-sm);
   }
   @include input-affix-spacing(var(--calcite-spacing-sm), var(--calcite-spacing-xxs));
-  & input[type="file"],
-  & textarea {
+  & input[type="file"] {
     min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
@@ -74,12 +73,6 @@
   & .clear-button {
     min-block-size: theme("spacing.6");
     min-inline-size: theme("spacing.6");
-  }
-  & textarea {
-    @apply text-n2h
-    h-auto
-    py-1
-    px-2;
   }
 }
 
@@ -93,7 +86,6 @@
     padding-inline: var(--calcite-spacing-md);
   }
   @include input-affix-spacing(var(--calcite-spacing-md), var(--calcite-spacing-xs));
-  & textarea,
   & input[type="file"] {
     min-block-size: theme("spacing.8");
   }
@@ -104,12 +96,6 @@
   & .clear-button {
     min-block-size: theme("spacing.8");
     min-inline-size: theme("spacing.8");
-  }
-  & textarea {
-    @apply text-n1h
-      h-auto
-      py-2
-      px-3;
   }
 }
 
@@ -123,7 +109,6 @@
     padding-inline: var(--calcite-spacing-lg);
   }
   @include input-affix-spacing(var(--calcite-spacing-lg), var(--calcite-spacing-sm));
-  & textarea,
   & input[type="file"] {
     min-block-size: theme("spacing.11");
   }
@@ -135,21 +120,10 @@
     min-block-size: theme("spacing.11");
     min-inline-size: theme("spacing.11");
   }
-  & textarea {
-    @apply text-0h
-      h-auto
-      py-3
-      px-4;
-  }
 }
 
-@include includes.disabled() {
-  & textarea {
-    resize: none;
-  }
-}
+@include includes.disabled();
 
-textarea,
 input {
   @apply font-inherit
     relative
@@ -176,10 +150,6 @@ input {
   &:placeholder-shown {
     @apply text-ellipsis;
   }
-}
-
-textarea {
-  border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 input {
@@ -256,38 +226,31 @@ input[type="search"]::-webkit-search-decoration {
 
 // states
 
-input:focus,
-textarea:focus {
+input:focus {
   @apply border-color-brand;
   color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
-input[readonly],
-textarea[readonly] {
+input[readonly] {
   @apply font-medium;
   background-color: var(--calcite-input-background-color, var(--calcite-color-background));
 }
-input[readonly]:focus,
-textarea[readonly]:focus {
+input[readonly]:focus {
   color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
 
 //focus
-textarea,
 input {
   @apply focus-base;
 }
-textarea:focus,
 input:focus {
   @apply focus-inset;
 }
 
 :host([status="invalid"]) {
-  & input,
-  & textarea {
+  & input {
     @apply border-color-danger;
   }
-  & input:focus,
-  & textarea:focus {
+  & input:focus {
     @apply focus-inset-danger;
   }
 }
@@ -450,7 +413,7 @@ input[type="time"]::-webkit-clear-button {
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size, auto);
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
 }
 
 .suffix {
@@ -458,19 +421,17 @@ input[type="time"]::-webkit-clear-button {
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size, auto);
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
 }
 
 // alignment type
 :host([alignment="start"]) {
-  & textarea,
   & input {
     text-align: start;
   }
 }
 
 :host([alignment="end"]) {
-  & textarea,
   & input {
     text-align: end;
   }
@@ -503,8 +464,7 @@ input[type="number"] {
 }
 
 :host([number-button-type="vertical"]) {
-  & input,
-  textarea {
+  & input {
     @apply order-2;
   }
 }

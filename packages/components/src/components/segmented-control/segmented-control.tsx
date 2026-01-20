@@ -19,11 +19,6 @@ import {
   HiddenFormInputSlot,
   MutableValidityState,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -33,6 +28,7 @@ import type { SegmentedControlItem } from "../segmented-control-item/segmented-c
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
@@ -47,17 +43,14 @@ declare global {
  * @slot - A slot for adding `calcite-segmented-control-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class SegmentedControl
-  extends LitElement
-  implements LabelableComponent, FormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class SegmentedControl extends LitElement implements LabelableComponent, FormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultValue: SegmentedControl["value"];
 
@@ -76,9 +69,11 @@ export class SegmentedControl
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<
@@ -102,7 +97,7 @@ export class SegmentedControl
   /** When provided, displays label text on the component. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -165,9 +160,9 @@ export class SegmentedControl
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -181,16 +176,16 @@ export class SegmentedControl
     return this.focusSetter(() => this.selectedItem || this.items[0], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `calcite-segmented-control-item` selection changes. */
   calciteSegmentedControlChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -208,7 +203,7 @@ export class SegmentedControl
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
@@ -226,10 +221,6 @@ export class SegmentedControl
     }
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   loaded(): void {
     afterConnectDefaultValueSet(this, this.value);
   }
@@ -239,9 +230,9 @@ export class SegmentedControl
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private valueHandler(value: string): void {
     const { items } = this;
@@ -409,9 +400,9 @@ export class SegmentedControl
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -433,10 +424,10 @@ export class SegmentedControl
           ariaRequired={this.required}
           class={CSS.itemWrapper}
         >
-          <InteractiveContainer disabled={this.disabled}>
+          <this.interactiveContainer disabled={this.disabled}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
             <HiddenFormInputSlot component={this} />
-          </InteractiveContainer>
+          </this.interactiveContainer>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -451,5 +442,5 @@ export class SegmentedControl
     );
   }
 
-  // #endregion
+  //#endregion
 }

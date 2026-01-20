@@ -1,39 +1,11 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed, t9n } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
-  describe("translation support", () => {
-    t9n("calcite-block-section");
-  });
-
-  describe("setFocus", () => {
-    describe("focuses toggle switch", () => {
-      focusable(
-        html`<calcite-block-section text="text" toggle-display="switch" expanded>
-          <div>some content</div>
-        </calcite-block-section>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
-    });
-
-    describe("focuses toggle button", () => {
-      focusable(
-        html`<calcite-block-section text="text" toggle-display="button" expanded>
-          <div>some content</div>
-        </calcite-block-section>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
-    });
-  });
-
   describe("toggle-display = 'switch'", () => {
     describe("accessible", () => {
       accessible(html`

@@ -1,13 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -25,6 +20,7 @@ import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
+import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -39,7 +35,7 @@ declare global {
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
@@ -47,10 +43,10 @@ declare global {
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
  */
-export class Panel extends LitElement implements InteractiveComponent {
+export class Panel extends LitElement {
   //#region Static Members
 
   static override styles = [headerStyles, styles];
@@ -75,6 +71,8 @@ export class Panel extends LitElement implements InteractiveComponent {
   private _closed = false;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -126,7 +124,7 @@ export class Panel extends LitElement implements InteractiveComponent {
     }
   }
 
-  /** When `collapsible` is present, specifies the direction of the collapse icon. */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -135,13 +133,13 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component. */
+  /** Specifies the component's description text. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** The component header text. */
+  /** Specifies the component's header text. */
   @property() heading: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
@@ -165,7 +163,7 @@ export class Panel extends LitElement implements InteractiveComponent {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -194,7 +192,7 @@ export class Panel extends LitElement implements InteractiveComponent {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -250,10 +248,6 @@ export class Panel extends LitElement implements InteractiveComponent {
         this.calcitePanelExpand.emit();
       }
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -674,10 +668,10 @@ export class Panel extends LitElement implements InteractiveComponent {
     );
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

@@ -1,11 +1,6 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
@@ -14,6 +9,7 @@ import type { Input } from "../input/input";
 import type { Label } from "../label/label";
 import type { Button } from "../button/button";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./inline-editable.scss";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -25,7 +21,7 @@ declare global {
 }
 
 /** @slot - A slot for adding a `calcite-input`. */
-export class InlineEditable extends LitElement implements InteractiveComponent, LabelableComponent {
+export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -58,6 +54,12 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  private get shouldShowControls(): boolean {
+    return this.editingEnabled && this.controls;
+  }
 
   //#endregion
 
@@ -136,10 +138,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
     connectLabel(this);
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
   }
@@ -147,10 +145,6 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
   //#endregion
 
   //#region Private Methods
-
-  private get shouldShowControls(): boolean {
-    return this.editingEnabled && this.controls;
-  }
 
   private editingEnabledWatcher(newValue: boolean, oldValue: boolean): void {
     if (this.inputEl) {
@@ -273,7 +267,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           class={CSS.wrapper}
           onClick={this.enableEditingHandler}
@@ -328,7 +322,7 @@ export class InlineEditable extends LitElement implements InteractiveComponent, 
             ]}
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

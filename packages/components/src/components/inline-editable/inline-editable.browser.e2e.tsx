@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-inline-editable", () => {
   describe("defaults", () => {
@@ -29,6 +36,36 @@ describe("calcite-inline-editable", () => {
           </calcite-inline-editable>,
         ),
       { display: "block" },
+    );
+  });
+
+  describe("focusable", () => {
+    focusable(
+      () =>
+        mount(
+          <calcite-inline-editable>
+            <calcite-input />
+          </calcite-inline-editable>,
+        ),
+      {
+        focusTargetSelector: "calcite-input",
+      },
+    );
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-inline-editable"));
+  });
+
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-inline-editable>
+            <calcite-input />
+          </calcite-inline-editable>,
+        ),
+      { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } },
     );
   });
 });

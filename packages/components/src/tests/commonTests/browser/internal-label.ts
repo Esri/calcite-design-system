@@ -1,8 +1,7 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { CSS } from "../../../components/functional/InternalLabel";
+import { page } from "vitest/browser";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
-import { shadowQuery } from "./utils";
 
 function hasLabelText(el: HTMLElement): el is IntrinsicElementsWithProp<"labelText"> & HTMLElement {
   return "labelText" in el;
@@ -20,17 +19,18 @@ function hasRequired(el: HTMLElement): el is IntrinsicElementsWithProp<"required
   return "required" in el;
 }
 
-function expectLabelText(el: HTMLElement, selector: string, expected: string) {
-  const label = shadowQuery(el, selector);
-  expect(label).not.toBeNull();
-  expect(label.textContent).toContain(expected);
+async function expectLabelText(expected: string): Promise<void> {
+  const label = page.getByText(expected);
+
+  await expect.element(label).not.toBeNull();
+  await expect.element(label).toHaveTextContent(expected);
 }
 
-function expectRequiredIndicator(el: HTMLElement) {
-  const indicator = shadowQuery(el, `.${CSS.requiredIndicator}`);
-  expect(indicator).not.toBeNull();
-  expect(indicator.textContent).toBe("*");
-  expect(indicator.getAttribute("title")).toBe("Required");
+async function expectRequiredIndicator(): Promise<void> {
+  const indicator = page.getByTitle(`Required`);
+
+  await expect.element(indicator).not.toBeNull();
+  await expect.element(indicator).toHaveTextContent("*");
 }
 
 /**
@@ -51,24 +51,24 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
       el.labelText = "Test Label";
       await reRender();
 
-      expectLabelText(el, `.${CSS.container}`, "Test Label");
+      await expectLabelText("Test Label");
     } else if (!hasLabelTextEnd(el) && hasLabelTextStart(el)) {
       el.labelTextStart = "Test Label Start";
       await reRender();
 
-      expectLabelText(el, `.${CSS.container}`, "Test Label Start");
+      await expectLabelText("Test Label Start");
     } else if (!hasLabelTextStart(el) && hasLabelTextEnd(el)) {
       el.labelTextEnd = "Test Label End";
       await reRender();
 
-      expectLabelText(el, `.${CSS.container}`, "Test Label End");
+      await expectLabelText("Test Label End");
     } else if (hasLabelTextStart(el) && hasLabelTextEnd(el)) {
       el.labelTextStart = "Test Label Start";
       el.labelTextEnd = "Test Label End";
       await reRender();
 
-      expectLabelText(el, `.${CSS.container}:first-of-type`, "Test Label Start");
-      expectLabelText(el, `.${CSS.container}:last-of-type`, "Test Label End");
+      await expectLabelText("Test Label Start");
+      await expectLabelText("Test Label End");
     } else {
       expect.fail("component does not have an internal label");
     }
@@ -90,11 +90,11 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
               clearInterval(intervalId);
               resolve();
             }
-          }, 0);
+          }, 25);
         });
       }
 
-      expectRequiredIndicator(el);
+      await expectRequiredIndicator();
     }
   });
 }

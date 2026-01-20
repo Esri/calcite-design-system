@@ -1,5 +1,5 @@
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -13,14 +13,10 @@ import {
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
 
@@ -33,7 +29,7 @@ declare global {
 /**
  * @slot image - A slot for adding an image or pattern.
  */
-export class Swatch extends LitElement implements InteractiveComponent {
+export class Swatch extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -47,6 +43,8 @@ export class Swatch extends LitElement implements InteractiveComponent {
   private containerRef = createRef<HTMLDivElement>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -156,10 +154,6 @@ export class Swatch extends LitElement implements InteractiveComponent {
     if (changes.has("color")) {
       this.handleColorChange(this.color);
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   loaded(): void {
@@ -432,7 +426,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
     };
 
     return (
-      <InteractiveContainer disabled={disabled}>
+      <this.interactiveContainer disabled={disabled}>
         <div
           ariaChecked={
             this.selectionMode !== "none" && this.interactive ? this.selected : undefined
@@ -457,7 +451,7 @@ export class Swatch extends LitElement implements InteractiveComponent {
             {this.renderSwatch()}
           </svg>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

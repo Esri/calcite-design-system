@@ -1,16 +1,12 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, focusable } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-navigation-logo", () => {
   describe("accessible", () => {
     accessible("calcite-navigation-logo");
-  });
-
-  describe("is focusable", () => {
-    focusable(html`<calcite-navigation-logo href=" " heading="esri"></calcite-navigation-logo>`);
   });
 
   describe("theme", () => {
@@ -114,6 +110,15 @@ describe("calcite-navigation-logo", () => {
       };
 
       themed(navigationLogoHtml({ link: true }), tokens);
+    });
+
+    describe("deprecated", () => {
+      themed(navigationLogoHtml(), {
+        "--calcite-ui-icon-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      });
     });
 
     describe("with link + active", () => {

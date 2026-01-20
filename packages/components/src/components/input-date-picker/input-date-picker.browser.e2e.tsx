@@ -1,7 +1,17 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, hidden } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  internalLabel,
+  renders,
+  floatingUIOwner,
+  t9n,
+  topLayer,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-input-date-picker", () => {
   describe("defaults", () => {
@@ -36,6 +46,12 @@ describe("calcite-input-date-picker", () => {
     );
   });
 
+  describe("is focusable", () => {
+    focusable(() => mount(`calcite-input-date-picker`), {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
+  });
+
   describe("honors hidden attribute", () => {
     hidden(() => mount("calcite-input-date-picker"));
   });
@@ -46,5 +62,26 @@ describe("calcite-input-date-picker", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-input-date-picker"), { display: "inline-block" });
+  });
+
+  describe("owns a floating-ui", () => {
+    floatingUIOwner(
+      () =>
+        mount(<calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />),
+      "open",
+      { shadowSelector: ".menu-container" },
+    );
+  });
+
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-input-date-picker"));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-input-date-picker"));
+  });
+
+  describe.skip("disabled", () => {
+    disabled(() => mount("calcite-input-date-picker"));
   });
 });

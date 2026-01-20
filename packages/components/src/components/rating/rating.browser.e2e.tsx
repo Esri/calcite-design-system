@@ -1,8 +1,16 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  disabled,
+  defaults,
+  focusable,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-rating", () => {
   describe("defaults", () => {
@@ -15,6 +23,12 @@ describe("calcite-rating", () => {
         { propertyName: "validationMessage", defaultValue: undefined },
       ],
     );
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-rating"), {
+      shadowFocusTargetSelector: "label",
+    });
   });
 
   describe("reflects", () => {
@@ -47,5 +61,13 @@ describe("calcite-rating", () => {
 
   describe("renders", () => {
     renders(() => mount(<calcite-rating />), { display: "flex" });
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-rating"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount(<calcite-rating value={3} />));
   });
 });

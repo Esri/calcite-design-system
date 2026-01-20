@@ -1,7 +1,16 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { internalLabel, renders } from "../../tests/commonTests/browser";
-import { cancelable, defaults, reflects, hidden } from "../../tests/commonTests/browser";
+import {
+  cancelable,
+  defaults,
+  disabled,
+  focusable,
+  reflects,
+  hidden,
+  internalLabel,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("calcite-text-area", () => {
   describe("cancelable", () => {
@@ -82,5 +91,17 @@ describe("calcite-text-area", () => {
 
   describe("renders", () => {
     renders(() => mount("calcite-text-area"), { display: "inline-block" });
+  });
+
+  describe("is focusable", () => {
+    focusable(() => mount("calcite-text-area"));
+  });
+
+  describe("translation support", () => {
+    t9n(() => mount("calcite-text-area"));
+  });
+
+  describe("disabled", () => {
+    disabled(() => mount("calcite-text-area"));
   });
 });

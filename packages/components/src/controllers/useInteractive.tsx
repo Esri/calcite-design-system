@@ -1,6 +1,7 @@
-// @ts-strict-ignore
-import { TemplateResult } from "lit-html";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import { h, JsxNode, LitElement, LuminaJsx } from "@arcgis/lumina";
+import { TemplateResult } from "lit";
+import { SetOptional } from "type-fest";
 
 export interface InteractiveComponent extends LitElement {
   /**
@@ -14,15 +15,37 @@ export interface InteractiveComponent extends LitElement {
   disabled: boolean;
 }
 
-/**
- * Exported for testing purposes only.
- *
- * @private
- */
-export type InteractiveHTMLElement = HTMLElement & Pick<InteractiveComponent, "disabled">;
+type UseInteractive = typeof InteractiveContainer;
 
-function interceptedClick(): void {
-  const { disabled } = this as InteractiveHTMLElement;
+interface InteractiveContainerProps extends LuminaJsx.CustomAttributes {
+  disabled: boolean;
+}
+
+const CSS = {
+  container: "interaction-container",
+};
+
+const InteractiveContainer = ({
+  children,
+  disabled,
+}: InteractiveContainerProps & { children: JsxNode }): TemplateResult => (
+  <div class={CSS.container} inert={disabled}>
+    {children}
+  </div>
+);
+
+export const useInteractive = makeGenericController<UseInteractive, InteractiveComponent>(
+  (component, controller) => {
+    controller.onUpdated(() => updateHostInteraction(component));
+
+    return InteractiveContainer;
+  },
+);
+
+type InteractiveHTMLElement = HTMLElement & Pick<InteractiveComponent, "disabled">;
+
+function interceptedClick(this: InteractiveHTMLElement): void {
+  const { disabled } = this;
 
   if (!disabled) {
     HTMLElement.prototype.click.call(this);
@@ -38,7 +61,7 @@ function onPointerDown(event: PointerEvent): void {
   }
 }
 
-const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
+const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"] as const;
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
   const interactiveElement = event.target as InteractiveHTMLElement;
@@ -95,8 +118,13 @@ function addInteractionListeners(element: HTMLElement): void {
   );
 }
 
+type OverriddenClickElementComponent = Omit<InteractiveComponent, "el"> & {
+  el: SetOptional<InteractiveComponent["el"], "click">;
+};
+
 function restoreInteraction(component: InteractiveComponent): void {
-  delete component.el.click; // fallback on HTMLElement.prototype.click
+  delete (component as OverriddenClickElementComponent).el.click; // fallback on HTMLElement.prototype.click
+
   removeInteractionListeners(component.el);
 }
 
@@ -106,20 +134,3 @@ function removeInteractionListeners(element: HTMLElement): void {
     element.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions),
   );
 }
-
-export interface InteractiveContainerProps extends LuminaJsx.CustomAttributes {
-  disabled: boolean;
-}
-
-export const CSS = {
-  container: "interaction-container",
-};
-
-export const InteractiveContainer = ({
-  children,
-  disabled,
-}: InteractiveContainerProps & { children: JsxNode }): TemplateResult => (
-  <div class={CSS.container} inert={disabled}>
-    {children}
-  </div>
-);

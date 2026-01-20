@@ -1,6 +1,7 @@
+import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { locales, defaultLocale } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -39,7 +40,7 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: locales,
+      options: supportedNlsLocales,
       control: { type: "select" },
     },
     placement: {
@@ -130,27 +131,6 @@ export const flipPlacements_TestOnly = (): string => html`
   <script>
     document.querySelector(".my-input-date-picker").flipPlacements = ["right"];
   </script>
-`;
-
-export const chineseLang_TestOnly = (): string => html`
-  <style>
-    .container {
-      width: 1000px;
-      height: 400px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker
-      open
-      value="1-1-1"
-      lang="zh-CN"
-      scale="l"
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-    ></calcite-input-date-picker>
-  </div>
 `;
 
 export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
@@ -383,7 +363,41 @@ export const Focus = (): string =>
       })();
     </script>`;
 
-export const localeFormatting = (): string => html`
-  <calcite-input-date-picker value="2020-12-12" lang="bs"></calcite-input-date-picker>
-  <calcite-input-date-picker value="2020-12-12" lang="it-CH"></calcite-input-date-picker>
-`;
+export const localized = (): string => {
+  const locales = ["ar", "bs", "fr-CA", "it-CH", "zh-CN"];
+
+  return html`
+    <style>
+      .use-cases {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 350px 25px;
+        max-width: 1200px;
+      }
+      calcite-input-date-picker {
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+    <div class="use-cases">
+      ${locales.map(
+        (locale) =>
+          html`<div>
+            <h3>${locale}</h3>
+            <calcite-input-date-picker
+              lang="${locale}"
+              open
+              placement="bottom-start"
+              value="2020-12-12"
+            ></calcite-input-date-picker>
+          </div>`,
+      )}
+    </div>
+  `;
+};
+localized.parameters = {
+  chromatic: {
+    delay: 1000,
+  },
+};

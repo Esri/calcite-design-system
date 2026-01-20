@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, HYDRATED_ATTR, t9n } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { openClose, themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -84,6 +84,16 @@ describe("calcite-alert", () => {
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(close).not.toBeNull();
     expect(icon).not.toBeNull();
+  });
+
+  it("renders filled status icon when kind and icon are set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert kind="danger" icon>
+    ${alertContent}
+    </calcite-alert>`);
+    const icon = await page.find(`calcite-alert >>> .${CSS.icon} calcite-icon`);
+    expect(await icon.getProperty("icon")).toBe("exclamationMarkTriangleF");
   });
 
   it("closes on time based on alert duration", async () => {
@@ -549,10 +559,6 @@ describe("calcite-alert", () => {
     });
   });
 
-  describe("translation support", () => {
-    t9n("calcite-alert");
-  });
-
   describe("theme", () => {
     themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
       "--calcite-alert-width": {
@@ -567,14 +573,6 @@ describe("calcite-alert", () => {
         {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "borderEndEndRadius",
         },
       ],
       "--calcite-alert-shadow": {

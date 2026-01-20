@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { disabled, focusable, formAssociated, labelable, t9n, themed } from "../../tests/commonTests";
+import { formAssociated, labelable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
@@ -17,17 +17,6 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
       { focusTargetSelector: "calcite-segmented-control-item" },
-    );
-  });
-
-  describe("disabled", () => {
-    disabled(
-      html`<calcite-segmented-control>
-        <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
-        <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-      </calcite-segmented-control>`,
-      { focusTarget: "child" },
     );
   });
 
@@ -361,38 +350,6 @@ describe("calcite-segmented-control", () => {
     await inheritsProps(segmentedControlItems);
   });
 
-  describe("setFocus()", () => {
-    describe("focuses the first item if there is no selection", () => {
-      focusable(
-        html`
-          <calcite-segmented-control>
-            <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
-            <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
-            <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
-          </calcite-segmented-control>
-        `,
-        {
-          focusTargetSelector: "#child-1",
-        },
-      );
-    });
-
-    describe("focuses the selected item", () => {
-      focusable(
-        html`
-          <calcite-segmented-control>
-            <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
-            <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
-            <calcite-segmented-control-item id="child-3" value="3" checked>three</calcite-segmented-control-item>
-          </calcite-segmented-control>
-        `,
-        {
-          focusTargetSelector: "#child-3",
-        },
-      );
-    });
-  });
-
   describe("is form-associated", () => {
     describe("unselected value", () => {
       formAssociated(
@@ -419,10 +376,6 @@ describe("calcite-segmented-control", () => {
         { testValue: 2 },
       );
     });
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-segmented-control");
   });
 
   describe("theme", () => {

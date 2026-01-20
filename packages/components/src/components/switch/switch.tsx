@@ -1,23 +1,19 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
   HiddenFormInputSlot,
 } from "../../utils/form";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -27,17 +23,14 @@ declare global {
   }
 }
 
-export class Switch
-  extends LitElement
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
-{
-  // #region Static Members
+export class Switch extends LitElement implements LabelableComponent, CheckableFormComponent {
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   defaultChecked: boolean;
 
@@ -51,9 +44,11 @@ export class Switch
 
   private focusSetter = useSetFocus<this>()(this);
 
-  // #endregion
+  private interactiveContainer = useInteractive(this);
 
-  // #region Public Properties
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is checked. */
   @property({ reflect: true }) checked = false;
@@ -90,9 +85,9 @@ export class Switch
   /** The component's value. */
   @property() value: any;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -106,16 +101,16 @@ export class Switch
     return this.focusSetter(() => this.switchRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the `checked` value has changed. */
   calciteSwitchChange = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -128,18 +123,14 @@ export class Switch
     connectForm(this);
   }
 
-  override updated(): void {
-    updateHostInteraction(this);
-  }
-
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "checkbox";
@@ -172,13 +163,13 @@ export class Switch
     this.toggle();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaChecked={this.checked}
           ariaLabel={getLabelText(this)}
@@ -208,9 +199,9 @@ export class Switch
           )}
           <HiddenFormInputSlot component={this} />
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 
-  // #endregion
+  //#endregion
 }

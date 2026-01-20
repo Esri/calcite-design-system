@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   focusElementInGroup,
   getElementDir,
@@ -9,18 +9,15 @@ import {
   whenAnimationDone,
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
+import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ArrowType, AutoplayType } from "./interfaces";
@@ -33,7 +30,7 @@ declare global {
 }
 
 /** @slot - A slot for adding `calcite-carousel-item`s. */
-export class Carousel extends LitElement implements InteractiveComponent {
+export class Carousel extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -94,11 +91,15 @@ export class Carousel extends LitElement implements InteractiveComponent {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private interactiveContainer = useInteractive(this);
+
   //#endregion
 
   //#region State Properties
 
   @state() direction: "forward" | "backward" | "standby" = "standby";
+
+  @state() hasMultiple = false;
 
   @state() items: CarouselItem["el"][] = [];
 
@@ -148,6 +149,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
+   * When `true`, the component's pagination controls are hidden.
+   */
+  @property() paginationDisabled: boolean = false;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @private
@@ -169,7 +175,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
   @method()
   async play(): Promise<void> {
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
-    if (this.playing || (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")) {
+    if (
+      this.playing ||
+      !this.hasMultiple ||
+      (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")
+    ) {
       return;
     }
     this.handlePlay(true);
@@ -236,7 +246,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (this.hasUpdated && !this.hasMultiple) {
+      this.handlePause(false);
+    }
+
     if (changes.has("autoplay") && this.hasUpdated) {
       this.autoplayWatcher(this.autoplay);
     }
@@ -257,10 +271,6 @@ export class Carousel extends LitElement implements InteractiveComponent {
     ) {
       this.suspendWatcher();
     }
-  }
-
-  override updated(): void {
-    updateHostInteraction(this);
   }
 
   override disconnectedCallback(): void {
@@ -378,6 +388,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
+    this.hasMultiple = items.length > 1;
 
     this.setSelectedItem(requestedSelectedIndex, false);
   }
@@ -508,11 +519,17 @@ export class Carousel extends LitElement implements InteractiveComponent {
         break;
       case "ArrowRight":
         event.preventDefault();
+        if (!this.hasMultiple) {
+          return;
+        }
         this.direction = "forward";
         this.nextItem(true);
         break;
       case "ArrowLeft":
         event.preventDefault();
+        if (!this.hasMultiple) {
+          return;
+        }
         this.direction = "backward";
         this.previousItem();
         break;
@@ -598,10 +615,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
         ref={this.tabListRef}
       >
         {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
+          this.hasMultiple &&
           this.renderRotationControl()}
-        {this.arrowType === "inline" && this.renderArrow("previous")}
-        {this.renderPaginationItems()}
-        {this.arrowType === "inline" && this.renderArrow("next")}
+        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
+        {this.paginationDisabled ? this.renderPaginationAriaLive() : this.renderPaginationItems()}
+        {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("next")}
       </div>
     );
   }
@@ -653,6 +671,31 @@ export class Carousel extends LitElement implements InteractiveComponent {
     );
   }
 
+  private renderPaginationAriaLive(): JsxNode {
+    const {
+      messages,
+      messages: { _lang: effectiveLocale },
+      selectedIndex,
+      items,
+    } = this;
+
+    if (messages._loading) {
+      return;
+    }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+    };
+
+    return (
+      <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
+          .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
+      </div>
+    );
+  }
+
   private renderArrow(direction: "previous" | "next"): JsxNode {
     const isPrev = direction === "previous";
     const dir = getElementDir(this.el);
@@ -676,7 +719,7 @@ export class Carousel extends LitElement implements InteractiveComponent {
   override render(): JsxNode {
     const { direction } = this;
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div
           ariaLabel={this.label}
           ariaLive={this.playing ? "off" : "polite"}
@@ -706,11 +749,11 @@ export class Carousel extends LitElement implements InteractiveComponent {
           >
             <slot onSlotChange={this.handleSlotChange} />
           </section>
-          {this.items.length > 1 && this.renderPaginationArea()}
-          {this.arrowType === "edge" && this.renderArrow("previous")}
-          {this.arrowType === "edge" && this.renderArrow("next")}
+          {this.renderPaginationArea()}
+          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
+          {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

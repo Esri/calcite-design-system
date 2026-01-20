@@ -1,8 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "@vitest/browser/context";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { page } from "vitest/browser";
+import { defaults, disabled, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("defaults", () => {
@@ -37,6 +38,24 @@ describe("calcite-tree-item", () => {
     );
   });
 
+  describe("disabled", () => {
+    disabled(
+      () =>
+        mount(
+          <calcite-tree>
+            <calcite-tree-item expanded>content</calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        selector: "calcite-tree-item",
+        focusTarget: {
+          click: "calcite-tree-item",
+          tab: "calcite-tree-item",
+        },
+      },
+    );
+  });
+
   describe("honors hidden attribute", () => {
     hidden(() => mount(<calcite-tree-item expanded />));
   });
@@ -57,5 +76,9 @@ describe("calcite-tree-item", () => {
         },
       },
     );
+  });
+
+  describe("slots", () => {
+    slots(() => mount("calcite-tree-item"), SLOTS);
   });
 });

@@ -4,5 +4,6 @@
   "play": "הפעל",
   "pause": "השהה",
   "carousel": "קרוסלה",
-  "carouselItemProgress": "מחוון התקדמות עבור פריט קרוסלה"
+  "carouselItemProgress": "מחוון התקדמות עבור פריט קרוסלה",
+  "paginationStatus": "Item {current} of {total}"
 }

@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,11 +12,6 @@ import {
   state,
 } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
-import {
-  InteractiveComponent,
-  InteractiveContainer,
-  updateHostInteraction,
-} from "../../utils/interactive";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
@@ -30,6 +25,7 @@ import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { slotChangeHasContent } from "../../utils/dom";
+import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
@@ -41,7 +37,7 @@ declare global {
 }
 
 /** @slot - A slot for adding custom content. */
-export class StepperItem extends LitElement implements InteractiveComponent {
+export class StepperItem extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -69,6 +65,8 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
 
   //#endregion
 
@@ -208,7 +206,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
     }
@@ -223,7 +221,6 @@ export class StepperItem extends LitElement implements InteractiveComponent {
   }
 
   override updated(): void {
-    updateHostInteraction(this);
     setAttribute(this.el, "tabindex", this.disabled || this.layout === "horizontal" ? null : 0);
   }
 
@@ -342,7 +339,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
       this.layout === "horizontal" && !this.disabled ? 0 : null;
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
+      <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.complete && (
             <span ariaLive="polite" class={CSS.visuallyHidden}>
@@ -374,7 +371,7 @@ export class StepperItem extends LitElement implements InteractiveComponent {
             />
           </div>
         </div>
-      </InteractiveContainer>
+      </this.interactiveContainer>
     );
   }
 

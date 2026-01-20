@@ -10,16 +10,18 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { KindIcons } from "../resources";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { AlertDuration, AlertQueue } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
@@ -66,7 +68,7 @@ export class Alert extends LitElement {
 
   private totalOpenTime = 0;
 
-  transitionEl: HTMLDivElement;
+  transitionRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -76,6 +78,11 @@ export class Alert extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private topLayer = useTopLayer<this>({
+    disabledOverride: () => this.embedded,
+    target: this.transitionRef,
+  })(this);
 
   //#endregion
 
@@ -161,14 +168,21 @@ export class Alert extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
 
   /**
    * Sets focus on the component's "close" button, the first focusable item.
-   *
-   * `@returns` {Promise<void>}
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
@@ -217,7 +231,7 @@ export class Alert extends LitElement {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
-    Docs: https://qawebgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
       this.openHandler();
     }
@@ -268,27 +282,12 @@ export class Alert extends LitElement {
     }
   }
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (this.embedded || !this.transitionEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.transitionEl.showPopover();
-    } else {
-      this.transitionEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
     if (this.open) {
       manager.registerElement(this.el);
     } else {
       manager.unregisterElement(this.el);
     }
-    this.handlePopover();
   }
 
   private updateDuration(): void {
@@ -341,15 +340,6 @@ export class Alert extends LitElement {
     this.autoCloseTimeoutId = null;
   }
 
-  private setTransitionEl(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-
-    this.transitionEl = el;
-    this.handlePopover();
-  }
-
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert(): void {
     this.open = false;
@@ -358,6 +348,7 @@ export class Alert extends LitElement {
 
   onBeforeOpen(): void {
     this.calciteAlertBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -370,6 +361,7 @@ export class Alert extends LitElement {
 
   onClose(): void {
     this.calciteAlertClose.emit();
+    this.topLayer.hide();
   }
 
   private actionsEndSlotChangeHandler(event: Event): void {
@@ -410,7 +402,11 @@ export class Alert extends LitElement {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const effectiveIcon = setRequestedIcon(
+      this.kind === "brand" ? KindIcons : KindIconsFilled,
+      this.icon,
+      this.kind,
+    );
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
@@ -432,7 +428,7 @@ export class Alert extends LitElement {
         onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
         onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
         popover={!this.embedded ? "manual" : null}
-        ref={this.setTransitionEl}
+        ref={this.transitionRef}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
         <div
@@ -454,17 +450,16 @@ export class Alert extends LitElement {
 
   private renderCloseButton(): JsxNode {
     return (
-      <button
-        ariaLabel={this.messages.close}
+      <calcite-action
         class={CSS.close}
-        key="close"
+        icon="x"
+        label={this.messages.close}
         onClick={this.closeAlert}
         onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
         onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
-        type="button"
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        scale={this.scale}
+        text={this.messages.close}
+      />
     );
   }
 

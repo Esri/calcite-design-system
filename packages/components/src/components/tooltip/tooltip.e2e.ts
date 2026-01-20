@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, floatingUIOwner, openClose, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -68,7 +68,7 @@ describe("calcite-tooltip", () => {
    * Helps assert the canceled Esc key press when closing tooltips
    * Must be called before the tooltip is closed via keyboard.
    *
-   * @param {E2EPage} page - The E2EPage
+   * @param page - The E2EPage
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
     await page.evaluate(() => {
@@ -640,14 +640,6 @@ describe("calcite-tooltip", () => {
     expect(await focusTip.getProperty("open")).toBe(true);
 
     expect(await hoverTip.getProperty("open")).toBe(false);
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
-      "open",
-      { shadowSelector: `.${CSS.positionContainer}` },
-    );
   });
 
   it("should only open the last hovered tooltip", async () => {
