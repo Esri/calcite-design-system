@@ -123,7 +123,10 @@
 .icon {
   color: var(
     --calcite-menu-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3)))
+    var(
+      --calcite-icon-color,
+      var(--calcite-internal-menu-item-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-3)))
+    )
   );
 }
 
@@ -133,17 +136,6 @@
 
 .icon--end {
   @apply ms-3;
-}
-
-.icon--start,
-.icon--end {
-  color: var(
-    --calcite-menu-text-color,
-    var(
-      --calcite-icon-color,
-      var(--calcite-internal-menu-item-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-3)))
-    )
-  );
 }
 
 :host([layout="vertical"]) .icon--end {
@@ -161,6 +153,7 @@
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
   @apply ms-2;
 }
