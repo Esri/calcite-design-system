@@ -5,7 +5,7 @@ A collection of UI SVG icons created by Esri for mapping applications.
 
 ## Installation
 
-`npm install @esri/calcite-ui-icons --save`
+`pnpm add @esri/calcite-ui-icons`
 
 ## Description
 
@@ -81,7 +81,7 @@ Types are also available for projects leveraging TypeScript. `CalciteIconPath` d
 
 ### JSON Format
 
-All icons are also provided as part of a JSON file. If you installed via npm, you can import the full icon data set using the following:
+All icons are also provided as part of a JSON file. If you installed the NPM package, you can import the full icon data set using the following:
 
 ```js
 var calciteIcons = require("@esri/calcite-ui-icons/docs/icons.json");
@@ -151,7 +151,7 @@ In addition to SVG icons, an icon font is available for streamlined integration.
 
 To install the font, run:
 
-`npm install @esri/calcite-ui-icons --save`
+`pnpm add @esri/calcite-ui-icons`
 
 ### Recommended Icon Sizes & Font Selection for Optimal Clarity
 

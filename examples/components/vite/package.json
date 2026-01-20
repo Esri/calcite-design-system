@@ -23,7 +23,11 @@
     "vite": "^5.3.5",
     "vite-plugin-static-copy": "^1.0.6"
   },
-  "volta": {
-    "node": "24.11.0"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.11.0",
+      "onFail": "download"
+    }
   }
 }

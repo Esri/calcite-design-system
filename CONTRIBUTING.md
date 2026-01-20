@@ -147,7 +147,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified under the "volta" key in [`package.json`](./package.json).
+An installation of Node is required for development. If you don't have Node installed, we recommend [pnpm](https://pnpm.io/installation), which will automatically use the Node/NPM versions specified under the `devEngines.runtime` key in [`package.json`](./package.json).
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
@@ -167,13 +167,13 @@ First, clone the repo and then install the NPM dependencies:
 ```sh
 git clone git@github.com:Esri/calcite-design-system.git
 cd calcite-design-system
-npm install
+pnpm install
 ```
 
 Next, start the local Vite development server on localhost:
 
 ```sh
-npm run start:components
+pnpm start:components
 ```
 
 This will open main demo page in the browser. You can edit `index.html` under [`packages/components`](packages/components) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
@@ -185,31 +185,31 @@ By default, the page is blank with a few controls for common test scenarios, suc
 This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the `lint` NPM script for all packages that have one, do:
 
 ```sh
-npm run lint
+pnpm lint
 ```
 
-Or use the `--workspace` flag to lint a single package.
+Or use the `--filter` flag to lint a single package.
 
 ```sh
-npm --workspace=packages/components run lint
+pnpm --filter @esri/calcite-components lint
 ```
 
-You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
+You can avoid using the `--filter` flag in every command by `cd`ing into the package you're working on:
 
 ```sh
 cd packages/components
 # the following will only lint and test calcite-components
-npm run lint
-npm test
+pnpm lint
+pnpm test
 ```
 
 ## Running the tests
 
-`npm test` will run the test suites.
+`pnpm test` will run the test suites.
 
 Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:stable` or `npm --workspace=packages/components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `pnpm --filter @esri/calcite-components test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `pnpm --filter @esri/calcite-components test:watch:stable` or `pnpm --filter @esri/calcite-components test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
 Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
 
@@ -223,7 +223,7 @@ Calcite Components utilizes [JSDoc](https://jsdoc.app/about-getting-started) to 
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm --workspace=packages/components run docs:preview`
+3. Run the documentation locally with `pnpm --filter @esri/calcite-components docs:preview`
 
 Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 

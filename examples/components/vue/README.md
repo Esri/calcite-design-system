@@ -5,8 +5,8 @@
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm install @esri/calcite-components
 ```
 
 ### Setup components
@@ -42,7 +42,7 @@ import "@esri/calcite-components/dist/components/calcite-date-picker";
 Static assets must be copied over to the public folder manually. A `copy` script has been created to make this process easier:
 
 ```sh
-npm run copy
+pnpm copy
 ```
 
 This will copy the assets required by the components to your project's `public/assets` directory.

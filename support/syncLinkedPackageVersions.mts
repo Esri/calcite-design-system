@@ -26,7 +26,7 @@ import { gt } from "semver";
       location: string;
     }
 
-    const packagesData: Array<PackageData> = JSON.parse((await execAsync("npx lerna ls --json")).stdout.trim());
+    const packagesData: Array<PackageData> = JSON.parse((await execAsync("pnpm exec lerna ls --json")).stdout.trim());
     const headPackageData = packagesData.find((data: PackageData) => data.name === LINKED_VERSIONS_HEAD_PACKAGE);
 
     if (!headPackageData) {
@@ -56,8 +56,10 @@ import { gt } from "semver";
           headPackageData.version,
         );
 
-        // update to HEAD version in package.json and package-lock.json
-        await execAsync(`npm version ${headPackageData.version} --no-commit-hooks --no-git-tag-version --workspace=${pkg}`);
+        // update to HEAD version in package.json
+        await execAsync(
+          `pnpm pkg --workspace=${pkg} set version=${headPackageData.version}`,
+        );
 
         // update version in changelog
         const packageChangelogPath = resolve(trackingPackageData.location, "CHANGELOG.md");

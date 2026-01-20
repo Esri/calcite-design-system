@@ -5,7 +5,7 @@
 Install the design tokens module.
 
 ```bash
-npm install @esri/calcite-design-tokens
+pnpm add @esri/calcite-design-tokens
 ```
 
 Reference tokens in your CSS:

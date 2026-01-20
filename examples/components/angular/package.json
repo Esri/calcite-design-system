@@ -15,7 +15,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets ./public/assets",
-    "postinstall": "npm run copy"
+    "postinstall": "pnpm copy"
   },
   "dependencies": {
     "@angular/common": "^20.3.3",
@@ -43,7 +43,11 @@
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
   },
-  "volta": {
-    "node": "24.11.0"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.11.0",
+      "onFail": "download"
+    }
   }
 }

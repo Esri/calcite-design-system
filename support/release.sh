@@ -4,7 +4,7 @@ set -e
 # This script is used to version and publish releases and pre-releases.
 #
 # @arg1 The deployment step to run, must be either "version" or "publish".
-# @arg2 [optional] The pre-release tag, e.g., "next", "hotfix", or "rc". 
+# @arg2 [optional] The pre-release tag, e.g., "next", "hotfix", or "rc".
 #                  Omit this optional argument for a "latest" release
 
 help() {
@@ -50,7 +50,7 @@ version() {
     fi
 
     # default to latest if no dist tag was provided in the second argument
-    npm run util:sync-linked-package-versions -- "${dist_tag:-latest}"
+    pnpm util:sync-linked-package-versions -- "${dist_tag:-latest}"
 }
 
 publish() {

@@ -1,0 +1,4 @@
+onlyBuiltDependencies:
+  - "@actions/github-script"
+packages:
+  - "packages/*"

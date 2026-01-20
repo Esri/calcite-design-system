@@ -5,8 +5,8 @@
 To install dependencies and start the server, run:
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 ## Developer info

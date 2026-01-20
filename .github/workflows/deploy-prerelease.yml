@@ -20,6 +20,10 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: ${{ github.base_ref || github.ref_name }}
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json

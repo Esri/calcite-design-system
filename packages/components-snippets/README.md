@@ -7,11 +7,11 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
 1. Clone the documentation repo (internal) as a sibling to the Calcite Design System monorepo.
 2. Install dependencies:
    ```bash
-   npm i
+   pnpm install
    ```
 3. Run the snippet tool
    ```bash
-   npx snippet [component]
+   pnpm snippet [component]
    ```
 4. If a component isn’t provided, you’ll be prompted to select one, then choose snippet(s).
 5. The `components` package demo page will be updated with the selected snippet(s).

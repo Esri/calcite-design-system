@@ -27,7 +27,7 @@ import { resolve } from "node:path";
       const tagName = `${packageName}@${packageVersion}`;
       const assetName = `${packageName.replace("@", "").replace("/", "-")}-${packageVersion}.tgz`;
 
-      await execAsync(`npm pack --workspace ${packagePath} >/dev/null 2>&1`);
+      await execAsync(`pnpm pack --filter ${packagePath} >/dev/null 2>&1`);
       await execAsync(`gh release upload ${tagName} ${assetName}`);
     }
   } catch (error) {

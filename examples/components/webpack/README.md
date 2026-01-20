@@ -5,8 +5,8 @@
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm start
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm install @esri/calcite-components
 ```
 
 ### Setup components
@@ -41,7 +41,7 @@ import "@esri/calcite-components/dist/components/calcite-date-picker";
 Calcite components need to be copied to your output directory so they can be loaded from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
 ```sh
-npm install -D copy-webpack-plugin
+pnpm install -D copy-webpack-plugin
 ```
 
 Then, import the package in `webpack.config.js` and set it up in the `plugins` section:
@@ -73,7 +73,7 @@ To output a CSS file in the final bundle, you can leverage [mini-css-extract-plu
 First, install the required plugin and loader packages:
 
 ```sh
-npm install -D mini-css-extract-plugin css-loader
+pnpm install -D mini-css-extract-plugin css-loader
 ```
 
 Then, add them to your config:

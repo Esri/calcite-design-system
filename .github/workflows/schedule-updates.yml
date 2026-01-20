@@ -8,16 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - name: generate doc
         run: |
-          npm install
-          npm --workspace=@esri/calcite-design-tokens run build
-          npm --workspace=@esri/eslint-plugin-calcite-components run build
-          npx --workspace=@esri/calcite-components stencil build --docs
-          npm run --workspace=@esri/calcite-components lint:md
+          pnpm install
+          pnpm --filter @esri/calcite-design-tokens build
+          pnpm --filter @esri/eslint-plugin-calcite-components build
+          pnpm --filter @esri/calcite-components lint:md
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -38,15 +41,19 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
-          cache: npm
+          cache: pnpm
       - name: Run update-browserslist-db
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          npx update-browserslist-db@latest
+          pnpm dlx update-browserslist-db@latest
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -65,14 +72,18 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
-          cache: npm
+          cache: pnpm
       - name: Update 3rd party licenses
         run: |
-          npm install
-          npm run util:update-3rd-party-licenses
+          pnpm install
+          pnpm util:update-3rd-party-licenses
       - name: Commit and create pull request
         uses: peter-evans/create-pull-request@v7
         with:

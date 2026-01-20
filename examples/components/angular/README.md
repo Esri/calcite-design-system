@@ -5,8 +5,8 @@
 To install dependencies and start the server, run:
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm start
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm install @esri/calcite-components
 ```
 
 ### Setup components
@@ -69,7 +69,7 @@ Calcite components can now be used in your application like any other Angular co
 
 ### Copy the assets
 
-Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` npm script, which will automatically run after installing dependencies. For example:
+Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` package script, which will automatically run after installing dependencies. For example:
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/ ./public

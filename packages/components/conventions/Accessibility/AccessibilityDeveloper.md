@@ -144,8 +144,8 @@ FAIL src/components/tree/tree.e2e.ts (23.34 s)
 
 ### How to test
 
-- `npm test` runs the current test suite
-- `npm run test:watch` will retest on file changes
+- `pnpm test` runs the current test suite
+- `pnpm test:watch` will retest on file changes
 - [Learn more on testing](https://github.com/Esri/calcite-design-system/blob/dev/CONTRIBUTING.md#running-the-tests) from our contributing docs
 
 [scroll to top](#developer-quick-start-guide)

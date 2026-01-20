@@ -17,19 +17,16 @@
   "scripts": {
     "build": "vite build",
     "clean": "rimraf dist node_modules .turbo",
-    "lint": "concurrently npm:lint:*",
+    "lint": "concurrently pnpm:lint:*",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.md\" >/dev/null && markdownlint-cli2 \"**/*.md\" --fix --config \"../../.markdownlint-cli2.jsonc\"",
     "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
   },
   "dependencies": {
-    "@esri/calcite-design-tokens": "4.0.0-next.16"
+    "@esri/calcite-design-tokens": "workspace:4.0.0-next.16"
   },
   "peerDependencies": {
-    "@esri/calcite-design-tokens": "^4.0.0-next.1",
+    "@esri/calcite-design-tokens": "workspace:^4.0.0-next.1",
     "tailwindcss": "^3.0.0 < 4.0.0"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

@@ -6,10 +6,11 @@
     "packages/*"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
     "clean": "turbo run clean --log-order=stream && git clean -fd && rimraf node_modules .turbo",
-    "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
+    "lint": "concurrently \"pnpm:lint:*\" \"turbo run lint --log-order=stream\"",
     "lint:md": "prettier --ignore-path \"../../.prettierignore\" --write \"*.md\" >/dev/null && markdownlint-cli2 --fix \"*.md\"",
     "lint:yml": "prettier --ignore-path \"../../.prettierignore\" --write \".github/**/*.yml\" >/dev/null",
     "lint:js": "eslint -c .github/scripts/eslint.config.cjs --fix .github/scripts/ && prettier --write \".github/**/*.{c,m,}js\" >/dev/null",
@@ -22,7 +23,7 @@
     "publish:rc": "./support/release.sh publish rc",
     "version:hotfix": "./support/release.sh version hotfix",
     "publish:hotfix": "./support/release.sh publish hotfix",
-    "prepare": "concurrently --raw \"husky\" \"node ./support/check-volta.mts\"",
+    "prepare": "concurrently --raw \"husky\"",
     "start": "turbo run start --log-order=stream",
     "start:components": "turbo run start --log-order=stream --filter=@esri/calcite-components",
     "test": "turbo run test --log-order=stream",
@@ -42,7 +43,7 @@
     "@cspell/dict-scientific-terms-us": "3.0.8",
     "@cspell/eslint-plugin": "9.2.2",
     "@eslint/js": "9.39.1",
-    "@esri/calcite-typescript-config": "0.0.1-next.0",
+    "@esri/calcite-typescript-config": "workspace:0.0.1-next.0",
     "@inquirer/prompts": "8.1.0",
     "@octokit/webhooks-types": "7.6.1",
     "@prettier/sync": "0.6.1",
@@ -122,9 +123,13 @@
     "yargs": "18.0.0"
   },
   "license": "SEE LICENSE.md",
-  "packageManager": "npm@10.9.2",
-  "volta": {
-    "node": "24.11.0"
+  "packageManager": "pnpm@10.28.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.11.0",
+      "onFail": "download"
+    }
   },
   "dependencies": {
     "patch-package": "8.0.1"
