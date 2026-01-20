@@ -189,11 +189,11 @@
 }
 
 .resize-handle {
-  @apply absolute flex justify-center items-center select-none box-border outline-none;
+  @apply absolute flex justify-center items-center select-none box-border outline-none pointer-events-auto;
   --calcite-internal-shell-panel-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
-  z-index: var(--calcite-z-index-header);
+  z-index: calc(var(--calcite-z-index-header) + 1);
 }
 
 .resize-handle:active,
@@ -232,6 +232,16 @@
     border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
+
+  // When action bar is at the resize edge, offset the handle to be outside the action bar
+  &:host([action-bar-position="end"]) .resize-handle {
+    inset-inline-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        )
+    );
+  }
 }
 
 :host([position="end"][layout="vertical"]) {
@@ -251,6 +261,16 @@
   &:host([display-mode^="float"]) .resize-handle-bar {
     border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  }
+
+  // When action bar is at the resize edge, offset the handle to be outside the action bar
+  &:host([action-bar-position="start"]) .resize-handle {
+    inset-inline-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        )
+    );
   }
 }
 
@@ -272,6 +292,16 @@
     border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
+
+  // When action bar is at the resize edge, offset the handle to be outside the action bar
+  &:host([action-bar-position="bottom"]) .resize-handle {
+    inset-block-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        )
+    );
+  }
 }
 
 :host([position="end"][layout="horizontal"]) {
@@ -291,6 +321,16 @@
   &:host([display-mode^="float"]) .resize-handle-bar {
     border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  }
+
+  // When action bar is at the resize edge, offset the handle to be outside the action bar
+  &:host([action-bar-position="top"]) .resize-handle {
+    inset-block-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        )
+    );
   }
 }
 

@@ -10,6 +10,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
+import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -48,6 +49,10 @@ export class ShellPanel extends LitElement {
   private interaction: Interactable;
 
   private actionBars: ActionBar["el"][] = [];
+
+  private actionBarContainerEl: HTMLDivElement;
+
+  private actionBarResizeObserver = createObserver("resize", () => this.updateActionBarSize());
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -197,6 +202,7 @@ export class ShellPanel extends LitElement {
 
   override disconnectedCallback(): void {
     this.cleanupInteractions();
+    this.actionBarResizeObserver?.disconnect();
   }
 
   //#endregion
@@ -369,6 +375,24 @@ export class ShellPanel extends LitElement {
     this.setupInteractions();
   }
 
+  private setActionBarContainerEl(el: HTMLDivElement): void {
+    this.actionBarContainerEl = el;
+    if (el) {
+      this.actionBarResizeObserver?.observe(el);
+      this.updateActionBarSize();
+    }
+  }
+
+  private updateActionBarSize(): void {
+    if (!this.actionBarContainerEl) {
+      return;
+    }
+    const { layout } = this;
+    const rect = this.actionBarContainerEl.getBoundingClientRect();
+    const size = layout === "horizontal" ? rect.height : rect.width;
+    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-size", `${size}px`);
+  }
+
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
     actionBars.forEach((actionBar) => {
       if (!actionBar.hasAttribute("layout")) {
@@ -489,7 +513,11 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <div class={CSS.actionBarContainer} key="action-bar-container">
+      <div
+        class={CSS.actionBarContainer}
+        key="action-bar-container"
+        ref={this.setActionBarContainerEl}
+      >
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
