@@ -4,5 +4,6 @@
   "play": "Leisti",
   "pause": "Pristabdyti",
   "carousel": "Carousel",
-  "carouselItemProgress": "Karuselės elemento eigos indikatorius"
+  "carouselItemProgress": "Karuselės elemento eigos indikatorius",
+  "paginationStatus": "Item {current} of {total}"
 }
