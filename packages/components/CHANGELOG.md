@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.72](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.71...@esri/calcite-components@5.0.0-next.72) (2026-01-20)
+
+### Features
+
+- **shell-panel:** add border for resize handle ([#13697](https://github.com/Esri/calcite-design-system/issues/13697)) ([43bfac7](https://github.com/Esri/calcite-design-system/commit/43bfac73c6c45cfc759325889063dd638defe58e)), closes [#12178](https://github.com/Esri/calcite-design-system/issues/12178)
+
 ## [5.0.0-next.71](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.70...@esri/calcite-components@5.0.0-next.71) (2026-01-16)
 
 ### Bug Fixes
