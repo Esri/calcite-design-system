@@ -9,7 +9,7 @@ const decimalNumberRegex = new RegExp(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
  *
  * @param decimal - decimal value
  * @param value
- * @returns {number} the amount of decimal places in a number
+ * @returns the amount of decimal places in a number
  */
 export const decimalPlaces = (value: number | string): number => {
   const match = ("" + value).match(decimalNumberRegex);

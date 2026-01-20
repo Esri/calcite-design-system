@@ -30,7 +30,7 @@ interface FocusTrapOptions {
  *   });
  * });
  *
- * @param {string} componentTestSetup
+ * @param componentTestSetup
  * @param options
  */
 export function focusTrap(componentTestSetup: ComponentTestSetup, options: FocusTrapOptions): void {

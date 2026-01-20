@@ -121,6 +121,13 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private actionMouseDownHandler = (event): void => {
+    event.stopPropagation();
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
+      action === event.target;
+    });
+  };
+
   //#endregion
 
   //#region State Properties
@@ -211,6 +218,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
+    this.el.addEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -240,6 +248,7 @@ export class ActionMenu extends LitElement {
 
   override disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
+    this.el.removeEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
   }
 
   //#endregion
@@ -356,9 +365,11 @@ export class ActionMenu extends LitElement {
     el.open = this.open;
   }
 
-  private handleCalciteActionClick(): void {
-    this.open = false;
-    this.setFocus();
+  private handleCalciteActionClick(event): void {
+    if (this.actionElements?.some((action) => event.composedPath().includes(action))) {
+      this.open = false;
+      this.setFocus();
+    }
   }
 
   private updateTooltip(event: Event): void {
