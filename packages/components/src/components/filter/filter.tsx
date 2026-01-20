@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
 import { Scale } from "../interfaces";
@@ -117,8 +117,7 @@ export class Filter extends LitElement {
    *
    * This method can be useful because filtering is delayed and asynchronous.
    *
-   * @param {string} value - The filter text value.
-   * @returns {Promise<void>}
+   * @param value - The filter text value.
    */
   @method()
   async filter(value: string = this.value): Promise<void> {

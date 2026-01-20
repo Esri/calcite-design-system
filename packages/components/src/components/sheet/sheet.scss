@@ -67,8 +67,9 @@
     opacity var(--calcite-internal-animation-timing-medium) animation.$easing-function;
 }
 
+:host([top-layer-disabled]) .container,
 :host([embedded]) .container {
-  @apply z-overlay;
+  z-index: var(--calcite-z-index-overlay);
 }
 
 :host([position="inline-start"]) .container {
@@ -176,7 +177,12 @@
 
 .scrim {
   --calcite-scrim-background: var(--calcite-sheet-scrim-background, var(--calcite-sheet-scrim-background-internal));
-  @apply fixed inset-0 flex overflow-hidden -z-default;
+  @apply fixed inset-0 flex overflow-hidden;
+  z-index: calc(var(--calcite-z-index) * -1);
+}
+
+:host([top-layer-disabled]) .scrim {
+  z-index: unset;
 }
 
 [popover] {
@@ -210,8 +216,10 @@
   transform: var(--calcite-sheet-hidden-position-internal);
 }
 
+:host([top-layer-disabled]),
+:host([top-layer-disabled]) .content,
 :host([embedded]) .content {
-  @apply z-modal;
+  z-index: var(--calcite-z-index-modal);
 }
 
 .content-container {

@@ -16,6 +16,8 @@ export const CSS = {
   textArea: "text-area",
   textAreaOnly: "text-area--only",
   wrapper: "wrapper",
+  loaderContainer: "loader-container",
+  loader: "loader",
 };
 
 export const IDS = {

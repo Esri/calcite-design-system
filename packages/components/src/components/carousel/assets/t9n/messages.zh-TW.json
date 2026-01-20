@@ -4,5 +4,6 @@
   "play": "播放",
   "pause": "暫停",
   "carousel": "轉盤",
-  "carouselItemProgress": "轉盤項目的進度指示燈"
+  "carouselItemProgress": "轉盤項目的進度指示燈",
+  "paginationStatus": "Item {current} of {total}"
 }

@@ -4,5 +4,6 @@
   "play": "Spustiť",
   "pause": "Pozastaviť",
   "carousel": "Karusel",
-  "carouselItemProgress": "Indikátor priebehu pre položku karusel"
+  "carouselItemProgress": "Indikátor priebehu pre položku karusel",
+  "paginationStatus": "Item {current} of {total}"
 }
