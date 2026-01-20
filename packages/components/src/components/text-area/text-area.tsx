@@ -207,7 +207,7 @@ export class TextArea
    */
   @property({ reflect: true }) minLength: number;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** Specifies the name of the component.*/
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */

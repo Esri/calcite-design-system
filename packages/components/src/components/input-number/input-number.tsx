@@ -253,7 +253,13 @@ export class InputNumber
    */
   @property({ reflect: true }) minLength: number;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   */
   @property({ reflect: true }) name: string;
 
   /** Specifies the placement of the buttons. */
