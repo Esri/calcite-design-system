@@ -38,11 +38,23 @@ describe("calcite-dropdown-item", () => {
   describe("theme", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-dropdown-item-text-color": {
-          targetProp: "color",
-          shadowSelector: `.${CSS.container}`,
-          selector: `calcite-dropdown-item`,
-        },
+        "--calcite-dropdown-item-text-color": [
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.container}`,
+            selector: `calcite-dropdown-item`,
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconStart}`,
+            selector: `calcite-dropdown-item`,
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconEnd}`,
+            selector: `calcite-dropdown-item`,
+          },
+        ],
         "--calcite-dropdown-item-background-color-hover": {
           targetProp: "backgroundColor",
           shadowSelector: `.${CSS.container}`,
@@ -90,7 +102,7 @@ describe("calcite-dropdown-item", () => {
       };
       themed(
         `<calcite-dropdown open>
-          <calcite-dropdown-item href="esri.com">1</calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="trash" icon-end="trash" href="esri.com">1</calcite-dropdown-item>
           <calcite-dropdown-item>2</calcite-dropdown-item>
         </calcite-dropdown>`,
         tokens,
