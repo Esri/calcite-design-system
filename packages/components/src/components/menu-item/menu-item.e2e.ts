@@ -270,20 +270,41 @@ describe("calcite-menu-item", () => {
   });
 
   describe("deprecated", () => {
-    themed(
-      html`<calcite-menu-item breadcrumb text="Trees" icon-start="layers" icon-end="layers"></calcite-menu-item>`,
-      {
-        "--calcite-ui-icon-color": [
-          {
-            shadowSelector: `.${CSS.iconStart}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.iconEnd}`,
-            targetProp: "color",
-          },
-        ],
-      },
-    );
+    const iconMenuItemHTML: string = html` <calcite-menu>
+      <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers">
+        <calcite-menu-item
+          href="#calcite-navigation-css-vars"
+          icon-start="multiple-variables"
+          slot="${SLOTS.submenuItem}"
+          text="Css vars"
+        ></calcite-menu-item>
+      </calcite-menu-item>
+    </calcite-menu>`;
+
+    const tokens: ComponentTestTokens = {
+      "--calcite-ui-icon-color": [
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconBreadcrumb}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconDropdown}`,
+          targetProp: "color",
+        },
+      ],
+    };
+    themed(iconMenuItemHTML, tokens);
   });
 });
