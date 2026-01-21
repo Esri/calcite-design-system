@@ -555,13 +555,9 @@ describe("calcite-action-menu", () => {
       await page.mouse.down();
       await page.waitForChanges();
 
-      const firstButton = await page.find(`#first >>> button`);
-      const firstButtonStyle = await firstButton.getComputedStyle();
-      const secondButton = await page.find(`#second >>> button`);
-      const secondButtonStyle = await secondButton.getComputedStyle();
-
-      expect(firstButtonStyle["outlineWidth"]).toBe("0px");
-      expect(secondButtonStyle["outlineWidth"]).toBe("2px");
+      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.mouse.up();
       await page.waitForChanges();
