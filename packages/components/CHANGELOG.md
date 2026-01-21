@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.73...@esri/calcite-components@5.0.0-next.74) (2026-01-21)
+
+### Features
+
+- add `topLayerDisabled` property to additional components ([#13730](https://github.com/Esri/calcite-design-system/issues/13730)) ([44a99f8](https://github.com/Esri/calcite-design-system/commit/44a99f8badef073992d1f7177483775fdca29429)), closes [#13698](https://github.com/Esri/calcite-design-system/issues/13698)
+
+### Bug Fixes
+
+- **panel, action-menu:** pass `scale` down to nested `calcite-popover` ([#13731](https://github.com/Esri/calcite-design-system/issues/13731)) ([aee39f5](https://github.com/Esri/calcite-design-system/commit/aee39f55b21d7b6a8a7728bb32090e2fb4212b73)), closes [#13714](https://github.com/Esri/calcite-design-system/issues/13714)
+
 ## [5.0.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.72...@esri/calcite-components@5.0.0-next.73) (2026-01-21)
 
 ### Bug Fixes
