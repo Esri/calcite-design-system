@@ -932,17 +932,25 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
   --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-transparent: rgba(255, 255, 255, 0);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+  --calcite-color-text-1: #ffffff;
+  --calcite-color-text-2: #bfbfbf;
+  --calcite-color-text-3: #9e9e9e;
+  --calcite-color-text-inverse: #141414;
+  --calcite-color-text-link: #00a0ff;
+  --calcite-color-text-highlight: #d6efff;
+  --calcite-color-border-1: #545454;
+  --calcite-color-border-2: #4a4a4a;
+  --calcite-color-border-3: #404040;
+  --calcite-color-border-input: #757575;
+  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+  --calcite-color-border-white: #f7f7f7;
   --calcite-color-brand: #009af2;
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand-press: #00619b;
   --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
+  --calcite-color-inverse: #f7f7f7;
+  --calcite-color-inverse-hover: #f2f2f2;
+  --calcite-color-inverse-press: #ebebeb;
   --calcite-color-status-info: #00a0ff;
   --calcite-color-status-info-hover: #3db8ff;
   --calcite-color-status-info-press: #009af2;
@@ -955,21 +963,13 @@ exports[`generated tokens > CSS > dark should match 1`] = `
   --calcite-color-status-danger: #fe583e;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger-press: #d90012;
-  --calcite-color-inverse: #f7f7f7;
-  --calcite-color-inverse-hover: #f2f2f2;
-  --calcite-color-inverse-press: #ebebeb;
-  --calcite-color-text-1: #ffffff;
-  --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-highlight: #d6efff;
-  --calcite-color-text-inverse: #141414;
-  --calcite-color-text-link: #00a0ff;
-  --calcite-color-border-1: #545454;
-  --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-3: #404040;
-  --calcite-color-border-input: #757575;
-  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-  --calcite-color-border-white: #f7f7f7;
+  --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1156,21 +1156,13 @@ exports[`generated tokens > CSS > index should match 1`] = `
 @import url("./semantic.css");
 @import url("./classes.css");
 :root {
-  --calcite-color-border-white: #ffffff;
-  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
@@ -1183,17 +1175,25 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-info-press: #00304d;
   --calcite-color-status-info-hover: #004874;
   --calcite-color-status-info: #00619b;
+  --calcite-color-inverse-press: #212121;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse: #363636;
   --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
   --calcite-color-brand-press: #004874;
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
+  --calcite-color-border-white: #ffffff;
+  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-3: #ebebeb;
+  --calcite-color-border-2: #dedede;
+  --calcite-color-border-1: #d4d4d4;
+  --calcite-color-text-highlight: #004874;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-inverse: #ffffff;
+  --calcite-color-text-3: #6b6b6b;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-1: #141414;
   --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -1209,21 +1209,13 @@ exports[`generated tokens > CSS > index should match 1`] = `
 }
 @media (prefers-color-scheme: light) {
   .calcite-mode-auto {
-    --calcite-color-border-white: #ffffff;
-    --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-    --calcite-color-border-input: #949494;
-    --calcite-color-border-3: #ebebeb;
-    --calcite-color-border-2: #dedede;
-    --calcite-color-border-1: #d4d4d4;
-    --calcite-color-text-link: #00619b;
-    --calcite-color-text-inverse: #ffffff;
-    --calcite-color-text-highlight: #004874;
-    --calcite-color-text-3: #6b6b6b;
-    --calcite-color-text-2: #4a4a4a;
-    --calcite-color-text-1: #141414;
-    --calcite-color-inverse-press: #212121;
-    --calcite-color-inverse-hover: #2b2b2b;
-    --calcite-color-inverse: #363636;
+    --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+    --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+    --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+    --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+    --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+    --calcite-color-transparent: rgba(0, 0, 0, 0);
     --calcite-color-status-danger-press: #7c1d13;
     --calcite-color-status-danger-hover: #a82b1e;
     --calcite-color-status-danger: #d83020;
@@ -1236,17 +1228,25 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-status-info-press: #00304d;
     --calcite-color-status-info-hover: #004874;
     --calcite-color-status-info: #00619b;
+    --calcite-color-inverse-press: #212121;
+    --calcite-color-inverse-hover: #2b2b2b;
+    --calcite-color-inverse: #363636;
     --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
     --calcite-color-brand-press: #004874;
     --calcite-color-brand-hover: #00619b;
     --calcite-color-brand: #007ac2;
-    --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-    --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-    --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-    --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-    --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-    --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-    --calcite-color-transparent: rgba(0, 0, 0, 0);
+    --calcite-color-border-white: #ffffff;
+    --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+    --calcite-color-border-input: #949494;
+    --calcite-color-border-3: #ebebeb;
+    --calcite-color-border-2: #dedede;
+    --calcite-color-border-1: #d4d4d4;
+    --calcite-color-text-highlight: #004874;
+    --calcite-color-text-link: #00619b;
+    --calcite-color-text-inverse: #ffffff;
+    --calcite-color-text-3: #6b6b6b;
+    --calcite-color-text-2: #4a4a4a;
+    --calcite-color-text-1: #141414;
     --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
     --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
     --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -1263,21 +1263,13 @@ exports[`generated tokens > CSS > index should match 1`] = `
 }
 @media (prefers-color-scheme: dark) {
   .calcite-mode-auto {
-    --calcite-color-border-white: #f7f7f7;
-    --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-    --calcite-color-border-input: #757575;
-    --calcite-color-border-3: #404040;
-    --calcite-color-border-2: #4a4a4a;
-    --calcite-color-border-1: #545454;
-    --calcite-color-text-link: #00a0ff;
-    --calcite-color-text-inverse: #141414;
-    --calcite-color-text-highlight: #d6efff;
-    --calcite-color-text-3: #9e9e9e;
-    --calcite-color-text-2: #bfbfbf;
-    --calcite-color-text-1: #ffffff;
-    --calcite-color-inverse-press: #ebebeb;
-    --calcite-color-inverse-hover: #f2f2f2;
-    --calcite-color-inverse: #f7f7f7;
+    --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+    --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+    --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+    --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+    --calcite-color-transparent: rgba(255, 255, 255, 0);
     --calcite-color-status-danger-press: #d90012;
     --calcite-color-status-danger-hover: #ff0015;
     --calcite-color-status-danger: #fe583e;
@@ -1290,17 +1282,25 @@ exports[`generated tokens > CSS > index should match 1`] = `
     --calcite-color-status-info-press: #009af2;
     --calcite-color-status-info-hover: #3db8ff;
     --calcite-color-status-info: #00a0ff;
+    --calcite-color-inverse-press: #ebebeb;
+    --calcite-color-inverse-hover: #f2f2f2;
+    --calcite-color-inverse: #f7f7f7;
     --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
     --calcite-color-brand-press: #00619b;
     --calcite-color-brand-hover: #007ac2;
     --calcite-color-brand: #009af2;
-    --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-    --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-    --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-    --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-    --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-    --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-    --calcite-color-transparent: rgba(255, 255, 255, 0);
+    --calcite-color-border-white: #f7f7f7;
+    --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+    --calcite-color-border-input: #757575;
+    --calcite-color-border-3: #404040;
+    --calcite-color-border-2: #4a4a4a;
+    --calcite-color-border-1: #545454;
+    --calcite-color-text-highlight: #d6efff;
+    --calcite-color-text-link: #00a0ff;
+    --calcite-color-text-inverse: #141414;
+    --calcite-color-text-3: #9e9e9e;
+    --calcite-color-text-2: #bfbfbf;
+    --calcite-color-text-1: #ffffff;
     --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
     --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
     --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -1316,21 +1316,13 @@ exports[`generated tokens > CSS > index should match 1`] = `
   }
 }
 .calcite-mode-light {
-  --calcite-color-border-white: #ffffff;
-  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
@@ -1343,17 +1335,25 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-info-press: #00304d;
   --calcite-color-status-info-hover: #004874;
   --calcite-color-status-info: #00619b;
+  --calcite-color-inverse-press: #212121;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse: #363636;
   --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
   --calcite-color-brand-press: #004874;
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
+  --calcite-color-border-white: #ffffff;
+  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-3: #ebebeb;
+  --calcite-color-border-2: #dedede;
+  --calcite-color-border-1: #d4d4d4;
+  --calcite-color-text-highlight: #004874;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-inverse: #ffffff;
+  --calcite-color-text-3: #6b6b6b;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-1: #141414;
   --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -1368,21 +1368,13 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-focus: var(--calcite-color-brand);
 }
 .calcite-mode-dark {
-  --calcite-color-border-white: #f7f7f7;
-  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-  --calcite-color-border-input: #757575;
-  --calcite-color-border-3: #404040;
-  --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #545454;
-  --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #141414;
-  --calcite-color-text-highlight: #d6efff;
-  --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-1: #ffffff;
-  --calcite-color-inverse-press: #ebebeb;
-  --calcite-color-inverse-hover: #f2f2f2;
-  --calcite-color-inverse: #f7f7f7;
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
@@ -1395,17 +1387,25 @@ exports[`generated tokens > CSS > index should match 1`] = `
   --calcite-color-status-info-press: #009af2;
   --calcite-color-status-info-hover: #3db8ff;
   --calcite-color-status-info: #00a0ff;
+  --calcite-color-inverse-press: #ebebeb;
+  --calcite-color-inverse-hover: #f2f2f2;
+  --calcite-color-inverse: #f7f7f7;
   --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
   --calcite-color-brand-press: #00619b;
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
-  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-border-white: #f7f7f7;
+  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+  --calcite-color-border-input: #757575;
+  --calcite-color-border-3: #404040;
+  --calcite-color-border-2: #4a4a4a;
+  --calcite-color-border-1: #545454;
+  --calcite-color-text-highlight: #d6efff;
+  --calcite-color-text-link: #00a0ff;
+  --calcite-color-text-inverse: #141414;
+  --calcite-color-text-3: #9e9e9e;
+  --calcite-color-text-2: #bfbfbf;
+  --calcite-color-text-1: #ffffff;
   --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -1440,17 +1440,25 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
   --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-text-1: #141414;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-3: #6b6b6b;
+  --calcite-color-text-inverse: #ffffff;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-highlight: #004874;
+  --calcite-color-border-1: #d4d4d4;
+  --calcite-color-border-2: #dedede;
+  --calcite-color-border-3: #ebebeb;
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+  --calcite-color-border-white: #ffffff;
   --calcite-color-brand: #007ac2;
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand-press: #004874;
   --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
+  --calcite-color-inverse: #363636;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse-press: #212121;
   --calcite-color-status-info: #00619b;
   --calcite-color-status-info-hover: #004874;
   --calcite-color-status-info-press: #00304d;
@@ -1463,21 +1471,13 @@ exports[`generated tokens > CSS > light should match 1`] = `
   --calcite-color-status-danger: #d83020;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger-press: #7c1d13;
-  --calcite-color-inverse: #363636;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-text-1: #141414;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-  --calcite-color-border-white: #ffffff;
+  --calcite-color-transparent: rgba(0, 0, 0, 0);
+  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -18481,21 +18481,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "comment": "deprecated, use --calcite-color-surface-highlight instead"
     },
     {
-      "key": "{semantic.color.transparent.default.default}",
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0)\\",\\"dark\\":\\"rgba(255, 255, 255, 0)\\"}",
+      "key": "{semantic.color.text.1}",
+      "value": "{\\"light\\":\\"#141414\\",\\"dark\\":\\"#ffffff\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
-        "subitem": "default",
-        "state": "default",
+        "item": "text",
+        "subitem": "1",
         "names": {
-          "scss": "$calcite-color-transparent",
-          "css": "var(--calcite-color-transparent)",
-          "docs": "semantic.color.transparent.default.default",
-          "es6": "calciteColorTransparent"
+          "scss": "$calcite-color-text-1",
+          "css": "var(--calcite-color-text-1)",
+          "docs": "semantic.color.text.1",
+          "es6": "calciteColorText1"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18505,25 +18504,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent",
-      "path": ["semantic", "color", "transparent", "default", "default"]
+      "name": "Color Text 1",
+      "path": ["semantic", "color", "text", "1"]
     },
     {
-      "key": "{semantic.color.transparent.default.hover}",
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.12)\\"}",
+      "key": "{semantic.color.text.2}",
+      "value": "{\\"light\\":\\"#4a4a4a\\",\\"dark\\":\\"#bfbfbf\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
-        "subitem": "default",
-        "state": "hover",
+        "item": "text",
+        "subitem": "2",
         "names": {
-          "scss": "$calcite-color-transparent-hover",
-          "css": "var(--calcite-color-transparent-hover)",
-          "docs": "semantic.color.transparent.default.hover",
-          "es6": "calciteColorTransparentHover"
+          "scss": "$calcite-color-text-2",
+          "css": "var(--calcite-color-text-2)",
+          "docs": "semantic.color.text.2",
+          "es6": "calciteColorText2"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18533,25 +18531,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Hover",
-      "path": ["semantic", "color", "transparent", "default", "hover"]
+      "name": "Color Text 2",
+      "path": ["semantic", "color", "text", "2"]
     },
     {
-      "key": "{semantic.color.transparent.default.press}",
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.16)\\"}",
+      "key": "{semantic.color.text.3}",
+      "value": "{\\"light\\":\\"#6b6b6b\\",\\"dark\\":\\"#9e9e9e\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
-        "subitem": "default",
-        "state": "press",
+        "item": "text",
+        "subitem": "3",
         "names": {
-          "scss": "$calcite-color-transparent-press",
-          "css": "var(--calcite-color-transparent-press)",
-          "docs": "semantic.color.transparent.default.press",
-          "es6": "calciteColorTransparentPress"
+          "scss": "$calcite-color-text-3",
+          "css": "var(--calcite-color-text-3)",
+          "docs": "semantic.color.text.3",
+          "es6": "calciteColorText3"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18561,26 +18558,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Press",
-      "path": ["semantic", "color", "transparent", "default", "press"]
+      "name": "Color Text 3",
+      "path": ["semantic", "color", "text", "3"]
     },
     {
-      "key": "{semantic.color.transparent.inverse.hover}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.12)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.04)\\"}",
+      "key": "{semantic.color.text.inverse}",
+      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#141414\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
-        "kind": "inverse",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
+        "item": "text",
         "subitem": "inverse",
-        "state": "hover",
         "names": {
-          "scss": "$calcite-color-transparent-inverse-hover",
-          "css": "var(--calcite-color-transparent-inverse-hover)",
-          "docs": "semantic.color.transparent.inverse.hover",
-          "es6": "calciteColorTransparentInverseHover"
+          "scss": "$calcite-color-text-inverse",
+          "css": "var(--calcite-color-text-inverse)",
+          "docs": "semantic.color.text.inverse",
+          "es6": "calciteColorTextInverse"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18590,26 +18585,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Inverse Hover",
-      "path": ["semantic", "color", "transparent", "inverse", "hover"]
+      "name": "Color Text Inverse",
+      "path": ["semantic", "color", "text", "inverse"]
     },
     {
-      "key": "{semantic.color.transparent.inverse.press}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.16)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.08)\\"}",
+      "key": "{semantic.color.text.link}",
+      "value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#00a0ff\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
-        "kind": "inverse",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
-        "subitem": "inverse",
-        "state": "press",
+        "item": "text",
+        "subitem": "link",
         "names": {
-          "scss": "$calcite-color-transparent-inverse-press",
-          "css": "var(--calcite-color-transparent-inverse-press)",
-          "docs": "semantic.color.transparent.inverse.press",
-          "es6": "calciteColorTransparentInversePress"
+          "scss": "$calcite-color-text-link",
+          "css": "var(--calcite-color-text-link)",
+          "docs": "semantic.color.text.link",
+          "es6": "calciteColorTextLink"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18619,24 +18612,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Inverse Press",
-      "path": ["semantic", "color", "transparent", "inverse", "press"]
+      "name": "Color Text Link",
+      "path": ["semantic", "color", "text", "link"]
     },
     {
-      "key": "{semantic.color.transparent.scrim}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
+      "key": "{semantic.color.text.highlight}",
+      "value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#d6efff\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
+        "group": "text",
         "type": "color",
-        "item": "transparent",
-        "subitem": "scrim",
+        "item": "text",
+        "subitem": "highlight",
         "names": {
-          "scss": "$calcite-color-transparent-scrim",
-          "css": "var(--calcite-color-transparent-scrim)",
-          "docs": "semantic.color.transparent.scrim",
-          "es6": "calciteColorTransparentScrim"
+          "scss": "$calcite-color-text-highlight",
+          "css": "var(--calcite-color-text-highlight)",
+          "docs": "semantic.color.text.highlight",
+          "es6": "calciteColorTextHighlight"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18646,24 +18639,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Scrim",
-      "path": ["semantic", "color", "transparent", "scrim"]
+      "name": "Color Text Highlight",
+      "path": ["semantic", "color", "text", "highlight"]
     },
     {
-      "key": "{semantic.color.transparent.tint}",
-      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.8)\\",\\"dark\\":\\"rgba(43, 43, 43, 0.8)\\"}",
+      "key": "{semantic.color.border.1}",
+      "value": "{\\"light\\":\\"#d4d4d4\\",\\"dark\\":\\"#545454\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "transparent",
+        "group": "border",
         "type": "color",
-        "item": "transparent",
-        "subitem": "tint",
+        "item": "border",
+        "subitem": "1",
         "names": {
-          "scss": "$calcite-color-transparent-tint",
-          "css": "var(--calcite-color-transparent-tint)",
-          "docs": "semantic.color.transparent.tint",
-          "es6": "calciteColorTransparentTint"
+          "scss": "$calcite-color-border-1",
+          "css": "var(--calcite-color-border-1)",
+          "docs": "semantic.color.border.1",
+          "es6": "calciteColorBorder1"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18673,11 +18666,146 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Transparent Tint",
-      "path": ["semantic", "color", "transparent", "tint"]
+      "name": "Color Border 1",
+      "path": ["semantic", "color", "border", "1"]
     },
     {
-      "key": "{semantic.color.brand.default.default}",
+      "key": "{semantic.color.border.2}",
+      "value": "{\\"light\\":\\"#dedede\\",\\"dark\\":\\"#4a4a4a\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "border",
+        "type": "color",
+        "item": "border",
+        "subitem": "2",
+        "names": {
+          "scss": "$calcite-color-border-2",
+          "css": "var(--calcite-color-border-2)",
+          "docs": "semantic.color.border.2",
+          "es6": "calciteColorBorder2"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Border 2",
+      "path": ["semantic", "color", "border", "2"]
+    },
+    {
+      "key": "{semantic.color.border.3}",
+      "value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "border",
+        "type": "color",
+        "item": "border",
+        "subitem": "3",
+        "names": {
+          "scss": "$calcite-color-border-3",
+          "css": "var(--calcite-color-border-3)",
+          "docs": "semantic.color.border.3",
+          "es6": "calciteColorBorder3"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Border 3",
+      "path": ["semantic", "color", "border", "3"]
+    },
+    {
+      "key": "{semantic.color.border.input}",
+      "value": "{\\"light\\":\\"#949494\\",\\"dark\\":\\"#757575\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "border",
+        "type": "color",
+        "item": "border",
+        "subitem": "input",
+        "names": {
+          "scss": "$calcite-color-border-input",
+          "css": "var(--calcite-color-border-input)",
+          "docs": "semantic.color.border.input",
+          "es6": "calciteColorBorderInput"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Border Input",
+      "path": ["semantic", "color", "border", "input"]
+    },
+    {
+      "key": "{semantic.color.border.ghost}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.3)\\",\\"dark\\":\\"rgba(117, 117, 117, 0.3)\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "border",
+        "type": "color",
+        "item": "border",
+        "subitem": "ghost",
+        "names": {
+          "scss": "$calcite-color-border-ghost",
+          "css": "var(--calcite-color-border-ghost)",
+          "docs": "semantic.color.border.ghost",
+          "es6": "calciteColorBorderGhost"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Border Ghost",
+      "path": ["semantic", "color", "border", "ghost"]
+    },
+    {
+      "key": "{semantic.color.border.white}",
+      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#f7f7f7\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "border",
+        "type": "color",
+        "item": "border",
+        "subitem": "white",
+        "names": {
+          "scss": "$calcite-color-border-white",
+          "css": "var(--calcite-color-border-white)",
+          "docs": "semantic.color.border.white",
+          "es6": "calciteColorBorderWhite"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Border White",
+      "path": ["semantic", "color", "border", "white"]
+    },
+    {
+      "key": "{semantic.color.brand.default}",
       "value": "{\\"light\\":\\"#007ac2\\",\\"dark\\":\\"#009af2\\"}",
       "type": "color",
       "attributes": {
@@ -18686,11 +18814,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "type": "color",
         "item": "brand",
         "subitem": "default",
-        "state": "default",
         "names": {
           "scss": "$calcite-color-brand",
           "css": "var(--calcite-color-brand)",
-          "docs": "semantic.color.brand.default.default",
+          "docs": "semantic.color.brand.default",
           "es6": "calciteColorBrand"
         },
         "calcite-schema": {
@@ -18702,10 +18829,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand",
-      "path": ["semantic", "color", "brand", "default", "default"]
+      "path": ["semantic", "color", "brand", "default"]
     },
     {
-      "key": "{semantic.color.brand.default.hover}",
+      "key": "{semantic.color.brand.hover}",
       "value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#007ac2\\"}",
       "type": "color",
       "attributes": {
@@ -18713,12 +18840,11 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "group": "brand",
         "type": "color",
         "item": "brand",
-        "subitem": "default",
-        "state": "hover",
+        "subitem": "hover",
         "names": {
           "scss": "$calcite-color-brand-hover",
           "css": "var(--calcite-color-brand-hover)",
-          "docs": "semantic.color.brand.default.hover",
+          "docs": "semantic.color.brand.hover",
           "es6": "calciteColorBrandHover"
         },
         "calcite-schema": {
@@ -18730,10 +18856,10 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Hover",
-      "path": ["semantic", "color", "brand", "default", "hover"]
+      "path": ["semantic", "color", "brand", "hover"]
     },
     {
-      "key": "{semantic.color.brand.default.press}",
+      "key": "{semantic.color.brand.press}",
       "value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#00619b\\"}",
       "type": "color",
       "attributes": {
@@ -18741,12 +18867,11 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
         "group": "brand",
         "type": "color",
         "item": "brand",
-        "subitem": "default",
-        "state": "press",
+        "subitem": "press",
         "names": {
           "scss": "$calcite-color-brand-press",
           "css": "var(--calcite-color-brand-press)",
-          "docs": "semantic.color.brand.default.press",
+          "docs": "semantic.color.brand.press",
           "es6": "calciteColorBrandPress"
         },
         "calcite-schema": {
@@ -18758,7 +18883,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Press",
-      "path": ["semantic", "color", "brand", "default", "press"]
+      "path": ["semantic", "color", "brand", "press"]
     },
     {
       "key": "{semantic.color.brand.underline}",
@@ -18786,6 +18911,87 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": false,
       "name": "Color Brand Underline",
       "path": ["semantic", "color", "brand", "underline"]
+    },
+    {
+      "key": "{semantic.color.inverse.default}",
+      "value": "{\\"light\\":\\"#363636\\",\\"dark\\":\\"#f7f7f7\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "inverse",
+        "type": "color",
+        "item": "inverse",
+        "subitem": "default",
+        "names": {
+          "scss": "$calcite-color-inverse",
+          "css": "var(--calcite-color-inverse)",
+          "docs": "semantic.color.inverse.default",
+          "es6": "calciteColorInverse"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Inverse",
+      "path": ["semantic", "color", "inverse", "default"]
+    },
+    {
+      "key": "{semantic.color.inverse.hover}",
+      "value": "{\\"light\\":\\"#2b2b2b\\",\\"dark\\":\\"#f2f2f2\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "inverse",
+        "type": "color",
+        "item": "inverse",
+        "subitem": "hover",
+        "names": {
+          "scss": "$calcite-color-inverse-hover",
+          "css": "var(--calcite-color-inverse-hover)",
+          "docs": "semantic.color.inverse.hover",
+          "es6": "calciteColorInverseHover"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Inverse Hover",
+      "path": ["semantic", "color", "inverse", "hover"]
+    },
+    {
+      "key": "{semantic.color.inverse.press}",
+      "value": "{\\"light\\":\\"#212121\\",\\"dark\\":\\"#ebebeb\\"}",
+      "type": "color",
+      "attributes": {
+        "category": "color",
+        "group": "inverse",
+        "type": "color",
+        "item": "inverse",
+        "subitem": "press",
+        "names": {
+          "scss": "$calcite-color-inverse-press",
+          "css": "var(--calcite-color-inverse-press)",
+          "docs": "semantic.color.inverse.press",
+          "es6": "calciteColorInversePress"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "color",
+          "type": "color"
+        }
+      },
+      "filePath": "src/tokens/semantic/color/light.json",
+      "isSource": false,
+      "name": "Color Inverse Press",
+      "path": ["semantic", "color", "inverse", "press"]
     },
     {
       "key": "{semantic.color.status.info.default}",
@@ -19136,20 +19342,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "path": ["semantic", "color", "status", "danger", "press"]
     },
     {
-      "key": "{semantic.color.inverse.default}",
-      "value": "{\\"light\\":\\"#363636\\",\\"dark\\":\\"#f7f7f7\\"}",
+      "key": "{semantic.color.transparent.default}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0)\\",\\"dark\\":\\"rgba(255, 255, 255, 0)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "inverse",
+        "group": "transparent",
         "type": "color",
-        "item": "inverse",
+        "item": "transparent",
         "subitem": "default",
         "names": {
-          "scss": "$calcite-color-inverse",
-          "css": "var(--calcite-color-inverse)",
-          "docs": "semantic.color.inverse.default",
-          "es6": "calciteColorInverse"
+          "scss": "$calcite-color-transparent",
+          "css": "var(--calcite-color-transparent)",
+          "docs": "semantic.color.transparent.default",
+          "es6": "calciteColorTransparent"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19159,24 +19365,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Inverse",
-      "path": ["semantic", "color", "inverse", "default"]
+      "name": "Color Transparent",
+      "path": ["semantic", "color", "transparent", "default"]
     },
     {
-      "key": "{semantic.color.inverse.hover}",
-      "value": "{\\"light\\":\\"#2b2b2b\\",\\"dark\\":\\"#f2f2f2\\"}",
+      "key": "{semantic.color.transparent.hover}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.12)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "inverse",
+        "group": "transparent",
         "type": "color",
-        "item": "inverse",
+        "item": "transparent",
         "subitem": "hover",
         "names": {
-          "scss": "$calcite-color-inverse-hover",
-          "css": "var(--calcite-color-inverse-hover)",
-          "docs": "semantic.color.inverse.hover",
-          "es6": "calciteColorInverseHover"
+          "scss": "$calcite-color-transparent-hover",
+          "css": "var(--calcite-color-transparent-hover)",
+          "docs": "semantic.color.transparent.hover",
+          "es6": "calciteColorTransparentHover"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19186,24 +19392,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Inverse Hover",
-      "path": ["semantic", "color", "inverse", "hover"]
+      "name": "Color Transparent Hover",
+      "path": ["semantic", "color", "transparent", "hover"]
     },
     {
-      "key": "{semantic.color.inverse.press}",
-      "value": "{\\"light\\":\\"#212121\\",\\"dark\\":\\"#ebebeb\\"}",
+      "key": "{semantic.color.transparent.press}",
+      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.16)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "inverse",
+        "group": "transparent",
         "type": "color",
-        "item": "inverse",
+        "item": "transparent",
         "subitem": "press",
         "names": {
-          "scss": "$calcite-color-inverse-press",
-          "css": "var(--calcite-color-inverse-press)",
-          "docs": "semantic.color.inverse.press",
-          "es6": "calciteColorInversePress"
+          "scss": "$calcite-color-transparent-press",
+          "css": "var(--calcite-color-transparent-press)",
+          "docs": "semantic.color.transparent.press",
+          "es6": "calciteColorTransparentPress"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19213,24 +19419,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Inverse Press",
-      "path": ["semantic", "color", "inverse", "press"]
+      "name": "Color Transparent Press",
+      "path": ["semantic", "color", "transparent", "press"]
     },
     {
-      "key": "{semantic.color.text.1}",
-      "value": "{\\"light\\":\\"#141414\\",\\"dark\\":\\"#ffffff\\"}",
+      "key": "{semantic.color.transparent.scrim}",
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "text",
+        "group": "transparent",
         "type": "color",
-        "item": "text",
-        "subitem": "1",
+        "item": "transparent",
+        "subitem": "scrim",
         "names": {
-          "scss": "$calcite-color-text-1",
-          "css": "var(--calcite-color-text-1)",
-          "docs": "semantic.color.text.1",
-          "es6": "calciteColorText1"
+          "scss": "$calcite-color-transparent-scrim",
+          "css": "var(--calcite-color-transparent-scrim)",
+          "docs": "semantic.color.transparent.scrim",
+          "es6": "calciteColorTransparentScrim"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19240,24 +19446,24 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Text 1",
-      "path": ["semantic", "color", "text", "1"]
+      "name": "Color Transparent Scrim",
+      "path": ["semantic", "color", "transparent", "scrim"]
     },
     {
-      "key": "{semantic.color.text.2}",
-      "value": "{\\"light\\":\\"#4a4a4a\\",\\"dark\\":\\"#bfbfbf\\"}",
+      "key": "{semantic.color.transparent.tint}",
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.8)\\",\\"dark\\":\\"rgba(43, 43, 43, 0.8)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "text",
+        "group": "transparent",
         "type": "color",
-        "item": "text",
-        "subitem": "2",
+        "item": "transparent",
+        "subitem": "tint",
         "names": {
-          "scss": "$calcite-color-text-2",
-          "css": "var(--calcite-color-text-2)",
-          "docs": "semantic.color.text.2",
-          "es6": "calciteColorText2"
+          "scss": "$calcite-color-transparent-tint",
+          "css": "var(--calcite-color-transparent-tint)",
+          "docs": "semantic.color.transparent.tint",
+          "es6": "calciteColorTransparentTint"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19267,78 +19473,26 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Text 2",
-      "path": ["semantic", "color", "text", "2"]
+      "name": "Color Transparent Tint",
+      "path": ["semantic", "color", "transparent", "tint"]
     },
     {
-      "key": "{semantic.color.text.3}",
-      "value": "{\\"light\\":\\"#6b6b6b\\",\\"dark\\":\\"#9e9e9e\\"}",
+      "key": "{semantic.color.transparent.inverse.hover}",
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.12)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.04)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "text",
+        "group": "transparent",
+        "kind": "inverse",
         "type": "color",
-        "item": "text",
-        "subitem": "3",
-        "names": {
-          "scss": "$calcite-color-text-3",
-          "css": "var(--calcite-color-text-3)",
-          "docs": "semantic.color.text.3",
-          "es6": "calciteColorText3"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Text 3",
-      "path": ["semantic", "color", "text", "3"]
-    },
-    {
-      "key": "{semantic.color.text.highlight}",
-      "value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#d6efff\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "text",
-        "type": "color",
-        "item": "text",
-        "subitem": "highlight",
-        "names": {
-          "scss": "$calcite-color-text-highlight",
-          "css": "var(--calcite-color-text-highlight)",
-          "docs": "semantic.color.text.highlight",
-          "es6": "calciteColorTextHighlight"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Text Highlight",
-      "path": ["semantic", "color", "text", "highlight"]
-    },
-    {
-      "key": "{semantic.color.text.inverse}",
-      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#141414\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "text",
-        "type": "color",
-        "item": "text",
+        "item": "transparent",
         "subitem": "inverse",
+        "state": "hover",
         "names": {
-          "scss": "$calcite-color-text-inverse",
-          "css": "var(--calcite-color-text-inverse)",
-          "docs": "semantic.color.text.inverse",
-          "es6": "calciteColorTextInverse"
+          "scss": "$calcite-color-transparent-inverse-hover",
+          "css": "var(--calcite-color-transparent-inverse-hover)",
+          "docs": "semantic.color.transparent.inverse.hover",
+          "es6": "calciteColorTransparentInverseHover"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19348,24 +19502,26 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Text Inverse",
-      "path": ["semantic", "color", "text", "inverse"]
+      "name": "Color Transparent Inverse Hover",
+      "path": ["semantic", "color", "transparent", "inverse", "hover"]
     },
     {
-      "key": "{semantic.color.text.link}",
-      "value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#00a0ff\\"}",
+      "key": "{semantic.color.transparent.inverse.press}",
+      "value": "{\\"light\\":\\"rgba(255, 255, 255, 0.16)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.08)\\"}",
       "type": "color",
       "attributes": {
         "category": "color",
-        "group": "text",
+        "group": "transparent",
+        "kind": "inverse",
         "type": "color",
-        "item": "text",
-        "subitem": "link",
+        "item": "transparent",
+        "subitem": "inverse",
+        "state": "press",
         "names": {
-          "scss": "$calcite-color-text-link",
-          "css": "var(--calcite-color-text-link)",
-          "docs": "semantic.color.text.link",
-          "es6": "calciteColorTextLink"
+          "scss": "$calcite-color-transparent-inverse-press",
+          "css": "var(--calcite-color-transparent-inverse-press)",
+          "docs": "semantic.color.transparent.inverse.press",
+          "es6": "calciteColorTransparentInversePress"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19375,170 +19531,8 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       },
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
-      "name": "Color Text Link",
-      "path": ["semantic", "color", "text", "link"]
-    },
-    {
-      "key": "{semantic.color.border.1}",
-      "value": "{\\"light\\":\\"#d4d4d4\\",\\"dark\\":\\"#545454\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "1",
-        "names": {
-          "scss": "$calcite-color-border-1",
-          "css": "var(--calcite-color-border-1)",
-          "docs": "semantic.color.border.1",
-          "es6": "calciteColorBorder1"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border 1",
-      "path": ["semantic", "color", "border", "1"]
-    },
-    {
-      "key": "{semantic.color.border.2}",
-      "value": "{\\"light\\":\\"#dedede\\",\\"dark\\":\\"#4a4a4a\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "2",
-        "names": {
-          "scss": "$calcite-color-border-2",
-          "css": "var(--calcite-color-border-2)",
-          "docs": "semantic.color.border.2",
-          "es6": "calciteColorBorder2"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border 2",
-      "path": ["semantic", "color", "border", "2"]
-    },
-    {
-      "key": "{semantic.color.border.3}",
-      "value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "3",
-        "names": {
-          "scss": "$calcite-color-border-3",
-          "css": "var(--calcite-color-border-3)",
-          "docs": "semantic.color.border.3",
-          "es6": "calciteColorBorder3"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border 3",
-      "path": ["semantic", "color", "border", "3"]
-    },
-    {
-      "key": "{semantic.color.border.input}",
-      "value": "{\\"light\\":\\"#949494\\",\\"dark\\":\\"#757575\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "input",
-        "names": {
-          "scss": "$calcite-color-border-input",
-          "css": "var(--calcite-color-border-input)",
-          "docs": "semantic.color.border.input",
-          "es6": "calciteColorBorderInput"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border Input",
-      "path": ["semantic", "color", "border", "input"]
-    },
-    {
-      "key": "{semantic.color.border.ghost}",
-      "value": "{\\"light\\":\\"rgba(0, 0, 0, 0.3)\\",\\"dark\\":\\"rgba(117, 117, 117, 0.3)\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "ghost",
-        "names": {
-          "scss": "$calcite-color-border-ghost",
-          "css": "var(--calcite-color-border-ghost)",
-          "docs": "semantic.color.border.ghost",
-          "es6": "calciteColorBorderGhost"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border Ghost",
-      "path": ["semantic", "color", "border", "ghost"]
-    },
-    {
-      "key": "{semantic.color.border.white}",
-      "value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#f7f7f7\\"}",
-      "type": "color",
-      "attributes": {
-        "category": "color",
-        "group": "border",
-        "type": "color",
-        "item": "border",
-        "subitem": "white",
-        "names": {
-          "scss": "$calcite-color-border-white",
-          "css": "var(--calcite-color-border-white)",
-          "docs": "semantic.color.border.white",
-          "es6": "calciteColorBorderWhite"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "color",
-          "type": "color"
-        }
-      },
-      "filePath": "src/tokens/semantic/color/light.json",
-      "isSource": false,
-      "name": "Color Border White",
-      "path": ["semantic", "color", "border", "white"]
+      "name": "Color Transparent Inverse Press",
+      "path": ["semantic", "color", "transparent", "inverse", "press"]
     },
     {
       "key": "{semantic.color.focus.default}",
@@ -33483,34 +33477,21 @@ export const calciteColorForegroundCurrent = {
   light: "#d6efff",
   dark: "#2b465f",
 }; // deprecated, use --calcite-color-surface-highlight instead
-export const calciteColorTransparent = {
-  light: "rgba(0, 0, 0, 0)",
-  dark: "rgba(255, 255, 255, 0)",
+export const calciteColorText1 = { light: "#141414", dark: "#ffffff" };
+export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
+export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
+export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
+export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
+export const calciteColorTextHighlight = { light: "#004874", dark: "#d6efff" };
+export const calciteColorBorder1 = { light: "#d4d4d4", dark: "#545454" };
+export const calciteColorBorder2 = { light: "#dedede", dark: "#4a4a4a" };
+export const calciteColorBorder3 = { light: "#ebebeb", dark: "#404040" };
+export const calciteColorBorderInput = { light: "#949494", dark: "#757575" };
+export const calciteColorBorderGhost = {
+  light: "rgba(0, 0, 0, 0.3)",
+  dark: "rgba(117, 117, 117, 0.3)",
 };
-export const calciteColorTransparentHover = {
-  light: "rgba(0, 0, 0, 0.04)",
-  dark: "rgba(255, 255, 255, 0.12)",
-};
-export const calciteColorTransparentPress = {
-  light: "rgba(0, 0, 0, 0.08)",
-  dark: "rgba(255, 255, 255, 0.16)",
-};
-export const calciteColorTransparentInverseHover = {
-  light: "rgba(255, 255, 255, 0.12)",
-  dark: "rgba(0, 0, 0, 0.04)",
-};
-export const calciteColorTransparentInversePress = {
-  light: "rgba(255, 255, 255, 0.16)",
-  dark: "rgba(0, 0, 0, 0.08)",
-};
-export const calciteColorTransparentScrim = {
-  light: "rgba(255, 255, 255, 0.85)",
-  dark: "rgba(0, 0, 0, 0.85)",
-};
-export const calciteColorTransparentTint = {
-  light: "rgba(255, 255, 255, 0.8)",
-  dark: "rgba(43, 43, 43, 0.8)",
-};
+export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" };
 export const calciteColorBrand = { light: "#007ac2", dark: "#009af2" };
 export const calciteColorBrandHover = { light: "#00619b", dark: "#007ac2" };
 export const calciteColorBrandPress = { light: "#004874", dark: "#00619b" };
@@ -33518,6 +33499,9 @@ export const calciteColorBrandUnderline = {
   light: "rgba(0, 97, 155, 0.4)",
   dark: "rgba(0, 160, 255, 0.4)",
 };
+export const calciteColorInverse = { light: "#363636", dark: "#f7f7f7" };
+export const calciteColorInverseHover = { light: "#2b2b2b", dark: "#f2f2f2" };
+export const calciteColorInversePress = { light: "#212121", dark: "#ebebeb" };
 export const calciteColorStatusInfo = { light: "#00619b", dark: "#00a0ff" };
 export const calciteColorStatusInfoHover = {
   light: "#004874",
@@ -33554,24 +33538,34 @@ export const calciteColorStatusDangerPress = {
   light: "#7c1d13",
   dark: "#d90012",
 };
-export const calciteColorInverse = { light: "#363636", dark: "#f7f7f7" };
-export const calciteColorInverseHover = { light: "#2b2b2b", dark: "#f2f2f2" };
-export const calciteColorInversePress = { light: "#212121", dark: "#ebebeb" };
-export const calciteColorText1 = { light: "#141414", dark: "#ffffff" };
-export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
-export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
-export const calciteColorTextHighlight = { light: "#004874", dark: "#d6efff" };
-export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
-export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
-export const calciteColorBorder1 = { light: "#d4d4d4", dark: "#545454" };
-export const calciteColorBorder2 = { light: "#dedede", dark: "#4a4a4a" };
-export const calciteColorBorder3 = { light: "#ebebeb", dark: "#404040" };
-export const calciteColorBorderInput = { light: "#949494", dark: "#757575" };
-export const calciteColorBorderGhost = {
-  light: "rgba(0, 0, 0, 0.3)",
-  dark: "rgba(117, 117, 117, 0.3)",
+export const calciteColorTransparent = {
+  light: "rgba(0, 0, 0, 0)",
+  dark: "rgba(255, 255, 255, 0)",
 };
-export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" };
+export const calciteColorTransparentHover = {
+  light: "rgba(0, 0, 0, 0.04)",
+  dark: "rgba(255, 255, 255, 0.12)",
+};
+export const calciteColorTransparentPress = {
+  light: "rgba(0, 0, 0, 0.08)",
+  dark: "rgba(255, 255, 255, 0.16)",
+};
+export const calciteColorTransparentScrim = {
+  light: "rgba(255, 255, 255, 0.85)",
+  dark: "rgba(0, 0, 0, 0.85)",
+};
+export const calciteColorTransparentTint = {
+  light: "rgba(255, 255, 255, 0.8)",
+  dark: "rgba(43, 43, 43, 0.8)",
+};
+export const calciteColorTransparentInverseHover = {
+  light: "rgba(255, 255, 255, 0.12)",
+  dark: "rgba(0, 0, 0, 0.04)",
+};
+export const calciteColorTransparentInversePress = {
+  light: "rgba(255, 255, 255, 0.16)",
+  dark: "rgba(0, 0, 0, 0.08)",
+};
 export const calciteColorFocus = { light: "#007ac2", dark: "#009af2" };
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
@@ -34056,23 +34050,25 @@ export const calciteColorForeground2: { light: string; dark: string };
 export const calciteColorForeground3: { light: string; dark: string };
 /** deprecated, use --calcite-color-surface-highlight instead */
 export const calciteColorForegroundCurrent: { light: string; dark: string };
-export const calciteColorTransparent: { light: string; dark: string };
-export const calciteColorTransparentHover: { light: string; dark: string };
-export const calciteColorTransparentPress: { light: string; dark: string };
-export const calciteColorTransparentInverseHover: {
-  light: string;
-  dark: string;
-};
-export const calciteColorTransparentInversePress: {
-  light: string;
-  dark: string;
-};
-export const calciteColorTransparentScrim: { light: string; dark: string };
-export const calciteColorTransparentTint: { light: string; dark: string };
+export const calciteColorText1: { light: string; dark: string };
+export const calciteColorText2: { light: string; dark: string };
+export const calciteColorText3: { light: string; dark: string };
+export const calciteColorTextInverse: { light: string; dark: string };
+export const calciteColorTextLink: { light: string; dark: string };
+export const calciteColorTextHighlight: { light: string; dark: string };
+export const calciteColorBorder1: { light: string; dark: string };
+export const calciteColorBorder2: { light: string; dark: string };
+export const calciteColorBorder3: { light: string; dark: string };
+export const calciteColorBorderInput: { light: string; dark: string };
+export const calciteColorBorderGhost: { light: string; dark: string };
+export const calciteColorBorderWhite: { light: string; dark: string };
 export const calciteColorBrand: { light: string; dark: string };
 export const calciteColorBrandHover: { light: string; dark: string };
 export const calciteColorBrandPress: { light: string; dark: string };
 export const calciteColorBrandUnderline: { light: string; dark: string };
+export const calciteColorInverse: { light: string; dark: string };
+export const calciteColorInverseHover: { light: string; dark: string };
+export const calciteColorInversePress: { light: string; dark: string };
 export const calciteColorStatusInfo: { light: string; dark: string };
 export const calciteColorStatusInfoHover: { light: string; dark: string };
 export const calciteColorStatusInfoPress: { light: string; dark: string };
@@ -34085,21 +34081,19 @@ export const calciteColorStatusWarningPress: { light: string; dark: string };
 export const calciteColorStatusDanger: { light: string; dark: string };
 export const calciteColorStatusDangerHover: { light: string; dark: string };
 export const calciteColorStatusDangerPress: { light: string; dark: string };
-export const calciteColorInverse: { light: string; dark: string };
-export const calciteColorInverseHover: { light: string; dark: string };
-export const calciteColorInversePress: { light: string; dark: string };
-export const calciteColorText1: { light: string; dark: string };
-export const calciteColorText2: { light: string; dark: string };
-export const calciteColorText3: { light: string; dark: string };
-export const calciteColorTextHighlight: { light: string; dark: string };
-export const calciteColorTextInverse: { light: string; dark: string };
-export const calciteColorTextLink: { light: string; dark: string };
-export const calciteColorBorder1: { light: string; dark: string };
-export const calciteColorBorder2: { light: string; dark: string };
-export const calciteColorBorder3: { light: string; dark: string };
-export const calciteColorBorderInput: { light: string; dark: string };
-export const calciteColorBorderGhost: { light: string; dark: string };
-export const calciteColorBorderWhite: { light: string; dark: string };
+export const calciteColorTransparent: { light: string; dark: string };
+export const calciteColorTransparentHover: { light: string; dark: string };
+export const calciteColorTransparentPress: { light: string; dark: string };
+export const calciteColorTransparentScrim: { light: string; dark: string };
+export const calciteColorTransparentTint: { light: string; dark: string };
+export const calciteColorTransparentInverseHover: {
+  light: string;
+  dark: string;
+};
+export const calciteColorTransparentInversePress: {
+  light: string;
+  dark: string;
+};
 export const calciteColorFocus: { light: string; dark: string };
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
@@ -35721,17 +35715,25 @@ $calcite-color-foreground-1: #2b2b2b; // Deprecated, use \`--calcite-color-surfa
 $calcite-color-foreground-2: #363636; // Deprecated, use \`--calcite-color-surface-3\` instead
 $calcite-color-foreground-3: #404040; // Deprecated, use \`--calcite-color-surface-4\` instead
 $calcite-color-foreground-current: #2b465f; // deprecated, use --calcite-color-surface-highlight instead
-$calcite-color-transparent: rgba(255, 255, 255, 0);
-$calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-$calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-$calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-$calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-$calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+$calcite-color-text-1: #ffffff;
+$calcite-color-text-2: #bfbfbf;
+$calcite-color-text-3: #9e9e9e;
+$calcite-color-text-inverse: #141414;
+$calcite-color-text-link: #00a0ff;
+$calcite-color-text-highlight: #d6efff;
+$calcite-color-border-1: #545454;
+$calcite-color-border-2: #4a4a4a;
+$calcite-color-border-3: #404040;
+$calcite-color-border-input: #757575;
+$calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+$calcite-color-border-white: #f7f7f7;
 $calcite-color-brand: #009af2;
 $calcite-color-brand-hover: #007ac2;
 $calcite-color-brand-press: #00619b;
 $calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
+$calcite-color-inverse: #f7f7f7;
+$calcite-color-inverse-hover: #f2f2f2;
+$calcite-color-inverse-press: #ebebeb;
 $calcite-color-status-info: #00a0ff;
 $calcite-color-status-info-hover: #3db8ff;
 $calcite-color-status-info-press: #009af2;
@@ -35744,21 +35746,13 @@ $calcite-color-status-warning-press: #ff9500;
 $calcite-color-status-danger: #fe583e;
 $calcite-color-status-danger-hover: #ff0015;
 $calcite-color-status-danger-press: #d90012;
-$calcite-color-inverse: #f7f7f7;
-$calcite-color-inverse-hover: #f2f2f2;
-$calcite-color-inverse-press: #ebebeb;
-$calcite-color-text-1: #ffffff;
-$calcite-color-text-2: #bfbfbf;
-$calcite-color-text-3: #9e9e9e;
-$calcite-color-text-highlight: #d6efff;
-$calcite-color-text-inverse: #141414;
-$calcite-color-text-link: #00a0ff;
-$calcite-color-border-1: #545454;
-$calcite-color-border-2: #4a4a4a;
-$calcite-color-border-3: #404040;
-$calcite-color-border-input: #757575;
-$calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-$calcite-color-border-white: #f7f7f7;
+$calcite-color-transparent: rgba(255, 255, 255, 0);
+$calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+$calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+$calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+$calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+$calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
@@ -35942,21 +35936,13 @@ exports[`generated tokens > SCSS > index should match 1`] = `
 @use "./breakpoints.scss";
 @use "./mixins.scss";
 @mixin calcite-mode-light {
-  --calcite-color-border-white: #ffffff;
-  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-  --calcite-color-border-input: #949494;
-  --calcite-color-border-3: #ebebeb;
-  --calcite-color-border-2: #dedede;
-  --calcite-color-border-1: #d4d4d4;
-  --calcite-color-text-link: #00619b;
-  --calcite-color-text-inverse: #ffffff;
-  --calcite-color-text-highlight: #004874;
-  --calcite-color-text-3: #6b6b6b;
-  --calcite-color-text-2: #4a4a4a;
-  --calcite-color-text-1: #141414;
-  --calcite-color-inverse-press: #212121;
-  --calcite-color-inverse-hover: #2b2b2b;
-  --calcite-color-inverse: #363636;
+  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent: rgba(0, 0, 0, 0);
   --calcite-color-status-danger-press: #7c1d13;
   --calcite-color-status-danger-hover: #a82b1e;
   --calcite-color-status-danger: #d83020;
@@ -35969,17 +35955,25 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-status-info-press: #00304d;
   --calcite-color-status-info-hover: #004874;
   --calcite-color-status-info: #00619b;
+  --calcite-color-inverse-press: #212121;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse: #363636;
   --calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
   --calcite-color-brand-press: #004874;
   --calcite-color-brand-hover: #00619b;
   --calcite-color-brand: #007ac2;
-  --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
-  --calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-  --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent: rgba(0, 0, 0, 0);
+  --calcite-color-border-white: #ffffff;
+  --calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-3: #ebebeb;
+  --calcite-color-border-2: #dedede;
+  --calcite-color-border-1: #d4d4d4;
+  --calcite-color-text-highlight: #004874;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-inverse: #ffffff;
+  --calcite-color-text-3: #6b6b6b;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-1: #141414;
   --calcite-color-foreground-current: #d6efff; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #ebebeb; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-2: #f2f2f2; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -35994,21 +35988,13 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-focus: var(--calcite-color-brand);
 }
 @mixin calcite-mode-dark {
-  --calcite-color-border-white: #f7f7f7;
-  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
-  --calcite-color-border-input: #757575;
-  --calcite-color-border-3: #404040;
-  --calcite-color-border-2: #4a4a4a;
-  --calcite-color-border-1: #545454;
-  --calcite-color-text-link: #00a0ff;
-  --calcite-color-text-inverse: #141414;
-  --calcite-color-text-highlight: #d6efff;
-  --calcite-color-text-3: #9e9e9e;
-  --calcite-color-text-2: #bfbfbf;
-  --calcite-color-text-1: #ffffff;
-  --calcite-color-inverse-press: #ebebeb;
-  --calcite-color-inverse-hover: #f2f2f2;
-  --calcite-color-inverse: #f7f7f7;
+  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
+  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
+  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
+  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
+  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
+  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
+  --calcite-color-transparent: rgba(255, 255, 255, 0);
   --calcite-color-status-danger-press: #d90012;
   --calcite-color-status-danger-hover: #ff0015;
   --calcite-color-status-danger: #fe583e;
@@ -36021,17 +36007,25 @@ exports[`generated tokens > SCSS > index should match 1`] = `
   --calcite-color-status-info-press: #009af2;
   --calcite-color-status-info-hover: #3db8ff;
   --calcite-color-status-info: #00a0ff;
+  --calcite-color-inverse-press: #ebebeb;
+  --calcite-color-inverse-hover: #f2f2f2;
+  --calcite-color-inverse: #f7f7f7;
   --calcite-color-brand-underline: rgba(0, 160, 255, 0.4);
   --calcite-color-brand-press: #00619b;
   --calcite-color-brand-hover: #007ac2;
   --calcite-color-brand: #009af2;
-  --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
-  --calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
-  --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
-  --calcite-color-transparent-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-transparent-hover: rgba(255, 255, 255, 0.12);
-  --calcite-color-transparent: rgba(255, 255, 255, 0);
+  --calcite-color-border-white: #f7f7f7;
+  --calcite-color-border-ghost: rgba(117, 117, 117, 0.3);
+  --calcite-color-border-input: #757575;
+  --calcite-color-border-3: #404040;
+  --calcite-color-border-2: #4a4a4a;
+  --calcite-color-border-1: #545454;
+  --calcite-color-text-highlight: #d6efff;
+  --calcite-color-text-link: #00a0ff;
+  --calcite-color-text-inverse: #141414;
+  --calcite-color-text-3: #9e9e9e;
+  --calcite-color-text-2: #bfbfbf;
+  --calcite-color-text-1: #ffffff;
   --calcite-color-foreground-current: #2b465f; /** deprecated, use --calcite-color-surface-highlight instead */
   --calcite-color-foreground-3: #404040; /** Deprecated, use \`--calcite-color-surface-4\` instead */
   --calcite-color-foreground-2: #363636; /** Deprecated, use \`--calcite-color-surface-3\` instead */
@@ -36064,17 +36058,25 @@ $calcite-color-foreground-1: #ffffff; // Deprecated, use \`--calcite-color-surfa
 $calcite-color-foreground-2: #f2f2f2; // Deprecated, use \`--calcite-color-surface-3\` instead
 $calcite-color-foreground-3: #ebebeb; // Deprecated, use \`--calcite-color-surface-4\` instead
 $calcite-color-foreground-current: #d6efff; // deprecated, use --calcite-color-surface-highlight instead
-$calcite-color-transparent: rgba(0, 0, 0, 0);
-$calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
-$calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
-$calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
-$calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
-$calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+$calcite-color-text-1: #141414;
+$calcite-color-text-2: #4a4a4a;
+$calcite-color-text-3: #6b6b6b;
+$calcite-color-text-inverse: #ffffff;
+$calcite-color-text-link: #00619b;
+$calcite-color-text-highlight: #004874;
+$calcite-color-border-1: #d4d4d4;
+$calcite-color-border-2: #dedede;
+$calcite-color-border-3: #ebebeb;
+$calcite-color-border-input: #949494;
+$calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
+$calcite-color-border-white: #ffffff;
 $calcite-color-brand: #007ac2;
 $calcite-color-brand-hover: #00619b;
 $calcite-color-brand-press: #004874;
 $calcite-color-brand-underline: rgba(0, 97, 155, 0.4);
+$calcite-color-inverse: #363636;
+$calcite-color-inverse-hover: #2b2b2b;
+$calcite-color-inverse-press: #212121;
 $calcite-color-status-info: #00619b;
 $calcite-color-status-info-hover: #004874;
 $calcite-color-status-info-press: #00304d;
@@ -36087,21 +36089,13 @@ $calcite-color-status-warning-press: #9a5b10;
 $calcite-color-status-danger: #d83020;
 $calcite-color-status-danger-hover: #a82b1e;
 $calcite-color-status-danger-press: #7c1d13;
-$calcite-color-inverse: #363636;
-$calcite-color-inverse-hover: #2b2b2b;
-$calcite-color-inverse-press: #212121;
-$calcite-color-text-1: #141414;
-$calcite-color-text-2: #4a4a4a;
-$calcite-color-text-3: #6b6b6b;
-$calcite-color-text-highlight: #004874;
-$calcite-color-text-inverse: #ffffff;
-$calcite-color-text-link: #00619b;
-$calcite-color-border-1: #d4d4d4;
-$calcite-color-border-2: #dedede;
-$calcite-color-border-3: #ebebeb;
-$calcite-color-border-input: #949494;
-$calcite-color-border-ghost: rgba(0, 0, 0, 0.3);
-$calcite-color-border-white: #ffffff;
+$calcite-color-transparent: rgba(0, 0, 0, 0);
+$calcite-color-transparent-hover: rgba(0, 0, 0, 0.04);
+$calcite-color-transparent-press: rgba(0, 0, 0, 0.08);
+$calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
+$calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
+$calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
+$calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
