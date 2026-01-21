@@ -98,6 +98,30 @@ describe("calcite-dropdown-item", () => {
             selector: "calcite-dropdown-item",
             state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
           },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconStart}`,
+            selector: "calcite-dropdown-item",
+            state: "hover",
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconEnd}`,
+            selector: "calcite-dropdown-item",
+            state: "hover",
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconStart}`,
+            selector: "calcite-dropdown-item",
+            state: { press: `calcite-dropdown-item >>> .${CSS.iconStart}` },
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconEnd}`,
+            selector: "calcite-dropdown-item",
+            state: { press: `calcite-dropdown-item >>> .${CSS.iconEnd}` },
+          },
         ],
       };
       themed(
@@ -129,6 +153,22 @@ describe("calcite-dropdown-item", () => {
         </calcite-dropdown>`,
         tokens,
       );
+    });
+    describe("deprecated", () => {
+      themed(`<calcite-dropdown-item icon-start="trash" icon-end="trash"> 1 </calcite-dropdown-item>`, {
+        "--calcite-ui-icon-color": [
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconStart}`,
+            selector: `calcite-dropdown-item`,
+          },
+          {
+            targetProp: "color",
+            shadowSelector: `.${CSS.iconEnd}`,
+            selector: `calcite-dropdown-item`,
+          },
+        ],
+      });
     });
   });
 });
