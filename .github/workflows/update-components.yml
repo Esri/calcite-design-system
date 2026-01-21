@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: pnpm install --frozen-lcokfile || true
+        run: pnpm install --frozen-lockfile || true
       - name: Run updater
         run: |
           node .github/scripts/updateIssueTemplateComponents.js
