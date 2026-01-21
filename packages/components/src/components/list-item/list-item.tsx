@@ -119,13 +119,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() sortDisabled = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component, displays below the `label`. */
+  /** Specifies a description for the component. Displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -158,7 +158,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() interactionMode: InteractionMode = null;
 
-  /** Specifies the label of the component, displays above the `description`. */
+  /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label: string;
 
   /** Overrides individual strings used by the component. */

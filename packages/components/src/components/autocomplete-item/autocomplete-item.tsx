@@ -41,7 +41,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() active = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component. Displays below the label text. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -55,7 +55,7 @@ export class AutocompleteItem extends LitElement {
   @property() guid = IDS.host(guid());
 
   /**
-   * Specifies heading text for the component.
+   * Specifies the component's heading text.
    *
    * @required
    */
@@ -77,7 +77,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property({ reflect: true }) inputValueMatchPattern: RegExp;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /**
