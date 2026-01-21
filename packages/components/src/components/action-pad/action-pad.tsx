@@ -95,7 +95,7 @@ export class ActionPad extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Arranges the component depending on the element's `dir` property. */
+  /** Specifies the position of the component depending on the element's `dir` property. */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
