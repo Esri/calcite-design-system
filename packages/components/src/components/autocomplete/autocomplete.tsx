@@ -269,7 +269,7 @@ export class Autocomplete
   @property() placeholder: string;
 
   /**
-   * Specifies where the component is positioned relative to the container element.
+   * Determines where the component will be positioned relative to the container element.
    *
    * @default "bottom-start"
    */
