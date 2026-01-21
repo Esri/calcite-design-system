@@ -538,6 +538,7 @@ export class ActionMenu extends LitElement {
         pointerDisabled={true}
         ref={this.setPopoverEl}
         referenceElement={menuButtonEl}
+        scale={this.scale}
         topLayerDisabled={this.topLayerDisabled}
         triggerDisabled={true}
       >
