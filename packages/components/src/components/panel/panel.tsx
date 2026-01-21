@@ -534,7 +534,7 @@ export class Panel extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
 
     return (
       <calcite-action-menu
@@ -545,12 +545,13 @@ export class Panel extends LitElement {
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
+        scale={scale}
         topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
           class={CSS.menuAction}
           icon={ICONS.menu}
-          scale={this.scale}
+          scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
