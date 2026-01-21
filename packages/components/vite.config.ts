@@ -53,7 +53,7 @@ const lumina = useLumina({
 
 export default defineConfig({
   build: { minify: false },
-  cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
+  cacheDir: runBrowserTests ? undefined : "node_modules/.pnpm/.vite/puppeteer",
 
   ssr: {
     noExternal: nonEsmDependencies,
