@@ -141,7 +141,7 @@ export class FlowItem extends LitElement {
   @property() showBackButton = false;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
