@@ -269,6 +269,15 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -802,6 +811,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
           setPosition={setPosition}
           setSize={setSize}
           sortDisabled={sortDisabled}
+          topLayerDisabled={this.topLayerDisabled}
         />
       </div>
     ) : null;

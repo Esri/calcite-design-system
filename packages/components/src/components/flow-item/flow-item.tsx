@@ -140,6 +140,15 @@ export class FlowItem extends LitElement {
    */
   @property() showBackButton = false;
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -328,6 +337,7 @@ export class FlowItem extends LitElement {
           overlayPositioning={overlayPositioning}
           ref={this.containerRef}
           scale={this.scale}
+          topLayerDisabled={this.topLayerDisabled}
         >
           {this.renderBackButton()}
           <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
