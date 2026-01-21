@@ -223,6 +223,7 @@ export class ActionBar extends LitElement {
    * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
