@@ -28,11 +28,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "serve": "^14.2.3"
   },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "24.11.0",
-      "onFail": "download"
-    }
+  "engines": {
+    "node": "^24.11"
   }
 }

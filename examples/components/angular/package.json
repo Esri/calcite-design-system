@@ -43,11 +43,7 @@
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
   },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "24.11.0",
-      "onFail": "download"
-    }
+  "engines": {
+    "node": "^24.11"
   }
 }

@@ -34,11 +34,7 @@
     "vite": "^5.4.0",
     "vite-plugin-static-copy": "^1.0.6"
   },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "24.11.0",
-      "onFail": "download"
-    }
+  "engines": {
+    "node": "^24.11"
   }
 }
