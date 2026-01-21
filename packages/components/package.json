@@ -97,6 +97,7 @@
     "@esri/calcite-tailwind-preset": "workspace:1.1.0-next.6",
     "@esri/eslint-plugin-calcite-components": "workspace:2.0.4-next.8",
     "@interactjs/types": "1.10.27",
+    "csstype": "3.1.3",
     "playwright": "1.57.0",
     "sass-embedded": "1.97.1",
     "vitest": "4.0.16"
