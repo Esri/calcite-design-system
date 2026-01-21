@@ -175,6 +175,7 @@ export class InputText
   /** Specifies an accessible label for the component's button or hyperlink. */
   @property() label: string;
 
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */

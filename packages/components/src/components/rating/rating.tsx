@@ -107,7 +107,7 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) form: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Overrides individual strings used by the component. */

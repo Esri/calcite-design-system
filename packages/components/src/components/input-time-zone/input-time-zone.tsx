@@ -109,7 +109,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    */
   @property({ reflect: true }) form: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */

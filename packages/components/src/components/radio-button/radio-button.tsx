@@ -88,7 +88,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    */
   @property() label?: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/

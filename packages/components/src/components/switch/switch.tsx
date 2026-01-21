@@ -66,10 +66,10 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text at the end of the component */
+  /** Specifies the component's end label text. */
   @property() labelTextEnd: string;
 
-  /** When provided, displays label text at the start of the component */
+  /** Specifies the component's start label text.*/
   @property() labelTextStart: string;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/

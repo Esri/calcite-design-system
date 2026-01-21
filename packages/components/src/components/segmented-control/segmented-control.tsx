@@ -94,7 +94,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Overrides individual strings used by the component. */

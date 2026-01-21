@@ -265,7 +265,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Overrides individual strings used by the component. */
