@@ -120,6 +120,15 @@ export class SortHandle extends LitElement {
   /** When `true`, items are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;
 
@@ -294,6 +303,7 @@ export class SortHandle extends LitElement {
           placement={placement}
           ref={this.setDropdownEl}
           scale={scale}
+          topLayerDisabled={this.topLayerDisabled}
           widthScale={widthScale}
         >
           <calcite-action

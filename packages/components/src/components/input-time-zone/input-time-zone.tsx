@@ -183,6 +183,15 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
     | IconName
@@ -518,6 +527,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
+          topLayerDisabled={this.topLayerDisabled}
           validationIcon={this.validationIcon}
           validationMessage={this.validationMessage}
         >
