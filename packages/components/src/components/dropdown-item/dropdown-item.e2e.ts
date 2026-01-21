@@ -155,7 +155,7 @@ describe("calcite-dropdown-item", () => {
       );
     });
     describe("deprecated", () => {
-      themed(`<calcite-dropdown-item icon-start="trash" icon-end="trash"> 1 </calcite-dropdown-item>`, {
+      themed(`<calcite-dropdown-item icon-start="trash" icon-end="trash">1</calcite-dropdown-item>`, {
         "--calcite-ui-icon-color": [
           {
             targetProp: "color",
