@@ -92,7 +92,7 @@ export class Block extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, and a parent Block Group is `dragEnabled`, the component is not draggable. */
+  /** When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
