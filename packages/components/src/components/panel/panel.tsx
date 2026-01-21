@@ -178,6 +178,15 @@ export class Panel extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -536,6 +545,7 @@ export class Panel extends LitElement {
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
+        topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
           class={CSS.menuAction}

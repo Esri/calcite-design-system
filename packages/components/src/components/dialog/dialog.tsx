@@ -817,6 +817,7 @@ export class Dialog extends LitElement {
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}
+              topLayerDisabled={this.topLayerDisabled}
             >
               <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />

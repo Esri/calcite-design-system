@@ -178,6 +178,15 @@ export class ActionMenu extends LitElement {
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -528,6 +537,7 @@ export class ActionMenu extends LitElement {
         pointerDisabled={true}
         ref={this.setPopoverEl}
         referenceElement={menuButtonEl}
+        topLayerDisabled={this.topLayerDisabled}
         triggerDisabled={true}
       >
         <div

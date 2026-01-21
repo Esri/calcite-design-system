@@ -216,6 +216,15 @@ export class Block extends LitElement {
    */
   @property({ reflect: true }) status: Status;
 
+  /**
+   * When true, disables top layer placement when the component is open.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -579,6 +588,7 @@ export class Block extends LitElement {
             setPosition={setPosition}
             setSize={setSize}
             sortDisabled={sortDisabled}
+            topLayerDisabled={this.topLayerDisabled}
           />
         ) : null}
         {collapsible ? (
@@ -620,6 +630,7 @@ export class Block extends LitElement {
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
           scale={this.scale}
+          topLayerDisabled={this.topLayerDisabled}
         >
           <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
         </calcite-action-menu>
