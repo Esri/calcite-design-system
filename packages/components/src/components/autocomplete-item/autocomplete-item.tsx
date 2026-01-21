@@ -41,7 +41,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() active = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component. Displays below the label text. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

@@ -32,7 +32,7 @@ export class NavigationLogo extends LitElement {
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
-  /** Specifies a description for the component, which displays below the `heading`. */
+  /** Specifies a description for the component. Displays below the `heading`. */
   @property() description: string;
 
   /** Specifies the component's heading text. */

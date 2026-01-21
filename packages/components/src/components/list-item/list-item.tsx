@@ -125,7 +125,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component, displays below the `label`. */
+  /** Specifies a description for the component. Displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

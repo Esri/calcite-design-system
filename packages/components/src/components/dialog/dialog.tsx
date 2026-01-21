@@ -138,7 +138,7 @@ export class Dialog extends LitElement {
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** A description for the component. */
+  /** Specifies a description for the component. */
   @property() description: string;
 
   /** When `true`, the component is draggable. */

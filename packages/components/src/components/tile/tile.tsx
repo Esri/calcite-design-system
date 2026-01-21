@@ -57,7 +57,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies the alignment of the Tile's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** A description for the component, which displays below the heading. */
+  /** Specifies a description for the component. Displays below the heading. */
   @property({ reflect: true }) description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
