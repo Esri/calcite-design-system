@@ -123,9 +123,7 @@ export class ActionMenu extends LitElement {
 
   private actionMouseDownHandler = (event): void => {
     event.stopPropagation();
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
-      action === event.target;
-    });
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
   };
 
   //#endregion
