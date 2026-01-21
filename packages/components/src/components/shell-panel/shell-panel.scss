@@ -412,6 +412,7 @@
   inline-size: var(--calcite-internal-shell-panel-width);
   max-inline-size: var(--calcite-internal-shell-panel-max-width);
   min-inline-size: var(--calcite-internal-shell-panel-min-width);
+  // border: 1px solid red; // brendan
 }
 
 :host([layout="vertical"][display-mode="float-all"]) .content {
@@ -423,6 +424,27 @@
   block-size: var(--calcite-internal-shell-panel-height);
   max-block-size: var(--calcite-internal-shell-panel-max-height);
   min-block-size: var(--calcite-internal-shell-panel-min-height);
+}
+
+// Horizontal layout with inline action bar - use inline size instead of block size
+:host([layout="horizontal"][action-bar-position="start"]) .content,
+:host([layout="horizontal"][action-bar-position="end"]) .content {
+  block-size: auto;
+  max-block-size: unset;
+  min-block-size: unset;
+  // Use flex to fill remaining space after action bar instead of fixed width
+  inline-size: auto;
+  max-inline-size: unset !important;
+  min-inline-size: var(--calcite-internal-shell-panel-min-width);
+  flex: 1 1 auto;
+}
+
+// Ensure slotted panel has no max-width constraint for horizontal layout with inline action bar
+:host([layout="horizontal"][action-bar-position="start"]) .content ::slotted(calcite-panel),
+:host([layout="horizontal"][action-bar-position="start"]) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][action-bar-position="end"]) .content ::slotted(calcite-panel),
+:host([layout="horizontal"][action-bar-position="end"]) .content ::slotted(calcite-flow) {
+  max-inline-size: unset !important;
 }
 
 :host([resizable][layout="vertical"][position="start"]) {
@@ -605,6 +627,33 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([slot="panel-bottom"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
   border-block-start-width: 0;
 }
+
+// :host([resizable][slot="panel-start"][action-bar-position="top"]) {
+:host([slot="panel-start"][action-bar-position="top"]) {
+  ::slotted(calcite-action-bar) {
+    border-inline-end-width: 0;
+  }
+  ::slotted(calcite-panel) {
+    border: 2px solid blue;
+    inline-size: var(--calcite-internal-shell-panel-action-bar-size);
+  }
+
+  .action-bar-container {
+    padding-inline-end: var(--calcite-size-fixed-sm-plus);
+  }
+  .resize-handle {
+    block-size: calc(100% + 50px); // variable for Action Bar height?
+    inset-block-start: -50px;
+  }
+}
+
+// :host([slot="panel-start"][action-bar-position="top"]) :has(::slotted([expanded])) calcite-panel {
+//   border: 2px solid orange;
+// }
+
+// :host :has(calcite-action-bar[expanded]) calcite-panel {
+//   border: 2px solid teal;
+// }
 
 :host([slot="panel-bottom"][action-bar-position="end"]) {
   border-block-end: 1px solid;
