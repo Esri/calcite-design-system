@@ -184,13 +184,13 @@ export class Autocomplete
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies the `id` of the form that is associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -203,10 +203,10 @@ export class Autocomplete
   /** Specifies the component's input value. */
   @property() inputValue: string;
 
-  /** Specifies an accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -246,7 +246,7 @@ export class Autocomplete
   /**
    * Specifies the type of positioning to use for overlaid content, where:
    *
-   * `"absolute"` positions the component inside of overflowing parent containers and will affect the container's layout, and
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
    * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
@@ -301,7 +301,7 @@ export class Autocomplete
   @property() suffixText: string;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
@@ -318,7 +318,7 @@ export class Autocomplete
   @property() validationMessage: string;
 
   /**
-   * Specifies the current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

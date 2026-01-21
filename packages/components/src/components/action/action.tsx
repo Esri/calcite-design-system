@@ -133,9 +133,9 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * Specifies the `id` of the form that is associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if one exists.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -148,7 +148,7 @@ export class Action extends LitElement implements FormOwner {
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies an accessible name for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */

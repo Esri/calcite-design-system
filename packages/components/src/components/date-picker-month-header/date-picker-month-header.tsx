@@ -74,7 +74,7 @@ export class DatePickerMonthHeader extends LitElement {
   /** The focused date is indicated and will become the selected date if the user proceeds. */
   @property() activeDate: Date;
 
-  /** Specifies the number at which section headings should start. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number }) headingLevel: HeadingLevel;
 
   /** CLDR locale data for translated calendar info. */

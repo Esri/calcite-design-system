@@ -82,7 +82,7 @@ export class AccordionItem extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies heading text for the component. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies an icon to display at the end of the component. */
@@ -98,7 +98,7 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**

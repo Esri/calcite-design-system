@@ -82,11 +82,11 @@ export class Filter extends LitElement {
   @property() items: object[] = [];
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies placeholder text for the input element. */

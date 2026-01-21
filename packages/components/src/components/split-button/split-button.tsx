@@ -83,7 +83,7 @@ export class SplitButton extends LitElement {
   /** Accessible name for the dropdown menu. */
   @property({ reflect: true }) dropdownLabel: string;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
@@ -97,11 +97,11 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 

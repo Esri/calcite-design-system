@@ -10,6 +10,7 @@ export const CSS = {
   itemContainerForward: "item-container--forward",
   itemContainerBackward: "item-container--backward",
   pagination: "pagination",
+  paginationAriaLive: "pagination-aria-live",
   paginationItems: "pagination-items",
   paginationItem: "pagination-item",
   paginationItemIndividual: "pagination-item--individual",

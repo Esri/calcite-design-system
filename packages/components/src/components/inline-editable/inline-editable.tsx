@@ -90,7 +90,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the size of the component. */
