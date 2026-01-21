@@ -11,6 +11,7 @@ import {
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
+import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
@@ -138,14 +139,19 @@ export class Carousel extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * When `true`, the component's pagination controls are hidden.
+   */
+  @property() paginationDisabled: boolean = false;
 
   /**
    * Made into a prop for testing purposes only
@@ -612,7 +618,7 @@ export class Carousel extends LitElement {
           this.hasMultiple &&
           this.renderRotationControl()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
-        {this.renderPaginationItems()}
+        {this.paginationDisabled ? this.renderPaginationAriaLive() : this.renderPaginationItems()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("next")}
       </div>
     );
@@ -661,6 +667,31 @@ export class Carousel extends LitElement {
             </button>
           );
         })}
+      </div>
+    );
+  }
+
+  private renderPaginationAriaLive(): JsxNode {
+    const {
+      messages,
+      messages: { _lang: effectiveLocale },
+      selectedIndex,
+      items,
+    } = this;
+
+    if (messages._loading) {
+      return;
+    }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+    };
+
+    return (
+      <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
+          .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );
   }

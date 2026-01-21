@@ -123,9 +123,7 @@ export class ActionMenu extends LitElement {
 
   private actionMouseDownHandler = (event): void => {
     event.stopPropagation();
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => {
-      action === event.target;
-    });
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
   };
 
   //#endregion
@@ -146,11 +144,11 @@ export class ActionMenu extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies the text string for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -170,15 +168,25 @@ export class ActionMenu extends LitElement {
   }
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
+   *
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -530,6 +538,7 @@ export class ActionMenu extends LitElement {
         pointerDisabled={true}
         ref={this.setPopoverEl}
         referenceElement={menuButtonEl}
+        topLayerDisabled={this.topLayerDisabled}
         triggerDisabled={true}
       >
         <div

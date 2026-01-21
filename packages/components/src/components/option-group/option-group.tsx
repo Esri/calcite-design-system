@@ -18,7 +18,7 @@ export class OptionGroup extends LitElement {
   disabled = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */

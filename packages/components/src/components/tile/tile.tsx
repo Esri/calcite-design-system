@@ -57,7 +57,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies the alignment of the Tile's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** A description for the component, which displays below the heading. */
+  /** Specifies a description for the component. Displays below the heading. */
   @property({ reflect: true }) description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -72,10 +72,10 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** The component header text, which displays between the icon and description. */
+  /** Specifies the component's heading text. displays between the `icon` and `description`. */
   @property({ reflect: true }) heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** When embed is `"false"`, the URL for the component. */
@@ -95,7 +95,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /**

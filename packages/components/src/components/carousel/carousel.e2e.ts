@@ -43,6 +43,17 @@ describe("calcite-carousel", () => {
     );
   });
 
+  describe("accessible with pagination disabled", () => {
+    accessible(
+      html`<calcite-carousel label="Carousel example" pagination-disabled
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
+      >`,
+    );
+  });
+
   describe("first render", () => {
     it("should not render arrow items when requested", async () => {
       const page = await newE2EPage();
@@ -789,6 +800,26 @@ describe("calcite-carousel", () => {
 
       const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);
       expect(pagination).not.toBeNull();
+    });
+
+    it("pagination should be replaced with aria-live info when paginationDisabled is true", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-carousel label="Carousel example" pagination-disabled
+          ><calcite-carousel-item label="Carousel Item 1"><p>first item default selected</p></calcite-carousel-item
+          ><calcite-carousel-item label="Carousel Item 2"
+            ><p>carousel item content</p></calcite-carousel-item
+          ></calcite-carousel
+        >`,
+      );
+
+      const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);
+      const paginationItems = await pagination.find(`.${CSS.paginationItems}`);
+      expect(paginationItems).toBeNull();
+
+      const paginationAriaLive = await pagination.find(`.${CSS.paginationAriaLive}`);
+      const ariaTextContent = paginationAriaLive.textContent;
+      expect(ariaTextContent).toBe("Item 1 of 2");
     });
   });
 
