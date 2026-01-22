@@ -156,7 +156,9 @@
 }
 
 :host([layout="vertical"]) .divider-container {
-  @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
+  @apply w-full h-px border-t-0 border-b-0;
+  border-inline-start-width: var(--calcite-border-width-sm);
+  border-inline-end-width: var(--calcite-border-width-none);
   padding-inline: var(--calcite-spacing-md);
   & .divider {
     @apply w-full h-px my-0;
