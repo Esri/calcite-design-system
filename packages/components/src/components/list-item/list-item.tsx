@@ -996,8 +996,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
     const hasCenterContent = hasCustomContent || !!label || !!description;
     const content = [
       this.renderContentStart(),
-      this.renderCustomContent(),
       this.renderIconStart(),
+      this.renderCustomContent(),
       this.renderContentProperties(),
       this.renderIconEnd(),
       this.renderContentEnd(),
