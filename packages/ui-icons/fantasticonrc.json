@@ -1301,6 +1301,25 @@
     "file-esl": 61838,
     "table-upload": 61839,
     "table-download": 61840,
-    "variable-generic": 61841
+    "variable-generic": 61841,
+    "provenance": 61842,
+    "layer-wms": 61843,
+    "layer-wfs": 61844,
+    "layer-wcs": 61845,
+    "layer-vector-tile": 61846,
+    "layer-subtype-group": 61847,
+    "layer-stream": 61848,
+    "layer-ogc": 61849,
+    "layer-map-notes": 61850,
+    "layer-georss": 61851,
+    "layer-geojson": 61852,
+    "layer-csv": 61853,
+    "layer-catalog": 61854,
+    "knowledge-graph-endpoint": 61855,
+    "globally-unique-identifier": 61856,
+    "find-path-origin": 61857,
+    "find-path-include": 61858,
+    "find-path-exclude": 61859,
+    "find-path-destination": 61860
   }
 }
