@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import type { Alert } from "./alert";
 
 export const alertQueueTimeoutMs = 300;
@@ -12,7 +11,7 @@ export default class AlertManager {
 
   private registeredElements: Alert["el"][] = [];
 
-  private queueTimeoutId: number = null;
+  private queueTimeoutId: number | undefined;
 
   // --------------------------------------------------------------------------
   //
@@ -61,7 +60,7 @@ export default class AlertManager {
 
   private updateAlerts(): void {
     window.clearTimeout(this.queueTimeoutId);
-    this.queueTimeoutId = null;
+    this.queueTimeoutId = undefined;
 
     this.registeredElements.forEach((alert, index) => {
       alert.openAlertCount = this.registeredElements.length;
