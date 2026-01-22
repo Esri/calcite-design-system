@@ -52,6 +52,7 @@
     "@storybook/addon-themes": "10.1.11",
     "@storybook/builder-vite": "10.1.11",
     "@storybook/html": "10.1.11",
+    "@storybook/web-components": "10.2.0",
     "@storybook/web-components-vite": "10.1.11",
     "@tokens-studio/sd-transforms": "2.0.3",
     "@types/dedent": "0.7.2",
