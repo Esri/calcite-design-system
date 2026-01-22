@@ -46,7 +46,15 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
+import {
+  CSS,
+  IDS,
+  INPUT_TYPE_ICONS,
+  SLOTS,
+  ICONS,
+  DIRECTION,
+  NUDGE_DELAY_IN_MS,
+} from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -135,6 +143,10 @@ export class Input
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  get isClearable(): boolean {
+    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
 
   //#endregion
 
@@ -498,11 +510,16 @@ export class Input
     if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
       this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.stopNudging();
     this.el.removeEventListener(
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
@@ -513,8 +530,8 @@ export class Input
 
   //#region Private Methods
 
-  get isClearable(): boolean {
-    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -624,7 +641,7 @@ export class Input
   }
 
   private inputBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   }
@@ -799,12 +816,11 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -814,11 +830,11 @@ export class Input
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private numberButtonPointerUpAndOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private numberButtonPointerDownHandler(event: PointerEvent): void {
@@ -938,7 +954,7 @@ export class Input
   }
 
   private inputKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
@@ -991,6 +1007,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1010,6 +1027,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}

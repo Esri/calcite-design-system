@@ -50,7 +50,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
 
@@ -455,11 +455,16 @@ export class InputNumber
         useGrouping: false,
       };
     }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.stopNudging();
     this.el.removeEventListener(
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
@@ -469,6 +474,10 @@ export class InputNumber
   //#endregion
 
   //#region Private Methods
+
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -577,7 +586,7 @@ export class InputNumber
   }
 
   private inputNumberBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
     this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   }
@@ -733,12 +742,11 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -748,18 +756,18 @@ export class InputNumber
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private nudgeButtonPointerUpHandler(event: PointerEvent): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerDownHandler(event: PointerEvent): void {
@@ -910,7 +918,7 @@ export class InputNumber
   }
 
   private inputNumberKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
@@ -962,6 +970,7 @@ export class InputNumber
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -981,6 +990,7 @@ export class InputNumber
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
