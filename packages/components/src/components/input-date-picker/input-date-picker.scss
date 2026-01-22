@@ -185,10 +185,11 @@
 }
 
 .vertical-chevron-container {
-  @apply flex items-center border border-solid border-l-0;
+  @apply flex items-center border border-solid;
   padding-inline: var(--calcite-spacing-md);
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
+  border-inline-start-width: 0;
   calcite-icon {
     color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
 

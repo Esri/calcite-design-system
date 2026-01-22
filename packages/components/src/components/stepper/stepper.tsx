@@ -75,7 +75,7 @@ export class Stepper extends LitElement {
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: StepperLayout = "horizontal";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */

@@ -1,5 +1,5 @@
 onlyBuiltDependencies:
-  - @actions/github-script
-  - puppeteer
+  - "@actions/github-script"
+  - "puppeteer"
 packages:
-  - packages/*
+  - "packages/*"
