@@ -154,21 +154,5 @@ describe("calcite-dropdown-item", () => {
         tokens,
       );
     });
-    describe("deprecated", () => {
-      themed(`<calcite-dropdown-item icon-start="trash" icon-end="trash">1</calcite-dropdown-item>`, {
-        "--calcite-ui-icon-color": [
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconStart}`,
-            selector: `calcite-dropdown-item`,
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconEnd}`,
-            selector: `calcite-dropdown-item`,
-          },
-        ],
-      });
-    });
   });
 });

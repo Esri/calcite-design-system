@@ -62,10 +62,7 @@
 
 .icon--start,
 .icon--end {
-  color: var(
-    --calcite-dropdown-item-text-color,
-    var(--calcite-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-3)))
-  );
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
 }
 
 :host([scale="s"]) {
