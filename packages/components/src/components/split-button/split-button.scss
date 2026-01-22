@@ -170,14 +170,20 @@
 calcite-button[split-child="primary"],
 calcite-button[split-child="secondary"] {
   --calcite-button-background-color: var(--calcite-split-button-background-color);
-  --calcite-button-background-color-hover: var(--calcite-split-button-background-color-hover);
-  --calcite-button-background-color-focus: var(--calcite-split-button-background-color-focus);
-  --calcite-button-background-color-press: var(--calcite-split-button-background-color-press);
   --calcite-button-border-color: var(--calcite-split-button-border-color);
   --calcite-button-text-color: var(--calcite-split-button-text-color);
   --calcite-button-icon-color: var(--calcite-split-button-icon-color);
   --calcite-button-loading-color: var(--calcite-split-button-loading-color);
   --calcite-button-shadow: var(--calcite-split-button-shadow);
+  &:hover {
+    background-color: var(--calcite-split-button-background-color-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-split-button-background-color-focus);
+  }
+  &:active {
+    background-color: var(--calcite-split-button-background-color-press);
+  }
 }
 
 calcite-button[split-child="primary"] {
