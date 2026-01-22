@@ -224,6 +224,10 @@
 
 .content-container {
   @apply flex flex-1 relative max-h-full max-w-full overflow-hidden;
+
+  ::slotted(*) {
+    @apply h-auto;
+  }
 }
 
 .container--open .content {
