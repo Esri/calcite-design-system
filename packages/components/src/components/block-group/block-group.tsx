@@ -94,7 +94,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
   @property({ reflect: true }) dragEnabled = false;
 
   /**
-   * The block-group's group identifier.
+   * Specifies the component's group identifier.
    *
    * To drag elements from one group into another, both groups must have the same group value.
    */
