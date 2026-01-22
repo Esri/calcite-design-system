@@ -160,6 +160,11 @@
   .icon {
     color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
+
+  .icon--start,
+  .icon--end {
+    color: var(--calcite-internal-dropdown-item-text-color);
+  }
 }
 
 :host(:hover:not([disabled])) .icon {
