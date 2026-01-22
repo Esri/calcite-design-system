@@ -199,12 +199,12 @@ describe("calcite-dialog", () => {
     expect(style.height).not.toEqual("600px");
   });
 
-  it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
+  it("does not overflow page bounds when requested css variable sizes are larger than viewport and full-screen is set", async () => {
     const page = await newE2EPage();
     // set small page to test overflow
     await page.setViewport({ width: 800, height: 800 });
     await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
+      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open full-screen></calcite-dialog>`,
     );
 
     const dialog = await page.find("calcite-dialog");

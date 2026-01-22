@@ -172,6 +172,8 @@ export class Dialog extends LitElement {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
+  @property() fullScreen: boolean = false;
+
   /** Specifies the component's heading text. */
   @property() heading: string;
 
