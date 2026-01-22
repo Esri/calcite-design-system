@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
-import { NUDGE_DELAY_IN_MS } from "../input/resources";
+import { NUDGE_DELAY_IN_MS } from "./esources";
 import { Input } from "./input";
 
 describe("calcite-input", () => {
