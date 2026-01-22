@@ -62,7 +62,7 @@
 
 .icon--start,
 .icon--end {
-  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
 }
 
 :host([scale="s"]) {
@@ -136,7 +136,7 @@
 
   .icon--start,
   .icon--end {
-    color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+    --calcite-icon-color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
   .link {
@@ -155,17 +155,17 @@
   color: var(--calcite-internal-dropdown-item-text-color);
 
   .icon {
-    color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
+    --calcite-icon-color: var(--calcite-dropdown-item-icon-color-press, var(--calcite-color-brand));
   }
 
   .icon--start,
   .icon--end {
-    color: var(--calcite-internal-dropdown-item-text-color);
+    --calcite-icon-color: var(--calcite-internal-dropdown-item-text-color);
   }
 }
 
 :host(:hover:not([disabled])) .icon {
-  color: var(--calcite-dropdown-item-icon-color-hover);
+  --calcite-icon-color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
 :host([selected]) .icon {
