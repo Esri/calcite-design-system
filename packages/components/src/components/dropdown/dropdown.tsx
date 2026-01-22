@@ -104,7 +104,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted `calcite-dropdown-items` when their initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
@@ -127,11 +127,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -153,7 +153,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   @property() selectedItems: DropdownItem["el"][] = [];
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *

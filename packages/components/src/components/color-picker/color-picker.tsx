@@ -328,7 +328,7 @@ export class ColorPicker extends LitElement {
   /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */

@@ -42,7 +42,7 @@ export class CardGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -81,7 +81,7 @@ export class CardGroup extends LitElement {
 
   //#region Events
 
-  /** Emits when the component's selection changes and the `selectionMode` is not `none`. */
+  /** Fires when the component's selection changes and the `selectionMode` is not `none`. */
   calciteCardGroupSelect = createEvent({ cancelable: false });
 
   //#endregion
