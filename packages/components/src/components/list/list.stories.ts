@@ -5742,20 +5742,38 @@ export const customContent_TestOnly = (): string =>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
     <calcite-list-item disabled>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
-    <calcite-list-item
-      ><div slot="content">
+      </div>
+    </calcite-list-item>
+    <calcite-list-item>
+      <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item disabled icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
   </calcite-list>`;
 
 export const singlePersist_TestOnly = (): string =>
