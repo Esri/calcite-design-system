@@ -289,7 +289,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /** Specifies the interval to move with the `page up` or `page down` keys. */
+  /** Specifies the interval to move with the `Page up` or `Page down` keys. */
   @property({ reflect: true }) pageStep: number;
 
   /** When `true`, sets a finer point for handles. */
@@ -310,7 +310,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the interval to move with the `arrow up` or `arrow down` keys. */
+  /** Specifies the interval to move with the `Arrow up` or `Arrow down` keys. */
   @property({ reflect: true }) step = 1;
 
   /** Specifies the interval between tick marks on the number line. */
