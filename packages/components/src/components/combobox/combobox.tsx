@@ -201,8 +201,6 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  private inputHeight = 0;
-
   private internalValueChangeFlag = false;
 
   labelEl: Label["el"];
@@ -650,11 +648,6 @@ export class Combobox
   }
 
   override updated(): void {
-    if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition(true);
-      this.inputHeight = this.el.offsetHeight;
-    }
-
     this.refreshSelectionDisplay();
   }
 
