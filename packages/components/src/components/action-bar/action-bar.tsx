@@ -170,7 +170,7 @@ export class ActionBar extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the accessible label for the last `calcite-action-group`. */
+  /** Specifies an accessible name for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
 
   /**
@@ -203,7 +203,7 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Arranges the component depending on the element's `dir` property. */
+  /** Specifies the position of the component depending on the element's `dir` property. */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
