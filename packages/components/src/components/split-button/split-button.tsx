@@ -60,13 +60,13 @@ export class SplitButton extends LitElement {
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the component's appearance. */
+  /** Specifies the appearance style of the component. */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid" | "transparent",
     Appearance
   > = "solid";
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -134,7 +134,7 @@ export class SplitButton extends LitElement {
   /** Specifies text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
-  /** Specifies the component's size. */
+  /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

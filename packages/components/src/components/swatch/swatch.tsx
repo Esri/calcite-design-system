@@ -63,7 +63,7 @@ export class Swatch extends LitElement {
    */
   @property() color: string;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity.*/
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -84,7 +84,7 @@ export class Swatch extends LitElement {
   /** @private */
   @property() parentSwatchGroup: SwatchGroup["el"];
 
-  /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
+  /** Specifies the size of the component. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */
@@ -101,7 +101,7 @@ export class Swatch extends LitElement {
     SelectionMode
   > = "none";
 
-  /** Specifies the component's value. */
+  /** The component's value. */
   @property() value: any;
 
   //#endregion

@@ -204,7 +204,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -219,7 +219,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) form: string;
 
-  /** When true, displays number values with a group separator corresponding to the language and country format. */
+  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** When `true`, indicates a histogram is present. */
@@ -301,7 +301,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the component's size. */
+  /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and `step` is specified, enables snap selection via a mouse. */
@@ -344,7 +344,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     valueMissing: false,
   };
 
-  /** Specifies the component's value. */
+  /** The component's value. */
   @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
 
   //#endregion

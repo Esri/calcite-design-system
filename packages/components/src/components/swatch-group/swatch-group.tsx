@@ -36,7 +36,7 @@ export class SwatchGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -46,7 +46,7 @@ export class SwatchGroup extends LitElement {
    */
   @property() label: string;
 
-  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's `label` value. */
+  /** Specifies the size of the component. Child `calcite-swatch`s inherit the component's `label` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

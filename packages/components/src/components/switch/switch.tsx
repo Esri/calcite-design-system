@@ -53,7 +53,7 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   /** When `true`, the component is checked. */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -79,10 +79,10 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
    */
   @property({ reflect: true }) name: string;
 
-  /** Specifies the component's size. */
+  /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the component's value. */
+  /** The component's value. */
   @property() value: any;
 
   //#endregion

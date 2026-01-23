@@ -57,7 +57,7 @@ export class SortableList extends LitElement implements SortableComponent {
   /** When provided, the method will be called to determine whether the element can be added from another list. */
   @property() canPut: (detail: DragDetail) => boolean;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, disabled prevents interaction. This state shows items with lower opacity/grayed. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies which items inside the element should be draggable. */
@@ -73,7 +73,7 @@ export class SortableList extends LitElement implements SortableComponent {
   /** Specifies the selector for the handle elements. */
   @property({ reflect: true }) handleSelector = "calcite-handle";
 
-  /** Specifies the component's layout. */
+  /** Indicates the horizontal or vertical orientation of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
