@@ -11,7 +11,7 @@
  * @prop --calcite-table-number-cell-text-color: Specifies the text color of the component's `numbered` cell.
 
  * @prop --calcite-table-selection-cell-background-color: When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons.
- * @prop --calcite-table-selection-cell-background-color-selected: When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons. on `selected` `calcite-table-row`s.
+ * @prop --calcite-table-selection-cell-background-color-selected: When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons on `selected` `calcite-table-row`s.
  * @prop --calcite-table-selection-cell-icon-color: When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `calcite-table-row`s where `selected` is `false`.
  * @prop --calcite-table-selection-cell-icon-color-selected: When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `selected` `calcite-table-row`s.
 
@@ -20,9 +20,9 @@
  * @prop --calcite-table-selection-chip-corner-radius: When `selectionMode` is `"multiple"` or `"single"`, specifies the corner radius of the component's selection chip.
  * @prop --calcite-table-selection-chip-shadow: When `selectionMode` is `"multiple"` or `"single"`, specifies the shadow of the component's selection chip.
  * @prop --calcite-table-selection-chip-text-color: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the text color of the component's selection chip.
- * @prop --calcite-table-selection-chip-background-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected` , specifies the background color of the component's total selection chip.
- * @prop --calcite-table-selection-chip-border-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's total selection chip.
- * @prop --calcite-table-selection-chip-text-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's total selection chip.
+ * @prop --calcite-table-selection-chip-background-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection chip.
+ * @prop --calcite-table-selection-chip-border-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection chip.
+ * @prop --calcite-table-selection-chip-text-color-selected: When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection chip.
 
  * @prop --calcite-table-selection-out-of-view-chip-background-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the background color of the component's selection out of view chip.
  * @prop --calcite-table-selection-out-of-view-chip-border-color: When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the border color of the component's selection out of view chip.
