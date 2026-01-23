@@ -529,4 +529,14 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
+:host([display-mode="dock"]),
+:host([display-mode="float-all"]),
+:host([display-mode="overlay"]) {
+  .resize-handle-bar {
+    border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+  }
+}
+
 @include includes.base-component();

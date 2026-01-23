@@ -133,8 +133,6 @@ export class Sheet extends LitElement {
 
   /**
    * Passes a function to run before the component closes.
-   *
-   * @returns {Promise<void>}
    */
   @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 
@@ -180,7 +178,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) height: Height;
 
   /**
-   * Specifies the component's label.
+   * Specifies an accessible label for the component.
    *
    * @required
    */

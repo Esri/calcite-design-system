@@ -4,5 +4,6 @@
   "play": "Lire",
   "pause": "Suspendre",
   "carousel": "Carrousel",
-  "carouselItemProgress": "Indicateur de progression pour l’élément Carrousel"
+  "carouselItemProgress": "Indicateur de progression pour l’élément Carrousel",
+  "paginationStatus": "Item {current} of {total}"
 }
