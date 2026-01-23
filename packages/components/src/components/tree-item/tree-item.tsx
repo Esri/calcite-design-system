@@ -96,7 +96,7 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** @private */

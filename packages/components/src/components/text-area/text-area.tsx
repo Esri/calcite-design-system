@@ -174,10 +174,10 @@ export class TextArea
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** Displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /**
@@ -193,7 +193,7 @@ export class TextArea
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -205,7 +205,7 @@ export class TextArea
   @property({ reflect: true }) minLength: number;
 
   /**
-   * Specifies the name of the component.
+   * Specifies the name of the component. Required to pass the component's value on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
@@ -261,7 +261,7 @@ export class TextArea
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

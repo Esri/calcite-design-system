@@ -58,10 +58,10 @@ export class TableHeader extends LitElement {
   /** Specifies the number of columns the component should span. */
   @property({ reflect: true }) colSpan: number;
 
-  /** A description to display beneath heading content. */
+  /** Specifies a description for the component. Displays below heading content. */
   @property({ reflect: true }) description: string;
 
-  /** A heading to display above description content. */
+  /** Specifies the component's heading text, displays above description content. */
   @property({ reflect: true }) heading: string;
 
   /** @private */

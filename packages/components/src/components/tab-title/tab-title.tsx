@@ -89,10 +89,10 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -110,7 +110,7 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
