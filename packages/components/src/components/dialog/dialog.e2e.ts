@@ -199,12 +199,12 @@ describe("calcite-dialog", () => {
     expect(style.height).not.toEqual("600px");
   });
 
-  it("does not overflow page bounds when requested css variable sizes are larger than viewport and full-screen is set", async () => {
+  it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
     const page = await newE2EPage();
     // set small page to test overflow
     await page.setViewport({ width: 800, height: 800 });
     await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open full-screen></calcite-dialog>`,
+      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
     );
 
     const dialog = await page.find("calcite-dialog");
@@ -215,6 +215,20 @@ describe("calcite-dialog", () => {
     const style = await internalDialog.getComputedStyle();
     expect(style.width).toEqual("800px");
     expect(style.height).toEqual("800px");
+  });
+
+  it("does not take full screen when fullScreenDisabled is true", async () => {
+    const page = await newE2EPage();
+    // set small page to test fullscreen prevention
+    await page.setViewport({ width: 800, height: 800 });
+    await page.setContent(`<calcite-dialog open full-screen-disabled></calcite-dialog>`);
+
+    await page.waitForChanges();
+
+    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+    const style = await internalDialog.getComputedStyle();
+    expect(style.width).not.toEqual("800px");
+    expect(style.height).not.toEqual("800px");
   });
 
   it("escapeDisabled", async () => {
@@ -1000,10 +1014,10 @@ describe("calcite-dialog", () => {
       async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-dialog icon="banana" width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
+          html`<calcite-dialog icon="banana" width-scale="s" modal open full-screen-disabled
+            ><p>Hello world!</p></calcite-dialog
+          >`,
         );
-        // set large page to ensure test dialog isn't becoming fullscreen
-        await page.setViewport({ width: 1440, height: 1440 });
         await skipAnimations(page);
         return { page, tag: "calcite-dialog" };
       },
