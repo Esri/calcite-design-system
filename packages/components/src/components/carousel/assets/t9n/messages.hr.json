@@ -4,5 +4,6 @@
   "play": "Reproduciraj",
   "pause": "Pauza",
   "carousel": "Vrtuljak",
-  "carouselItemProgress": "Indikator napretka za Carousel stavku"
+  "carouselItemProgress": "Indikator napretka za Carousel stavku",
+  "paginationStatus": "Item {current} of {total}"
 }

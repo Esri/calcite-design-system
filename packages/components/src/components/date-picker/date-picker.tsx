@@ -95,7 +95,7 @@ export class DatePicker extends LitElement {
   /** Specifies the number of calendars displayed when `range` is `true`. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Defines the layout of the component. */
@@ -110,7 +110,7 @@ export class DatePicker extends LitElement {
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @property() maxAsDate: Date;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

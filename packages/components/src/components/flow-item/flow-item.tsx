@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
@@ -75,7 +75,7 @@ export class FlowItem extends LitElement {
   /** When `true`, displays a close button in the trailing side of the component's header. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /**
@@ -91,16 +91,16 @@ export class FlowItem extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component. */
+  /** Specifies a description for the component. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display. */
@@ -115,15 +115,15 @@ export class FlowItem extends LitElement {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -140,6 +140,15 @@ export class FlowItem extends LitElement {
    */
   @property() showBackButton = false;
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
@@ -154,7 +163,7 @@ export class FlowItem extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -328,6 +337,7 @@ export class FlowItem extends LitElement {
           overlayPositioning={overlayPositioning}
           ref={this.containerRef}
           scale={this.scale}
+          topLayerDisabled={this.topLayerDisabled}
         >
           {this.renderBackButton()}
           <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />

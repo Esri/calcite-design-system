@@ -4,5 +4,6 @@
   "play": "Esita",
   "pause": "Peata",
   "carousel": "Karussell",
-  "carouselItemProgress": "Karuselli üksuse edenemisnäidik"
+  "carouselItemProgress": "Karuselli üksuse edenemisnäidik",
+  "paginationStatus": "Item {current} of {total}"
 }
