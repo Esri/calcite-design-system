@@ -263,7 +263,7 @@ describe("calcite-dialog", () => {
   });
 
   describe("fullscreen disabled", () => {
-    it("does not take full screen when fullscreenDisabled is true", async () => {
+    it("does not take fullscreen when fullscreenDisabled is true", async () => {
       const { container } = await mount(
         <div style={{ width: 800, height: 800 }}>
           <calcite-dialog fullscreen-disabled open>

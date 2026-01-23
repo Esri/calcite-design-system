@@ -547,9 +547,9 @@ export const themed = (): string =>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
 
-export const fullScreenDisabled = (): string => html`
+export const fullscreenDisabled = (): string => html`
   <calcite-dialog
-    heading="Full Screen Disabled"
+    heading="fullscreen Disabled"
     description="This dialog cannot go fullscreen even on small screens."
     open
     fullscreen-disabled
