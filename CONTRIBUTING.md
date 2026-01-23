@@ -147,7 +147,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [pnpm](https://pnpm.io/installation), which will automatically use the Node/NPM versions specified under the `devEngines.runtime` key in [`package.json`](./package.json).
+An installation of Node is required for development. If you don't have Node installed, we recommend [pnpm](https://pnpm.io/installation), which will automatically use the Node/NPM versions specified under the `engines` key in [`package.json`](./package.json).
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
