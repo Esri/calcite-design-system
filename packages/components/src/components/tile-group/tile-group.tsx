@@ -72,7 +72,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    * Specifies the selection appearance, where:
    *
    * - `"icon"` (displays a checkmark or dot),
-   * - `"highlight"` (changes the background color), or
+   * - `"highlight"` (changes the background color), and
    * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
@@ -85,7 +85,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * - `"multiple"` (allows any number of selected items),
    * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
+   * - `"single-persist"` (allows only one selected item and prevents de-selection), and
    * - `"none"` (allows no selected items).
    */
   @property({ reflect: true }) selectionMode: Extract<
