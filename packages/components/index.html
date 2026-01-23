@@ -57,7 +57,7 @@
           rgba(87, 199, 133, 1) 50%,
           rgba(237, 221, 83, 1) 100%
         ); */
-        background: skyblue;
+        background: rgb(218 244 255); /* skyblue */
         /* background: white; */
         position: relative;
         inset: 0 0 0 0;
@@ -69,11 +69,18 @@
     </style>
   </head>
 
-  <body>
+  <!--
+
+  NOTES:
+  - To enable resizeable on all examples, find and replace "resizablex" with resizable"
+  
+  -->
+
+  <body style="--calcite-shell-border-color: red">
     <demo-dom-swapper class="rhombo">
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-start" action-bar-position="start" resizable>
+          <calcite-shell-panel slot="panel-start" action-bar-position="start" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -116,9 +123,6 @@
           </calcite-shell-panel>
           <calcite-panel>
             <div class="media"></div>
-            <!-- <div class="shell-config-text">
-              &lt;calcite-shell-panel slot="panel-start" action-bar-position="start" resizable&gt;
-            </div> -->
             <div class="shell-config-text">
               slot="panel-start"<br />
               action-bar-position="start"
@@ -129,7 +133,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-end" action-bar-position="end" resizable>
+          <calcite-shell-panel slot="panel-end" action-bar-position="end" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -182,7 +186,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-start" action-bar-position="end" resizable>
+          <calcite-shell-panel slot="panel-start" action-bar-position="end" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -235,7 +239,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-end" action-bar-position="start" resizable>
+          <calcite-shell-panel slot="panel-end" action-bar-position="start" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -288,7 +292,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-start" action-bar-position="top" resizable>
+          <calcite-shell-panel slot="panel-start" action-bar-position="top" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -341,7 +345,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-end" action-bar-position="top" resizable>
+          <calcite-shell-panel slot="panel-end" action-bar-position="top" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -394,7 +398,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-start" action-bar-position="bottom" resizable>
+          <calcite-shell-panel slot="panel-start" action-bar-position="bottom" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -447,7 +451,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-end" action-bar-position="bottom" resizable>
+          <calcite-shell-panel slot="panel-end" action-bar-position="bottom" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -500,7 +504,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-top" action-bar-position="top" resizable>
+          <calcite-shell-panel slot="panel-top" action-bar-position="top" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -553,7 +557,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-bottom" action-bar-position="bottom" resizable>
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="bottom" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -606,7 +610,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-top" action-bar-position="bottom" resizable>
+          <calcite-shell-panel slot="panel-top" action-bar-position="bottom" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -659,7 +663,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-bottom" action-bar-position="top" resizable>
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="top" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -712,7 +716,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-top" action-bar-position="start" resizable>
+          <calcite-shell-panel slot="panel-top" action-bar-position="start" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -739,7 +743,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-bottom" action-bar-position="start" resizable>
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="start" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -766,7 +770,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-top" action-bar-position="end" resizable>
+          <calcite-shell-panel slot="panel-top" action-bar-position="end" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -793,7 +797,7 @@
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-bottom" action-bar-position="end" resizable>
+          <calcite-shell-panel slot="panel-bottom" action-bar-position="end" resizablex width="m">
             <calcite-action-bar slot="action-bar">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -818,11 +822,11 @@
         </calcite-shell>
       </div>
 
-      <br /><br /><br />
+      <!-- <br /><br /><br />
 
       <div class="rhombo__item">
         <calcite-shell>
-          <calcite-shell-panel slot="panel-start" action-bar-position="start" resizable>
+          <calcite-shell-panel slot="panel-start" action-bar-position="start" resizablex  width="m">
             <calcite-action-bar slot="action-bar" layout="horizontal">
               <calcite-action-group>
                 <calcite-action text="Add" icon="gear"> </calcite-action>
@@ -866,13 +870,13 @@
           <calcite-panel>
             <div class="media"></div>
             <div class="shell-config-text">
-              &lt;calcite-shell-panel slot="panel-start" action-bar-position="start" resizable&gt;
+              &lt;calcite-shell-panel slot="panel-start" action-bar-position="start" resizablex  width="m"&gt;
               <hr />
               &lt;calcite-action-bar slot="action-bar" layout="horizontal"&gt;
             </div>
           </calcite-panel>
         </calcite-shell>
-      </div>
+      </div> -->
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>

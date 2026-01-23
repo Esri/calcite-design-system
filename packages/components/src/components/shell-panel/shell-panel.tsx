@@ -200,9 +200,18 @@ export class ShellPanel extends LitElement {
     }
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+  }
+
+  override firstUpdated(): void {
+    this.setupActionBarObserver();
+  }
+
   override disconnectedCallback(): void {
     this.cleanupInteractions();
     this.actionBarResizeObserver?.disconnect();
+    this.actionBarObserver?.disconnect();
   }
 
   //#endregion
@@ -425,6 +434,38 @@ export class ShellPanel extends LitElement {
     const { layout } = this;
 
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
+  }
+
+  private setupActionBarObserver(): void {
+    const actionBar = this.el.querySelector('calcite-action-bar[slot="action-bar"]');
+
+    if (!actionBar || !this.contentRef.value) {
+      return;
+    }
+
+    this.actionBarObserver = new MutationObserver(() => {
+      if (!this.contentRef.value) {
+        return;
+      }
+
+      const isExpanded = actionBar.hasAttribute("expanded");
+      if (isExpanded) {
+        this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
+      } else {
+        this.contentRef.value.style.removeProperty("--calcite-internal-shell-panel-max-width");
+      }
+    });
+
+    this.actionBarObserver.observe(actionBar, {
+      attributes: true,
+      attributeFilter: ["expanded"],
+    });
+
+    // Set initial state
+    const isExpanded = actionBar.hasAttribute("expanded");
+    if (isExpanded) {
+      this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
+    }
   }
 
   //#endregion
