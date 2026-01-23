@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { Appearance, Kind, Scale } from "../interfaces";
@@ -55,7 +54,7 @@ export class Fab extends LitElement {
     "brand";
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -64,7 +63,7 @@ export class Fab extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies text to accompany the component's icon. */
-  @property() text: string;
+  @property() text?: string;
 
   /** When `true`, displays the `text` value in the component. */
   @property({ reflect: true }) textEnabled = false;
@@ -103,7 +102,7 @@ export class Fab extends LitElement {
       iconFlipRtl,
     } = this;
 
-    const title = !textEnabled ? label || text || null : null;
+    const title = !textEnabled ? label || text || undefined : undefined;
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -111,7 +110,7 @@ export class Fab extends LitElement {
           appearance={appearance === "solid" ? "solid" : "outline-fill"}
           class={CSS.button}
           disabled={disabled}
-          iconFlipRtl={iconFlipRtl ? "start" : null}
+          iconFlipRtl={iconFlipRtl ? "start" : undefined}
           iconStart={icon}
           kind={kind}
           label={label}

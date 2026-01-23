@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 export const CSS = {

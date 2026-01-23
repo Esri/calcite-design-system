@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.77](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.76...@esri/calcite-components@5.0.0-next.77) (2026-01-22)
+
+### Bug Fixes
+
+- **list-item:** fix icon start position when custom content is slotted ([#13749](https://github.com/Esri/calcite-design-system/issues/13749)) ([8c5f9f4](https://github.com/Esri/calcite-design-system/commit/8c5f9f483649f38190dd5b6fdf3f2bb00a6adb75)), closes [#11607](https://github.com/Esri/calcite-design-system/issues/11607)
+
+## [5.0.0-next.76](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.75...@esri/calcite-components@5.0.0-next.76) (2026-01-22)
+
+### Bug Fixes
+
+- **input, input-number:** stop active nudging when `readOnly` is set ([#13751](https://github.com/Esri/calcite-design-system/issues/13751)) ([92d93ec](https://github.com/Esri/calcite-design-system/commit/92d93ecc5f480746271d4710c8faba1fde0fc0ca)), closes [#12407](https://github.com/Esri/calcite-design-system/issues/12407)
+
+## [5.0.0-next.75](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.74...@esri/calcite-components@5.0.0-next.75) (2026-01-22)
+
+### Bug Fixes
+
+- **input-date-picker:** fix trailing border for vertical layout in RTL direction ([#13747](https://github.com/Esri/calcite-design-system/issues/13747)) ([99f0a0f](https://github.com/Esri/calcite-design-system/commit/99f0a0f1e8d9edb270064c6d3aef47fefe8dd34c)), closes [#13127](https://github.com/Esri/calcite-design-system/issues/13127)
+
+## [5.0.0-next.74](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.73...@esri/calcite-components@5.0.0-next.74) (2026-01-21)
+
+### Features
+
+- add `topLayerDisabled` property to additional components ([#13730](https://github.com/Esri/calcite-design-system/issues/13730)) ([44a99f8](https://github.com/Esri/calcite-design-system/commit/44a99f8badef073992d1f7177483775fdca29429)), closes [#13698](https://github.com/Esri/calcite-design-system/issues/13698)
+
+### Bug Fixes
+
+- **panel, action-menu:** pass `scale` down to nested `calcite-popover` ([#13731](https://github.com/Esri/calcite-design-system/issues/13731)) ([aee39f5](https://github.com/Esri/calcite-design-system/commit/aee39f55b21d7b6a8a7728bb32090e2fb4212b73)), closes [#13714](https://github.com/Esri/calcite-design-system/issues/13714)
+
 ## [5.0.0-next.73](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.72...@esri/calcite-components@5.0.0-next.73) (2026-01-21)
 
 ### Bug Fixes
