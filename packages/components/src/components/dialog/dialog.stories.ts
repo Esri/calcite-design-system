@@ -546,3 +546,19 @@ export const themed = (): string =>
     <div slot="footer">Footer!</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
+
+export const fullScreenDisabled = (): string => html`
+  <calcite-dialog
+    heading="Full Screen Disabled"
+    description="This dialog cannot go fullscreen even on small screens."
+    open
+    width-scale="m"
+    full-screen-disabled
+  >
+    <div>
+      This dialog has <b>fullScreenDisabled</b> set to true. Resize the viewport to a small size and verify it does not
+      become fullscreen.
+    </div>
+    <calcite-button slot="footer-end">Close</calcite-button>
+  </calcite-dialog>
+`;
