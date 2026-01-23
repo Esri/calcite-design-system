@@ -304,7 +304,7 @@ calcite-panel {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
-  :host(:not([full-screen-disabled])) {
+  :host(:not([fullscreen-disabled])) {
     @media screen and (max-width: $width + 2 * spacing.$baseline) {
       .width-#{$size} {
         @apply m-0

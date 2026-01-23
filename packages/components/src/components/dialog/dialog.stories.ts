@@ -552,11 +552,10 @@ export const fullScreenDisabled = (): string => html`
     heading="Full Screen Disabled"
     description="This dialog cannot go fullscreen even on small screens."
     open
-    width-scale="m"
-    full-screen-disabled
+    fullscreen-disabled
   >
     <div>
-      This dialog has <b>fullScreenDisabled</b> set to true. Resize the viewport to a small size and verify it does not
+      This dialog has <b>fullscreenDisabled</b> set to true. Resize the viewport to a small size and verify it does not
       become fullscreen.
     </div>
     <calcite-button slot="footer-end">Close</calcite-button>

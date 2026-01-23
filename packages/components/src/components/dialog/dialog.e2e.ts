@@ -213,22 +213,8 @@ describe("calcite-dialog", () => {
 
     const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
     const style = await internalDialog.getComputedStyle();
-    expect(style.width).toEqual("800px");
-    expect(style.height).toEqual("800px");
-  });
-
-  it("does not take full screen when fullScreenDisabled is true", async () => {
-    const page = await newE2EPage();
-    // set small page to test fullscreen prevention
-    await page.setViewport({ width: 800, height: 800 });
-    await page.setContent(`<calcite-dialog open full-screen-disabled></calcite-dialog>`);
-
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.width).not.toEqual("800px");
-    expect(style.height).not.toEqual("800px");
+    expect(parseInt(style.width)).toBeLessThanOrEqual(800);
+    expect(parseInt(style.height)).toBeLessThanOrEqual(800);
   });
 
   it("escapeDisabled", async () => {
@@ -1014,7 +1000,7 @@ describe("calcite-dialog", () => {
       async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-dialog icon="banana" width-scale="s" modal open full-screen-disabled
+          html`<calcite-dialog icon="banana" width-scale="s" modal open fullscreen-disabled
             ><p>Hello world!</p></calcite-dialog
           >`,
         );

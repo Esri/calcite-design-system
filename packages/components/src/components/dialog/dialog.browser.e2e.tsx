@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page } from "vitest/browser";
@@ -106,6 +106,10 @@ describe("calcite-dialog", () => {
         {
           propertyName: "widthScale",
           defaultValue: "m",
+        },
+        {
+          propertyName: "fullscreenDisabled",
+          defaultValue: false,
         },
       ],
     );
@@ -214,6 +218,10 @@ describe("calcite-dialog", () => {
           propertyName: "width",
           value: "s",
         },
+        {
+          propertyName: "fullscreenDisabled",
+          value: true,
+        },
       ],
     );
   });
@@ -252,5 +260,33 @@ describe("calcite-dialog", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-dialog"));
+  });
+
+  describe("fullscreen disabled", () => {
+    it("does not take full screen when fullscreenDisabled is true", async () => {
+      const { container } = await mount(
+        <div style={{ width: 800, height: 800 }}>
+          <calcite-dialog fullscreen-disabled open>
+            <div>Dialog content</div>
+          </calcite-dialog>
+        </div>,
+      );
+
+      const dialog = container.querySelector("calcite-dialog");
+      const style = dialog
+        ? (() => {
+            const computed = window.getComputedStyle(dialog);
+            return {
+              width: computed.width,
+              height: computed.height,
+            };
+          })()
+        : {
+            width: "",
+            height: "",
+          };
+      expect(parseInt(style.width)).toBeLessThan(800);
+      expect(parseInt(style.height)).toBeLessThan(800);
+    });
   });
 });
