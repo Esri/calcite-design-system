@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   CheckableFormComponent,
   connectForm,
@@ -66,17 +66,13 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** Displays label text at the end of the component */
+  /** Specifies the component's end label text. */
   @property() labelTextEnd: string;
 
-  /** Displays label text at the start of the component */
+  /** Specifies the component's start label text.*/
   @property() labelTextStart: string;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */

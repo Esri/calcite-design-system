@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -50,7 +50,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { CSS, ICONS, IDS, SLOTS, DIRECTION } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
 
@@ -178,9 +178,9 @@ export class InputNumber
   @property({ reflect: true }) editingEnabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -200,10 +200,10 @@ export class InputNumber
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @property() integer = false;
 
-  /** Accessible name for the component's button or hyperlink. */
+  /** Specifies an accessible label for the component's button or hyperlink. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
@@ -233,7 +233,7 @@ export class InputNumber
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -316,7 +316,7 @@ export class InputNumber
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -455,11 +455,16 @@ export class InputNumber
         useGrouping: false,
       };
     }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.stopNudging();
     this.el.removeEventListener(
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
@@ -469,6 +474,10 @@ export class InputNumber
   //#endregion
 
   //#region Private Methods
+
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -577,7 +586,7 @@ export class InputNumber
   }
 
   private inputNumberBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
     this.calciteInternalInputNumberBlur.emit();
     this.emitChangeIfUserModified();
   }
@@ -733,12 +742,11 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -748,18 +756,18 @@ export class InputNumber
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private nudgeButtonPointerUpHandler(event: PointerEvent): void {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private nudgeButtonPointerDownHandler(event: PointerEvent): void {
@@ -910,7 +918,7 @@ export class InputNumber
   }
 
   private inputNumberKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
@@ -962,6 +970,7 @@ export class InputNumber
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
@@ -981,6 +990,7 @@ export class InputNumber
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}

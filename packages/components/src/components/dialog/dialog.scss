@@ -58,8 +58,11 @@
   --calcite-internal-dialog-animation-offset: 20px;
 }
 
-:host([embedded]) {
-  @apply z-overlay;
+:host([top-layer-disabled]),
+:host([top-layer-disabled]) .container,
+:host([embedded]),
+.container--embedded {
+  z-index: var(--calcite-z-index-overlay);
 }
 
 :host([embedded][modal]) {
@@ -144,10 +147,14 @@
     var(--calcite-color-transparent-scrim)
   );
   @apply fixed
-    -z-default
     inset-0
     flex
     overflow-y-hidden;
+  z-index: calc(var(--calcite-z-index) * -1);
+}
+
+:host([top-layer-disabled]) .scrim {
+  z-index: unset;
 }
 
 calcite-panel {
@@ -246,8 +253,9 @@ calcite-panel {
   }
 }
 
+:host([top-layer-disabled]) .dialog,
 :host([embedded]) .dialog {
-  @apply z-modal;
+  z-index: var(--calcite-z-index-modal);
 }
 
 :host([menu-open]) .dialog {
@@ -386,7 +394,6 @@ calcite-panel {
 }
 
 .container--embedded {
-  @apply z-overlay;
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

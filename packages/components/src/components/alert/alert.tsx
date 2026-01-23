@@ -17,7 +17,7 @@ import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { KindIcons } from "../resources";
+import { KindIcons, KindIconsFilled } from "../resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -136,13 +136,13 @@ export class Alert extends LitElement {
   > = "brand";
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -168,14 +168,21 @@ export class Alert extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   //#endregion
 
   //#region Public Methods
 
   /**
    * Sets focus on the component's "close" button, the first focusable item.
-   *
-   * `@returns` {Promise<void>}
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
@@ -395,7 +402,11 @@ export class Alert extends LitElement {
     const { open, autoClose, label, placement, active, openAlertCount } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
-    const effectiveIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    const effectiveIcon = setRequestedIcon(
+      this.kind === "brand" ? KindIcons : KindIconsFilled,
+      this.icon,
+      this.kind,
+    );
     const hasQueuedAlerts = openAlertCount > 1;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;

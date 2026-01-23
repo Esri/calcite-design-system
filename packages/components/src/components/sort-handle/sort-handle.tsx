@@ -67,7 +67,7 @@ export class SortHandle extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** Specifies an accessible label for the component. */
@@ -93,11 +93,11 @@ export class SortHandle extends LitElement {
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -119,6 +119,15 @@ export class SortHandle extends LitElement {
 
   /** When `true`, prevents sorting of items. */
   @property({ reflect: true }) sortDisabled = false;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;
@@ -294,6 +303,7 @@ export class SortHandle extends LitElement {
           placement={placement}
           ref={this.setDropdownEl}
           scale={scale}
+          topLayerDisabled={this.topLayerDisabled}
           widthScale={widthScale}
         >
           <calcite-action

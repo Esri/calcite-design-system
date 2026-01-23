@@ -215,7 +215,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
   /**
-   * Specifies the id of the component's associated form. When not set, the component is associated with its ancestor form element, if one exists
+   * Specifies the `id` of the component's associated form.
+   *
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -266,7 +268,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple values, the component's lower value. */
@@ -693,7 +695,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /**
    * Set prop value(s) if changed at the component level
    *
-   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @param values - a set of key/value pairs delineating what properties in the component to update
    */
   private setValue(
     values: Partial<{

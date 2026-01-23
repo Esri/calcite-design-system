@@ -1,6 +1,15 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  JsxNode,
+  Fragment,
+  LuminaJsx,
+  createEvent,
+} from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -124,9 +133,9 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -139,13 +148,13 @@ export class Action extends LitElement implements FormOwner {
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the size of the component. */
@@ -203,6 +212,16 @@ export class Action extends LitElement implements FormOwner {
 
   //#endregion
 
+  //#region Events
+
+  /**
+   * Fires when the action's button is being pressed down.
+   * @internal
+   */
+  calciteInternalActionMouseDown = createEvent({ cancelable: false });
+
+  //#endregion
+
   //#region Lifecycle
 
   override connectedCallback(): void {
@@ -226,6 +245,10 @@ export class Action extends LitElement implements FormOwner {
     } else if (type === "reset") {
       resetForm(this);
     }
+  }
+
+  private handleMouseDown(): void {
+    this.calciteInternalActionMouseDown.emit();
   }
 
   //#endregion
@@ -379,6 +402,7 @@ export class Action extends LitElement implements FormOwner {
         disabled={disabled}
         id={buttonId}
         onClick={this.handleClick}
+        onMouseDown={this.handleMouseDown}
         ref={this.buttonRef}
         role={this.aria?.role}
       >

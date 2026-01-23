@@ -83,7 +83,7 @@ export class SplitButton extends LitElement {
   /** Accessible name for the dropdown menu. */
   @property({ reflect: true }) dropdownLabel: string;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
@@ -97,7 +97,7 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   *  Specifies the type of positioning to use for overlaid content, where:
+   * Specifies the type of positioning to use for overlaid content, where:
    *
    * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
@@ -143,6 +143,15 @@ export class SplitButton extends LitElement {
    * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
@@ -227,6 +236,7 @@ export class SplitButton extends LitElement {
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             scale={this.scale}
+            topLayerDisabled={this.topLayerDisabled}
             widthScale={this.scale}
           >
             <calcite-button

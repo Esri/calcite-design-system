@@ -746,4 +746,13 @@ describe("calcite-panel", () => {
       },
     );
   });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-panel heading="Hello World" icon="smile"> </calcite-panel>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    });
+  });
 });
