@@ -30,7 +30,7 @@ export class Accordion extends LitElement {
   /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** Specifies the position of expand and collapse icons within `calcite-accordion-item`s */
+  /** Specifies the position of the expand and collapse icons within `calcite-accordion-item`s */
   @property({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the type of the icon in the header. */
