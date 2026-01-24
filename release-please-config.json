@@ -4,6 +4,7 @@
   "tag-separator": "@",
   "draft-pull-request": true,
   "include-v-in-tag": false,
+  "commit-search-depth": 1000,
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
     { "type": "fix", "section": "Bug Fixes" },
@@ -19,10 +20,11 @@
     { "type": "ci", "section": "Continuous Integration", "hidden": true }
   ],
   "packages": {
-    "packages/calcite-components": {
+    "packages/components": {
+      "release-as": "5.0.0",
       "component": "@esri/calcite-components",
       "extra-files": [
-        "readme.md",
+        "README.md",
         {
           "type": "json",
           "path": "/examples/components/angular/package.json",
@@ -60,8 +62,9 @@
         }
       ]
     },
-    "packages/calcite-components-react": {
+    "packages/components-react": {
       "component": "@esri/calcite-components-react",
+      "release-as": "5.0.0",
       "extra-files": [
         {
           "type": "json",
@@ -70,21 +73,25 @@
         }
       ]
     },
-    "packages/calcite-design-tokens": {
+    "packages/design-tokens": {
       "component": "@esri/calcite-design-tokens"
     },
-    "packages/calcite-ui-icons": {
+    "packages/tailwind-preset": {
+      "component": "@esri/calcite-tailwind-preset"
+    },
+    "packages/ui-icons": {
       "component": "@esri/calcite-ui-icons",
       "extra-files": ["docs/index.html"]
     },
-    "packages/eslint-plugin-calcite-components": {
+    "packages/eslint-plugin-components": {
       "component": "@esri/eslint-plugin-calcite-components"
     }
   },
   "plugins": [
     {
       "type": "node-workspace",
-      "merge": false
+      "merge": false,
+      "updatePeerDependencies": true
     },
     {
       "type": "linked-versions",

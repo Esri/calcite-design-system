@@ -1,0 +1,58 @@
+# custom CSpell dictionary for upstream submitted entries
+
+## ar
+أوضح
+الخطوةالاولى
+الخطوة
+الأولى
+للمحتوى
+الثانية
+الثالثة
+النصوص
+الفرعية
+المحتوى
+يذهب
+الرابعة
+
+## en
+affordance
+affordances
+hippity
+mahi
+meridiems
+spacebar
+ultramarathon
+rainforest
+
+## es-es
+abril
+agosto
+atención
+cuatro
+diciembre
+dos
+enero
+febrero
+julio
+junio
+marzo
+mayo
+noviembre
+octubre
+septiembre
+tres
+uno
+
+## names
+Anvesh
+Haverford
+Iverson
+Llewyn
+Mertens
+Monti
+Moresby
+Urbano
+
+## scientific-terms-us
+centiseconds
+deciseconds

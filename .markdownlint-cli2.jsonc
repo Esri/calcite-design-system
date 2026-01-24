@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json",
+  "config": {
+    "extends": "markdownlint/style/prettier",
+    "code-block-style": { "style": "fenced" },
+    "first-line-heading": false,
+    "no-duplicate-heading": { "siblings_only": true },
+    "no-inline-html": false,
+    "ul-style": { "style": "dash" },
+  },
+  "gitignore": true,
+  "ignores": ["**/THIRD-PARTY-LICENSES.md", "node_modules"],
+}

@@ -1,0 +1,63 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tooltip-background-color: Specifies the component's background color.
+ * @prop --calcite-tooltip-border-color: Specifies the component's border color.
+ * @prop --calcite-tooltip-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-tooltip-max-size-x: Specifies the component's maximum width.
+ * @prop --calcite-tooltip-text-color: Specifies the component's text color.
+ */
+
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
+
+:host {
+  @apply contents;
+}
+
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-tooltip);
+}
+
+.position-container {
+  @include floating-ui.floating-ui-container();
+  max-inline-size: var(--calcite-tooltip-max-size-x, 20rem);
+  max-block-size: 20rem;
+}
+
+@include floating-ui.floating-ui-elem-anim(".position-container");
+
+@include floating-ui.floating-ui-arrow();
+
+.container {
+  @apply text-n2-wrap
+    relative
+    overflow-hidden
+    py-3
+    px-4
+    font-medium
+    word-break;
+  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
+  color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
+  text-align: start;
+}
+
+.position-container .calcite-floating-ui-anim {
+  @apply border
+    border-solid;
+  background-color: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
+}
+
+.calcite-floating-ui-arrow {
+  fill: var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1));
+}
+
+.calcite-floating-ui-arrow__stroke {
+  stroke: var(--calcite-tooltip-border-color, var(--calcite-color-border-3));
+}
+
+@include includes.base-component();

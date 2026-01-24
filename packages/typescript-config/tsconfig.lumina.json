@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "lib": [
+      "dom",
+      "dom.asynciterable",
+      "dom.iterable",
+      "es2022",
+      "es2023.array",
+      "es2023.intl",
+      "es2024.regexp",
+      "es2024.string",
+      "esnext.disposable"
+    ],
+    "moduleResolution": "Bundler",
+    "strict": false
+  }
+}

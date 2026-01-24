@@ -1,0 +1,10 @@
+{
+  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "module": "node18",
+    "moduleResolution": "node16",
+    "outDir": "dist"
+  },
+  "include": ["src", "vite.config.mts"]
+}

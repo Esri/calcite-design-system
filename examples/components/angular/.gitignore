@@ -1,8 +1,5 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-/public/assets
-/.angular
-
 # Compiled output
 /dist
 /tmp
@@ -32,12 +29,15 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
+.angular
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
+/public/assets
 testem.log
 /typings
+__screenshots__/
 
 # System files
 .DS_Store

@@ -1,0 +1,60 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-message-spacing-value: [Deprecated] Use `--calcite-input-message-spacing`. Specifies the margin spacing at the top of the component.
+ * @prop --calcite-input-message-spacing: Specifies the margin spacing at the top of the component.
+ * @prop --calcite-input-message-icon-color: Specifies the component's icon color.
+ */
+
+@use "../../styles/includes";
+
+:host {
+  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+
+  margin-block-start: var(
+    --calcite-input-message-spacing,
+    var(--calcite-input-message-spacing-value, var(--calcite-spacing-xxs))
+  );
+}
+
+.calcite-input-message-icon {
+  @apply transition-default pointer-events-none inline-flex flex-shrink-0;
+  margin-inline-end: var(--calcite-spacing-sm);
+}
+
+:host([status="invalid"]) .calcite-input-message-icon {
+  color: var(
+    --calcite-input-message-icon-color,
+    var(--calcite-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-status-danger)))
+  );
+}
+
+:host([status="valid"]) .calcite-input-message-icon {
+  color: var(
+    --calcite-input-message-icon-color,
+    var(--calcite-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-status-success)))
+  );
+}
+
+:host([status="idle"]) .calcite-input-message-icon {
+  color: var(
+    --calcite-input-message-icon-color,
+    var(--calcite-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-brand)))
+  );
+}
+
+:host([scale="s"]) {
+  @apply text-n3h;
+}
+
+:host([scale="m"]) {
+  @apply text-n2h;
+}
+
+:host([scale="l"]) {
+  @apply text-n1h;
+}
+
+@include includes.base-component();

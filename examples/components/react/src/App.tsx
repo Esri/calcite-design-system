@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "@esri/calcite-components/dist/components/calcite-button.js";
-import "@esri/calcite-components/dist/components/calcite-icon.js";
-import "@esri/calcite-components/dist/components/calcite-slider.js";
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-icon";
+import "@esri/calcite-components/dist/components/calcite-slider";
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 import "./App.css";
 

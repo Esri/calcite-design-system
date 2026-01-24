@@ -8,15 +8,15 @@ permissions:
 name: clean-changelog
 jobs:
   clean-changelog:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
           fetch-depth: 0
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - name: Remove Next Changelog Entries

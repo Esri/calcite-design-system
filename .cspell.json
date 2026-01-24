@@ -1,16 +1,21 @@
 {
   "dictionaries": [
     "calcite-dev",
+    "calcite-dev-examples",
+    "cspell-pending-upstream",
     "css",
     "en-common-misspellings",
     "fonts",
     "fullstack",
+    "gis",
     "html",
     "html-symbol-entities",
     "lorem-ipsum",
     "markdown",
     "node",
     "npm",
+    "pokemon",
+    "scientific-terms-us",
     "shell",
     "software-terms",
     "typescript"
@@ -19,6 +24,42 @@
     {
       "name": "calcite-dev",
       "path": "./support/dictionaries/dict-calcite-design-system.txt"
+    },
+    {
+      "name": "calcite-dev-examples",
+      "path": "./support/dictionaries/dict-calcite-design-system-examples.txt"
+    },
+    {
+      "name": "cspell-pending-upstream",
+      "path": "./support/dictionaries/dict-cspell-pending-upstream.txt"
+    },
+    {
+      "name": "pokemon",
+      "path": "./node_modules/@cspell/dict-pokemon/dict/pokemon.txt"
+    }
+  ],
+  "ignoreRegExpList": [
+    "arcade-acronym-placeholder",
+    "console-format-specifier",
+    "embedded-png-source",
+    "embedded-svg-source"
+  ],
+  "patterns": [
+    {
+      "name": "arcade-acronym-placeholder",
+      "pattern": "(?<!\\$)\\{\\w+\\}"
+    },
+    {
+      "name": "console-format-specifier",
+      "pattern": "%(s|i|d|f|o|O|c)"
+    },
+    {
+      "name": "embedded-png-source",
+      "pattern": "data:image\\/png;base64,\\w+"
+    },
+    {
+      "name": "embedded-svg-source",
+      "pattern": "data:image\\/svg\\+xml;.+\\w+"
     }
   ]
 }

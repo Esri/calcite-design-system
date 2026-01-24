@@ -10,13 +10,13 @@
       "sourceMapPathOverrides": {
         "*": "${webRoot}/*"
       },
-      "webRoot": "${workspaceFolder}/packages/calcite-components"
+      "webRoot": "${workspaceFolder}/packages/components"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Components E2E test {currentFile} (headful)",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "cwd": "${workspaceFolder}/packages/components",
       "sourceMaps": true,
       "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
       "env": {
@@ -29,7 +29,7 @@
       "type": "node",
       "request": "launch",
       "name": "Components E2E test {currentFile} (headless)",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "cwd": "${workspaceFolder}/packages/components",
       "sourceMaps": true,
       "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
       "internalConsoleOptions": "neverOpen",
@@ -39,7 +39,7 @@
       "type": "node",
       "request": "launch",
       "name": "Components Spec test {currentFile}",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "cwd": "${workspaceFolder}/packages/components",
       "args": ["${workspaceFolder}/node_modules/.bin/vitest", "run", "--no-file-parallelism", "${file}"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"
@@ -48,7 +48,7 @@
       "type": "node",
       "request": "launch",
       "name": "Components Prerender build",
-      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "cwd": "${workspaceFolder}/packages/components",
       "args": ["${workspaceFolder}/node_modules/.bin/vite", "build", "--ssr"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"
@@ -57,12 +57,9 @@
       "type": "node",
       "request": "launch",
       "name": "Design Tokens Spec Test {currentFile}",
-      "cwd": "${workspaceFolder}/packages/calcite-design-tokens",
+      "cwd": "${workspaceFolder}/packages/design-tokens",
       "sourceMaps": true,
-      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand", "${file}"],
-      "env": {
-        "NODE_OPTIONS": "--experimental-vm-modules"
-      },
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/vitest/vitest.mjs", "${file}"],
       "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "neverOpen",
       "console": "integratedTerminal"

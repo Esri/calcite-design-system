@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["**/dist/**", "hydrate/**", "docs/**"]
@@ -11,9 +11,13 @@
       "persistent": true
     },
     "test": {},
+    "test:ci": {},
     "clean": {
       "cache": false
     },
-    "lint": {}
+    "lint": {},
+    "util:update-3rd-party-licenses": {
+      "cache": false
+    }
   }
 }

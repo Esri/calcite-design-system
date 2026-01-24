@@ -1,6 +1,6 @@
 name: Enhancement
 description: Request for a feature to be added to an existing component
-labels: ["enhancement", "0 - new", "needs triage"]
+labels: ["enhancement", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues
@@ -9,8 +9,121 @@ body:
       description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
       options:
         - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+          required: true
+  - type: dropdown
+    id: component
     validations:
       required: true
+    attributes:
+      label: Which Component
+      description: Which component(s) are related to this issue? (Select all that apply).
+      multiple: true
+      default: 0
+      options:
+        - N/A
+        - Unknown / Not Sure
+        - Accordion
+        - Accordion Item
+        - Action
+        - Action Bar
+        - Action Group
+        - Action Pad
+        - Alert
+        - Autocomplete
+        - Autocomplete Item
+        - Autocomplete Item Group
+        - Avatar
+        - Block
+        - Block Group
+        - Block Section
+        - Button
+        - Card
+        - Card Group
+        - Carousel
+        - Carousel Item
+        - Checkbox
+        - Chip
+        - Chip Group
+        - Color Picker
+        - Combobox
+        - Combobox Item
+        - Combobox Item Group
+        - Date Picker
+        - Dialog
+        - Dropdown
+        - Dropdown Group
+        - Dropdown Item
+        - Fab
+        - Filter
+        - Flow
+        - Flow Item
+        - Icon
+        - Inline Editable
+        - Input
+        - Input Date Picker
+        - Input Message
+        - Input Number
+        - Input Text
+        - Input Time Picker
+        - Input Time Zone
+        - Label
+        - Link
+        - List
+        - List Item
+        - List Item Group
+        - Loader
+        - Menu
+        - Menu Item
+        - Meter
+        - Modal
+        - Navigation
+        - Navigation Logo
+        - Navigation User
+        - Notice
+        - Option
+        - Option Group
+        - Pagination
+        - Panel
+        - Popover
+        - Progress
+        - Radio Button
+        - Radio Button Group
+        - Rating
+        - Scrim
+        - Segmented Control
+        - Segmented Control Item
+        - Select
+        - Sheet
+        - Shell
+        - Shell Center Row
+        - Shell Panel
+        - Slider
+        - Split Button
+        - Stepper
+        - Stepper Item
+        - Swatch
+        - Swatch Group
+        - Switch
+        - Tab
+        - Tab Nav
+        - Tab Title
+        - Table
+        - Table Cell
+        - Table Header
+        - Table Row
+        - Tabs
+        - Text Area
+        - Tile
+        - Tile Group
+        - Tile Select
+        - Tile Select Group
+        - Time Picker
+        - Tip
+        - Tip Group
+        - Tip Manager
+        - Tooltip
+        - Tree
+        - Tree Item
   - type: textarea
     id: description
     attributes:
@@ -32,12 +145,6 @@ body:
       description: Dependencies, blockers, helpful details, etc.
     validations:
       required: false
-  - type: textarea
-    id: component
-    attributes:
-      label: Which Component
-    validations:
-      required: true
   - type: textarea
     id: example
     attributes:
@@ -67,9 +174,8 @@ body:
         - label: "@esri/calcite-components"
         - label: "@esri/calcite-components-react"
         - label: "@esri/calcite-design-tokens"
+        - label: "@esri/calcite-ui-icons"
         - label: "@esri/eslint-plugin-calcite-components"
-    validations:
-      required: false
   - type: dropdown
     id: esri-team
     validations:
@@ -108,6 +214,7 @@ body:
         - ArcGIS Network Analyst
         - ArcGIS Online
         - ArcGIS Pro
+        - ArcGIS Maps for Adobe Creative Cloud
         - ArcGIS Maps SDK for JavaScript
         - ArcGIS Scene Viewer
         - ArcGIS Site Scan
@@ -118,5 +225,6 @@ body:
         - Esri Marketing
         - Professional Services - Midwest Delivery Center
         - Professional Services - Services Delivery
+        - Workflow Manager
         - Calcite (design)
         - Calcite (dev)
