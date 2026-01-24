@@ -7,7 +7,7 @@ ESLint rules specific to `@esri/calcite-components` development.
 Install the following deps in your Lumina project:
 
 ```bash
-pnpm install --save-dev @esri/eslint-plugin-calcite-components
+pnpm add --save-dev @esri/eslint-plugin-calcite-components
 ```
 
 ## Usage
