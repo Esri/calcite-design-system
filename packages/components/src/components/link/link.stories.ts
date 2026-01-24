@@ -1,5 +1,5 @@
+import * as icons from "@esri/calcite-ui-icons";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
-import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 import { Link } from "./link";
 
