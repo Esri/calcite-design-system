@@ -110,7 +110,11 @@ export class Chip extends LitElement {
   /** @private */
   @property() parentChipGroup: ChipGroup["el"];
 
-  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
+  /**
+   * Specifies the size of the component.
+   *
+   * When contained in a parent `calcite-chip-group`, inherits the parent's `scale` value.
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */

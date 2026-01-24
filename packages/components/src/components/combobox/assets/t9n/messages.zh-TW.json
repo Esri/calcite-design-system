@@ -8,5 +8,5 @@
   "required": "必填資訊",
   "selectAll": "全選",
   "selected": "選取",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "唯讀 {value}"
 }

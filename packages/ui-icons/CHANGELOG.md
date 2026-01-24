@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.20...@esri/calcite-ui-icons@4.4.0-next.21) (2026-01-22)
+
+### Features
+
+- add 12.1 studio design icons ([#13709](https://github.com/Esri/calcite-design-system/issues/13709)) ([2f6b116](https://github.com/Esri/calcite-design-system/commit/2f6b116e3f739b46e2101f64ae5587f054518681))
+
 ## [4.4.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.19...@esri/calcite-ui-icons@4.4.0-next.20) (2026-01-12)
 
 ### Features

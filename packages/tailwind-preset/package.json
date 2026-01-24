@@ -23,10 +23,10 @@
     "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
   },
   "dependencies": {
-    "@esri/calcite-design-tokens": "workspace:4.0.0-next.17"
+    "@esri/calcite-design-tokens": "workspace:*"
   },
   "peerDependencies": {
-    "@esri/calcite-design-tokens": "workspace:^4.0.0-next.1",
+    "@esri/calcite-design-tokens": "workspace:*",
     "tailwindcss": "^3.0.0 < 4.0.0"
   }
 }
