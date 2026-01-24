@@ -31,7 +31,7 @@ importers:
         specifier: 9.39.1
         version: 9.39.1
       '@esri/calcite-typescript-config':
-        specifier: workspace:0.0.1-next.0
+        specifier: workspace:*
         version: link:packages/typescript-config
       '@inquirer/prompts':
         specifier: 8.1.0
@@ -290,7 +290,7 @@ importers:
         specifier: '>=5.0.0-next.75 <6.0.0'
         version: 5.0.0-next.76
       '@esri/calcite-ui-icons':
-        specifier: workspace:4.4.0-next.20
+        specifier: workspace:*
         version: link:../ui-icons
       '@floating-ui/dom':
         specifier: ^1.6.12
@@ -336,13 +336,13 @@ importers:
         specifier: '>=5.0.0-next.75 <6.0.0'
         version: 5.0.0-next.76(@arcgis/lumina@5.0.0-next.76(lit@3.3.1))(@types/node@24.10.0)(jiti@1.21.7)(lit@3.3.1)(rollup@4.52.4)(sass-embedded@1.97.1)(sass@1.97.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.97.1)(sass@1.97.1)(yaml@2.8.1))(vitest@4.0.16)(yaml@2.8.1)
       '@esri/calcite-design-tokens':
-        specifier: workspace:4.0.0-next.17
+        specifier: workspace:*
         version: link:../design-tokens
       '@esri/calcite-tailwind-preset':
-        specifier: workspace:1.1.0-next.7
+        specifier: workspace:*
         version: link:../tailwind-preset
       '@esri/eslint-plugin-calcite-components':
-        specifier: workspace:2.0.4-next.8
+        specifier: workspace:*
         version: link:../eslint-plugin-components
       '@interactjs/types':
         specifier: 1.10.27
@@ -366,7 +366,7 @@ importers:
         specifier: '>=5.0.0-next.75 <6.0.0'
         version: 5.0.0-next.76(lit@3.3.1)
       '@esri/calcite-components':
-        specifier: workspace:5.0.0-next.75
+        specifier: workspace:*
         version: link:../components
       '@lit/react':
         specifier: ^1.0.8
@@ -407,7 +407,7 @@ importers:
   packages/tailwind-preset:
     dependencies:
       '@esri/calcite-design-tokens':
-        specifier: workspace:4.0.0-next.17
+        specifier: workspace:*
         version: link:../design-tokens
       tailwindcss:
         specifier: ^3.0.0 < 4.0.0
