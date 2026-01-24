@@ -93,9 +93,9 @@
   },
   "devDependencies": {
     "@arcgis/lumina-compiler": ">=5.0.0-next.75 <6.0.0",
-    "@esri/calcite-design-tokens": "workspace:4.0.0-next.17",
-    "@esri/calcite-tailwind-preset": "workspace:1.1.0-next.7",
-    "@esri/eslint-plugin-calcite-components": "workspace:2.0.4-next.8",
+    "@esri/calcite-design-tokens": "workspace:*",
+    "@esri/calcite-tailwind-preset": "workspace:*",
+    "@esri/eslint-plugin-calcite-components": "workspace:*",
     "@interactjs/types": "1.10.27",
     "csstype": "3.1.3",
     "playwright": "1.57.0",
