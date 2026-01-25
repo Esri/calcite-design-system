@@ -115,8 +115,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   /**
    * Offset the position of the component away from the `referenceElement`.
-   *
-   * @default 0
    */
   @property({ type: Number, reflect: true }) offsetDistance = 0;
 
@@ -137,8 +135,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 

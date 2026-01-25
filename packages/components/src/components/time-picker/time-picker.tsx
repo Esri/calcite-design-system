@@ -82,8 +82,6 @@ export class TimePicker extends LitElement implements TimeComponent {
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
