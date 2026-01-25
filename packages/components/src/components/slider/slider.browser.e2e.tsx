@@ -1,4 +1,5 @@
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -9,6 +10,7 @@ import {
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
+import { Slider } from "./slider";
 
 describe("calcite-slider", () => {
   describe("defaults", () => {
@@ -108,5 +110,49 @@ describe("calcite-slider", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-slider"));
+  });
+
+  describe("resetting value", () => {
+    it("single value", async () => {
+      const { el } = await mount("calcite-slider");
+      const initialValue = el.value;
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = undefined;
+      expect(el.value).toBe(initialValue);
+
+      el.value = 0;
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = null;
+      expect(el.value).toBe(initialValue);
+
+      el.value = 100;
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = "";
+      expect(el.value).toBe(initialValue);
+    });
+
+    it("range", async () => {
+      const { el } = await mount<Slider>(<calcite-slider maxValue={100} minValue={0} />);
+      const initialValue = el.value;
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = undefined;
+      expect(el.value).toEqual(initialValue);
+
+      el.value = [20, 80];
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = null;
+      expect(el.value).toEqual(initialValue);
+
+      el.value = [25, 75];
+
+      // @ts-expect-error - intentionally using unsupported type
+      el.value = "";
+      expect(el.value).toEqual(initialValue);
+    });
   });
 });
