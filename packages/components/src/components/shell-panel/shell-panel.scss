@@ -189,11 +189,11 @@
 }
 
 .resize-handle {
-  @apply absolute flex justify-center items-center select-none box-border outline-none pointer-events-auto;
+  @apply absolute flex justify-center items-center select-none box-border outline-none;
   --calcite-internal-shell-panel-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
-  z-index: calc(var(--calcite-z-index-header) + 1);
+  z-index: var(--calcite-z-index-header);
 }
 
 .resize-handle:active,
@@ -232,17 +232,6 @@
     border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
-
-  // When action bar is at the resize edge, offset the handle to be outside the action bar
-  &:host([action-bar-position="end"]) .resize-handle {
-    inset-inline-end: calc(
-      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
-          --calcite-internal-shell-panel-action-bar-size,
-          0px
-        ) -
-        10px
-    );
-  }
 }
 
 :host([position="end"][layout="vertical"]) {
@@ -262,24 +251,6 @@
   &:host([display-mode^="float"]) .resize-handle-bar {
     border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  }
-
-  // When action bar is at the resize edge, offset the handle to be outside the action bar
-  &:host([action-bar-position="start"]) {
-    .content {
-      padding-inline-start: 0;
-      border-inline-start: var(--calcite-border-width-sm) solid
-        var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    }
-    .resize-handle {
-      inset-inline-start: calc(
-        var(--calcite-internal-shell-panel-resize-handle-offset) - var(
-            --calcite-internal-shell-panel-action-bar-size,
-            0px
-          ) -
-          9px
-      );
-    }
   }
 }
 
@@ -301,16 +272,6 @@
     border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   }
-
-  // When action bar is at the resize edge, offset the handle to be outside the action bar
-  &:host([action-bar-position="bottom"]) .resize-handle {
-    inset-block-end: calc(
-      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
-          --calcite-internal-shell-panel-action-bar-size,
-          0px
-        )
-    );
-  }
 }
 
 :host([position="end"][layout="horizontal"]) {
@@ -330,16 +291,6 @@
   &:host([display-mode^="float"]) .resize-handle-bar {
     border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
     border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  }
-
-  // When action bar is at the resize edge, offset the handle to be outside the action bar
-  &:host([action-bar-position="top"]) .resize-handle {
-    inset-block-start: calc(
-      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
-          --calcite-internal-shell-panel-action-bar-size,
-          0px
-        )
-    );
   }
 }
 
@@ -371,33 +322,6 @@
 :host([layout="horizontal"]) .action-bar-container,
 :host([layout="horizontal"]) .content-container {
   flex-direction: column;
-}
-
-:host([action-bar-position="top"]),
-:host([action-bar-position="bottom"]) {
-  .container {
-    flex-direction: column;
-  }
-}
-
-:host([action-bar-position="top"]),
-:host([action-bar-position="bottom"]) {
-  .action-bar-container {
-    flex-direction: row;
-  }
-}
-
-:host([slot="panel-top"][action-bar-position="start"]),
-:host([slot="panel-top"][action-bar-position="end"]),
-:host([slot="panel-bottom"][action-bar-position="start"]),
-:host([slot="panel-bottom"][action-bar-position="end"]) {
-  .container {
-    flex-direction: row;
-  }
-}
-
-:host ::slotted(calcite-action-bar[layout="horizontal"]) {
-  inline-size: 100%;
 }
 
 .content {
@@ -434,28 +358,6 @@
   min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
-// Horizontal layout with inline action bar - use inline size instead of block size
-:host([layout="horizontal"][action-bar-position="start"]) .content,
-:host([layout="horizontal"][action-bar-position="end"]) .content {
-  block-size: auto;
-  max-block-size: unset;
-  min-block-size: unset;
-
-  // Use flex to fill remaining space after action bar instead of fixed width
-  inline-size: auto;
-  max-inline-size: unset !important;
-  min-inline-size: var(--calcite-internal-shell-panel-min-width);
-  flex: 1 1 auto;
-}
-
-// Ensure slotted panel has no max-width constraint for horizontal layout with inline action bar
-:host([layout="horizontal"][action-bar-position="start"]) .content ::slotted(calcite-panel),
-:host([layout="horizontal"][action-bar-position="start"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][action-bar-position="end"]) .content ::slotted(calcite-panel),
-:host([layout="horizontal"][action-bar-position="end"]) .content ::slotted(calcite-flow) {
-  max-inline-size: unset !important;
-}
-
 :host([resizable][layout="vertical"][position="start"]) {
   .content {
     padding-inline-end: var(--calcite-size-fixed-sm-plus);
@@ -466,10 +368,6 @@
   .content {
     padding-inline-start: var(--calcite-size-fixed-sm-plus);
   }
-}
-
-:host([resizable][slot="panel-top"][action-bar-position="bottom"]) .content {
-  padding-block-end: 0 !important;
 }
 
 :host([resizable][layout="horizontal"][position="start"]) {
@@ -631,25 +529,169 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
-:host([slot="panel-start"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-end"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-bottom"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-bottom"][action-bar-position="top"]) ::slotted(calcite-action-bar),
-:host([slot="panel-bottom"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-bottom"][action-bar-position="start"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-bottom"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
-  border-block-start-width: 0;
+:host([display-mode="dock"]),
+:host([display-mode="float-all"]),
+:host([display-mode="overlay"]) {
+  .resize-handle-bar {
+    border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+  }
 }
 
-:host([slot="panel-end"][action-bar-position="top"]) .resize-handle {
-  block-size: calc(100% + 50px); // variable for Action Bar height?
-  inset-block-start: -50px;
-  inset-inline-start: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // fix this
+//
+// Action Bar Everywhere!
+//
+
+// repetition is OK if it helps, but in this case we can balance readability and maintainability with less repetition
+
+// :host {
+//   &([slot="panel-start"]) {
+
+//     &[action-bar-position="start"] {
+
+//       &([resizable]) {
+
+//       }
+//     }
+//   }
+// }
+
+:host([slot="panel-start"][action-bar-position="start"]) {
 }
 
-:host([slot="panel-end"][action-bar-position="top"][layout="vertical"][position="end"]) {
+:host([slot="panel-start"][action-bar-position="start"][resizable]) {
+}
+
+:host([slot="panel-start"][action-bar-position="end"]) {
+  .resize-handle {
+    inset-inline-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        ) -
+        10px
+    ); // TODO: variable for Action Bar width
+  }
+}
+
+:host([slot="panel-start"][action-bar-position="end"][resizable]) {
+  ::slotted(calcite-action-bar) {
+    border-inline-end: 0;
+  }
+
   ::slotted(calcite-panel) {
-    //
+    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  }
+
+  .content {
+    padding-inline-end: 0;
+  }
+}
+
+:host([slot="panel-start"][action-bar-position="top"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+    border-block-end: 0;
+  }
+
+  ::slotted(calcite-panel) {
+    block-size: 0;
+  }
+}
+
+:host([slot="panel-start"][action-bar-position="top"][resizable]) {
+  .content {
+    padding-inline-end: 0;
+  }
+
+  .resize-handle {
+    block-size: calc(100% + 50px); // TODO: variable for Action Bar height
+    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
+    inset-block-start: -50px; // TODO: variable for Action Bar height
+  }
+}
+
+:host([slot="panel-start"][action-bar-position="bottom"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+    border-block-start: 0;
+  }
+
+  ::slotted(calcite-panel) {
+    block-size: 0;
+  }
+}
+
+:host([slot="panel-start"][action-bar-position="bottom"][resizable]) {
+  .content {
+    padding-inline-end: 0;
+  }
+
+  .resize-handle {
+    block-size: calc(100% + 50px);
+    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
+  }
+}
+
+//
+
+:host([slot="panel-end"][action-bar-position="start"]) {
+}
+
+:host([slot="panel-end"][action-bar-position="start"][resizable]) {
+  .content {
+    padding-inline-start: 0;
+    border-inline-start: var(--calcite-border-width-sm) solid
+      var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  }
+
+  .resize-handle {
+    inset-inline-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        ) -
+        10px
+    ); // TODO: variable for 10px? variable for this value?
+  }
+}
+
+:host([slot="panel-end"][action-bar-position="end"]) {
+}
+
+:host([slot="panel-end"][action-bar-position="top"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  ::slotted(calcite-action-bar) {
+    // inline-size: 100%;
+    border-block-end: 0;
+  }
+
+  ::slotted(calcite-panel) {
+    block-size: 0;
+  }
+}
+
+:host([slot="panel-end"][action-bar-position="top"][resizable]) {
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+  }
+
+  .resize-handle {
+    block-size: calc(100% + 50px); // TODO: variable for Action Bar height?
+    inset-block-start: -50px; // TODO: variable for Action Bar height?
+    inset-inline-start: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: 10px? variable?
   }
 
   .content {
@@ -657,221 +699,75 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="bottom"]) {
+:host([slot="panel-end"][action-bar-position="bottom"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  ::slotted(calcite-action-bar) {
+    // inline-size: 100%;
+    border-block-start: 0;
+  }
+
   ::slotted(calcite-panel) {
     block-size: 0;
   }
 }
 
-:host([slot="panel-start"][action-bar-position="top"]) {
-  ::slotted(calcite-panel) {
-    block-size: 0;
-    inline-size: var(--calcite-internal-shell-panel-action-bar-size);
+:host([slot="panel-end"][action-bar-position="bottom"][resizable]) {
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
   }
 
   .resize-handle {
-    block-size: calc(100% + 50px); // should we add variable for Action Bar height?
-    inset-block-start: -50px;
+    block-size: calc(100% + 50px);
+    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
   }
 }
 
-:host([resizable][slot="panel-start"][action-bar-position="top"]) {
-  ::slotted(calcite-action-bar) {
-    border-inline-end-width: 0;
-    padding-inline-end: 10px;
+//
+
+:host([slot="panel-top"][action-bar-position="start"]) {
+  border: 10px solid red !important;
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
   }
 
   ::slotted(calcite-panel) {
-    padding-inline-end: 10px;
+    border-inline-start: 0;
   }
 
-  .action-bar-container {
-    padding-inline-end: var(--calcite-size-fixed-sm-plus);
+  .resize-handle {
+    //
   }
-}
-
-:host([slot="panel-bottom"][action-bar-position="end"]) {
-  border-block-end: 1px solid;
-}
-
-:host([slot="panel-bottom"][action-bar-position="end"]) ::slotted(calcite-action-bar) {
-  border-block-width: 0;
-}
-
-:host([slot="panel-top"][action-bar-position="end"]) ::slotted(calcite-action-bar) {
-  border-block-width: 0;
-}
-
-:host([slot="panel-bottom"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
-  border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-}
-
-:host([slot="panel-top"][action-bar-position="end"]) .content-container ::slotted(calcite-panel) {
-  border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-}
-
-:host([slot="panel-bottom"][action-bar-position="start"]) .content-container ::slotted(calcite-panel) {
-  border-inline-start: 0;
-}
-
-:host([slot="panel-bottom"][action-bar-position="start"]) ::slotted(calcite-action-bar) {
-  border-block-width: 0;
-}
-
-:host([slot="panel-bottom"][action-bar-position="start"]) {
-  border-block-end: 1px solid;
 }
 
 :host([slot="panel-top"][action-bar-position="end"]) {
-  border-block-start: 1px solid;
-}
-
-:host([slot="panel-top"][action-bar-position="start"]) ::slotted(calcite-action-bar) {
-  border-block-width: 0;
-}
-
-:host([slot="panel-top"][action-bar-position="start"]) {
-  border-block-start: 1px solid;
-}
-
-:host([slot="panel-top"][action-bar-position="start"]) .content-container ::slotted(calcite-panel) {
-  //
-}
-
-:host([slot="panel-bottom"][action-bar-position="top"]) {
-  border-block-start: 1px solid;
-}
-
-:host([slot="panel-start"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-end"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-top"][action-bar-position="top"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-top"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel),
-:host([slot="panel-top"][action-bar-position="bottom"]) ::slotted(calcite-action-bar) {
-  border-block-end-width: 0;
 }
 
 :host([slot="panel-top"][action-bar-position="top"]) {
-  //
 }
 
-:host([slot="panel-top"][action-bar-position="top"]) .content-container ::slotted(calcite-panel) {
-  border-block-start: 0;
+:host([slot="panel-top"][action-bar-position="bottom"]) {
 }
 
-:host([slot="panel-top"][action-bar-position="bottom"]) .content-container ::slotted(calcite-panel) {
-  border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-}
-
-:host([slot="panel-top"][action-bar-position="bottom"]) ::slotted(calcite-action-bar) {
-  padding-block-end: var(--calcite-size-fixed-sm-plus);
-}
-
-:host([resizable][slot="panel-start"][action-bar-position="end"]) .content {
-  padding-inline-end: 0;
-  border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-}
-
-:host([resizable][slot="panel-start"][action-bar-position="bottom"]) .content {
-  padding-inline-end: 0;
-}
-
-:host([resizable][slot="panel-start"][action-bar-position="bottom"]) .resize-handle {
-  block-size: calc(100% + 50px);
-  inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
-}
-
-:host([resizable][slot="panel-end"][action-bar-position="bottom"]) .resize-handle {
-  block-size: calc(100% + 50px);
-  inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
-}
-
-:host([slot="panel-end"][action-bar-position="bottom"]) {
-  ::slotted(calcite-panel) {
-    block-size: 0;
-    inline-size: var(--calcite-internal-shell-panel-action-bar-size);
-  }
-}
-
-:host([resizable][slot="panel-bottom"][action-bar-position="top"]) {
-  border-block-start: 0;
-
-  ::slotted(calcite-action-bar) {
-    padding-block-start: 10px !important;
-  }
-  ::slotted(calcite-panel) {
-    border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  }
-  calcite-shell-panel {
-    //
-  }
-  .content {
-    padding-block-start: 0 !important;
-  }
-}
-
-:host([slot="panel-top"][action-bar-position="start"]) {
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-  }
-
-  ::slotted(calcite-panel) {
-    border-inline-start: 0;
-  }
-
-  .resize-handle {
-    //
-  }
-}
+//
 
 :host([slot="panel-bottom"][action-bar-position="start"]) {
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-  }
-
-  ::slotted(calcite-panel) {
-    border-inline-start: 0;
-  }
-
-  .resize-handle {
-    //
-  }
-}
-
-:host([slot="panel-top"][action-bar-position="end"]) {
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-  }
-
-  ::slotted(calcite-panel) {
-    border-inline-end: 0 !important;
-  }
-
-  .resize-handle {
-    //
-  }
 }
 
 :host([slot="panel-bottom"][action-bar-position="end"]) {
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-  }
-
-  ::slotted(calcite-panel) {
-    border-inline-end: 0 !important;
-  }
-
-  .resize-handle {
-    //
-  }
-
-  .content-bottom {
-    border-block-end: 3px solid pink;
-  }
 }
+
+:host([slot="panel-bottom"][action-bar-position="top"]) {
+}
+
+:host([slot="panel-bottom"][action-bar-position="bottom"]) {
+}
+
+//
 
 @include includes.base-component();
 
