@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.79](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.78...@esri/calcite-components@5.0.0-next.79) (2026-01-26)
+
+### Features
+
+- **dialog:** Add fullScreenDisabled prop to prevent full screen layout ([#13753](https://github.com/Esri/calcite-design-system/issues/13753)) ([20c3031](https://github.com/Esri/calcite-design-system/commit/20c30310f6519999a05fccda421afa76ba9e7b78)), closes [#6191](https://github.com/Esri/calcite-design-system/issues/6191)
+
+### Bug Fixes
+
+- **input-date-picker:** Fix border display in RTL ([#13755](https://github.com/Esri/calcite-design-system/issues/13755)) ([f157845](https://github.com/Esri/calcite-design-system/commit/f157845a83d61b5fe806cb6796ca737f2032cdf7)), closes [#13127](https://github.com/Esri/calcite-design-system/issues/13127)
+- **sheet:** Improve scrolling behavior for slotted content ([#13754](https://github.com/Esri/calcite-design-system/issues/13754)) ([29f61a1](https://github.com/Esri/calcite-design-system/commit/29f61a1f56a29d91e63cf2dc88bf2a0f277c55a7)), closes [#12393](https://github.com/Esri/calcite-design-system/issues/12393)
+
 ## [5.0.0-next.78](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.77...@esri/calcite-components@5.0.0-next.78) (2026-01-22)
 
 ### Bug Fixes
