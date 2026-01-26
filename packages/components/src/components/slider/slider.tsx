@@ -351,9 +351,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   get value(): number | number[] {
     return this._value;
   }
-  set value(val: number | number[]) {
-    if (Array.isArray(val)) {
-      this._value = val;
+  set value(value: number | number[]) {
+    if (Array.isArray(value)) {
+      this._value = value;
       return;
     }
 
@@ -366,7 +366,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
       return;
     }
-    this._value = Number(val);
+    this._value = Number(value);
   }
 
   //#endregion
