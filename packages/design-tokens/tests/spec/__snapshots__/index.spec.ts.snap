@@ -872,6 +872,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
   --calcite-size-224: 224px;
   --calcite-size-256: 256px;
   --calcite-size-288: 288px;
+  --calcite-size-9999: 9999px;
   --calcite-size-none: 0;
   --calcite-size-relative-50: 50%;
   --calcite-size-relative-100: 100%;
@@ -997,7 +998,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
   --calcite-corner-radius-round: 4px; /** deprecated, use --calcite-corner-radius-sm instead */
-  --calcite-corner-radius-pill: 100%;
+  --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
@@ -1503,7 +1504,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-corner-radius-xs: 2px;
   --calcite-corner-radius-sm: 4px;
   --calcite-corner-radius-round: 4px; /** deprecated, use --calcite-corner-radius-sm instead */
-  --calcite-corner-radius-pill: 100%;
+  --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
@@ -17267,6 +17268,32 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "path": ["core", "size", "default", "288"]
     },
     {
+      "key": "{core.size.default.9999}",
+      "value": "9999px",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "default",
+        "subitem": "9999",
+        "names": {
+          "scss": "$calcite-size-9999",
+          "css": "var(--calcite-size-9999)",
+          "docs": "core.size.default.9999",
+          "es6": "calciteSize9999"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size 9999",
+      "path": ["core", "size", "default", "9999"]
+    },
+    {
       "key": "{core.size.default.none}",
       "value": "0",
       "type": "dimension",
@@ -20507,7 +20534,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{semantic.corner-radius.pill}",
-      "value": "100%",
+      "value": "9999px",
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
@@ -27634,7 +27661,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{semantic.corner-radius.pill}",
-      "value": "100%",
+      "value": "9999px",
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
@@ -32768,6 +32795,7 @@ export const calciteSize192 = "192px";
 export const calciteSize224 = "224px";
 export const calciteSize256 = "256px";
 export const calciteSize288 = "288px";
+export const calciteSize9999 = "9999px";
 export const calciteSizeNone = "0";
 export const calciteSizeRelative50 = "50%";
 export const calciteSizeRelative100 = "100%";
@@ -33417,6 +33445,7 @@ export const calciteSize192: string;
 export const calciteSize224: string;
 export const calciteSize256: string;
 export const calciteSize288: string;
+export const calciteSize9999: string;
 export const calciteSizeNone: string;
 export const calciteSizeRelative50: string;
 export const calciteSizeRelative100: string;
@@ -33595,7 +33624,7 @@ export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
 export const calciteCornerRadiusRound = "4px"; // deprecated, use --calcite-corner-radius-sm instead
-export const calciteCornerRadiusPill = "100%";
+export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
   "Avenir Next",
   "Avenir",
@@ -34641,7 +34670,7 @@ export const calciteCornerRadiusNone = "0";
 export const calciteCornerRadiusXs = "2px";
 export const calciteCornerRadiusSm = "4px";
 export const calciteCornerRadiusRound = "4px"; // deprecated, use --calcite-corner-radius-sm instead
-export const calciteCornerRadiusPill = "100%";
+export const calciteCornerRadiusPill = "9999px";
 export const calciteFontFamily = [
   "Avenir Next",
   "Avenir",
@@ -35658,6 +35687,7 @@ $calcite-size-192: 192px;
 $calcite-size-224: 224px;
 $calcite-size-256: 256px;
 $calcite-size-288: 288px;
+$calcite-size-9999: 9999px;
 $calcite-size-none: 0;
 $calcite-size-relative-50: 50%;
 $calcite-size-relative-100: 100%;
@@ -35777,7 +35807,7 @@ $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;
 $calcite-corner-radius-round: 4px; // deprecated, use --calcite-corner-radius-sm instead
-$calcite-corner-radius-pill: 100%;
+$calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
@@ -36448,7 +36478,7 @@ $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
 $calcite-corner-radius-sm: 4px;
 $calcite-corner-radius-round: 4px; // deprecated, use --calcite-corner-radius-sm instead
-$calcite-corner-radius-pill: 100%;
+$calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
