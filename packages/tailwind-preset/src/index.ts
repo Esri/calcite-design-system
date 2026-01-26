@@ -234,6 +234,7 @@ const config: Omit<Config, "content"> = {
         1.5: "var(--calcite-space-xs)",
         2: "var(--calcite-space-sm)",
         2.5: "var(--calcite-space-sm-plus)",
+        3: "var(--calcite-space-md)",
         3.5: "var(--calcite-space-md-plus)",
         4: "var(--calcite-space-lg)",
         4.5: "var(--calcite-space-lg-plus)",
