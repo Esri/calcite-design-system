@@ -65,6 +65,13 @@
             "category": "size"
           }
         },
+        "18": {
+          "value": "18px",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
         "20": {
           "value": "20px",
           "type": "sizing",
@@ -116,6 +123,13 @@
         },
         "48": {
           "value": "48px",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
+        "52": {
+          "value": "52px",
           "type": "sizing",
           "attributes": {
             "category": "size"

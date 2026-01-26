@@ -216,6 +216,13 @@
         "category": "spacing"
       }
     },
+    "3xs": {
+      "value": "{core.size.default.2}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
     "2xs": {
       "value": "{core.size.default.4}",
       "type": "spacing",
@@ -265,6 +272,13 @@
         "category": "spacing"
       }
     },
+    "lg-plus": {
+      "value": "{core.size.default.18}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
     "xl": {
       "value": "{core.size.default.20}",
       "type": "spacing",
@@ -281,6 +295,34 @@
     },
     "3xl": {
       "value": "{core.size.default.32}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
+    "4xl": {
+      "value": "{core.size.default.40}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
+    "4xl-plus": {
+      "value": "{core.size.default.44}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
+    "5xl": {
+      "value": "{core.size.default.48}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
+    "5xl-plus": {
+      "value": "{core.size.default.52}",
       "type": "spacing",
       "attributes": {
         "category": "spacing"
