@@ -647,10 +647,6 @@ export class Combobox
     }
   }
 
-  override updated(): void {
-    this.refreshSelectionDisplay();
-  }
-
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
