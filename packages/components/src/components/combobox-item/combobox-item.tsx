@@ -55,7 +55,7 @@ export class ComboboxItem extends LitElement {
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @property() ancestors: ComboboxChildElement[];
 
-  /** A description for the component, which displays below the heading. */
+  /** Specifies a description for the component. Displays below the heading. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -75,7 +75,7 @@ export class ComboboxItem extends LitElement {
   @property({ reflect: true }) guid = guid();
 
   /**
-   * The component's text.
+   * Specifies the component's heading text.
    *
    * @required
    */
@@ -87,7 +87,7 @@ export class ComboboxItem extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** The component's label. */
+  /** Specifies an accessible label for the component. */
   @property() label: any;
 
   /** Provides additional metadata to the component used in filtering. */

@@ -145,6 +145,7 @@ export function hexToRGB(hex: string, hasAlpha = false): RGB | RGBA {
 const enumify = <T extends { [index: string]: U }, U extends string>(x: T) => x;
 type Enumify<T> = T[keyof T];
 
+/** @public */
 export const CSSColorMode = enumify({
   HEX: "hex",
   HEXA: "hexa",
@@ -153,8 +154,10 @@ export const CSSColorMode = enumify({
   HSL_CSS: "hsl-css",
   HSLA_CSS: "hsla-css",
 });
+/** @public */
 type CSSColorMode = Enumify<typeof CSSColorMode>;
 
+/** @public */
 export const ObjectColorMode = enumify({
   RGB: "rgb",
   RGBA: "rgba",
@@ -163,6 +166,7 @@ export const ObjectColorMode = enumify({
   HSV: "hsv",
   HSVA: "hsva",
 });
+/** @public */
 type ObjectColorMode = Enumify<typeof ObjectColorMode>;
 
 export type SupportedMode = CSSColorMode | ObjectColorMode;

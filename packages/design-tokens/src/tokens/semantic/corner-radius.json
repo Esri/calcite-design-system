@@ -46,7 +46,7 @@
         "description": "deprecated, use --calcite-corner-radius-sm instead"
       },
       "pill": {
-        "value": "{core.size.relative.100}",
+        "value": "{core.size.default.9999}",
         "type": "borderRadius",
         "attributes": {
           "category": "corner-radius"

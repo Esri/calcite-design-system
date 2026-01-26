@@ -232,7 +232,7 @@ export class List extends LitElement implements SortableComponent {
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
    *
@@ -325,7 +325,6 @@ export class List extends LitElement implements SortableComponent {
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

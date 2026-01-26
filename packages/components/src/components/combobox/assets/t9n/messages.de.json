@@ -8,5 +8,5 @@
   "required": "Erforderlich",
   "selectAll": "Alle auswählen",
   "selected": "ausgewählt",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "{value} ist schreibgeschützt."
 }

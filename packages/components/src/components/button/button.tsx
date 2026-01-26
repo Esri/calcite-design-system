@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
-import { literal } from "lit-html/static.js";
+import { createRef } from "lit/directives/ref.js";
+import { literal } from "lit/static-html.js";
 import {
   LitElement,
   property,
@@ -113,9 +113,9 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -135,16 +135,16 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component on form submission. */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
   @property({ reflect: true }) name?: string;
 
   /**

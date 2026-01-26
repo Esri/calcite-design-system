@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { render } from "lit-html";
-import { createRef } from "lit-html/directives/ref.js";
+import { render } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -106,7 +106,7 @@ export class Table extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the position of the row in numeric form. */

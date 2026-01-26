@@ -82,8 +82,8 @@ export interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSel
  * describe("labelable", () => {
  *    async () => labelable("calcite-button")
  * })
- * @param {string} componentTagOrHtml - The component tag or HTML used to test label support.
- * @param {LabelableOptions} [options] - Labelable options.
+ * @param componentTagOrHtml - The component tag or HTML used to test label support.
+ * @param options - Labelable options.
  */
 export function labelable(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
