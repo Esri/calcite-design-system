@@ -539,12 +539,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([action-bar-position="start"][slot="panel-start"]) {
-}
-
-:host([action-bar-position="start"][slot="panel-start"][resizable]) {
-}
-
 :host([action-bar-position="end"][slot="panel-start"]) {
   .resize-handle {
     inset-inline-end: calc(
@@ -624,9 +618,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([action-bar-position="start"][slot="panel-end"]) {
-}
-
 :host([action-bar-position="start"][slot="panel-end"][resizable]) {
   .resize-handle {
     inset-inline-start: calc(
@@ -643,9 +634,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     border-inline-start: var(--calcite-border-width-sm) solid
       var(--calcite-shell-border-color, var(--calcite-color-border-3));
   }
-}
-
-:host([action-bar-position="end"][slot="panel-end"]) {
 }
 
 :host([action-bar-position="top"][slot="panel-end"]) {
