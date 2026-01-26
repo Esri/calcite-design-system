@@ -117,18 +117,14 @@ describe("calcite-slider", () => {
       const { el } = await mount("calcite-slider");
       const initialValue = el.value;
 
-      // @ts-expect-error - intentionally using unsupported type
       el.value = undefined;
       expect(el.value).toBe(initialValue);
 
       el.value = 0;
-
-      // @ts-expect-error - intentionally using unsupported type
       el.value = null;
       expect(el.value).toBe(initialValue);
 
       el.value = 100;
-
       // @ts-expect-error - intentionally using unsupported type
       el.value = "";
       expect(el.value).toBe(initialValue);
@@ -138,18 +134,14 @@ describe("calcite-slider", () => {
       const { el } = await mount<Slider>(<calcite-slider maxValue={100} minValue={0} />);
       const initialValue = el.value;
 
-      // @ts-expect-error - intentionally using unsupported type
       el.value = undefined;
       expect(el.value).toEqual(initialValue);
 
       el.value = [20, 80];
-
-      // @ts-expect-error - intentionally using unsupported type
       el.value = null;
       expect(el.value).toEqual(initialValue);
 
       el.value = [25, 75];
-
       // @ts-expect-error - intentionally using unsupported type
       el.value = "";
       expect(el.value).toEqual(initialValue);
