@@ -539,24 +539,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-//
-// Action Bar Everywhere!
-//
-
-// repetition is OK if it helps, but in this case we can balance readability and maintainability with less repetition
-
-// :host {
-//   &([slot="panel-start"]) {
-
-//     &[action-bar-position="start"] {
-
-//       &([resizable]) {
-
-//       }
-//     }
-//   }
-// }
-
 :host([slot="panel-start"][action-bar-position="start"]) {
 }
 
@@ -576,16 +558,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([slot="panel-start"][action-bar-position="end"][resizable]) {
+  .content {
+    padding-inline-end: 0;
+  }
+
   ::slotted(calcite-action-bar) {
     border-inline-end: 0;
   }
 
   ::slotted(calcite-panel) {
     border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  }
-
-  .content {
-    padding-inline-end: 0;
   }
 }
 
@@ -605,14 +587,14 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([slot="panel-start"][action-bar-position="top"][resizable]) {
-  .content {
-    padding-inline-end: 0;
-  }
-
   .resize-handle {
     block-size: calc(100% + 50px); // TODO: variable for Action Bar height
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
     inset-block-start: -50px; // TODO: variable for Action Bar height
+  }
+
+  .content {
+    padding-inline-end: 0;
   }
 }
 
@@ -632,28 +614,20 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([slot="panel-start"][action-bar-position="bottom"][resizable]) {
-  .content {
-    padding-inline-end: 0;
-  }
-
   .resize-handle {
     block-size: calc(100% + 50px);
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
   }
-}
 
-//
+  .content {
+    padding-inline-end: 0;
+  }
+}
 
 :host([slot="panel-end"][action-bar-position="start"]) {
 }
 
 :host([slot="panel-end"][action-bar-position="start"][resizable]) {
-  .content {
-    padding-inline-start: 0;
-    border-inline-start: var(--calcite-border-width-sm) solid
-      var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  }
-
   .resize-handle {
     inset-inline-start: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
@@ -662,6 +636,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
         ) -
         10px
     ); // TODO: variable for 10px? variable for this value?
+  }
+
+  .content {
+    padding-inline-start: 0;
+    border-inline-start: var(--calcite-border-width-sm) solid
+      var(--calcite-shell-border-color, var(--calcite-color-border-3));
   }
 }
 
@@ -674,7 +654,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    // inline-size: 100%;
     border-block-end: 0;
   }
 
@@ -684,10 +663,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([slot="panel-end"][action-bar-position="top"][resizable]) {
-  ::slotted(calcite-action-bar) {
-    inline-size: 100%;
-  }
-
   .resize-handle {
     block-size: calc(100% + 50px); // TODO: variable for Action Bar height?
     inset-block-start: -50px; // TODO: variable for Action Bar height?
@@ -697,6 +672,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     padding-inline-start: 0;
   }
+
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+  }
 }
 
 :host([slot="panel-end"][action-bar-position="bottom"]) {
@@ -705,7 +684,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    // inline-size: 100%;
     border-block-start: 0;
   }
 
@@ -715,76 +693,173 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([slot="panel-end"][action-bar-position="bottom"][resizable]) {
-  ::slotted(calcite-action-bar) {
-    inline-size: 100%;
-  }
-
   .resize-handle {
     block-size: calc(100% + 50px);
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
   }
+
+  ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+  }
 }
 
-//
-
 :host([slot="panel-top"][action-bar-position="start"]) {
-  border: 10px solid red !important;
+  .container {
+    flex-direction: row;
+  }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
     border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     block-size: 100%;
+    border-block-end: 0;
   }
 
-  ::slotted(calcite-panel) {
-    border-inline-start: 0;
-  }
-
-  .resize-handle {
-    //
+  .content {
+    ::slotted(calcite-panel) {
+      border-inline-start: 0;
+      border-block-end: 0;
+      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
   }
 }
 
 :host([slot="panel-top"][action-bar-position="end"]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+
+  .container {
+    flex-direction: row;
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-end: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-end: 0;
+      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
 :host([slot="panel-top"][action-bar-position="top"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-end: 0;
+    }
+  }
 }
 
 :host([slot="panel-top"][action-bar-position="bottom"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-block-end: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-end: 0;
+    }
+  }
 }
 
-//
-
 :host([slot="panel-bottom"][action-bar-position="start"]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+
+  .container {
+    flex-direction: row;
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-start: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 0;
+      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
 :host([slot="panel-bottom"][action-bar-position="end"]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+
+  .container {
+    flex-direction: row;
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-start: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 0;
+      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
 :host([slot="panel-bottom"][action-bar-position="top"]) {
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-block-start: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 0;
+    }
+  }
+}
+
+:host([slot="panel-bottom"][action-bar-position="top"][resizable]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 0;
+      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
 :host([slot="panel-bottom"][action-bar-position="bottom"]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-block-start: 0;
+  }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 0;
+      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
-//
-
 @include includes.base-component();
-
-/*
-
-Discuss:
-- Resize when horizontal (how to handle Action Bar when it's vertical)
-- Using padding as a placeholder for resize bar versus resize bar offset
-- Borders on both sides of resize bar
-- Direction of Action Bar arrows (they're inconsistent); consider prop to control direction??
-- Shell Panel has `width` prop; what should happen with horizontal orientations?
-- "bad" layouts (action bar grid, action bar horizontal when shell panel is vertical, etc)
-
-Consider:
-- variables for repeating values (borders with fallbacks)
-- Sass "control directives" to reduce repetition (see notive.scss)
-- @container queries
-- @layer (for large components, layout feature)
-
- */
