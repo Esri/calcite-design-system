@@ -41,8 +41,6 @@ export class Fab extends LitElement {
 
   /**
    * Specifies an icon to display.
-   *
-   * @default "plus"
    */
   @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
