@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "5.0.0-next.77",
+  "version": "5.0.0-next.78",
   "description": "Web Components for Esri's Calcite Design System.",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "repository": {
@@ -74,8 +74,8 @@
     "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
   },
   "dependencies": {
-    "@arcgis/lumina": ">=5.0.0-next.75 <6.0.0",
-    "@arcgis/toolkit": ">=5.0.0-next.75 <6.0.0",
+    "@arcgis/lumina": ">=5.0.0-next.144 <6.0.0",
+    "@arcgis/toolkit": ">=5.0.0-next.144 <6.0.0",
     "@esri/calcite-ui-icons": "4.4.0-next.21",
     "@floating-ui/dom": "^1.6.12",
     "@floating-ui/utils": "^0.2.8",
@@ -91,7 +91,7 @@
     "type-fest": "^4.30.1"
   },
   "devDependencies": {
-    "@arcgis/lumina-compiler": ">=5.0.0-next.75 <6.0.0",
+    "@arcgis/lumina-compiler": ">=5.0.0-next.144 <6.0.0",
     "@esri/calcite-design-tokens": "4.0.0-next.17",
     "@esri/calcite-tailwind-preset": "1.1.0-next.7",
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.8",
