@@ -1,7 +1,7 @@
 {
   "corner-radius": {
     "default": {
-      "value": "{semantic.corner-radius.none}",
+      "value": "{corner-radius.none}",
       "type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
