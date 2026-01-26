@@ -105,16 +105,22 @@
 
     &:hover {
       @apply no-underline;
-      background-color: inherit;
+      background-color: var(
+        --calcite-button-background-color,
+        var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent))
+      );
     }
 
     &:focus {
       @apply focus-outset;
-      background-color: inherit;
+      background-color: var(--calcite-button-background-color, var(--calcite-internal-button-background-color));
     }
 
     &:active {
-      background-color: inherit;
+      background-color: var(
+        --calcite-button-background-color,
+        var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent))
+      );
     }
 
     span {
@@ -130,16 +136,6 @@
         )
       );
     }
-  }
-
-  &:hover {
-    background-color: var(--calcite-internal-button-background-color-hover, var(--calcite-color-transparent));
-  }
-  &:focus {
-    background-color: var(--calcite-internal-button-background-color);
-  }
-  &:active {
-    background-color: var(--calcite-internal-button-background-color-press, var(--calcite-color-transparent));
   }
 }
 
