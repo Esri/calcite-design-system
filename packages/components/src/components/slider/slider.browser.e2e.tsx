@@ -123,11 +123,6 @@ describe("calcite-slider", () => {
       el.value = 0;
       el.value = null;
       expect(el.value).toBe(initialValue);
-
-      el.value = 100;
-      // @ts-expect-error - intentionally using unsupported type
-      el.value = "";
-      expect(el.value).toBe(initialValue);
     });
 
     it("range", async () => {
@@ -139,11 +134,6 @@ describe("calcite-slider", () => {
 
       el.value = [20, 80];
       el.value = null;
-      expect(el.value).toEqual(initialValue);
-
-      el.value = [25, 75];
-      // @ts-expect-error - intentionally using unsupported type
-      el.value = "";
       expect(el.value).toEqual(initialValue);
     });
   });

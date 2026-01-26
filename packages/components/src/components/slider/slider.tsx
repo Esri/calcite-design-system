@@ -357,16 +357,12 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
-    if (
-      // intentional loose null check
-      value == null ||
-      // @ts-expect-error - intentionally allowing empty string
-      value === ""
-    ) {
-      this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
+    if (/* intentional loose null check */ value != null) {
+      this._value = Number(value);
       return;
     }
-    this._value = Number(value);
+
+    this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
   }
 
   //#endregion
