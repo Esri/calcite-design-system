@@ -45,3 +45,5 @@ export const ICONS: Record<string, IconName> = {
   chevronDown: "chevron-down",
   close: "x",
 };
+
+export const NUDGE_DELAY_IN_MS = 150;

@@ -101,23 +101,19 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */
@@ -149,7 +145,7 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

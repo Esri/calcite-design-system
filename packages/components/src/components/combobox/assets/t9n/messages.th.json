@@ -8,5 +8,5 @@
   "required": "ต้องการ",
   "selectAll": "เลือกทั้งหมด",
   "selected": "เลือก",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "อ่านอย่างเดียว {value}"
 }
