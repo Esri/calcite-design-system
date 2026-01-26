@@ -262,7 +262,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the component's minimum selectable value. */
   @property({ reflect: true }) min = 0;
 
-  /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). */
+  /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
   /** Specifies the component's label text. */

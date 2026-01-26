@@ -84,7 +84,7 @@ export class StepperItem extends LitElement {
   /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When true, prevents interaction and decreases the component's opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
