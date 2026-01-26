@@ -172,6 +172,9 @@ export class Dialog extends LitElement {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
+  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  @property({ reflect: true }) fullscreenDisabled: boolean = false;
+
   /** Specifies the component's heading text. */
   @property() heading: string;
 
