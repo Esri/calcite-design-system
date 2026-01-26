@@ -539,13 +539,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="start"]) {
+:host([action-bar-position="start"][slot="panel-start"]) {
 }
 
-:host([slot="panel-start"][action-bar-position="start"][resizable]) {
+:host([action-bar-position="start"][slot="panel-start"][resizable]) {
 }
 
-:host([slot="panel-start"][action-bar-position="end"]) {
+:host([action-bar-position="end"][slot="panel-start"]) {
   .resize-handle {
     inset-inline-end: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
@@ -557,7 +557,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="end"][resizable]) {
+:host([action-bar-position="end"][slot="panel-start"][resizable]) {
   .content {
     padding-inline-end: 0;
   }
@@ -571,7 +571,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="top"]) {
+:host([action-bar-position="top"][slot="panel-start"]) {
   .container {
     flex-direction: column;
   }
@@ -586,7 +586,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="top"][resizable]) {
+:host([action-bar-position="top"][slot="panel-start"][resizable]) {
   .resize-handle {
     block-size: calc(100% + 50px); // TODO: variable for Action Bar height
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
@@ -598,7 +598,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="bottom"]) {
+:host([action-bar-position="bottom"][slot="panel-start"]) {
   .container {
     flex-direction: column;
   }
@@ -613,7 +613,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-start"][action-bar-position="bottom"][resizable]) {
+:host([action-bar-position="bottom"][slot="panel-start"][resizable]) {
   .resize-handle {
     block-size: calc(100% + 50px);
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
@@ -624,10 +624,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-end"][action-bar-position="start"]) {
+:host([action-bar-position="start"][slot="panel-end"]) {
 }
 
-:host([slot="panel-end"][action-bar-position="start"][resizable]) {
+:host([action-bar-position="start"][slot="panel-end"][resizable]) {
   .resize-handle {
     inset-inline-start: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
@@ -645,10 +645,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-end"][action-bar-position="end"]) {
+:host([action-bar-position="end"][slot="panel-end"]) {
 }
 
-:host([slot="panel-end"][action-bar-position="top"]) {
+:host([action-bar-position="top"][slot="panel-end"]) {
   .container {
     flex-direction: column;
   }
@@ -662,7 +662,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-end"][action-bar-position="top"][resizable]) {
+:host([action-bar-position="top"][slot="panel-end"][resizable]) {
   .resize-handle {
     block-size: calc(100% + 50px); // TODO: variable for Action Bar height?
     inset-block-start: -50px; // TODO: variable for Action Bar height?
@@ -678,7 +678,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-end"][action-bar-position="bottom"]) {
+:host([action-bar-position="bottom"][slot="panel-end"]) {
   .container {
     flex-direction: column;
   }
@@ -692,7 +692,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-end"][action-bar-position="bottom"][resizable]) {
+:host([action-bar-position="bottom"][slot="panel-end"][resizable]) {
   .resize-handle {
     block-size: calc(100% + 50px);
     inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
@@ -703,7 +703,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-top"][action-bar-position="start"]) {
+:host([action-bar-position="start"][slot="panel-top"]) {
   .container {
     flex-direction: row;
   }
@@ -723,7 +723,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-top"][action-bar-position="end"]) {
+:host([action-bar-position="end"][slot="panel-top"]) {
   .resize-handle-bar {
     border-block-end: 0;
   }
@@ -746,7 +746,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-top"][action-bar-position="top"]) {
+:host([action-bar-position="top"][slot="panel-top"]) {
   .container {
     flex-direction: column;
   }
@@ -758,7 +758,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-top"][action-bar-position="bottom"]) {
+:host([action-bar-position="bottom"][slot="panel-top"]) {
   .container {
     flex-direction: column;
   }
@@ -774,7 +774,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-bottom"][action-bar-position="start"]) {
+:host([action-bar-position="start"][slot="panel-bottom"]) {
   .resize-handle-bar {
     border-block-end: 0;
   }
@@ -797,7 +797,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-bottom"][action-bar-position="end"]) {
+:host([action-bar-position="end"][slot="panel-bottom"]) {
   .resize-handle-bar {
     border-block-end: 0;
   }
@@ -820,7 +820,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-bottom"][action-bar-position="top"]) {
+:host([action-bar-position="top"][slot="panel-bottom"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar) {
     border-block-start: 0;
   }
@@ -832,7 +832,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-bottom"][action-bar-position="top"][resizable]) {
+:host([action-bar-position="top"][slot="panel-bottom"][resizable]) {
   .resize-handle-bar {
     border-block-end: 0;
   }
@@ -845,7 +845,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([slot="panel-bottom"][action-bar-position="bottom"]) {
+:host([action-bar-position="bottom"][slot="panel-bottom"]) {
   .resize-handle-bar {
     border-block-end: 0;
   }
