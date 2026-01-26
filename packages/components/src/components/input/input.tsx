@@ -46,7 +46,15 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
+import {
+  CSS,
+  IDS,
+  INPUT_TYPE_ICONS,
+  SLOTS,
+  ICONS,
+  DIRECTION,
+  NUDGE_DELAY_IN_MS,
+} from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -136,6 +144,10 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
+  get isClearable(): boolean {
+    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
+
   //#endregion
 
   //#region State Properties
@@ -189,9 +201,9 @@ export class Input
   @property() files: FileList | undefined;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -204,10 +216,10 @@ export class Input
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -236,7 +248,7 @@ export class Input
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -358,7 +370,7 @@ export class Input
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -498,11 +510,16 @@ export class Input
     if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
       this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.stopNudging();
     this.el.removeEventListener(
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
@@ -513,8 +530,8 @@ export class Input
 
   //#region Private Methods
 
-  get isClearable(): boolean {
-    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -624,7 +641,7 @@ export class Input
   }
 
   private inputBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   }
@@ -799,12 +816,11 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -814,11 +830,11 @@ export class Input
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private numberButtonPointerUpAndOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private numberButtonPointerDownHandler(event: PointerEvent): void {
@@ -938,7 +954,7 @@ export class Input
   }
 
   private inputKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
@@ -991,6 +1007,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1010,6 +1027,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}

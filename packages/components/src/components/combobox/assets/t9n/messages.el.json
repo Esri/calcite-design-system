@@ -8,5 +8,5 @@
   "required": "Απαιτείται",
   "selectAll": "Επιλογή όλων",
   "selected": "επιλέχθηκε",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Μόνο για ανάγνωση {value}"
 }

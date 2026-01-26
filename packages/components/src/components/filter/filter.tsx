@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
@@ -63,7 +62,7 @@ export class Filter extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
-  @property() filterProps: string[];
+  @property() filterProps?: string[];
 
   /**
    * The component's resulting items after filtering.
@@ -82,15 +81,15 @@ export class Filter extends LitElement {
   @property() items: object[] = [];
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    */
-  @property() label: string;
+  @property() label?: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies placeholder text for the input element. */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
