@@ -438,7 +438,6 @@ describe("calcite-slider", () => {
 
       expect(await slider.getProperty("minValue")).toBe(25);
       expect(await slider.getProperty("maxValue")).toBe(75);
-      expect(await slider.getProperty("value")).toEqual([25, 75]);
       expect(changeEvent).toHaveReceivedEventTimes(0);
 
       await page.mouse.up();
@@ -446,7 +445,6 @@ describe("calcite-slider", () => {
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(inputEvent).toHaveReceivedEventTimes(1);
-      expect(await slider.getProperty("value")).toEqual([25, 75]);
     });
 
     it("range: clicking and dragging the track to the left of the min handle changes minValue and emits", async () => {
@@ -476,7 +474,6 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(inputEvent).toHaveReceivedEventTimes(5);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await slider.getProperty("value")).toEqual([25, 75]);
     });
 
     it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
@@ -503,7 +500,6 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(inputEvent).toHaveReceivedEventTimes(1);
-      expect(await slider.getProperty("value")).toEqual([25, 75]);
     });
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
@@ -532,7 +528,6 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("maxValue")).toBe(75);
       expect(inputEvent).toHaveReceivedEventTimes(5);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await slider.getProperty("value")).toEqual([25, 75]);
     });
 
     it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
@@ -565,7 +560,6 @@ describe("calcite-slider", () => {
       expect(await slider.getProperty("maxValue")).toBe(55);
       expect(inputEvent).toHaveReceivedEventTimes(6);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await slider.getProperty("value")).toEqual([5, 55]);
     });
 
     it("does not allow text selection when slider is used", async () => {

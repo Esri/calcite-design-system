@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { h, ToElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "vitest/browser";
@@ -113,57 +113,80 @@ describe("calcite-slider", () => {
     disabled(() => mount("calcite-slider"));
   });
 
-  it("range: clicking the track to the left of the min handle changes minValue and value on mousedown", async () => {
-    const { el } = await mount<Slider>(
-      <calcite-slider max-value="75" min-value="50" style="width:126px" />,
-    );
-
-    const track = el.shadowRoot.querySelector(".track");
-    const { x: trackX, y: trackY } = track.getBoundingClientRect();
-
-    function assertSliderValues(el: ToElement<Slider>) {
-      expect(el.minValue).toBe(25);
-      expect(el.maxValue).toBe(75);
-      expect(el.value).toEqual([25, 75]);
+  describe("mouse interaction", () => {
+    function assertSliderValues(
+      el: ToElement<Slider>,
+      value: { minValue: number; maxValue: number },
+    ) {
+      expect(el.minValue).toBe(value.minValue);
+      expect(el.maxValue).toBe(value.maxValue);
+      expect(el.value).toEqual([value.minValue, value.maxValue]);
     }
+    it("range: clicking the track to the left of the min handle changes minValue and value on mousedown", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max-value="75" min-value="50" style="width:126px" />,
+      );
 
-    el.addEventListener("calciteSliderInput", () => {
-      assertSliderValues(el);
+      const track = el.shadowRoot.querySelector(".track");
+      const { x: trackX, y: trackY } = track.getBoundingClientRect();
+
+      el.addEventListener("calciteSliderInput", () => {
+        assertSliderValues(el, { minValue: 25, maxValue: 75 });
+      });
+
+      el.addEventListener("calciteSliderChange", () => {
+        assertSliderValues(el, { minValue: 25, maxValue: 75 });
+      });
+
+      await commands.mouseMove(trackX + 25, trackY);
+      await commands.mouseDown();
+      await commands.mouseUp();
     });
 
-    await commands.mouseMove(trackX + 25, trackY);
-    await commands.mouseDown();
-    await commands.mouseUp();
+    it("range: clicking the track to the right of the max handle changes maxValue and value on mousedown", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max-value="75" min-value="50" style="width:126px" />,
+      );
 
-    el.addEventListener("calciteSliderChange", () => {
-      assertSliderValues(el);
-    });
-  });
+      const track = el.shadowRoot.querySelector(".track");
+      const { x: trackX, y: trackY } = track.getBoundingClientRect();
 
-  it("range: clicking the track to the right of the max handle changes maxValue and value on mousedown", async () => {
-    const { el } = await mount<Slider>(
-      <calcite-slider max-value="75" min-value="50" style="width:126px" />,
-    );
+      el.addEventListener("calciteSliderInput", () => {
+        assertSliderValues(el, { minValue: 50, maxValue: 85 });
+      });
+      el.addEventListener("calciteSliderChange", () => {
+        assertSliderValues(el, { minValue: 50, maxValue: 85 });
+      });
 
-    const track = el.shadowRoot.querySelector(".track");
-    const { x: trackX, y: trackY } = track.getBoundingClientRect();
-
-    function assertSliderValues(el: ToElement<Slider>) {
-      expect(el.minValue).toBe(50);
-      expect(el.maxValue).toBe(85);
-      expect(el.value).toEqual([50, 85]);
-    }
-
-    el.addEventListener("calciteSliderInput", () => {
-      assertSliderValues(el);
+      await commands.mouseMove(trackX + 85, trackY);
+      await commands.mouseDown();
+      await commands.mouseUp();
     });
 
-    await commands.mouseMove(trackX + 85, trackY);
-    await commands.mouseDown();
-    await commands.mouseUp();
+    it("range: clicking and dragging the track to the right of the max handle changes maxValue and value", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider max-value="75" min-value="50" style="width:126px" />,
+      );
 
-    el.addEventListener("calciteSliderChange", () => {
-      assertSliderValues(el);
+      const track = el.shadowRoot.querySelector(".track");
+      const { x: trackX, y: trackY } = track.getBoundingClientRect();
+
+      const inputEventHandler = vi.fn();
+
+      el.addEventListener("calciteSliderInput", inputEventHandler);
+      el.addEventListener("calciteSliderChange", () => {
+        assertSliderValues(el, { minValue: 50, maxValue: 89 });
+      });
+
+      await commands.mouseMove(trackX + 85, trackY);
+      await commands.mouseDown();
+      await commands.mouseMove(trackX + 86, trackY);
+      await commands.mouseMove(trackX + 87, trackY);
+      await commands.mouseMove(trackX + 88, trackY);
+      await commands.mouseMove(trackX + 89, trackY);
+
+      expect(inputEventHandler).toHaveBeenCalledTimes(5);
+      await commands.mouseUp();
     });
   });
 });
