@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.80...@esri/calcite-components@5.0.0-next.81) (2026-01-27)
+
+### Bug Fixes
+
+- **dropdown-item:** enable customizing icon color with `--calcite-dropdown-item-text-color` token ([#13727](https://github.com/Esri/calcite-design-system/issues/13727)) ([67d61b6](https://github.com/Esri/calcite-design-system/commit/67d61b6f2fd657481b18fe66b42aafad6fad7b48)), closes [#13661](https://github.com/Esri/calcite-design-system/issues/13661)
+- **slider:** handle falsy values to reset ([#13766](https://github.com/Esri/calcite-design-system/issues/13766)) ([59f13d3](https://github.com/Esri/calcite-design-system/commit/59f13d377f3f6ded9bca41c9d08a794fa44155cf)), closes [#8881](https://github.com/Esri/calcite-design-system/issues/8881)
+
 ## [5.0.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.79...@esri/calcite-components@5.0.0-next.80) (2026-01-26)
 
 ### Features
