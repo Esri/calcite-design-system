@@ -15,6 +15,8 @@
 :host button {
   @apply rounded-none
     border-none p-0;
+  background: transparent;
+  text-align: start;
 }
 
 :host a {
@@ -46,7 +48,13 @@
     0% 1px,
     100% 1px;
 
-  @include includes.transition-default($extra-props: "background-size");
+  &.calcite--rtl {
+    span {
+      background-position:
+        100% 100%,
+        100% 100%;
+    }
+  }
 
   &:hover,
   &:focus {
@@ -64,6 +72,16 @@
       100% 2px,
       100% 2px;
   }
+
+  .calcite--rtl & {
+    span {
+      background-position:
+        100% 100%,
+        100% 100%;
+    }
+  }
+
+  @include includes.transition-default($extra-props: "background-size");
 }
 
 calcite-icon {
@@ -85,22 +103,6 @@ calcite-icon {
 
 :host .calcite-link--icon.icon-end {
   margin-inline-start: theme("margin.2");
-}
-
-:host button,
-:host a {
-  &.calcite--rtl {
-    span {
-      background-position:
-        100% 100%,
-        100% 100%;
-    }
-  }
-}
-
-:host button {
-  background: none;
-  text-align: start;
 }
 
 @include includes.disabled();
