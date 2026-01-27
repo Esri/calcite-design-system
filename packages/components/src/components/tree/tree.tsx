@@ -44,7 +44,7 @@ export class Tree extends LitElement {
   /** @private */
   @property() parentExpanded = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

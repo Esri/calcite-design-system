@@ -118,7 +118,7 @@ export class Table extends LitElement {
   /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
   @property({ reflect: true }) pageSize = 0;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

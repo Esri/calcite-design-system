@@ -107,7 +107,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
