@@ -681,7 +681,6 @@ export class Combobox
     }
 
     toggleOpenClose(this);
-    this.setMaxScrollerHeight();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -969,6 +968,7 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
+    this.reposition(true);
     this.scrollToActiveOrSelectedItem();
     this.calciteComboboxBeforeOpen.emit();
     this.topLayer.show();
@@ -995,12 +995,11 @@ export class Combobox
     if (!listContainerEl || !open) {
       return;
     }
-
-    await this.reposition(true);
-    const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
-    await this.reposition(true);
+    requestAnimationFrame(() => {
+      const maxScrollerHeight = this.getMaxScrollerHeight();
+      listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+      listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
+    });
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
