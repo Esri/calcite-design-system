@@ -21,6 +21,10 @@ interface SizeOverrideContext {
    * The value will be a rounded pixel number or null if cleared.
    */
   readonly targetElement: Ref<HTMLElement> | (() => { value?: HTMLElement | null }) | null;
+  /**
+   * Returns true if fullscreen sizing should be disabled for the host component.
+   */
+  readonly fullscreenDisabled?: () => boolean;
 }
 
 export interface UseSizeOverride {
