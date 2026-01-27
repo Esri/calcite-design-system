@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { getElementDir } from "../../utils/dom";
 import {
@@ -77,9 +77,9 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -99,20 +99,16 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /**
@@ -128,7 +124,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

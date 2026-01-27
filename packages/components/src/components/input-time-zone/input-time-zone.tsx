@@ -9,7 +9,7 @@ import {
   property,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -103,19 +103,19 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -124,16 +124,10 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * Using `"offset"` will provide options that show timezone offsets.
    *
    * Using `"name"` will provide options that show the IANA time zone names.
-   *
-   * @default "offset"
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
   @property({ reflect: true }) name: string;
 
   /**
@@ -144,8 +138,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * `"utc"` always uses `UTC`.
    *
    * This only applies to the `offset` mode.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
@@ -153,11 +145,11 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -187,6 +179,15 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
     | IconName
@@ -196,7 +197,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -522,6 +523,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
           scale={this.scale}
           selectionMode={this.clearable ? "single" : "single-persist"}
           status={this.status}
+          topLayerDisabled={this.topLayerDisabled}
           validationIcon={this.validationIcon}
           validationMessage={this.validationMessage}
         >

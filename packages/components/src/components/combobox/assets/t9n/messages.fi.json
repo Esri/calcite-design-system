@@ -8,5 +8,5 @@
   "required": "Pakollinen",
   "selectAll": "Valitse kaikki",
   "selected": "valitut",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Vain luku {value}"
 }

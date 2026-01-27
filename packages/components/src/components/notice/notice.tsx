@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -85,7 +85,7 @@ export class Notice extends LitElement {
   @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
     "outline-fill";
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */

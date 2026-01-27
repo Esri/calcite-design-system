@@ -2,7 +2,7 @@
 import interact from "interactjs";
 import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -138,7 +138,7 @@ export class Dialog extends LitElement {
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** A description for the component. */
+  /** Specifies a description for the component. */
   @property() description: string;
 
   /** When `true`, the component is draggable. */
@@ -172,10 +172,13 @@ export class Dialog extends LitElement {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** The component header text. */
+  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  @property({ reflect: true }) fullscreenDisabled: boolean = false;
+
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the kind of the component, which will style the top border. */
@@ -196,7 +199,7 @@ export class Dialog extends LitElement {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
@@ -221,11 +224,11 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -239,7 +242,7 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
@@ -271,7 +274,7 @@ export class Dialog extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -284,7 +287,7 @@ export class Dialog extends LitElement {
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
+   * @returns A promise that is resolved when the operation has completed.
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -817,6 +820,7 @@ export class Dialog extends LitElement {
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}
+              topLayerDisabled={this.topLayerDisabled}
             >
               <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />

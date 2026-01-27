@@ -144,3 +144,10 @@ export const stackingWhenTopLayerDisabled = (): string => html`
     </calcite-dialog>
   </div>
 `;
+
+stackingWhenTopLayerDisabled.parameters = {
+  chromatic: {
+    // bump threshold to account for minor font rendering differences
+    diffThreshold: 0.45,
+  },
+};

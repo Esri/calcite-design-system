@@ -165,9 +165,13 @@ describe("calcite-input-message", () => {
     });
 
     describe("deprecated", () => {
-      themed(html`<calcite-input-message>Message</calcite-input-message>`, {
+      themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
         "--calcite-input-message-spacing-value": {
           targetProp: "marginBlockStart",
+        },
+        "--calcite-ui-icon-color": {
+          shadowSelector: `.${CSS.inputMessageIcon}`,
+          targetProp: "color",
         },
       });
     });

@@ -156,7 +156,9 @@
 }
 
 :host([layout="vertical"]) .divider-container {
-  @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
+  @apply w-full h-px border-t-0 border-b-0;
+  border-inline-start-width: var(--calcite-border-width-sm);
+  border-inline-end-width: var(--calcite-border-width-none);
   padding-inline: var(--calcite-spacing-md);
   & .divider {
     @apply w-full h-px my-0;
@@ -185,10 +187,11 @@
 }
 
 .vertical-chevron-container {
-  @apply flex items-center border border-solid border-l-0;
+  @apply flex items-center border border-solid;
   padding-inline: var(--calcite-spacing-md);
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
+  border-inline-start-width: 0;
   calcite-icon {
     color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
 

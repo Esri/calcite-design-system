@@ -89,7 +89,7 @@ export interface SortableComponentItem {
 /**
  * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
  *
- * @param {SortableComponent} component - The sortable component.
+ * @param component - The sortable component.
  */
 export function connectSortableComponent(component: SortableComponent): void {
   if (dragActive(component)) {
@@ -161,7 +161,7 @@ export function connectSortableComponent(component: SortableComponent): void {
 /**
  * Helper to remove track of a SortableComponent. This should be called in the `disconnectedCallback` lifecycle method.
  *
- * @param {SortableComponent} component - The sortable component.
+ * @param component - The sortable component.
  */
 export function disconnectSortableComponent(component: SortableComponent): void {
   if (dragActive(component)) {
@@ -180,7 +180,7 @@ const dragState: { active: boolean } = { active: false };
  * Helper to determine if dragging is currently active.
  *
  * @param component The sortable component.
- * @returns {boolean} a boolean value.
+ * @returns a boolean value.
  */
 export function dragActive(component: SortableComponent): boolean {
   return component.dragEnabled && dragState.active;

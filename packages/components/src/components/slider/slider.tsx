@@ -51,6 +51,8 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+const defaultValue = 0;
+
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
@@ -186,6 +188,8 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   private interactiveContainer = useInteractive(this);
 
+  private _value: number | number[] = defaultValue;
+
   //#endregion
 
   //#region State Properties
@@ -215,9 +219,9 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -265,10 +269,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple selections, the component's lower value. */
@@ -281,11 +285,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) mirrored = false;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -327,7 +327,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -347,7 +347,23 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   };
 
   /** The component's value. */
-  @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
+  @property({ reflect: true })
+  get value(): number | number[] {
+    return this._value;
+  }
+  set value(value: number | number[]) {
+    if (Array.isArray(value)) {
+      this._value = value;
+      return;
+    }
+
+    if (/* intentional loose null check */ value != null) {
+      this._value = Number(value);
+      return;
+    }
+
+    this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
+  }
 
   //#endregion
 
@@ -406,9 +422,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   load(): void {
-    if (!isRange(this.value)) {
-      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
-    }
+    this.setInitialValue();
     afterConnectDefaultValueSet(this, this.value);
   }
 
@@ -456,6 +470,12 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   //#endregion
 
   //#region Private Methods
+
+  private setInitialValue() {
+    if (!isRange(this.value)) {
+      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
+    }
+  }
 
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
@@ -691,7 +711,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   /**
    * Set prop value(s) if changed at the component level
    *
-   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
+   * @param values - a set of key/value pairs delineating what properties in the component to update
    */
   private setValue(
     values: Partial<{

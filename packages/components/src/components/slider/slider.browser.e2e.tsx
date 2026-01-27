@@ -189,4 +189,29 @@ describe("calcite-slider", () => {
       await commands.mouseUp();
     });
   });
+  describe("resetting value", () => {
+    it("single value", async () => {
+      const { el } = await mount("calcite-slider");
+      const initialValue = el.value;
+
+      el.value = undefined;
+      expect(el.value).toBe(initialValue);
+
+      el.value = 0;
+      el.value = null;
+      expect(el.value).toBe(initialValue);
+    });
+
+    it("range", async () => {
+      const { el } = await mount<Slider>(<calcite-slider maxValue={100} minValue={0} />);
+      const initialValue = el.value;
+
+      el.value = undefined;
+      expect(el.value).toEqual(initialValue);
+
+      el.value = [20, 80];
+      el.value = null;
+      expect(el.value).toEqual(initialValue);
+    });
+  });
 });
