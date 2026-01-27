@@ -82,7 +82,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
@@ -90,8 +90,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   /**
    * Offset the position of the component away from the `referenceElement`.
-   *
-   * @default 6
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
@@ -102,11 +100,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -114,18 +112,18 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * The `referenceElement` to position the component according to its `"placement"` value.
+   * The `referenceElement` used to position the component according to its `placement` value.
    *
-   * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
+   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
    *
-   * However, a string ID of the reference element can be used.
+   * However, a string `id` of the reference element can also be used.
    *
    * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
   @property() referenceElement: ReferenceElement | string;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *

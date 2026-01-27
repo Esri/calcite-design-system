@@ -66,7 +66,7 @@ export class RadioButtonGroup extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** Specifies the layout of the component. */
@@ -76,7 +76,7 @@ export class RadioButtonGroup extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the name of the component on form submission. Must be unique to other component instances.
+   * Specifies the name of the component. Required to pass the component's `value` on form submission.
    *
    * @required
    */

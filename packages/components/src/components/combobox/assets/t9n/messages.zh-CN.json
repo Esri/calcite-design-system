@@ -8,5 +8,5 @@
   "required": "必需项",
   "selectAll": "全选",
   "selected": "选择",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "只读 {value}"
 }

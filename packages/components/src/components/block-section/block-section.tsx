@@ -70,7 +70,7 @@ export class BlockSection extends LitElement {
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart: IconName;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

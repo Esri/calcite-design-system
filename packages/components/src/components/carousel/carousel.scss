@@ -158,6 +158,10 @@ calcite-carousel-item:not([selected]) {
   opacity: 0;
 }
 
+.pagination-aria-live {
+  @apply sr-only;
+}
+
 .pagination {
   @apply flex
   flex-row

@@ -8,5 +8,5 @@
   "required": "Obligatoriskt",
   "selectAll": "Markera alla",
   "selected": "valt",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Skrivskyddad {value}"
 }

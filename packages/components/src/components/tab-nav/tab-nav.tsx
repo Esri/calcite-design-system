@@ -85,7 +85,7 @@ export class TabNav extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

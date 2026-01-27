@@ -258,6 +258,25 @@ describe("calcite-split-button", () => {
         </calcite-dropdown-group>
       </calcite-split-button>`,
       {
+        "--calcite-split-button-background-color": {
+          shadowSelector: "calcite-button",
+          targetProp: "--calcite-button-background-color",
+        },
+        "--calcite-split-button-background-color-hover": {
+          shadowSelector: "calcite-button",
+          targetProp: "--calcite-button-background-color",
+          state: "hover",
+        },
+        "--calcite-split-button-background-color-focus": {
+          shadowSelector: "calcite-button",
+          targetProp: "--calcite-button-background-color",
+          state: { focus: { attribute: "type", value: "button" } },
+        },
+        "--calcite-split-button-background-color-press": {
+          shadowSelector: "calcite-button",
+          targetProp: "--calcite-button-background-color",
+          state: { press: { attribute: "type", value: "button" } },
+        },
         "--calcite-split-button-text-color": [
           {
             shadowSelector: "calcite-button[split-child='primary']",
