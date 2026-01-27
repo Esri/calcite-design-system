@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
 import {
@@ -86,7 +86,7 @@ export class Meter extends LitElement implements FormComponent {
 
   // #region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the appearance of the component. */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
@@ -95,13 +95,17 @@ export class Meter extends LitElement implements FormComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
+  /**
+   * Specifies the component's display, where
+   * `"single"` displays a single color, and
+   * `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
+   */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -112,7 +116,7 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) high: number;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -121,17 +125,13 @@ export class Meter extends LitElement implements FormComponent {
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
   @property({ reflect: true }) low: number;
 
-  /** Specifies the highest allowed value of the component. */
+  /** Specifies the component's highest allowed value. */
   @property({ reflect: true }) max = 100;
 
-  /** Specifies the lowest allowed value of the component. */
+  /** Specifies the component's lowest allowed value. */
   @property({ reflect: true }) min = 0;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -149,10 +149,10 @@ export class Meter extends LitElement implements FormComponent {
   /** When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
   @property() unitLabel = "";
 
-  /** Specifies the current value of the component. */
+  /** Specifies the component's value. */
   @property() value: number;
 
-  /** When `true`, displays the current value. */
+  /** When `true`, displays the `value`. */
   @property({ reflect: true }) valueLabel = false;
 
   /** When `valueLabel` is `true`, specifies the format of displayed label. */

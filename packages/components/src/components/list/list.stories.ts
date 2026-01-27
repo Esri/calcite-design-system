@@ -153,6 +153,53 @@ export const simple = (args: ListStoryArgs): string => html`
   </calcite-list>
 `;
 
+export const focus = (): string => html`
+  <div class="parent">
+    <div class="child">
+      <calcite-list scale="l" selection-mode="none" label="test">
+        <calcite-list-item
+          closable
+          label="small"
+          value="small"
+          description="small hello world"
+          icon-start="banana"
+          icon-end="banana"
+        >
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-start"
+          ></calcite-action>
+          <calcite-avatar scale="s" slot="content-start" thumbnail="./_assets/images/placeholder.svg"></calcite-avatar>
+          <calcite-action
+            appearance="transparent"
+            icon="sort-ascending"
+            text="menu"
+            label="menu"
+            scale="s"
+            slot="actions-end"
+          ></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
+    </div>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-list-item");
+      const listItem = document.querySelector("calcite-list-item");
+      await listItem.componentOnReady();
+      await listItem.setFocus();
+    })();
+  </script>
+`;
+
+focus.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 export const scales = (): string => html`
   <!-- scales -->
   <div class="parent">
@@ -5263,10 +5310,22 @@ export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-export const stretchSlottedContent = (): string => html`
+export const actionsSlots = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description.">
-      <calcite-handle slot="actions-start"></calcite-handle>
+      <calcite-action-menu appearance="transparent" slot="actions-start">
+        <calcite-action appearance="transparent" text="Plus" icon="plus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Minus" icon="minus" text-enabled></calcite-action>
+        <calcite-action appearance="transparent" text="Table" icon="table" text-enabled></calcite-action>
+      </calcite-action-menu>
+      <calcite-dropdown slot="actions-start">
+        <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
+        <calcite-dropdown-group selection-mode="single" group-title="Sort by">
+          <calcite-dropdown-item>Relevance</calcite-dropdown-item>
+          <calcite-dropdown-item>Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Title</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
       <calcite-action
         slot="actions-start"
         appearance="transparent"
@@ -5683,20 +5742,38 @@ export const customContent_TestOnly = (): string =>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
     <calcite-list-item disabled>
       <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
-    <calcite-list-item
-      ><div slot="content">
+      </div>
+    </calcite-list-item>
+    <calcite-list-item>
+      <div slot="content">
         <strong>Cras iaculis ultricies nulla.</strong>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      </div></calcite-list-item
-    >
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item disabled icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
+    <calcite-list-item icon-start="search" icon-end="banana">
+      <div slot="content">
+        <strong>Cras iaculis ultricies nulla.</strong>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      </div>
+    </calcite-list-item>
   </calcite-list>`;
 
 export const singlePersist_TestOnly = (): string =>

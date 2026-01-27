@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
 import { Axis } from "../components/interfaces";

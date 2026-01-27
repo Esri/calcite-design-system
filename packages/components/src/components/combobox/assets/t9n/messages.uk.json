@@ -8,5 +8,5 @@
   "required": "Потрібні відомості",
   "selectAll": "Вибрати всі",
   "selected": "вибрані",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "{value} тільки читання"
 }

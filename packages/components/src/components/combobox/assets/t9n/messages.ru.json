@@ -8,5 +8,5 @@
   "required": "Обязательное",
   "selectAll": "Выбрать все",
   "selected": "выбрано",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "{value} только для чтения"
 }

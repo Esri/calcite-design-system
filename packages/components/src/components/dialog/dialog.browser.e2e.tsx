@@ -107,6 +107,10 @@ describe("calcite-dialog", () => {
           propertyName: "widthScale",
           defaultValue: "m",
         },
+        {
+          propertyName: "fullscreenDisabled",
+          defaultValue: false,
+        },
       ],
     );
   });
@@ -214,6 +218,10 @@ describe("calcite-dialog", () => {
           propertyName: "width",
           value: "s",
         },
+        {
+          propertyName: "fullscreenDisabled",
+          value: true,
+        },
       ],
     );
   });
@@ -260,11 +268,11 @@ describe("calcite-dialog", () => {
     beforeEach(() => {
       const style = document.createElement("style");
       style.textContent = `
-    * {
-      transition: none !important;
-      animation: none !important;
-    }
-  `;
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+    `;
       document.head.appendChild(style);
     });
 
@@ -322,6 +330,34 @@ describe("calcite-dialog", () => {
       await component.updateComplete;
       expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
       expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+    });
+  });
+
+  describe("fullscreen disabled", () => {
+    it("does not take fullscreen when fullscreenDisabled is true", async () => {
+      const { container } = await mount(
+        <div style={{ width: 800, height: 800 }}>
+          <calcite-dialog fullscreen-disabled open>
+            <div>Dialog content</div>
+          </calcite-dialog>
+        </div>,
+      );
+
+      const dialog = container.querySelector("calcite-dialog");
+      const style = dialog
+        ? (() => {
+            const computed = window.getComputedStyle(dialog);
+            return {
+              width: computed.width,
+              height: computed.height,
+            };
+          })()
+        : {
+            width: "",
+            height: "",
+          };
+      expect(parseInt(style.width)).toBeLessThan(800);
+      expect(parseInt(style.height)).toBeLessThan(800);
     });
   });
 });

@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -87,7 +87,7 @@ export class MenuItem extends LitElement {
   @property() isTopLevelItem = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -96,7 +96,7 @@ export class MenuItem extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: Layout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */

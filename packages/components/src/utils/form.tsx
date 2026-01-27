@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { Writable } from "type-fest";
 import { isServer } from "lit";
-import { TemplateResult } from "lit-html";
+import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";

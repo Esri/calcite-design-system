@@ -70,8 +70,6 @@ export class Tree extends LitElement {
    * `"single"` allows one selection, and
    *
    * `"single-persist"` allows and requires one selection.
-   *
-   * @default "single"
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 

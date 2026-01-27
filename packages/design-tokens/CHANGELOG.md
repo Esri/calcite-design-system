@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.17...@esri/calcite-design-tokens@4.0.0-next.18) (2026-01-26)
+
+### Bug Fixes
+
+- **tokens:** update `--calcite-corner-radius-pill` to display pill shape correctly ([#13762](https://github.com/Esri/calcite-design-system/issues/13762)) ([fae5b49](https://github.com/Esri/calcite-design-system/commit/fae5b498d046a93307bfc0a8a820446c775f84bb)), closes [#13761](https://github.com/Esri/calcite-design-system/issues/13761)
+
+## [4.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.16...@esri/calcite-design-tokens@4.0.0-next.17) (2026-01-21)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.15...@esri/calcite-design-tokens@4.0.0-next.16) (2026-01-09)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [4.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.14...@esri/calcite-design-tokens@4.0.0-next.15) (2025-12-31)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

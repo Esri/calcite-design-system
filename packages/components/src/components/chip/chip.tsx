@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
@@ -68,7 +68,7 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, hides the component. */
@@ -98,19 +98,23 @@ export class Chip extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
   @property() parentChipGroup: ChipGroup["el"];
 
-  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
+  /**
+   * Specifies the size of the component.
+   *
+   * When contained in a parent `calcite-chip-group`, inherits the parent's `scale` value.
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */

@@ -45,7 +45,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -72,10 +72,11 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    * Specifies the selection appearance, where:
    *
    * - `"icon"` (displays a checkmark or dot), or
-   * - `"border"` (displays a border).
+   * - `"highlight"` (changes the background color), or
+   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border",
+    "icon" | "highlight" | "border",
     SelectionAppearance
   > = "icon";
 

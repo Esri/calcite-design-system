@@ -142,14 +142,12 @@ export class Sheet extends LitElement {
 
   /**
    * Passes a function to run before the component closes.
-   *
-   * @returns {Promise<void>}
    */
   @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` (content is separated detached),
-   * or `"overlay"` (displays on top of center content).
+   * Specifies the display mode - `"float"` separates content from main layout,
+   * and `"overlay"` displays on top of center content.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
@@ -170,32 +168,32 @@ export class Sheet extends LitElement {
   /**
    * Specifies custom focus trap configuration on the component, where
    *
-   * `"allowOutsideClick`" allows outside clicks,
+   * `"allowOutsideClick"` allows outside clicks,
    * `"initialFocus"` enables initial focus,
    * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap (e.g., 3rd-party components appending elements to the document body).
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
   /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+   * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the height of the component. */
+  /** Specifies the component's height. */
   @property({ reflect: true }) height: Height;
 
   /**
-   * Specifies the label of the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
@@ -217,7 +215,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true`, disables closing the component when the area outside of the component is clicked. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -227,7 +225,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) resizable = false;
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
@@ -235,15 +233,14 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component. */
   /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+   * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the components width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -263,7 +260,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the element(s) that are included in the focus-trap of the component.
+   * Updates the element(s) that are included in the component's focus-trap.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */

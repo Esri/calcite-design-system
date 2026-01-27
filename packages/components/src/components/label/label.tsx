@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
@@ -30,7 +29,7 @@ export class Label extends LitElement {
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
-  @property({ reflect: true }) for: string;
+  @property({ reflect: true }) for?: string;
 
   /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
