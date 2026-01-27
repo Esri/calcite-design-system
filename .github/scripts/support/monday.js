@@ -533,20 +533,47 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   /**
+   * @typedef {object} UpdateError
+   * @property {boolean} expected
+   * @property {string} [message]
+   */
+  /**
+   * @typedef {object} UpdateResponse
+   * @property {UpdateError | null} error
+   */
+  /**
+   * Builds an error object for multiple column update returns
+   * @private
+   * @param {object} params
+   * @param {boolean} [params.expected] - Whether the error is expected or not
+   * @param {Array<string | null>} params.messages - Array of error messages to be joined
+   * @returns {UpdateResponse}
+   */
+  function buildUpdateError({ messages, expected }) {
+    /** @type {UpdateError} */
+    const updateError = { expected: !!expected };
+
+    const filteredMessages = messages.filter(Boolean);
+    if (filteredMessages.length) {
+      updateError.message = filteredMessages.join(" ");
+    }
+
+    return { error: updateError };
+  }
+
+  /**
    * Creates and runs a query to update columns in a Monday.com item
    * @private
    * @param {string} syncId - The ID of the Monday.com item to update
-   * @returns {Promise<{ error: null | { message: string, expected?: boolean } }>}
+   * @returns {Promise<UpdateResponse>}
    */
   async function updateMultipleColumns(syncId = "") {
     const id = syncId || (await getId())?.id;
     if (!id) {
-      return {
-        error: {
-          expected: true,
-          message: "Monday Task not found, cannot update columns.",
-        },
-      };
+      return buildUpdateError({
+        expected: true,
+        messages: ["Monday Task ID not found, cannot update columns."],
+      });
     }
 
     const query = `mutation ChangeMultipleColumnValues($board_id: ID!, $item_id: ID!, $column_values: JSON!) {
@@ -567,27 +594,17 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       column_values: JSON.stringify(columnUpdates),
     };
 
-    /**
-     * @param {string} message - Required custom error message
-     * @param {Array<string | null>} detailsArray - Optional array of detailed error messages
-     * @returns {{ error : { message: string } }}
-     */
-    const buildErrorMessage = (message, detailsArray) => {
-      return {
-        error: {
-          message: `Failed to update columns for ID ${id}. ${message}. ${detailsArray.filter(Boolean).join(" ")}`,
-        },
-      };
-    };
-
     const { response, error } = await runQuery(query, queryVariables);
     if (error || !response?.data?.change_multiple_column_values) {
+      const baseMessage = `Failed to update columns for ID ${id}.`;
       const queriedId = await queryForId();
       if (!queriedId || queriedId === id) {
         const skippedMessage = queriedId
-          ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID`
-          : `Retry skipped because no alternate item ID was found`;
-        return buildErrorMessage(skippedMessage, [error]);
+          ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID.`
+          : `Retry skipped because no alternate item ID was found.`;
+        return buildUpdateError({
+          messages: [baseMessage, skippedMessage, error],
+        });
       }
 
       queryVariables.item_id = queriedId;
@@ -596,10 +613,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
         queryVariables,
       );
       if (retryError || !retryResponse?.data?.change_multiple_column_values) {
-        return buildErrorMessage(`Retry failed for queried ID ${queriedId}`, [
-          retryError,
-          error,
-        ]);
+        return buildUpdateError({
+          messages: [
+            baseMessage,
+            `Retry failed for queried ID ${queriedId}.`,
+            `Original error: ${error}.`,
+            `Retry error: ${retryError}.`,
+          ],
+        });
       }
 
       await updateBodyWithId(queriedId);
