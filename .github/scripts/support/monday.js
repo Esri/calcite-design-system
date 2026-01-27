@@ -567,25 +567,39 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       column_values: JSON.stringify(columnUpdates),
     };
 
-    /** @type {(error: string | null) => { error: { message: string } }} */
-    const errorMessage = (error) => ({
-      error: {
-        message: `Failed to update columns for item ID ${id}. ${error || ""}`,
-      },
-    });
+    /**
+     * @param {string} message - Required custom error message
+     * @param {Array<string | null>} detailsArray - Optional array of detailed error messages
+     * @returns {{ error : { message: string } }}
+     */
+    const buildErrorMessage = (message, detailsArray) => {
+      return {
+        error: {
+          message: `Failed to update columns for ID ${id}. ${message}. ${detailsArray.filter(Boolean).join(" ")}`,
+        },
+      };
+    };
 
     const { response, error } = await runQuery(query, queryVariables);
     if (error || !response?.data?.change_multiple_column_values) {
-      // Retry once with queried ID
       const queriedId = await queryForId();
       if (!queriedId || queriedId === id) {
-        return errorMessage(error);
+        const skippedMessage = queriedId
+          ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID`
+          : `Retry skipped because no alternate item ID was found`;
+        return buildErrorMessage(skippedMessage, [error]);
       }
 
       queryVariables.item_id = queriedId;
-      const { response: retryResponse, error: retryError } = await runQuery(query, queryVariables);
+      const { response: retryResponse, error: retryError } = await runQuery(
+        query,
+        queryVariables,
+      );
       if (retryError || !retryResponse?.data?.change_multiple_column_values) {
-        return errorMessage(retryError);
+        return buildErrorMessage(`Retry failed for queried ID ${queriedId}`, [
+          retryError,
+          error,
+        ]);
       }
 
       await updateBodyWithId(queriedId);
