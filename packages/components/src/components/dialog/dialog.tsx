@@ -113,6 +113,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    fullscreenDisabled: () => this.fullscreenDisabled,
   });
 
   private topLayer = useTopLayer<this>({
