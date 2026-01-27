@@ -112,7 +112,7 @@ module.exports = {
    * @param {Pick<import('github-script').AsyncFunctionArguments, "github" | "context" | "core">} params
    * @returns {UpdateBodyCallback}
    */
-  createUpdateBodyCallback: ({ github, context, core }) => {
+  createBodyUpdater: ({ github, context, core }) => {
     return async (issueNumber, updatedBody) => {
       try {
         await github.rest.issues.update({

@@ -1,6 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday");
-const { assertRequired, includesLabel, createUpdateBodyCallback } = require("../support/utils");
+const { assertRequired, includesLabel, createBodyUpdater } = require("../support/utils");
 const {
   labels: {
     planning: { spike, spikeComplete },
@@ -28,7 +28,7 @@ module.exports = async ({ github, context, core }) => {
     return;
   }
 
-  const monday = Monday(issue, core, createUpdateBodyCallback({ github, context, core }));
+  const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
   monday.setAssignedStatus();
   monday.clearLabel(labelName, labelColor);
   await monday.commit();
