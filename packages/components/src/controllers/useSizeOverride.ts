@@ -92,11 +92,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           targetElement = context.targetElement as HTMLElement | null;
         }
 
-        if (
-          "fullscreenDisabled" in context &&
-          typeof context.fullscreenDisabled === "function" &&
-          context.fullscreenDisabled()
-        ) {
+        if (typeof context.fullscreenDisabled === "function" && context.fullscreenDisabled()) {
           if (targetElement) {
             targetElement.style.removeProperty("width");
             targetElement.style.removeProperty("height");
