@@ -273,9 +273,9 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the dialog's inline and/or block size via method call.
+   * Updates the sheet's inline and/or block size via method call.
    *
-   * Use this method to programmatically override the dialog's width (inline) and/or height (block).
+   * Use this method to programmatically override the sheet's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
