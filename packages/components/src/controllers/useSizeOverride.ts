@@ -1,4 +1,5 @@
 import { makeController } from "@arcgis/lumina/controllers";
+import { Ref } from "lit/directives/ref.js";
 import { Axis } from "../components/interfaces";
 
 interface AxisBounds {
@@ -18,7 +19,7 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: { value?: HTMLElement | null } | HTMLElement | null;
+  readonly targetElement: Ref<HTMLElement> | (() => { value?: HTMLElement | null }) | null;
 }
 
 export interface UseSizeOverride {
@@ -76,10 +77,16 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
-        const targetElement =
-          context.targetElement && "value" in context.targetElement
-            ? context.targetElement.value
-            : (context.targetElement as HTMLElement | null);
+        let targetElement: HTMLElement | null | undefined;
+        if (typeof context.targetElement === "function") {
+          const refObject = context.targetElement();
+          targetElement = refObject?.value ?? null;
+        } else if (context.targetElement && "value" in context.targetElement) {
+          targetElement = context.targetElement.value;
+        } else {
+          targetElement = context.targetElement as HTMLElement | null;
+        }
+
         if (!targetElement) {
           return { inline: undefined, block: undefined };
         }

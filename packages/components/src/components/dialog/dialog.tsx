@@ -108,9 +108,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   private focusSetter = useSetFocus<this>()(this);
 
   private sizeOverride = useSizeOverride({
-    get targetElement() {
-      return { value: this.transitionEl };
-    },
+    targetElement: () => ({ value: this.transitionEl }),
     getBounds: () => ({
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
