@@ -303,7 +303,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and `step` is specified, enables snap selection via a mouse. */

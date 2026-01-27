@@ -84,7 +84,7 @@ export class Stepper extends LitElement {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the size of the component.*/
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

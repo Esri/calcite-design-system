@@ -134,7 +134,7 @@ export class SplitButton extends LitElement {
   /** Specifies text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
