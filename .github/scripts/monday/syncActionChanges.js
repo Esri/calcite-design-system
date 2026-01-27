@@ -1,6 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday");
-const { assertRequired } = require("../support/utils");
+const { assertRequired, createBodyUpdater } = require("../support/utils");
 
 /**
  * @typedef {object} SyncActionChangesInputs
@@ -40,7 +40,7 @@ module.exports = async ({ github, context, core }) => {
     issue_number,
   });
 
-  const monday = Monday(issue, core);
+  const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
 
   if (milestone_updated === "true") {
     monday.handleMilestone();
