@@ -7,13 +7,14 @@ on:
 
 permissions:
   issues: write
+  actions: write
 
 jobs:
   close-needs-more-info-issues:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Close issue if more info is not provided
         uses: actions/github-script@v8

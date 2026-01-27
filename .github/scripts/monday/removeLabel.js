@@ -1,43 +1,35 @@
 // @ts-check
 const Monday = require("../support/monday");
-const { assertRequired, notInLifecycle, includesLabel } = require("../support/utils");
+const { assertRequired, includesLabel, createBodyUpdater } = require("../support/utils");
 const {
   labels: {
     planning: { spike, spikeComplete },
     issueType: { designTokens },
-    issueWorkflow: { new: newLabel, assigned: assignedLabel, needsTriage, needsMilestone },
   },
   packages: { tokens: tokensPackage },
 } = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context }) => {
+module.exports = async ({ github, context, core }) => {
   const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (context.payload);
-  const { labels: issueLabels, assignee, state } = issue;
-  const [labelName] = assertRequired([label?.name]);
+  const { labels: issueLabels } = issue;
+  const [labelName, labelColor] = assertRequired([label?.name, label?.color], core, "No label found in payload.");
+  const logParams = { title: "Remove Label" };
 
   if (labelName === spike && includesLabel(issueLabels, spikeComplete)) {
-    console.log("Issue is marked as a spike complete. Skipping label removal.");
-    process.exit(0);
+    core.warning("Issue is marked as a spike complete. Skipping label removal.", logParams);
+    return;
   }
 
-  const tokensLabels = [designTokens, tokensPackage];
-  const remainingTokenLabel = tokensLabels.includes(labelName) && tokensLabels.find((l) => l !== labelName);
+  const remainingTokenLabel =
+    labelName === designTokens ? tokensPackage : labelName === tokensPackage ? designTokens : null;
   if (remainingTokenLabel && includesLabel(issueLabels, remainingTokenLabel)) {
-    console.error("Issue is still marked as a design token issue. Skipping label removal.");
-    process.exit(0);
+    core.warning("Issue is still marked as a design token issue. Skipping label removal.", logParams);
+    return;
   }
 
-  const monday = Monday(issue);
-
-  if (
-    assignee &&
-    state === "open" &&
-    notInLifecycle({ labels: issueLabels, skip: [newLabel, assignedLabel, needsTriage, needsMilestone] })
-  ) {
-    monday.addLabel(assignedLabel);
-  }
-
-  monday.clearLabel(labelName);
+  const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
+  monday.setAssignedStatus();
+  monday.clearLabel(labelName, labelColor);
   await monday.commit();
 };

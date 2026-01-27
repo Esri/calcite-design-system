@@ -9,6 +9,7 @@ const {
     designEstimate,
     planning,
     handoff,
+    productColor,
   },
   milestone,
   packages,
@@ -17,22 +18,27 @@ const { includesLabel, notInLifecycle } = require("./utils");
 
 /**
  * @param {NodeJS.ProcessEnv} env
+ * @param {import('@actions/core')} core
  * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string }}
  */
-function assertMondayEnv(env) {
+function assertMondayEnv(env, core) {
   if (!env.MONDAY_KEY || !env.MONDAY_BOARD) {
-    throw new Error("A Monday.com env variable is not set.");
+    core.setFailed("A Monday.com env variable is not set.");
+    process.exit(1);
   }
 }
 
 /**
  * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
+ * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
+ * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
-module.exports = function Monday(issue) {
-  assertMondayEnv(process.env);
+module.exports = function Monday(issue, core, updateIssueBody) {
+  assertMondayEnv(process.env, core);
   const { MONDAY_KEY, MONDAY_BOARD } = process.env;
   if (!issue) {
-    throw new Error("No GitHub issue provided.");
+    core.setFailed("No GitHub issue provided.");
+    process.exit(1);
   }
 
   const {
@@ -46,6 +52,9 @@ module.exports = function Monday(issue) {
     html_url,
   } = issue;
 
+  /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
+  let createLabelsIfMissing = false;
+
   /**
    * Monday.com column value options
    * @typedef {string | number | { url: string, text: string } | { labels: string[] }} ColumnValue
@@ -53,50 +62,65 @@ module.exports = function Monday(issue) {
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
 
-  const columnIds = {
+  /** @typedef {object} MondayColumn
+   * @property {string} id - The Monday.com column ID
+   * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality
+   * @property {"dropdown"} [type] - The type of the column, used for special handling
+   */
+  /** @type {Record<string, MondayColumn>} */
+  const mondayColumns = {
     /* eslint-disable @cspell/spellchecker -- Monday IDs may include segments with randomized characters */
-    title: "name",
-    issueNumber: "numeric_mknk2xhh",
-    link: "link",
-    designers: "people",
-    developers: "multiple_person_mkt920b0",
-    productEngineers: "multiple_person_mkt9pzj9",
-    status: "dup__of_overall_status__1",
-    date: "date6",
-    priority: "priority",
-    typeDropdown: "dropdown_mkwhjde2",
-    designEstimate: "color_mkrbg2b9",
-    devEstimate: "numeric_mkswahrw",
-    designIssue: "color_mkswbke0",
-    stalled: "color_mkv79bbx",
-    blocked: "color_mkv7x1gw",
-    spike: "color_mkrt20dy",
-    figmaChanges: "color_mkrvmhg7",
-    open: "color_mknkrb2n",
+    title: { id: "name", title: "Item" },
+    issueNumber: { id: "numeric_mknk2xhh", title: "Issue Number" },
+    link: { id: "link", title: "GH Link" },
+    designers: { id: "people", title: "Designer" },
+    developers: { id: "multiple_person_mkt920b0", title: "Developer" },
+    productEngineers: { id: "multiple_person_mkt9pzj9", title: "Verified by" },
+    status: { id: "dup__of_overall_status__1", title: "Status" },
+    date: { id: "date6", title: "Milestone" },
+    priority: { id: "priority", title: "Priority" },
+    typeDropdown: {
+      id: "dropdown_mkwhjde2",
+      title: "Issue Type",
+      type: "dropdown",
+    },
+    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "dropdown" },
+    designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
+    devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
+    designIssue: { id: "color_mkswbke0", title: "Design Issue" },
+    stalled: { id: "color_mkv79bbx", title: "Stalled" },
+    blocked: { id: "color_mkv7x1gw", title: "Blocked" },
+    spike: { id: "color_mkrt20dy", title: "Spike" },
+    figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
+    open: { id: "color_mknkrb2n", title: "Open/Closed" },
     /* eslint-enable @cspell/spellchecker */
   };
 
-  /** @typedef {{ column: string, value: string | number, clearable?: boolean }} MondayLabel */
+  /** @typedef {object} MondayLabel
+   * @property {MondayColumn} column - The Monday.com column the label is synced to.
+   * @property {string | number} value - The value to set in the column.
+   * @property {boolean} [clearable] - Whether the label can be cleared from the column.
+   */
   /** @type {Map<string, MondayLabel>} */
   const labelMap = new Map([
     [
       issueWorkflow.needsTriage,
       {
-        column: columnIds.status,
+        column: mondayColumns.status,
         value: "Needs Triage",
       },
     ],
     [
       issueWorkflow.needsMilestone,
       {
-        column: columnIds.status,
+        column: mondayColumns.status,
         value: "Needs Milestone",
       },
     ],
     [
       planning.spike,
       {
-        column: columnIds.spike,
+        column: mondayColumns.spike,
         value: "Spike",
         clearable: true,
       },
@@ -104,7 +128,7 @@ module.exports = function Monday(issue) {
     [
       planning.spikeComplete,
       {
-        column: columnIds.spike,
+        column: mondayColumns.spike,
         value: "Spike Complete",
         clearable: true,
       },
@@ -112,57 +136,43 @@ module.exports = function Monday(issue) {
     [
       planning.blocked,
       {
-        column: columnIds.blocked,
+        column: mondayColumns.blocked,
         value: "Blocked",
         clearable: true,
       },
     ],
     [
-      issueWorkflow.new,
+      issueWorkflow.inDesign,
       {
-        column: columnIds.status,
-        value: "Unassigned",
-      },
-    ],
-    [
-      issueWorkflow.assigned,
-      {
-        column: columnIds.status,
-        value: "Assigned",
+        column: mondayColumns.status,
+        value: "In Design",
       },
     ],
     [
       issueWorkflow.readyForDev,
       {
-        column: columnIds.status,
+        column: mondayColumns.status,
         value: "Ready for Dev",
       },
     ],
     [
       issueWorkflow.inDevelopment,
       {
-        column: columnIds.status,
+        column: mondayColumns.status,
         value: "In Development",
       },
     ],
     [
       issueWorkflow.installed,
       {
-        column: columnIds.status,
+        column: mondayColumns.status,
         value: "Installed",
-      },
-    ],
-    [
-      issueWorkflow.verified,
-      {
-        column: columnIds.status,
-        value: "Verified",
       },
     ],
     [
       issueType.design,
       {
-        column: columnIds.designIssue,
+        column: mondayColumns.designIssue,
         value: "Design",
         clearable: true,
       },
@@ -170,7 +180,7 @@ module.exports = function Monday(issue) {
     [
       issueType.a11y,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "a11y",
         clearable: true,
       },
@@ -178,7 +188,7 @@ module.exports = function Monday(issue) {
     [
       issueType.bug,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Bug",
         clearable: true,
       },
@@ -186,7 +196,7 @@ module.exports = function Monday(issue) {
     [
       issueType.chore,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Chore",
         clearable: true,
       },
@@ -194,7 +204,7 @@ module.exports = function Monday(issue) {
     [
       issueType.designTokens,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Design Tokens",
         clearable: true,
       },
@@ -202,7 +212,7 @@ module.exports = function Monday(issue) {
     [
       packages.tokens,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Design Tokens",
         clearable: true,
       },
@@ -210,7 +220,7 @@ module.exports = function Monday(issue) {
     [
       issueType.docs,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Docs",
         clearable: true,
       },
@@ -218,15 +228,23 @@ module.exports = function Monday(issue) {
     [
       issueType.enhancement,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Enhancement",
+        clearable: true,
+      },
+    ],
+    [
+      issueType.i18nL10n,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "i18n-l10n",
         clearable: true,
       },
     ],
     [
       issueType.newComponent,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "New Component",
         clearable: true,
       },
@@ -234,7 +252,7 @@ module.exports = function Monday(issue) {
     [
       issueType.refactor,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Refactor",
         clearable: true,
       },
@@ -242,7 +260,7 @@ module.exports = function Monday(issue) {
     [
       bug.regression,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Regression",
         clearable: true,
       },
@@ -250,7 +268,7 @@ module.exports = function Monday(issue) {
     [
       issueType.research,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Research",
         clearable: true,
       },
@@ -258,7 +276,7 @@ module.exports = function Monday(issue) {
     [
       issueType.test,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Testing",
         clearable: true,
       },
@@ -266,7 +284,7 @@ module.exports = function Monday(issue) {
     [
       issueType.tooling,
       {
-        column: columnIds.typeDropdown,
+        column: mondayColumns.typeDropdown,
         value: "Tooling",
         clearable: true,
       },
@@ -274,112 +292,112 @@ module.exports = function Monday(issue) {
     [
       priority.low,
       {
-        column: columnIds.priority,
+        column: mondayColumns.priority,
         value: "Low",
       },
     ],
     [
       priority.medium,
       {
-        column: columnIds.priority,
+        column: mondayColumns.priority,
         value: "Medium",
       },
     ],
     [
       priority.high,
       {
-        column: columnIds.priority,
+        column: mondayColumns.priority,
         value: "High",
       },
     ],
     [
       priority.critical,
       {
-        column: columnIds.priority,
+        column: mondayColumns.priority,
         value: "Critical",
       },
     ],
     [
       devEstimate.one,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 1,
       },
     ],
     [
       devEstimate.two,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 2,
       },
     ],
     [
       devEstimate.three,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 3,
       },
     ],
     [
       devEstimate.five,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 5,
       },
     ],
     [
       devEstimate.eight,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 8,
       },
     ],
     [
       devEstimate.thirteen,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 13,
       },
     ],
     [
       devEstimate.twentyOne,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 21,
       },
     ],
     [
       devEstimate.thirtyFour,
       {
-        column: columnIds.devEstimate,
+        column: mondayColumns.devEstimate,
         value: 34,
       },
     ],
     [
       designEstimate.small,
       {
-        column: columnIds.designEstimate,
+        column: mondayColumns.designEstimate,
         value: "Small",
       },
     ],
     [
       designEstimate.medium,
       {
-        column: columnIds.designEstimate,
+        column: mondayColumns.designEstimate,
         value: "Medium",
       },
     ],
     [
       designEstimate.large,
       {
-        column: columnIds.designEstimate,
+        column: mondayColumns.designEstimate,
         value: "Large",
       },
     ],
     [
       handoff.figmaChanges,
       {
-        column: columnIds.figmaChanges,
+        column: mondayColumns.figmaChanges,
         value: "Figma Changes Only",
         clearable: true,
       },
@@ -387,38 +405,40 @@ module.exports = function Monday(issue) {
     [
       milestone.stalled,
       {
-        column: columnIds.stalled,
+        column: mondayColumns.stalled,
         value: "Stalled",
+        clearable: true,
       },
     ],
   ]);
 
   /**
    * @typedef {object} MondayPerson
-   * @property {string} role - The role of the person (e.g., developers, designers, productEngineers)
+   * @property {MondayColumn} role - The role of the person (e.g., developers, designers, productEngineers)
    * @property {number} id - The Monday.com user ID
    */
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
     /* eslint-disable @cspell/spellchecker -- GitHub usernames */
-    ["anveshmekala", { role: columnIds.developers, id: 48387134 }],
-    ["aPreciado88", { role: columnIds.developers, id: 60795249 }],
-    ["ashetland", { role: columnIds.designers, id: 45851619 }],
-    ["benelan", { role: columnIds.developers, id: 49704471 }],
-    ["chezHarper", { role: columnIds.designers, id: 71157966 }],
-    ["DintaMel", { role: columnIds.productEngineers, id: 92955697 }],
-    ["DitwanP", { role: columnIds.productEngineers, id: 53683093 }],
-    ["driskull", { role: columnIds.developers, id: 45944985 }],
-    ["Elijbet", { role: columnIds.developers, id: 55852207 }],
-    ["eriklharper", { role: columnIds.developers, id: 49699973 }],
-    ["geospatialem", { role: columnIds.productEngineers, id: 45853373 }],
-    ["isaacbraun", { role: columnIds.productEngineers, id: 76547859 }],
-    ["jcfranco", { role: columnIds.developers, id: 45854945 }],
-    ["macandcheese", { role: columnIds.developers, id: 45854918 }],
-    ["matgalla", { role: columnIds.designers, id: 69473378 }],
-    ["rmstinson", { role: columnIds.designers, id: 47277636 }],
-    ["SkyeSeitz", { role: columnIds.designers, id: 45854937 }],
-    ["Amretasre002762670", { role: columnIds.developers, id: 77031889 }],
+    ["anveshmekala", { role: mondayColumns.developers, id: 48387134 }],
+    ["aPreciado88", { role: mondayColumns.developers, id: 60795249 }],
+    ["ashetland", { role: mondayColumns.designers, id: 45851619 }],
+    ["benelan", { role: mondayColumns.developers, id: 49704471 }],
+    ["brendan-vincent-rice", { role: mondayColumns.developers, id: 96903694 }],
+    ["chezHarper", { role: mondayColumns.designers, id: 71157966 }],
+    ["DintaMel", { role: mondayColumns.productEngineers, id: 92955697 }],
+    ["DitwanP", { role: mondayColumns.productEngineers, id: 53683093 }],
+    ["driskull", { role: mondayColumns.developers, id: 45944985 }],
+    ["Elijbet", { role: mondayColumns.developers, id: 55852207 }],
+    ["eriklharper", { role: mondayColumns.developers, id: 49699973 }],
+    ["geospatialem", { role: mondayColumns.productEngineers, id: 45853373 }],
+    ["isaacbraun", { role: mondayColumns.productEngineers, id: 76547859 }],
+    ["jcfranco", { role: mondayColumns.developers, id: 45854945 }],
+    ["macandcheese", { role: mondayColumns.developers, id: 45854918 }],
+    ["matgalla", { role: mondayColumns.designers, id: 69473378 }],
+    ["rmstinson", { role: mondayColumns.designers, id: 47277636 }],
+    ["SkyeSeitz", { role: mondayColumns.designers, id: 45854937 }],
+    ["Amretasre002762670", { role: mondayColumns.developers, id: 77031889 }],
     /* eslint-enable @cspell/spellchecker */
   ]);
 
@@ -436,14 +456,18 @@ module.exports = function Monday(issue) {
    * @param {import('@octokit/webhooks-types').User} person
    */
   function addAssignee(person) {
+    const logParams = { title: "Add Assignee" };
     if (!person?.login) {
-      console.log("No person or login provided for assignment.");
+      core.warning("No person or login provided.", logParams);
       return;
     }
 
     const info = peopleMap.get(person.login);
     if (!info) {
-      console.log(`Assignee ${person.login} not found in peopleMap.`);
+      core.warning(
+        `Assignee "${person.login}" not found in peopleMap.`,
+        logParams,
+      );
       return;
     }
 
@@ -453,24 +477,32 @@ module.exports = function Monday(issue) {
         label.name !== issueWorkflow.installed &&
         label.name !== issueWorkflow.verified,
     );
-    if (role === columnIds.productEngineers && notInstalledOrVerified) {
-      role = columnIds.developers;
+    if (
+      role.id === mondayColumns.productEngineers.id &&
+      notInstalledOrVerified
+    ) {
+      role = mondayColumns.developers;
     }
 
-    if (columnUpdates[role]) {
-      columnUpdates[role] += `, ${info.id}`;
+    if (columnUpdates[role.id]) {
+      columnUpdates[role.id] += `, ${info.id}`;
     } else {
-      columnUpdates[role] = `${info.id}`;
+      columnUpdates[role.id] = `${info.id}`;
     }
+    core.notice(
+      `Added assignee "${person.login}" to "${role.title}" column.`,
+      logParams,
+    );
   }
 
   /** @typedef {Record<string, string | string[]>} QueryVariables
   /**
-   * Calls the Monday.com API with a provided query
+   * Calls the Monday.com API with a provided query.
+   * Does not handle API errors. The caller should handle errors and look for required shape of response.
    * @private
    * @param {string} query - The GraphQL query string
    * @param {QueryVariables} variables - The variables for the GraphQL query
-   * @returns {Promise<any>}
+   * @returns {Promise<{ response: any, error: string | null }>}
    */
   async function runQuery(query, variables = {}) {
     try {
@@ -488,26 +520,60 @@ module.exports = function Monday(issue) {
 
       if (!response.ok) {
         const errorBody = await response.json();
-        throw new Error(
-          `${response.status} (${response.statusText}) HTTP error when calling Monday API: ${JSON.stringify(errorBody)}`,
-        );
+        return {
+          response: null,
+          error: `${response.status} (${response.statusText}) from API: ${JSON.stringify(errorBody)}`,
+        };
       }
-      return await response.json();
+      return { response: await response.json(), error: null };
     } catch (error) {
-      throw new Error(`Error calling Monday.com API: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      return { response: null, error: message };
     }
+  }
+
+  /**
+   * @typedef {object} UpdateError
+   * @property {boolean} expected
+   * @property {string} [message]
+   */
+  /**
+   * @typedef {object} UpdateResponse
+   * @property {UpdateError | null} error
+   */
+  /**
+   * Builds an error object for multiple column update returns
+   * @private
+   * @param {object} params
+   * @param {boolean} [params.expected] - Whether the error is expected or not
+   * @param {Array<string | null>} params.messages - Array of error messages to be joined
+   * @returns {UpdateResponse}
+   */
+  function buildUpdateError({ messages, expected }) {
+    /** @type {UpdateError} */
+    const updateError = { expected: !!expected };
+
+    const filteredMessages = messages.filter(Boolean);
+    if (filteredMessages.length) {
+      updateError.message = filteredMessages.join(" ");
+    }
+
+    return { error: updateError };
   }
 
   /**
    * Creates and runs a query to update columns in a Monday.com item
    * @private
-   * @param {string} id - The ID of the Monday.com item to update
-   * @returns {Promise<{ error: string | null }>} - An object indicating success or failure
+   * @param {string} syncId - The ID of the Monday.com item to update
+   * @returns {Promise<UpdateResponse>}
    */
-  async function updateMultipleColumns(id = "") {
-    const mondayId = id || (await getId())?.id;
-    if (!mondayId) {
-      return { error: "No Monday ID found, cannot update columns." };
+  async function updateMultipleColumns(syncId = "") {
+    const id = syncId || (await getId())?.id;
+    if (!id) {
+      return buildUpdateError({
+        expected: true,
+        messages: ["Monday Task ID not found, cannot update columns."],
+      });
     }
 
     const query = `mutation ChangeMultipleColumnValues($board_id: ID!, $item_id: ID!, $column_values: JSON!) {
@@ -515,6 +581,7 @@ module.exports = function Monday(issue) {
         board_id: $board_id,
         item_id: $item_id,
         column_values: $column_values
+        ${createLabelsIfMissing ? ", create_labels_if_missing: true" : ""}
       ) {
         id
       }
@@ -523,15 +590,40 @@ module.exports = function Monday(issue) {
     /** @type {QueryVariables} */
     const queryVariables = {
       board_id: MONDAY_BOARD,
-      item_id: mondayId,
+      item_id: id,
       column_values: JSON.stringify(columnUpdates),
     };
 
-    const response = await runQuery(query, queryVariables);
-    if (!response?.data?.change_multiple_column_values?.id) {
-      return {
-        error: `Failed to update columns for item ID ${mondayId}. Response: ${JSON.stringify(response)}`,
-      };
+    const { response, error } = await runQuery(query, queryVariables);
+    if (error || !response?.data?.change_multiple_column_values) {
+      const baseMessage = `Failed to update columns for ID ${id}.`;
+      const queriedId = await queryForId();
+      if (!queriedId || queriedId === id) {
+        const skippedMessage = queriedId
+          ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID.`
+          : `Retry skipped because no alternate item ID was found.`;
+        return buildUpdateError({
+          messages: [baseMessage, skippedMessage, error],
+        });
+      }
+
+      queryVariables.item_id = queriedId;
+      const { response: retryResponse, error: retryError } = await runQuery(
+        query,
+        queryVariables,
+      );
+      if (retryError || !retryResponse?.data?.change_multiple_column_values) {
+        return buildUpdateError({
+          messages: [
+            baseMessage,
+            `Retry failed for queried ID ${queriedId}.`,
+            `Original error: ${error}.`,
+            `Retry error: ${retryError}.`,
+          ],
+        });
+      }
+
+      await updateBodyWithId(queriedId);
     }
     return { error: null };
   }
@@ -540,7 +632,6 @@ module.exports = function Monday(issue) {
    * Query Monday.com for an item matching the issue number
    * @private
    * @returns {Promise<string | undefined>} - The Monday.com item ID if found
-   * @throws {Error} - If the query fails or no response is received
    */
   async function queryForId() {
     const query = `query QueryForId($board_id: ID!, $column_id: String!, $column_values: [String!]!) {
@@ -560,30 +651,34 @@ module.exports = function Monday(issue) {
     /** @type {QueryVariables} */
     const queryVariables = {
       board_id: MONDAY_BOARD,
-      column_id: columnIds.issueNumber,
+      column_id: mondayColumns.issueNumber.id,
       column_values: [String(issueNumber)],
     };
 
-    const response = await runQuery(query, queryVariables);
-    if (!response) {
-      throw new Error(`No response for Github Issue #${issueNumber}`);
+    const { response, error } = await runQuery(query, queryVariables);
+    if (error) {
+      core.setFailed(error);
+      return;
     }
 
     const items = response?.data?.items_page_by_column_values?.items ?? [];
-    // No item found, do not throw an error as this is a valid state.
     if (items.length === 0) {
-      console.log(`No Monday task found for Github Issue #${issueNumber}.`);
+      core.notice(`No Monday task found for Github Issue #${issueNumber}.`, {
+        title: "Query for ID",
+      });
       return;
     }
 
     if (items.length > 1) {
-      throw new Error(
+      core.setFailed(
         `Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`,
       );
+      return;
     }
 
     const [{ id }] = items;
-    console.log(`Found existing Monday task for Issue #${issueNumber}: ${id}.`);
+    await updateBodyWithId(id);
+    core.info(`Found existing Monday task for Issue #${issueNumber}: ${id}.`);
     return id;
   }
 
@@ -612,7 +707,7 @@ module.exports = function Monday(issue) {
     }
 
     const labelValue = `${labelInfo.value}`;
-    const currentValue = columnUpdates[labelInfo.column];
+    const currentValue = columnUpdates[labelInfo.column.id];
     const existingLabels =
       currentValue &&
       typeof currentValue === "object" &&
@@ -621,9 +716,10 @@ module.exports = function Monday(issue) {
         : [];
 
     if (existingLabels.length === 0 && labels?.length) {
-      for (const { name } of labels) {
+      for (const { name, color } of labels) {
+        createProductLabelIfNeeded(name, color);
         const info = labelMap.get(name);
-        if (info?.column === labelInfo.column && info.value) {
+        if (info?.column.id === labelInfo.column.id && info.value) {
           existingLabels.push(`${info.value}`);
         }
       }
@@ -647,27 +743,36 @@ module.exports = function Monday(issue) {
    * @param {("add" | "remove")} action - The action to perform
    */
   function updateLabel(label, action) {
+    const logParams = { title: "Update Label" };
     if (!labelMap.has(label)) {
-      console.log(`Label "${label}" not found in Monday Labels map.`);
+      core.notice(
+        `Label "${label}" not found in Monday Labels map.`,
+        logParams,
+      );
       return;
     }
 
     const info = labelMap.get(label);
     if (!info?.column || !info?.value) {
-      console.log(`Label "${label}" is missing column or title information.`);
+      core.warning(
+        `Label "${label}" is missing column or title information.`,
+        logParams,
+      );
       return;
     }
 
-    const isDropdown = info.column === columnIds.typeDropdown;
+    const isDropdown = info.column.type === "dropdown";
     if (action === "add") {
       setColumnValue(
         info.column,
         isDropdown ? createDropdownValues(info, "add") : info.value,
+        logParams,
       );
     } else if (info.clearable) {
       setColumnValue(
         info.column,
         isDropdown ? createDropdownValues(info, "remove") : "",
+        logParams,
       );
     }
   }
@@ -675,8 +780,8 @@ module.exports = function Monday(issue) {
   /** Public functions */
 
   /**
-   * Find the Monday.com item ID for a issue and its source
-   * ID is parsed from the issue body or fetched based on the issue number
+   * Find the Monday.com item ID for a issue and its source.
+   * The ID is parsed from the issue body or queried from the Monday.com API based on the issue number.
    * @return {Promise<{ id: string | undefined, source: ("body" | "query")}>} - The Monday.com item ID
    */
   async function getId() {
@@ -690,77 +795,80 @@ module.exports = function Monday(issue) {
 
   /**
    * Commit any pending column updates to Monday.com
+   * @returns {Promise<void>}
    */
   async function commit() {
+    const logParams = { title: "Commit Updates" };
     if (Object.keys(columnUpdates).length === 0) {
-      console.log("No updates to commit.");
+      core.notice("No updates to commit.", logParams);
       return;
     }
 
     const { error } = await updateMultipleColumns();
     if (error) {
-      throw new Error(`Error committing updates: ${error}`);
+      const log = error.expected ? core.warning : core.setFailed;
+      log(`Error committing updates: ${error.message}`);
+      return;
     }
+
+    core.notice("Updates committed successfully.", logParams);
     columnUpdates = {};
   }
 
   /**
-   * Create a new task in Monday.com, or update an existing one if syncId is provided
-   * @param {string} syncId = When provided, updates item in Monday instead of creating new
-   * @returns {Promise<string>} - The ID of the created Monday.com item
+   * Create a new item in Monday.com, or update an existing one if found
+   * @returns {Promise<void>}
    */
-  async function createTask(syncId = "") {
+  async function createTask() {
+    const logParams = { title: "Create Task" };
     columnUpdates = {
-      [columnIds.issueNumber]: `${issueNumber}`,
-      [columnIds.link]: {
+      [mondayColumns.issueNumber.id]: `${issueNumber}`,
+      [mondayColumns.link.id]: {
         url: html_url,
         text: `${issueNumber}`,
       },
     };
 
     if (labels?.length) {
-      labels.forEach((label) => addLabel(label.name));
+      labels.forEach((label) => addLabel(label.name, label.color));
     }
 
-    if (notInLifecycle({ labels, skip: [issueWorkflow.new] })) {
+    if (notInLifecycle({ labels })) {
       addLabel(issueWorkflow.needsTriage);
     }
 
     if (assignees.length) {
       assignees.forEach((person) => addAssignee(person));
-
-      // Set to "assigned" if no lifecycle labels were applied
-      // Overrides the default "needs triage" label
-      if (
-        notInLifecycle({
-          labels,
-          skip: [
-            issueWorkflow.new,
-            issueWorkflow.needsTriage,
-            issueWorkflow.needsMilestone,
-          ],
-        })
-      ) {
-        addLabel(issueWorkflow.assigned);
-      }
+      setAssignedStatus();
     }
 
     if (issueMilestone) {
       handleMilestone();
     }
 
+    const { id: syncId } = await getId();
     if (syncId) {
-      console.log(
-        `Sync ID ${syncId} provided, updating existing item instead of creating new.`,
+      core.notice(
+        `Sync ID "${syncId}" provided, updating existing item instead of creating new.`,
+        logParams,
       );
-      setColumnValue(columnIds.title, issue.title);
+      setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
       const { error } = await updateMultipleColumns(syncId);
+
       if (error) {
-        throw new Error(`Syncing existing item ${syncId}: ${error}`);
+        if (error.expected) {
+          core.warning(
+            `Expected error syncing item ${syncId}: ${error.message}`,
+            logParams,
+          );
+        } else {
+          core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
+        }
       }
-      return syncId;
+
+      return;
     }
 
     const query = `mutation CreateItem($board_id: ID!, $item_name: String!, $column_values: JSON!) {
@@ -780,42 +888,52 @@ module.exports = function Monday(issue) {
       column_values: JSON.stringify(columnUpdates),
     };
 
-    const {
-      data: {
-        create_item: { id },
-      },
-    } = await runQuery(query, queryVariables);
-    if (!id) {
-      throw new Error(`Failed to create item for issue #${issueNumber}`);
+    const { response, error } = await runQuery(query, queryVariables);
+    const createdId = response?.data?.create_item?.id;
+    if (error || !createdId) {
+      core.setFailed(error || `Failed creating item for issue #${issueNumber}`);
+      return;
     }
-    return id;
+
+    await updateBodyWithId(createdId);
   }
 
   /**
    * Set a specific column value in columnUpdates
-   * @param {string} column
+   * @param {MondayColumn} column
    * @param {ColumnValue} value
+   * @param {import('@actions/core').AnnotationProperties} [logParams] - Optional logging parameters
    */
-  function setColumnValue(column, value) {
+  function setColumnValue(
+    column,
+    value,
+    logParams = { title: "Set Column Value" },
+  ) {
     if (!column) {
-      console.log("No column provided to setColumnValue.");
+      core.warning("No column provided.", logParams);
       return;
     }
     if (value == null) {
-      console.log("No value provided to setColumnValue.");
+      core.warning("No value provided.", logParams);
       return;
     }
 
-    columnUpdates[column] = value;
+    columnUpdates[column.id] = value;
+    core.notice(
+      value === ""
+        ? `Cleared "${column.title}" column.`
+        : `Set "${column.title}" column to: ${JSON.stringify(value)}.`,
+      logParams,
+    );
   }
 
   /**
    * Update columnUpdates based on milestone title
    */
   function handleMilestone() {
-    // Null milestone indicates milestone was removed
+    const logParams = { title: "Handle Milestone" };
     if (!issueMilestone) {
-      setColumnValue(columnIds.date, "");
+      setColumnValue(mondayColumns.date, "", logParams);
       clearLabel(milestone.stalled);
       return;
     }
@@ -824,40 +942,26 @@ module.exports = function Monday(issue) {
     const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
     if (milestoneDate) {
-      setColumnValue(columnIds.date, milestoneDate);
+      setColumnValue(mondayColumns.date, milestoneDate, logParams);
       clearLabel(milestone.stalled);
-
-      const {
-        new: newLabel,
-        assigned,
-        needsTriage,
-        needsMilestone,
-        readyForDev,
-        installed,
-      } = issueWorkflow;
-      if (
-        assignee &&
-        notInLifecycle({
+      const { needsTriage, needsMilestone, installed, readyForDev } =
+        issueWorkflow;
+      setAssignedStatus({
+        assignedCondition: notInLifecycle({
           labels,
-          skip: [newLabel, assigned, needsTriage, needsMilestone],
-        })
-      ) {
-        addLabel(assigned);
-      }
-      if (
-        !assignee &&
-        !includesLabel(labels, installed) &&
-        !includesLabel(labels, readyForDev)
-      ) {
-        addLabel(newLabel);
-      }
+          skip: [needsTriage, needsMilestone],
+        }),
+        unassignedCondition:
+          !includesLabel(labels, installed) &&
+          !includesLabel(labels, readyForDev),
+      });
     } else {
-      setColumnValue(columnIds.date, "");
+      setColumnValue(mondayColumns.date, "", logParams);
 
       if (milestoneTitle === milestone.stalled) {
         addLabel(milestone.stalled);
       } else if (inMilestoneStatus()) {
-        setColumnValue(columnIds.status, milestoneTitle);
+        setColumnValue(mondayColumns.status, milestoneTitle, logParams);
         clearLabel(milestone.stalled);
       }
     }
@@ -869,17 +973,25 @@ module.exports = function Monday(issue) {
    * @returns {void}
    */
   function handleState(action = "open") {
+    const CLOSED = "Closed";
+    const DONE = "Done";
+    const ADDING_TO_KIT = "Adding to Kit";
+    const logParams = { title: "Handle State" };
+
     if (!issue.state) {
-      console.log("No Issue state provided to handleState.");
+      core.warning("No Issue state provided.", logParams);
       return;
     }
-    setColumnValue(columnIds.open, stateMap[issue.state]);
+
+    setColumnValue(mondayColumns.open, stateMap[issue.state], logParams);
 
     if (action === "closed") {
       if (issue.state_reason !== "completed") {
-        setColumnValue(columnIds.status, "Closed");
-      } else if (!includesLabel(issue.labels, issueType.design)) {
-        setColumnValue(columnIds.status, "Done");
+        setColumnValue(mondayColumns.status, CLOSED, logParams);
+      } else if (includesLabel(issue.labels, issueType.design)) {
+        setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);
+      } else {
+        setColumnValue(mondayColumns.status, DONE, logParams);
       }
     }
   }
@@ -894,55 +1006,85 @@ module.exports = function Monday(issue) {
       addAssignee(assignee);
     });
 
-    [columnIds.developers, columnIds.productEngineers].forEach((role) => {
-      if (!(role in columnUpdates)) {
+    [mondayColumns.developers, mondayColumns.productEngineers]
+      .filter((role) => !(role.id in columnUpdates))
+      .forEach((role) => {
         setColumnValue(role, "");
-      }
-    });
+      });
   }
 
   /**
    * Add a label to columnUpdates
-   * @param {string} label
+   * @param {string} label - The label name to add
+   * @param {string} [color] - The hex (without '#' prefix) color of the label. Used to create Esri Product labels.
    */
-  function addLabel(label) {
+  function addLabel(label, color = "") {
     if (label === planning.monday) {
       return;
     }
 
     const { needsMilestone, readyForDev } = issueWorkflow;
     if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      console.log(
+      core.notice(
         `Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`,
+        { title: "Add Label" },
       );
       return;
     }
 
+    createProductLabelIfNeeded(label, color);
     updateLabel(label, "add");
   }
 
   /**
    * Clear a column value in columnUpdates based on the label
    * @param {string} label - The label name to clear
+   * @param {string} [color] - The hex (without '#' prefix) color of the label. Used to create Esri Product labels.
    * @returns {void}
    */
-  function clearLabel(label) {
+  function clearLabel(label, color = "") {
+    createProductLabelIfNeeded(label, color);
     updateLabel(label, "remove");
+  }
+
+  /**
+   * If the label qualifies, create a Esri Product label in `labelMap` and set `createLabelsIfMissing` to `true`
+   * @param {string} label - The label name
+   * @param {string | undefined} color - The color of the label
+   * @returns {void}
+   */
+  function createProductLabelIfNeeded(label, color) {
+    if (labelMap.has(label) || color !== productColor) {
+      return;
+    }
+
+    /** @type {MondayLabel} */
+    const labelInfo = {
+      column: mondayColumns.product,
+      value: label.replace(/(for )?ArcGIS/g, "").trim(),
+      clearable: true,
+    };
+
+    labelMap.set(label, labelInfo);
+    createLabelsIfMissing = true;
+
+    core.notice(`Created label "${labelInfo.value}" in label map.`, {
+      title: "Create Esri Product Label",
+    });
   }
 
   /**
    * Inserts or replaces the Monday sync line in the issue body string
    * @param {string} mondayID - The Monday.com item ID
-   * @returns {string} - The updated issue body
    */
-  function addSyncLine(mondayID) {
+  async function updateBodyWithId(mondayID) {
     const syncMarkdown = `**monday.com sync:** #${mondayID}\n\n`;
-    const syncLineRegex = /^\*\*monday\.com sync:\*\* #\d+\n\n?/m;
-    if (body && syncLineRegex.test(body)) {
-      return body.replace(syncLineRegex, syncMarkdown);
-    } else {
-      return syncMarkdown + (body || "");
-    }
+    const syncLineRegex = /^\*\*monday\.com sync:\*\* ?#?\d*\n?\n?/m;
+    const updatedBody =
+      body && syncLineRegex.test(body)
+        ? body.replace(syncLineRegex, syncMarkdown)
+        : syncMarkdown + (body || "");
+    await updateIssueBody(issueNumber, updatedBody);
   }
 
   /**
@@ -955,18 +1097,45 @@ module.exports = function Monday(issue) {
     );
   }
 
+  /**
+   * Set the issue status to "Unassigned" or "Assigned" based on assigned status.
+   * Default condition is: if issue is open, not in lifecycle, and not in a milestone status.
+   * @param {object} [params]
+   * @param {boolean} [params.assignedCondition] - Condition to set status to "Assigned"
+   * @param {boolean} [params.unassignedCondition] - Condition to set status to "Unassigned"
+   * @returns {void}
+   */
+  function setAssignedStatus({ assignedCondition, unassignedCondition } = {}) {
+    const ASSIGNED = "Assigned";
+    const UNASSIGNED = "Unassigned";
+    const logParams = { title: "Set Assigned Status" };
+    const defaultCondition =
+      issue.state === "open" &&
+      notInLifecycle({ labels }) &&
+      !inMilestoneStatus();
+    const shouldSetAssigned = assignedCondition ?? defaultCondition;
+    const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
+
+    if (assignee && shouldSetAssigned) {
+      setColumnValue(mondayColumns.status, ASSIGNED, logParams);
+    } else if (!assignee && shouldSetUnassigned) {
+      setColumnValue(mondayColumns.status, UNASSIGNED, logParams);
+    } else {
+      core.notice("Status not changed based on assignment.", logParams);
+    }
+  }
+
   return {
-    columnIds,
-    getId,
+    mondayColumns,
     commit,
     createTask,
     setColumnValue,
+    setAssignedStatus,
     handleMilestone,
     handleState,
     handleAssignees,
     addLabel,
     clearLabel,
-    addSyncLine,
     inMilestoneStatus,
   };
 };

@@ -1,0 +1,149 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-popover-background-color: Specifies the component's background color.
+ * @prop --calcite-popover-border-color: Specifies the component's border color.
+ * @prop --calcite-popover-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-popover-max-size-x: Specifies the component's maximum width.
+ * @prop --calcite-popover-text-color: Specifies the component's text color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-popover-close-spacing
+
+@use "../../styles/includes";
+@use "../../styles/shared/floating-ui";
+
+:host {
+  @apply contents;
+}
+
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
+}
+
+.position-container {
+  @include floating-ui.floating-ui-container();
+  max-inline-size: var(--calcite-popover-max-size-x, 100vw);
+}
+
+@include floating-ui.floating-ui-elem-anim(".position-container");
+
+@include floating-ui.floating-ui-arrow();
+
+:host([scale="s"]) {
+  .heading {
+    @apply text-n1-wrap
+    px-3
+    py-2;
+  }
+}
+
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-xs);
+}
+
+:host([scale="m"]) {
+  .heading {
+    @apply text-0-wrap
+    px-4
+    py-3;
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-internal-popover-close-spacing: var(--calcite-spacing-sm);
+
+  .heading {
+    @apply text-1-wrap
+    px-5
+    py-4;
+  }
+}
+
+.position-container .calcite-floating-ui-anim {
+  @apply border
+    border-solid;
+
+  background-color: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+}
+
+.calcite-floating-ui-arrow {
+  fill: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
+}
+
+.calcite-floating-ui-arrow__stroke {
+  stroke: var(--calcite-popover-border-color, var(--calcite-color-border-3));
+}
+
+.header {
+  @apply flex
+    flex-auto
+    items-stretch
+    justify-start
+    border-0
+    border-b
+    border-solid;
+
+  border-block-end-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
+}
+
+.heading {
+  @apply word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+}
+
+.header-container {
+  @apply relative
+    flex
+    h-full
+    flex-row
+    flex-nowrap
+    rounded;
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+
+  &.has-header {
+    @apply flex-col;
+  }
+}
+
+.content {
+  @apply word-break
+  flex
+  h-full
+  w-full
+  flex-col
+  flex-nowrap
+  self-center;
+}
+
+.close-button {
+  margin: auto;
+  margin-inline-end: var(--calcite-internal-popover-close-spacing);
+}
+
+.close-button-container {
+  @apply flex;
+  flex: 0 0 auto;
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply h-full;
+}
+
+@include includes.base-component();

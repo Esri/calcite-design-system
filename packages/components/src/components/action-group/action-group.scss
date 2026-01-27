@@ -1,0 +1,98 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-background-color: Specifies the component's background color.
+ * @prop --calcite-action-group-border-color: Specifies the component's border color when used in a `calcite-action-bar` or `calcite-action-menu`.
+ * @prop --calcite-action-group-columns: When `layout` is `"grid"`, specifies the component's `grid-template-columns`.
+ * @prop --calcite-action-group-gap: When `layout` is `"grid"`, specifies the component's gap.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-group-columns
+// --calcite-internal-action-group-gap
+
+@use "../../styles/includes";
+
+:host([scale="s"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-xxs);
+}
+:host([scale="m"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-sm);
+}
+:host([scale="l"]) {
+  --calcite-internal-action-group-gap: var(--calcite-spacing-sm-plus);
+}
+
+:host {
+  @extend %component-host;
+
+  @apply flex
+  flex-col
+  p-0;
+
+  background-color: transparent;
+  border-color: var(--calcite-action-group-border-color, var(--calcite-color-border-3));
+  border-style: solid;
+  border-width: 0;
+  gap: var(--calcite-internal-action-group-gap);
+}
+
+.container {
+  @apply flex flex-col flex-grow;
+  gap: inherit;
+}
+
+:host([columns="1"]) {
+  --calcite-internal-action-group-columns: 1;
+}
+:host([columns="2"]) {
+  --calcite-internal-action-group-columns: 2;
+}
+:host([columns="3"]) {
+  --calcite-internal-action-group-columns: 3;
+}
+:host([columns="4"]) {
+  --calcite-internal-action-group-columns: 4;
+}
+:host([columns="5"]) {
+  --calcite-internal-action-group-columns: 5;
+}
+:host([columns="6"]) {
+  --calcite-internal-action-group-columns: 6;
+}
+
+:host(:first-child) {
+  @apply pt-0;
+}
+
+:host([layout="horizontal"]),
+:host([layout="horizontal"]) .container {
+  @apply flex-row;
+}
+
+:host([layout="grid"]) {
+  @apply grid;
+
+  .container {
+    @apply grid
+    place-content-stretch;
+    background-color: transparent;
+    gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-gap));
+    grid-template-columns: repeat(
+      var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, 3)),
+      auto
+    );
+    padding: var(--calcite-action-group-gap, 1px);
+  }
+}
+
+:host([layout="horizontal"]) ::slotted(calcite-action-group) {
+  border-inline-end: var(--calcite-size-px);
+}
+
+@include includes.base-component();

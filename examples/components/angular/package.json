@@ -14,7 +14,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets ./public/assets",
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets ./public/assets",
     "postinstall": "npm run copy"
   },
   "dependencies": {
@@ -42,5 +42,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
+  },
+  "volta": {
+    "node": "24.11.0"
   }
 }

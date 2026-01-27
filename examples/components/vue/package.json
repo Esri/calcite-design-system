@@ -13,17 +13,20 @@
     "build": "vite build",
     "preview": "vite preview",
     "postinstall": "npm run copy",
-    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/"
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets/ ./public/assets/"
   },
   "dependencies": {
     "@esri/calcite-components": "3.3.3",
     "vue": "^3.4.36"
   },
   "devDependencies": {
-    "@types/node": "^22.1.0",
+    "@types/node": "24.10.0",
     "@vitejs/plugin-vue": "^5.1.2",
     "ncp": "^2.0.0",
     "typescript": "^4.5.5",
     "vite": "^5.4.0"
+  },
+  "volta": {
+    "node": "24.11.0"
   }
 }

@@ -1,0 +1,252 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tree-text-color: Specifies the component's text color.
+ * @prop --calcite-tree-text-color-selected: When 'selected', specifies the component's text color.
+ * @prop --calcite-tree-selected-icon-color: Specifies the component's selection icon color.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tree-item-action-spacing
+// --calcite-internal-tree-item-children-container-padding
+// --calcite-internal-tree-item-line-left-position
+// --calcite-internal-tree-item-padding-block
+// --calcite-internal-tree-item-spacing-unit
+// --calcite-internal-tree-item-text-color
+
+@use "../../styles/includes";
+@use "../../styles/shared/animation";
+
+:host([scale="s"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.25rem;
+  --calcite-internal-tree-item-padding-block: 0.25rem;
+  --calcite-internal-tree-item-children-container-padding: 1.25rem;
+  --calcite-internal-tree-item-line-left-position: 0.75rem;
+  @apply text-n2h;
+}
+
+:host(:is([scale="s"], [scale="m"])) {
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-tree-item-spacing-unit: 0.5rem;
+  --calcite-internal-tree-item-padding-block: 0.5rem;
+  --calcite-internal-tree-item-children-container-padding: 1.5rem;
+  --calcite-internal-tree-item-line-left-position: 1rem;
+  @apply text-n1h;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-tree-item-action-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-tree-item-spacing-unit: 0.75rem;
+  --calcite-internal-tree-item-padding-block: 0.625rem;
+  --calcite-internal-tree-item-children-container-padding: 2.25rem;
+  --calcite-internal-tree-item-line-left-position: 1.5rem;
+  @apply text-0h;
+}
+
+:host {
+  @apply block
+    max-w-full
+    cursor-pointer;
+
+  .children-container ::slotted(*) {
+    padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
+  }
+}
+
+.node-actions-container {
+  @apply flex;
+
+  .node-container,
+  .checkbox-container {
+    gap: var(--calcite-internal-tree-item-spacing-unit);
+  }
+  .node-container {
+    padding-inline: var(--calcite-internal-tree-item-spacing-unit);
+    padding-block: var(--calcite-internal-tree-item-padding-block);
+  }
+
+  color: var(--calcite-tree-text-color, var(--calcite-color-text-1));
+}
+
+.icon-start {
+  --calcite-icon-color: var(--calcite-color-text-3);
+}
+
+@include includes.calcite-hydrated-hidden();
+@include includes.disabled();
+
+:host([lines]) {
+  .children-container::after {
+    @apply transition-default
+        absolute
+        top-0
+        w-px
+        transition-colors
+        z-default;
+    // ensure lines don't overlap focus outline
+    block-size: 100%;
+    inset-inline-start: var(--calcite-internal-tree-item-line-left-position);
+    content: "";
+    background-color: var(--calcite-color-border-2);
+  }
+}
+
+:host(:not([lines])) .node-container::after {
+  @apply hidden;
+}
+
+::slotted(*) {
+  @apply min-w-0 max-w-full break-words;
+  color: inherit;
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+::slotted(a) {
+  @apply w-full no-underline;
+}
+
+// focus styles
+:host {
+  @apply outline-none;
+
+  .node-container {
+    @apply focus-base;
+  }
+  &:focus,
+  &:active {
+    .node-container {
+      @apply focus-inset;
+    }
+  }
+}
+
+:host(:focus:not([disabled])) {
+  .node-container {
+    @apply focus-inset outline-none;
+  }
+
+  .checkbox {
+    @apply outline-none;
+  }
+}
+
+.actions-end {
+  @apply flex self-stretch flex-row items-center;
+  gap: var(--calcite-internal-tree-item-action-spacing);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  line-height: 0;
+  color: var(--calcite-tree-selected-icon-color, var(--calcite-color-border-input));
+}
+
+.checkbox-label {
+  @apply pointer-events-none flex items-center;
+}
+
+.children-container {
+  @apply relative h-0 overflow-hidden opacity-0 origin-top;
+  transform: scaleY(0);
+  transition:
+    var(--calcite-animation-timing) animation.$easing-function,
+    opacity var(--calcite-animation-timing) animation.$easing-function,
+    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+
+  .item--expanded > & {
+    @apply overflow-visible opacity-100;
+    transform: none;
+    block-size: auto;
+  }
+}
+
+.node-container {
+  @apply relative flex grow items-center min-w-0;
+
+  .checkmark {
+    @apply transition-default opacity-0;
+    color: var(--calcite-color-border-1);
+  }
+}
+
+.node-container:hover,
+:host([selected]) .node-container:hover,
+:host(:focus:not([disabled])) .node-container {
+  .checkmark {
+    @apply opacity-100;
+  }
+}
+
+:host([selected]) .node-container,
+:host([selected]) .node-container:hover {
+  --calcite-internal-tree-item-text-color: var(--calcite-tree-text-color-selected, var(--calcite-color-text-1));
+
+  @apply font-medium;
+  color: var(--calcite-internal-tree-item-text-color);
+
+  .icon-start {
+    --calcite-icon-color: var(--calcite-internal-tree-item-text-color);
+  }
+
+  .checkmark {
+    @apply opacity-100;
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
+  }
+}
+
+// dropdown with children
+:host([has-children]) .node-container {
+  .checkmark {
+    @apply hidden;
+  }
+}
+
+.chevron {
+  @apply transition-default
+    text-color-3
+    relative
+    self-center;
+  flex: 0 0 auto;
+  transform: rotate(0deg);
+
+  .calcite--rtl & {
+    transform: rotate(180deg);
+  }
+
+  .item--expanded .node-container > & {
+    transform: rotate(90deg);
+  }
+}
+
+:host([selected]) {
+  .checkmark {
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
+  }
+  .checkbox {
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
+  }
+}
+
+:host([has-children][indeterminate]) {
+  .checkbox {
+    color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
+  }
+}
+
+@include includes.base-component();

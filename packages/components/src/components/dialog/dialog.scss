@@ -1,0 +1,409 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dialog-scrim-background-color: Specifies the background color of the component's scrim.
+ * @prop --calcite-dialog-size-x: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width - applies when `placement="cover"` is set.
+ * @prop --calcite-dialog-min-size-x: Specifies the minimum width of the component, using `px`, `em`, `rem`, `vw`, or `%`.
+ * @prop --calcite-dialog-max-size-x: Specifies the maximum width of the component, using `px`, `em`, `rem`, `vw`, or `%`.
+ * @prop --calcite-dialog-size-y: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height - applies when `placement="cover"` is set.
+ * @prop --calcite-dialog-min-size-y: Specifies the minimum height of the component, using `px`, `em`, `rem`, `vh`, or `%`.
+ * @prop --calcite-dialog-max-size-y: Specifies the maximum height of the component, using `px`, `em`, `rem`, `vh`, or `%`.
+ * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
+ * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
+ * @prop --calcite-dialog-border-color: Specifies the component's border color.
+ * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
+ * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
+ * @prop --calcite-dialog-background-color: Specifies the background color of the component.
+ * @prop --calcite-dialog-icon-color: Specifies the color of the component's icon.
+ * @prop --calcite-dialog-accent-color: Specifies the component's accent color when `kind` is specified.
+ * @prop --calcite-dialog-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-dialog-heading-text-color: Specifies the text color of the component's `heading`.
+ * @prop --calcite-dialog-description-text-color: Specifies the text color of the component's `description`.
+ * @prop --calcite-dialog-header-background-color: Specifies the background color of the component's header.
+ * @prop --calcite-dialog-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+ * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+ * @prop --calcite-dialog-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+ * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+ * @prop --calcite-dialog-footer-background-color: Specifies the background color of the component's footer.
+ * @prop --calcite-dialog-space: Specifies the padding of the component's `"unnamed (default)"` slot.
+ * @prop --calcite-dialog-header-content-space: Specifies the padding of the `"header-content"` slot.
+ * @prop --calcite-dialog-action-menu-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-dialog-animation-offset
+// --calcite-internal-dialog-content-padding
+// --calcite-internal-dialog-hidden-position
+// --calcite-internal-dialog-min-size-x
+// --calcite-internal-dialog-min-size-y
+// --calcite-internal-dialog-shown-position
+
+@use "../../styles/includes";
+@use "@esri/calcite-design-tokens/dist/scss/core";
+@use "../../styles/shared/animation";
+@use "../../styles/shared/spacing";
+
+:host {
+  // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
+  --calcite-dialog-scrim-background-color: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
+  @apply flex
+    inset-0
+    pointer-events-none;
+  --calcite-internal-dialog-animation-offset: 20px;
+}
+
+:host([top-layer-disabled]),
+:host([top-layer-disabled]) .container,
+:host([embedded]),
+.container--embedded {
+  z-index: var(--calcite-z-index-overlay);
+}
+
+:host([embedded][modal]) {
+  @apply absolute;
+}
+
+.container {
+  @apply text-color-2
+    pointer-events-auto
+    fixed
+    inset-0
+    flex
+    items-center
+    justify-center
+    overflow-hidden
+    opacity-0
+    w-full
+    h-full;
+  visibility: hidden;
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+:host([placement="top"]) .container {
+  @apply justify-center
+    items-start;
+}
+
+:host([placement="top-start"]) .container {
+  @apply justify-start
+    items-start;
+}
+
+:host([placement="top-end"]) .container {
+  @apply justify-end
+    items-start;
+}
+
+:host([placement="bottom"]) .container {
+  @apply justify-center
+    items-end;
+}
+
+:host([placement="bottom-start"]) .container {
+  @apply justify-start
+    items-end;
+}
+
+:host([placement="bottom-end"]) .container {
+  @apply justify-end
+    items-end;
+}
+
+:host(:not([modal])) .container {
+  @apply pointer-events-none;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-sm));
+  --calcite-internal-dialog-min-size-x: 198px;
+  --calcite-internal-dialog-min-size-y: 140px;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-md));
+  --calcite-internal-dialog-min-size-x: 288px;
+  --calcite-internal-dialog-min-size-y: 180px;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-dialog-content-padding: var(--calcite-dialog-content-space, var(--calcite-spacing-md-plus));
+  --calcite-internal-dialog-min-size-x: 388px;
+  --calcite-internal-dialog-min-size-y: 220px;
+}
+
+.scrim {
+  // todo: remove once https://github.com/Esri/calcite-design-system/pull/9816 is merged
+  --calcite-scrim-background: var(--calcite-dialog-scrim-background-color, var(--calcite-color-transparent-scrim));
+  --calcite-scrim-background-color: var(
+    --calcite-dialog-scrim-background-color,
+    var(--calcite-color-transparent-scrim)
+  );
+  @apply fixed
+    inset-0
+    flex
+    overflow-y-hidden;
+  z-index: calc(var(--calcite-z-index) * -1);
+}
+
+:host([top-layer-disabled]) .scrim {
+  z-index: unset;
+}
+
+calcite-panel {
+  --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
+  --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
+  --calcite-panel-border-color: var(--calcite-dialog-border-color);
+  --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
+  --calcite-panel-heading-text-color: var(--calcite-dialog-heading-text-color);
+  --calcite-panel-description-text-color: var(--calcite-dialog-description-text-color);
+  --calcite-panel-header-background-color: var(--calcite-dialog-header-background-color);
+  --calcite-panel-header-action-background-color: var(--calcite-dialog-header-action-background-color);
+  --calcite-panel-header-action-background-color-hover: var(--calcite-dialog-header-action-background-color-hover);
+  --calcite-panel-header-action-background-color-press: var(--calcite-dialog-header-action-background-color-press);
+  --calcite-panel-header-action-text-color: var(--calcite-dialog-header-action-text-color);
+  --calcite-panel-header-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
+  --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
+  --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
+  --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
+  --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
+  --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
+}
+
+:host([kind="brand"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-brand));
+}
+
+:host([kind="danger"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-danger));
+}
+
+:host([kind="info"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-info));
+}
+
+:host([kind="success"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-success));
+}
+
+:host([kind="warning"]) calcite-panel {
+  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-warning));
+}
+
+::slotted(*) {
+  --calcite-panel-background-color: initial;
+}
+
+[popover] {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  position: fixed;
+  display: flex;
+}
+
+[popover]:popover-open {
+  display: flex;
+}
+
+.dialog {
+  @apply pointer-events-none
+    m-6
+    box-border
+    flex
+    w-full
+    flex-col
+    opacity-0
+    shadow-2-sm
+    relative;
+  -webkit-overflow-scrolling: touch;
+  visibility: hidden;
+
+  transition:
+    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+
+  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
+  min-inline-size: var(--calcite-dialog-min-size-x, var(--calcite-internal-dialog-min-size-x));
+  max-inline-size: var(--calcite-dialog-max-size-x, 100%);
+  min-block-size: var(--calcite-dialog-min-size-y, var(--calcite-internal-dialog-min-size-y));
+  max-block-size: var(--calcite-dialog-max-size-y, 100%);
+
+  // these internal vars allow handling the animation when an offset is being used.
+  --calcite-internal-dialog-hidden-position: calc(
+    var(--calcite-dialog-offset-y, 0px) + var(--calcite-internal-dialog-animation-offset)
+  );
+  --calcite-internal-dialog-shown-position: var(--calcite-dialog-offset-y, 0);
+
+  inset-inline-start: var(--calcite-dialog-offset-x, 0);
+  inset-block-start: var(--calcite-internal-dialog-hidden-position);
+
+  &--opening {
+    &-active {
+      inset-block-start: var(--calcite-internal-dialog-shown-position);
+    }
+  }
+}
+
+:host([top-layer-disabled]) .dialog,
+:host([embedded]) .dialog {
+  z-index: var(--calcite-z-index-modal);
+}
+
+:host([menu-open]) .dialog {
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+.panel {
+  @apply invisible opacity-0;
+  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+.container--open .panel {
+  @apply visible
+  opacity-100;
+
+  transition:
+    visibility 0ms linear,
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+.container--open {
+  @apply opacity-100;
+  visibility: visible;
+  transition-delay: 0ms;
+  .dialog {
+    @apply pointer-events-auto
+      visible
+      opacity-100;
+    transition:
+      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+    transition-delay: 0ms;
+  }
+}
+
+/**
+ * Sizes
+ */
+@mixin dialog-size($size, $width) {
+  .width-#{$size} {
+    inline-size: var(--calcite-dialog-size-x, $width);
+    block-size: var(--calcite-dialog-size-y, auto);
+  }
+  :host(:not([fullscreen-disabled])) {
+    @media screen and (max-width: $width + 2 * spacing.$baseline) {
+      .width-#{$size} {
+        @apply m-0
+            h-full
+            max-h-full
+            w-full
+            max-w-full;
+        inset-inline-start: 0;
+        inset-block-start: var(--calcite-internal-dialog-animation-offset);
+      }
+    }
+    .width-#{$size}.dialog {
+      &--opening {
+        &-active {
+          inset-block-start: 0;
+        }
+      }
+    }
+  }
+}
+
+.width-s {
+  @apply w-auto;
+}
+
+@include dialog-size("s", 32rem);
+@include dialog-size("m", 48rem);
+@include dialog-size("l", 94rem);
+
+/**
+ * placement="cover"
+ */
+:host([placement="cover"]) {
+  .dialog {
+    @apply m-0
+      max-h-full
+      max-w-full
+      h-full
+      w-full
+      rounded-none;
+  }
+  .panel {
+    @apply rounded-none;
+  }
+}
+
+/**
+ * Kinds
+ */
+:host([kind]) .panel {
+  @apply rounded-t-none;
+}
+
+:host([kind]) .dialog {
+  overflow: hidden;
+}
+
+:host([kind="brand"]) .dialog {
+  @apply border-color-brand;
+}
+
+:host([kind="danger"]) .dialog {
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-danger));
+}
+
+:host([kind="info"]) .dialog {
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-info));
+}
+
+:host([kind="success"]) .dialog {
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-success));
+}
+
+:host([kind="warning"]) .dialog {
+  border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-warning));
+}
+
+:host([kind="brand"][open]),
+:host([kind="danger"][open]),
+:host([kind="info"][open]),
+:host([kind="success"][open]),
+:host([kind="warning"][open]) {
+  .dialog {
+    @apply border-0
+      border-t-4
+      border-solid;
+  }
+}
+
+.container--embedded {
+  position: absolute;
+  pointer-events: auto;
+  calcite-scrim {
+    position: absolute;
+  }
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include includes.base-component();

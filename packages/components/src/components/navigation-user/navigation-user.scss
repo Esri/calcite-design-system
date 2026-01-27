@@ -1,0 +1,89 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-navigation-accent-color: When `active`, specifies the components's border color.
+ * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the component's avatar corner radius.
+ * @prop --calcite-navigation-user-avatar-color: Specifies the component's avatar icon color.
+ * @prop --calcite-navigation-background-color: Specifies the component's background color.
+ * @prop --calcite-navigation-user-full-name-text-color: Specifies the component's `fullName` text color.
+ * @prop --calcite-navigation-user-name-text-color: Specifies the component's `username` text color.
+ *
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-user-background-color
+
+@use "../../styles/includes";
+
+:host {
+  @apply inline-flex outline-none;
+  & .button {
+    @apply flex
+      m-0
+      items-center
+      justify-center
+      cursor-pointer
+      transition-default
+      focus-base
+      text-0h;
+    font-family: inherit;
+    border: none;
+    background-color: var(
+      --calcite-navigation-background-color,
+      var(--calcite-internal-navigation-user-background-color, var(--calcite-color-transparent))
+    );
+    border-block-end: 2px solid var(--calcite-color-transparent);
+  }
+}
+
+.text-container {
+  @apply flex
+  flex-col
+  text-start
+  px-4
+  mt-0.5;
+}
+
+calcite-avatar {
+  @apply px-4;
+  --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
+  --calcite-avatar-color: var(--calcite-navigation-user-avatar-color);
+}
+
+calcite-avatar ~ .text-container {
+  @apply ps-0;
+}
+
+.full-name {
+  @apply ms-0 text-0 font-medium;
+  color: var(--calcite-navigation-user-full-name-text-color, var(--calcite-color-text-1));
+}
+
+.username {
+  font-size: var(--calcite-font-size--1);
+  color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
+}
+
+:host(:hover) .button,
+:host(:focus) .button {
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
+}
+
+:host(:focus) .button {
+  @apply focus-inset;
+}
+
+:host(:active) .button {
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
+}
+
+:host([active]) .button {
+  border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
+}
+
+@include includes.base-component();
