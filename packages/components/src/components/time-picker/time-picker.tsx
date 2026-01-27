@@ -91,7 +91,7 @@ export class TimePicker extends LitElement implements TimeComponent {
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the granularity the `value` must adhere to (in seconds). */
