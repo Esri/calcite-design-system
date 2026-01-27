@@ -179,9 +179,9 @@ export class Link extends LitElement {
           tabIndex={tabIndex}
           target={childElType === "a" && this.target}
         >
-          {this.iconStart ? iconStartEl : null}
-          <slot />
-          {this.iconEnd ? iconEndEl : null}
+          {/* keep <span> to one line to help prevent trailing white space */}
+          {/* prettier-ignore */}
+          <span>{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</span>
         </DynamicHtmlTag>
       </this.interactiveContainer>
     );
