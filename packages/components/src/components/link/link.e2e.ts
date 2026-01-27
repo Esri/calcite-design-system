@@ -252,7 +252,7 @@ describe("calcite-link", () => {
     describe("default", () => {
       themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
         "--calcite-link-text-color": {
-          shadowSelector: "a",
+          shadowSelector: "span",
           targetProp: "color",
         },
       });
