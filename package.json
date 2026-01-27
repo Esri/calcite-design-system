@@ -36,7 +36,7 @@
     "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
   },
   "devDependencies": {
-    "@arcgis/eslint-config": ">=5.0.0-next.75 <6.0.0",
+    "@arcgis/eslint-config": ">=5.0.0-next.144 <6.0.0",
     "@cspell/dict-gis": "1.0.3",
     "@cspell/dict-pokemon": "1.0.3",
     "@cspell/dict-scientific-terms-us": "3.0.8",
@@ -69,11 +69,10 @@
     "@vitest/coverage-v8": "4.0.16",
     "@vitest/eslint-plugin": "1.4.0",
     "autoprefixer": "10.4.23",
-    "axe-core": "4.11.0",
+    "axe-core": "4.11.1",
     "chalk": "5.6.2",
     "change-case": "5.4.4",
-    "chokidar": "4.0.3",
-    "chromatic": "13.3.4",
+    "chromatic": "13.3.5",
     "concurrently": "9.2.1",
     "conventional-changelog-conventionalcommits": "7.0.2",
     "cpy": "12.1.0",
