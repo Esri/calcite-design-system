@@ -3,6 +3,8 @@ const {
   labels: { issueWorkflow },
 } = require("./resources");
 
+/** @typedef {(issueNumber: number, updatedBody: string) => Promise<void>} UpdateBodyCallback */
+
 module.exports = {
   /**
    * @typedef {object} removeLabelParam
@@ -105,4 +107,24 @@ module.exports = {
 
     return /** @type {{ [K in keyof T]: NonNullable<T[K]> }} */ (array);
   },
+  /**
+   * Creates a callback to update the body of an issue
+   * @param {Pick<import('github-script').AsyncFunctionArguments, "github" | "context" | "core">} params
+   * @returns {UpdateBodyCallback}
+   */
+  createUpdateBodyCallback: ({ github, context, core }) => {
+    return async (issueNumber, updatedBody) => {
+      try {
+        await github.rest.issues.update({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issueNumber,
+          body: updatedBody,
+        });
+      } catch (error) {
+        core.setFailed(`Error updating issue body: ${error}`);
+        return;
+      }
+    };
+  }
 };

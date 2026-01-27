@@ -1,5 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday");
+const { createUpdateBodyCallback } = require("../support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
@@ -7,22 +8,6 @@ module.exports = async ({ github, context, core }) => {
     /** @type {import('@octokit/webhooks-types').IssuesOpenedEvent | import('@octokit/webhooks-types').IssuesLabeledEvent}*/ (
       context.payload
     );
-  const monday = Monday(issue, core);
-  const { id, source } = await monday.getId();
-  const createdId = await monday.createTask(id);
-
-  if (createdId && source !== "body") {
-    const updatedBody = monday.addSyncLine(createdId);
-    try {
-      await github.rest.issues.update({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        issue_number: issue.number,
-        body: updatedBody,
-      });
-    } catch (error) {
-      core.setFailed(`Error adding ID to body: ${error}`);
-      return;
-    }
-  }
+  const monday = Monday(issue, core, createUpdateBodyCallback({ github, context, core }));
+  await monday.createTask();
 };

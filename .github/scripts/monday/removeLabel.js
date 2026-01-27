@@ -1,6 +1,6 @@
 // @ts-check
 const Monday = require("../support/monday");
-const { assertRequired, includesLabel } = require("../support/utils");
+const { assertRequired, includesLabel, createUpdateBodyCallback } = require("../support/utils");
 const {
   labels: {
     planning: { spike, spikeComplete },
@@ -10,7 +10,7 @@ const {
 } = require("../support/resources");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context, core }) => {
+module.exports = async ({ github, context, core }) => {
   const { issue, label } = /** @type {import('@octokit/webhooks-types').IssuesUnlabeledEvent} */ (context.payload);
   const { labels: issueLabels } = issue;
   const [labelName, labelColor] = assertRequired([label?.name, label?.color], core, "No label found in payload.");
@@ -28,7 +28,7 @@ module.exports = async ({ context, core }) => {
     return;
   }
 
-  const monday = Monday(issue, core);
+  const monday = Monday(issue, core, createUpdateBodyCallback({ github, context, core }));
   monday.setAssignedStatus();
   monday.clearLabel(labelName, labelColor);
   await monday.commit();
