@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.81...@esri/calcite-components@5.0.0-next.82) (2026-01-27)
+
+### Features
+
+- **notice:** Add css property for shadow ([#13791](https://github.com/Esri/calcite-design-system/issues/13791)) ([a4f2ecd](https://github.com/Esri/calcite-design-system/commit/a4f2ecde98685481532591fe648adf67256aa2c0)), closes [#13790](https://github.com/Esri/calcite-design-system/issues/13790)
+
 ## [5.0.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.80...@esri/calcite-components@5.0.0-next.81) (2026-01-27)
 
 ### Bug Fixes
