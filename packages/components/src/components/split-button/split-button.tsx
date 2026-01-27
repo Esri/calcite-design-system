@@ -131,7 +131,7 @@ export class SplitButton extends LitElement {
   /** Speficies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;
 
-  /** Specifies text displayed in the primary button. */
+  /** Specifies the text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
   /** Specifies the component's size. */

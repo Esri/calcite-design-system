@@ -84,7 +84,7 @@ export class SortableList extends LitElement implements SortableComponent {
 
   //#region Events
 
-  /** Emits when the order of the list changes. */
+  /** Fires when the order of the list changes. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
   //#endregion
