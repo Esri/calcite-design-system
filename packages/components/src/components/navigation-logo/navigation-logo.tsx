@@ -32,13 +32,13 @@ export class NavigationLogo extends LitElement {
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active: boolean;
 
-  /** Specifies a description for the component, which displays below the `heading`. */
+  /** Specifies a description for the component. Displays below the `heading`. */
   @property() description: string;
 
-  /** Specifies heading text for the component, such as a product or organization name. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's heading for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
@@ -50,7 +50,7 @@ export class NavigationLogo extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /**

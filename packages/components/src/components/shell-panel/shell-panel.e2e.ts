@@ -605,6 +605,39 @@ describe("calcite-shell-panel", () => {
     expect(expandSpy).toHaveReceivedEventTimes(1);
     expect(collapseSpy).toHaveReceivedEventTimes(1);
   });
+  describe("border on resize handle", () => {
+    it("check for border on resize handle in overlay display modes", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-shell>
+        <calcite-shell-panel resizable display-mode="overlay">
+          <calcite-panel closable>
+          </calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>`);
+      const resizeHandleBar = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandleBar}`);
+      const style = await resizeHandleBar.getComputedStyle();
+      expect(style.borderBlockStart).toBe("1px solid rgb(235, 235, 235)");
+      expect(style.borderInlineEnd).toBe("1px solid rgb(235, 235, 235)");
+      expect(style.borderBlockEnd).toBe("1px solid rgb(235, 235, 235)");
+    });
+
+    it("should not have a border when display mode is float-content", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`
+      <calcite-shell>
+        <calcite-shell-panel resizable display-mode="float-content">
+          <calcite-panel closable>
+          </calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>`);
+      const resizeHandleBar = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandleBar}`);
+      const style = await resizeHandleBar.getComputedStyle();
+      expect(style.borderBlockStart).toBe("0px none rgb(148, 148, 148)");
+      expect(style.borderInlineEnd).toBe("0px none rgb(148, 148, 148)");
+      expect(style.borderBlockEnd).toBe("0px none rgb(148, 148, 148)");
+    });
+  });
 
   describe("themed", () => {
     describe("default", () => {
