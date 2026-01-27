@@ -69,7 +69,7 @@
     "@vitest/coverage-v8": "4.0.16",
     "@vitest/eslint-plugin": "1.4.0",
     "autoprefixer": "10.4.23",
-    "axe-core": "4.11.0",
+    "axe-core": "4.11.1",
     "chalk": "5.6.2",
     "change-case": "5.4.4",
     "chromatic": "13.3.5",
