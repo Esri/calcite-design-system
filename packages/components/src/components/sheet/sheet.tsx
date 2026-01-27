@@ -469,8 +469,10 @@ export class Sheet extends LitElement {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSizeInternal({ inline: null });
-    this.updateSizeInternal({ block: null });
+    this.updateSizeInternal({
+      inline: null,
+      block: null,
+    });
   }
 
   private async setupInteractions(): Promise<void> {

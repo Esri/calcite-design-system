@@ -611,8 +611,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSizeInternal({ inline: null });
-    this.updateSizeInternal({ block: null });
+    this.updateSizeInternal({
+      inline: null,
+      block: null,
+    });
     this.dragPosition = { ...initialDragPosition };
     this.resizePosition = { ...initialResizePosition };
     this.updateTransform();
@@ -668,8 +670,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               resizePosition.bottom += deltaRect.bottom;
               resizePosition.left += deltaRect.left;
             }
-            this.updateSizeInternal({ inline: rect.width });
-            this.updateSizeInternal({ block: rect.height });
+            this.updateSizeInternal({
+              inline: rect.width,
+              block: rect.height,
+            });
             this.updateTransform();
           },
         },
