@@ -76,7 +76,7 @@ export class Action extends LitElement implements FormOwner {
   //#region Public Properties
 
   /**
-   * When specified, overrides or extends ARIA properties and attributes on the component's button.
+   * When specified, overrides or extends ARIA properties and attributes on the component's button. Refer to the component's accessibility section for configuration considerations.
    */
   @property() aria?: Partial<
     Pick<
