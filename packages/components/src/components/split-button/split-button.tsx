@@ -83,7 +83,7 @@ export class SplitButton extends LitElement {
   /** Accessible name for the dropdown menu. */
   @property({ reflect: true }) dropdownLabel: string;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
@@ -97,11 +97,11 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -114,8 +114,6 @@ export class SplitButton extends LitElement {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-end"
    */
   @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
@@ -143,6 +141,15 @@ export class SplitButton extends LitElement {
    * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
@@ -227,6 +234,7 @@ export class SplitButton extends LitElement {
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
             scale={this.scale}
+            topLayerDisabled={this.topLayerDisabled}
             widthScale={this.scale}
           >
             <calcite-button

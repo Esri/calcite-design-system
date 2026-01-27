@@ -76,9 +76,7 @@ export class Action extends LitElement implements FormOwner {
   //#region Public Properties
 
   /**
-   * Use this property to override or extend ARIA properties and attributes on the component's button.
-   *
-   * @internal
+   * When specified, overrides or extends ARIA properties and attributes on the component's button. Refer to the component's accessibility section for configuration considerations.
    */
   @property() aria?: Partial<
     Pick<
@@ -133,9 +131,9 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) dragHandle = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -148,13 +146,13 @@ export class Action extends LitElement implements FormOwner {
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the size of the component. */

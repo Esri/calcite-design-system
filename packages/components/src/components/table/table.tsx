@@ -82,7 +82,7 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays borders in the component. */
+  /** When `true`, displays borders between `calcite-table-rows`. */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -106,7 +106,7 @@ export class Table extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the position of the row in numeric form. */
@@ -118,7 +118,7 @@ export class Table extends LitElement {
   /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
   @property({ reflect: true }) pageSize = 0;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -130,7 +130,7 @@ export class Table extends LitElement {
     return this._selectedItems;
   }
 
-  /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+  /** When `selectionMode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selectionMode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed. */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
@@ -147,7 +147,7 @@ export class Table extends LitElement {
     SelectionMode
   > = "none";
 
-  /** When `true`, displays striped styling in the component. */
+  /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
 
   //#endregion

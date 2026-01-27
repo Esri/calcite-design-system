@@ -87,7 +87,7 @@ export class MenuItem extends LitElement {
   @property() isTopLevelItem = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */

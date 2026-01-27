@@ -71,7 +71,7 @@ export class TableCell extends LitElement {
   /** @private */
   @property() lastCell: boolean;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
