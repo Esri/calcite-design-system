@@ -14,6 +14,7 @@ export const noticeTokens = {
   calciteNoticeCornerRadius: "",
   calciteNoticeTitleTextColor: "",
   calciteNoticeContentTextColor: "",
+  calciteNoticeShadow: "",
 };
 
 const noticeHTML = (
