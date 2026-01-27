@@ -257,6 +257,7 @@ export class BlockSection extends LitElement {
             <calcite-switch
               checked={expanded}
               class={CSS.switch}
+              inert
               label={toggleLabel}
               scale={this.scale}
             />
