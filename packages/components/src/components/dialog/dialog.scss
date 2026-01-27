@@ -304,16 +304,17 @@ calcite-panel {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
-
-  @media screen and (max-width: $width + 2 * spacing.$baseline) {
-    .width-#{$size} {
-      @apply m-0
-          h-full
-          max-h-full
-          w-full
-          max-w-full;
-      inset-inline-start: 0;
-      inset-block-start: var(--calcite-internal-dialog-animation-offset);
+  :host(:not([fullscreen-disabled])) {
+    @media screen and (max-width: $width + 2 * spacing.$baseline) {
+      .width-#{$size} {
+        @apply m-0
+            h-full
+            max-h-full
+            w-full
+            max-w-full;
+        inset-inline-start: 0;
+        inset-block-start: var(--calcite-internal-dialog-animation-offset);
+      }
     }
     .width-#{$size}.dialog {
       &--opening {

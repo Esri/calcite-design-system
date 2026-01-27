@@ -8,5 +8,5 @@
   "required": "Būtina",
   "selectAll": "Pasirinkti viską",
   "selected": "pažymėta",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Tik skaitoma {value}"
 }
