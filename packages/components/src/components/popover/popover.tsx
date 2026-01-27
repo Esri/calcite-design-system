@@ -163,8 +163,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
-   *
-   * @default 6
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 

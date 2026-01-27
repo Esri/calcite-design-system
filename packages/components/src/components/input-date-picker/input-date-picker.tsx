@@ -271,8 +271,6 @@ export class InputDatePicker
 
   /**
    * Specifies the placement of the `calcite-date-picker` relative to the component.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
