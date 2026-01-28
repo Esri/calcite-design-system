@@ -229,8 +229,8 @@ const config: Omit<Config, "content"> = {
       spacing: {
         2.5: "var(--calcite-space-sm-plus)", // Deprecated in v5.0.0, removal target v6.0.0 - use `--calcite-space-sm-plus` instead.
         4.5: "1.125rem", // Deprecated in v5.0.0, removal target v6.0.0.
-        11: "2.75rem", // Deprecated in v5.0.0, removal target v6.0.0.
-        13: "3.25rem", // Deprecated in v5.0.0, removal target v6.0.0.
+        11: "2.75rem", // Deprecated in v5.0.0, removal target v6.0.0 - use `--calcite-space-[WIP]` instead.
+        13: "3.25rem", // Deprecated in v5.0.0, removal target v6.0.0 - use `--calcite-space-[WIP]` instead.
       },
       transitionProperty: {
         margin: "margin",
