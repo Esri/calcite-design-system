@@ -64,7 +64,7 @@ export class Swatch extends LitElement {
    */
   @property() color: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity.*/
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
