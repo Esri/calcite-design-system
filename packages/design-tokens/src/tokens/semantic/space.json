@@ -285,6 +285,13 @@
       "attributes": {
         "category": "spacing"
       }
+    },
+    "4xl": {
+      "value": "{core.size.default.44}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
     }
   }
 }
