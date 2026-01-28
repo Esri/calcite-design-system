@@ -51,6 +51,8 @@ function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
 }
 
+const defaultValue = 0;
+
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
@@ -185,6 +187,8 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private _value: number | number[] = defaultValue;
 
   //#endregion
 
@@ -343,7 +347,23 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   };
 
   /** The component's value. */
-  @property({ type: Number, reflect: true }) value: null | number | number[] = 0;
+  @property({ reflect: true })
+  get value(): number | number[] {
+    return this._value;
+  }
+  set value(value: number | number[]) {
+    if (Array.isArray(value)) {
+      this._value = value;
+      return;
+    }
+
+    if (/* intentional loose null check */ value != null) {
+      this._value = Number(value);
+      return;
+    }
+
+    this._value = Array.isArray(this._value) ? [this.minValue, this.maxValue] : defaultValue;
+  }
 
   //#endregion
 
@@ -402,9 +422,7 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   }
 
   load(): void {
-    if (!isRange(this.value)) {
-      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
-    }
+    this.setInitialValue();
     afterConnectDefaultValueSet(this, this.value);
   }
 
@@ -452,6 +470,12 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
   //#endregion
 
   //#region Private Methods
+
+  private setInitialValue() {
+    if (!isRange(this.value)) {
+      this.value = this.snap ? this.getClosestStep(this.value) : this.clamp(this.value);
+    }
+  }
 
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();

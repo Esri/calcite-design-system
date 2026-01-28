@@ -32,7 +32,7 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding a group of `calcite-action`s.
+ * @slot - A slot for adding `calcite-action`s.
  * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
  */
@@ -69,7 +69,7 @@ export class ActionGroup extends LitElement {
 
   //#region Public Properties
 
-  /** Indicates number of columns. */
+  /** Specifies the number of columns. */
   @property({ type: Number, reflect: true }) columns: Columns;
 
   /** When `true`, expands the component and its contents. */
@@ -92,7 +92,7 @@ export class ActionGroup extends LitElement {
   /** When `true`, the `calcite-action-menu` is open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Determines where the action menu will be positioned. */
+  /** Specifies the position of the action menu. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement;
 
   /** Overrides individual strings used by the component. */
@@ -115,9 +115,9 @@ export class ActionGroup extends LitElement {
    *
    * `"multiple"` allows any number of selections,
    *
-   * `"single"` allows only one selection, and
+   * `"single"` allows only one selection,
    *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * `"single-persist"` allows one selection and prevents de-selection, and
    *
    * `"none"` disables selection (default).
    */

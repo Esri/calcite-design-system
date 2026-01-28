@@ -87,7 +87,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** The component's value. */
+  /** Specifies the component's value. */
   @property() value: string;
 
   //#endregion

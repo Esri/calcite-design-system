@@ -114,8 +114,6 @@ export class SplitButton extends LitElement {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-end"
    */
   @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
