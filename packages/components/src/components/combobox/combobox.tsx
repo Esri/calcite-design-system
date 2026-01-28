@@ -995,11 +995,10 @@ export class Combobox
     if (!listContainerEl || !open) {
       return;
     }
-    requestAnimationFrame(() => {
-      const maxScrollerHeight = this.getMaxScrollerHeight();
-      listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-      listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
-    });
+
+    const maxScrollerHeight = this.getMaxScrollerHeight();
+    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
