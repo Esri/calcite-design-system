@@ -3,10 +3,12 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { FocusableElement, tabbable } from "tabbable";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
+  getFirstTabbable,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -20,10 +22,9 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { getOverflowCount } from "../../utils/overflow";
-import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions, isAction } from "./utils";
+import { isAction, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -57,6 +58,8 @@ export class ActionBar extends LitElement {
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
+
+  private tabbableItems: FocusableElement[] = [];
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
@@ -312,6 +315,7 @@ export class ActionBar extends LitElement {
 
   loaded(): void {
     this.overflowActions();
+    this.updateTabbableItems();
   }
 
   override disconnectedCallback(): void {
@@ -322,6 +326,10 @@ export class ActionBar extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private updateTabbableItems(): void {
+    this.tabbableItems = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+  }
 
   private getItemSizes(): number[] {
     const { el, layout, expandToggleEl } = this;
@@ -369,6 +377,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -388,10 +397,12 @@ export class ActionBar extends LitElement {
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
   }
 
   private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.updateTabbableItems();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -412,45 +423,106 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
+  // private handleKeyDown(event: KeyboardEvent): void {
+  //   this.queryAndStoreActions();
+  //   // const actions = this.actions.filter((action) => !action.disabled);
+  //   const current = document.activeElement;
+  //   const items = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+  //   console.log(items, current);
+  //   // if (!isAction(current)) {
+  //   //   return;
+  //   // }
+  //   switch (event.key) {
+  //     case "ArrowRight":
+  //     case "ArrowDown":
+  //       focusElementInGroup(items, current, "next", true);
+  //       event.preventDefault();
+  //       break;
+  //     case "ArrowLeft":
+  //     case "ArrowUp":
+  //       focusElementInGroup(items, current, "previous", true);
+  //       event.preventDefault();
+  //       break;
+  //     case "Home":
+  //       focusElementInGroup(items, current, "first", true);
+  //       event.preventDefault();
+  //       break;
+  //     case "End":
+  //       focusElementInGroup(items, current, "last", true);
+  //       event.preventDefault();
+  //       break;
+  //     case "Tab":
+  //       this.setActionTabIndexes(current as HTMLButtonElement);
+  //       break;
+  //     // case "Shift":
+  //     //   this.setActionTabIndexes(current);
+  //     //   break;
+  //   }
+  // }
   private handleKeyDown(event: KeyboardEvent): void {
-    this.queryAndStoreActions();
-    const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement;
+    // this.queryAndStoreActions();
+    const items = this.tabbableItems;
+    let focusEl: FocusableElement | null = getFirstTabbable(event.target as HTMLElement);
 
-    if (!isAction(current)) {
-      return;
+    while (focusEl && isAction(focusEl)) {
+      const [next] = tabbable(focusEl, { getShadowRoot: true });
+      if (!next || next === focusEl) {
+        break;
+      }
+      focusEl = next;
     }
+
+    console.log("current element", focusEl);
+    console.log("tabbable items", items);
+
+    // if (!items.includes(focusEl)) {
+    //   return;
+    // }
 
     switch (event.key) {
       case "ArrowRight":
-      case "ArrowDown":
-        focusElementInGroup(actions, current, "next", true);
+      case "ArrowDown": {
+        const nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+        items[nextIdx].focus();
+        this.setToolbarTabIndexes(items[nextIdx], items);
         event.preventDefault();
         break;
+      }
       case "ArrowLeft":
-      case "ArrowUp":
-        focusElementInGroup(actions, current, "previous", true);
+      case "ArrowUp": {
+        const prevIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+        items[prevIdx].focus();
+        this.setToolbarTabIndexes(items[prevIdx], items);
         event.preventDefault();
         break;
+      }
       case "Home":
-        focusElementInGroup(actions, current, "first", true);
+        items[0].focus();
+        this.setToolbarTabIndexes(items[0], items);
         event.preventDefault();
         break;
       case "End":
-        focusElementInGroup(actions, current, "last", true);
+        items[items.length - 1].focus();
+        this.setToolbarTabIndexes(items[items.length - 1], items);
         event.preventDefault();
         break;
       case "Tab":
-        this.setActionTabIndexes(current);
+        this.setToolbarTabIndexes(null, items);
         break;
     }
   }
 
-  private setActionTabIndexes(active: Action["el"]): void {
-    this.actions.forEach((action: Action["el"]) => {
-      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+  private setToolbarTabIndexes(active: FocusableElement | null, items: FocusableElement[]): void {
+    items.forEach((item) => {
+      item.tabIndex = item === active ? 0 : -1;
     });
   }
+
+  // private setActionTabIndexes(active: HTMLButtonElement): void {
+  //   this.actions.forEach((action) => {
+  //     action.tabIndex = !action.disabled && action.contains(active) ? 0 : -1;
+  //   });
+  // }
 
   //#endregion
 
