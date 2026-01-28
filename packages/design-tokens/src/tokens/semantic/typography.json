@@ -4,6 +4,7 @@
       "default": {
         "type": "typography",
         "value": {
+<<<<<<< HEAD
           "fontFamily": "{semantic.font.family.default}",
           "fontSize": "{semantic.font.size.default}",
           "fontWeight": "{semantic.font.weight.regular}",
@@ -12,6 +13,16 @@
           "paragraphSpacing": "{semantic.font.paragraph-spacing.normal}",
           "textCase": "{semantic.font.text-case.none}",
           "textDecoration": "{semantic.font.text-decoration.none}"
+=======
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.default}",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "{font.letter-spacing.normal}",
+          "lineHeight": "{font.line-height.fixed.base}",
+          "paragraphSpacing": "{font.paragraph-spacing.normal}",
+          "textCase": "{font.text-case.none}",
+          "textDecoration": "{font.text-decoration.none}"
+>>>>>>> dev
         },
         "attributes": {
           "category": "typography"
@@ -20,6 +31,7 @@
       "light": {
         "-3h": {
           "value": {
+<<<<<<< HEAD
             "fontSize": "{semantic.font.size.xs}",
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.fixed.sm}"
@@ -27,12 +39,22 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontSize": "{font.size.xs}",
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.fixed.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
           }
         },
         "-2h": {
+<<<<<<< HEAD
           "value": {
             "fontSize": "{semantic.font.size.sm}",
             "fontWeight": "{semantic.font.weight.light}"
@@ -95,38 +117,40 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
-          },
-          "attributes": {
-            "category": "typography"
-          }
-        },
-        "-2h": {
+=======
           "value": {
-            "fontSize": "{semantic.font.size.sm}"
+            "fontSize": "{font.size.sm}",
+            "fontWeight": "{font.weight.light}"
           },
           "type": "typography",
           "extensions": {
-            "calcite.extends": "{semantic.typography.default.default}"
+            "calcite.extends": "{typography.default.default}"
           },
           "attributes": {
             "category": "typography"
           }
         },
         "-1h": {
-          "value": "{semantic.typography.default.default}",
+          "value": {
+            "fontWeight": "{font.weight.light}"
+          },
           "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
           "attributes": {
             "category": "typography"
           }
         },
         "0h": {
           "value": {
-            "lineHeight": "{semantic.font.line-height.fixed.lg}",
-            "fontSize": "{semantic.font.size.md}"
+            "fontSize": "{font.size.md}",
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.fixed.lg}"
           },
           "type": "typography",
           "extensions": {
-            "calcite.extends": "{semantic.typography.default.default}"
+            "calcite.extends": "{typography.default.default}"
           },
           "attributes": {
             "category": "typography"
@@ -134,12 +158,104 @@
         },
         "1h": {
           "value": {
+            "fontSize": "{font.size.lg}",
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.fixed.xl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+          },
+          "attributes": {
+            "category": "typography"
+          }
+        }
+      },
+      "regular": {
+        "-3h": {
+          "value": {
+            "lineHeight": "{font.line-height.fixed.sm}",
+            "fontSize": "{font.size.xs}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
+          },
+          "attributes": {
+            "category": "typography"
+          }
+        },
+        "-2h": {
+          "value": {
+<<<<<<< HEAD
+            "fontSize": "{semantic.font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
+          },
+          "attributes": {
+            "category": "typography"
+          }
+        },
+        "-1h": {
+<<<<<<< HEAD
+          "value": "{semantic.typography.default.default}",
+=======
+          "value": "{typography.default.default}",
+>>>>>>> dev
+          "type": "typography",
+          "attributes": {
+            "category": "typography"
+          }
+        },
+        "0h": {
+          "value": {
+<<<<<<< HEAD
+            "lineHeight": "{semantic.font.line-height.fixed.lg}",
+            "fontSize": "{semantic.font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.fixed.lg}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
+          },
+          "attributes": {
+            "category": "typography"
+          }
+        },
+        "1h": {
+          "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.fixed.xl}",
             "fontSize": "{semantic.font.size.lg}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.fixed.xl}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -149,6 +265,7 @@
       "medium": {
         "-3h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.fixed.sm}",
             "fontSize": "{semantic.font.size.xs}"
@@ -156,6 +273,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.fixed.sm}",
+            "fontSize": "{font.size.xs}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -163,12 +289,21 @@
         },
         "-2h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "fontSize": "{semantic.font.size.sm}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -176,11 +311,19 @@
         },
         "-1h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -188,6 +331,7 @@
         },
         "0h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.fixed.lg}",
             "fontSize": "{semantic.font.size.md}"
@@ -195,6 +339,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.fixed.lg}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -202,6 +355,7 @@
         },
         "1h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.fixed.xl}",
             "fontSize": "{semantic.font.size.lg}"
@@ -209,6 +363,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.fixed.xl}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -218,6 +381,7 @@
       "bold": {
         "-3h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.fixed.sm}",
             "fontSize": "{semantic.font.size.xs}"
@@ -225,6 +389,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.fixed.sm}",
+            "fontSize": "{font.size.xs}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -232,12 +405,21 @@
         },
         "-2h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "fontSize": "{semantic.font.size.sm}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -245,11 +427,19 @@
         },
         "-1h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -257,6 +447,7 @@
         },
         "0h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.fixed.lg}",
             "fontSize": "{semantic.font.size.md}"
@@ -264,6 +455,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.fixed.lg}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -271,6 +471,7 @@
         },
         "1h": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.fixed.xl}",
             "fontSize": "{semantic.font.size.lg}"
@@ -278,6 +479,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.fixed.xl}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -289,6 +499,7 @@
       "light": {
         "0": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.md}"
@@ -296,6 +507,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -303,6 +523,7 @@
         },
         "1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.lg}"
@@ -310,6 +531,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -317,6 +547,7 @@
         },
         "2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xl}"
@@ -324,6 +555,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -331,6 +571,7 @@
         },
         "3": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.tight}",
             "fontSize": "{semantic.font.size.xxl}"
@@ -338,6 +579,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.tight}",
+            "fontSize": "{font.size.xxl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -345,6 +595,7 @@
         },
         "-2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.sm}"
@@ -352,6 +603,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -359,12 +619,21 @@
         },
         "-1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.light}",
             "lineHeight": "{semantic.font.line-height.relative.snug}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.light}",
+            "lineHeight": "{font.line-height.relative.snug}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -374,12 +643,21 @@
       "regular": {
         "0": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.md}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -387,12 +665,21 @@
         },
         "1": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.lg}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -400,12 +687,21 @@
         },
         "2": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xl}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -413,12 +709,21 @@
         },
         "3": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xxl}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xxl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -426,12 +731,21 @@
         },
         "-2": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.sm}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -439,11 +753,19 @@
         },
         "-1": {
           "value": {
+<<<<<<< HEAD
             "lineHeight": "{semantic.font.line-height.relative.snug}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "lineHeight": "{font.line-height.relative.snug}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -453,6 +775,7 @@
       "medium": {
         "0": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.md}"
@@ -460,6 +783,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -467,6 +799,7 @@
         },
         "1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.lg}"
@@ -474,6 +807,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -481,6 +823,7 @@
         },
         "2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xl}"
@@ -488,6 +831,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -495,6 +847,7 @@
         },
         "3": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xxl}"
@@ -502,6 +855,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xxl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -509,6 +871,7 @@
         },
         "-2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.sm}"
@@ -516,6 +879,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -523,12 +895,21 @@
         },
         "-1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.medium}",
             "lineHeight": "{semantic.font.line-height.relative.snug}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.medium}",
+            "lineHeight": "{font.line-height.relative.snug}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -538,6 +919,7 @@
       "bold": {
         "0": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.md}"
@@ -545,6 +927,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.md}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -552,6 +943,7 @@
         },
         "1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.lg}"
@@ -559,6 +951,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.lg}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -566,6 +967,7 @@
         },
         "2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xl}"
@@ -573,6 +975,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -580,6 +991,7 @@
         },
         "3": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.xxl}"
@@ -587,6 +999,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.xxl}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -594,6 +1015,7 @@
         },
         "-2": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}",
             "fontSize": "{semantic.font.size.sm}"
@@ -601,6 +1023,15 @@
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}",
+            "fontSize": "{font.size.sm}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -608,12 +1039,21 @@
         },
         "-1": {
           "value": {
+<<<<<<< HEAD
             "fontWeight": "{semantic.font.weight.semibold}",
             "lineHeight": "{semantic.font.line-height.relative.snug}"
           },
           "type": "typography",
           "extensions": {
             "calcite.extends": "{semantic.typography.default.default}"
+=======
+            "fontWeight": "{font.weight.semibold}",
+            "lineHeight": "{font.line-height.relative.snug}"
+          },
+          "type": "typography",
+          "extensions": {
+            "calcite.extends": "{typography.default.default}"
+>>>>>>> dev
           },
           "attributes": {
             "category": "typography"
@@ -624,14 +1064,22 @@
     "hierarchy": {
       "display": {
         "1": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.bold.3}",
+=======
+          "value": "{typography.wrap.bold.3}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "2": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.bold.2}",
+=======
+          "value": "{typography.wrap.bold.2}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
@@ -640,35 +1088,55 @@
       },
       "heading": {
         "1": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.medium.3}",
+=======
+          "value": "{typography.wrap.medium.3}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "2": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.medium.2}",
+=======
+          "value": "{typography.wrap.medium.2}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "3": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.medium.1}",
+=======
+          "value": "{typography.wrap.medium.1}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "4": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.medium.0}",
+=======
+          "value": "{typography.wrap.medium.0}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "5": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.medium.-1}",
+=======
+          "value": "{typography.wrap.medium.-1}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
@@ -677,14 +1145,22 @@
       },
       "body": {
         "snug": {
+<<<<<<< HEAD
           "value": "{semantic.typography.wrap.regular.-1}",
+=======
+          "value": "{typography.wrap.regular.-1}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
           }
         },
         "default": {
+<<<<<<< HEAD
           "value": "{semantic.typography.default.default}",
+=======
+          "value": "{typography.default.default}",
+>>>>>>> dev
           "type": "typography",
           "attributes": {
             "category": "typography"
@@ -693,9 +1169,15 @@
       },
       "overline": {
         "value": {
+<<<<<<< HEAD
           "lineHeight": "{semantic.font.line-height.fixed.sm}",
           "textCase": "{semantic.font.text-case.uppercase}",
           "fontWeight": "{semantic.font.weight.bold}"
+=======
+          "lineHeight": "{font.line-height.fixed.sm}",
+          "textCase": "{font.text-case.uppercase}",
+          "fontWeight": "{font.weight.bold}"
+>>>>>>> dev
         },
         "type": "typography",
         "attributes": {
@@ -703,7 +1185,11 @@
         }
       },
       "caption": {
+<<<<<<< HEAD
         "value": "{semantic.typography.wrap.regular.-2}",
+=======
+        "value": "{typography.wrap.regular.-2}",
+>>>>>>> dev
         "type": "typography",
         "attributes": {
           "category": "typography"

@@ -1,7 +1,11 @@
 {
   "corner-radius": {
     "default": {
+<<<<<<< HEAD
       "value": "{semantic.corner-radius.none}",
+=======
+      "value": "{corner-radius.none}",
+>>>>>>> dev
       "type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
@@ -45,7 +49,11 @@
       "description": "deprecated, use --calcite-corner-radius-sm instead"
     },
     "pill": {
+<<<<<<< HEAD
       "value": "{core.size.relative.100}",
+=======
+      "value": "{core.size.default.9999}",
+>>>>>>> dev
       "type": "borderRadius",
       "attributes": {
         "category": "corner-radius"

@@ -103,21 +103,19 @@ export class SortHandle extends LitElement {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** The current position of the handle. */
+  /** Specifies the handle's current position. */
   @property() setPosition: number;
 
-  /** The total number of sortable items. */
+  /** Specifies the total number of sortable items. */
   @property() setSize: number;
 
-  /** When `true`, items are no longer sortable. */
+  /** When `true`, prevents sorting of items. */
   @property({ reflect: true }) sortDisabled = false;
 
   /**

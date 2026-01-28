@@ -37,7 +37,7 @@ export class Avatar extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  /** Specifies the `src` to an image. If the image is private, include an access token in the URL. */
   @property({ reflect: true }) thumbnail: string;
 
   /** Specifies the unique id of the user. */

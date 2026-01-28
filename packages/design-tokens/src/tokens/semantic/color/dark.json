@@ -441,7 +441,11 @@
     },
     "focus": {
       "default": {
+<<<<<<< HEAD
         "value": "{semantic.color.brand.default}",
+=======
+        "value": "{color.brand.default}",
+>>>>>>> dev
         "type": "color",
         "attributes": {
           "category": "color",
