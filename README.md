@@ -260,6 +260,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
+    <a href="https://github.com/DintaMel">
+      <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
+      <br />
+      <sub><b>Mel Dintaman</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/jrowlingson">
       <img src="https://avatars.githubusercontent.com/u/3051781?v=4" width="100;" alt="jrowlingson"/>
       <br />
@@ -273,20 +280,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <sub><b>Crow Norlander</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/jgibson02">
       <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
       <br />
       <sub><b>John Gibson</b></sub>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td align="center">
-    <a href="https://github.com/DintaMel">
-      <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
-      <br />
-      <sub><b>Mel Dintaman</b></sub>
     </a>
   </td>
   <td align="center">
