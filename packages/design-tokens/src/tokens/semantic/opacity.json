@@ -1,13 +1,6 @@
 {
   "semantic": {
     "opacity": {
-      "disabled": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
-      },
       "light": {
         "value": "{core.opacity.40}",
         "type": "opacity",
@@ -31,6 +24,13 @@
       },
       "full": {
         "value": "{core.opacity.100}",
+        "type": "opacity",
+        "attributes": {
+          "category": "opacity"
+        }
+      },
+      "disabled": {
+        "value": "{core.opacity.50}",
         "type": "opacity",
         "attributes": {
           "category": "opacity"
