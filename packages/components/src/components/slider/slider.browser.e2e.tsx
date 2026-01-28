@@ -129,18 +129,22 @@ describe("calcite-slider", () => {
 
       const track = el.shadowRoot.querySelector(".track");
       const { x: trackX, y: trackY } = track.getBoundingClientRect();
-
-      el.addEventListener("calciteSliderInput", () => {
+      const inputEventHandler = vi.fn(() => {
+        assertSliderValues(el, { minValue: 25, maxValue: 75 });
+      });
+      const changeEventHandler = vi.fn(() => {
         assertSliderValues(el, { minValue: 25, maxValue: 75 });
       });
 
-      el.addEventListener("calciteSliderChange", () => {
-        assertSliderValues(el, { minValue: 25, maxValue: 75 });
-      });
+      el.addEventListener("calciteSliderInput", inputEventHandler);
+
+      el.addEventListener("calciteSliderChange", changeEventHandler);
 
       await commands.mouseMove(trackX + 25, trackY);
       await commands.mouseDown();
+      expect(inputEventHandler).toHaveBeenCalledTimes(1);
       await commands.mouseUp();
+      expect(changeEventHandler).toHaveBeenCalledTimes(1);
     });
 
     it("range: clicking the track to the right of the max handle changes maxValue and value on mousedown", async () => {
@@ -151,16 +155,21 @@ describe("calcite-slider", () => {
       const track = el.shadowRoot.querySelector(".track");
       const { x: trackX, y: trackY } = track.getBoundingClientRect();
 
-      el.addEventListener("calciteSliderInput", () => {
+      const inputEventHandler = vi.fn(() => {
         assertSliderValues(el, { minValue: 50, maxValue: 85 });
       });
-      el.addEventListener("calciteSliderChange", () => {
+      const changeEventHandler = vi.fn(() => {
         assertSliderValues(el, { minValue: 50, maxValue: 85 });
       });
 
+      el.addEventListener("calciteSliderInput", inputEventHandler);
+      el.addEventListener("calciteSliderChange", changeEventHandler);
+
       await commands.mouseMove(trackX + 85, trackY);
       await commands.mouseDown();
+      expect(inputEventHandler).toHaveBeenCalledTimes(1);
       await commands.mouseUp();
+      expect(changeEventHandler).toHaveBeenCalledTimes(1);
     });
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue and value", async () => {
@@ -172,11 +181,12 @@ describe("calcite-slider", () => {
       const { x: trackX, y: trackY } = track.getBoundingClientRect();
 
       const inputEventHandler = vi.fn();
-
-      el.addEventListener("calciteSliderInput", inputEventHandler);
-      el.addEventListener("calciteSliderChange", () => {
+      const changeEventHandler = vi.fn(() => {
         assertSliderValues(el, { minValue: 50, maxValue: 89 });
       });
+
+      el.addEventListener("calciteSliderInput", inputEventHandler);
+      el.addEventListener("calciteSliderChange", changeEventHandler);
 
       await commands.mouseMove(trackX + 85, trackY);
       await commands.mouseDown();
@@ -187,8 +197,10 @@ describe("calcite-slider", () => {
 
       expect(inputEventHandler).toHaveBeenCalledTimes(5);
       await commands.mouseUp();
+      expect(changeEventHandler).toHaveBeenCalledTimes(1);
     });
   });
+
   describe("resetting value", () => {
     it("single value", async () => {
       const { el } = await mount("calcite-slider");
