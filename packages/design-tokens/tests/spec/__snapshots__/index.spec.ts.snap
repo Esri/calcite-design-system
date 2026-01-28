@@ -27368,7 +27368,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{corner-radius.pill}",
-      "value": "100%",
+      "value": "9999px",
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
