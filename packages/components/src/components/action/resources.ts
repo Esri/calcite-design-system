@@ -1,3 +1,5 @@
+import { Action } from "./action";
+
 export const CSS = {
   button: "button",
   buttonTextVisible: "button--text-visible",
@@ -18,3 +20,7 @@ export const IDS = {
   button: (id: string) => `${prefixId}-${id}-button`,
   indicator: (id: string) => `${prefixId}-${id}-indicator`,
 } as const;
+
+export function isAction(el: Element | null): el is Action["el"] {
+  return el?.tagName === "CALCITE-ACTION";
+}
