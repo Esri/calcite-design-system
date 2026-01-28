@@ -200,7 +200,7 @@ export class Autocomplete
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** The component's input value. */
+  /** Specifies the component's input value. */
   @property() inputValue: string;
 
   /** Specifies an accessible label for the component. */
@@ -270,12 +270,10 @@ export class Autocomplete
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Adds text to the start of the component. */
+  /** Specifies the component's prefix text. */
   @property() prefixText: string;
 
   /**
@@ -297,7 +295,7 @@ export class Autocomplete
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Adds text to the end of the component. */
+  /** Specifies the component's suffix text. */
   @property() suffixText: string;
 
   /**
@@ -337,7 +335,7 @@ export class Autocomplete
     valueMissing: false,
   };
 
-  /** The component's value. */
+  /** Specifies the component's value. */
   @property() value = "";
 
   //#endregion

@@ -605,7 +605,5 @@ const visiblePointerSize = 4;
 
 /**
  * Default offset the position of the floating element away from the reference element.
- *
- * @default 6
  */
 export const defaultOffsetDistance = Math.ceil(Math.hypot(visiblePointerSize, visiblePointerSize));

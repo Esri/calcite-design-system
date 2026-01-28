@@ -166,11 +166,14 @@ export class Dialog extends LitElement {
    *
    * `"allowOutsideClick`" allows outside clicks,
    * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * `"returnFocusOnDeactivate"` returns focus when not active,
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
+  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
   /** Specifies the component's heading text. */
   @property() heading: string;

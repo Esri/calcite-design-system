@@ -78,13 +78,13 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
   /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
