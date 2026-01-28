@@ -90,13 +90,11 @@
         "description": "deprecated"
       }
     },
-    "default": {
-      "px": {
-        "value": "{core.size.default.1}",
-        "type": "sizing",
-        "attributes": {
-          "category": "size"
-        }
+    "px": {
+      "value": "{core.size.default.1}",
+      "type": "sizing",
+      "attributes": {
+        "category": "size"
       }
     },
     "xxxs": {
