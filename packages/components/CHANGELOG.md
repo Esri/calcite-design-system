@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.83...@esri/calcite-components@5.0.0-next.84) (2026-01-28)
+
+### Bug Fixes
+
+- **chip:** enable support for deprecated icon color variable ([#13478](https://github.com/Esri/calcite-design-system/issues/13478)) ([96e9a42](https://github.com/Esri/calcite-design-system/commit/96e9a425cd6365be404cfab540e026edbd060065)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+
+## [5.0.0-next.83](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.82...@esri/calcite-components@5.0.0-next.83) (2026-01-28)
+
+### Bug Fixes
+
+- **block-section:** fix inconsistent interaction states ([#13788](https://github.com/Esri/calcite-design-system/issues/13788)) ([96c53a7](https://github.com/Esri/calcite-design-system/commit/96c53a7718e30d325c4c6b07fce9fe4e2eeb0636)), closes [#12658](https://github.com/Esri/calcite-design-system/issues/12658)
+
+## [5.0.0-next.82](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.81...@esri/calcite-components@5.0.0-next.82) (2026-01-27)
+
+### Features
+
+- **notice:** Add css property for shadow ([#13791](https://github.com/Esri/calcite-design-system/issues/13791)) ([a4f2ecd](https://github.com/Esri/calcite-design-system/commit/a4f2ecde98685481532591fe648adf67256aa2c0)), closes [#13790](https://github.com/Esri/calcite-design-system/issues/13790)
+
+## [5.0.0-next.81](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.80...@esri/calcite-components@5.0.0-next.81) (2026-01-27)
+
+### Bug Fixes
+
+- **dropdown-item:** enable customizing icon color with `--calcite-dropdown-item-text-color` token ([#13727](https://github.com/Esri/calcite-design-system/issues/13727)) ([67d61b6](https://github.com/Esri/calcite-design-system/commit/67d61b6f2fd657481b18fe66b42aafad6fad7b48)), closes [#13661](https://github.com/Esri/calcite-design-system/issues/13661)
+- **slider:** handle falsy values to reset ([#13766](https://github.com/Esri/calcite-design-system/issues/13766)) ([59f13d3](https://github.com/Esri/calcite-design-system/commit/59f13d377f3f6ded9bca41c9d08a794fa44155cf)), closes [#8881](https://github.com/Esri/calcite-design-system/issues/8881)
+
 ## [5.0.0-next.80](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.79...@esri/calcite-components@5.0.0-next.80) (2026-01-26)
 
 ### Features
