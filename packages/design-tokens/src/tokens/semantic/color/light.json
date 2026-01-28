@@ -291,15 +291,6 @@
       },
       "success": {
         "default": {
-          "value": "{core.color.high-saturation.green.h-gg-060}",
-          "type": "color",
-          "attributes": {
-            "category": "color",
-            "group": "status",
-            "kind": "success"
-          }
-        },
-        "hover": {
           "value": "{core.color.high-saturation.green.h-gg-070}",
           "type": "color",
           "attributes": {
@@ -308,8 +299,17 @@
             "kind": "success"
           }
         },
-        "press": {
+        "hover": {
           "value": "{core.color.high-saturation.green.h-gg-080}",
+          "type": "color",
+          "attributes": {
+            "category": "color",
+            "group": "status",
+            "kind": "success"
+          }
+        },
+        "press": {
+          "value": "{core.color.high-saturation.green.h-gg-090}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -320,7 +320,7 @@
       },
       "warning": {
         "default": {
-          "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
+          "value": "{core.color.high-saturation.orange-yellow.h-oy-070}",
           "type": "color",
           "attributes": {
             "category": "color",
