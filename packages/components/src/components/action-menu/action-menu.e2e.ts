@@ -522,7 +522,7 @@ describe("calcite-action-menu", () => {
       expect(clickSpy).toHaveReceivedEventTimes(1);
     });
 
-    it.only("should move the focus ring to the active action on mousedown", async () => {
+    it("should move the focus ring to the active action on mousedown", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-action-menu>
