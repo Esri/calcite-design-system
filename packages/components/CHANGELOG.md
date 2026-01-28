@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.84...@esri/calcite-components@5.0.0-next.85) (2026-01-28)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** correctly style affix when `readOnly` is set ([#13796](https://github.com/Esri/calcite-design-system/issues/13796)) ([9269304](https://github.com/Esri/calcite-design-system/commit/9269304f739e7dda81eba84e207e7863e340c2f8)), closes [#13792](https://github.com/Esri/calcite-design-system/issues/13792)
+
 ## [5.0.0-next.84](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.83...@esri/calcite-components@5.0.0-next.84) (2026-01-28)
 
 ### Bug Fixes
