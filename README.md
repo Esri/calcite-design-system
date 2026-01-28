@@ -186,19 +186,19 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/Amretasre002762670">
-      <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
+    <a href="https://github.com/matgalla">
+      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
-      <sub><b>Amretasre Rengarajan</b></sub>
+      <sub><b>Matt Gallagher</b></sub>
     </a>
   </td>
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/matgalla">
-      <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
+    <a href="https://github.com/Amretasre002762670">
+      <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
       <br />
-      <sub><b>Matt Gallagher</b></sub>
+      <sub><b>Amretasre Rengarajan</b></sub>
     </a>
   </td>
   <td align="center">
