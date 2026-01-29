@@ -176,7 +176,7 @@ describe("calcite-sheet", () => {
 
         const startX = handleRect.left + handleRect.width / 2;
         const startY = handleRect.top + handleRect.height / 2;
-        // await commands.mouseMove(startX, startY);
+
         await commands.mouseDown();
         await commands.mouseMove(startX + 10, startY);
         await commands.mouseUp();
@@ -250,7 +250,7 @@ describe("calcite-sheet", () => {
 
         const startX = handleRect.left + handleRect.width / 2;
         const startY = handleRect.top + handleRect.height / 2;
-        // await commands.mouseMove(startX, startY);
+
         await commands.mouseDown();
         await commands.mouseMove(startX + 10, startY);
         await commands.mouseUp();
