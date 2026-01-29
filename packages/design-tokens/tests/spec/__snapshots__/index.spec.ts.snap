@@ -23094,16 +23094,17 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "comment": "deprecated"
     },
     {
-      "key": "{size.px}",
+      "key": "{size.default.px}",
       "value": "1px",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "px",
+        "type": "default",
+        "item": "px",
         "names": {
           "scss": "$calcite-size-px",
           "css": "var(--calcite-size-px)",
-          "docs": "size.px",
+          "docs": "size.default.px",
           "es6": "calciteSizePx"
         },
         "calcite-schema": {
@@ -23149,18 +23150,19 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxxs",
         "value": "12px",
         "description": "Deprecated, use --calcite-size-3xs instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxxs}",
-        "name": "calcite-size-xxxs",
-        "path": ["size", "xxxs"],
+        "key": "{size.default.xxxs}",
+        "name": "calcite-size-default-xxxs",
+        "path": ["size", "default", "xxxs"],
         "comment": "Deprecated, use --calcite-size-3xs instead.",
         "names": {
           "scss": "$calcite-size-xxxs",
           "css": "var(--calcite-size-xxxs)",
-          "docs": "size.xxxs",
+          "docs": "size.default.xxxs",
           "es6": "calciteSizeXxxs"
         },
         "calcite-schema": {
@@ -23173,20 +23175,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxs",
-      "path": ["size", "xxxs"],
+      "path": ["size", "default", "xxxs"],
       "comment": "Deprecated, use --calcite-size-3xs instead."
     },
     {
-      "key": "{size.3xs}",
+      "key": "{size.default.3xs}",
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "3xs",
+        "type": "default",
+        "item": "3xs",
         "names": {
           "scss": "$calcite-size-3xs",
           "css": "var(--calcite-size-3xs)",
-          "docs": "size.3xs",
+          "docs": "size.default.3xs",
           "es6": "calciteSize3xs"
         },
         "calcite-schema": {
@@ -23198,27 +23201,28 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "default", "3xs"]
     },
     {
-      "key": "{size.xxs}",
+      "key": "{size.default.xxs}",
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxs",
         "value": "14px",
         "description": "Deprecated, use --calcite-size-2xs instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxs}",
-        "name": "calcite-size-xxs",
-        "path": ["size", "xxs"],
+        "key": "{size.default.xxs}",
+        "name": "calcite-size-default-xxs",
+        "path": ["size", "default", "xxs"],
         "comment": "Deprecated, use --calcite-size-2xs instead.",
         "names": {
           "scss": "$calcite-size-xxs",
           "css": "var(--calcite-size-xxs)",
-          "docs": "size.xxs",
+          "docs": "size.default.xxs",
           "es6": "calciteSizeXxs"
         },
         "calcite-schema": {
@@ -23231,20 +23235,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxs",
-      "path": ["size", "xxs"],
+      "path": ["size", "default", "xxs"],
       "comment": "Deprecated, use --calcite-size-2xs instead."
     },
     {
-      "key": "{size.2xs}",
+      "key": "{size.default.2xs}",
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "2xs",
+        "type": "default",
+        "item": "2xs",
         "names": {
           "scss": "$calcite-size-2xs",
           "css": "var(--calcite-size-2xs)",
-          "docs": "size.2xs",
+          "docs": "size.default.2xs",
           "es6": "calciteSize2xs"
         },
         "calcite-schema": {
@@ -23256,19 +23261,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "default", "2xs"]
     },
     {
-      "key": "{size.xs}",
+      "key": "{size.default.xs}",
       "value": "1rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "xs",
+        "type": "default",
+        "item": "xs",
         "names": {
           "scss": "$calcite-size-xs",
           "css": "var(--calcite-size-xs)",
-          "docs": "size.xs",
+          "docs": "size.default.xs",
           "es6": "calciteSizeXs"
         },
         "calcite-schema": {
@@ -23280,19 +23286,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "default", "xs"]
     },
     {
-      "key": "{size.sm}",
+      "key": "{size.default.sm}",
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "sm",
+        "type": "default",
+        "item": "sm",
         "names": {
           "scss": "$calcite-size-sm",
           "css": "var(--calcite-size-sm)",
-          "docs": "size.sm",
+          "docs": "size.default.sm",
           "es6": "calciteSizeSm"
         },
         "calcite-schema": {
@@ -23304,19 +23311,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "default", "sm"]
     },
     {
-      "key": "{size.md}",
+      "key": "{size.default.md}",
       "value": "2rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "md",
+        "type": "default",
+        "item": "md",
         "names": {
           "scss": "$calcite-size-md",
           "css": "var(--calcite-size-md)",
-          "docs": "size.md",
+          "docs": "size.default.md",
           "es6": "calciteSizeMd"
         },
         "calcite-schema": {
@@ -23328,19 +23336,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "default", "md"]
     },
     {
-      "key": "{size.lg}",
+      "key": "{size.default.lg}",
       "value": "2.75rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "lg",
+        "type": "default",
+        "item": "lg",
         "names": {
           "scss": "$calcite-size-lg",
           "css": "var(--calcite-size-lg)",
-          "docs": "size.lg",
+          "docs": "size.default.lg",
           "es6": "calciteSizeLg"
         },
         "calcite-schema": {
@@ -23352,19 +23361,20 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "default", "lg"]
     },
     {
-      "key": "{size.xl}",
+      "key": "{size.default.xl}",
       "value": "3rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "xl",
+        "type": "default",
+        "item": "xl",
         "names": {
           "scss": "$calcite-size-xl",
           "css": "var(--calcite-size-xl)",
-          "docs": "size.xl",
+          "docs": "size.default.xl",
           "es6": "calciteSizeXl"
         },
         "calcite-schema": {
@@ -23376,27 +23386,28 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "default", "xl"]
     },
     {
-      "key": "{size.xxl}",
+      "key": "{size.default.xxl}",
       "value": "4rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxl",
         "value": "64px",
         "description": "Deprecated, use --calcite-size-2xl instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxl}",
-        "name": "calcite-size-xxl",
-        "path": ["size", "xxl"],
+        "key": "{size.default.xxl}",
+        "name": "calcite-size-default-xxl",
+        "path": ["size", "default", "xxl"],
         "comment": "Deprecated, use --calcite-size-2xl instead.",
         "names": {
           "scss": "$calcite-size-xxl",
           "css": "var(--calcite-size-xxl)",
-          "docs": "size.xxl",
+          "docs": "size.default.xxl",
           "es6": "calciteSizeXxl"
         },
         "calcite-schema": {
@@ -23409,20 +23420,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxl",
-      "path": ["size", "xxl"],
+      "path": ["size", "default", "xxl"],
       "comment": "Deprecated, use --calcite-size-2xl instead."
     },
     {
-      "key": "{size.2xl}",
+      "key": "{size.default.2xl}",
       "value": "4rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "2xl",
+        "type": "default",
+        "item": "2xl",
         "names": {
           "scss": "$calcite-size-2xl",
           "css": "var(--calcite-size-2xl)",
-          "docs": "size.2xl",
+          "docs": "size.default.2xl",
           "es6": "calciteSize2xl"
         },
         "calcite-schema": {
@@ -23434,27 +23446,28 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "default", "2xl"]
     },
     {
-      "key": "{size.xxxl}",
+      "key": "{size.default.xxxl}",
       "value": "6rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxxl",
         "value": "96px",
         "description": "Deprecated, use --calcite-size-3xl instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxxl}",
-        "name": "calcite-size-xxxl",
-        "path": ["size", "xxxl"],
+        "key": "{size.default.xxxl}",
+        "name": "calcite-size-default-xxxl",
+        "path": ["size", "default", "xxxl"],
         "comment": "Deprecated, use --calcite-size-3xl instead.",
         "names": {
           "scss": "$calcite-size-xxxl",
           "css": "var(--calcite-size-xxxl)",
-          "docs": "size.xxxl",
+          "docs": "size.default.xxxl",
           "es6": "calciteSizeXxxl"
         },
         "calcite-schema": {
@@ -23467,20 +23480,21 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxl",
-      "path": ["size", "xxxl"],
+      "path": ["size", "default", "xxxl"],
       "comment": "Deprecated, use --calcite-size-3xl instead."
     },
     {
-      "key": "{size.3xl}",
+      "key": "{size.default.3xl}",
       "value": "6rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "3xl",
+        "type": "default",
+        "item": "3xl",
         "names": {
           "scss": "$calcite-size-3xl",
           "css": "var(--calcite-size-3xl)",
-          "docs": "size.3xl",
+          "docs": "size.default.3xl",
           "es6": "calciteSize3xl"
         },
         "calcite-schema": {
@@ -23492,7 +23506,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "default", "3xl"]
     },
     {
       "key": "{spacing.fixed.xxs}",
@@ -30041,16 +30055,17 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "comment": "deprecated"
     },
     {
-      "key": "{size.px}",
+      "key": "{size.default.px}",
       "value": "1px",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "px",
+        "type": "default",
+        "item": "px",
         "names": {
           "scss": "$calcite-size-px",
           "css": "var(--calcite-size-px)",
-          "docs": "size.px",
+          "docs": "size.default.px",
           "es6": "calciteSizePx"
         },
         "calcite-schema": {
@@ -30096,18 +30111,19 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxxs",
         "value": "12px",
         "description": "Deprecated, use --calcite-size-3xs instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxxs}",
-        "name": "calcite-size-xxxs",
-        "path": ["size", "xxxs"],
+        "key": "{size.default.xxxs}",
+        "name": "calcite-size-default-xxxs",
+        "path": ["size", "default", "xxxs"],
         "comment": "Deprecated, use --calcite-size-3xs instead.",
         "names": {
           "scss": "$calcite-size-xxxs",
           "css": "var(--calcite-size-xxxs)",
-          "docs": "size.xxxs",
+          "docs": "size.default.xxxs",
           "es6": "calciteSizeXxxs"
         },
         "calcite-schema": {
@@ -30120,20 +30136,21 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxs",
-      "path": ["size", "xxxs"],
+      "path": ["size", "default", "xxxs"],
       "comment": "Deprecated, use --calcite-size-3xs instead."
     },
     {
-      "key": "{size.3xs}",
+      "key": "{size.default.3xs}",
       "value": "0.75rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "3xs",
+        "type": "default",
+        "item": "3xs",
         "names": {
           "scss": "$calcite-size-3xs",
           "css": "var(--calcite-size-3xs)",
-          "docs": "size.3xs",
+          "docs": "size.default.3xs",
           "es6": "calciteSize3xs"
         },
         "calcite-schema": {
@@ -30145,27 +30162,28 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xs",
-      "path": ["size", "3xs"]
+      "path": ["size", "default", "3xs"]
     },
     {
-      "key": "{size.xxs}",
+      "key": "{size.default.xxs}",
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxs",
         "value": "14px",
         "description": "Deprecated, use --calcite-size-2xs instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxs}",
-        "name": "calcite-size-xxs",
-        "path": ["size", "xxs"],
+        "key": "{size.default.xxs}",
+        "name": "calcite-size-default-xxs",
+        "path": ["size", "default", "xxs"],
         "comment": "Deprecated, use --calcite-size-2xs instead.",
         "names": {
           "scss": "$calcite-size-xxs",
           "css": "var(--calcite-size-xxs)",
-          "docs": "size.xxs",
+          "docs": "size.default.xxs",
           "es6": "calciteSizeXxs"
         },
         "calcite-schema": {
@@ -30178,20 +30196,21 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxs",
-      "path": ["size", "xxs"],
+      "path": ["size", "default", "xxs"],
       "comment": "Deprecated, use --calcite-size-2xs instead."
     },
     {
-      "key": "{size.2xs}",
+      "key": "{size.default.2xs}",
       "value": "0.875rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "2xs",
+        "type": "default",
+        "item": "2xs",
         "names": {
           "scss": "$calcite-size-2xs",
           "css": "var(--calcite-size-2xs)",
-          "docs": "size.2xs",
+          "docs": "size.default.2xs",
           "es6": "calciteSize2xs"
         },
         "calcite-schema": {
@@ -30203,19 +30222,20 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xs",
-      "path": ["size", "2xs"]
+      "path": ["size", "default", "2xs"]
     },
     {
-      "key": "{size.xs}",
+      "key": "{size.default.xs}",
       "value": "1rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "xs",
+        "type": "default",
+        "item": "xs",
         "names": {
           "scss": "$calcite-size-xs",
           "css": "var(--calcite-size-xs)",
-          "docs": "size.xs",
+          "docs": "size.default.xs",
           "es6": "calciteSizeXs"
         },
         "calcite-schema": {
@@ -30227,19 +30247,20 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xs",
-      "path": ["size", "xs"]
+      "path": ["size", "default", "xs"]
     },
     {
-      "key": "{size.sm}",
+      "key": "{size.default.sm}",
       "value": "1.5rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "sm",
+        "type": "default",
+        "item": "sm",
         "names": {
           "scss": "$calcite-size-sm",
           "css": "var(--calcite-size-sm)",
-          "docs": "size.sm",
+          "docs": "size.default.sm",
           "es6": "calciteSizeSm"
         },
         "calcite-schema": {
@@ -30251,19 +30272,20 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Sm",
-      "path": ["size", "sm"]
+      "path": ["size", "default", "sm"]
     },
     {
-      "key": "{size.md}",
+      "key": "{size.default.md}",
       "value": "2rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "md",
+        "type": "default",
+        "item": "md",
         "names": {
           "scss": "$calcite-size-md",
           "css": "var(--calcite-size-md)",
-          "docs": "size.md",
+          "docs": "size.default.md",
           "es6": "calciteSizeMd"
         },
         "calcite-schema": {
@@ -30275,19 +30297,20 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Md",
-      "path": ["size", "md"]
+      "path": ["size", "default", "md"]
     },
     {
-      "key": "{size.lg}",
+      "key": "{size.default.lg}",
       "value": "2.75rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "lg",
+        "type": "default",
+        "item": "lg",
         "names": {
           "scss": "$calcite-size-lg",
           "css": "var(--calcite-size-lg)",
-          "docs": "size.lg",
+          "docs": "size.default.lg",
           "es6": "calciteSizeLg"
         },
         "calcite-schema": {
@@ -30299,19 +30322,20 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Lg",
-      "path": ["size", "lg"]
+      "path": ["size", "default", "lg"]
     },
     {
-      "key": "{size.xl}",
+      "key": "{size.default.xl}",
       "value": "3rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "xl",
+        "type": "default",
+        "item": "xl",
         "names": {
           "scss": "$calcite-size-xl",
           "css": "var(--calcite-size-xl)",
-          "docs": "size.xl",
+          "docs": "size.default.xl",
           "es6": "calciteSizeXl"
         },
         "calcite-schema": {
@@ -30323,27 +30347,28 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xl",
-      "path": ["size", "xl"]
+      "path": ["size", "default", "xl"]
     },
     {
-      "key": "{size.xxl}",
+      "key": "{size.default.xxl}",
       "value": "4rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxl",
         "value": "64px",
         "description": "Deprecated, use --calcite-size-2xl instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxl}",
-        "name": "calcite-size-xxl",
-        "path": ["size", "xxl"],
+        "key": "{size.default.xxl}",
+        "name": "calcite-size-default-xxl",
+        "path": ["size", "default", "xxl"],
         "comment": "Deprecated, use --calcite-size-2xl instead.",
         "names": {
           "scss": "$calcite-size-xxl",
           "css": "var(--calcite-size-xxl)",
-          "docs": "size.xxl",
+          "docs": "size.default.xxl",
           "es6": "calciteSizeXxl"
         },
         "calcite-schema": {
@@ -30356,20 +30381,21 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxl",
-      "path": ["size", "xxl"],
+      "path": ["size", "default", "xxl"],
       "comment": "Deprecated, use --calcite-size-2xl instead."
     },
     {
-      "key": "{size.2xl}",
+      "key": "{size.default.2xl}",
       "value": "4rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "2xl",
+        "type": "default",
+        "item": "2xl",
         "names": {
           "scss": "$calcite-size-2xl",
           "css": "var(--calcite-size-2xl)",
-          "docs": "size.2xl",
+          "docs": "size.default.2xl",
           "es6": "calciteSize2xl"
         },
         "calcite-schema": {
@@ -30381,27 +30407,28 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 2xl",
-      "path": ["size", "2xl"]
+      "path": ["size", "default", "2xl"]
     },
     {
-      "key": "{size.xxxl}",
+      "key": "{size.default.xxxl}",
       "value": "6rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
         "type": "dimension",
+        "item": "xxxl",
         "value": "96px",
         "description": "Deprecated, use --calcite-size-3xl instead.",
         "filePath": "src/tokens/semantic/size.json",
         "isSource": true,
-        "key": "{size.xxxl}",
-        "name": "calcite-size-xxxl",
-        "path": ["size", "xxxl"],
+        "key": "{size.default.xxxl}",
+        "name": "calcite-size-default-xxxl",
+        "path": ["size", "default", "xxxl"],
         "comment": "Deprecated, use --calcite-size-3xl instead.",
         "names": {
           "scss": "$calcite-size-xxxl",
           "css": "var(--calcite-size-xxxl)",
-          "docs": "size.xxxl",
+          "docs": "size.default.xxxl",
           "es6": "calciteSizeXxxl"
         },
         "calcite-schema": {
@@ -30414,20 +30441,21 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size Xxxl",
-      "path": ["size", "xxxl"],
+      "path": ["size", "default", "xxxl"],
       "comment": "Deprecated, use --calcite-size-3xl instead."
     },
     {
-      "key": "{size.3xl}",
+      "key": "{size.default.3xl}",
       "value": "6rem",
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "type": "3xl",
+        "type": "default",
+        "item": "3xl",
         "names": {
           "scss": "$calcite-size-3xl",
           "css": "var(--calcite-size-3xl)",
-          "docs": "size.3xl",
+          "docs": "size.default.3xl",
           "es6": "calciteSize3xl"
         },
         "calcite-schema": {
@@ -30439,7 +30467,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "filePath": "src/tokens/semantic/size.json",
       "isSource": true,
       "name": "Size 3xl",
-      "path": ["size", "3xl"]
+      "path": ["size", "default", "3xl"]
     },
     {
       "key": "{spacing.fixed.xxs}",
