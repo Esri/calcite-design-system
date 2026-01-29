@@ -51,7 +51,7 @@ export class InputMessage extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   //#endregion

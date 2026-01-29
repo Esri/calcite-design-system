@@ -106,7 +106,7 @@ export class InputTimePicker
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, prevents focus trapping. */
@@ -136,7 +136,7 @@ export class InputTimePicker
 
   /**
    * When the component resides in a form,
-   * specifies the maximum value.
+   * specifies the maximum `value`.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
@@ -147,7 +147,7 @@ export class InputTimePicker
 
   /**
    * When the component resides in a form,
-   * specifies the minimum value.
+   * specifies the minimum `value`.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
@@ -171,11 +171,11 @@ export class InputTimePicker
    */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Determines where the popover will be positioned relative to the input. */
+  /** Determines the `calcite-time-picker`'s position relative to the input. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -183,14 +183,14 @@ export class InputTimePicker
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
@@ -232,7 +232,7 @@ export class InputTimePicker
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed If true, delay the repositioning.
    */
@@ -269,7 +269,7 @@ export class InputTimePicker
   /** Fires when the component is closed and animation is complete. */
   calciteInputTimePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
   //#endregion
