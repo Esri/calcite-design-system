@@ -36,8 +36,5 @@
   "peerDependencies": {
     "react": ">=18.3",
     "react-dom": ">=18.3"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

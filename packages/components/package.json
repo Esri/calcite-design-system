@@ -99,9 +99,6 @@
     "sass-embedded": "1.97.1",
     "vitest": "4.0.16"
   },
-  "volta": {
-    "extends": "../../package.json"
-  },
   "css.customData": [
     "dist/docs/vscode.css-custom-data.json"
   ],

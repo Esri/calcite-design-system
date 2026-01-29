@@ -18,7 +18,7 @@
   "devDependencies": {
     "@web/dev-server": "^0.4.6"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }
