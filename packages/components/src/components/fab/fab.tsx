@@ -44,7 +44,7 @@ export class Fab extends LitElement {
    */
   @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the kind of the component, which will apply to border and background. */
