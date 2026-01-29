@@ -212,6 +212,13 @@
             "category": "size"
           }
         },
+        "9999": {
+          "value": "9999px",
+          "type": "sizing",
+          "attributes": {
+            "category": "size"
+          }
+        },
         "none": {
           "value": "0",
           "type": "sizing",

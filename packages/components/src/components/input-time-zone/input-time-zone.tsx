@@ -124,8 +124,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * Using `"offset"` will provide options that show timezone offsets.
    *
    * Using `"name"` will provide options that show the IANA time zone names.
-   *
-   * @default "offset"
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
@@ -140,8 +138,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * `"utc"` always uses `UTC`.
    *
    * This only applies to the `offset` mode.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 

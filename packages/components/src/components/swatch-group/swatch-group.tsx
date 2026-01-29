@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -46,7 +47,7 @@ export class SwatchGroup extends LitElement {
    */
   @property() label: string;
 
-  /** Specifies the size of the component. Child `calcite-swatch`s inherit the component's value. */
+  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

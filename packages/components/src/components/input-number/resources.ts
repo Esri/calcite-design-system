@@ -38,3 +38,5 @@ export const DIRECTION = {
   up: "up",
   down: "down",
 };
+
+export const NUDGE_DELAY_IN_MS = 150;

@@ -171,7 +171,7 @@ export class Carousel extends LitElement {
 
   //#region Public Methods
 
-  /** Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /** Plays the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @method()
   async play(): Promise<void> {
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
@@ -197,7 +197,7 @@ export class Carousel extends LitElement {
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
-  /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /** Stops the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @method()
   async stop(): Promise<void> {
     if (!this.playing) {

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 export type InputComponent = NumericInputComponent | TextualInputComponent | DateTimeInputComponent;
 
 export interface DateTimeInputComponent {

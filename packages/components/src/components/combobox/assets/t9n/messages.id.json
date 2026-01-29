@@ -8,5 +8,5 @@
   "required": "Wajib",
   "selectAll": "Pilih semua",
   "selected": "terpilih",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Baca saja {value}"
 }

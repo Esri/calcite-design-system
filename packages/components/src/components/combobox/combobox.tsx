@@ -201,8 +201,6 @@ export class Combobox
 
   private ignoreSelectedEventsFlag = false;
 
-  private inputHeight = 0;
-
   private internalValueChangeFlag = false;
 
   labelEl: Label["el"];
@@ -649,15 +647,6 @@ export class Combobox
     }
   }
 
-  override updated(): void {
-    if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition(true);
-      this.inputHeight = this.el.offsetHeight;
-    }
-
-    this.refreshSelectionDisplay();
-  }
-
   loaded(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
@@ -692,7 +681,6 @@ export class Combobox
     }
 
     toggleOpenClose(this);
-    this.setMaxScrollerHeight();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -980,13 +968,16 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveOrSelectedItem();
-    this.calciteComboboxBeforeOpen.emit();
     this.topLayer.show();
+    this.reposition();
+    this.calciteComboboxBeforeOpen.emit();
+
+    // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
+    // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
+    setTimeout(() => this.scrollToActiveOrSelectedItem(true), 0);
   }
 
   onOpen(): void {
-    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1007,11 +998,9 @@ export class Combobox
       return;
     }
 
-    await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
-    await this.reposition(true);
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {

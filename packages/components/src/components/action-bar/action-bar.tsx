@@ -19,11 +19,12 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions, isAction } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -170,7 +171,7 @@ export class ActionBar extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the accessible label for the last `calcite-action-group`. */
+  /** Specifies an accessible name for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
 
   /**
@@ -203,7 +204,7 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Arranges the component depending on the element's `dir` property. */
+  /** Specifies the position of the component depending on the element's `dir` property. */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */

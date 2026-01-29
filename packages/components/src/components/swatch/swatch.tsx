@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -67,7 +68,7 @@ export class Swatch extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` to emit.
+   * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` event to emit.
    * This is set to `true` by a parent Swatch Group component.
    *
    * @private
@@ -84,7 +85,7 @@ export class Swatch extends LitElement {
   /** @private */
   @property() parentSwatchGroup: SwatchGroup["el"];
 
-  /** Specifies the size of the component. When contained in a parent `calcite-swatch-group` inherits the parent's `scale` value. */
+  /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, the component is selected. */
