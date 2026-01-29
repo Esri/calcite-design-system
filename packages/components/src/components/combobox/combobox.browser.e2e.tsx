@@ -1,6 +1,7 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
   defaults,
@@ -16,7 +17,9 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { CSS } from "./resources";
+import { Combobox } from "./combobox";
 
 describe("calcite-combobox", () => {
   mockConsole();
@@ -192,6 +195,10 @@ describe("calcite-combobox", () => {
     });
   });
 
+  describe("top layer placement", () => {
+    topLayer(() => mount("calcite-combobox"));
+  });
+
   it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
     await mount(
       <calcite-combobox label="Fruits">
@@ -200,11 +207,172 @@ describe("calcite-combobox", () => {
       </calcite-combobox>,
     );
     const [item1, item2] = document.body.querySelectorAll("calcite-combobox-item");
-    expect(item1.getAttribute("aria-label")).toBe("Apple");
-    expect(item2.getAttribute("value")).toBe("Fallback Heading");
+    expect(item1.ariaLabel).toBe("Apple");
+    expect(item2.value).toBe("Fallback Heading");
   });
 
-  describe("top layer placement", () => {
-    topLayer(() => mount("calcite-combobox"));
+  describe("active item when opened", () => {
+    async function assertActiveItem(
+      setup: () => JsxNode,
+      expectedActiveItemValue: string,
+    ): Promise<void> {
+      const { el } = await mount<Combobox>(setup);
+      const openEventSpy = waitForEvent(el, "calciteComboboxOpen");
+
+      await userEvent.click(el);
+      await openEventSpy;
+      const activeItem = page.getBySelector("calcite-combobox-item[active]");
+
+      await expect.element(activeItem).toHaveProperty("value", expectedActiveItemValue);
+    }
+
+    describe("single-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="single">
+              <calcite-combobox-item heading="item1" value="item1" />
+              <calcite-combobox-item heading="item2" value="item2" />
+            </calcite-combobox>
+          ),
+          "item1",
+        ));
+
+      it("shows the selected item as active when opened", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="single">
+              <calcite-combobox-item heading="item1" value="item1" />
+              <calcite-combobox-item heading="item2" value="item2" />
+              <calcite-combobox-item heading="item3" selected value="item3" />
+            </calcite-combobox>
+          ),
+          "item3",
+        ));
+
+      it("shows the selected item when initially opened with single selection", async () => {
+        await mount(
+          <calcite-combobox max-items="6" open selection-mode="single">
+            <calcite-combobox-item heading="Trees" value="Trees">
+              <calcite-combobox-item heading="Pine" value="Pine">
+                <calcite-combobox-item heading="Pine Nested" value="Pine Nested" />
+              </calcite-combobox-item>
+              <calcite-combobox-item disabled heading="Sequoia" value="Sequoia" />
+              <calcite-combobox-item heading="Douglas Fir" value="Douglas Fir" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Flowers" value="Flowers">
+              <calcite-combobox-item heading="Daffodil" value="Daffodil" />
+              <calcite-combobox-item heading="Black Eyed Susan" selected value="Black Eyed Susan" />
+              <calcite-combobox-item heading="Nasturtium" value="Nasturtium" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Animals" value="Animals">
+              <calcite-combobox-item heading="Birds" value="Birds" />
+              <calcite-combobox-item heading="Reptiles" value="Reptiles" />
+              <calcite-combobox-item heading="Amphibians" value="Amphibians" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Rocks" value="Rocks" />
+            <calcite-combobox-item heading="Insects" value="Insects" />
+            <calcite-combobox-item heading="Rivers" value="Rivers" />
+          </calcite-combobox>,
+        );
+        const selectedItem = page.getBySelector(`calcite-combobox-item[value='Black Eyed Susan']`);
+
+        await expect.element(selectedItem).toBeInViewport();
+        await expect.element(selectedItem).toHaveProperty("selected", true);
+      });
+    });
+
+    describe("multiple-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item heading="item1" value="item1" />
+              <calcite-combobox-item heading="item2" value="item2" />
+              <calcite-combobox-item heading="item3" value="item3" />
+            </calcite-combobox>
+          ),
+          "item1",
+        ));
+
+      it("shows the last selected item as active", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item heading="item1" selected value="item1" />
+              <calcite-combobox-item heading="item2" selected value="item2" />
+              <calcite-combobox-item heading="item3" selected value="item3" />
+            </calcite-combobox>
+          ),
+          "item3",
+        ));
+
+      it("shows the selected item when initially opened with multiple selection", async () => {
+        await mount(() => (
+          <calcite-combobox max-items="6" open selection-mode="multiple">
+            <calcite-combobox-item heading="Trees" value="Trees">
+              <calcite-combobox-item heading="Pine" value="Pine">
+                <calcite-combobox-item heading="Pine Nested" value="Pine Nested" />
+              </calcite-combobox-item>
+              <calcite-combobox-item disabled heading="Sequoia" value="Sequoia" />
+              <calcite-combobox-item heading="Douglas Fir" value="Douglas Fir" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Flowers" value="Flowers">
+              <calcite-combobox-item heading="Daffodil" value="Daffodil" />
+              <calcite-combobox-item heading="Black Eyed Susan" selected value="Black Eyed Susan" />
+              <calcite-combobox-item heading="Nasturtium" value="Nasturtium" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Animals" value="Animals">
+              <calcite-combobox-item heading="Birds" value="Birds" />
+              <calcite-combobox-item heading="Reptiles" value="Reptiles" />
+              <calcite-combobox-item heading="Amphibians" value="Amphibians" />
+            </calcite-combobox-item>
+            <calcite-combobox-item heading="Rocks" selected value="Rocks" />
+            <calcite-combobox-item heading="Insects" value="Insects" />
+            <calcite-combobox-item heading="Rivers" value="Rivers" />
+          </calcite-combobox>
+        ));
+        const firstSelectedItem = page.getBySelector(
+          `calcite-combobox-item[value='Black Eyed Susan']`,
+        );
+        const secondSelectedItem = page.getBySelector(`calcite-combobox-item[value='Rocks']`);
+
+        await expect.element(firstSelectedItem.element()).toBeInViewport();
+        await expect.element(firstSelectedItem.element()).toHaveProperty("selected", true);
+
+        await expect.element(secondSelectedItem).not.toBeInViewport();
+        await expect.element(secondSelectedItem).toHaveProperty("selected", true);
+      });
+    });
+
+    describe("ancestors-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item heading="parent" value="item1">
+                <calcite-combobox-item heading="item1_1" value="item1_1" />
+              </calcite-combobox-item>
+              <calcite-combobox-item heading="item2" value="item2" />
+              <calcite-combobox-item heading="item3" value="item3" />
+            </calcite-combobox>
+          ),
+          "item1",
+        ));
+
+      it("shows the last selected item as active", async () =>
+        assertActiveItem(
+          () => (
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item heading="parent" selected value="item1">
+                <calcite-combobox-item heading="item1_1" value="item1_1" />
+              </calcite-combobox-item>
+              <calcite-combobox-item heading="item2" value="item2" />
+              <calcite-combobox-item heading="item3" selected value="item3" />
+            </calcite-combobox>
+          ),
+          "item3",
+        ));
+    });
   });
 });

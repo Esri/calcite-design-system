@@ -25,13 +25,13 @@ export class Label extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies the text alignment of the component. */
+  /** Specifies the component's text alignment. */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @property({ reflect: true }) for?: string;
 
-  /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
+  /** Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
     "default";
 
