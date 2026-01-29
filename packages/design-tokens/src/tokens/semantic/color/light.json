@@ -50,7 +50,7 @@
           "category": "color",
           "group": "background"
         },
-        "description": "Deprecated, use `--calcite-color-surface-1` instead"
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-1` instead."
       },
       "none": {
         "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
@@ -70,7 +70,7 @@
           "category": "color",
           "group": "foreground"
         },
-        "description": "Deprecated, use `--calcite-color-surface-2` instead"
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-2` instead."
       },
       "2": {
         "value": "{core.color.neutral.blk-010}",
@@ -79,7 +79,7 @@
           "category": "color",
           "group": "foreground"
         },
-        "description": "Deprecated, use `--calcite-color-surface-3` instead"
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-3` instead."
       },
       "3": {
         "value": "{core.color.neutral.blk-020}",
@@ -88,7 +88,7 @@
           "category": "color",
           "group": "foreground"
         },
-        "description": "Deprecated, use `--calcite-color-surface-4` instead"
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-4` instead."
       },
       "current": {
         "value": "{core.color.high-saturation.blue.h-bb-010}",
@@ -97,7 +97,7 @@
           "category": "color",
           "group": "foreground"
         },
-        "description": "deprecated, use --calcite-color-surface-highlight instead"
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
     },
     "text": {
