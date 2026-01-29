@@ -1,23 +1,24 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
   defaults,
   disabled,
+  floatingUIOwner,
   focusable,
-  reflects,
   hidden,
   internalLabel,
+  reflects,
   renders,
-  floatingUIOwner,
   t9n,
   topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
@@ -200,7 +201,7 @@ describe("calcite-combobox", () => {
   });
 
   it("should use heading as fallback for both accessibility (aria-label) and value if not provided", async () => {
-    await mount(
+    await mount<Combobox>(
       <calcite-combobox label="Fruits">
         <calcite-combobox-item heading="Apple" />
         <calcite-combobox-item heading="Fallback Heading" />
@@ -211,16 +212,405 @@ describe("calcite-combobox", () => {
     expect(item2.value).toBe("Fallback Heading");
   });
 
+  describe("item selection", () => {
+    describe("toggling items", () => {
+      describe("via keyboard", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => userEvent.type(item, "{Enter}"));
+      });
+
+      describe("via mouse", () => {
+        assertSelectionModeToggling(async (item): Promise<void> => userEvent.click(item));
+      });
+
+      async function assertSelectionModeToggling(
+        selectItem: (item: ComboboxItem["el"]) => Promise<void>,
+      ): Promise<void> {
+        it("single-selection mode allows toggling selection once the selected item is selected", async () => {
+          const { el } = await mount<Combobox>(
+            <calcite-combobox selection-mode="single">
+              <calcite-combobox-item heading="one" value="one" />
+              <calcite-combobox-item heading="two" value="two" />
+            </calcite-combobox>,
+          );
+          let openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          const item1 = el.querySelector<ComboboxItem["el"]>("calcite-combobox-item[value=one]")!;
+          const comboboxItemChangeHandler = vi.fn();
+          el.addEventListener("calciteComboboxItemChange", comboboxItemChangeHandler);
+
+          await selectItem(item1);
+          expect(el.value).toBe("one");
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
+
+          openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          await selectItem(item1);
+          expect(el.value).toBe("");
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(2);
+        });
+
+        it("single-persist-selection mode does not allow toggling selection once the selected item is selected", async () => {
+          const { el } = await mount<Combobox>(
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item heading="one" value="one" />
+              <calcite-combobox-item heading="two" value="two" />
+            </calcite-combobox>,
+          );
+          let openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          const item1 = page
+            .getBySelector("calcite-combobox-item[value=one]")
+            .element() as ComboboxItem["el"];
+          const itemChangeHandler = vi.fn();
+          el.addEventListener("calciteComboboxItemChange", itemChangeHandler);
+
+          await selectItem(item1);
+          expect(el.value).toBe("one");
+          expect(itemChangeHandler).toHaveBeenCalledTimes(1);
+
+          openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          await selectItem(item1);
+          expect(el.value).toBe("one");
+          expect(el.open).toBe(true);
+          expect(itemChangeHandler).toHaveBeenCalledTimes(1);
+        });
+
+        it("single-persist-selection mode correctly selects different items with the same value", async () => {
+          const { el } = await mount<Combobox>(
+            <calcite-combobox selection-mode="single-persist">
+              <calcite-combobox-item heading="one" value="one" />
+              <calcite-combobox-item heading="two" value="one" />
+            </calcite-combobox>,
+          );
+
+          let openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          const item1 = page.getBySelector("calcite-combobox-item:nth-child(1)");
+          const comboboxItemChangeHandler1 = vi.fn();
+          const item2 = page.getBySelector("calcite-combobox-item:nth-child(2)");
+          const comboboxItemChangeHandler2 = vi.fn();
+
+          item1.element().addEventListener("calciteComboboxItemChange", comboboxItemChangeHandler1);
+          item2.element().addEventListener("calciteComboboxItemChange", comboboxItemChangeHandler2);
+
+          await userEvent.click(item1);
+
+          await expect.element(el).toHaveProperty("value", "one");
+          await expect.element(item1).toHaveProperty("selected", true);
+          await expect.element(item2).toHaveProperty("selected", false);
+          await expect.element(el).toHaveProperty("open", false);
+          expect(comboboxItemChangeHandler1).toHaveBeenCalledTimes(1);
+
+          openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          await userEvent.click(item2);
+
+          expect(el.value).toBe("one");
+          await expect.element(item1).toHaveProperty("selected", false);
+          await expect.element(item2).toHaveProperty("selected", true);
+          await expect.element(el).toHaveProperty("open", false);
+          expect(comboboxItemChangeHandler2).toHaveBeenCalledTimes(1);
+        });
+
+        it("multiple-selection mode allows toggling selection once the selected item is selected", async () => {
+          const { el } = await mount<Combobox>(
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item heading="one" value="one" />
+              <calcite-combobox-item heading="two" value="two" />
+            </calcite-combobox>,
+          );
+          const openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          const item1 = (await page
+            .getBySelector("calcite-combobox-item[value=one]")
+            .element()) as ComboboxItem["el"];
+          const comboboxItemChangeHandler = vi.fn();
+          item1.addEventListener("calciteComboboxItemChange", comboboxItemChangeHandler);
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
+          await expect
+            .element(page.getBySelector("calcite-combobox calcite-chip"))
+            .toBeInTheDocument();
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(2);
+          await expect
+            .element(page.getBySelector("calcite-combobox calcite-chip"))
+            .not.toBeInTheDocument();
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(3);
+          await expect
+            .element(page.getBySelector("calcite-combobox calcite-chip"))
+            .toBeInTheDocument();
+        });
+
+        it("ancestors-selection mode allows toggling selection once the selected item is selected", async () => {
+          const { el } = await mount<Combobox>(
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item heading="parent" value="one">
+                <calcite-combobox-item heading="child1" value="two" />
+                <calcite-combobox-item heading="child2" value="three" />
+              </calcite-combobox-item>
+            </calcite-combobox>,
+          );
+          const openEvent = waitForEvent(el, "calciteComboboxOpen");
+          await userEvent.click(el);
+          await openEvent;
+
+          const item1 = (await page
+            .getBySelector("calcite-combobox-item[value=one]")
+            .element()) as ComboboxItem["el"];
+          const comboboxItemChangeHandler = vi.fn();
+          item1.addEventListener("calciteComboboxItemChange", comboboxItemChangeHandler);
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
+          await expect.element(page.getBySelector("calcite-chip")).toBeInTheDocument();
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(2);
+          await expect.element(page.getBySelector("calcite-chip")).not.toBeInTheDocument();
+
+          await selectItem(item1);
+          expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(3);
+          await expect.element(page.getBySelector("calcite-chip")).toBeInTheDocument();
+        });
+      }
+    });
+
+    it("should select parent in ancestor selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox selection-mode="ancestors">
+          <calcite-combobox-item heading="one" value="one">
+            <calcite-combobox-item heading="child1" value="child1" />
+          </calcite-combobox-item>
+        </calcite-combobox>,
+      );
+      const openEvent = waitForEvent(el, "calciteComboboxOpen");
+      await userEvent.click(el);
+      await openEvent;
+
+      const item1 = page
+        .getBySelector("calcite-combobox-item[value=child1]")
+        .element() as ComboboxItem["el"];
+      await userEvent.click(item1);
+
+      const parent = page.getBySelector("calcite-combobox-item[value=one]");
+      await expect.element(parent).toBeInTheDocument();
+      await expect.element(parent).toHaveProperty("selected", true);
+
+      const chips = page.getBySelector("calcite-chip").elements() as ComboboxItem["el"][];
+      expect(chips.length).toBe(1);
+    });
+
+    it("should clear children in ancestor selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox selection-mode="ancestors">
+          <calcite-combobox-item heading="parent" value="parent">
+            <calcite-combobox-item heading="child1" value="child1" />
+            <calcite-combobox-item heading="child2" value="child2" />
+          </calcite-combobox-item>
+        </calcite-combobox>,
+      );
+      const openEvent = waitForEvent(el, "calciteComboboxOpen");
+      await userEvent.click(el);
+      await openEvent;
+
+      const parent = page
+        .getBySelector("calcite-combobox-item[value=parent]")
+        .element() as ComboboxItem["el"];
+      const parentItem = page.getByLabelText("parent").filter({ hasText: "parent" });
+      const item1 = page
+        .getBySelector("calcite-combobox-item[value=child1]")
+        .element() as ComboboxItem["el"];
+      const item2 = page
+        .getBySelector("calcite-combobox-item[value=child2]")
+        .element() as ComboboxItem["el"];
+      await userEvent.click(item1);
+      await userEvent.click(item2);
+
+      const chips = page.getBySelector("calcite-combobox calcite-chip");
+      expect(chips.elements().length).toBe(2);
+      expect(parent).toHaveAttribute("selected");
+      await userEvent.click(parentItem, { position: { x: 1, y: 1 } });
+      expect(chips.elements().length).toBe(0);
+      expect(parent).not.toHaveAttribute("selected");
+      expect(item1).not.toHaveAttribute("selected");
+      expect(item2).not.toHaveAttribute("selected");
+    });
+
+    it("clicking a chip should remove the selected item", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox>
+          <calcite-combobox-item heading="one" value="one" />
+          <calcite-combobox-item heading="two" value="two" />
+        </calcite-combobox>,
+      );
+      const openEvent = waitForEvent(el, "calciteComboboxOpen");
+      await userEvent.click(el);
+      await openEvent;
+
+      const item1 = page
+        .getBySelector("calcite-combobox-item[value=one]")
+        .element() as ComboboxItem["el"];
+      await userEvent.click(item1);
+
+      const chip = page.getBySelector("calcite-combobox calcite-chip");
+      await expect.element(chip).toBeDefined();
+      await expect.element(el).toHaveProperty("open", true);
+
+      const closeButton = chip.getByRole("button", { hasText: "Remove tag" });
+      await userEvent.click(closeButton, { timeout: 100 });
+
+      await expect.element(chip).not.toBeInTheDocument();
+      await expect.element(el).toHaveProperty("open", false);
+    });
+
+    it("should honor calciteComboboxChipClose", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox>
+          <calcite-combobox-item heading="one" selected value="one" />
+        </calcite-combobox>,
+      );
+
+      const comboboxChipCloseHandler = vi.fn();
+      el.addEventListener("calciteComboboxChipClose", comboboxChipCloseHandler);
+
+      const chipCloseButton = page
+        .getBySelector("calcite-chip")
+        .getByRole("button", { hasText: "Remove tag" });
+      await userEvent.click(chipCloseButton, { timeout: 100 });
+
+      expect(comboboxChipCloseHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("should auto-select new custom value if selection is empty", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values selection-mode="single">
+          <calcite-combobox-item heading="one" id="one" value="one" />
+          <calcite-combobox-item heading="two" id="two" value="two" />
+          <calcite-combobox-item heading="three" id="three" value="three" />
+        </calcite-combobox>,
+      );
+      const input = page.getBySelector("calcite-combobox input");
+      const comboboxChangeHandler = vi.fn();
+      el.addEventListener("calciteComboboxChange", comboboxChangeHandler);
+
+      await userEvent.click(input);
+      await userEvent.type(input, "K{Enter}");
+
+      const item = page.getBySelector("calcite-combobox-item:first-child");
+      await expect.element(item).toHaveProperty("heading", "K");
+
+      await expect
+        .element(page.elementLocator(el))
+        .toHaveProperty("selectedItems", expect.objectContaining({ length: 1 }));
+      await expect.element(item).toHaveProperty("selected", true);
+      expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("should replace current value to new custom value in single selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values selection-mode="single">
+          <calcite-combobox-item heading="one" id="one" selected value="one" />
+          <calcite-combobox-item heading="two" id="two" value="two" />
+          <calcite-combobox-item heading="three" id="three" value="three" />
+        </calcite-combobox>,
+      );
+      const comboboxChangeHandler = vi.fn();
+      el.addEventListener("calciteComboboxChange", comboboxChangeHandler);
+
+      await userEvent.click(el);
+      await userEvent.type(el, "K{Enter}");
+
+      const customValue = page.getBySelector("calcite-combobox-item:first-child");
+      const item1 = page.getBySelector("calcite-combobox-item#one");
+
+      await expect.element(customValue).toHaveProperty("heading", "K");
+
+      await expect
+        .element(page.elementLocator(el))
+        .toHaveProperty("selectedItems", expect.objectContaining({ length: 1 }));
+      await expect.element(customValue).toHaveProperty("selected", true);
+      await expect.element(item1).toHaveProperty("selected", false);
+      expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("should auto-select new custom values in multiple selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values>
+          <calcite-combobox-item heading="one" id="one" selected value="one" />
+          <calcite-combobox-item heading="two" id="two" selected value="two" />
+          <calcite-combobox-item heading="three" id="three" value="three" />
+        </calcite-combobox>,
+      );
+      const comboboxChangeHandler = vi.fn();
+      el.addEventListener("calciteComboboxChange", comboboxChangeHandler);
+
+      await userEvent.click(el);
+      await userEvent.type(el, "K{Enter}{Escape}");
+
+      const customValue = page.getBySelector("calcite-combobox-item:first-child");
+      const item1 = page.getBySelector("calcite-combobox-item#one");
+      const item2 = page.getBySelector("calcite-combobox-item#two");
+      const chips = page.getBySelector("calcite-combobox calcite-chip");
+
+      await expect.element(customValue).toHaveProperty("heading", "K");
+
+      await expect
+        .element(page.elementLocator(el))
+        .toHaveProperty("selectedItems", expect.objectContaining({ length: 3 }));
+      await expect.element(chips.elements()[2]).toHaveTextContent("K");
+      await expect.element(customValue).toHaveProperty("selected", true);
+      await expect.element(item1).toHaveProperty("selected", true);
+      await expect.element(item2).toHaveProperty("selected", true);
+      expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("updates the value immediately after selecting an item programmatically", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item heading="first" value="1" />
+          <calcite-combobox-item heading="second" value="2" />
+          <calcite-combobox-item heading="third" value="3" />
+        </calcite-combobox>,
+      );
+
+      const firstItem = el.querySelector("calcite-combobox-item")!;
+      firstItem.selected = true;
+      const immediateValueAfterSelected = el.value;
+
+      expect(immediateValueAfterSelected).toBe("1");
+    });
+  });
+
   describe("active item when opened", () => {
     async function assertActiveItem(
       setup: () => JsxNode,
       expectedActiveItemValue: string,
     ): Promise<void> {
       const { el } = await mount<Combobox>(setup);
-      const openEventSpy = waitForEvent(el, "calciteComboboxOpen");
+      const openEvent = waitForEvent(el, "calciteComboboxOpen");
 
       await userEvent.click(el);
-      await openEventSpy;
+      await openEvent;
       const activeItem = page.getBySelector("calcite-combobox-item[active]");
 
       await expect.element(activeItem).toHaveProperty("value", expectedActiveItemValue);
@@ -251,7 +641,7 @@ describe("calcite-combobox", () => {
         ));
 
       it("shows the selected item when initially opened with single selection", async () => {
-        await mount(
+        await mount<Combobox>(
           <calcite-combobox max-items="6" open selection-mode="single">
             <calcite-combobox-item heading="Trees" value="Trees">
               <calcite-combobox-item heading="Pine" value="Pine">
@@ -308,7 +698,7 @@ describe("calcite-combobox", () => {
         ));
 
       it("shows the selected item when initially opened with multiple selection", async () => {
-        await mount(() => (
+        await mount<Combobox>(() => (
           <calcite-combobox max-items="6" open selection-mode="multiple">
             <calcite-combobox-item heading="Trees" value="Trees">
               <calcite-combobox-item heading="Pine" value="Pine">
