@@ -33,7 +33,7 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -43,9 +43,9 @@ declare global {
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
 export class Dialog extends LitElement {
   //#region Static Members
@@ -132,13 +132,13 @@ export class Dialog extends LitElement {
 
   //#region Public Properties
 
-  /** Passes a function to run before the component closes. */
+  /** Specifies a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** Specifies a description for the component. */
+  /** Specifies the component's description. */
   @property() description: string;
 
   /** When `true`, the component is draggable. */
@@ -181,7 +181,7 @@ export class Dialog extends LitElement {
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies the kind of the component, which will style the top border. */
+  /** Specifies the component's kind, which determines the top border styling. */
   @property({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -190,7 +190,7 @@ export class Dialog extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
@@ -232,7 +232,7 @@ export class Dialog extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placement of the dialog. */
+  /** Specifies the component's placement. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
   /** When `true`, the component is resizable. */
@@ -251,13 +251,13 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
-   * Specifies the width of the component.
+   * Specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -320,10 +320,10 @@ export class Dialog extends LitElement {
   /** Fires when the component is closed and animation is complete. */
   calciteDialogClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteDialogOpen = createEvent({ cancelable: false });
 
-  /** Fires when the content is scrolled. */
+  /** Fires when the component's content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
   //#endregion

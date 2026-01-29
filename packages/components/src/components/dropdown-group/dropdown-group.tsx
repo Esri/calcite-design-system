@@ -39,7 +39,7 @@ export class DropdownGroup extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies and displays a group title. */
+  /** Specifies a group title to display. */
   @property({ reflect: true }) groupTitle: string;
 
   /**
