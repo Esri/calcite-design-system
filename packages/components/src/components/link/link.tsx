@@ -45,11 +45,11 @@ export class Link extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies to prompt the user save the linked URL instead of navigating to it. Can be used with or without a value:
+   * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
    * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
@@ -68,10 +68,10 @@ export class Link extends LitElement {
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart: IconName;
 
-  /** Specifies the relationship to the linked resource defined in `href`. */
+  /** Specifies the relationship to the linked document defined in `href`. */
   @property() rel: string;
 
-  /** Specifies the frame or window to open the linked resource. */
+  /** Specifies the frame or window to open the linked document. */
   @property() target: string;
 
   //#endregion
