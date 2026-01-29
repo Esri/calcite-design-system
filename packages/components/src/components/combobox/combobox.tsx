@@ -968,14 +968,16 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.reposition(true);
-    this.scrollToActiveOrSelectedItem();
-    this.calciteComboboxBeforeOpen.emit();
     this.topLayer.show();
+    this.reposition();
+    this.calciteComboboxBeforeOpen.emit();
+
+    // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
+    // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
+    setTimeout(() => this.scrollToActiveOrSelectedItem(true), 0);
   }
 
   onOpen(): void {
-    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
