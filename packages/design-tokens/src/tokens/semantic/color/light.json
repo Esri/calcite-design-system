@@ -197,7 +197,8 @@
         "attributes": {
           "category": "color",
           "group": "border"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - No longer needed."
       }
     },
     "brand": {
