@@ -1083,6 +1083,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** deprecated */
   --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
+  --calcite-size-4xs: 0.625rem;
   --calcite-size-xxxs: 0.75rem; /** Deprecated, use --calcite-size-3xs instead. */
   --calcite-size-3xs: 0.75rem;
   --calcite-size-xxs: 0.875rem; /** Deprecated, use --calcite-size-2xs instead. */
@@ -1130,6 +1131,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-space-xl: 1.25rem;
   --calcite-space-2xl: 1.5rem;
   --calcite-space-3xl: 2rem;
+  --calcite-space-4xl: 2.75rem;
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
   --calcite-z-index-sticky: 300;
@@ -1589,6 +1591,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-size-fixed-xxl: 24px; /** deprecated */
   --calcite-size-fixed-xxxl: 32px; /** deprecated */
   --calcite-size-px: 1px;
+  --calcite-size-4xs: 0.625rem;
   --calcite-size-xxxs: 0.75rem; /** Deprecated, use --calcite-size-3xs instead. */
   --calcite-size-3xs: 0.75rem;
   --calcite-size-xxs: 0.875rem; /** Deprecated, use --calcite-size-2xs instead. */
@@ -1636,6 +1639,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-space-xl: 1.25rem;
   --calcite-space-2xl: 1.5rem;
   --calcite-space-3xl: 2rem;
+  --calcite-space-4xl: 2.75rem;
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
   --calcite-z-index-sticky: 300;
@@ -23115,6 +23119,31 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "path": ["size", "default", "px"]
     },
     {
+      "key": "{size.default.4xs}",
+      "value": "0.625rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "default",
+        "item": "4xs",
+        "names": {
+          "scss": "$calcite-size-4xs",
+          "css": "var(--calcite-size-4xs)",
+          "docs": "size.default.4xs",
+          "es6": "calciteSize4xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 4xs",
+      "path": ["size", "default", "4xs"]
+    },
+    {
       "key": "{size.default.xxxs}",
       "value": "0.75rem",
       "type": "dimension",
@@ -24546,6 +24575,30 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Space 3xl",
       "path": ["space", "3xl"]
+    },
+    {
+      "key": "{space.4xl}",
+      "value": "2.75rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "spacing",
+        "type": "4xl",
+        "names": {
+          "scss": "$calcite-space-4xl",
+          "css": "var(--calcite-space-4xl)",
+          "docs": "space.4xl",
+          "es6": "calciteSpace4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/space.json",
+      "isSource": true,
+      "name": "Space 4xl",
+      "path": ["space", "4xl"]
     },
     {
       "key": "{typography.default.default}",
@@ -30027,6 +30080,31 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "path": ["size", "default", "px"]
     },
     {
+      "key": "{size.default.4xs}",
+      "value": "0.625rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "size",
+        "type": "default",
+        "item": "4xs",
+        "names": {
+          "scss": "$calcite-size-4xs",
+          "css": "var(--calcite-size-4xs)",
+          "docs": "size.default.4xs",
+          "es6": "calciteSize4xs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/size.json",
+      "isSource": true,
+      "name": "Size 4xs",
+      "path": ["size", "default", "4xs"]
+    },
+    {
       "key": "{size.default.xxxs}",
       "value": "0.75rem",
       "type": "dimension",
@@ -31458,6 +31536,30 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Space 3xl",
       "path": ["space", "3xl"]
+    },
+    {
+      "key": "{space.4xl}",
+      "value": "2.75rem",
+      "type": "dimension",
+      "attributes": {
+        "category": "spacing",
+        "type": "4xl",
+        "names": {
+          "scss": "$calcite-space-4xl",
+          "css": "var(--calcite-space-4xl)",
+          "docs": "space.4xl",
+          "es6": "calciteSpace4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "filePath": "src/tokens/semantic/space.json",
+      "isSource": true,
+      "name": "Space 4xl",
+      "path": ["space", "4xl"]
     },
     {
       "key": "{z-index.deep}",
@@ -33303,6 +33405,7 @@ export const calciteSizeFixedXl = "20px"; // deprecated
 export const calciteSizeFixedXxl = "24px"; // deprecated
 export const calciteSizeFixedXxxl = "32px"; // deprecated
 export const calciteSizePx = "1px";
+export const calciteSize4xs = "0.625rem";
 export const calciteSizeXxxs = "0.75rem"; // Deprecated, use --calcite-size-3xs instead.
 export const calciteSize3xs = "0.75rem";
 export const calciteSizeXxs = "0.875rem"; // Deprecated, use --calcite-size-2xs instead.
@@ -33350,6 +33453,7 @@ export const calciteSpaceLg = "1rem";
 export const calciteSpaceXl = "1.25rem";
 export const calciteSpace2xl = "1.5rem";
 export const calciteSpace3xl = "2rem";
+export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "14px",
@@ -33872,6 +33976,7 @@ export const calciteSizeFixedXxl: string;
 /** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
+export const calciteSize4xs: string;
 /** Deprecated, use --calcite-size-3xs instead. */
 export const calciteSizeXxxs: string;
 export const calciteSize3xs: string;
@@ -33944,6 +34049,7 @@ export const calciteSpaceLg: string;
 export const calciteSpaceXl: string;
 export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
+export const calciteSpace4xl: string;
 export const calciteTypography: {
   fontFamily: string[];
   fontSize: string;
@@ -34349,6 +34455,7 @@ export const calciteSizeFixedXl = "20px"; // deprecated
 export const calciteSizeFixedXxl = "24px"; // deprecated
 export const calciteSizeFixedXxxl = "32px"; // deprecated
 export const calciteSizePx = "1px";
+export const calciteSize4xs = "0.625rem";
 export const calciteSizeXxxs = "0.75rem"; // Deprecated, use --calcite-size-3xs instead.
 export const calciteSize3xs = "0.75rem";
 export const calciteSizeXxs = "0.875rem"; // Deprecated, use --calcite-size-2xs instead.
@@ -34396,6 +34503,7 @@ export const calciteSpaceLg = "1rem";
 export const calciteSpaceXl = "1.25rem";
 export const calciteSpace2xl = "1.5rem";
 export const calciteSpace3xl = "2rem";
+export const calciteSpace4xl = "2.75rem";
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
 export const calciteZIndexSticky = "300";
@@ -34573,6 +34681,7 @@ export const calciteSizeFixedXxl: string;
 /** deprecated */
 export const calciteSizeFixedXxxl: string;
 export const calciteSizePx: string;
+export const calciteSize4xs: string;
 /** Deprecated, use --calcite-size-3xs instead. */
 export const calciteSizeXxxs: string;
 export const calciteSize3xs: string;
@@ -34645,6 +34754,7 @@ export const calciteSpaceLg: string;
 export const calciteSpaceXl: string;
 export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
+export const calciteSpace4xl: string;
 export const calciteZIndexDeep: string;
 export const calciteZIndex: string;
 export const calciteZIndexSticky: string;
@@ -35454,6 +35564,7 @@ $calcite-size-fixed-xl: 20px; // deprecated
 $calcite-size-fixed-xxl: 24px; // deprecated
 $calcite-size-fixed-xxxl: 32px; // deprecated
 $calcite-size-px: 1px;
+$calcite-size-4xs: 0.625rem;
 $calcite-size-xxxs: 0.75rem; // Deprecated, use --calcite-size-3xs instead.
 $calcite-size-3xs: 0.75rem;
 $calcite-size-xxs: 0.875rem; // Deprecated, use --calcite-size-2xs instead.
@@ -35501,6 +35612,7 @@ $calcite-space-lg: 1rem;
 $calcite-space-xl: 1.25rem;
 $calcite-space-2xl: 1.5rem;
 $calcite-space-3xl: 2rem;
+$calcite-space-4xl: 2.75rem;
 $calcite-z-index-deep: -999999;
 $calcite-z-index: 1;
 $calcite-z-index-sticky: 300;
@@ -36125,6 +36237,7 @@ $calcite-size-fixed-xl: 20px; // deprecated
 $calcite-size-fixed-xxl: 24px; // deprecated
 $calcite-size-fixed-xxxl: 32px; // deprecated
 $calcite-size-px: 1px;
+$calcite-size-4xs: 0.625rem;
 $calcite-size-xxxs: 0.75rem; // Deprecated, use --calcite-size-3xs instead.
 $calcite-size-3xs: 0.75rem;
 $calcite-size-xxs: 0.875rem; // Deprecated, use --calcite-size-2xs instead.
@@ -36172,6 +36285,7 @@ $calcite-space-lg: 1rem;
 $calcite-space-xl: 1.25rem;
 $calcite-space-2xl: 1.5rem;
 $calcite-space-3xl: 2rem;
+$calcite-space-4xl: 2.75rem;
 $calcite-z-index-deep: -999999;
 $calcite-z-index: 1;
 $calcite-z-index-sticky: 300;
