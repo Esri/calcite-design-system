@@ -122,6 +122,9 @@
   },
   "license": "SEE LICENSE.md",
   "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": "24.11.0"
+  },
   "dependencies": {
     "patch-package": "8.0.1"
   },
