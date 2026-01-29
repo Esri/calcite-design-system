@@ -62,7 +62,7 @@ export class Link extends LitElement {
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true, type: String }) iconEnd: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), displays the `iconStart` and/or `iconEnd` as flipped. */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */

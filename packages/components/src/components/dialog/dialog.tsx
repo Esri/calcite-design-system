@@ -190,7 +190,7 @@ export class Dialog extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */

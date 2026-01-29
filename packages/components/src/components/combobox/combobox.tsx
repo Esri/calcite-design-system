@@ -399,7 +399,7 @@ export class Combobox
   /** Specifies the input's placeholder icon. */
   @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's placeholder icon. */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
   /** Specifies the component's position relative to the `referenceElement`. */
