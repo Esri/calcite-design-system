@@ -52,13 +52,13 @@ export class ComboboxItem extends LitElement {
   /** When `true`, the component is active. */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
+  /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
   @property() ancestors: ComboboxChildElement[];
 
   /** Specifies a description for the component. Displays below the heading. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, omits the component from the `calcite-combobox` filtered search results. */
@@ -84,13 +84,13 @@ export class ComboboxItem extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible label for the component. */
   @property() label: any;
 
-  /** Provides additional metadata to the component used in filtering. */
+  /** Specifies additional metadata to the component for use in filtering. */
   @property() metadata: Record<string, unknown>;
 
   /**
@@ -133,7 +133,7 @@ export class ComboboxItem extends LitElement {
   > = "multiple";
 
   /**
-   * The component's short heading.
+   * Specifies the component's short heading.
    *
    * When provided, the short heading will be displayed in the component's selection.
    *
@@ -151,7 +151,7 @@ export class ComboboxItem extends LitElement {
   }
 
   /**
-   * When `true`, the item will be hidden
+   * When `true`, the item will be hidden.
    *
    * @private
    *  */
