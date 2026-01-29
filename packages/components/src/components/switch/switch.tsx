@@ -75,7 +75,7 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */

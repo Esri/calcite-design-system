@@ -238,6 +238,13 @@ input[readonly]:focus {
   color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
 
+:host([read-only]) {
+  .prefix,
+  .suffix {
+    background-color: var(--calcite-input-background-color, var(--calcite-color-background));
+  }
+}
+
 //focus
 input {
   @apply focus-base;
