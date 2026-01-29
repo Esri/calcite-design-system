@@ -102,6 +102,8 @@ export class InputTimePicker
 
   private interactiveContainer = useInteractive(this);
 
+  private timePickerRef = createRef<TimePicker>();
+
   //#endregion
 
   //#region Public Properties
@@ -315,6 +317,7 @@ export class InputTimePicker
           this.previousEmittedValue = this.value;
         }
         this.time.setValue(this.value);
+        this.timePickerRef.value.requestUpdate();
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -343,6 +346,7 @@ export class InputTimePicker
       const changeEvent = this.calciteInputTimePickerChange.emit();
       if (changeEvent.defaultPrevented) {
         this.time.setValue(this.previousEmittedValue);
+        this.timePickerRef.value.requestUpdate();
       } else {
         this.previousEmittedValue = value;
       }
@@ -502,6 +506,8 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
+    } else {
+      this.timePickerRef.value.requestUpdate();
     }
   }
 
@@ -701,6 +707,7 @@ export class InputTimePicker
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.timePickerRef}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
