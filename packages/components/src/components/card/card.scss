@@ -9,11 +9,11 @@
  * @prop --calcite-card-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-card-selection-background-color-hover: Specifies the component's selection element background color when hovered.
  * @prop --calcite-card-selection-background-color-press: Specifies the component's selection element background color when active.
- * @prop --calcite-card-selection-background-color: [Deprecated] Use `--calcite-card-background-color`. Specifies the component's selection element background color.
+ * @prop --calcite-card-selection-background-color: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color`. Specifies the component's selection element background color.
  * @prop --calcite-card-selection-color-hover: Specifies the component's selection element color when hovered or focused.
  * @prop --calcite-card-selection-color: Specifies the component's selection element color.
- * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use `--calcite-card-selection-color-hover`. Specifies the component's selection element icon color when hovered.
- * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use `--calcite-card-accent-color-selected`. Specifies the component's selection element icon color when `selected`.
+ * @prop --calcite-card-selection-icon-color-hover: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover`. Specifies the component's selection element icon color when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected`. Specifies the component's selection element icon color when `selected`.
  * @prop --calcite-card-shadow: Specifies the component's shadow.
  *
  */
