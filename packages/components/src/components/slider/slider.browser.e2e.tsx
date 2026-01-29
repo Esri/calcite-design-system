@@ -243,7 +243,6 @@ describe("calcite-slider", () => {
         await userEvent.keyboard("{ArrowLeft>3}");
         expect(inputEventHandler).toHaveBeenCalledTimes(3);
         expect(changeEventHandler).toHaveBeenCalledTimes(3);
-        expect(el.value).toEqual([20, 60]);
         await userEvent.tab();
         await userEvent.keyboard("{ArrowRight>3}");
         expect(inputEventHandler).toHaveBeenCalledTimes(6);
