@@ -65,7 +65,7 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content next to the component.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Input
