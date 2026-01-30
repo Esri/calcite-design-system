@@ -13,7 +13,7 @@
       "attributes": {
         "category": "corner-radius"
       },
-      "description": "deprecated, use --calcite-corner-radius-none instead"
+      "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-none` instead."
     },
     "none": {
       "value": "{core.size.default.none}",
@@ -42,7 +42,7 @@
       "attributes": {
         "category": "corner-radius"
       },
-      "description": "deprecated, use --calcite-corner-radius-sm instead"
+      "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-sm` instead."
     },
     "pill": {
       "value": "{core.size.default.9999}",

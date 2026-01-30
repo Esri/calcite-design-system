@@ -131,7 +131,7 @@
           "category": "font",
           "group": "size"
         },
-        "description": "Deprecated, use --calcite-font-size-2xl instead."
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-font-size-2xl` instead."
       },
       "2xl": {
         "value": "{core.size.default.24}",
@@ -520,7 +520,7 @@
       "tight": {
         "value": "{core.size.default.none} - .4 ",
         "type": "letterSpacing",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "letter-spacing"
@@ -529,7 +529,7 @@
       "normal": {
         "value": "{core.size.default.none}",
         "type": "letterSpacing",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "letter-spacing"
@@ -538,7 +538,7 @@
       "wide": {
         "value": "{core.size.default.none} + .4 ",
         "type": "letterSpacing",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "letter-spacing"
@@ -549,7 +549,7 @@
       "normal": {
         "value": "{core.size.default.4}",
         "type": "paragraphSpacing",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "paragraph-spacing"
@@ -560,7 +560,7 @@
       "none": {
         "value": "{core.font.text-decoration.none}",
         "type": "textDecoration",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-decoration"
@@ -569,7 +569,7 @@
       "underline": {
         "value": "{core.font.text-decoration.underline}",
         "type": "textDecoration",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-decoration"
@@ -580,7 +580,7 @@
       "none": {
         "value": "{core.font.text-case.none}",
         "type": "textCase",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-case"
@@ -589,7 +589,7 @@
       "uppercase": {
         "value": "{core.font.text-case.uppercase}",
         "type": "textCase",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-case"
@@ -598,7 +598,7 @@
       "lowercase": {
         "value": "{core.font.text-case.lowercase}",
         "type": "textCase",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-case"
@@ -607,7 +607,7 @@
       "capitalize": {
         "value": "{core.font.text-case.capitalize}",
         "type": "textCase",
-        "description": "Deprecated",
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
           "group": "text-case"
