@@ -539,6 +539,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
+:host([layout="vertical"][width="m"]:not([display-mode="float-all"])),
+:host([layout="vertical"][width-scale="m"]:not([display-mode="float-all"])) {
+  --calcite-internal-shell-panel-width: var(--calcite-shell-panel-width, 20vw);
+  --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+  --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 240px);
+}
+
 :host([action-bar-position="end"][slot="panel-start"]) {
   .resize-handle {
     inset-inline-end: calc(
@@ -551,20 +558,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([action-bar-position="end"][slot="panel-start"][resizable]) {
-  .content {
-    padding-inline-end: 0;
-  }
-
-  ::slotted(calcite-action-bar) {
-    border-inline-end: 0;
-  }
-
-  ::slotted(calcite-panel) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  }
-}
-
 :host([action-bar-position="top"][slot="panel-start"]) {
   .container {
     flex-direction: column;
@@ -572,6 +565,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   ::slotted(calcite-action-bar) {
     inline-size: 100%;
+    max-inline-size: var(--calcite-internal-shell-panel-max-width);
     border-block-end: 0;
   }
 
@@ -590,6 +584,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     padding-inline-end: 0;
   }
+
+  ::slotted(calcite-action-bar) {
+    --calcite-internal-shell-panel-width: 100%;
+  }
 }
 
 :host([action-bar-position="bottom"][slot="panel-start"]) {
@@ -598,8 +596,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    inline-size: 100%;
     border-block-start: 0;
+    inline-size: 100%;
+    max-inline-size: var(--calcite-internal-shell-panel-max-width);
   }
 
   ::slotted(calcite-panel) {
@@ -642,6 +641,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
+    inline-size: 100%;
+    max-inline-size: var(--calcite-internal-shell-panel-max-width);
     border-block-end: 0;
   }
 
@@ -673,6 +674,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
+    inline-size: 100%;
+    max-inline-size: var(--calcite-internal-shell-panel-max-width);
+    padding-inline-start: var(--calcite-size-fixed-sm-plus);
   }
 
   ::slotted(calcite-panel) {
@@ -692,8 +696,28 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="start"][slot="panel-top"]) {
+  &:host([width="s"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
+    }
+  }
+
+  &:host([width="m"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+    }
+  }
+
+  &:host([width="l"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 680px);
+    }
+  }
+
   .container {
     flex-direction: row;
+    block-size: 100%;
+    max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
@@ -703,6 +727,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .content {
+    max-block-size: var(--calcite-internal-shell-panel-action-bar-size);
+
     ::slotted(calcite-panel) {
       border-inline-start: 0;
       border-block-end: 0;
@@ -712,12 +738,28 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="end"][slot="panel-top"]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  &:host([width="s"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
+    }
+  }
+
+  &:host([width="m"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+    }
+  }
+
+  &:host([width="l"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 680px);
+    }
   }
 
   .container {
     flex-direction: row;
+    block-size: 100%;
+    max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
@@ -727,10 +769,18 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .content {
+    max-block-size: var(--calcite-internal-shell-panel-action-bar-size);
+
     ::slotted(calcite-panel) {
       border-block-end: 0;
       border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
+  }
+}
+
+:host([action-bar-position="end"][slot="panel-top"][resizable]) {
+  .resize-handle-bar {
+    border-block-end: 0;
   }
 }
 
@@ -760,15 +810,37 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-end: 0;
     }
   }
+
+  .content {
+    ::slotted(calcite-panel) {
+      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    }
+  }
 }
 
 :host([action-bar-position="start"][slot="panel-bottom"]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  &:host([width="s"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
+    }
+  }
+
+  &:host([width="m"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+    }
+  }
+
+  &:host([width="l"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 680px);
+    }
   }
 
   .container {
     flex-direction: row;
+    block-size: 100%;
+    max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
@@ -785,13 +857,35 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([action-bar-position="end"][slot="panel-bottom"]) {
+:host([action-bar-position="start"][slot="panel-bottom"][resizable]) {
   .resize-handle-bar {
     border-block-end: 0;
+  }
+}
+
+:host([action-bar-position="end"][slot="panel-bottom"]) {
+  &:host([width="s"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
+    }
+  }
+
+  &:host([width="m"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 420px);
+    }
+  }
+
+  &:host([width="l"]) {
+    .container {
+      --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 680px);
+    }
   }
 
   .container {
     flex-direction: row;
+    block-size: 100%;
+    max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
@@ -808,6 +902,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
+:host([action-bar-position="end"][slot="panel-bottom"][resizable]) {
+  .resize-handle-bar {
+    border-block-end: 0;
+  }
+}
+
 :host([action-bar-position="top"][slot="panel-bottom"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar) {
     border-block-start: 0;
@@ -816,6 +916,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
+      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
 }
