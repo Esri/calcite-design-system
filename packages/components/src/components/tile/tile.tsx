@@ -54,17 +54,17 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the alignment of the Tile's content. */
+  /** Specifies alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** Specifies a description for the component. Displays below the heading. */
+  /** Specifies a description for the component. Displays below the `heading`. */
   @property({ reflect: true }) description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The component's embed mode.
+   * Specifies the component's embed mode.
    *
    * When `true`, renders without a border and padding for use by other components.
    *
@@ -78,7 +78,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** When embed is `"false"`, the URL for the component. */
+  /** When embed is `false`, specifies the URL for the component. */
   @property({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
@@ -107,7 +107,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
@@ -116,7 +116,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * Specifies the selection appearance, where:
    *
-   * - `"icon"` (displays a checkmark or dot), or
+   * - `"icon"` (displays a checkmark or dot),
    * - `"highlight"` (changes the background color), or
    * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    *

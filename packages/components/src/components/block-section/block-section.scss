@@ -42,11 +42,23 @@ calcite-switch {
     }
   }
 
+  .icon--end,
+  .icon--start {
+    color: var(--calcite-block-section-text-color, var(--calcite-color-text-1));
+  }
+
   .chevron-icon {
     color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
 
     &:hover {
       color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+    }
+  }
+  .toggle-container {
+    &:hover {
+      calcite-switch {
+        --calcite-switch-background-color: var(--calcite-color-brand-hover);
+      }
     }
   }
 }
@@ -137,9 +149,15 @@ calcite-switch {
     @apply flex items-center;
 
     color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
+  }
 
-    &:hover {
+  &:hover {
+    .chevron-icon {
       color: var(--calcite-block-section-text-color-hover, var(--calcite-color-text-1));
+    }
+
+    calcite-switch {
+      --calcite-switch-background-color: var(--calcite-color-text-3);
     }
   }
 }

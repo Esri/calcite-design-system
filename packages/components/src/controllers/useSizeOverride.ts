@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { makeController } from "@arcgis/lumina/controllers";
+import { Ref } from "lit/directives/ref.js";
 import { Axis } from "../components/interfaces";
 
 interface AxisBounds {
@@ -19,7 +20,11 @@ interface SizeOverrideContext {
    * Callback invoked after an override is applied or cleared so the host can sync internal state.
    * The value will be a rounded pixel number or null if cleared.
    */
-  readonly targetElement: { value?: HTMLElement | null };
+  readonly targetElement: Ref<HTMLElement> | (() => { value?: HTMLElement | null }) | null;
+  /**
+   * Returns true if fullscreen sizing should be disabled for the host component.
+   */
+  readonly fullscreenDisabled?: () => boolean;
 }
 
 export interface UseSizeOverride {
@@ -77,7 +82,29 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
 
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
-        const targetElement = context.targetElement.value;
+        let targetElement: HTMLElement | null | undefined;
+        if (typeof context.targetElement === "function") {
+          const refObject = context.targetElement();
+          targetElement = refObject?.value ?? null;
+        } else if (context.targetElement && "value" in context.targetElement) {
+          targetElement = context.targetElement.value;
+        } else {
+          targetElement = context.targetElement as HTMLElement | null;
+        }
+
+        if (typeof context.fullscreenDisabled === "function" && context.fullscreenDisabled()) {
+          if (targetElement) {
+            targetElement.style.removeProperty("width");
+            targetElement.style.removeProperty("height");
+            targetElement.style.removeProperty("inline-size");
+            targetElement.style.removeProperty("block-size");
+          }
+          return { inline: undefined, block: undefined };
+        }
+
+        if (!targetElement) {
+          return { inline: undefined, block: undefined };
+        }
         const inline = applyAxis(sizes.inline, "inline", targetElement);
         const block = applyAxis(sizes.block, "block", targetElement);
 

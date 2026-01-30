@@ -15,6 +15,7 @@
  * @prop --calcite-notice-title-text-color: Specifies the component's slotted `"title"` content text color.
  * @prop --calcite-notice-content-text-color: Specifies the component's slotted `"message"` content text color.
  * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
+ * @prop --calcite-notice-shadow: Specifies the component's shadow.
  */
 
 @use "sass:list";
@@ -101,6 +102,7 @@
   transition-duration: var(--calcite-animation-timing);
   text-align: start;
   border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sm));
+  box-shadow: var(--calcite-notice-shadow, var(--calcite-shadow-none));
 }
 
 :host {

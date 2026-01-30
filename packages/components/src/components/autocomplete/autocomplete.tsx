@@ -270,8 +270,6 @@ export class Autocomplete
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 

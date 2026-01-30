@@ -99,7 +99,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -124,8 +124,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    * Using `"offset"` will provide options that show timezone offsets.
    *
    * Using `"name"` will provide options that show the IANA time zone names.
-   *
-   * @default "offset"
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
@@ -133,15 +131,11 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   @property({ reflect: true }) name: string;
 
   /**
-   * Specifies how the offset will be displayed, where
+   * When `mode` is `"offset"`, specifies how the offset will be displayed, where
    *
    * `"user"` uses `UTC` or `GMT` depending on the user's locale,
    * `"gmt"` always uses `GMT`, and
    * `"utc"` always uses `UTC`.
-   *
-   * This only applies to the `offset` mode.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
@@ -157,7 +151,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -171,7 +165,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    *
    * @private
    */
@@ -180,7 +174,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -264,10 +258,10 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   /** Fires when the component's `value` changes. */
   calciteInputTimeZoneChange = createEvent({ cancelable: false });
 
-  /** Fires after the component is closed and animation is complete. */
+  /** Fires when the component is closed and animation is complete. */
   calciteInputTimeZoneClose = createEvent({ cancelable: false });
 
-  /** Fires after the component is opened and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
   //#endregion

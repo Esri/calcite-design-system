@@ -44,7 +44,7 @@ export class Tree extends LitElement {
   /** @private */
   @property() parentExpanded = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -70,8 +70,6 @@ export class Tree extends LitElement {
    * `"single"` allows one selection, and
    *
    * `"single-persist"` allows and requires one selection.
-   *
-   * @default "single"
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 
