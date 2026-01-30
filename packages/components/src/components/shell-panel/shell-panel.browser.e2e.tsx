@@ -118,14 +118,14 @@ describe("calcite-shell-panel", () => {
 
         await userEvent.click(handle);
         const handleRect = handle.getBoundingClientRect();
+        await commands.mouseDown();
         await commands.mouseMove(
           handleRect.left + handleRect.width / 2,
           handleRect.top + handleRect.height / 2,
         );
-        await commands.mouseDown();
         await commands.mouseUp();
 
-        expect(getComputedStyle(content).inlineSize).not.toBe(initialSize);
+        expect(getComputedStyle(content).inlineSize).not.toBe(`${initialSize}px`);
 
         await panel.updateSize({ inline: overrideSize });
         await component.updateComplete;

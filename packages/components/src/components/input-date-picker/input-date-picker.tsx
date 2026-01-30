@@ -196,10 +196,10 @@ export class InputDatePicker
 
   //#region Public Properties
 
-  /** Specifies the number of calendars displayed when `range` is `true`. */
+  /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
@@ -224,7 +224,7 @@ export class InputDatePicker
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Defines the layout of the component. */
+  /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
@@ -248,7 +248,7 @@ export class InputDatePicker
   /** Specifies the earliest allowed date as a full date object. */
   @property() minAsDate: Date;
 
-  /** Specifies the monthStyle used by the component. */
+  /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
@@ -270,7 +270,7 @@ export class InputDatePicker
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Specifies the placement of the `calcite-date-picker` relative to the component.
+   * Determines the `calcite-date-picker`'s placement relative to the input.
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -284,7 +284,7 @@ export class InputDatePicker
   @property({ reflect: true }) range = false;
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -292,14 +292,14 @@ export class InputDatePicker
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -356,7 +356,7 @@ export class InputDatePicker
     }
   }
 
-  /** The component's value as a full date object. */
+  /** The component's `value` as a full date object. */
   @property() valueAsDate: Date | Date[];
 
   //#endregion
@@ -364,7 +364,7 @@ export class InputDatePicker
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed If true, the repositioning is delayed.
    * @returns void
@@ -415,7 +415,7 @@ export class InputDatePicker
   /** Fires when the component is closed and animation is complete. */
   calciteInputDatePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
   //#endregion
