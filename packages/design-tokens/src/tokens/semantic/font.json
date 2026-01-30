@@ -38,9 +38,10 @@
         },
         "attributes": {
           "category": "font",
-          "group": "weight"
+          "group": "weight",
+          "status": "deprecated"
         },
-        "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\""
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-font-weight-regular` instead."
       },
       "regular": {
         "value": "{core.font.weight.regular}",
@@ -129,7 +130,8 @@
         "type": "fontSizes",
         "attributes": {
           "category": "font",
-          "group": "size"
+          "group": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-font-size-2xl` instead."
       },
@@ -523,7 +525,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "letter-spacing"
+          "group": "letter-spacing",
+          "status": "deprecated"
         }
       },
       "normal": {
@@ -532,7 +535,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "letter-spacing"
+          "group": "letter-spacing",
+          "status": "deprecated"
         }
       },
       "wide": {
@@ -541,7 +545,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "letter-spacing"
+          "group": "letter-spacing",
+          "status": "deprecated"
         }
       }
     },
@@ -563,7 +568,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-decoration"
+          "group": "text-decoration",
+          "status": "deprecated"
         }
       },
       "underline": {
@@ -572,7 +578,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-decoration"
+          "group": "text-decoration",
+          "status": "deprecated"
         }
       }
     },
@@ -583,7 +590,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-case"
+          "group": "text-case",
+          "status": "deprecated"
         }
       },
       "uppercase": {
@@ -592,7 +600,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-case"
+          "group": "text-case",
+          "status": "deprecated"
         }
       },
       "lowercase": {
@@ -601,7 +610,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-case"
+          "group": "text-case",
+          "status": "deprecated"
         }
       },
       "capitalize": {
@@ -610,7 +620,8 @@
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
         "attributes": {
           "category": "font",
-          "group": "text-case"
+          "group": "text-case",
+          "status": "deprecated"
         }
       }
     }
