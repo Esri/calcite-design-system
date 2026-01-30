@@ -1146,17 +1146,305 @@ describe("calcite-input-time-picker", () => {
   describe("time behavior", () => {
     describe("inputs", () => {
       let page: E2EPage;
+      let input;
+      let pickerInput;
       const emptyValue = "--";
+      const deleteKey = "Delete";
 
       beforeEach(async () => {
         page = await newE2EPage();
         await page.setContent(html`<calcite-input-time-picker open step=".001"></calcite-input-time-picker>`);
       });
 
-      describe("minute", () => {
-        let input;
-        let pickerInput;
+      describe("hour", () => {
+        beforeEach(async () => {
+          input = await page.find(`calcite-input-time-picker >>> .${CSS.hour}`);
+          pickerInput = await page.find(`calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.hour}`);
+        });
 
+        describe("12-hour", () => {
+          it("increments", async () => {
+            const arrowKey = "ArrowUp";
+            const pickerNudgeButton = await page.find(
+              `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonHourUp}`,
+            );
+
+            await input.click();
+
+            for (let i = 1; i <= 12; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 1; i <= 12; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            await pickerInput.click();
+
+            for (let i = 1; i <= 12; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 1; i <= 12; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            for (let i = 1; i <= 12; i++) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 1; i <= 12; i++) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+          });
+
+          it("decrements", async () => {
+            const arrowKey = "ArrowDown";
+            const pickerNudgeButton = await page.find(
+              `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonHourDown}`,
+            );
+
+            await input.click();
+
+            for (let i = 12; i >= 1; i--) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 12; i >= 1; i--) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            await pickerInput.click();
+
+            for (let i = 12; i >= 1; i--) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 12; i >= 1; i--) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            for (let i = 12; i >= 1; i--) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            for (let i = 12; i >= 1; i--) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+          });
+        });
+
+        describe("24-hour", () => {
+          beforeEach(async () => {
+            const inputTimePicker = await page.find("calcite-input-time-picker");
+            inputTimePicker.setProperty("hourFormat", "24");
+            await page.waitForChanges();
+          });
+
+          it("increments", async () => {
+            const arrowKey = "ArrowUp";
+            const pickerNudgeButton = await page.find(
+              `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonHourUp}`,
+            );
+
+            await input.click();
+
+            for (let i = 1; i <= 23; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            await pickerInput.click();
+
+            for (let i = 1; i <= 23; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            for (let i = 1; i <= 23; i++) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+            await pickerNudgeButton.click();
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+          });
+
+          it("decrements", async () => {
+            const arrowKey = "ArrowDown";
+            const pickerNudgeButton = await page.find(
+              `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonHourDown}`,
+            );
+
+            await input.click();
+
+            for (let i = 1; i <= 23; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            await pickerInput.click();
+
+            for (let i = 1; i <= 23; i++) {
+              await page.keyboard.press(arrowKey);
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            await page.keyboard.press(deleteKey);
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(emptyValue);
+            expect(pickerInput.innerText).toBe(emptyValue);
+
+            for (let i = 1; i <= 23; i++) {
+              await pickerNudgeButton.click();
+              await page.waitForChanges();
+
+              expect(input.innerText).toBe(formatTimePart(i));
+              expect(pickerInput.innerText).toBe(formatTimePart(i));
+            }
+
+            await pickerNudgeButton.click();
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+          });
+        });
+      });
+
+      describe("minute", () => {
         beforeEach(async () => {
           input = await page.find(`calcite-input-time-picker >>> .${CSS.minute}`);
           pickerInput = await page.find(
@@ -1165,6 +1453,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("increments", async () => {
+          const arrowKey = "ArrowUp";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonMinuteUp}`,
           );
@@ -1172,20 +1461,20 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 0; i < 60; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("ArrowUp");
+          await page.keyboard.press(arrowKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(formatTimePart(0));
           expect(pickerInput.innerText).toBe(formatTimePart(0));
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1194,20 +1483,20 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 0; i < 60; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("ArrowUp");
+          await page.keyboard.press(arrowKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(formatTimePart(0));
           expect(pickerInput.innerText).toBe(formatTimePart(0));
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1229,6 +1518,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("decrements", async () => {
+          const arrowKey = "ArrowDown";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonMinuteDown}`,
           );
@@ -1236,14 +1526,14 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 59; i >= 0; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1252,14 +1542,14 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 59; i >= 0; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1276,9 +1566,6 @@ describe("calcite-input-time-picker", () => {
       });
 
       describe("second", () => {
-        let input;
-        let pickerInput;
-
         beforeEach(async () => {
           input = await page.find(`calcite-input-time-picker >>> .${CSS.second}`);
           pickerInput = await page.find(
@@ -1287,6 +1574,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("increments", async () => {
+          const arrowKey = "ArrowUp";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonSecondUp}`,
           );
@@ -1294,20 +1582,20 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 0; i < 60; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("ArrowUp");
+          await page.keyboard.press(arrowKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(formatTimePart(0));
           expect(pickerInput.innerText).toBe(formatTimePart(0));
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1316,20 +1604,20 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 0; i < 60; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("ArrowUp");
+          await page.keyboard.press(arrowKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(formatTimePart(0));
           expect(pickerInput.innerText).toBe(formatTimePart(0));
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1351,6 +1639,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("decrements", async () => {
+          const arrowKey = "ArrowDown";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonSecondDown}`,
           );
@@ -1358,14 +1647,14 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 59; i >= 0; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1374,14 +1663,14 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 59; i >= 0; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(i));
             expect(pickerInput.innerText).toBe(formatTimePart(i));
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe(emptyValue);
@@ -1398,9 +1687,6 @@ describe("calcite-input-time-picker", () => {
       });
 
       describe("millisecond", () => {
-        let input;
-        let pickerInput;
-
         beforeEach(async () => {
           input = await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`);
           pickerInput = await page.find(
@@ -1409,6 +1695,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("increments", async () => {
+          const arrowKey = "ArrowUp";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonFractionalSecondUp}`,
           );
@@ -1416,7 +1703,7 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 0; i <= 100; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             const expectedValue = String(i).padStart(3, "0");
@@ -1425,7 +1712,7 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(expectedValue);
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe("---");
@@ -1434,7 +1721,7 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 0; i <= 100; i++) {
-            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             const expectedValue = String(i).padStart(3, "0");
@@ -1443,7 +1730,7 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(expectedValue);
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe("---");
@@ -1461,6 +1748,7 @@ describe("calcite-input-time-picker", () => {
         });
 
         it("decrements", async () => {
+          const arrowKey = "ArrowDown";
           const pickerNudgeButton = await page.find(
             `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonFractionalSecondDown}`,
           );
@@ -1468,7 +1756,7 @@ describe("calcite-input-time-picker", () => {
           await input.click();
 
           for (let i = 999; i >= 899; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             const expectedValue = String(i).padStart(3, "0");
@@ -1477,7 +1765,7 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(expectedValue);
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe("---");
@@ -1486,7 +1774,7 @@ describe("calcite-input-time-picker", () => {
           await pickerInput.click();
 
           for (let i = 999; i >= 899; i--) {
-            await page.keyboard.press("ArrowDown");
+            await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
             const expectedValue = String(i).padStart(3, "0");
@@ -1495,7 +1783,7 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(expectedValue);
           }
 
-          await page.keyboard.press("Delete");
+          await page.keyboard.press(deleteKey);
           await page.waitForChanges();
 
           expect(input.innerText).toBe("---");
@@ -1510,6 +1798,177 @@ describe("calcite-input-time-picker", () => {
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
           }
+        });
+      });
+
+      describe("meridiem", () => {
+        beforeEach(async () => {
+          input = await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`);
+          pickerInput = await page.find(
+            `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.meridiem}`,
+          );
+        });
+
+        it("increments", async () => {
+          const arrowKey = "ArrowUp";
+          const pickerNudgeButton = await page.find(
+            `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonMeridiemUp}`,
+          );
+
+          await input.click();
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
+
+          await pickerInput.click();
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
+        });
+
+        it("decrements", async () => {
+          const arrowKey = "ArrowDown";
+          const pickerNudgeButton = await page.find(
+            `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.buttonMeridiemDown}`,
+          );
+
+          await input.click();
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
+
+          await pickerInput.click();
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await page.keyboard.press(arrowKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("AM");
+          expect(pickerInput.textContent).toBe("AM");
+
+          await pickerNudgeButton.click();
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("PM");
+          expect(pickerInput.textContent).toBe("PM");
+
+          await page.keyboard.press(deleteKey);
+          await page.waitForChanges();
+
+          expect(input.textContent).toBe("--");
+          expect(pickerInput.textContent).toBe("--");
         });
       });
     });
