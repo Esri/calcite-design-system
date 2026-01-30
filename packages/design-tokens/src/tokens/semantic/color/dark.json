@@ -97,7 +97,7 @@
           "category": "color",
           "group": "foreground"
         },
-        "description": "deprecated, use --calcite-color-surface-highlight instead"
+        "description": "Deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
     },
     "text": {
