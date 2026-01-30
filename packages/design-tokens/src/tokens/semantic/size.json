@@ -37,15 +37,6 @@
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
-      "md": {
-        "value": "{core.size.default.12}",
-        "type": "spacing",
-        "attributes": {
-          "category": "size",
-          "status": "deprecated"
-        },
-        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-3xs` instead."
-      },
       "sm+": {
         "value": "{core.size.default.10}",
         "type": "spacing",
@@ -54,6 +45,15 @@
           "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-4xs` instead."
+      },
+      "md": {
+        "value": "{core.size.default.12}",
+        "type": "spacing",
+        "attributes": {
+          "category": "size",
+          "status": "deprecated"
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-3xs` instead."
       },
       "md+": {
         "value": "{core.size.default.14}",
