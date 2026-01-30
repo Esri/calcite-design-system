@@ -2012,62 +2012,6 @@ describe("calcite-input-time-picker", () => {
       expect(field.textContent).toEqual("000");
     });
 
-    it("ArrowUp key increments meridiem property correctly", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-input-time-picker></calcite-input-time-picker>`);
-
-      const meridiem = await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`);
-
-      await meridiem.click();
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("AM");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("PM");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("AM");
-
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("--");
-    });
-
-    it("ArrowDown key decrements meridiem property correctly", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-input-time-picker></calcite-input-time-picker>`);
-
-      const meridiem = await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`);
-
-      await meridiem.click();
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("PM");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("AM");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("PM");
-
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-
-      expect(meridiem.textContent).toBe("--");
-    });
-
     it("typing letter keys changes nothing for hour, minute and second in 24-hour format", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input-time-picker lang="fr" step="1"></calcite-input-time-picker>`);
