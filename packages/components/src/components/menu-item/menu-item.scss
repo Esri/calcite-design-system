@@ -16,6 +16,7 @@
 //
 // --calcite-internal-menu-background-color
 // --calcite-internal-menu-item-border
+// --calcite-internal-menu-item-icon-color
 // --calcite-internal-menu-text-color
 
 @use "../../styles/includes";
@@ -113,6 +114,12 @@
   .content {
     --calcite-internal-menu-text-color: var(--calcite-color-text-1);
     border-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
+  }
+  .icon {
+    --calcite-internal-menu-item-icon-color: var(
+      --calcite-icon-color,
+      var(--calcite-ui-icon-color, var(--calcite-color-brand))
+    );
   }
 }
 
