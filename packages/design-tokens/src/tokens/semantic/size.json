@@ -5,7 +5,8 @@
         "value": "{core.size.default.2}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -13,7 +14,8 @@
         "value": "{core.size.default.4}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -21,7 +23,8 @@
         "value": "{core.size.default.6}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -29,7 +32,8 @@
         "value": "{core.size.default.8}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -37,7 +41,8 @@
         "value": "{core.size.default.12}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-3xs` instead."
       },
@@ -45,7 +50,8 @@
         "value": "{core.size.default.10}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-4xs` instead."
       },
@@ -53,7 +59,8 @@
         "value": "{core.size.default.14}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-2xs` instead."
       },
@@ -61,7 +68,8 @@
         "value": "{core.size.default.16}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-xs` instead."
       },
@@ -69,7 +77,8 @@
         "value": "{core.size.default.20}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -77,7 +86,8 @@
         "value": "{core.size.default.24}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-sm` instead."
       },
@@ -85,7 +95,8 @@
         "value": "{core.size.default.32}",
         "type": "spacing",
         "attributes": {
-          "category": "size"
+          "category": "size",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-size-md` instead."
       }
@@ -108,7 +119,8 @@
       "value": "{core.size.default.12}",
       "type": "dimension",
       "attributes": {
-        "category": "size"
+        "category": "size",
+        "status": "deprecated"
       },
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-size-3xs` instead."
     },
@@ -123,7 +135,8 @@
       "value": "{core.size.default.14}",
       "type": "dimension",
       "attributes": {
-        "category": "size"
+        "category": "size",
+        "status": "deprecated"
       },
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-size-2xs` instead."
     },
@@ -173,7 +186,8 @@
       "value": "{core.size.default.64}",
       "type": "dimension",
       "attributes": {
-        "category": "size"
+        "category": "size",
+        "status": "deprecated"
       },
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-size-2xl` instead."
     },
@@ -188,7 +202,8 @@
       "value": "{core.size.default.96}",
       "type": "dimension",
       "attributes": {
-        "category": "size"
+        "category": "size",
+        "status": "deprecated"
       },
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-size-3xl` instead."
     },

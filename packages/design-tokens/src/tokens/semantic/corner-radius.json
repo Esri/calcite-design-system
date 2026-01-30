@@ -11,7 +11,8 @@
       "value": "{core.size.default.none}",
       "type": "borderRadius",
       "attributes": {
-        "category": "corner-radius"
+        "category": "corner-radius",
+        "status": "deprecated"
       },
       "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-none` instead."
     },
@@ -40,7 +41,8 @@
       "value": "{core.size.default.4}",
       "type": "borderRadius",
       "attributes": {
-        "category": "corner-radius"
+        "category": "corner-radius",
+        "status": "deprecated"
       },
       "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-sm` instead."
     },

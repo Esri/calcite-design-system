@@ -187,7 +187,8 @@
           "type": "textDecoration",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         },
         "underline": {
@@ -195,7 +196,8 @@
           "type": "textDecoration",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         }
       },
@@ -205,7 +207,8 @@
           "type": "textCase",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         },
         "uppercase": {
@@ -213,7 +216,8 @@
           "type": "textCase",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         },
         "lowercase": {
@@ -221,7 +225,8 @@
           "type": "textCase",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         },
         "capitalize": {
@@ -229,7 +234,8 @@
           "type": "textCase",
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
-            "category": "font"
+            "category": "font",
+            "status": "deprecated"
           }
         }
       }

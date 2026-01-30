@@ -48,7 +48,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "background"
+          "group": "background",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-1` instead."
       },
@@ -57,7 +58,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "background"
+          "group": "background",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - No longer needed."
       }
@@ -68,7 +70,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "foreground"
+          "group": "foreground",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-2` instead."
       },
@@ -77,7 +80,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "foreground"
+          "group": "foreground",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-3` instead."
       },
@@ -86,7 +90,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "foreground"
+          "group": "foreground",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-4` instead."
       },
@@ -95,7 +100,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "foreground"
+          "group": "foreground",
+          "status": "deprecated"
         },
         "description": "Deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
@@ -188,7 +194,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "border"
+          "group": "border",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - No longer needed."
       },
@@ -197,7 +204,8 @@
         "type": "color",
         "attributes": {
           "category": "color",
-          "group": "border"
+          "group": "border",
+          "status": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - No longer needed."
       }

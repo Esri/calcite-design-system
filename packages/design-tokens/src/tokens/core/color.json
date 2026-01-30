@@ -1291,7 +1291,8 @@
             "description": "Deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-color-low-saturation-violet-l-vv-100` instead.",
             "attributes": {
               "category": "color",
-              "group": "low-saturation"
+              "group": "low-saturation",
+              "status": "deprecated"
             }
           }
         }
