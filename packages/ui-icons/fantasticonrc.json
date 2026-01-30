@@ -1320,6 +1320,7 @@
     "find-path-origin": 61857,
     "find-path-include": 61858,
     "find-path-exclude": 61859,
-    "find-path-destination": 61860
+    "find-path-destination": 61860,
+    "show-oriented-imagery": 61861
   }
 }
