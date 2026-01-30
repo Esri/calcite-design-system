@@ -19,11 +19,12 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions, isAction } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {

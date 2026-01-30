@@ -114,8 +114,6 @@ export class SplitButton extends LitElement {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-end"
    */
   @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
@@ -128,13 +126,13 @@ export class SplitButton extends LitElement {
   /** Specifies an icon to display at the start of the primary button. */
   @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
-  /** Accessible name for the primary button. */
+  /** Speficies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;
 
-  /** Text displayed in the primary button. */
+  /** Specifies the text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
