@@ -22,11 +22,11 @@
  * @prop --calcite-dialog-heading-text-color: Specifies the text color of the component's `heading`.
  * @prop --calcite-dialog-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-dialog-header-background-color: Specifies the background color of the component's header.
- * @prop --calcite-dialog-header-action-background-color: Specifies the background color of `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
- * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
- * @prop --calcite-dialog-header-action-text-color: Specifies the text color of `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+ * @prop --calcite-dialog-header-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+ * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when hovered.
+ * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed.
+ * @prop --calcite-dialog-header-action-text-color: Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+ * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed or hovered.
  * @prop --calcite-dialog-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-dialog-space: Specifies the padding of the component's `unnamed (default)` slot.
  * @prop --calcite-dialog-header-content-space: Specifies the padding of the component's `header-content` slot.
