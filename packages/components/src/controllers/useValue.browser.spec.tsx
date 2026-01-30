@@ -19,7 +19,7 @@ describe("useValue", () => {
   });
 
   describe("initialization", () => {
-    it("tracks the component's property named 'value' by default", () => {
+    it("tracks the component's 'value' property by default", () => {
       // TODO: not working for some reason
       // expect(controller.valueProperty).toBe("value");
     });
@@ -33,16 +33,16 @@ describe("useValue", () => {
     });
   });
 
-  describe("methods", () => {
+  describe("public methods", () => {
     it("inputValue sets the component's value and emits the component's input event", async () => {
       // TODO: finish test
     });
 
-    it("commitValue sets the component's value and emits the component's change event", async () => {
+    it("commitValue sets the component's value to the provided value and emits the component's change event", async () => {
       // TODO: finish test
     });
 
-    it("commitCurrentValue sets the component's value and emits the component's change event", async () => {
+    it("commitCurrentValue sets the component's currently set value and emits the component's change event", async () => {
       // TODO: finish test
     });
 
