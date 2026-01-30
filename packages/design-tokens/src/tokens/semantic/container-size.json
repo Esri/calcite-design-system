@@ -7,7 +7,7 @@
           "max": "{core.container-size.154}"
         },
         "type": "dimension",
-        "description": "Deprecated, use --calcite-container-size-height-2xs-min|max instead. Small handheld devices and mini-windows",
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-container-size-height-2xs-min|max` instead.",
         "attributes": {
           "category": "breakpoint"
         }
@@ -85,7 +85,7 @@
           "max": "{core.container-size.320}"
         },
         "type": "dimension",
-        "description": "Deprecated, use --calcite-container-size-width-2xs-min|max instead. Small handheld devices and mini-windows",
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-container-size-width-2xs-min|max` instead.",
         "attributes": {
           "category": "breakpoint"
         }
