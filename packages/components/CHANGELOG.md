@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.86...@esri/calcite-components@5.0.0-next.87) (2026-01-30)
+
+### Features
+
+- **sheet, dialog:** add size override capability ([#13502](https://github.com/Esri/calcite-design-system/issues/13502)) ([da3914b](https://github.com/Esri/calcite-design-system/commit/da3914bb4d6fb09669aa34c4c65ef1617065e478)), closes [#10568](https://github.com/Esri/calcite-design-system/issues/10568)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** remove topLayerDisabled property ([#13809](https://github.com/Esri/calcite-design-system/issues/13809)) ([e80fdc0](https://github.com/Esri/calcite-design-system/commit/e80fdc08a0ee2bd931de30460796271498aba6f6)), closes [#13698](https://github.com/Esri/calcite-design-system/issues/13698)
+
 ## [5.0.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.85...@esri/calcite-components@5.0.0-next.86) (2026-01-29)
 
 ### Bug Fixes
