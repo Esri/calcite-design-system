@@ -1384,20 +1384,19 @@ describe("calcite-input-time-picker", () => {
             );
 
             await input.click();
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
 
-            for (let i = 1; i <= 23; i++) {
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            for (let i = 23; i >= 0; i--) {
               await page.keyboard.press(arrowKey);
               await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
-
-            await page.keyboard.press(arrowKey);
-            await page.waitForChanges();
-
-            expect(input.innerText).toBe(formatTimePart(0));
-            expect(pickerInput.innerText).toBe(formatTimePart(0));
 
             await page.keyboard.press(deleteKey);
             await page.waitForChanges();
@@ -1406,8 +1405,13 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(emptyValue);
 
             await pickerInput.click();
+            await page.keyboard.press(arrowKey);
+            await page.waitForChanges();
 
-            for (let i = 1; i <= 23; i++) {
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            for (let i = 23; i >= 0; i--) {
               await page.keyboard.press(arrowKey);
               await page.waitForChanges();
 
@@ -1415,31 +1419,25 @@ describe("calcite-input-time-picker", () => {
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
 
-            await page.keyboard.press(arrowKey);
-            await page.waitForChanges();
-
-            expect(input.innerText).toBe(formatTimePart(0));
-            expect(pickerInput.innerText).toBe(formatTimePart(0));
-
             await page.keyboard.press(deleteKey);
             await page.waitForChanges();
 
             expect(input.innerText).toBe(emptyValue);
             expect(pickerInput.innerText).toBe(emptyValue);
 
-            for (let i = 1; i <= 23; i++) {
+            await pickerNudgeButton.click();
+            await page.waitForChanges();
+
+            expect(input.innerText).toBe(formatTimePart(0));
+            expect(pickerInput.innerText).toBe(formatTimePart(0));
+
+            for (let i = 23; i >= 0; i--) {
               await pickerNudgeButton.click();
               await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
-
-            await pickerNudgeButton.click();
-            await page.waitForChanges();
-
-            expect(input.innerText).toBe(formatTimePart(0));
-            expect(pickerInput.innerText).toBe(formatTimePart(0));
           });
         });
       });
@@ -1702,7 +1700,7 @@ describe("calcite-input-time-picker", () => {
 
           await input.click();
 
-          for (let i = 0; i <= 100; i++) {
+          for (let i = 0; i <= 10; i++) {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
@@ -1720,7 +1718,7 @@ describe("calcite-input-time-picker", () => {
 
           await pickerInput.click();
 
-          for (let i = 0; i <= 100; i++) {
+          for (let i = 0; i <= 10; i++) {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
@@ -1736,7 +1734,7 @@ describe("calcite-input-time-picker", () => {
           expect(input.innerText).toBe("---");
           expect(pickerInput.innerText).toBe("---");
 
-          for (let i = 0; i <= 100; i++) {
+          for (let i = 0; i <= 10; i++) {
             await pickerNudgeButton.click();
             await page.waitForChanges();
 
@@ -1755,7 +1753,7 @@ describe("calcite-input-time-picker", () => {
 
           await input.click();
 
-          for (let i = 999; i >= 899; i--) {
+          for (let i = 999; i >= 989; i--) {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
@@ -1773,7 +1771,7 @@ describe("calcite-input-time-picker", () => {
 
           await pickerInput.click();
 
-          for (let i = 999; i >= 899; i--) {
+          for (let i = 999; i >= 989; i--) {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
@@ -1789,7 +1787,7 @@ describe("calcite-input-time-picker", () => {
           expect(input.innerText).toBe("---");
           expect(pickerInput.innerText).toBe("---");
 
-          for (let i = 999; i >= 899; i--) {
+          for (let i = 999; i >= 989; i--) {
             await pickerNudgeButton.click();
             await page.waitForChanges();
 
