@@ -97,6 +97,13 @@
         "category": "size"
       }
     },
+    "4xs": {
+      "value": "{core.size.default.10}",
+      "type": "dimension",
+      "attributes": {
+        "category": "size"
+      }
+    },
     "xxxs": {
       "value": "{core.size.default.12}",
       "type": "dimension",

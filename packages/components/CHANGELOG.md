@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.85...@esri/calcite-components@5.0.0-next.86) (2026-01-29)
+
+### Bug Fixes
+
+- **slider:** ensure value is updated correctly on calciteSliderInput event ([#13700](https://github.com/Esri/calcite-design-system/issues/13700)) ([0b826b4](https://github.com/Esri/calcite-design-system/commit/0b826b40cc901ca5da769f995a8a40044908ec8e)), closes [#13603](https://github.com/Esri/calcite-design-system/issues/13603)
+
+### Performance Improvements
+
+- **combobox:** drop redundant repositioning after each render ([#13756](https://github.com/Esri/calcite-design-system/issues/13756)) ([abe8702](https://github.com/Esri/calcite-design-system/commit/abe8702f238e17190af603c40610c382cdc9f440)), closes [#13667](https://github.com/Esri/calcite-design-system/issues/13667)
+
 ## [5.0.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.84...@esri/calcite-components@5.0.0-next.85) (2026-01-28)
 
 ### Bug Fixes
