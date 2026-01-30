@@ -14,35 +14,39 @@ import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
 import { CSS } from "./resources";
 
-async function getInputValue(page: E2EPage, locale: SupportedLocale = "en"): Promise<string> {
+async function getInputValue(page: E2EPage, locale: SupportedLocale = "en", picker: boolean = false): Promise<string> {
+  const elementSelector = picker ? "calcite-input-time-picker >>> calcite-time-picker" : "calcite-input-time-picker";
   const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
-  const hour = (await page.find(`calcite-input-time-picker >>> .${CSS.hour}`))?.innerText || "";
-  const hourSuffix = (await page.find(`calcite-input-time-picker >>> .${CSS.hourSuffix}`))?.innerText || "";
-  const minute = (await page.find(`calcite-input-time-picker >>> .${CSS.minute}`))?.innerText || "";
+  const hour = (await page.find(`${elementSelector} >>> .${CSS.hour}`))?.innerText || "";
+  const hourSuffix = (await page.find(`${elementSelector} >>> .${CSS.hourSuffix}`))?.innerText || "";
+  const minute = (await page.find(`${elementSelector} >>> .${CSS.minute}`))?.innerText || "";
   const minuteSuffix =
-    (await page.find(`calcite-input-time-picker >>> .${CSS.minuteSuffix}`))?.innerText.replaceAll(
+    (await page.find(`${elementSelector} >>> .${CSS.minuteSuffix}`))?.innerText.replaceAll(
       whitespaceRegexPattern,
       "",
     ) || "";
-  const second = (await page.find(`calcite-input-time-picker >>> .${CSS.second}`))?.innerText || "";
-  const decimalSeparator = (await page.find(`calcite-input-time-picker >>> .${CSS.decimalSeparator}`))?.innerText || "";
-  const fractionalSecond = (await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`))?.innerText || "";
+  const second = (await page.find(`${elementSelector} >>> .${CSS.second}`))?.innerText || "";
+  const decimalSeparator = (await page.find(`${elementSelector} >>> .${CSS.decimalSeparator}`))?.innerText || "";
+  const fractionalSecond = (await page.find(`${elementSelector} >>> .${CSS.fractionalSecond}`))?.innerText || "";
   const secondSuffix =
-    (await page.find(`calcite-input-time-picker >>> .${CSS.secondSuffix}`))?.innerText.replaceAll(
+    (await page.find(`${elementSelector} >>> .${CSS.secondSuffix}`))?.innerText.replaceAll(
       whitespaceRegexPattern,
       "",
     ) || "";
   const meridiem =
-    (await page.find(`calcite-input-time-picker >>> .${CSS.meridiem}`))?.innerText.replaceAll(
-      whitespaceRegexPattern,
-      "",
-    ) || "";
+    (await page.find(`${elementSelector} >>> .${CSS.meridiem}`))?.innerText.replaceAll(whitespaceRegexPattern, "") ||
+    "";
   const meridiemOrder = getMeridiemOrder(locale);
   return `${meridiem && meridiemOrder === 0 ? meridiem : ""}${hour}${hourSuffix}${minute}${minuteSuffix}${second}${decimalSeparator}${fractionalSecond}${secondSuffix}${meridiem && meridiemOrder !== 0 ? meridiem : ""}`;
 }
 
-async function assertDisplayedTime(page: E2EPage, incomingValue, locale?: SupportedLocale): Promise<void> {
-  expect(await getInputValue(page, locale)).toBe(incomingValue.replaceAll(/\s/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
+async function assertDisplayedTime(
+  page: E2EPage,
+  incomingValue,
+  locale?: SupportedLocale,
+  picker: boolean = false,
+): Promise<void> {
+  expect(await getInputValue(page, locale, picker)).toBe(incomingValue.replaceAll(/\s/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
 }
 
 describe("calcite-input-time-picker", () => {
@@ -115,7 +119,7 @@ describe("calcite-input-time-picker", () => {
 
   it("resets to previous value when default event behavior is prevented", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
+    await page.setContent(`<calcite-input-time-picker value="14:59" open></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -136,6 +140,7 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:59");
     await assertDisplayedTime(page, "02:59 PM");
+    await assertDisplayedTime(page, "02:59 PM", "en", true);
   });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
@@ -1219,7 +1224,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 1; i <= 12; i++) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1227,7 +1231,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 1; i <= 12; i++) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1290,7 +1293,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 12; i >= 1; i--) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1298,7 +1300,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 12; i >= 1; i--) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1365,7 +1366,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 1; i <= 23; i++) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1433,7 +1433,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 23; i >= 0; i--) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));

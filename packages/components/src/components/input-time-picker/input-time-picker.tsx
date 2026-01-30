@@ -317,7 +317,6 @@ export class InputTimePicker
           this.previousEmittedValue = this.value;
         }
         this.time.setValue(this.value);
-        this.timePickerRef.value.requestUpdate();
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -346,7 +345,6 @@ export class InputTimePicker
       const changeEvent = this.calciteInputTimePickerChange.emit();
       if (changeEvent.defaultPrevented) {
         this.time.setValue(this.previousEmittedValue);
-        this.timePickerRef.value.requestUpdate();
       } else {
         this.previousEmittedValue = value;
       }
@@ -473,6 +471,10 @@ export class InputTimePicker
     this.open = false;
   }
 
+  private requestTimePickerUpdate(): void {
+    this.timePickerRef.value.manager?.component.requestUpdate();
+  }
+
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -507,7 +509,7 @@ export class InputTimePicker
     if (newValue !== this.value) {
       this.value = newValue;
     } else {
-      this.timePickerRef.value.requestUpdate();
+      this.requestTimePickerUpdate();
     }
   }
 
