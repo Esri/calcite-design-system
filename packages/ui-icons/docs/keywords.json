@@ -11669,5 +11669,10 @@
     "alias": ["4.4.0", "knowledge graph", "information", "graph", "knowledge", "history", "data-lineage"],
     "category": "Knowledge Graph",
     "release": "4.4.0"
+  },
+  "show-oriented-imagery": {
+    "alias": ["4.4.0", "gis", "layer", "map", "point", "view", "interactive"],
+    "category": "GIS",
+    "release": "4.4.0"
   }
 }
