@@ -119,7 +119,7 @@ describe("calcite-input-time-picker", () => {
 
   it("resets to previous value when default event behavior is prevented", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker value="14:59" open></calcite-input-time-picker>`);
+    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
