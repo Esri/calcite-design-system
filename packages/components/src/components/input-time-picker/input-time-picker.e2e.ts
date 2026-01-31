@@ -1371,7 +1371,6 @@ describe("calcite-input-time-picker", () => {
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(0));
             expect(pickerInput.innerText).toBe(formatTimePart(0));
@@ -1426,7 +1425,6 @@ describe("calcite-input-time-picker", () => {
             expect(pickerInput.innerText).toBe(emptyValue);
 
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(0));
             expect(pickerInput.innerText).toBe(formatTimePart(0));
@@ -1511,14 +1509,12 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 0; i < 60; i++) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
 
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(0));
             expect(pickerInput.innerText).toBe(formatTimePart(0));
@@ -1575,7 +1571,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 59; i >= 0; i--) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1654,14 +1649,12 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 0; i < 60; i++) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
             }
 
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             expect(input.innerText).toBe(formatTimePart(0));
             expect(pickerInput.innerText).toBe(formatTimePart(0));
@@ -1718,7 +1711,6 @@ describe("calcite-input-time-picker", () => {
 
             for (let i = 59; i >= 0; i--) {
               await pickerNudgeButton.click();
-              await page.waitForChanges();
 
               expect(input.innerText).toBe(formatTimePart(i));
               expect(pickerInput.innerText).toBe(formatTimePart(i));
@@ -1779,7 +1771,6 @@ describe("calcite-input-time-picker", () => {
 
           for (let i = 0; i <= 10; i++) {
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             const expectedValue = String(`${i}`).padStart(3, "0");
 
@@ -1832,7 +1823,6 @@ describe("calcite-input-time-picker", () => {
 
           for (let i = 999; i >= 989; i--) {
             await pickerNudgeButton.click();
-            await page.waitForChanges();
 
             const expectedValue = String(`${i}`).padStart(3, "0");
 
@@ -1907,19 +1897,16 @@ describe("calcite-input-time-picker", () => {
           expect(pickerInput.textContent).toBe("--");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("AM");
           expect(pickerInput.textContent).toBe("AM");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("PM");
           expect(pickerInput.textContent).toBe("PM");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("AM");
           expect(pickerInput.textContent).toBe("AM");
@@ -1988,19 +1975,16 @@ describe("calcite-input-time-picker", () => {
           expect(pickerInput.textContent).toBe("--");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("PM");
           expect(pickerInput.textContent).toBe("PM");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("AM");
           expect(pickerInput.textContent).toBe("AM");
 
           await pickerNudgeButton.click();
-          await page.waitForChanges();
 
           expect(input.textContent).toBe("PM");
           expect(pickerInput.textContent).toBe("PM");
