@@ -162,11 +162,11 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Offsets the position of the popover away from the `referenceElement`.
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Offsets the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
