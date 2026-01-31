@@ -573,11 +573,39 @@ describe("calcite-combobox", () => {
         </calcite-combobox>,
       );
 
-      const firstItem = page.getBySelector("calcite-combobox-item:first-child");
-      (firstItem.element() as ComboboxItem["el"]).selected = true;
+      const firstItem = page
+        .getBySelector("calcite-combobox-item")
+        .first()
+        .element() as ComboboxItem["el"];
+      firstItem.selected = true;
       const immediateValueAfterSelected = el.value;
 
       expect(immediateValueAfterSelected).toBe("1");
+    });
+
+    it("updates the value after selecting an item programmatically when there is already a selected item", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox selection-mode="single">
+          <calcite-combobox-item heading="first" value="1" />
+          <calcite-combobox-item heading="second" value="2" />
+          <calcite-combobox-item heading="third" selected value="3" />
+        </calcite-combobox>,
+      );
+      const items = page.getBySelector("calcite-combobox-item");
+
+      expect(el).toHaveProperty("value", "3");
+      await expect.element(items.nth(0)).toHaveProperty("selected", false);
+      await expect.element(items.nth(1)).toHaveProperty("selected", false);
+      await expect.element(items.nth(2)).toHaveProperty("selected", true);
+
+      const firstItem = items.first().element() as ComboboxItem["el"];
+      firstItem.selected = true;
+      const immediateValueAfterSelected = el.value;
+
+      expect(immediateValueAfterSelected).toBe("1");
+      await expect.element(items.nth(0)).toHaveProperty("selected", true);
+      await expect.element(items.nth(1)).toHaveProperty("selected", false);
+      await expect.element(items.nth(2)).toHaveProperty("selected", false);
     });
   });
 
