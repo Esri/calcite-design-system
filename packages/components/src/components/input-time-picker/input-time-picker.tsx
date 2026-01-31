@@ -471,10 +471,6 @@ export class InputTimePicker
     this.open = false;
   }
 
-  private requestTimePickerUpdate(): void {
-    this.timePickerRef.value.manager?.component.requestUpdate();
-  }
-
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -509,7 +505,7 @@ export class InputTimePicker
     if (newValue !== this.value) {
       this.value = newValue;
     } else {
-      this.requestTimePickerUpdate();
+      this.timePickerRef.value.manager?.component.requestUpdate();
     }
   }
 
