@@ -1430,7 +1430,7 @@ export class Combobox
 
   private removeActiveChip(chip: Chip["el"]): void {
     const activeItem = this.selectedItems[this.activeChipIndex];
-    if (`${IDS.chip(activeItem.guid)}` === chip.id) {
+    if (activeItem && `${IDS.chip(activeItem.guid)}` === chip.id) {
       this.toggleSelection(activeItem, false);
     }
     this.setFocus();
