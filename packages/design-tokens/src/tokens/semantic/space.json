@@ -4,193 +4,193 @@
       "xxs": {
         "value": "{core.size.default.4}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-2xs` instead."
       },
       "xs": {
         "value": "{core.size.default.6}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-xs` instead."
       },
       "sm": {
         "value": "{core.size.default.8}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-sm` instead."
       },
       "md": {
         "value": "{core.size.default.12}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-md` instead."
       },
       "lg": {
         "value": "{core.size.default.14}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-md-plus` instead."
       },
       "xl": {
         "value": "{core.size.default.16}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-lg` instead."
       },
       "xxl": {
         "value": "{core.size.default.20}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-xl` instead."
       },
       "xxxl": {
         "value": "{core.size.default.32}",
         "type": "spacing",
-        "description": "deprecated",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-3xl` instead."
       }
     },
     "default": {
       "none": {
         "value": "{core.size.default.none}",
         "type": "spacing",
-        "description": "deprecated, use `--calcite-space-none` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-none` instead."
       },
       "px": {
         "value": "{core.size.default.1}",
         "type": "spacing",
-        "description": "deprecated, use `--calcite-space-px` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-px` instead."
       },
       "base": {
         "value": "{core.size.default.2}",
         "type": "spacing",
-        "description": "deprecated, use `--calcite-space-base` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-base` instead."
       },
       "xxs": {
         "value": "{core.size.default.4}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-2xs` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-2xs` instead."
       },
       "xs": {
         "value": "{core.size.default.6}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-xs` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-xs` instead."
       },
       "sm": {
         "value": "{core.size.default.8}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-sm` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-sm` instead."
       },
       "sm+": {
         "value": "{core.size.default.10}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-sm-plus` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-sm-plus` instead."
       },
       "md": {
         "value": "{core.size.default.12}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-md` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-md` instead."
       },
       "md+": {
         "value": "{core.size.default.14}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-md-plus` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-md-plus` instead."
       },
       "lg": {
         "value": "{core.size.default.16}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-lg` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-lg` instead."
       },
       "xl": {
         "value": "{core.size.default.20}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-xl` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-xl` instead."
       },
       "xxl": {
         "value": "{core.size.default.24}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-2xl` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-2xl` instead."
       },
       "xxxl": {
         "value": "{core.size.default.32}",
         "type": "dimension",
-        "description": "deprecated, use `--calcite-space-3xl` instead",
         "attributes": {
           "category": "spacing",
           "status": "deprecated"
-        }
+        },
+        "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-3xl` instead."
       }
     }
   },
@@ -281,6 +281,13 @@
     },
     "3xl": {
       "value": "{core.size.default.32}",
+      "type": "spacing",
+      "attributes": {
+        "category": "spacing"
+      }
+    },
+    "4xl": {
+      "value": "{core.size.default.44}",
       "type": "spacing",
       "attributes": {
         "category": "spacing"

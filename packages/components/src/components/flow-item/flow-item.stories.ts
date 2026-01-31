@@ -6,21 +6,20 @@ import { SLOTS } from "./resources";
 
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface FlowItemStoryArgs
-  extends Pick<
-    FlowItem,
-    | "closed"
-    | "disabled"
-    | "closable"
-    | "collapsible"
-    | "collapsed"
-    | "collapseDirection"
-    | "loading"
-    | "icon"
-    | "iconFlipRtl"
-    | "scale"
-    | "selected"
-  > {
+interface FlowItemStoryArgs extends Pick<
+  FlowItem,
+  | "closed"
+  | "disabled"
+  | "closable"
+  | "collapsible"
+  | "collapsed"
+  | "collapseDirection"
+  | "loading"
+  | "icon"
+  | "iconFlipRtl"
+  | "scale"
+  | "selected"
+> {
   heightScale: string;
 }
 

@@ -692,10 +692,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     }
   }
 
-  private emitInput(): void {
-    this.calciteSliderInput.emit();
-  }
-
   private emitChange(): void {
     this.calciteSliderChange.emit();
     this.previousEmittedValue = this.value;
@@ -743,11 +739,16 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
       return;
     }
 
+    if (values.minValue || values.maxValue) {
+      this.setValueFromMinMax();
+    }
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
     }
-    this.emitInput();
+
+    this.calciteSliderInput.emit();
   }
 
   private setThumbEl(el: HTMLDivElement): void {

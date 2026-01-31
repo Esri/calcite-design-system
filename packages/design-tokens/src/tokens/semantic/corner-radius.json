@@ -11,9 +11,10 @@
       "value": "{core.size.default.none}",
       "type": "borderRadius",
       "attributes": {
-        "category": "corner-radius"
+        "category": "corner-radius",
+        "status": "deprecated"
       },
-      "description": "deprecated, use --calcite-corner-radius-none instead"
+      "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-none` instead."
     },
     "none": {
       "value": "{core.size.default.none}",
@@ -40,9 +41,10 @@
       "value": "{core.size.default.4}",
       "type": "borderRadius",
       "attributes": {
-        "category": "corner-radius"
+        "category": "corner-radius",
+        "status": "deprecated"
       },
-      "description": "deprecated, use --calcite-corner-radius-sm instead"
+      "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-corner-radius-sm` instead."
     },
     "pill": {
       "value": "{core.size.default.9999}",
