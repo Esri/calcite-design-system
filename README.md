@@ -179,17 +179,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/pr3tori4n">
-      <img src="https://avatars.githubusercontent.com/u/12614215?v=4" width="100;" alt="pr3tori4n"/>
-      <br />
-      <sub><b>Harry Robbins</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/matgalla">
       <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
       <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/pr3tori4n">
+      <img src="https://avatars.githubusercontent.com/u/12614215?v=4" width="100;" alt="pr3tori4n"/>
+      <br />
+      <sub><b>Harry Robbins</b></sub>
     </a>
   </td>
 </tr>
