@@ -1739,7 +1739,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
@@ -1757,7 +1757,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
@@ -1772,7 +1772,7 @@ describe("calcite-input-time-picker", () => {
           for (let i = 0; i <= 10; i++) {
             await pickerNudgeButton.click();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
@@ -1791,7 +1791,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
@@ -1809,7 +1809,7 @@ describe("calcite-input-time-picker", () => {
             await page.keyboard.press(arrowKey);
             await page.waitForChanges();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
@@ -1824,7 +1824,7 @@ describe("calcite-input-time-picker", () => {
           for (let i = 999; i >= 989; i--) {
             await pickerNudgeButton.click();
 
-            const expectedValue = String(`${i}`).padStart(3, "0");
+            const expectedValue = `${i}`.padStart(3, "0");
 
             expect(input.innerText).toBe(expectedValue);
             expect(pickerInput.innerText).toBe(expectedValue);
