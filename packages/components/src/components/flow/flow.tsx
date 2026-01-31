@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-flow-item` elements to the component. */
+/** @slot - A slot for adding `calcite-flow-item`s to the component. */
 export class Flow extends LitElement {
   // #region Static Members
 
@@ -60,7 +60,7 @@ export class Flow extends LitElement {
   // #region Public Methods
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * Removes selection of the currently active `calcite-flow-item`.
    *
    * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
    */
