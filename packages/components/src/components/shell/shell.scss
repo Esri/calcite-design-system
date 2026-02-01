@@ -141,4 +141,16 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   inset: 0;
 }
 
+:host([data-panel-top-resizable]) {
+  ::slotted(calcite-panel) {
+    border-block-start: none;
+  }
+}
+
+:host([data-panel-bottom-resizable]) {
+  ::slotted(calcite-panel) {
+    border-block-end: none;
+  }
+}
+
 @include includes.base-component();

@@ -28,6 +28,7 @@
 // --calcite-internal-shell-panel-min-height
 // --calcite-internal-shell-panel-min-width
 // --calcite-internal-shell-panel-resize-handle-offset
+// --calcite-internal-shell-panel-resize-handle-placeholder
 // --calcite-internal-shell-panel-shadow-block-end
 // --calcite-internal-shell-panel-shadow-block-start
 // --calcite-internal-shell-panel-shadow-inline-end
@@ -546,15 +547,45 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 240px);
 }
 
+:host([action-bar-position][slot="panel-start"][resizable]),
+:host([action-bar-position][slot="panel-end"][resizable]) {
+  .resize-handle-bar {
+    border-block: 0;
+  }
+}
+
+:host([action-bar-position][slot="panel-top"][resizable]),
+:host([action-bar-position][slot="panel-bottom"][resizable]) {
+  .resize-handle-bar {
+    border-inline: 0;
+  }
+}
+
+:host([resizable]) {
+  --calcite-internal-shell-panel-resize-handle-placeholder: 10px;
+}
+
 :host([action-bar-position="end"][slot="panel-start"]) {
+}
+
+:host([action-bar-position="end"][slot="panel-start"][resizable]) {
+  .container {
+    padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .content {
+    padding-inline-end: 0;
+    border-inline-end: var(--calcite-border-width-sm) solid
+      var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  }
+
   .resize-handle {
     inset-inline-end: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
           --calcite-internal-shell-panel-action-bar-size,
           0px
-        ) -
-        10px
-    ); // TODO: variable for Action Bar width
+        ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+    );
   }
 }
 
@@ -575,18 +606,27 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-start"][resizable]) {
-  .resize-handle {
-    block-size: calc(100% + 50px); // TODO: variable for Action Bar height
-    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
-    inset-block-start: -50px; // TODO: variable for Action Bar height
+  .container {
+    padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
     padding-inline-end: 0;
   }
 
+  .resize-handle {
+    block-size: calc(100% + 50px); // TODO: variable
+    inset-inline-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+    inset-block-start: -50px; // TODO: variable
+  }
+
   ::slotted(calcite-action-bar) {
     --calcite-internal-shell-panel-width: 100%;
+    border-inline-end: 0;
   }
 }
 
@@ -607,31 +647,46 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-start"][resizable]) {
-  .resize-handle {
-    block-size: calc(100% + 50px);
-    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px);
+  .container {
+    padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
     padding-inline-end: 0;
   }
+
+  .resize-handle {
+    block-size: calc(100% + 50px);
+    inset-inline-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+  }
+
+  ::slotted(calcite-action-bar) {
+    border-inline-end: 0;
+  }
 }
 
 :host([action-bar-position="start"][slot="panel-end"][resizable]) {
-  .resize-handle {
-    inset-inline-start: calc(
-      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
-          --calcite-internal-shell-panel-action-bar-size,
-          0px
-        ) -
-        10px
-    ); // TODO: variable for 10px? variable for this value?
+  .container {
+    padding-inline-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
     padding-inline-start: 0;
     border-inline-start: var(--calcite-border-width-sm) solid
       var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  }
+
+  .resize-handle {
+    inset-inline-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-action-bar-size,
+          0px
+        ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+    );
   }
 }
 
@@ -652,18 +707,27 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-end"][resizable]) {
-  .resize-handle {
-    block-size: calc(100% + 50px); // TODO: variable for Action Bar height?
-    inset-block-start: -50px; // TODO: variable for Action Bar height?
-    inset-inline-start: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: 10px? variable?
+  .container {
+    padding-inline-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
     padding-inline-start: 0;
   }
 
+  .resize-handle {
+    block-size: calc(100% + 50px); // TODO: variable
+    inset-block-start: -50px; // TODO: variable
+    inset-inline-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+  }
+
   ::slotted(calcite-action-bar) {
     inline-size: 100%;
+    border-inline-start: 0;
   }
 }
 
@@ -676,7 +740,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     border-block-start: 0;
     inline-size: 100%;
     max-inline-size: var(--calcite-internal-shell-panel-max-width);
-    padding-inline-start: var(--calcite-size-fixed-sm-plus);
   }
 
   ::slotted(calcite-panel) {
@@ -685,13 +748,26 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-end"][resizable]) {
+  .container {
+    padding-inline-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .content {
+    padding-inline-start: 0;
+  }
+
   .resize-handle {
     block-size: calc(100% + 50px);
-    inset-inline-end: calc(var(--calcite-internal-shell-panel-resize-handle-offset) - 9px); // TODO: variable for 9px?
+    inset-inline-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
   }
 
   ::slotted(calcite-action-bar) {
     inline-size: 100%;
+    border-inline-start: 0;
   }
 }
 
@@ -720,12 +796,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-    border-block-end: 0;
-  }
-
   .content {
     max-block-size: var(--calcite-internal-shell-panel-action-bar-size);
 
@@ -734,6 +804,29 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-end: 0;
       border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
+  }
+
+  // TODO: specificity?
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-end: 0;
+  }
+}
+
+:host([action-bar-position="start"][slot="panel-top"][resizable]) {
+  .container {
+    padding-block-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .resize-handle {
+    inset-block-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+    inset-inline-start: -50px; // TODO: variable
+    inline-size: calc(100% + 50px); // TODO: variable
   }
 }
 
@@ -762,12 +855,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-    border-block-end: 0;
-  }
-
   .content {
     max-block-size: var(--calcite-internal-shell-panel-action-bar-size);
 
@@ -776,11 +863,28 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
+
+  // TODO: specificity?
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-end: 0;
+  }
 }
 
 :host([action-bar-position="end"][slot="panel-top"][resizable]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  .container {
+    padding-block-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .resize-handle {
+    inset-block-end: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+    inset-inline-end: -50px; // TODO: variable
+    inline-size: calc(100% + 50px); // TODO: variable
   }
 }
 
@@ -801,20 +905,32 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: column;
   }
 
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-block-end: 0;
-  }
-
   .content {
     ::slotted(calcite-panel) {
       border-block-end: 0;
+      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
 
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-block-end: 0;
+  }
+}
+
+:host([action-bar-position="bottom"][slot="panel-top"][resizable]) {
+  .container {
+    padding-block-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
   .content {
-    ::slotted(calcite-panel) {
-      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    }
+    padding-block-end: 0;
+  }
+
+  .resize-handle {
+    --calcite-internal-shell-panel-resize-handle-offset: calc(
+      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) -
+        50px - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+    );
   }
 }
 
@@ -843,23 +959,37 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-    border-block-start: 0;
-  }
-
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
       border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-start: 0;
+  }
 }
 
 :host([action-bar-position="start"][slot="panel-bottom"][resizable]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  .container {
+    padding-block-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .content {
+    padding-block-start: 0;
+  }
+
+  .resize-handle {
+    inset-block-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+    inset-inline-start: -50px; // TODO: variable
+    inline-size: calc(100% + 50px); // TODO: variable
   }
 }
 
@@ -888,28 +1018,42 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
 
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-    block-size: 100%;
-    border-block-start: 0;
-  }
-
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
       border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    block-size: 100%;
+    border-block-start: 0;
+  }
 }
 
 :host([action-bar-position="end"][slot="panel-bottom"][resizable]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  .container {
+    padding-block-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .content {
+    padding-block-start: 0;
+  }
+
+  .resize-handle {
+    inset-block-start: calc(
+      var(--calcite-internal-shell-panel-resize-handle-offset) - var(
+          --calcite-internal-shell-panel-resize-handle-placeholder
+        )
+    );
+    inset-inline-end: -49px; // TODO: variable, why is this 49px and not 50px?
+    inline-size: calc(100% + 50px); // TODO: variable
   }
 }
 
 :host([action-bar-position="top"][slot="panel-bottom"]) {
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
+  ::slotted(calcite-action-bar) {
     border-block-start: 0;
   }
 
@@ -922,24 +1066,29 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-bottom"][resizable]) {
-  .resize-handle-bar {
-    border-block-end: 0;
+  .container {
+    padding-block-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
+    padding-block-start: 0;
+
     ::slotted(calcite-panel) {
       border-block-start: 0;
       border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
     }
   }
+
+  .resize-handle {
+    --calcite-internal-shell-panel-resize-handle-offset: calc(
+      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) -
+        50px - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+    );
+  }
 }
 
 :host([action-bar-position="bottom"][slot="panel-bottom"]) {
-  .resize-handle-bar {
-    border-block-end: 0;
-  }
-
-  slot[name="action-bar"]::slotted(calcite-action-bar) {
+  ::slotted(calcite-action-bar) {
     border-block-start: 0;
   }
 

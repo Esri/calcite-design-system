@@ -55,11 +55,34 @@
         position: relative;
         inset: 0 0 0 0;
       }
+
+      .esri {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      .esri > div:nth-child(2) {
+        justify-self: end;
+        align-self: start;
+      }
+
+      .esri > div:nth-child(3) {
+        justify-self: start;
+        align-self: end;
+      }
+
+      .esri > div:nth-child(4) {
+        justify-self: end;
+        align-self: end;
+      }
     </style>
   </head>
   <body style="--calcite-shell-border-color: red">
     <demo-dom-swapper class="rhombo">
-      <!---->
       <div class="rhombo__item">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" action-bar-position="start" width="m">
@@ -111,6 +134,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -171,6 +200,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -232,6 +267,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -292,6 +333,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -353,6 +400,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -413,6 +466,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -474,6 +533,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -534,6 +599,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-start"<br />
@@ -595,6 +666,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -655,6 +732,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -716,6 +799,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -776,6 +865,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -837,6 +932,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -897,6 +998,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -958,6 +1065,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -1018,6 +1131,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-end"<br />
@@ -1079,6 +1198,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1139,6 +1264,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1200,6 +1331,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1260,6 +1397,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1321,6 +1464,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1381,6 +1530,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1442,6 +1597,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1502,6 +1663,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-top"<br />
@@ -1563,6 +1730,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1623,6 +1796,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1684,6 +1863,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1744,6 +1929,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1805,6 +1996,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1865,6 +2062,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1926,6 +2129,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1986,6 +2195,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               slot="panel-bottom"<br />
@@ -1995,9 +2210,7 @@
           </calcite-panel>
         </calcite-shell>
       </div>
-      <!---->
 
-      <!--
       <div class="rhombo__item">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" action-bar-position="start" width="m">
@@ -2042,6 +2255,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               <i>Unpreferred configuration</i><br />
@@ -2097,6 +2316,12 @@
             </calcite-panel>
           </calcite-shell-panel>
           <calcite-panel>
+            <div class="esri">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
             <div class="media"></div>
             <div class="shell-config-text">
               <i>Unpreferred configuration</i><br />
@@ -2107,7 +2332,6 @@
           </calcite-panel>
         </calcite-shell>
       </div>
-      -->
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>

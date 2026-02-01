@@ -149,6 +149,7 @@ export class Shell extends LitElement {
         el.layout = "horizontal";
         el.position = "start";
       });
+    this.updateShellPanelConfig();
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -159,6 +160,7 @@ export class Shell extends LitElement {
         el.layout = "horizontal";
         el.position = "end";
       });
+    this.updateShellPanelConfig();
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -168,6 +170,7 @@ export class Shell extends LitElement {
         el.layout = "vertical";
         el.position = "start";
       });
+    this.updateShellPanelConfig();
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -177,6 +180,7 @@ export class Shell extends LitElement {
         el.layout = "vertical";
         el.position = "end";
       });
+    this.updateShellPanelConfig();
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -186,6 +190,24 @@ export class Shell extends LitElement {
       .forEach((el) => {
         el.embedded = true;
       });
+  }
+
+  private updateShellPanelConfig(): void {
+    const shellPanels = this.el.querySelectorAll<ShellPanel["el"]>("calcite-shell-panel");
+
+    shellPanels.forEach((panel) => {
+      const slot = panel.getAttribute("slot");
+      // const actionBarPosition = panel.getAttribute("action-bar-position");
+      const resizable = panel.getAttribute("resizable");
+
+      // if (slot && actionBarPosition) {
+      //   this.el.setAttribute(`data-${slot}-action-bar-${actionBarPosition}`, "");
+      // }
+
+      if (slot && resizable !== null) {
+        this.el.setAttribute(`data-${slot}-resizable`, "");
+      }
+    });
   }
 
   // #endregion
