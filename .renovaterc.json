@@ -21,27 +21,71 @@
   "ignorePaths": ["examples/**"],
   "packageRules": [
     {
+      "groupName": "Linting",
+      "extends": ["group:linters"],
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@cspell/**", "husky", "lint-staged", "markdownlint-cli2", "**typescript-eslint**"]
+    },
+    {
+      "groupName": "Build",
+      "extends": ["group:postcss", "group:vite"],
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["autoprefixer", "sass-embedded", "tailwindcss"]
+    },
+    {
+      "groupName": "Build (Monorepo)",
+      "extends": ["group:lernaMonorepo", "group:turboMonorepo"],
+      "matchDepTypes": ["devDependencies"]
+    },
+    {
+      "groupName": "Build (Tokens)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@tokens-studio/**", "style-dictionary"]
+    },
+    {
+      "groupName": "Util Scripts",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "globby", "rimraf", "semver", "yargs", "cpy**"]
+    },
+    {
+      "groupName": "Tests (Browser)",
+      "extends": ["group:vitestMonorepo"],
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["playwright", "happy-dom"]
+    },
+    {
+      "groupName": "Tests (A11y)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["axe-core", "jest-axe", "@types/jest-axe"]
+    },
+    {
+      "groupName": "Tests (Visual)",
+      "extends": ["group:storybookMonorepo"],
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["chromatic"]
+    },
+    {
+      "groupName": "Calcite Components (Core Deps)",
+      "matchDepTypes": ["dependencies"],
+      "matchPackageNames": [
+        "@floating-ui/**",
+        "color",
+        "composed-offset-position",
+        "es-toolkit",
+        "focus-trap",
+        "interactjs",
+        "lit",
+        "**sortablejs**",
+        "timezone-groups",
+        "type-fest"
+      ]
+    },
+    {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
       "rangeStrategy": "bump",
       "ignoreUnstable": false,
       "respectLatest": false
-    },
-    {
-      "groupName": "CSpell",
-      "matchPackageNames": ["@cspell/**"]
-    },
-    {
-      "groupName": "Floating UI",
-      "matchPackageNames": ["@floating-ui/**"]
-    },
-    {
-      "groupName": "ESLint",
-      "matchPackageNames": ["/eslint/"]
-    },
-    {
-      "groupName": "Stylelint",
-      "matchPackageNames": ["/stylelint/"]
     },
     {
       "matchPackageNames": ["*"],
