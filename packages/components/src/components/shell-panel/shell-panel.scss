@@ -22,6 +22,8 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-shell-panel-action-bar-thickness
+// --calcite-internal-shell-panel-border
 // --calcite-internal-shell-panel-height
 // --calcite-internal-shell-panel-max-height
 // --calcite-internal-shell-panel-max-width
@@ -561,6 +563,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
+:host([action-bar-position]) {
+  --calcite-internal-shell-panel-action-bar-thickness: 50px;
+  --calcite-internal-shell-panel-border: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
 :host([resizable]) {
   --calcite-internal-shell-panel-resize-handle-placeholder: 10px;
 }
@@ -575,8 +583,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .content {
     padding-inline-end: 0;
-    border-inline-end: var(--calcite-border-width-sm) solid
-      var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-end: var(--calcite-internal-shell-panel-border);
   }
 
   .resize-handle {
@@ -615,13 +622,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .resize-handle {
-    block-size: calc(100% + 50px); // TODO: variable
+    block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-inline-end: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
           --calcite-internal-shell-panel-resize-handle-placeholder
         )
     );
-    inset-block-start: -50px; // TODO: variable
+    inset-block-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
   }
 
   ::slotted(calcite-action-bar) {
@@ -656,7 +663,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .resize-handle {
-    block-size: calc(100% + 50px);
+    block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-inline-end: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
           --calcite-internal-shell-panel-resize-handle-placeholder
@@ -676,8 +683,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .content {
     padding-inline-start: 0;
-    border-inline-start: var(--calcite-border-width-sm) solid
-      var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-start: var(--calcite-internal-shell-panel-border);
   }
 
   .resize-handle {
@@ -716,8 +722,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .resize-handle {
-    block-size: calc(100% + 50px); // TODO: variable
-    inset-block-start: -50px; // TODO: variable
+    block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
+    inset-block-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
     inset-inline-start: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
           --calcite-internal-shell-panel-resize-handle-placeholder
@@ -757,7 +763,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .resize-handle {
-    block-size: calc(100% + 50px);
+    block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-inline-start: calc(
       var(--calcite-internal-shell-panel-resize-handle-offset) - var(
           --calcite-internal-shell-panel-resize-handle-placeholder
@@ -802,13 +808,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     ::slotted(calcite-panel) {
       border-inline-start: 0;
       border-block-end: 0;
-      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-start: var(--calcite-internal-shell-panel-border);
     }
   }
 
   // TODO: specificity?
   slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-end: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-end: 0;
   }
@@ -825,8 +831,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           --calcite-internal-shell-panel-resize-handle-placeholder
         )
     );
-    inset-inline-start: -50px; // TODO: variable
-    inline-size: calc(100% + 50px); // TODO: variable
+    inset-inline-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
+    inline-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
   }
 }
 
@@ -860,13 +866,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
     ::slotted(calcite-panel) {
       border-block-end: 0;
-      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-start: var(--calcite-internal-shell-panel-border);
     }
   }
 
   // TODO: specificity?
   slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-start: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-end: 0;
   }
@@ -883,8 +889,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           --calcite-internal-shell-panel-resize-handle-placeholder
         )
     );
-    inset-inline-end: -50px; // TODO: variable
-    inline-size: calc(100% + 50px); // TODO: variable
+    inset-inline-end: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
+    inline-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
   }
 }
 
@@ -908,7 +914,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-end: 0;
-      border-block-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-start: var(--calcite-internal-shell-panel-border);
     }
   }
 
@@ -928,8 +934,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .resize-handle {
     --calcite-internal-shell-panel-resize-handle-offset: calc(
-      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) -
-        50px - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) - var(
+          --calcite-internal-shell-panel-action-bar-thickness
+        ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
     );
   }
 }
@@ -962,12 +969,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
-      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-end: var(--calcite-internal-shell-panel-border);
     }
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-end: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-start: 0;
   }
@@ -988,8 +995,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           --calcite-internal-shell-panel-resize-handle-placeholder
         )
     );
-    inset-inline-start: -50px; // TODO: variable
-    inline-size: calc(100% + 50px); // TODO: variable
+    inset-inline-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
+    inline-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
   }
 }
 
@@ -1021,12 +1028,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
-      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-end: var(--calcite-internal-shell-panel-border);
     }
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-start: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+    border-inline-start: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-start: 0;
   }
@@ -1047,8 +1054,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           --calcite-internal-shell-panel-resize-handle-placeholder
         )
     );
-    inset-inline-end: -49px; // TODO: variable, why is this 49px and not 50px?
-    inline-size: calc(100% + 50px); // TODO: variable
+    inset-inline-end: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
+    inline-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
   }
 }
 
@@ -1060,7 +1067,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
-      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-end: var(--calcite-internal-shell-panel-border);
     }
   }
 }
@@ -1075,14 +1082,15 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
     ::slotted(calcite-panel) {
       border-block-start: 0;
-      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-end: var(--calcite-internal-shell-panel-border);
     }
   }
 
   .resize-handle {
     --calcite-internal-shell-panel-resize-handle-offset: calc(
-      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) -
-        50px - var(--calcite-internal-shell-panel-resize-handle-placeholder)
+      calc((var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1) - var(
+          --calcite-internal-shell-panel-action-bar-thickness
+        ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
     );
   }
 }
@@ -1095,7 +1103,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content {
     ::slotted(calcite-panel) {
       border-block-start: 0;
-      border-block-end: 1px solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+      border-block-end: var(--calcite-internal-shell-panel-border);
     }
   }
 }
