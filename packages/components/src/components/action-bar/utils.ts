@@ -22,7 +22,9 @@ export const overflowActions = ({
   actionGroups.reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const groupActions = queryActions(group).reverse();
+    const groupActions = queryActions(group)
+      .filter((action) => action.parentElement?.tagName === "CALCITE-ACTION-GROUP")
+      .reverse();
 
     groupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
