@@ -240,7 +240,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the components width. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
