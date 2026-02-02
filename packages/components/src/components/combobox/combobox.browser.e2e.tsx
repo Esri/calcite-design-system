@@ -232,6 +232,7 @@ describe("calcite-combobox", () => {
       expect(el.selectedItems.length).toBe(1);
       expect(el.selectedItems[0]).toBe(selectedItem1.element());
     });
+
     it("should delete the focused chip on Enter key in multi-selection mode", async () => {
       const { el } = await mount<Combobox>(
         <calcite-combobox allow-custom-values placeholder="Select a field">
@@ -254,6 +255,7 @@ describe("calcite-combobox", () => {
       expect(el.selectedItems.length).toBe(1);
       expect(el.selectedItems[0]).toBe(selectedItem2.element());
     });
+
     it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
       const { el } = await mount<Combobox>(
         <calcite-combobox allow-custom-values placeholder="Select a field">
@@ -275,6 +277,7 @@ describe("calcite-combobox", () => {
       expect(el.selectedItems.length).toBe(1);
       expect(el.selectedItems[0]).toBe(selectedItem1.element());
     });
+
     it("should delete the focused chip on Delete key in multi-selection mode", async () => {
       const { el } = await mount<Combobox>(
         <calcite-combobox allow-custom-values placeholder="Select a field">
