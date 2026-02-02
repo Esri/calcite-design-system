@@ -9,6 +9,10 @@ export const queryActions = (el: HTMLElement): Action["el"][] => {
   );
 };
 
+/**
+ * Manages action overflow by slotting actions into action menus as needed.
+ * Note: this only handles direct actions and action-groups.
+ */
 export const overflowActions = ({
   actionGroups,
   expanded,
