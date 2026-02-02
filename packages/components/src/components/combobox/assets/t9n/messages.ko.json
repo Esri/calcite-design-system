@@ -8,5 +8,5 @@
   "required": "필수",
   "selectAll": "모두 선택",
   "selected": "선택함",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "읽기 전용 {value}"
 }

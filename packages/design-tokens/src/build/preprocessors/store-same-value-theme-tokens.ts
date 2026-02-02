@@ -6,7 +6,7 @@ import { state } from "../shared/state.ts";
 
 const mergeInclusions = [
   // excluded to match test output – we can remove for a breaking change release
-  "{semantic.color.background.none}",
+  "{color.background.none}",
 ];
 
 export function registerPreprocessorStoreSameValueThemeTokens(): void {

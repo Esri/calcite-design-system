@@ -4,5 +4,6 @@
   "play": "เล่น",
   "pause": "หยุดชั่วคราว",
   "carousel": "ภาพสไลด์",
-  "carouselItemProgress": "ตัวบ่งชี้ความคืบหน้าสำหรับรายการภาพสไลด์"
+  "carouselItemProgress": "ตัวบ่งชี้ความคืบหน้าสำหรับรายการภาพสไลด์",
+  "paginationStatus": "Item {current} of {total}"
 }

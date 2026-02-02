@@ -3,7 +3,7 @@ import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   getElementDir,
   getStylePixelValue,
@@ -146,7 +146,11 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Public Methods
-
+  /**
+   * Updates the component's size by setting its inline and/or block dimensions.
+   *
+   * @param size - An object specifying the new inline and/or block size values.
+   */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
     this.updateSizeInternal(size);

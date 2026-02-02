@@ -45,6 +45,10 @@ export default tseslint.config(
               message:
                 "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
             },
+            {
+              group: ["lit-html", "lit-html/*"],
+              message: "Import from 'lit' instead of 'lit-html'",
+            },
           ],
         },
       ],

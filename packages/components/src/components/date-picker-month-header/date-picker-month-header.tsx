@@ -5,7 +5,7 @@ import {
   calciteSpacingSm,
 } from "@esri/calcite-design-tokens/dist/es6/global.js";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import {
   dateFromRange,
@@ -37,6 +37,7 @@ declare global {
   }
 }
 
+/** @private */
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
@@ -73,7 +74,7 @@ export class DatePickerMonthHeader extends LitElement {
   /** The focused date is indicated and will become the selected date if the user proceeds. */
   @property() activeDate: Date;
 
-  /** Specifies the number at which section headings should start. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number }) headingLevel: HeadingLevel;
 
   /** CLDR locale data for translated calendar info. */
