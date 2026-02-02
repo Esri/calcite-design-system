@@ -1,4 +1,5 @@
 import { IconName } from "../icon/interfaces";
+import { ActionGroup } from "./action-group";
 
 export const SLOTS = {
   menuActions: "menu-actions",
