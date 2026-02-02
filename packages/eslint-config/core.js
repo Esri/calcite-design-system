@@ -98,9 +98,12 @@ export default tseslint.config(
       ],
       radix: ["error", "as-needed"],
 
-      "unicorn/filename-case": ["error", {
-        case: "kebabCase",
-      }],
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
       "unicorn/prefer-ternary": "error",
       "unicorn/prevent-abbreviations": [
         "error",
@@ -122,9 +125,14 @@ export default tseslint.config(
           checkFilenames: false,
         },
       ],
-    }
+    },
   },
-
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
+    },
+  },
   {
     files: ["**/*.{ts,tsx}"],
     rules: {
@@ -144,7 +152,7 @@ export default tseslint.config(
             "render",
           ],
         },
-      ]
+      ],
     },
   },
 );

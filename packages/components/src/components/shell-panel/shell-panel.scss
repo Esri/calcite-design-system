@@ -3,20 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-panel-background-color: Specifies the component's background color.
  * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
  * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
- * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the height of the component.
- * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
- * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
- * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
- * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
- * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's maximum height.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
+ * @prop --calcite-shell-panel-max-width: Specifies the component's maximum width.
+ * @prop --calcite-shell-panel-resize-icon-color: Specifies the resize handle's text color.
  * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
- * @prop --calcite-shell-panel-text-color: Specifies the text color of the component.
- * @prop --calcite-shell-panel-width: Specifies the width of the component.
- * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
+ * @prop --calcite-shell-panel-text-color: Specifies the component's text color.
+ * @prop --calcite-shell-panel-width: Specifies the component's width.
+ * @prop --calcite-shell-panel-z-index: Specifies the component's z-index value.
  *
  */
 
@@ -529,6 +527,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([layout="horizontal"][position="end"]) .content ::slotted(calcite-panel) {
   border-inline: 0;
   border-block-end: 0;
+}
+
+:host([display-mode="dock"]),
+:host([display-mode="float-all"]),
+:host([display-mode="overlay"]) {
+  .resize-handle-bar {
+    border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+  }
 }
 
 @include includes.base-component();

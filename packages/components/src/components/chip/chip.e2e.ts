@@ -183,6 +183,12 @@ describe("calcite-chip", () => {
           targetProp: "color",
         },
       });
+      themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
+        "--calcite-ui-icon-color": {
+          shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "color",
+        },
+      });
     });
   });
 });

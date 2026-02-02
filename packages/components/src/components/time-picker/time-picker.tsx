@@ -82,18 +82,16 @@ export class TimePicker extends LitElement implements TimeComponent {
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the granularity the `value` must adhere to (in seconds). */

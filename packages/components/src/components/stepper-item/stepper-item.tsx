@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -78,19 +78,19 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** A description for the component. Displays below the header text. */
+  /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /**
@@ -117,7 +117,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) layout: StepperLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

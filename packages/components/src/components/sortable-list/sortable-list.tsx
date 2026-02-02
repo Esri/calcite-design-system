@@ -64,13 +64,13 @@ export class SortableList extends LitElement implements SortableComponent {
   @property({ reflect: true }) dragSelector?: string;
 
   /**
-   * The list's group identifier.
+   * Specifies the list's group.
    *
    * To drag elements from one list into another, both lists must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
-  /** The selector for the handle elements. */
+  /** Specifies the selector for the handle elements. */
   @property({ reflect: true }) handleSelector = "calcite-handle";
 
   /** Indicates the horizontal or vertical orientation of the component. */
@@ -84,7 +84,7 @@ export class SortableList extends LitElement implements SortableComponent {
 
   //#region Events
 
-  /** Emitted when the order of the list has changed. */
+  /** Fires when the order of the list changes. */
   calciteListOrderChange = createEvent({ cancelable: false });
 
   //#endregion

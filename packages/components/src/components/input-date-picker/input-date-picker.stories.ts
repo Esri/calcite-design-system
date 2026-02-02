@@ -274,20 +274,68 @@ export const rangeOneCalendarsAllScales = (): string => html`
 export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
   <style>
     .container {
-      width: 400px;
-      height: 400px;
+      display: flex;
+      gap: 20px;
+    }
+    .picker-group {
+      width: 650px;
+      height: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 370px;
     }
   </style>
   <div class="container">
-    <calcite-input-date-picker
-      class="calcite-mode-dark"
-      dir="rtl"
-      value="2020-12-12"
-      numbering-system="arab"
-      lang="ar"
-      open
-      validation-message="This should not appear because the status is not 'invalid'"
-    ></calcite-input-date-picker>
+    <div class="picker-group">
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        open
+        placement="bottom-start"
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        open
+        placement="bottom-start"
+        range
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+    </div>
+    <div class="picker-group">
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        layout="vertical"
+        open
+        placement="bottom-start"
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        layout="vertical"
+        open
+        placement="bottom-start"
+        range
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+    </div>
   </div>
 `;
 arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -4,5 +4,6 @@
   "play": "Toista",
   "pause": "Keskeytä",
   "carousel": "Pyörivä näkymä",
-  "carouselItemProgress": "Pyörivän näkymän kohteen edistymisen ilmaisin"
+  "carouselItemProgress": "Pyörivän näkymän kohteen edistymisen ilmaisin",
+  "paginationStatus": "Item {current} of {total}"
 }

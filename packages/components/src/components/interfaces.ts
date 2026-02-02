@@ -25,6 +25,14 @@ export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" 
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 export type ModeName = "light" | "dark" | "auto";
 export type Position = "start" | "end" | "top" | "bottom";
+export interface ResizeValues {
+  inlineSize: number;
+  blockSize: number;
+  minInlineSize: number;
+  minBlockSize: number;
+  maxInlineSize: number;
+  maxBlockSize: number;
+}
 export type SelectionAppearance = "icon" | "border" | "neutral" | "highlight";
 export type SelectionMode =
   | "single"

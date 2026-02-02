@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -36,10 +36,10 @@ declare global {
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  *
- * @slot title - A slot for adding the title.
- * @slot message - A slot for adding the message.
+ * @slot title - A slot for adding a title.
+ * @slot message - A slot for adding a message.
  * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
  */
 export class Notice extends LitElement {
   //#region Static Members
@@ -85,7 +85,7 @@ export class Notice extends LitElement {
   @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
     "outline-fill";
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
@@ -94,13 +94,13 @@ export class Notice extends LitElement {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to top border and icon. */
+  /** Specifies the kind of the component, which will apply to the top border and icon. */
   @property({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning" | "neutral",
     Kind
   > = "brand";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */
