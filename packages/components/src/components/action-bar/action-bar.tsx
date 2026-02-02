@@ -19,11 +19,12 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions, isAction } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -214,15 +215,6 @@ export class ActionBar extends LitElement {
     "neutral" | "highlight",
     SelectionAppearance
   > = "neutral";
-
-  /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
-   */
-  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -503,7 +495,6 @@ export class ActionBar extends LitElement {
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
-        topLayerDisabled={this.topLayerDisabled}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
         <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />

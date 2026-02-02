@@ -39,14 +39,14 @@ export class Icon extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({
     reflect: true,
   })
   flipRtl = false;
 
   /**
-   * Displays a specific icon.
+   * Specifies an icon to display.
    *
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
@@ -56,7 +56,7 @@ export class Icon extends LitElement {
   })
   icon: IconName = null;
 
-  /** When `true`, it preloads the icon data. */
+  /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
 
   /** Specifies the size of the component. */
@@ -66,7 +66,7 @@ export class Icon extends LitElement {
   scale: Scale = "m";
 
   /**
-   * Accessible name for the component.
+   * Specifies the component's accessible name.
    *
    * It is recommended to set this value if your icon is semantic.
    */

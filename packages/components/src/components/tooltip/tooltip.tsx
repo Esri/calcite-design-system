@@ -89,11 +89,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property() label: string;
 
   /**
-   * Offset the position of the component away from the `referenceElement`.
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Offset the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, the component is open. */
@@ -112,9 +112,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * The `referenceElement` used to position the component according to its `placement` value.
+   * The `referenceElement` is used to position the component according to its `placement` value.
    *
-   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
    *
    * However, a string `id` of the reference element can also be used.
    *

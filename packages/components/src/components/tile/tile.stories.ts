@@ -7,8 +7,10 @@ import { Tile } from "./tile";
 
 const { scale } = ATTRIBUTES;
 
-interface TileStoryArgs
-  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
+interface TileStoryArgs extends Pick<
+  Tile,
+  "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
+> {
   hidden: boolean;
 }
 
