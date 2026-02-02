@@ -760,10 +760,12 @@ describe("calcite-combobox", () => {
         </calcite-combobox>,
       );
       const selectedItem1 = page.getBySelector("#one");
+
       await el.setFocus();
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{Enter}");
-      expect(el.selectedItems.length).toBe(1);
+
+      expect(el.selectedItems).toHaveLength(1);
       expect(el.selectedItems[0]).toBe(selectedItem1.element());
     });
 
@@ -782,11 +784,13 @@ describe("calcite-combobox", () => {
         </calcite-combobox>,
       );
       const selectedItem2 = page.getBySelector("#two");
+
       await el.setFocus();
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{Enter}");
-      expect(el.selectedItems.length).toBe(1);
+
+      expect(el.selectedItems).toHaveLength(1);
       expect(el.selectedItems[0]).toBe(selectedItem2.element());
     });
 
@@ -805,10 +809,12 @@ describe("calcite-combobox", () => {
         </calcite-combobox>,
       );
       const selectedItem1 = page.getBySelector("#one");
+
       await el.setFocus();
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{Enter}");
-      expect(el.selectedItems.length).toBe(1);
+
+      expect(el.selectedItems).toHaveLength(1);
       expect(el.selectedItems[0]).toBe(selectedItem1.element());
     });
 
@@ -827,11 +833,13 @@ describe("calcite-combobox", () => {
         </calcite-combobox>,
       );
       const selectedItem2 = page.getBySelector("#two");
+
       await el.setFocus();
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{ArrowLeft}");
       await userEvent.keyboard("{Delete}");
-      expect(el.selectedItems.length).toBe(1);
+
+      expect(el.selectedItems).toHaveLength(1);
       expect(el.selectedItems[0]).toBe(selectedItem2.element());
     });
   });
