@@ -262,31 +262,51 @@ describe("calcite-dialog", () => {
     t9n(() => mount("calcite-dialog"));
   });
 
-  describe("fullscreen disabled", () => {
-    it("does not take fullscreen when fullscreenDisabled is true", async () => {
-      const { container } = await mount(
-        <div style={{ width: 800, height: 800 }}>
-          <calcite-dialog fullscreen-disabled open>
-            <div>Dialog content</div>
-          </calcite-dialog>
-        </div>,
-      );
+  describe("calcite-dialog", () => {
+    describe("fullscreen disabled", () => {
+      it("does not go fullscreen at smaller viewports (at its default scale) when fullscreenDisabled is true", async () => {
+        const smallViewports = [
+          { width: 400, height: 400 },
+          { width: 300, height: 300 },
+        ];
 
-      const dialog = container.querySelector("calcite-dialog");
-      const style = dialog
-        ? (() => {
-            const computed = window.getComputedStyle(dialog);
-            return {
-              width: computed.width,
-              height: computed.height,
-            };
-          })()
-        : {
-            width: "",
-            height: "",
-          };
-      expect(parseInt(style.width)).toBeLessThan(800);
-      expect(parseInt(style.height)).toBeLessThan(800);
+        for (const { width, height } of smallViewports) {
+          await page.viewport(width, height);
+
+          const { el } = await mount(
+            <calcite-dialog fullscreen-disabled open>
+              <div>Dialog content</div>
+            </calcite-dialog>,
+          );
+          const dialog = el.shadowRoot.querySelector(".dialog")!;
+
+          const computedStyle = dialog
+            ? window.getComputedStyle(dialog)
+            : { width: "0", height: "0" };
+
+          expect(parseInt(computedStyle.width)).toBeLessThan(width);
+          expect(parseInt(computedStyle.height)).toBeLessThan(height);
+        }
+      });
+
+      it("allows resizing when fullscreenDisabled is true", async () => {
+        await page.viewport(400, 400);
+
+        const { el, component } = await mount(
+          <calcite-dialog fullscreen-disabled open resizable>
+            <div>Dialog content</div>
+          </calcite-dialog>,
+        );
+        const dialog = el.shadowRoot.querySelector(".dialog")!;
+
+        el.focus();
+        await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+        await component.updateComplete;
+
+        const resizedStyle = window.getComputedStyle(dialog);
+        expect(parseInt(resizedStyle.width)).toBeGreaterThanOrEqual(288); // min width for scale "m"
+        expect(parseInt(resizedStyle.width)).toBeLessThan(400);
+      });
     });
   });
 
