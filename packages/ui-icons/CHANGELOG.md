@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.21...@esri/calcite-ui-icons@4.4.0-next.22) (2026-02-02)
+
+### Features
+
+- add oriented imagery and group template feature icons ([#13821](https://github.com/Esri/calcite-design-system/issues/13821)) ([0478cac](https://github.com/Esri/calcite-design-system/commit/0478cacee7e7d114464e630c538114c9d904bb1b))
+
 ## [4.4.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.20...@esri/calcite-ui-icons@4.4.0-next.21) (2026-01-22)
 
 ### Features
