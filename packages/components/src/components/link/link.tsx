@@ -151,7 +151,7 @@ export class Link extends LitElement {
       childElType === "button"
         ? (literal`button` as unknown as "button")
         : (literal`a` as unknown as "a");
-    const tabIndex = childElType === "button" ? 0 : null;
+    const isButton = childElType === "button";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "presentation";
 
@@ -171,17 +171,17 @@ export class Link extends LitElement {
               : null
           }
           href={childElType === "a" && this.href}
-          onClick={this.childElClickHandler}
-          ref={
-            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
-          }
           rel={childElType === "a" && this.rel}
-          tabIndex={tabIndex}
+          tabIndex={-1}
           target={childElType === "a" && this.target}
         >
-          {/* keep <span> to one line to help prevent trailing white space */}
           {/* prettier-ignore */}
-          <span>{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</span>
+          <span
+            onClick={this.childElClickHandler}
+            ref={this.childRef as unknown}
+            role={isButton ? "button" : "link"}
+            tabIndex={0}
+          >{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</span>
         </DynamicHtmlTag>
       </this.interactiveContainer>
     );

@@ -26,8 +26,8 @@
 :host button,
 :host a {
   @apply font-inherit
-    relative 
     cursor-pointer;
+  display: contents;
   line-height: inherit;
   font-size: inherit;
   -webkit-appearance: none;
