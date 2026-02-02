@@ -957,7 +957,6 @@ export class Combobox
         }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
-          console.log(event, event.target);
           this.removeActiveChip(event.target as Chip["el"]);
         } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
