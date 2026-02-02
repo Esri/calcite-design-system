@@ -12,3 +12,7 @@ export const ICONS: Record<string, IconName> = {
 export const CSS = {
   container: "container",
 };
+
+export function isActionGroup(el: Element | null): el is ActionGroup["el"] {
+  return el?.tagName === "CALCITE-ACTION-GROUP";
+}
