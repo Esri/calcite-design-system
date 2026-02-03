@@ -22,20 +22,30 @@
   "packageRules": [
     {
       "groupName": "Linting",
-      "extends": ["group:linters"],
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["@cspell/**", "husky", "lint-staged", "markdownlint-cli2", "**typescript-eslint**"]
+      "matchPackageNames": [
+        "@cspell/**",
+        "@prettier",
+        "@typescript-eslint/**",
+        "husky",
+        "lint-staged",
+        "markdownlint-cli2",
+        "packages:eslint",
+        "packages:stylelint",
+        "prettier",
+        "typescript-eslint",
+        "typescript-strict-plugin"
+      ]
     },
     {
       "groupName": "Build",
-      "extends": ["group:postcss", "group:vite"],
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["autoprefixer", "sass-embedded", "tailwindcss"]
+      "matchPackageNames": ["autoprefixer", "packages:vite", "postcss", "sass-embedded", "tailwindcss"]
     },
     {
       "groupName": "Build (Monorepo)",
-      "extends": ["group:lernaMonorepo", "group:turboMonorepo"],
-      "matchDepTypes": ["devDependencies"]
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["lerna", "turbo"]
     },
     {
       "groupName": "Build (Tokens)",
@@ -45,13 +55,12 @@
     {
       "groupName": "Util Scripts",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "globby", "rimraf", "semver", "yargs", "cpy**"]
+      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
     },
     {
       "groupName": "Tests (Browser)",
-      "extends": ["group:vitestMonorepo"],
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["playwright", "happy-dom"]
+      "matchPackageNames": ["playwright", "happy-dom", "@vitest/**", "vitest"]
     },
     {
       "groupName": "Tests (A11y)",
@@ -60,14 +69,14 @@
     },
     {
       "groupName": "Tests (Visual)",
-      "extends": ["group:storybookMonorepo"],
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["chromatic"]
+      "matchPackageNames": ["chromatic", "@storybook/**", "storybook**"]
     },
     {
       "groupName": "Calcite Components (Core Deps)",
       "matchDepTypes": ["dependencies"],
       "matchPackageNames": [
+        "**sortablejs**",
         "@floating-ui/**",
         "color",
         "composed-offset-position",
@@ -75,7 +84,6 @@
         "focus-trap",
         "interactjs",
         "lit",
-        "**sortablejs**",
         "timezone-groups",
         "type-fest"
       ]
