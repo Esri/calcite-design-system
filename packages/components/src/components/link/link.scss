@@ -30,14 +30,14 @@
   background-position-y: min(1.5em, 100%);
   background-repeat: no-repeat, no-repeat;
   background-size:
-    0% var(--calcite-size-px),
-    100% var(--calcite-size-px);
+    0% var(--calcite-border-width-sm),
+    100% var(--calcite-border-width-sm);
 
   &:hover,
   &:focus {
     background-size:
-      100% var(--calcite-size-px),
-      100% var(--calcite-size-px);
+      100% var(--calcite-border-width-sm),
+      100% var(--calcite-border-width-sm);
   }
 
   &:focus {
@@ -46,8 +46,8 @@
 
   &:active {
     background-size:
-      100% var(--calcite-size-px),
-      100% calc(--calcite-size-px * 2);
+      100% var(--calcite-border-width-md),
+      100% var(--calcite-border-width-md);
 
     &.calcite--rtl {
       background-position:
