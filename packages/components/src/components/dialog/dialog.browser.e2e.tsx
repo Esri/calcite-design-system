@@ -272,7 +272,7 @@ describe("calcite-dialog", () => {
         async ({ width, height }) => {
           await page.viewport(width, height);
           await mount(
-            <calcite-dialog fullscreenDisabled="true" open="true">
+            <calcite-dialog fullscreenDisabled={true} open={true}>
               <div>Dialog content</div>
             </calcite-dialog>,
           );
@@ -290,7 +290,7 @@ describe("calcite-dialog", () => {
         await page.viewport(400, 400);
 
         const { el, component } = await mount(
-          <calcite-dialog fullscreenDisabled="true" open="true" resizable="true">
+          <calcite-dialog fullscreenDisabled={true} open={true} resizable={true}>
             <div>Dialog content</div>
           </calcite-dialog>,
         );
@@ -301,7 +301,7 @@ describe("calcite-dialog", () => {
         const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
         const dialog = dialogLocator.element();
 
-        await el.setFocus();
+        el.focus();
         await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
         await component.updateComplete;
 
