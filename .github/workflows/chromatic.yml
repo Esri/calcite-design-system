@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
@@ -39,7 +40,10 @@ jobs:
           storybookBuildDir: docs
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
+          CHROMATIC_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+          CHROMATIC_SHA: ${{ github.event.pull_request.head.sha || github.ref }}
+          CHROMATIC_SLUG: ${{ github.repository }}
   skip:
     if: >
       github.event_name == 'pull_request' &&

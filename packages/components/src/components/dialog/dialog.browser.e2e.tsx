@@ -263,30 +263,50 @@ describe("calcite-dialog", () => {
   });
 
   describe("fullscreen disabled", () => {
-    it("does not take fullscreen when fullscreenDisabled is true", async () => {
-      const { container } = await mount(
-        <div style={{ width: 800, height: 800 }}>
-          <calcite-dialog fullscreen-disabled open>
+    it.for([
+      { width: 400, height: 400 },
+      { width: 300, height: 300 },
+    ])(
+      "does not go fullscreen at smaller viewports (at its default scale) when fullscreenDisabled is true",
+      async ({ width, height }) => {
+        await page.viewport(width, height);
+        await mount(
+          <calcite-dialog fullscreenDisabled={true} open={true}>
             <div>Dialog content</div>
-          </calcite-dialog>
-        </div>,
+          </calcite-dialog>,
+        );
+        const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+        const dialog = dialogLocator.element();
+
+        const computedStyle = window.getComputedStyle(dialog);
+
+        expect(parseInt(computedStyle.width)).toBeLessThan(width);
+        expect(parseInt(computedStyle.height)).toBeLessThan(height);
+      },
+    );
+
+    it("allows resizing when fullscreenDisabled is true", async () => {
+      await page.viewport(400, 400);
+
+      const { el, component } = await mount<"calcite-dialog">(
+        <calcite-dialog fullscreenDisabled={true} open={true} resizable={true}>
+          <div>Dialog content</div>
+        </calcite-dialog>,
       );
 
-      const dialog = container.querySelector("calcite-dialog");
-      const style = dialog
-        ? (() => {
-            const computed = window.getComputedStyle(dialog);
-            return {
-              width: computed.width,
-              height: computed.height,
-            };
-          })()
-        : {
-            width: "",
-            height: "",
-          };
-      expect(parseInt(style.width)).toBeLessThan(800);
-      expect(parseInt(style.height)).toBeLessThan(800);
+      const minimumDialogWidthForMediumScale = 288;
+      const viewportWidth = 400;
+
+      const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+      const dialog = dialogLocator.element();
+
+      await el.setFocus();
+      await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+      await component.updateComplete;
+
+      const resizedStyle = window.getComputedStyle(dialog);
+      expect(parseInt(resizedStyle.width)).toBeGreaterThanOrEqual(minimumDialogWidthForMediumScale);
+      expect(parseInt(resizedStyle.width)).toBeLessThan(viewportWidth);
     });
   });
 

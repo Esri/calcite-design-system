@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.89...@esri/calcite-components@5.0.0-next.90) (2026-02-03)
+
+### Bug Fixes
+
+- **accordion-item:** enable support for deprecated icon color variable ([#13523](https://github.com/Esri/calcite-design-system/issues/13523)) ([2df8e24](https://github.com/Esri/calcite-design-system/commit/2df8e244af7c3597d5c3b42225e28d4d61aac015)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+- **action-pad:** avoid collapsing unrelated actions ([#13828](https://github.com/Esri/calcite-design-system/issues/13828)) ([68d234e](https://github.com/Esri/calcite-design-system/commit/68d234ebe41d67f342ce68ea1746fd8a4b076e46)), closes [#12098](https://github.com/Esri/calcite-design-system/issues/12098)
+- **combobox:** avoid removing unrelated chips while deleting a chip via keyboard interaction ([#13688](https://github.com/Esri/calcite-design-system/issues/13688)) ([aa5ce4c](https://github.com/Esri/calcite-design-system/commit/aa5ce4cc24b837ff0b9030ba290159a32d66da9b)), closes [#13050](https://github.com/Esri/calcite-design-system/issues/13050)
+- **dialog:** allow resizing when `resizable` and `fullscreenDisabled` ([#13830](https://github.com/Esri/calcite-design-system/issues/13830)) ([46e4087](https://github.com/Esri/calcite-design-system/commit/46e4087c137ee32f244cb7789c4f678d629c38ae)), closes [#10568](https://github.com/Esri/calcite-design-system/issues/10568)
+- **menu-item:** enable support for deprecated icon color variable ([#13626](https://github.com/Esri/calcite-design-system/issues/13626)) ([fc69633](https://github.com/Esri/calcite-design-system/commit/fc696335506d930dc20df864bea860a3fefeb85c)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+
+## [5.0.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.88...@esri/calcite-components@5.0.0-next.89) (2026-02-02)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.0.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.87...@esri/calcite-components@5.0.0-next.88) (2026-01-31)
 
 ### Bug Fixes
