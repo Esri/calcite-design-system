@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
-import { describe, it, expect } from "vitest";
+import { page, userEvent } from "vitest/browser";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import {
   cancelable,
   defaults,
@@ -14,7 +14,9 @@ import {
   delegatesToFloatingUiOwningComponent,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
+import { ActionBar } from "./action-bar";
 
 describe("calcite-action-bar", () => {
   mockConsole();
@@ -204,6 +206,78 @@ describe("calcite-action-bar", () => {
       await userEvent.click(action4);
       expect(action3.active).toBe(true);
       expect(action4.active).toBe(false);
+    });
+  });
+
+  describe("overflowing actions", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("only collapses and expand direct actions and trigger actions for direct action-menus", async () => {
+      const { el } = await mount<ActionBar>(
+        <calcite-action-bar expand-disabled expanded layout="horizontal">
+          <calcite-action-menu>
+            <calcite-action active icon="toggle" text-enabled />
+            <calcite-action icon="toggle" />
+            <calcite-action icon="toggle" />
+            <calcite-dropdown>
+              <calcite-action icon="pushpin" slot="trigger" />
+              <calcite-dropdown-item>1</calcite-dropdown-item>
+              <calcite-dropdown-item>2</calcite-dropdown-item>
+              <calcite-dropdown-item>3</calcite-dropdown-item>
+            </calcite-dropdown>
+          </calcite-action-menu>
+          <calcite-action-group>
+            <calcite-action icon="toggle" />
+            <calcite-action icon="toggle" />
+            <calcite-action icon="toggle" />
+            <calcite-dropdown>
+              <calcite-action icon="pushpin" slot="trigger" />
+              <calcite-dropdown-item>1</calcite-dropdown-item>
+              <calcite-dropdown-item>2</calcite-dropdown-item>
+              <calcite-dropdown-item>3</calcite-dropdown-item>
+            </calcite-dropdown>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action icon="toggle" />
+            <calcite-action icon="toggle" />
+            <calcite-action icon="toggle" />
+            <calcite-dropdown>
+              <calcite-action icon="pushpin" slot="trigger" />
+              <calcite-dropdown-item>1</calcite-dropdown-item>
+              <calcite-dropdown-item>2</calcite-dropdown-item>
+              <calcite-dropdown-item>3</calcite-dropdown-item>
+            </calcite-dropdown>
+          </calcite-action-group>
+        </calcite-action-bar>,
+      );
+      const triggerActions = page.getBySelector("calcite-action[slot='trigger']");
+
+      el.style.width = "100%";
+      vi.advanceTimersByTime(DEBOUNCE.resize);
+
+      await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+      await expect.element(triggerActions.nth(1)).toBeInViewport();
+      await expect.element(triggerActions.nth(2)).toBeInViewport();
+
+      el.style.width = "100px";
+      vi.advanceTimersByTime(DEBOUNCE.resize);
+
+      await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+      await expect.element(triggerActions.nth(1)).toBeInViewport();
+      await expect.element(triggerActions.nth(2)).toBeInViewport();
+
+      el.style.width = "100%";
+      vi.advanceTimersByTime(DEBOUNCE.resize);
+
+      await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+      await expect.element(triggerActions.nth(1)).toBeInViewport();
+      await expect.element(triggerActions.nth(2)).toBeInViewport();
     });
   });
 });
