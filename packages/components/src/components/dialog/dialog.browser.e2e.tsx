@@ -300,7 +300,7 @@ describe("calcite-dialog", () => {
       const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
       const dialog = dialogLocator.element();
 
-      el.setFocus();
+      await el.setFocus();
       await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
       await component.updateComplete;
 
