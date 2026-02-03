@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { literal } from "lit/static-html.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { getElementDir } from "../../utils/dom";
@@ -20,7 +19,7 @@ declare global {
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
- * Passing a 'href' will render an anchor link, instead of a button.
+ * Passing a 'href' will render an anchor link. Otherwise, the anchor will include role="button" and behave like a button.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
  *
@@ -35,11 +34,35 @@ export class Link extends LitElement {
 
   //#region Private Properties
 
-  private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
+  private childRef = createRef<HTMLAnchorElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
+    const { key } = event;
+
+    if (key === "Enter" || key === " ") {
+      event.preventDefault();
+      this.el.click();
+    }
+  };
+
+  private childElClickHandler = (event: MouseEvent): void => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    if (!event.isTrusted) {
+      event.stopPropagation();
+    }
+  };
 
   //#endregion
 
@@ -108,16 +131,8 @@ export class Link extends LitElement {
       return;
     }
 
-    // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
       this.childRef.value.click();
-    }
-  }
-
-  private childElClickHandler(event: MouseEvent): void {
-    if (!event.isTrusted) {
-      // click was invoked internally, we stop it here
-      event.stopPropagation();
     }
   }
 
@@ -128,7 +143,6 @@ export class Link extends LitElement {
   override render(): JsxNode {
     const { download, el } = this;
     const dir = getElementDir(el);
-    const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.calciteLinkIcon]: true, [CSS.iconStart]: true }}
@@ -147,42 +161,30 @@ export class Link extends LitElement {
       />
     );
 
-    const DynamicHtmlTag =
-      childElType === "button"
-        ? (literal`button` as unknown as "button")
-        : (literal`a` as unknown as "a");
-    const isButton = childElType === "button";
+    const actAsButton = !this.href;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "presentation";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <DynamicHtmlTag
+        {/* prettier-ignore */}
+        <a
+          aria-disabled={this.disabled || undefined}
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
           /*
-                      When the 'download' property of type 'boolean | string' is set to true, the value is "".
-                      This works around that issue for now.
-                      */
-          download={
-            childElType === "a"
-              ? download === true || download === ""
-                ? ""
-                : download || null
-              : null
-          }
-          href={childElType === "a" && this.href}
-          rel={childElType === "a" && this.rel}
-          tabIndex={-1}
-          target={childElType === "a" && this.target}
-        >
-          {/* prettier-ignore */}
-          <span
-            onClick={this.childElClickHandler}
-            ref={this.childRef as unknown}
-            role={isButton ? "button" : "link"}
-            tabIndex={0}
-          >{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</span>
-        </DynamicHtmlTag>
+            When the 'download' property of type 'boolean | string' is set to true, the value is "".
+            This works around that issue for now.
+          */
+          download={download === true || download === "" ? "" : download || null}
+          href={this.href}
+          onClick={this.childElClickHandler}
+          onKeyDown={actAsButton ? this.keyDownHandler : undefined}
+          ref={this.childRef}
+          rel={this.rel}
+          role={actAsButton ? "button" : null}
+          tabIndex={actAsButton ? 0 : undefined}
+          target={this.href ? this.target : undefined}
+        >{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</a>
       </this.interactiveContainer>
     );
   }

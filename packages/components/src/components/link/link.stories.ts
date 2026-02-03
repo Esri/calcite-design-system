@@ -41,7 +41,15 @@ export default {
 export const simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
-    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.text}</calcite-link>
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.text}</calcite-link>
+    around the link
+  </div>
+`;
+
+export const asButton = (): string => html`
+  <div style="font-size: 16px; font-weight: 400;">
+    Some wrapping text
+    <calcite-link>link text here</calcite-link>
     around the link
   </div>
 `;
@@ -49,7 +57,7 @@ export const simple = (args: LinkStoryArgs): string => html`
 export const iconStart = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link icon-start="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-start="${iconNames[0]}">link text here</calcite-link>
     around the link
   </div>
 `;
@@ -57,7 +65,7 @@ export const iconStart = (): string => html`
 export const iconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link icon-end="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-end="${iconNames[0]}">link text here</calcite-link>
     around the link
   </div>
 `;
@@ -65,7 +73,7 @@ export const iconEnd = (): string => html`
 export const iconStartAndIconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}">link text here</calcite-link>
     around the link
   </div>
 `;
@@ -73,7 +81,7 @@ export const iconStartAndIconEnd = (): string => html`
 export const multiLine = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; max-width: 400px;">
     Some wrapping text
-    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.longText}</calcite-link>
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.longText}</calcite-link>
     around the link
   </div>
 `;
@@ -87,24 +95,6 @@ export const multiLineWithIcons = (args: LinkStoryArgs): string => html`
       href="${args.href}"
       ${boolean("disabled", args.disabled)}
     >
-      ${args.longText}</calcite-link
-    >
-    around the link
-  </div>
-`;
-
-export const multiLineNoHref = (args: LinkStoryArgs): string => html`
-  <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; max-width: 400px;">
-    Some wrapping text
-    <calcite-link ${boolean("disabled", args.disabled)}> ${args.longText}</calcite-link>
-    around the link
-  </div>
-`;
-
-export const multiLineNoHrefWithIcons = (args: LinkStoryArgs): string => html`
-  <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; max-width: 400px;">
-    Some wrapping text
-    <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}" ${boolean("disabled", args.disabled)}>
       ${args.longText}</calcite-link
     >
     around the link

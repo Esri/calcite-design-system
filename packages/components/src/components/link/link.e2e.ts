@@ -45,69 +45,49 @@ describe("calcite-link", () => {
     expect(elementAsLink).not.toHaveAttribute("download");
   });
 
-  it("renders as a button with default props", async () => {
+  it('renders as role="button" with default props', async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
 
     const element = await page.find("calcite-link");
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
+    expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("role", "button");
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
 
-  it("should update childElType when href changes", async () => {
-    const page = await newE2EPage({ html: `<calcite-link>Continue</calcite-link>` });
+  it('should update to include role="button" when href removed', async () => {
+    const page = await newE2EPage({ html: `<calcite-link href="https://google.com">Continue</calcite-link>` });
     const link = await page.find("calcite-link");
     let elementAsLink: E2EElement;
-    let elementAsButton: E2EElement;
 
-    elementAsButton = await page.find("calcite-link >>> button");
     elementAsLink = await page.find("calcite-link >>> a");
-    expect(elementAsButton).not.toBeNull();
-    expect(elementAsLink).toBeNull();
+    expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).not.toHaveAttribute("role");
 
-    link.setProperty("href", "/");
+    link.setProperty("href", "");
     await page.waitForChanges();
 
-    elementAsButton = await page.find("calcite-link >>> button");
     elementAsLink = await page.find("calcite-link >>> a");
-    expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("role", "button");
   });
 
   it("renders as a link with default props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
     const element = await page.find("calcite-link");
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsButton).toBeNull();
-    expect(iconStart).toBeNull();
-    expect(iconEnd).toBeNull();
-  });
-
-  it("renders as a button with requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-link>Continue</calcite-link>`);
-    const elementAsButton = await page.find("calcite-link >>> button");
-    const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
-    const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
-
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -115,13 +95,11 @@ describe("calcite-link", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsButton).toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -129,17 +107,15 @@ describe("calcite-link", () => {
   it("passes attributes to rendered child link", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="google.com">Continue</calcite-link>`,
+      `<calcite-link rel="noopener noreferrer" target="_blank" class="my-custom-class" href="https://google.com">Continue</calcite-link>`,
     );
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
 
     expect(elementAsLink).not.toBeNull();
-    expect(elementAsButton).toBeNull();
     expect(elementAsLink).not.toHaveClass("my-custom-class");
-    expect(elementAsLink).toEqualAttribute("href", "google.com");
+    expect(elementAsLink).toEqualAttribute("href", "https://google.com");
     expect(elementAsLink).toEqualAttribute("rel", "noopener noreferrer");
     expect(elementAsLink).toEqualAttribute("target", "_blank");
     expect(iconStart).toBeNull();
@@ -149,12 +125,12 @@ describe("calcite-link", () => {
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
+
+    expect(elementAsLink).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("role", "button");
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
   });
@@ -162,26 +138,24 @@ describe("calcite-link", () => {
   it("renders with an icon-end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
+
+    expect(elementAsLink).not.toBeNull();
     expect(iconStart).toBeNull();
     expect(iconEnd).not.toBeNull();
   });
 
-  it("renders with an icon-start and icon-end", async () => {
+  it('renders with an icon-start and icon-end and role="button"', async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-link icon-start='plus' icon-end='plus'>Continue</calcite-link>`);
-    const elementAsButton = await page.find("calcite-link >>> button");
     const elementAsLink = await page.find("calcite-link >>> a");
     const iconStart = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconStart}`);
     const iconEnd = await page.find(`calcite-link >>> .${CSS.calciteLinkIcon}.${CSS.iconEnd}`);
-    expect(elementAsLink).toBeNull();
-    expect(elementAsButton).not.toBeNull();
+    expect(elementAsLink).not.toBeNull();
     expect(iconStart).not.toBeNull();
+    expect(elementAsLink).toEqualAttribute("role", "button");
     expect(iconEnd).not.toBeNull();
   });
 
@@ -252,7 +226,7 @@ describe("calcite-link", () => {
     describe("default", () => {
       themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
         "--calcite-link-text-color": {
-          shadowSelector: "span",
+          shadowSelector: "a",
           targetProp: "color",
         },
       });

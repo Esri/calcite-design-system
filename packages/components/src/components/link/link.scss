@@ -12,29 +12,14 @@
   display: inline;
 }
 
-:host button {
-  @apply rounded-none
-    border-none p-0;
-  background: transparent;
-  text-align: start;
-}
-
-:host a {
-  @apply no-underline;
-}
-
-:host button,
 :host a {
   @apply font-inherit
-    cursor-pointer;
-  display: contents;
-  line-height: inherit;
+    no-underline 
+    cursor-pointer
+    focus-base;
   font-size: inherit;
   -webkit-appearance: none;
-}
 
-:host span {
-  @apply focus-base;
   color: var(--calcite-link-text-color, var(--calcite-color-text-link));
   line-height: inherit;
   white-space: initial;
@@ -47,14 +32,6 @@
   background-size:
     0% 1px,
     100% 1px;
-
-  &.calcite--rtl {
-    span {
-      background-position:
-        100% 100%,
-        100% 100%;
-    }
-  }
 
   &:hover,
   &:focus {
@@ -71,10 +48,8 @@
     background-size:
       100% 2px,
       100% 2px;
-  }
 
-  .calcite--rtl & {
-    span {
+    &.calcite--rtl {
       background-position:
         100% 100%,
         100% 100%;
@@ -96,7 +71,6 @@ calcite-icon {
   margin-block-start: -0.25em;
 }
 
-// icon positioning and styles
 :host .calcite-link--icon.icon-start {
   margin-inline-end: theme("margin.2");
 }
