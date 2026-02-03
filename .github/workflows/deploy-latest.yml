@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ${{ vars.RELEASE_BRANCH }}
+      - 2026.R1
 permissions:
   contents: write
   pull-requests: write
