@@ -102,6 +102,8 @@ export class InputTimePicker
 
   private interactiveContainer = useInteractive(this);
 
+  private timePickerRef = createRef<TimePicker>();
+
   //#endregion
 
   //#region Public Properties
@@ -502,6 +504,8 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
+    } else {
+      this.timePickerRef.value.manager?.component.requestUpdate();
     }
   }
 
@@ -701,6 +705,7 @@ export class InputTimePicker
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.timePickerRef}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
