@@ -33,7 +33,7 @@
     "util:update-stylelint-custom-sass-functions": "node support/updateStylelintCustomSassFunctions.mts",
     "util:remove-prerelease-changelog-entries": "node support/removePrereleaseChangelogEntries.mts",
     "util:sync-linked-package-versions": "node support/syncLinkedPackageVersions.mts",
-    "util:update-3rd-party-licenses": "turbo run util:update-3rd-party-licenses --log-order=stream"
+    "util:update-3rd-party-notices": "turbo run util:update-3rd-party-notices --log-order=stream"
   },
   "devDependencies": {
     "@arcgis/eslint-config": ">=5.0.0-next.144 <6.0.0",

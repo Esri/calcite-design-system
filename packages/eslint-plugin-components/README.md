@@ -75,6 +75,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

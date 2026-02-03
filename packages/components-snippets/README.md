@@ -30,6 +30,6 @@ For additional information, contact: Environmental Systems Research Institute, I
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
