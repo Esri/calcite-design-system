@@ -30,14 +30,14 @@
   background-position-y: min(1.5em, 100%);
   background-repeat: no-repeat, no-repeat;
   background-size:
-    0% 1px,
-    100% 1px;
+    0% var(--calcite-size-px),
+    100% var(--calcite-size-px);
 
   &:hover,
   &:focus {
     background-size:
-      100% 1px,
-      100% 1px;
+      100% var(--calcite-size-px),
+      100% var(--calcite-size-px);
   }
 
   &:focus {
@@ -46,8 +46,8 @@
 
   &:active {
     background-size:
-      100% 2px,
-      100% 2px;
+      100% var(--calcite-size-px),
+      100% calc(--calcite-size-px * 2);
 
     &.calcite--rtl {
       background-position:
