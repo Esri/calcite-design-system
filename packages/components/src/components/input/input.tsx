@@ -65,7 +65,7 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a `calcite-button` next to the component.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Input
@@ -161,15 +161,14 @@ export class Input
   //#region Public Properties
 
   /**
-   * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
-   * This property only has an effect when `type` is "file".
+   * When `type` is `"file"`, specifies a comma separated list of unique file type specifiers for limiting accepted file types.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() accept: string;
 
-  /** Specifies the text alignment of the component's value. */
+  /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
@@ -180,11 +179,11 @@ export class Input
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
+  /** When `true` and the component has a `value`, a clear button is displayed. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -210,10 +209,10 @@ export class Input
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /** When `true`, displays a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible label for the component. */
@@ -242,7 +241,7 @@ export class Input
 
   /**
    * When the component resides in a form,
-   * specifies the maximum length of text for the component's value.
+   * specifies the maximum length of text for the component's `value`.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
@@ -261,15 +260,14 @@ export class Input
 
   /**
    * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
+   * specifies the minimum length of text for the component's `value`.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength: number;
 
   /**
-   * When `true`, the component can accept more than one value.
-   * This property only has an effect when `type` is "email" or "file".
+   * When `true` and `type` is `"email"` or `"file"`, the component can accept more than one value.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
@@ -285,7 +283,7 @@ export class Input
    */
   @property({ reflect: true }) name: string;
 
-  /** Specifies the placement of the buttons for `type="number"`. */
+  /** When `type="number"`, specifies the placement of the buttons. */
   @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -301,17 +299,17 @@ export class Input
   @property() pattern: string;
 
   /**
-   * Specifies placeholder text for the component.
+   * Specifies the component's placeholder text.
    *
    * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
-  /** Adds text to the start of the component. */
+  /** Specifies text to display at the start of the component. */
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -319,14 +317,14 @@ export class Input
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -336,7 +334,7 @@ export class Input
    */
   @property({ reflect: true }) step: number | "any";
 
-  /** Adds text to the end of the component. */
+  /** Specifies text to display at the end of the component. */
   @property() suffixText: string;
 
   /**

@@ -319,13 +319,13 @@ export class Combobox
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
-  /** When `true`, the value-clearing will be disabled. */
+  /** When `true`, disables value-clearing. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Text for the component's filter input field. */
+  /** The component's filter input field text. */
   @property({ reflect: true })
   get filterText(): string {
     return this._filterText;
@@ -342,7 +342,7 @@ export class Combobox
   @property() filterProps: string[];
 
   /**
-   * Specifies the component's filtered items.
+   * The component's filtered items.
    *
    * @readonly
    */
@@ -391,16 +391,16 @@ export class Combobox
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placeholder text for the input. */
+  /** Specifies the input's placeholder text. */
   @property() placeholder: string;
 
-  /** Specifies the placeholder icon for the input. */
+  /** Specifies the input's placeholder icon. */
   @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  /** Specifies the component's position relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
@@ -415,11 +415,11 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, displays a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
-   * Specifies the component's selected items.
+   * The component's selected items.
    *
    * @readonly
    */
@@ -461,7 +461,7 @@ export class Combobox
     SelectionMode
   > = "multiple";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -519,7 +519,7 @@ export class Combobox
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed Reposition the component after a delay
    * @returns Promise
@@ -936,7 +936,7 @@ export class Combobox
           item.toggleSelection();
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
           event.preventDefault();
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
@@ -957,7 +957,7 @@ export class Combobox
         }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
         } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
           this.removeLastChip();
@@ -1412,8 +1412,11 @@ export class Combobox
     }
   }
 
-  private removeActiveChip(): void {
-    this.toggleSelection(this.selectedItems[this.activeChipIndex], false);
+  private removeActiveChip(chip: Chip["el"]): void {
+    const activeItem = this.selectedItems[this.activeChipIndex];
+    if (activeItem && `${IDS.chip(activeItem.guid)}` === chip.id) {
+      this.toggleSelection(activeItem, false);
+    }
     this.setFocus();
   }
 

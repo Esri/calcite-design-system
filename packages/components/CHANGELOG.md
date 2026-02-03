@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.90](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.89...@esri/calcite-components@5.0.0-next.90) (2026-02-03)
+
+### Bug Fixes
+
+- **accordion-item:** enable support for deprecated icon color variable ([#13523](https://github.com/Esri/calcite-design-system/issues/13523)) ([2df8e24](https://github.com/Esri/calcite-design-system/commit/2df8e244af7c3597d5c3b42225e28d4d61aac015)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+- **action-pad:** avoid collapsing unrelated actions ([#13828](https://github.com/Esri/calcite-design-system/issues/13828)) ([68d234e](https://github.com/Esri/calcite-design-system/commit/68d234ebe41d67f342ce68ea1746fd8a4b076e46)), closes [#12098](https://github.com/Esri/calcite-design-system/issues/12098)
+- **combobox:** avoid removing unrelated chips while deleting a chip via keyboard interaction ([#13688](https://github.com/Esri/calcite-design-system/issues/13688)) ([aa5ce4c](https://github.com/Esri/calcite-design-system/commit/aa5ce4cc24b837ff0b9030ba290159a32d66da9b)), closes [#13050](https://github.com/Esri/calcite-design-system/issues/13050)
+- **dialog:** allow resizing when `resizable` and `fullscreenDisabled` ([#13830](https://github.com/Esri/calcite-design-system/issues/13830)) ([46e4087](https://github.com/Esri/calcite-design-system/commit/46e4087c137ee32f244cb7789c4f678d629c38ae)), closes [#10568](https://github.com/Esri/calcite-design-system/issues/10568)
+- **menu-item:** enable support for deprecated icon color variable ([#13626](https://github.com/Esri/calcite-design-system/issues/13626)) ([fc69633](https://github.com/Esri/calcite-design-system/commit/fc696335506d930dc20df864bea860a3fefeb85c)), closes [#13056](https://github.com/Esri/calcite-design-system/issues/13056)
+
+## [5.0.0-next.89](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.88...@esri/calcite-components@5.0.0-next.89) (2026-02-02)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.0-next.88](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.87...@esri/calcite-components@5.0.0-next.88) (2026-01-31)
+
+### Bug Fixes
+
+- **input-time-picker:** ensure popup fields match input fields ([#13802](https://github.com/Esri/calcite-design-system/issues/13802)) ([7b97908](https://github.com/Esri/calcite-design-system/commit/7b979087d092d3a41ad1391866bb31446aa87e80)), closes [#13328](https://github.com/Esri/calcite-design-system/issues/13328)
+
+## [5.0.0-next.87](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.86...@esri/calcite-components@5.0.0-next.87) (2026-01-30)
+
+### Features
+
+- **sheet, dialog:** add size override capability ([#13502](https://github.com/Esri/calcite-design-system/issues/13502)) ([da3914b](https://github.com/Esri/calcite-design-system/commit/da3914bb4d6fb09669aa34c4c65ef1617065e478)), closes [#10568](https://github.com/Esri/calcite-design-system/issues/10568)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** remove topLayerDisabled property ([#13809](https://github.com/Esri/calcite-design-system/issues/13809)) ([e80fdc0](https://github.com/Esri/calcite-design-system/commit/e80fdc08a0ee2bd931de30460796271498aba6f6)), closes [#13698](https://github.com/Esri/calcite-design-system/issues/13698)
+
+## [5.0.0-next.86](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.85...@esri/calcite-components@5.0.0-next.86) (2026-01-29)
+
+### Bug Fixes
+
+- **slider:** ensure value is updated correctly on calciteSliderInput event ([#13700](https://github.com/Esri/calcite-design-system/issues/13700)) ([0b826b4](https://github.com/Esri/calcite-design-system/commit/0b826b40cc901ca5da769f995a8a40044908ec8e)), closes [#13603](https://github.com/Esri/calcite-design-system/issues/13603)
+
+### Performance Improvements
+
+- **combobox:** drop redundant repositioning after each render ([#13756](https://github.com/Esri/calcite-design-system/issues/13756)) ([abe8702](https://github.com/Esri/calcite-design-system/commit/abe8702f238e17190af603c40610c382cdc9f440)), closes [#13667](https://github.com/Esri/calcite-design-system/issues/13667)
+
 ## [5.0.0-next.85](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.84...@esri/calcite-components@5.0.0-next.85) (2026-01-28)
 
 ### Bug Fixes
@@ -44,7 +84,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **dialog:** Add fullScreenDisabled prop to prevent full screen layout ([#13753](https://github.com/Esri/calcite-design-system/issues/13753)) ([20c3031](https://github.com/Esri/calcite-design-system/commit/20c30310f6519999a05fccda421afa76ba9e7b78)), closes [#6191](https://github.com/Esri/calcite-design-system/issues/6191)
+- **dialog:** Add fullscreenDisabled prop to prevent full screen layout ([#13753](https://github.com/Esri/calcite-design-system/issues/13753)) ([20c3031](https://github.com/Esri/calcite-design-system/commit/20c30310f6519999a05fccda421afa76ba9e7b78)), closes [#6191](https://github.com/Esri/calcite-design-system/issues/6191)
 
 ### Bug Fixes
 

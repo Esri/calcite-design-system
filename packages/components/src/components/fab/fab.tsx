@@ -33,10 +33,10 @@ export class Fab extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the component's appearance style. */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -44,10 +44,10 @@ export class Fab extends LitElement {
    */
   @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to border and background. */
+  /** Specifies the component's kind, which determines border and background styling. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 

@@ -1,4 +1,5 @@
 import { IconName } from "../icon/interfaces";
+import { ActionGroup } from "./action-group";
 
 export const SLOTS = {
   menuActions: "menu-actions",
@@ -12,3 +13,7 @@ export const ICONS: Record<string, IconName> = {
 export const CSS = {
   container: "container",
 };
+
+export function isActionGroup(el: Element | null): el is ActionGroup["el"] {
+  return el?.tagName === "CALCITE-ACTION-GROUP";
+}

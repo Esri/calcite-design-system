@@ -47,7 +47,7 @@ export class ComboboxItemGroup extends LitElement {
   @property() label: string;
 
   /**
-   * Specifies the position of the group in the combobox menu.
+   * Specifies the group's position in the `calcite-combobox` menu.
    *
    * @internal
    */
