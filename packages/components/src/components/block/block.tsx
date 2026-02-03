@@ -35,8 +35,8 @@ declare global {
 /**
  * @slot - A slot for adding custom content.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot content-end - A slot for adding non-actionable elements after the component's heading text.
- * @slot content-start - A slot for adding non-actionable elements before the component's heading text.
+ * @slot content-end - A slot for adding non-actionable elements after the component's header text.
+ * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 export class Block extends LitElement {
