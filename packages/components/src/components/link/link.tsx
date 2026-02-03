@@ -19,7 +19,7 @@ declare global {
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
- * Passing a 'href' will render an anchor link. Otherwise, the anchor will include role="button" and behave like a button.
+ * Passing a 'href' allows the component to behave like a link
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
  *
