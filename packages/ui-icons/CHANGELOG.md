@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.3.0...@esri/calcite-ui-icons@4.4.0) (2026-02-03)
+
+
+### Features
+
+* Add 12.1 studio design icons ([#13709](https://github.com/Esri/calcite-design-system/issues/13709)) ([2f6b116](https://github.com/Esri/calcite-design-system/commit/2f6b116e3f739b46e2101f64ae5587f054518681))
+* Add contingent values retire ([#13403](https://github.com/Esri/calcite-design-system/issues/13403)) ([7e9a9d2](https://github.com/Esri/calcite-design-system/commit/7e9a9d2af2c2bf1b72dd75c4a2450f0e9ada3e39))
+* Add file-esl ([#13457](https://github.com/Esri/calcite-design-system/issues/13457)) ([1527a05](https://github.com/Esri/calcite-design-system/commit/1527a05e1f8adfef344f0e65a07c8a819b921bcb))
+* Add oriented imagery and group template feature icons ([#13821](https://github.com/Esri/calcite-design-system/issues/13821)) ([0478cac](https://github.com/Esri/calcite-design-system/commit/0478cacee7e7d114464e630c538114c9d904bb1b))
+* Add table download and table upload ([#13658](https://github.com/Esri/calcite-design-system/issues/13658)) ([4e7f388](https://github.com/Esri/calcite-design-system/commit/4e7f38832bede0633b2a0439bd2b3947d0081de8))
+* Add update-table ([#13293](https://github.com/Esri/calcite-design-system/issues/13293)) ([fd56824](https://github.com/Esri/calcite-design-system/commit/fd56824a37bccca1dfe2496ff43a9ecd4384e7a9))
+* Add values and sort view icons ([#13290](https://github.com/Esri/calcite-design-system/issues/13290)) ([b42f5ba](https://github.com/Esri/calcite-design-system/commit/b42f5baba9486e6b63638b724b7cba1a85343f7e))
+* Add variable generic ([#13666](https://github.com/Esri/calcite-design-system/issues/13666)) ([6c7c956](https://github.com/Esri/calcite-design-system/commit/6c7c9564c56d0191dd066d401b7e56066ad9ab36))
+* **semantic-tokens:** Update tokens named using xxxl to 3xl (and similar) ([#13392](https://github.com/Esri/calcite-design-system/issues/13392)) ([d08aedc](https://github.com/Esri/calcite-design-system/commit/d08aedcbc7254c07c2e2e0a4a80060ed62473c87))
+
 ## [4.4.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.21...@esri/calcite-ui-icons@4.4.0-next.22) (2026-02-02)
 
 ### Features
