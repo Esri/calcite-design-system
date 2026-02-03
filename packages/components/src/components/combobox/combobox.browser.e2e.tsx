@@ -743,4 +743,104 @@ describe("calcite-combobox", () => {
         ));
     });
   });
+
+  describe("keyboard interactions", async () => {
+    it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values placeholder="Select a field">
+          <calcite-combobox-item
+            heading="Natural Resources"
+            id="one"
+            selected
+            value="Natural Resources"
+          />
+          <calcite-combobox-item heading="Agriculture" id="two" selected value="agriculture" />
+          <calcite-combobox-item heading="Forestry" id="three" value="forestry" />
+          <calcite-combobox-item heading="Transportation" id="four" value="transportation" />
+        </calcite-combobox>,
+      );
+      const selectedItem1 = page.getBySelector("#one");
+
+      await el.setFocus();
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.selectedItems).toHaveLength(1);
+      expect(el.selectedItems[0]).toBe(selectedItem1.element());
+    });
+
+    it("should delete the focused chip on Enter key in multi-selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values placeholder="Select a field">
+          <calcite-combobox-item
+            heading="Natural Resources"
+            id="one"
+            selected
+            value="Natural Resources"
+          />
+          <calcite-combobox-item heading="Agriculture" id="two" selected value="agriculture" />
+          <calcite-combobox-item heading="Forestry" id="three" value="forestry" />
+          <calcite-combobox-item heading="Transportation" id="four" value="transportation" />
+        </calcite-combobox>,
+      );
+      const selectedItem2 = page.getBySelector("#two");
+
+      await el.setFocus();
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.selectedItems).toHaveLength(1);
+      expect(el.selectedItems[0]).toBe(selectedItem2.element());
+    });
+
+    it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values placeholder="Select a field">
+          <calcite-combobox-item
+            heading="Natural Resources"
+            id="one"
+            selected
+            value="Natural Resources"
+          />
+          <calcite-combobox-item heading="Agriculture" id="two" selected value="agriculture" />
+          <calcite-combobox-item heading="Forestry" id="three" value="forestry" />
+          <calcite-combobox-item heading="Transportation" id="four" value="transportation" />
+        </calcite-combobox>,
+      );
+      const selectedItem1 = page.getBySelector("#one");
+
+      await el.setFocus();
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.selectedItems).toHaveLength(1);
+      expect(el.selectedItems[0]).toBe(selectedItem1.element());
+    });
+
+    it("should delete the focused chip on Delete key in multi-selection mode", async () => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox allow-custom-values placeholder="Select a field">
+          <calcite-combobox-item
+            heading="Natural Resources"
+            id="one"
+            selected
+            value="Natural Resources"
+          />
+          <calcite-combobox-item heading="Agriculture" id="two" selected value="agriculture" />
+          <calcite-combobox-item heading="Forestry" id="three" value="forestry" />
+          <calcite-combobox-item heading="Transportation" id="four" value="transportation" />
+        </calcite-combobox>,
+      );
+      const selectedItem2 = page.getBySelector("#two");
+
+      await el.setFocus();
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{ArrowLeft}");
+      await userEvent.keyboard("{Delete}");
+
+      expect(el.selectedItems).toHaveLength(1);
+      expect(el.selectedItems[0]).toBe(selectedItem2.element());
+    });
+  });
 });

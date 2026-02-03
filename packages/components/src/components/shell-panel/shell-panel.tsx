@@ -146,10 +146,12 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Public Methods
+
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * @param size - An object specifying the new inline and/or block size values.
+   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {

@@ -116,14 +116,20 @@
     border-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
   }
   .icon {
-    --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
+    --calcite-internal-menu-item-icon-color: var(
+      --calcite-icon-color,
+      var(--calcite-ui-icon-color, var(--calcite-color-brand))
+    );
   }
 }
 
 .icon {
   color: var(
     --calcite-menu-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3)))
+    var(
+      --calcite-icon-color,
+      var(--calcite-internal-menu-item-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-3)))
+    )
   );
 }
 
@@ -150,6 +156,7 @@
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
   @apply ms-2;
 }
