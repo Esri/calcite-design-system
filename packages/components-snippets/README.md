@@ -18,7 +18,7 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
 
 ## License
 
-COPYRIGHT © Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
