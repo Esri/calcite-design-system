@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '26.R*'
+      - "releases/**"
 permissions:
   contents: write
   pull-requests: write
