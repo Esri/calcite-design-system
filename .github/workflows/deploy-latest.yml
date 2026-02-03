@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ${{ vars.RELEASE_BRANCH }}
+      - "releases/**"
 permissions:
   contents: write
   pull-requests: write
@@ -18,7 +18,7 @@ jobs:
         id: release
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
-          target-branch: ${{ vars.RELEASE_BRANCH }}
+          target-branch: ${{ github.ref_name }}
       - name: Checkout Repository
         if: steps.release.outputs.releases_created == 'true'
         uses: actions/checkout@v6
