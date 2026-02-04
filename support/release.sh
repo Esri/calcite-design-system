@@ -66,7 +66,7 @@ version() {
 
 publish() {
     # only add the dist-tag flag if the second argument was provided
-    lerna publish from-package --yes ${dist_tag:+--dist-tag $dist_tag}
+    lerna publish from-package --yes ${dist_tag:+--dist-tag $dist_tag} --loglevel silly
 }
 
 main() {
