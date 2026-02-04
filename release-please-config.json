@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "tag-separator": "@",
-  "last-release-sha": "e98cb96296377b93efbcb2078fe7ba4764d5e4f2",
   "group-pull-request-title-pattern": "chore: release main",
   "draft-pull-request": true,
   "include-v-in-tag": false,
