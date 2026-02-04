@@ -2,17 +2,17 @@ import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { globby } from "globby";
 
 (async function(): Promise<void> {
   try {
     const execAsync = promisify(exec);
     const prereleaseChangelogSectionPattern = /##\s\[?\d+\.\d+\.\d+-(next|hotfix|rc)\.\d+(.*?)\n(?=##\s)/gs;
 
-    const changedFiles = (await execAsync("git diff --name-only origin/main")).stdout.trim();
-    const changelogs = changedFiles
-      .split("\n")
-      .filter((file: string) => file.match("CHANGELOG.md"))
-      .map((path) => path.replace("/calcite-", "/"));
+    const changelogs = await globby(["**/CHANGELOG.md"], {
+      gitignore: true,
+      absolute: true,
+    });
 
     for (const changelog of changelogs) {
       const changelogPath = resolve(changelog);

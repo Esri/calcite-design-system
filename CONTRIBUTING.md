@@ -318,7 +318,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
+For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/dev).
 
 ## Breaking changes
 
@@ -332,7 +332,7 @@ The PR's details should be comprehensive, and when possible, include the followi
 - Why the breaking change is proposed
 - An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
 
-For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/dev/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
 <type>(<scope>)!: <descriptive summary>
