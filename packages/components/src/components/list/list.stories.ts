@@ -10,8 +10,7 @@ import { List } from "./list";
 const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
-  extends
-    Pick<
+  extends Pick<
       List,
       | "disabled"
       | "displayMode"
@@ -6530,3 +6529,24 @@ export const filterGroups = (): string =>
 
 export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
+
+export const emptyStateDropTarget = (): string =>
+  html`<h1>Empty List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <div slot="drag-empty">
+        <h2>Start configuring a form for the layer</h2>
+        <p>Drag items here to add them to the form.</p>
+      </div>
+    </calcite-list>
+    <h1>Populated List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
+        <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+        <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+        <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+      </calcite-list-item>
+    </calcite-list>`;
