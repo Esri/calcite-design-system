@@ -9,7 +9,7 @@ import { globby } from "globby";
     const execAsync = promisify(exec);
     const prereleaseChangelogSectionPattern = /##\s\[?\d+\.\d+\.\d+-(next|hotfix|rc)\.\d+(.*?)\n(?=##\s)/gs;
 
-    const changelogs = await globby(["**/CHANGELOG.md"], {
+    const changelogs = await globby(["packages/**/CHANGELOG.md"], {
       gitignore: true,
       absolute: true,
     });
