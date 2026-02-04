@@ -9,7 +9,6 @@ permissions:
   pull-requests: write
 jobs:
   release-please:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
