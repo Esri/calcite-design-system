@@ -52,6 +52,15 @@
   }
 }
 
+.table-container--drop-zone {
+  @apply box-border
+      border
+      border-dashed
+      border-color-1
+      bg-foreground-2;
+  padding: var(--calcite-spacing-sm);
+}
+
 .table {
   @apply w-full;
 }

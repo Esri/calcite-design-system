@@ -121,6 +121,10 @@ export class List extends LitElement implements SortableComponent {
     );
   }
 
+  get showEmptyDragContainer(): boolean {
+    return this.dragEnabled && !this.visibleItems.length;
+  }
+
   get showNoResultsContainer(): boolean {
     return (
       this.filterEnabled &&
@@ -1250,7 +1254,14 @@ export class List extends LitElement implements SortableComponent {
                 </div>
               </div>
             ) : null}
-            <div class={CSS.tableContainer} role="rowgroup">
+            <div
+              class={{
+                [CSS.tableContainer]: true,
+                [CSS.tableContainerDropZone]: this.showEmptyDragContainer,
+              }}
+              role="rowgroup"
+            >
+              <slot hidden={!this.showEmptyDragContainer} name={SLOTS.dragEmpty} />
               <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>

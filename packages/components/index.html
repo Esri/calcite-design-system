@@ -5,16 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+    <style>
+      calcite-list {
+        margin: 50px;
+        padding: 50px;
+      }
+    </style>
   </head>
 
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
+      <calcite-list group="mine" drag-enabled label="Park features">
+        <div slot="drag-empty">
+          <h2>Start configuring a form for the layer</h2>
+          <p>Drag items here to add them to the form.</p>
+        </div>
+      </calcite-list>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
+      <calcite-list group="mine" drag-enabled label="Park features 2">
+        <calcite-list-item
+          label="Hiking trails"
+          description="Designated routes for hikers to use."
+          value="hiking-trails"
+        >
+          <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+          <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+          <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+        </calcite-list-item>
+      </calcite-list>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
