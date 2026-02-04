@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@3.2.1...@esri/calcite-design-tokens@4.0.0) (2026-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* restore `--calcite-color-focus` in index.(s)css ([#13398](https://github.com/Esri/calcite-design-system/issues/13398))
+
+### Features
+
+* **semantic-tokens:** Add surface colors ([#13496](https://github.com/Esri/calcite-design-system/issues/13496)) ([b2e5420](https://github.com/Esri/calcite-design-system/commit/b2e5420991e2ba1dce5cbb8674d5b8302cbf8fe3))
+* **semantic-tokens:** Update tokens named using xxxl to 3xl (and similar) ([#13392](https://github.com/Esri/calcite-design-system/issues/13392)) ([d08aedc](https://github.com/Esri/calcite-design-system/commit/d08aedcbc7254c07c2e2e0a4a80060ed62473c87))
+* **tokens:** Add missing rem-based space and size tokens ([#13769](https://github.com/Esri/calcite-design-system/issues/13769)) ([568e636](https://github.com/Esri/calcite-design-system/commit/568e6366ea35d5fca8c61c857c2f95b92089668a))
+* **tokens:** Add semantic rem-based font-size tokens ([#13042](https://github.com/Esri/calcite-design-system/issues/13042)) ([5c35af4](https://github.com/Esri/calcite-design-system/commit/5c35af4bc75688248c5bc58da87ad2088e7916fc))
+* **tokens:** Update semantic success and warning colors for improved a11y ([#13408](https://github.com/Esri/calcite-design-system/issues/13408)) ([1558e4b](https://github.com/Esri/calcite-design-system/commit/1558e4b6acc77ceab6c004ab9202795b817b2f89))
+
+
+### Bug Fixes
+
+* Restore `--calcite-color-focus` in index.(s)css ([#13398](https://github.com/Esri/calcite-design-system/issues/13398)) ([cb63f5f](https://github.com/Esri/calcite-design-system/commit/cb63f5ff5c8754c8eeae6218390636fafb30adb6))
+* **tokens:** Update `--calcite-corner-radius-pill` to display pill shape correctly ([#13762](https://github.com/Esri/calcite-design-system/issues/13762)) ([fae5b49](https://github.com/Esri/calcite-design-system/commit/fae5b498d046a93307bfc0a8a820446c775f84bb))
+
+
+### Deprecations
+
+* **tokens:** Deprecate unused semantic tokens and add target removal versions for all tokens ([#13812](https://github.com/Esri/calcite-design-system/issues/13812)) ([96f9d0e](https://github.com/Esri/calcite-design-system/commit/96f9d0e320850c88b9b90df77c16bdda82b256dd))
+
 ## [4.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.22...@esri/calcite-design-tokens@4.0.0-next.23) (2026-02-02)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
