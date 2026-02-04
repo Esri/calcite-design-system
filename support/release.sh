@@ -14,7 +14,12 @@ help() {
 }
 
 valid_release_branch_pattern() {
-    [[ $branch =~ ^releases/[0-9]+\.R[0-9]+$ ]]
+    # Only enforce the pattern for "latest" releases
+    if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
+        [[ $branch =~ ^releases/[0-9]+\.R[0-9]+$ ]]
+    else
+        return 0
+    fi
 }
 
 correct_branch_checked_out() {
@@ -30,7 +35,7 @@ working_tree_clean() {
 }
 
 sanity_checks() {
-    if ([ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]) && ! valid_release_branch_pattern; then
+    if ! valid_release_branch_pattern; then
         help "Current branch '$branch' does not match the expected release branch pattern (releases/YY.R#, e.g., releases/26.R1)"
     elif ! correct_branch_checked_out; then
         help "The '$branch' branch must be checked out before deploying $dist_tag"
