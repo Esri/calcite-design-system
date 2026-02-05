@@ -574,6 +574,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="end"][slot="panel-start"]) {
+  ::slotted(calcite-panel) {
+    border-inline-end: var(--calcite-internal-shell-panel-border);
+  }
 }
 
 :host([action-bar-position="end"][slot="panel-start"][resizable]) {
@@ -583,7 +586,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .content {
     padding-inline-end: 0;
-    border-inline-end: var(--calcite-internal-shell-panel-border);
   }
 
   .resize-handle {
@@ -593,6 +595,14 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           0px
         ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
     );
+  }
+
+  ::slotted(calcite-panel) {
+    border-inline-end: var(--calcite-internal-shell-panel-border);
+  }
+
+  ::slotted(calcite-action-bar) {
+    border-inline-end: 0;
   }
 }
 
@@ -676,6 +686,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
+:host([action-bar-position="start"][slot="panel-end"]) {
+  ::slotted(calcite-panel) {
+    border-inline-start: var(--calcite-internal-shell-panel-border);
+  }
+}
+
 :host([action-bar-position="start"][slot="panel-end"][resizable]) {
   .container {
     padding-inline-start: var(--calcite-internal-shell-panel-resize-handle-placeholder);
@@ -683,7 +699,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .content {
     padding-inline-start: 0;
-    border-inline-start: var(--calcite-internal-shell-panel-border);
   }
 
   .resize-handle {
@@ -693,6 +708,18 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
           0px
         ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
     );
+  }
+  .resize-handle-bar {
+    border-inline-end: 0;
+  }
+
+  ::slotted(calcite-panel) {
+    border-inline-start: 0;
+    border-inline-start: var(--calcite-internal-shell-panel-border);
+  }
+
+  ::slotted(calcite-action-bar) {
+    border-inline-end: var(--calcite-internal-shell-panel-border);
   }
 }
 
