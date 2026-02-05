@@ -11816,7 +11816,7 @@
     "release": "5.0.0"
   },
   "feature-details-set": {
-    "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit"],
+    "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit", "multi-value"],
     "category": "Lists",
     "release": "5.0.0"
   }
