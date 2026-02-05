@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.9...@esri/eslint-plugin-calcite-components@2.0.4-next.10) (2026-02-05)
+
+**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+
 ## [2.0.3](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.2...@esri/eslint-plugin-calcite-components@2.0.3) (2025-09-16)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components
