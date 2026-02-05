@@ -26,10 +26,10 @@ jobs:
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
-      - name: Build Packages and Publish to NPM
-        # if: steps.release.outputs.releases_created == 'true'
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build Packages and Publish to NPM
+        env:
           NPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
