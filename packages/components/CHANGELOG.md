@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.90...@esri/calcite-components@5.0.1-next.0) (2026-02-05)
+
+### Bug Fixes
+
+- **input-time-picker:** emit change event when clearing meridiem ([#13836](https://github.com/Esri/calcite-design-system/issues/13836)) ([3dc347c](https://github.com/Esri/calcite-design-system/commit/3dc347cf0d97c9350bb29375bd6b1ceb3a00eb22)), closes [#12889](https://github.com/Esri/calcite-design-system/issues/12889)
+
 ## [5.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.3...@esri/calcite-components@5.0.0) (2026-02-04)
 
 ### ⚠ BREAKING CHANGES
