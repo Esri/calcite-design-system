@@ -39,6 +39,7 @@ export const inputDatePickerTokens = {
   calciteInputDatePickerDatePickerDayRangeBackgroundColor: "",
   calciteInputDatePickerDatePickerDayOutsideRangeBackgroundColorHover: "",
   calciteInputDatePickerDatePickerDayOutsideRangeTextColorHover: "",
+  calciteInputDatePickerCalendarDayRangeBackgroundColor: "",
 };
 
 export const inputDatePicker = html`<calcite-input-date-picker open></calcite-input-date-picker>`;
