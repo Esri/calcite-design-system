@@ -200,7 +200,7 @@ export class Autocomplete
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the component's input value. */
+  /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
   @property() inputValue: string;
 
   /** Specifies an accessible label for the component. */
@@ -335,7 +335,7 @@ export class Autocomplete
     valueMissing: false,
   };
 
-  /** Specifies the component's value. */
+  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
