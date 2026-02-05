@@ -11809,5 +11809,15 @@
     "alias": ["4.4.0", "template group", "features", "boundaries", "map", "distance"],
     "category": "Template Group",
     "release": "4.4.0"
+  },
+  "conditional-rules-down": {
+    "alias": ["5.0.0", "charts and graphs", "automation", "data", "management", "analysis", "visualization"],
+    "category": "Charts and Graphs",
+    "release": "5.0.0"
+  },
+  "feature-details-set": {
+    "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit", "multi-value"],
+    "category": "Lists",
+    "release": "5.0.0"
   }
 }
