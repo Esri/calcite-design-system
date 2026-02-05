@@ -2123,6 +2123,57 @@ describe("calcite-input-time-picker", () => {
           expect(input.textContent).toBe("--");
           expect(pickerInput.textContent).toBe("--");
         });
+
+        describe("clearing", () => {
+          it("emits change event when cleared after a valid value has been entered", async () => {
+            const component = await page.find("calcite-input-time-picker");
+            const changeEvent = await page.spyOnEvent("calciteInputTimePickerChange");
+
+            await component.callMethod("setFocus");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+            expect(await component.getProperty("value")).toBeTruthy();
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+
+            await input.click();
+            await page.keyboard.press(deleteKey);
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(2);
+          });
+
+          it("emits change event when cleared right after value is directly set (#12889)", async () => {
+            const component = await page.find("calcite-input-time-picker");
+            const changeEvent = await page.spyOnEvent("calciteInputTimePickerChange");
+
+            component.setProperty("value", "15:00:00");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+            expect(await component.getProperty("value")).toBe("15:00:00.000");
+
+            await input.click();
+            await page.keyboard.press(deleteKey);
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+          });
+        });
       });
     });
 
