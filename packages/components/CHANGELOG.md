@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.0...@esri/calcite-components@5.0.1-next.1) (2026-02-06)
+
+### Bug Fixes
+
+- **input-date-picker:** allow configuring range calendar background color via token ([#13873](https://github.com/Esri/calcite-design-system/issues/13873)) ([0796920](https://github.com/Esri/calcite-design-system/commit/079692085bfbdb6dfb845fe70739a588be00aace)), closes [#13804](https://github.com/Esri/calcite-design-system/issues/13804)
+
 ## [5.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.90...@esri/calcite-components@5.0.1-next.0) (2026-02-05)
 
 ### Bug Fixes
