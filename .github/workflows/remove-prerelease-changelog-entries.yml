@@ -7,6 +7,7 @@ permissions:
   pull-requests: write
 name: clean-changelog
 jobs:
+  if: github.actor != 'github-actions[bot]'
   clean-changelog:
     runs-on: ubuntu-latest
     steps:
