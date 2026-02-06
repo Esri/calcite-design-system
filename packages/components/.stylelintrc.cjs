@@ -63,6 +63,12 @@ const rules = {
       severity: "error",
     },
   ],
+  "calcite/require-deprecation-and-removal-versions": [
+    true,
+    {
+      severity: "error",
+    },
+  ],
 };
 
 scssPatternRules.forEach((rule) => {
