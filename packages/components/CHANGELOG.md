@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.1...@esri/calcite-components@5.0.1-next.2) (2026-02-06)
+
+### Bug Fixes
+
+- **input-time-picker:** sync popup value with input when directly cleared ([#13875](https://github.com/Esri/calcite-design-system/issues/13875)) ([4bc9d32](https://github.com/Esri/calcite-design-system/commit/4bc9d323b4fd92b7e35cf0cd97c46987aa3d1bef)), closes [#13328](https://github.com/Esri/calcite-design-system/issues/13328)
+
 ## [5.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.0...@esri/calcite-components@5.0.1-next.1) (2026-02-06)
 
 ### Bug Fixes
