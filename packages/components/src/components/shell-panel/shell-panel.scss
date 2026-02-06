@@ -611,9 +611,20 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: column;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   ::slotted(calcite-action-bar) {
-    inline-size: 100%;
+    max-inline-size: 100%;
     border-block-end: 0;
+
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
   }
 
   ::slotted(calcite-panel) {
@@ -626,8 +637,15 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   .content {
     padding-inline-end: 0;
+    max-inline-size: unset;
   }
 
   .resize-handle {
@@ -641,7 +659,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    --calcite-internal-shell-panel-width: 100%;
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
     border-inline-end: 0;
   }
 }
@@ -651,9 +672,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: column;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
-    inline-size: 100%;
+
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
   }
 
   ::slotted(calcite-panel) {
@@ -664,6 +695,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([action-bar-position="bottom"][slot="panel-start"][resizable]) {
   .container {
     padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
+  }
+
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
   }
 
   .content {
@@ -680,6 +717,10 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
     border-inline-end: 0;
   }
 }
@@ -726,8 +767,18 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: column;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   ::slotted(calcite-action-bar) {
-    inline-size: 100%;
+    display: flex;
+    flex: 1 1 0;
+    inline-size: 0;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     border-block-end: 0;
   }
 
@@ -745,6 +796,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     padding-inline-start: 0;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   .resize-handle {
     block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-block-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
@@ -756,8 +813,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    inline-size: 100%;
     border-inline-start: 0;
+
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
   }
 }
 
@@ -766,9 +827,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: column;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
-    inline-size: 100%;
+    display: flex;
+    flex: 1 1 0;
+    inline-size: 0;
+    min-inline-size: 0;
+    max-inline-size: 100%;
   }
 
   ::slotted(calcite-panel) {
@@ -785,6 +856,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     padding-inline-start: 0;
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
   .resize-handle {
     block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-inline-start: calc(
@@ -795,8 +872,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   ::slotted(calcite-action-bar) {
-    inline-size: 100%;
     border-inline-start: 0;
+
+    display: flex;
+    inline-size: 0;
+    min-inline-size: 0;
+    flex: 1 1 0;
   }
 }
 

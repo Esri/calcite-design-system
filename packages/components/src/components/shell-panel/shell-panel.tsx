@@ -373,11 +373,13 @@ export class ShellPanel extends LitElement {
         },
         resizeend: () => {
           this.calciteInternalShellPanelResizeEnd.emit();
+          this.actionBars.forEach((actionBar) => actionBar.overflowActions());
         },
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
           this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
+          this.actionBars.forEach((actionBar) => actionBar.overflowActions());
         },
       },
     });
@@ -428,6 +430,13 @@ export class ShellPanel extends LitElement {
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
+
+    // Trigger overflow recalculation after layout and styles are applied
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        actionBars.forEach((actionBar) => actionBar.overflowActions());
+      });
+    });
   }
 
   private handleHeaderSlotChange(event: Event): void {
