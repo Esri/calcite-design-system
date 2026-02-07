@@ -6,7 +6,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-2xs` instead."
       },
@@ -15,7 +15,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-xs` instead."
       },
@@ -24,7 +24,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-sm` instead."
       },
@@ -33,7 +33,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-md` instead."
       },
@@ -42,7 +42,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-md-plus` instead."
       },
@@ -51,7 +51,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-lg` instead."
       },
@@ -60,7 +60,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-xl` instead."
       },
@@ -69,7 +69,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-3xl` instead."
       }
@@ -80,7 +80,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-none` instead."
       },
@@ -89,7 +89,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-px` instead."
       },
@@ -98,7 +98,7 @@
         "type": "spacing",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-base` instead."
       },
@@ -107,7 +107,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-2xs` instead."
       },
@@ -116,7 +116,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-xs` instead."
       },
@@ -125,7 +125,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-sm` instead."
       },
@@ -134,7 +134,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-sm-plus` instead."
       },
@@ -143,7 +143,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-md` instead."
       },
@@ -152,7 +152,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-md-plus` instead."
       },
@@ -161,7 +161,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-lg` instead."
       },
@@ -170,7 +170,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-xl` instead."
       },
@@ -179,7 +179,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-2xl` instead."
       },
@@ -188,7 +188,7 @@
         "type": "dimension",
         "attributes": {
           "category": "spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-space-3xl` instead."
       }
