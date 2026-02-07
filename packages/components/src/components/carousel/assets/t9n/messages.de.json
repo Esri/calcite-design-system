@@ -4,5 +4,6 @@
   "play": "Wiedergeben",
   "pause": "Anhalten",
   "carousel": "Karussell",
-  "carouselItemProgress": "Statusanzeige für Karussellelement"
+  "carouselItemProgress": "Statusanzeige für Karussellelement",
+  "paginationStatus": "Item {current} of {total}"
 }

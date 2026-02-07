@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
 import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-flow-item` elements to the component. */
+/** @slot - A slot for adding `calcite-flow-item`s to the component. */
 export class Flow extends LitElement {
   // #region Static Members
 
@@ -60,7 +60,7 @@ export class Flow extends LitElement {
   // #region Public Methods
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * Removes selection of the currently active `calcite-flow-item`.
    *
    * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
    */

@@ -1,5 +1,7 @@
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -10,6 +12,8 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { NUDGE_DELAY_IN_MS } from "./resources";
+import { Input } from "./input";
 
 describe("calcite-input", () => {
   describe("defaults", () => {
@@ -108,5 +112,42 @@ describe("calcite-input", () => {
 
   describe("disabled", () => {
     disabled(() => mount("calcite-input"));
+  });
+
+  describe("nudging", () => {
+    function nudgeReadOnlyToggle(el: Input["el"]): Promise<void> {
+      return new Promise<void>((resolve) => {
+        el.addEventListener(
+          "calciteInputInput",
+          () => {
+            el.readOnly = true;
+            window.setTimeout(() => {
+              el.readOnly = false;
+              resolve();
+            }, NUDGE_DELAY_IN_MS * 2);
+          },
+          { once: true },
+        );
+      });
+    }
+
+    it("stops nudging if readOnly is modified", async () => {
+      const { el } = await mount<Input>(<calcite-input type="number" />);
+
+      const nudgeUpReadOnlyToggle = nudgeReadOnlyToggle(el);
+      const nudgeUpButton = page.getByTestId("number-button-up");
+      await userEvent.click(nudgeUpButton);
+      await nudgeUpReadOnlyToggle;
+
+      expect(el.value).toBe("1");
+
+      const nudgeDownReadOnlyToggle = nudgeReadOnlyToggle(el);
+
+      const nudgeDownButton = page.getByTestId("number-button-down");
+      await userEvent.click(nudgeDownButton);
+      await nudgeDownReadOnlyToggle;
+
+      expect(el.value).toBe("0");
+    });
   });
 });

@@ -1,8 +1,8 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -107,6 +107,10 @@ describe("calcite-dialog", () => {
         {
           propertyName: "widthScale",
           defaultValue: "m",
+        },
+        {
+          propertyName: "fullscreenDisabled",
+          defaultValue: false,
         },
       ],
     );
@@ -215,6 +219,10 @@ describe("calcite-dialog", () => {
           propertyName: "width",
           value: "s",
         },
+        {
+          propertyName: "fullscreenDisabled",
+          value: true,
+        },
       ],
     );
   });
@@ -257,5 +265,124 @@ describe("calcite-dialog", () => {
 
   describe("openClose", () => {
     openClose(() => mount("calcite-dialog"));
+  });
+
+  describe("fullscreen disabled", () => {
+    it.for([
+      { width: 400, height: 400 },
+      { width: 300, height: 300 },
+    ])(
+      "does not go fullscreen at smaller viewports (at its default scale) when fullscreenDisabled is true",
+      async ({ width, height }) => {
+        await page.viewport(width, height);
+        await mount(
+          <calcite-dialog fullscreenDisabled={true} open={true}>
+            <div>Dialog content</div>
+          </calcite-dialog>,
+        );
+        const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+        const dialog = dialogLocator.element();
+
+        const computedStyle = window.getComputedStyle(dialog);
+
+        expect(parseInt(computedStyle.width)).toBeLessThan(width);
+        expect(parseInt(computedStyle.height)).toBeLessThan(height);
+      },
+    );
+
+    it("allows resizing when fullscreenDisabled is true", async () => {
+      await page.viewport(400, 400);
+
+      const { el, component } = await mount<"calcite-dialog">(
+        <calcite-dialog fullscreenDisabled={true} open={true} resizable={true}>
+          <div>Dialog content</div>
+        </calcite-dialog>,
+      );
+
+      const minimumDialogWidthForMediumScale = 288;
+      const viewportWidth = 400;
+
+      const dialogLocator = page.getBySelector(`.${CSS.dialog}`);
+      const dialog = dialogLocator.element();
+
+      await el.setFocus();
+      await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+      await component.updateComplete;
+
+      const resizedStyle = window.getComputedStyle(dialog);
+      expect(parseInt(resizedStyle.width)).toBeGreaterThanOrEqual(minimumDialogWidthForMediumScale);
+      expect(parseInt(resizedStyle.width)).toBeLessThan(viewportWidth);
+    });
+  });
+
+  describe("dialog updateSize public method", () => {
+    mockConsole();
+
+    beforeEach(() => {
+      const style = document.createElement("style");
+      style.textContent = `
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  `;
+      document.head.appendChild(style);
+    });
+
+    async function setupDialogWithInitialSize(initialInlineSize: number, initialBlockSize: number) {
+      await page.viewport(1024, 768);
+
+      const { el, component } = await mount(
+        <calcite-shell>
+          <calcite-dialog heading="test" open resizable>
+            <div>Dialog Content</div>
+          </calcite-dialog>
+        </calcite-shell>,
+      );
+
+      const dialogElement = el.querySelector("calcite-dialog")!;
+      const dialogContentElement = dialogElement.shadowRoot!.querySelector<HTMLElement>(
+        `.${CSS.dialog}`,
+      )!;
+
+      dialogElement.style.setProperty("--calcite-dialog-size-x", `${initialInlineSize}px`);
+      dialogElement.style.setProperty("--calcite-dialog-size-y", `${initialBlockSize}px`);
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
+      expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+
+      return { dialogElement, dialogContentElement, component };
+    }
+
+    it("default size → KEYBOARD resize → method resize → clear method override", async () => {
+      const initialInlineSize = 320;
+      const initialBlockSize = 250;
+      const overrideInlineSize = 400;
+      const overrideBlockSize = 280;
+
+      const { dialogElement, dialogContentElement, component } = await setupDialogWithInitialSize(
+        initialInlineSize,
+        initialBlockSize,
+      );
+
+      dialogElement.focus();
+
+      await userEvent.keyboard("{Shift>}{ArrowLeft}{/Shift}");
+      expect(getComputedStyle(dialogContentElement).inlineSize).not.toBe(`${initialInlineSize}px`);
+
+      await userEvent.keyboard("{Shift>}{ArrowDown}{/Shift}");
+      expect(getComputedStyle(dialogContentElement).blockSize).not.toBe(`${initialBlockSize}px`);
+
+      await dialogElement.updateSize({ inline: overrideInlineSize, block: overrideBlockSize });
+      await component.updateComplete;
+      expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${overrideInlineSize}px`);
+      expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${overrideBlockSize}px`);
+
+      await dialogElement.updateSize({ inline: null, block: null });
+      await component.updateComplete;
+      expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
+      expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+    });
   });
 });

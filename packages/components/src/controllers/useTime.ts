@@ -35,8 +35,6 @@ export interface TimeComponent extends LitElement {
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   hourFormat: HourFormat;
   /**
@@ -627,6 +625,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
+            this.userChangedValue = true;
             this.component.value = "";
             break;
         }

@@ -116,7 +116,11 @@ describe("calcite-notice", () => {
             state: { hover: { attribute: "class", value: CSS.close } },
           },
         ],
-        "--calcite-notice-close-background-color-focus": [
+        "--calcite-notice-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-notice-close-background-color-hover": [
           {
             shadowSelector: `.${CSS.close}`,
             targetProp: "--calcite-action-background-color-hover",
@@ -141,6 +145,10 @@ describe("calcite-notice", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderRadius",
         },
+        "--calcite-notice-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
       });
     });
 
@@ -154,6 +162,26 @@ describe("calcite-notice", () => {
             },
           ],
         });
+      });
+    });
+    describe("deprecated", () => {
+      themed(noticeHTML("brand"), {
+        "--calcite-notice-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "width",
+        },
+        "--calcite-notice-close-background-color-focus": [
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "focus",
+          },
+          {
+            shadowSelector: `.${CSS.close}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+        ],
       });
     });
   });

@@ -16,7 +16,7 @@
     "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets/ ./public/assets/"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.3",
+    "@esri/calcite-components": "5.0.0",
     "vue": "^3.4.36"
   },
   "devDependencies": {

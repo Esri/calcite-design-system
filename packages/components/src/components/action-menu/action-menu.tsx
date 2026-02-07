@@ -17,6 +17,7 @@ import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -121,6 +122,14 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private mouseDownHandler = (event: MouseEvent): void => {
+    if (!event.composedPath().some(isAction)) {
+      return;
+    }
+
+    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
+  };
+
   //#endregion
 
   //#region State Properties
@@ -139,11 +148,11 @@ export class ActionMenu extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback slotted content `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies the text string for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -163,15 +172,25 @@ export class ActionMenu extends LitElement {
   }
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
+   *
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -211,6 +230,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
+    this.listen("mousedown", this.mouseDownHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -356,9 +376,11 @@ export class ActionMenu extends LitElement {
     el.open = this.open;
   }
 
-  private handleCalciteActionClick(): void {
-    this.open = false;
-    this.setFocus();
+  private handleCalciteActionClick(event): void {
+    if (this.actionElements?.some((action) => event.composedPath().includes(action))) {
+      this.open = false;
+      this.setFocus();
+    }
   }
 
   private updateTooltip(event: Event): void {
@@ -519,6 +541,8 @@ export class ActionMenu extends LitElement {
         pointerDisabled={true}
         ref={this.setPopoverEl}
         referenceElement={menuButtonEl}
+        scale={this.scale}
+        topLayerDisabled={this.topLayerDisabled}
         triggerDisabled={true}
       >
         <div

@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";
@@ -34,28 +33,26 @@ export class Fab extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the component's appearance style. */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies an icon to display.
-   *
-   * @default "plus"
    */
   @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to border and background. */
+  /** Specifies the component's kind, which determines border and background styling. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** Specifies an accessible label for the component. */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -64,7 +61,7 @@ export class Fab extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies text to accompany the component's icon. */
-  @property() text: string;
+  @property() text?: string;
 
   /** When `true`, displays the `text` value in the component. */
   @property({ reflect: true }) textEnabled = false;
@@ -103,7 +100,7 @@ export class Fab extends LitElement {
       iconFlipRtl,
     } = this;
 
-    const title = !textEnabled ? label || text || null : null;
+    const title = !textEnabled ? label || text || undefined : undefined;
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -111,7 +108,7 @@ export class Fab extends LitElement {
           appearance={appearance === "solid" ? "solid" : "outline-fill"}
           class={CSS.button}
           disabled={disabled}
-          iconFlipRtl={iconFlipRtl ? "start" : null}
+          iconFlipRtl={iconFlipRtl ? "start" : undefined}
           iconStart={icon}
           kind={kind}
           label={label}

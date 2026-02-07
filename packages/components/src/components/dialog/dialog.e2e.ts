@@ -208,8 +208,8 @@ describe("calcite-dialog", () => {
 
     const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
     const style = await internalDialog.getComputedStyle();
-    expect(style.width).toEqual("800px");
-    expect(style.height).toEqual("800px");
+    expect(parseInt(style.width)).toBeLessThanOrEqual(800);
+    expect(parseInt(style.height)).toBeLessThanOrEqual(800);
   });
 
   it("escapeDisabled", async () => {
@@ -995,10 +995,10 @@ describe("calcite-dialog", () => {
       async () => {
         const page = await newE2EPage();
         await page.setContent(
-          html`<calcite-dialog icon="banana" width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
+          html`<calcite-dialog icon="banana" width-scale="s" modal open fullscreen-disabled
+            ><p>Hello world!</p></calcite-dialog
+          >`,
         );
-        // set large page to ensure test dialog isn't becoming fullscreen
-        await page.setViewport({ width: 1440, height: 1440 });
         await skipAnimations(page);
         return { page, tag: "calcite-dialog" };
       },

@@ -268,4 +268,43 @@ describe("calcite-menu-item", () => {
       themed(iconMenuItemHTML, tokens);
     });
   });
+
+  describe("deprecated", () => {
+    const iconMenuItemHTML: string = html` <calcite-menu>
+      <calcite-menu-item text="Ideas" breadcrumb icon-start="layers" icon-end="layers">
+        <calcite-menu-item
+          href="#calcite-navigation-css-vars"
+          icon-start="multiple-variables"
+          slot="${SLOTS.submenuItem}"
+          text="Css vars"
+        ></calcite-menu-item>
+      </calcite-menu-item>
+    </calcite-menu>`;
+
+    const tokens: ComponentTestTokens = {
+      "--calcite-ui-icon-color": [
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconBreadcrumb}`,
+          targetProp: "color",
+        },
+        {
+          selector: "calcite-menu-item",
+          shadowSelector: `.${CSS.iconDropdown}`,
+          targetProp: "color",
+        },
+      ],
+    };
+    themed(iconMenuItemHTML, tokens);
+  });
 });

@@ -73,7 +73,7 @@ describe("calcite-accordion-item", () => {
         },
       );
     });
-    describe("deprecate", () => {
+    describe("deprecated", () => {
       describe("default", async () => {
         themed(
           html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
@@ -118,6 +118,16 @@ describe("calcite-accordion-item", () => {
                 targetProp: "color",
               },
             ],
+            "--calcite-ui-icon-color": [
+              {
+                shadowSelector: `.${CSS.iconStart}`,
+                targetProp: "color",
+              },
+              {
+                shadowSelector: `.${CSS.iconEnd}`,
+                targetProp: "color",
+              },
+            ],
           },
         );
       });
@@ -153,7 +163,7 @@ describe("calcite-accordion-item", () => {
     });
   });
 
-  it("properly uses ARIA and roles", async () => {
+  it("properly uses ARIA and types", async () => {
     // this test covers a11y relationships not reported by axe-core/accessible test helper
 
     const page = await newE2EPage();
@@ -163,7 +173,7 @@ describe("calcite-accordion-item", () => {
 
     expect(headerContent.getAttribute("aria-expanded")).toBe("false");
     expect(headerContent.getAttribute("aria-controls")).toBe(IDS.section);
-    expect(headerContent.getAttribute("role")).toBe("button");
+    expect(headerContent.getAttribute("type")).toBe("button");
 
     const content = await page.find(`calcite-accordion-item >>> .${CSS.content}`);
 

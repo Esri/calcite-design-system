@@ -2249,10 +2249,6 @@ describe("calcite-input-date-picker", () => {
             shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[highlighted]`,
             targetProp: "--calcite-date-picker-day-range-text-color",
           },
-          "--calcite-input-date-picker-calendar-selected-background-color": {
-            shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[highlighted]`,
-            targetProp: "--calcite-date-picker-day-range-background-color",
-          },
           "--calcite-input-date-picker-calendar-day-outside-range-background-color-hover": {
             shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250105']`,
             targetProp: "--calcite-date-picker-day-outside-range-background-color-hover",
@@ -2266,6 +2262,10 @@ describe("calcite-input-date-picker", () => {
             state: {
               hover: `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106']`,
             },
+          },
+          "--calcite-input-date-picker-calendar-day-range-background-color": {
+            shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[highlighted]`,
+            targetProp: "--calcite-date-picker-day-range-background-color",
           },
         },
       );

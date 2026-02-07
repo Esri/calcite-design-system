@@ -184,13 +184,13 @@ export class Autocomplete
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -200,13 +200,13 @@ export class Autocomplete
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** The component's input value. */
+  /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
   @property() inputValue: string;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -220,7 +220,7 @@ export class Autocomplete
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -244,11 +244,11 @@ export class Autocomplete
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -270,12 +270,10 @@ export class Autocomplete
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Adds text to the start of the component. */
+  /** Specifies the component's prefix text. */
   @property() prefixText: string;
 
   /**
@@ -297,8 +295,17 @@ export class Autocomplete
   /** Specifies the status of the input field, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Adds text to the end of the component. */
+  /** Specifies the component's suffix text. */
   @property() suffixText: string;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
@@ -309,7 +316,7 @@ export class Autocomplete
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -328,7 +335,7 @@ export class Autocomplete
     valueMissing: false,
   };
 
-  /** The component's value. */
+  /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
 
   //#endregion
@@ -339,7 +346,6 @@ export class Autocomplete
    * Updates the position of the component.
    *
    * @param delayed - `true` if the placement should be updated after the component is finished rendering.
-   * @returns {Promise<void>}
    */
   @method()
   async reposition(delayed = false): Promise<void> {
@@ -369,7 +375,7 @@ export class Autocomplete
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -378,8 +384,6 @@ export class Autocomplete
 
   /**
    * Selects the text of the component's `value`.
-   *
-   * @returns {Promise<void>}
    */
   @method()
   async selectText(): Promise<void> {
@@ -392,7 +396,6 @@ export class Autocomplete
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
    * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   * @returns {Promise<void>}
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

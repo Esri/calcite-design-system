@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { getElementDir } from "../../utils/dom";
 import {
@@ -68,9 +68,9 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   @property({ reflect: true }) focused = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -88,14 +88,10 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    */
   @property() label?: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /**
-   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /**

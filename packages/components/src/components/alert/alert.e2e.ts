@@ -82,6 +82,16 @@ describe("calcite-alert", () => {
     expect(icon).not.toBeNull();
   });
 
+  it("renders filled status icon when kind and icon are set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-alert kind="danger" icon>
+    ${alertContent}
+    </calcite-alert>`);
+    const icon = await page.find(`calcite-alert >>> .${CSS.icon} calcite-icon`);
+    expect(await icon.getProperty("icon")).toBe("exclamationMarkTriangleF");
+  });
+
   it("closes on time based on alert duration", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
