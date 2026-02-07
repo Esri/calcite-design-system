@@ -103,8 +103,6 @@ export function applyAxis(
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
-    // let currentSizes = { inline: null as number | null, block: null as number | null };
-
     let lastResizeValues: ResizeValues = {
       inlineSize: null,
       blockSize: null,
@@ -130,12 +128,6 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         }
         const inlineSize = applyAxis(sizes.inline, "inline", targetElement, context.getBounds);
         const blockSize = applyAxis(sizes.block, "block", targetElement, context.getBounds);
-
-        // currentSizes = {
-        //   ...currentSizes,
-        //   ...(inline !== undefined && { inline }),
-        //   ...(block !== undefined && { block }),
-        // };
 
         const bounds = context.getBounds?.() ?? {
           inline: { min: null, max: null },
