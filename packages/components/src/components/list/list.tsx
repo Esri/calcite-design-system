@@ -3,7 +3,7 @@ import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
+import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
@@ -122,7 +122,7 @@ export class List extends LitElement implements SortableComponent {
   }
 
   get showEmptyDragContainer(): boolean {
-    return this.dragEnabled && !this.visibleItems.length;
+    return this.dragEnabled && !this.hasContent;
   }
 
   get showNoResultsContainer(): boolean {
@@ -160,6 +160,8 @@ export class List extends LitElement implements SortableComponent {
   @state() hasFilterNoResults = false;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
+
+  @state() hasContent = false;
 
   //#endregion
 
@@ -729,10 +731,11 @@ export class List extends LitElement implements SortableComponent {
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(): void {
+  private handleDefaultSlotChange(event: Event): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
+    this.hasContent = slotChangeHasContent(event);
   }
 
   private setListItemGroups(): void {
@@ -1257,11 +1260,11 @@ export class List extends LitElement implements SortableComponent {
             <div
               class={{
                 [CSS.tableContainer]: true,
-                [CSS.tableContainerDropZone]: this.showEmptyDragContainer,
+                [CSS.tableContainerDragEnabledEmpty]: this.showEmptyDragContainer,
               }}
               role="rowgroup"
             >
-              <slot hidden={!this.showEmptyDragContainer} name={SLOTS.dragEmpty} />
+              <slot hidden={!this.showEmptyDragContainer} name={SLOTS.dragEnabledEmpty} />
               <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>

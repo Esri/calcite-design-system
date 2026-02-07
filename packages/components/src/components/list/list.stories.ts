@@ -10,7 +10,8 @@ import { List } from "./list";
 const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
-  extends Pick<
+  extends
+    Pick<
       List,
       | "disabled"
       | "displayMode"
@@ -6533,7 +6534,7 @@ export const emptyFixedHeight = (): string =>
 export const emptyStateDropTarget = (): string =>
   html`<h1>Empty List</h1>
     <calcite-list group="items" drag-enabled label="Park features">
-      <div slot="drag-empty">
+      <div slot="drag-enabled-empty">
         <h2>Start configuring a form for the layer</h2>
         <p>Drag items here to add them to the form.</p>
       </div>

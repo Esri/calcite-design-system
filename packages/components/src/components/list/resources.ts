@@ -4,7 +4,7 @@ export const CSS = {
   scrim: "scrim",
   stack: "stack",
   tableContainer: "table-container",
-  tableContainerDropZone: "table-container--drop-zone",
+  tableContainerDragEnabledEmpty: "table-container--drag-enabled-empty",
   sticky: "sticky-pos",
   assistiveText: "assistive-text",
   containerHeight: "container-height",
@@ -13,7 +13,7 @@ export const CSS = {
 export type SelectionAppearance = "border" | "highlight" | "icon";
 
 export const SLOTS = {
-  dragEmpty: "drag-empty",
+  dragEnabledEmpty: "drag-enabled-empty",
   filterNoResults: "filter-no-results",
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",
