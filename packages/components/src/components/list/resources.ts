@@ -4,7 +4,7 @@ export const CSS = {
   scrim: "scrim",
   stack: "stack",
   tableContainer: "table-container",
-  tableContainerDragEnabledEmpty: "table-container--drag-enabled-empty",
+  emptyDragEnabledContainer: "empty-drag-enabled-container",
   sticky: "sticky-pos",
   assistiveText: "assistive-text",
   containerHeight: "container-height",

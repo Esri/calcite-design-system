@@ -122,7 +122,7 @@ export class List extends LitElement implements SortableComponent {
   }
 
   get showEmptyDragContainer(): boolean {
-    return this.dragEnabled && !this.hasContent;
+    return this.dragEnabled && !this.hasContent && this.hasEmptyDragEnabledContent;
   }
 
   get showNoResultsContainer(): boolean {
@@ -162,6 +162,8 @@ export class List extends LitElement implements SortableComponent {
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
   @state() hasContent = false;
+
+  @state() hasEmptyDragEnabledContent = false;
 
   //#endregion
 
@@ -738,6 +740,10 @@ export class List extends LitElement implements SortableComponent {
     this.hasContent = slotChangeHasContent(event);
   }
 
+  private handleEmptyDragEnabledSlotChange(event: Event): void {
+    this.hasEmptyDragEnabledContent = slotChangeHasContent(event);
+  }
+
   private setListItemGroups(): void {
     this.listItemGroups = Array.from(this.el.querySelectorAll(listItemGroupSelector));
   }
@@ -1257,14 +1263,13 @@ export class List extends LitElement implements SortableComponent {
                 </div>
               </div>
             ) : null}
-            <div
-              class={{
-                [CSS.tableContainer]: true,
-                [CSS.tableContainerDragEnabledEmpty]: this.showEmptyDragContainer,
-              }}
-              role="rowgroup"
-            >
-              <slot hidden={!this.showEmptyDragContainer} name={SLOTS.dragEnabledEmpty} />
+            <div class={CSS.tableContainer} role="rowgroup">
+              <div class={CSS.emptyDragEnabledContainer} hidden={!this.showEmptyDragContainer}>
+                <slot
+                  name={SLOTS.dragEnabledEmpty}
+                  onSlotChange={this.handleEmptyDragEnabledSlotChange}
+                />
+              </div>
               <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>
