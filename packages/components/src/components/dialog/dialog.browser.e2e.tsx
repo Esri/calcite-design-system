@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
@@ -312,17 +312,6 @@ describe("calcite-dialog", () => {
 
   describe("dialog updateSize public method", () => {
     mockConsole();
-
-    beforeEach(() => {
-      const style = document.createElement("style");
-      style.textContent = `
-    * {
-      transition: none !important;
-      animation: none !important;
-    }
-  `;
-      document.head.appendChild(style);
-    });
 
     async function setupDialogWithInitialSize(initialInlineSize: number, initialBlockSize: number) {
       await page.viewport(1024, 768);
