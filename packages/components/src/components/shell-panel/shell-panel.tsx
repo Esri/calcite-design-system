@@ -64,6 +64,9 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResizeValuesChange: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   //#endregion
@@ -212,18 +215,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {

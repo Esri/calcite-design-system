@@ -112,6 +112,9 @@ export class Sheet extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResizeValuesChange: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   private topLayer = useTopLayer<this>({
@@ -454,17 +457,7 @@ export class Sheet extends LitElement {
       return;
     }
 
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private cleanupInteractions(): void {
@@ -497,8 +490,6 @@ export class Sheet extends LitElement {
       maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
       maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
-
-    this.resizeValues = values;
 
     const rtl = getElementDir(el) === "rtl";
 

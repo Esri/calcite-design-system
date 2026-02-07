@@ -114,6 +114,9 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
     fullscreenDisabled: () => this.fullscreenDisabled,
+    onResizeValuesChange: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   private topLayer = useTopLayer<this>({
@@ -788,17 +791,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       return;
     }
 
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   //#endregion

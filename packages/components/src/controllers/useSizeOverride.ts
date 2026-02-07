@@ -22,6 +22,10 @@ interface SizeOverrideContext {
    */
   readonly targetElement: Ref<HTMLElement> | (() => { value?: HTMLElement | null }) | null;
   /**
+   * Called when resize values change so the host can update its state.
+   */
+  onResizeValuesChange?: (resizeValues: ResizeValues) => void;
+  /**
    * Returns true if fullscreen sizing should be disabled for the host component.
    */
   readonly fullscreenDisabled?: () => boolean;
@@ -44,42 +48,71 @@ export interface UseSizeOverride {
   };
 }
 
+export interface AxisBounds {
+  min: number | null;
+  max: number | null;
+}
+
+export interface GetBounds {
+  (): {
+    inline: AxisBounds;
+    block: AxisBounds;
+  };
+}
+
+/**
+ * Applies size to component's inline-size or block-size, clamping to bounds.
+ */
+export function applyAxis(
+  requestedSize: number | null | undefined,
+  axis: Axis,
+  el: HTMLElement,
+  getBounds: GetBounds = () => ({
+    inline: { min: null, max: null },
+    block: { min: null, max: null },
+  }),
+): number | null | undefined {
+  if (requestedSize === undefined) {
+    return undefined;
+  }
+
+  const prop = axis === "block" ? "block-size" : "inline-size";
+
+  if (requestedSize === null) {
+    el.style.removeProperty(prop);
+    return null;
+  }
+
+  let clampedSize = requestedSize;
+  const bounds = getBounds();
+  const { min, max } = axis === "inline" ? bounds.inline : bounds.block;
+
+  if (min !== null) {
+    clampedSize = Math.round(Math.max(clampedSize, min));
+  }
+  if (max !== null) {
+    clampedSize = Math.round(Math.min(clampedSize, max));
+  }
+
+  el.style.setProperty(prop, `${Math.round(clampedSize)}px`);
+  return clampedSize;
+}
+
 /**
  * Creates a controller that manages size overrides on a host element.
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
-    const applyAxis = (
-      requestedSize: number | null | undefined,
-      axis: Axis,
-      el: HTMLElement,
-    ): number | null | undefined => {
-      if (requestedSize === undefined) {
-        return undefined;
-      }
+    // let currentSizes = { inline: null as number | null, block: null as number | null };
 
-      const prop = axis === "block" ? "block-size" : "inline-size";
-
-      if (requestedSize === null) {
-        el.style.removeProperty(prop);
-        return null;
-      }
-
-      let clampedSize = requestedSize;
-      const bounds = context.getBounds?.() ?? { inline: { min: null, max: null }, block: { min: null, max: null } };
-      const { min, max } = axis === "inline" ? bounds.inline : bounds.block;
-
-      if (min !== null) {
-        clampedSize = Math.round(Math.max(clampedSize, min));
-      }
-      if (max !== null) {
-        clampedSize = Math.round(Math.min(clampedSize, max));
-      }
-
-      el.style.setProperty(prop, `${Math.round(clampedSize)}px`);
-      return clampedSize;
+    let lastResizeValues: ResizeValues = {
+      inlineSize: null,
+      blockSize: null,
+      minInlineSize: null,
+      minBlockSize: null,
+      maxInlineSize: null,
+      maxBlockSize: null,
     };
-
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
         let targetElement: HTMLElement | null | undefined;
@@ -95,12 +128,34 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         if (!targetElement) {
           return { inline: undefined, block: undefined };
         }
-        const inline = applyAxis(sizes.inline, "inline", targetElement);
-        const block = applyAxis(sizes.block, "block", targetElement);
+        const inlineSize = applyAxis(sizes.inline, "inline", targetElement, context.getBounds);
+        const blockSize = applyAxis(sizes.block, "block", targetElement, context.getBounds);
+
+        // currentSizes = {
+        //   ...currentSizes,
+        //   ...(inline !== undefined && { inline }),
+        //   ...(block !== undefined && { block }),
+        // };
+
+        const bounds = context.getBounds?.() ?? {
+          inline: { min: null, max: null },
+          block: { min: null, max: null },
+        };
+
+        lastResizeValues = {
+          inlineSize,
+          blockSize,
+          minInlineSize: bounds.inline.min,
+          maxInlineSize: bounds.inline.max,
+          minBlockSize: bounds.block.min,
+          maxBlockSize: bounds.block.max,
+        };
+
+        context.onResizeValuesChange?.(lastResizeValues);
 
         return {
-          inline,
-          block,
+          inline: inlineSize,
+          block: blockSize,
         };
       },
     };
