@@ -5,12 +5,16 @@ import { createRef } from "lit/directives/ref.js";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {
+  let receivedResizeValues: ResizeValues | null = null;
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
 
     sizeOverride = useSizeOverride({
       targetElement: this.ref,
       getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
+      onResizeValuesChange: (resizeValues) => {
+        receivedResizeValues = resizeValues;
+      },
     });
 
     override render(): JsxNode {
@@ -23,6 +27,7 @@ describe("useSizeOverride", async () => {
   beforeEach(async () => {
     const mounted = await mount(Test);
     component = mounted.component;
+    receivedResizeValues = null;
   });
 
   it("applies clamped size within min/max", () => {
@@ -31,6 +36,14 @@ describe("useSizeOverride", async () => {
     expect(component.ref.value!.style.blockSize).toBe("250px");
     expect(size.inline).toBe(200);
     expect(size.block).toBe(250);
+    expect(receivedResizeValues).toMatchObject({
+      inlineSize: 200,
+      blockSize: 250,
+      minInlineSize: 100,
+      maxInlineSize: 500,
+      minBlockSize: 60,
+      maxBlockSize: 400,
+    });
   });
 
   it("clamps size below min", () => {
@@ -63,5 +76,37 @@ describe("useSizeOverride", async () => {
     expect(component.ref.value!.style.inlineSize).toBe("250px");
     expect(size.block).toBe(300);
     expect(size.inline).toBe(250);
+  });
+
+  it("ARIA attributes reflect current clamped values", async () => {
+    class Test extends LitElement {
+      ref = createRef<HTMLDivElement>();
+      resizeHandleRef = createRef<HTMLDivElement>();
+      resizeValues = {
+        inlineSize: 320,
+        blockSize: 200,
+        minInlineSize: 100,
+        maxInlineSize: 500,
+        minBlockSize: 60,
+        maxBlockSize: 400,
+      };
+      override render(): JsxNode {
+        return (
+          <div ref={this.ref}>
+            <div
+              aria-valuemax={this.resizeValues.maxInlineSize}
+              aria-valuemin={this.resizeValues.minInlineSize}
+              aria-valuenow={this.resizeValues.inlineSize}
+              ref={this.resizeHandleRef}
+            />
+          </div>
+        );
+      }
+    }
+    const { component } = await mount(Test);
+    const handle = component.resizeHandleRef.value!;
+    expect(handle.getAttribute("aria-valuenow")).toBe("320");
+    expect(handle.getAttribute("aria-valuemin")).toBe("100");
+    expect(handle.getAttribute("aria-valuemax")).toBe("500");
   });
 });
