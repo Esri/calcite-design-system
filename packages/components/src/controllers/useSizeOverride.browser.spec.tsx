@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { ResizeValues } from "../components/interfaces";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
-import { Axis } from "../components/interfaces";
+import { Axis, ResizeValues } from "../components/interfaces";
 
 interface AxisBounds {
   min: number | null;
@@ -46,11 +46,6 @@ export interface UseSizeOverride {
     inline?: number | null;
     block?: number | null;
   };
-}
-
-export interface AxisBounds {
-  min: number | null;
-  max: number | null;
 }
 
 export interface GetBounds {
