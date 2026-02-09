@@ -195,6 +195,12 @@ export class ShellPanel extends LitElement {
     if (changes.has("actionBarPosition") && this.hasUpdated) {
       this.setActionBarsLayout(this.actionBars);
     }
+    if (
+      (changes.has("layout") || changes.has("position") || changes.has("resizable")) &&
+      this.hasUpdated
+    ) {
+      this.setupInteractions();
+    }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calciteShellPanelCollapse.emit();
@@ -410,15 +416,16 @@ export class ShellPanel extends LitElement {
 
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
     actionBars.forEach((actionBar) => {
+      if (this.actionBarPosition) {
+        actionBar.layout =
+          this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
+            ? "horizontal"
+            : "vertical";
+        return;
+      }
+
       if (!actionBar.hasAttribute("layout")) {
-        if (this.actionBarPosition) {
-          actionBar.layout =
-            this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
-              ? "horizontal"
-              : "vertical";
-        } else {
-          actionBar.layout = this.layout;
-        }
+        actionBar.layout = this.layout;
       }
     });
   }
