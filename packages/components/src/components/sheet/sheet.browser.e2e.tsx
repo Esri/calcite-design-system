@@ -275,5 +275,9 @@ describe("calcite-sheet", () => {
 
   describe("openClose", () => {
     openClose(() => mount("calcite-sheet"));
+
+    describe("initially open", () => {
+      openClose(() => mount(<calcite-sheet open />), { tag: "calcite-sheet" });
+    });
   });
 });

@@ -236,42 +236,46 @@ describe("calcite-tooltip", () => {
         </>,
       ),
     );
-  });
 
-  describe("parent has display none", () => {
-    openClose(() =>
-      mount(
-        <>
-          <div class="container">
-            <div class="template">
-              <calcite-tooltip placement="auto" reference-element="ref">
-                content
-              </calcite-tooltip>
-              <button id="ref">referenceElement</button>
-            </div>
-          </div>
-          <button class="hoverOutsideContainer">some other content</button>
-          <style
-            ref={(el) => {
-              if (el) {
-                el.innerHTML = css`
-                  .container {
-                    height: 100px;
-                    width: 100px;
-                    border: 1px solid red;
+    describe("parent has display none", () => {
+      openClose(
+        () =>
+          mount(
+            <>
+              <div class="container">
+                <div class="template">
+                  <calcite-tooltip placement="auto" reference-element="ref">
+                    content
+                  </calcite-tooltip>
+                  <button id="ref">referenceElement</button>
+                </div>
+              </div>
+              <button class="hoverOutsideContainer">some other content</button>
+              <style
+                ref={(el) => {
+                  if (el) {
+                    el.innerHTML = css`
+                      .container {
+                        height: 100px;
+                        width: 100px;
+                        border: 1px solid red;
+                      }
+                      .container:hover .template {
+                        display: initial;
+                      }
+                      .template {
+                        display: none;
+                      }
+                    `;
                   }
-                  .container:hover .template {
-                    display: initial;
-                  }
-                  .template {
-                    display: none;
-                  }
-                `;
-              }
-            }}
-          />
-        </>,
-      ),
-    );
+                }}
+              />
+            </>,
+          ),
+        {
+          willUseFallback: true,
+        },
+      );
+    });
   });
 });

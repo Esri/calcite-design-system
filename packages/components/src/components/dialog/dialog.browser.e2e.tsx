@@ -265,6 +265,10 @@ describe("calcite-dialog", () => {
 
   describe("openClose", () => {
     openClose(() => mount("calcite-dialog"));
+
+    describe("initially open", () => {
+      openClose(() => mount(<calcite-dialog open />), { tag: "calcite-dialog" });
+    });
   });
 
   describe("fullscreen disabled", () => {

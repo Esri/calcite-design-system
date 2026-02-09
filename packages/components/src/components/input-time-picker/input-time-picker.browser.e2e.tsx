@@ -93,5 +93,11 @@ describe("calcite-input-time-picker", () => {
 
   describe("openClose", () => {
     openClose(() => mount("calcite-input-time-picker"));
+
+    describe("initially open", () => {
+      openClose(() => mount(<calcite-input-time-picker open />), {
+        tag: "calcite-input-time-picker",
+      });
+    });
   });
 });

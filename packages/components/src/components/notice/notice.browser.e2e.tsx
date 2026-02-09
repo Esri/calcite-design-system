@@ -70,6 +70,8 @@ describe("calcite-notice", () => {
   });
 
   describe("openClose", () => {
-    openClose(() => mount("calcite-notice"));
+    openClose(() => mount("calcite-notice"), {
+      collapsedOnClose: "vertical",
+    });
   });
 });

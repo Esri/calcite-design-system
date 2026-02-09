@@ -87,6 +87,6 @@ describe("calcite-input-date-picker", () => {
   });
 
   describe("openClose", () => {
-    openClose(() => mount(<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08" />));
+    openClose(() => mount(<calcite-input-date-picker value="2021-12-08" />));
   });
 });

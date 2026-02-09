@@ -1,8 +1,8 @@
 import { expect, it, vi } from "vitest";
-import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
-import { LitElement } from "@arcgis/lumina";
+import { mount } from "@arcgis/lumina-compiler/testing";
 import { GlobalTestProps } from "../../utils/interfaces";
 import { ComponentTag, WithBeforeContent } from "../interfaces";
+import { waitForNextTick } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 
 type CollapseAxis = "horizontal" | "vertical";
@@ -16,6 +16,8 @@ interface OpenCloseOptions {
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
+
+  tag?: string;
 }
 
 const defaultOptions: OpenCloseOptions = {
@@ -49,13 +51,12 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
     document.head.append(style);
 
     try {
-      const renderResult = await setup();
-      await setUpEventListeners(renderResult.el.localName as keyof DeclareElements);
       await testOpenCloseEvents({
+        setup,
+        tag: effectiveOptions.tag,
         animationsEnabled: !effectiveOptions.willUseFallback,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
         openPropName: effectiveOptions.openPropName!,
-        renderResult,
       });
     } finally {
       style.remove();
@@ -63,13 +64,12 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
   });
 
   it(`emits with animations disabled`, async () => {
-    const renderResult = await setup();
-    await setUpEventListeners(renderResult.el.localName as keyof DeclareElements);
     await testOpenCloseEvents({
+      setup,
+      tag: effectiveOptions.tag,
       animationsEnabled: false,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
       openPropName: effectiveOptions.openPropName!,
-      renderResult,
     });
   });
 }
@@ -92,13 +92,10 @@ openClose.initial = function openCloseInitial(
     document.head.append(style);
 
     try {
-      const renderResult = await setup();
-      await setUpEventListeners(renderResult.el.localName as keyof DeclareElements);
       await testOpenCloseEvents({
+        setup,
         animationsEnabled: true,
         openPropName: effectiveOptions.openPropName!,
-        startOpen: true,
-        renderResult,
       });
     } finally {
       style.remove();
@@ -106,29 +103,24 @@ openClose.initial = function openCloseInitial(
   });
 
   it("emits on initialization with animations disabled", async () => {
-    const renderResult = await setup();
-
-    await setUpEventListeners(renderResult.el.localName as keyof DeclareElements);
     await testOpenCloseEvents({
+      setup,
       animationsEnabled: false,
       openPropName: effectiveOptions.openPropName!,
-      renderResult,
-      startOpen: true,
     });
   });
 };
 
 interface TestOpenCloseEventsParams {
+  tag?: string;
+
   /**
-   * The result of `mount` used for testing
+   * The test setup function.
    */
-  renderResult: RenderResult<LitElement>;
+  setup: () => ReturnType<typeof mount>;
 
   /** The property name used to control the open state of the component. */
   openPropName: string;
-
-  /** Whether the component should start in the open state. */
-  startOpen?: boolean;
 
   /** Whether the component should be collapsed (does not affect layout) along the specified axis when closed. */
   collapsedOnClose?: CollapseAxis;
@@ -138,11 +130,11 @@ interface TestOpenCloseEventsParams {
 }
 
 async function testOpenCloseEvents({
-  renderResult,
+  tag,
+  setup,
   animationsEnabled,
   openPropName,
   collapsedOnClose,
-  startOpen = false,
 }: TestOpenCloseEventsParams): Promise<void> {
   const timestamps: Record<OpenCloseName, number | undefined> = {
     beforeOpen: undefined,
@@ -150,19 +142,53 @@ async function testOpenCloseEvents({
     beforeClose: undefined,
     close: undefined,
   };
-  const tag = renderResult.el.localName as keyof DeclareElements;
-  const eventSequence = getEventSequence(tag);
 
-  const [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = await Promise.all(
-    eventSequence.map(async (eventName) => {
-      const eventSpy = vi.fn();
-      document.addEventListener(eventName, eventSpy);
-      return {
-        listener: eventSpy,
-        promise: waitForEvent(document.body, eventName),
-      };
-    }),
-  );
+  let es: string[];
+  let beforeOpenEvent: any;
+  let openEvent: any;
+  let beforeCloseEvent: any;
+  let closeEvent: any;
+
+  if (tag) {
+    setUpEventListeners(tag as keyof DeclareElements);
+    es = getEventSequence(tag as keyof DeclareElements);
+    [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = await Promise.all(
+      es.map(async (eventName) => {
+        const eventSpy = vi.fn();
+        document.addEventListener(eventName, eventSpy);
+        return {
+          listener: eventSpy,
+          promise: waitForEvent(document.body, eventName),
+        };
+      }),
+    );
+  }
+
+  const { el, reRender } = await setup();
+  es = es!; // for type narrowing
+
+  if (el[openPropName] && !tag) {
+    throw new Error("testing initial open state requires component tag to be specified in options");
+  }
+
+  if (!tag) {
+    const effectiveTag = el.localName as keyof DeclareElements;
+    setUpEventListeners(effectiveTag);
+    es = getEventSequence(effectiveTag);
+    [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = await Promise.all(
+      es.map(async (eventName) => {
+        const eventSpy = vi.fn();
+        document.addEventListener(eventName, eventSpy);
+        return {
+          listener: eventSpy,
+          promise: waitForEvent(document.body, eventName),
+        };
+      }),
+    );
+  }
+
+  await waitForNextTick(); // wait for next task for transitions to properly start
+  await waitForNextTick(); // wait for next task for transitions to properly start
 
   function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
     expect(beforeOpenEvent.listener).toHaveBeenCalledTimes(expectedTimesPerEvent[0]);
@@ -171,34 +197,28 @@ async function testOpenCloseEvents({
     expect(closeEvent.listener).toHaveBeenCalledTimes(expectedTimesPerEvent[3]);
   }
 
-  if (startOpen) {
-    const component = document.createElement(tag);
-    component[openPropName] = true;
-
-    document.body.append(component);
-  }
-
   async function captureEventTimestamp(eventPromise: Promise<void>, eventName: string): Promise<void> {
     await eventPromise;
     timestamps[toOpenCloseName(eventName)] = Date.now();
   }
 
-  const element = renderResult.el;
+  const element = el;
+  element[openPropName] = true;
 
-  if (!startOpen) {
-    element[openPropName] = true;
-  }
-  await renderResult.reRender();
-  await captureEventTimestamp(beforeOpenEvent.promise, eventSequence.at(0)!);
-  await captureEventTimestamp(openEvent.promise, eventSequence.at(1)!);
+  await reRender();
+  await captureEventTimestamp(beforeOpenEvent.promise, es.at(0)!);
+  await captureEventTimestamp(openEvent.promise, es.at(1)!);
 
+  console.log("First");
   assertEventSequence([1, 1, 0, 0]);
+  console.log("First done");
 
   element[openPropName] = false;
-  await renderResult.reRender();
-  await captureEventTimestamp(beforeCloseEvent.promise, eventSequence.at(2)!);
-  await captureEventTimestamp(closeEvent.promise, eventSequence.at(3)!);
+  await reRender();
+  await captureEventTimestamp(beforeCloseEvent.promise, es.at(2)!);
+  await captureEventTimestamp(closeEvent.promise, es.at(3)!);
 
+  console.log("second");
   assertEventSequence([1, 1, 1, 1]);
 
   if (collapsedOnClose !== undefined) {
@@ -211,7 +231,7 @@ async function testOpenCloseEvents({
     expect(element[scrollDimension]).toBe(0);
   }
 
-  expect((window as EventOrderWindow).events).toEqual(eventSequence);
+  expect((window as EventOrderWindow).events).toEqual(es);
 
   const delayDeltaThreshold = 100; // smallest internal animation timing used
   const delayBetweenBeforeOpenAndOpen = timestamps.open! - timestamps.beforeOpen!;
@@ -219,6 +239,7 @@ async function testOpenCloseEvents({
 
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
+  console.log("last");
   expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
   expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
 }
@@ -232,7 +253,7 @@ function getEventSequence(componentTag: ComponentTag): string[] {
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
-async function setUpEventListeners(componentTag: ComponentTag): Promise<void> {
+function setUpEventListeners(componentTag: ComponentTag): void {
   const eventSequence = getEventSequence(componentTag);
   const receivedEvents: string[] = [];
 

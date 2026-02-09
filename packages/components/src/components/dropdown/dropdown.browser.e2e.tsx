@@ -61,7 +61,7 @@ describe("calcite-dropdown", () => {
     hidden(() => mount("calcite-dropdown"));
   });
 
-  function createSimpleDropdownHTML(): JsxNode {
+  function renderSimpleDropdown(): JsxNode {
     return (
       <calcite-dropdown>
         <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -77,11 +77,11 @@ describe("calcite-dropdown", () => {
   }
 
   describe("renders", () => {
-    renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
+    renders(() => mount(renderSimpleDropdown), { display: "inline-block" });
   });
 
   describe("focusable", () => {
-    focusable(() => mount(createSimpleDropdownHTML), {
+    focusable(() => mount(renderSimpleDropdown), {
       focusTargetSelector: '[slot="trigger"]',
     });
   });
@@ -140,20 +140,6 @@ describe("calcite-dropdown", () => {
   });
 
   describe("openClose", () => {
-    openClose(() =>
-      mount(
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open dropdown</calcite-button>
-          <calcite-dropdown-group id="group-1">
-            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected>
-              {" "}
-              Dropdown Item Content{" "}
-            </calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>,
-      ),
-    );
+    openClose(() => mount(renderSimpleDropdown));
   });
 });
