@@ -11819,5 +11819,15 @@
     "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit", "multi-value"],
     "category": "Lists",
     "release": "5.0.0"
+  },
+  "add-to-livestream-video-layer": {
+    "alias": ["5.0.0", "layers", "web", "publish", "ingest", "connection-address", "protocol"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "add-to-video-layer": {
+    "alias": ["5.0.0", "layers", "insert", "publish", "data", "telemetry", "tool"],
+    "category": "Layers",
+    "release": "5.0.0"
   }
 }
