@@ -11821,7 +11821,7 @@
     "release": "5.0.0"
   },
   "add-to-livestream-video-layer": {
-    "alias": ["5.0.0", "layers", "web", "publish", "ingest", "connection-address", "protocol"],
+    "alias": ["5.0.0", "layers", "web", "publish", "ingest", "connection-address", "protocol", "insert"],
     "category": "Layers",
     "release": "5.0.0"
   },
