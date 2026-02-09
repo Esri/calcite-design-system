@@ -1264,7 +1264,7 @@ export class List extends LitElement implements SortableComponent {
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
-              <div class={CSS.emptyDragEnabledContainer} hidden={!this.showEmptyDragContainer}>
+              <div hidden={!this.showEmptyDragContainer}>
                 <slot
                   name={SLOTS.dragEnabledEmpty}
                   onSlotChange={this.handleEmptyDragEnabledSlotChange}
