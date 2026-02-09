@@ -926,10 +926,23 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     }
   }
 
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
+  ::slotted(calcite-action-bar) {
+    max-block-size: 100%;
+    display: flex;
+    block-size: 0;
+    min-block-size: 0;
+    flex: 1 1 0;
+  }
+
   slot[name="action-bar"]::slotted(calcite-action-bar) {
-    border-inline-end: var(--calcite-internal-shell-panel-border);
-    block-size: 100%;
     border-block-start: 0;
+    border-inline-end: var(--calcite-internal-shell-panel-border);
   }
 }
 
@@ -986,8 +999,21 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
     border-inline-end: var(--calcite-internal-shell-panel-border);
-    block-size: 100%;
-    border-block-end: 0;
+  }
+
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
+  ::slotted(calcite-action-bar) {
+    max-block-size: 100%;
+    border-inline-end: var(--calcite-internal-shell-panel-border);
+    display: flex;
+    block-size: 0;
+    min-block-size: 0;
+    flex: 1 1 0;
   }
 }
 
@@ -1032,7 +1058,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .content {
-    max-block-size: var(--calcite-internal-shell-panel-action-bar-size);
+    // max-block-size: var(--calcite-internal-shell-panel-action-bar-size); // TODO: Figure out how to include this while maintaining Action Bar overflow behavior
 
     ::slotted(calcite-panel) {
       border-block-end: 0;
@@ -1044,6 +1070,20 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     border-inline-start: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-end: 0;
+  }
+
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
+  ::slotted(calcite-action-bar) {
+    max-block-size: 100%;
+    display: flex;
+    block-size: 0;
+    min-block-size: 0;
+    flex: 1 1 0;
   }
 }
 
@@ -1135,6 +1175,21 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-start: 0;
       border-block-end: var(--calcite-internal-shell-panel-border);
     }
+  }
+
+  .action-bar-container {
+    overflow: hidden;
+    min-inline-size: 0;
+    flex: 0 1 auto;
+  }
+
+  ::slotted(calcite-action-bar) {
+    max-block-size: 100%;
+
+    display: flex;
+    block-size: 0;
+    min-block-size: 0;
+    flex: 1 1 0;
   }
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
