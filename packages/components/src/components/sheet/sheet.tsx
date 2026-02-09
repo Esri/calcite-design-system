@@ -114,7 +114,7 @@ export class Sheet extends LitElement {
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
     onResizeValuesChange: (resizeValues) => {
-      this.resizeValues = resizeValues;
+      this.resizeValues = { ...resizeValues };
     },
   });
 
@@ -407,6 +407,12 @@ export class Sheet extends LitElement {
     const rect = this.getContentRefDOMRect();
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
+    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
+    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
+    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
 
     switch (key) {
       case "ArrowUp":

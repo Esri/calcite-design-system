@@ -143,6 +143,10 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         return {
           inline: inlineSize,
           block: blockSize,
+          minInlineSize: bounds.inline.min,
+          maxInlineSize: bounds.inline.max,
+          minBlockSize: bounds.block.min,
+          maxBlockSize: bounds.block.max,
         };
       },
     };
