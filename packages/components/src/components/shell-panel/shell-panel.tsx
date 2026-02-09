@@ -13,7 +13,7 @@ import {
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { getAriaValue } from "../../utils/resize";
+import { ariaValueFromSize } from "../../utils/resize";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
@@ -65,7 +65,7 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
-    onResizeValuesChange: (resizeValues) => {
+    onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
     },
   });
@@ -408,17 +408,17 @@ export class ShellPanel extends LitElement {
         <div
           ariaLabel={this.messages.resize}
           ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
-          ariaValueMax={getAriaValue(
+          ariaValueMax={ariaValueFromSize(
             isBlockPosition,
             resizeValues.maxBlockSize,
             resizeValues.maxInlineSize,
           )}
-          ariaValueMin={getAriaValue(
+          ariaValueMin={ariaValueFromSize(
             isBlockPosition,
             resizeValues.minBlockSize,
             resizeValues.minInlineSize,
           )}
-          ariaValueNow={getAriaValue(
+          ariaValueNow={ariaValueFromSize(
             isBlockPosition,
             resizeValues.blockSize,
             resizeValues.inlineSize,

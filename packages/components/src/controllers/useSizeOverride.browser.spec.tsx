@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -7,14 +7,17 @@ import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {
   let receivedResizeValues: ResizeValues | null = null;
+  let onResizeSpy: ReturnType<typeof vi.fn>;
+
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
 
     sizeOverride = useSizeOverride({
       targetElement: this.ref,
       getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
-      onResizeValuesChange: (resizeValues) => {
+      onResize: (resizeValues) => {
         receivedResizeValues = resizeValues;
+        onResizeSpy(resizeValues);
       },
     });
 
@@ -26,6 +29,7 @@ describe("useSizeOverride", async () => {
   let component: Test;
 
   beforeEach(async () => {
+    onResizeSpy = vi.fn();
     const mounted = await mount(Test);
     component = mounted.component;
     receivedResizeValues = null;
@@ -95,9 +99,9 @@ describe("useSizeOverride", async () => {
         return (
           <div ref={this.ref}>
             <div
-              aria-valuemax={this.resizeValues.maxInlineSize}
-              aria-valuemin={this.resizeValues.minInlineSize}
-              aria-valuenow={this.resizeValues.inlineSize}
+              ariaValueMax={this.resizeValues.maxInlineSize}
+              ariaValueMin={this.resizeValues.minInlineSize}
+              ariaValueNow={this.resizeValues.inlineSize}
               ref={this.resizeHandleRef}
             />
           </div>
@@ -106,8 +110,8 @@ describe("useSizeOverride", async () => {
     }
     const { component } = await mount(Test);
     const handle = component.resizeHandleRef.value!;
-    expect(handle.getAttribute("aria-valuenow")).toBe("320");
-    expect(handle.getAttribute("aria-valuemin")).toBe("100");
-    expect(handle.getAttribute("aria-valuemax")).toBe("500");
+    expect(handle.ariaValueNow).toBe("320");
+    expect(handle.ariaValueMin).toBe("100");
+    expect(handle.ariaValueMax).toBe("500");
   });
 });

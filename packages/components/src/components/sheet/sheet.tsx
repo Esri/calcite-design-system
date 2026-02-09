@@ -19,7 +19,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { getAriaValue } from "../../utils/resize";
+import { ariaValueFromSize } from "../../utils/resize";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
@@ -113,7 +113,7 @@ export class Sheet extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
-    onResizeValuesChange: (resizeValues) => {
+    onResize: (resizeValues) => {
       this.resizeValues = { ...resizeValues };
     },
   });
@@ -408,12 +408,6 @@ export class Sheet extends LitElement {
     const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
-    const computedStyle = window.getComputedStyle(contentRef.value);
-    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
-    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
-    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
-    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
-
     switch (key) {
       case "ArrowUp":
         this.updateSizeInternal({
@@ -485,6 +479,12 @@ export class Sheet extends LitElement {
     }
 
     await this.el.componentOnReady();
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
+    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
+    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
+    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
       window.getComputedStyle(contentRef.value);
@@ -611,17 +611,17 @@ export class Sheet extends LitElement {
             <div
               ariaLabel={this.messages.resizeEnabled}
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
-              ariaValueMax={getAriaValue(
+              ariaValueMax={ariaValueFromSize(
                 isBlockPosition,
                 resizeValues.maxBlockSize,
                 resizeValues.maxInlineSize,
               )}
-              ariaValueMin={getAriaValue(
+              ariaValueMin={ariaValueFromSize(
                 isBlockPosition,
                 resizeValues.minBlockSize,
                 resizeValues.minInlineSize,
               )}
-              ariaValueNow={getAriaValue(
+              ariaValueNow={ariaValueFromSize(
                 isBlockPosition,
                 resizeValues.blockSize,
                 resizeValues.inlineSize,

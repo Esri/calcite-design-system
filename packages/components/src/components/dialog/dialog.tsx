@@ -114,7 +114,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
     fullscreenDisabled: () => this.fullscreenDisabled,
-    onResizeValuesChange: (resizeValues) => {
+    onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
     },
   });

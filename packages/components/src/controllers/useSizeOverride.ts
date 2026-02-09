@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
-import { Axis, ResizeValues } from "../components/interfaces";
+import { ResizeValues } from "../components/interfaces";
 
 interface AxisBounds {
   min: number | null;
@@ -24,7 +24,7 @@ interface SizeOverrideContext {
   /**
    * Called when resize values change so the host can update its state.
    */
-  onResizeValuesChange?: (resizeValues: ResizeValues) => void;
+  onResize?: (resizeValues: ResizeValues) => void;
   /**
    * Returns true if fullscreen sizing should be disabled for the host component.
    */
@@ -48,7 +48,7 @@ export interface UseSizeOverride {
   };
 }
 
-export interface GetBounds {
+interface GetBounds {
   (): {
     inline: AxisBounds;
     block: AxisBounds;
@@ -58,39 +58,62 @@ export interface GetBounds {
 /**
  * Applies size to component's inline-size or block-size, clamping to bounds.
  */
-export function applyAxis(
-  requestedSize: number | null | undefined,
-  axis: Axis,
+export function applyAxes(
+  sizes: { inline?: number | null; block?: number | null },
   el: HTMLElement,
-  getBounds: GetBounds = () => ({
+  getBounds?: GetBounds,
+): { inline?: number | null; block?: number | null } {
+  // CHANGED: ONLY CALL getBounds ONCE, USE SAME BOUNDS FOR BOTH AXES
+  const bounds = getBounds?.() ?? {
     inline: { min: null, max: null },
     block: { min: null, max: null },
-  }),
-): number | null | undefined {
-  if (requestedSize === undefined) {
-    return undefined;
+  };
+
+  let clampedInlineSize: number | null | undefined = undefined;
+  let clampedBlockSize: number | null | undefined = undefined;
+
+  // Handle inline axis
+  if (sizes.inline !== undefined) {
+    const cssPropertyName = "inline-size";
+    if (sizes.inline === null) {
+      el.style.removeProperty(cssPropertyName);
+      clampedInlineSize = null;
+    } else {
+      clampedInlineSize = sizes.inline;
+      const { min, max } = bounds.inline;
+      if (min !== null) {
+        clampedInlineSize = Math.round(Math.max(clampedInlineSize, min));
+      }
+      if (max !== null) {
+        clampedInlineSize = Math.round(Math.min(clampedInlineSize, max));
+      }
+      el.style.setProperty(cssPropertyName, `${Math.round(clampedInlineSize)}px`);
+    }
   }
 
-  const prop = axis === "block" ? "block-size" : "inline-size";
-
-  if (requestedSize === null) {
-    el.style.removeProperty(prop);
-    return null;
+  // Handle block axis
+  if (sizes.block !== undefined) {
+    const cssPropertyName = "block-size";
+    if (sizes.block === null) {
+      el.style.removeProperty(cssPropertyName);
+      clampedBlockSize = null;
+    } else {
+      clampedBlockSize = sizes.block;
+      const { min, max } = bounds.block;
+      if (min !== null) {
+        clampedBlockSize = Math.round(Math.max(clampedBlockSize, min));
+      }
+      if (max !== null) {
+        clampedBlockSize = Math.round(Math.min(clampedBlockSize, max));
+      }
+      el.style.setProperty(cssPropertyName, `${Math.round(clampedBlockSize)}px`);
+    }
   }
 
-  let clampedSize = requestedSize;
-  const bounds = getBounds();
-  const { min, max } = axis === "inline" ? bounds.inline : bounds.block;
-
-  if (min !== null) {
-    clampedSize = Math.round(Math.max(clampedSize, min));
-  }
-  if (max !== null) {
-    clampedSize = Math.round(Math.min(clampedSize, max));
-  }
-
-  el.style.setProperty(prop, `${Math.round(clampedSize)}px`);
-  return clampedSize;
+  return {
+    inline: clampedInlineSize,
+    block: clampedBlockSize,
+  };
 }
 
 /**
@@ -121,8 +144,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         if (!targetElement) {
           return { inline: undefined, block: undefined };
         }
-        const inlineSize = applyAxis(sizes.inline, "inline", targetElement, context.getBounds);
-        const blockSize = applyAxis(sizes.block, "block", targetElement, context.getBounds);
+        const { inline: inlineSize, block: blockSize } = applyAxes(sizes, targetElement, context.getBounds);
 
         const bounds = context.getBounds?.() ?? {
           inline: { min: null, max: null },
@@ -138,7 +160,7 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           maxBlockSize: bounds.block.max,
         };
 
-        context.onResizeValuesChange?.(lastResizeValues);
+        context.onResize?.(lastResizeValues);
 
         return {
           inline: inlineSize,
