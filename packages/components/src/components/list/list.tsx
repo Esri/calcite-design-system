@@ -122,7 +122,7 @@ export class List extends LitElement implements SortableComponent {
   }
 
   get showEmptyContentContainer(): boolean {
-    return this.dragEnabled && !this.hasContent && this.hasEmptyContent;
+    return !this.hasContent && this.hasEmptyContent;
   }
 
   get showNoResultsContainer(): boolean {
