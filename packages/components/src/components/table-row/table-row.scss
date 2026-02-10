@@ -38,6 +38,12 @@ calcite-table-cell {
   );
 }
 
+:host([slot="table-header"]) tr {
+  position: var(--calcite-internal-table-header-position, static);
+  inset-block-start: 0;
+  z-index: 2;
+}
+
 :host([selected]) calcite-table-cell {
   --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color-selected,

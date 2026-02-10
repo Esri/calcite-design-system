@@ -58,6 +58,7 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
+// --calcite-internal-table-header-position
 // --calcite-internal-table-selection-action-spacing
 
 @use "../../styles/includes";
@@ -84,6 +85,10 @@
   --calcite-internal-table-cell-font-size-secondary: var(--calcite-font-size--1);
 }
 
+:host([sticky-header]) {
+  --calcite-internal-table-header-position: sticky;
+}
+
 :host {
   @apply flex;
 }
@@ -95,7 +100,8 @@
 }
 
 .table-container {
-  @apply overflow-auto whitespace-nowrap;
+  // @apply overflow-auto whitespace-nowrap;
+  @apply whitespace-nowrap overflow-visible;
 }
 
 .table-container {
