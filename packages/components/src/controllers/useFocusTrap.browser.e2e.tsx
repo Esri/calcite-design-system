@@ -5,7 +5,7 @@ import { PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
 import { Locator, page } from "vitest/browser";
 import { html } from "../../support/formatting";
-import { waitForNextTick } from "../tests/utils/timing";
+import { afterNextTask } from "../tests/utils/timing";
 import { GlobalTestProps } from "../tests/utils/interfaces";
 import { CalciteConfig, clearConfig } from "../utils/config";
 import { FocusTrap, useFocusTrap } from "./useFocusTrap";
@@ -40,7 +40,7 @@ describe("useFocusTrap", () => {
   async function waitForFocusShift(): Promise<void> {
     // focus-trap delays focus changes until the next execution frame - see https://github.com/focus-trap/focus-trap/#delayinitialfocus
     // wait for one timeout
-    await waitForNextTick();
+    await afterNextTask();
   }
 
   it("focusTrapComponent lifecycle", async () => {

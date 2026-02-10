@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { toggleOpenClose } from "./openCloseComponent";
 
@@ -64,11 +64,11 @@ describe("openCloseComponent", () => {
 
       component.open = true;
       toggleOpenClose(component);
-      await waitForAnimationFrame();
+      await afterNextFrame();
       expect(emittedEvents).toEqual(["beforeOpen"]);
 
       openingControlledPromise.resolve();
-      await waitForAnimationFrame();
+      await afterNextFrame();
       expect(emittedEvents).toEqual(["beforeOpen", "open"]);
 
       const closingControlledPromise = createControlledPromise<void>();
@@ -81,12 +81,12 @@ describe("openCloseComponent", () => {
 
       component.open = false;
       toggleOpenClose(component);
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
 
       closingControlledPromise.resolve();
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
     });
