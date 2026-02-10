@@ -5,6 +5,7 @@ import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { IconName } from "../components/icon/interfaces";
+import { toAriaBoolean } from "./aria";
 import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,
@@ -29,7 +30,6 @@ import {
   slotChangeHasAssignedNode,
   slotChangeHasContent,
   slotChangeHasTextContent,
-  toAriaBoolean,
   viewportUnitToPixel,
   whenAnimationDone,
   whenTransitionDone,

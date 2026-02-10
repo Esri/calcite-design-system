@@ -55,6 +55,31 @@ interface GetBounds {
   };
 }
 
+function clampAndApplySize(
+  axis: "inline" | "block",
+  size: number | null | undefined,
+  bounds: AxisBounds,
+  el: HTMLElement,
+): number | null | undefined {
+  const cssPropertyName = `${axis}-size`;
+  if (size === undefined) {
+    return undefined;
+  }
+  if (size === null) {
+    el.style.removeProperty(cssPropertyName);
+    return null;
+  }
+  let clampedSize = size;
+  if (bounds.min !== null) {
+    clampedSize = Math.round(Math.max(clampedSize, bounds.min));
+  }
+  if (bounds.max !== null) {
+    clampedSize = Math.round(Math.min(clampedSize, bounds.max));
+  }
+  el.style.setProperty(cssPropertyName, `${Math.round(clampedSize)}px`);
+  return clampedSize;
+}
+
 /**
  * Applies size to component's inline-size or block-size, clamping to bounds.
  */
@@ -63,52 +88,13 @@ export function applyAxes(
   el: HTMLElement,
   getBounds?: GetBounds,
 ): { inline?: number | null; block?: number | null } {
-  // CHANGED: ONLY CALL getBounds ONCE, USE SAME BOUNDS FOR BOTH AXES
   const bounds = getBounds?.() ?? {
     inline: { min: null, max: null },
     block: { min: null, max: null },
   };
 
-  let clampedInlineSize: number | null | undefined = undefined;
-  let clampedBlockSize: number | null | undefined = undefined;
-
-  // Handle inline axis
-  if (sizes.inline !== undefined) {
-    const cssPropertyName = "inline-size";
-    if (sizes.inline === null) {
-      el.style.removeProperty(cssPropertyName);
-      clampedInlineSize = null;
-    } else {
-      clampedInlineSize = sizes.inline;
-      const { min, max } = bounds.inline;
-      if (min !== null) {
-        clampedInlineSize = Math.round(Math.max(clampedInlineSize, min));
-      }
-      if (max !== null) {
-        clampedInlineSize = Math.round(Math.min(clampedInlineSize, max));
-      }
-      el.style.setProperty(cssPropertyName, `${Math.round(clampedInlineSize)}px`);
-    }
-  }
-
-  // Handle block axis
-  if (sizes.block !== undefined) {
-    const cssPropertyName = "block-size";
-    if (sizes.block === null) {
-      el.style.removeProperty(cssPropertyName);
-      clampedBlockSize = null;
-    } else {
-      clampedBlockSize = sizes.block;
-      const { min, max } = bounds.block;
-      if (min !== null) {
-        clampedBlockSize = Math.round(Math.max(clampedBlockSize, min));
-      }
-      if (max !== null) {
-        clampedBlockSize = Math.round(Math.min(clampedBlockSize, max));
-      }
-      el.style.setProperty(cssPropertyName, `${Math.round(clampedBlockSize)}px`);
-    }
-  }
+  const clampedInlineSize = clampAndApplySize("inline", sizes.inline, bounds.inline, el);
+  const clampedBlockSize = clampAndApplySize("block", sizes.block, bounds.block, el);
 
   return {
     inline: clampedInlineSize,

@@ -19,7 +19,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { ariaValueFromSize } from "../../utils/resize";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
@@ -612,17 +612,17 @@ export class Sheet extends LitElement {
               ariaLabel={this.messages.resizeEnabled}
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
               ariaValueMax={ariaValueFromSize(
-                isBlockPosition,
+                isBlockPosition ? "block" : "inline",
                 resizeValues.maxBlockSize,
                 resizeValues.maxInlineSize,
               )}
               ariaValueMin={ariaValueFromSize(
-                isBlockPosition,
+                isBlockPosition ? "block" : "inline",
                 resizeValues.minBlockSize,
                 resizeValues.minInlineSize,
               )}
               ariaValueNow={ariaValueFromSize(
-                isBlockPosition,
+                isBlockPosition ? "block" : "inline",
                 resizeValues.blockSize,
                 resizeValues.inlineSize,
               )}

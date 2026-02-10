@@ -1,6 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasContent } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";

@@ -6,8 +6,7 @@ import { ResizeValues } from "../components/interfaces";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {
-  let receivedResizeValues: ResizeValues | null = null;
-  let onResizeSpy: ReturnType<typeof vi.fn>;
+  let onResizeSpy: (resizeValues: ResizeValues) => void;
 
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
@@ -15,10 +14,7 @@ describe("useSizeOverride", async () => {
     sizeOverride = useSizeOverride({
       targetElement: this.ref,
       getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
-      onResize: (resizeValues) => {
-        receivedResizeValues = resizeValues;
-        new onResizeSpy(resizeValues);
-      },
+      onResize: onResizeSpy,
     });
 
     override render(): JsxNode {
@@ -32,7 +28,6 @@ describe("useSizeOverride", async () => {
     onResizeSpy = vi.fn();
     const mounted = await mount(Test);
     component = mounted.component;
-    receivedResizeValues = null;
   });
 
   it("applies clamped size within min/max", () => {
@@ -41,7 +36,7 @@ describe("useSizeOverride", async () => {
     expect(component.ref.value!.style.blockSize).toBe("250px");
     expect(size.inline).toBe(200);
     expect(size.block).toBe(250);
-    expect(receivedResizeValues).toMatchObject({
+    expect(onResizeSpy).toHaveBeenCalledWith({
       inlineSize: 200,
       blockSize: 250,
       minInlineSize: 100,
@@ -81,37 +76,5 @@ describe("useSizeOverride", async () => {
     expect(component.ref.value!.style.inlineSize).toBe("250px");
     expect(size.block).toBe(300);
     expect(size.inline).toBe(250);
-  });
-
-  it("ARIA attributes reflect current clamped values", async () => {
-    class Test extends LitElement {
-      ref = createRef<HTMLDivElement>();
-      resizeHandleRef = createRef<HTMLDivElement>();
-      resizeValues = {
-        inlineSize: 320,
-        blockSize: 200,
-        minInlineSize: 100,
-        maxInlineSize: 500,
-        minBlockSize: 60,
-        maxBlockSize: 400,
-      };
-      override render(): JsxNode {
-        return (
-          <div ref={this.ref}>
-            <div
-              ariaValueMax={this.resizeValues.maxInlineSize}
-              ariaValueMin={this.resizeValues.minInlineSize}
-              ariaValueNow={this.resizeValues.inlineSize}
-              ref={this.resizeHandleRef}
-            />
-          </div>
-        );
-      }
-    }
-    const { component } = await mount(Test);
-    const handle = component.resizeHandleRef.value!;
-    expect(handle.ariaValueNow).toBe("320");
-    expect(handle.ariaValueMin).toBe("100");
-    expect(handle.ariaValueMax).toBe("500");
   });
 });

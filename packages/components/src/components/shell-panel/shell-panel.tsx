@@ -13,7 +13,7 @@ import {
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
-import { ariaValueFromSize } from "../../utils/resize";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
@@ -409,17 +409,17 @@ export class ShellPanel extends LitElement {
           ariaLabel={this.messages.resize}
           ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
           ariaValueMax={ariaValueFromSize(
-            isBlockPosition,
+            isBlockPosition ? "block" : "inline",
             resizeValues.maxBlockSize,
             resizeValues.maxInlineSize,
           )}
           ariaValueMin={ariaValueFromSize(
-            isBlockPosition,
+            isBlockPosition ? "block" : "inline",
             resizeValues.minBlockSize,
             resizeValues.minInlineSize,
           )}
           ariaValueNow={ariaValueFromSize(
-            isBlockPosition,
+            isBlockPosition ? "block" : "inline",
             resizeValues.blockSize,
             resizeValues.inlineSize,
           )}
