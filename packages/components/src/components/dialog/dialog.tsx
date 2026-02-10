@@ -390,7 +390,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange(this.opened);
+      this.handleOpenedChange();
     }
   }
 
@@ -458,14 +458,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     this.opened = value;
   }
 
-  private handleOpenedChange(value: boolean): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.classList.toggle(CSS.openingActive, value);
+  private handleOpenedChange(): void {
     toggleOpenClose(this);
   }
 
