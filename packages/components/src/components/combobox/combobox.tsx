@@ -936,7 +936,7 @@ export class Combobox
           item.toggleSelection();
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
           event.preventDefault();
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
@@ -957,7 +957,7 @@ export class Combobox
         }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
         } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
           this.removeLastChip();
@@ -1412,8 +1412,11 @@ export class Combobox
     }
   }
 
-  private removeActiveChip(): void {
-    this.toggleSelection(this.selectedItems[this.activeChipIndex], false);
+  private removeActiveChip(chip: Chip["el"]): void {
+    const activeItem = this.selectedItems[this.activeChipIndex];
+    if (activeItem && `${IDS.chip(activeItem.guid)}` === chip.id) {
+      this.toggleSelection(activeItem, false);
+    }
     this.setFocus();
   }
 

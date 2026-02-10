@@ -92,16 +92,6 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           targetElement = context.targetElement as HTMLElement | null;
         }
 
-        if (typeof context.fullscreenDisabled === "function" && context.fullscreenDisabled()) {
-          if (targetElement) {
-            targetElement.style.removeProperty("width");
-            targetElement.style.removeProperty("height");
-            targetElement.style.removeProperty("inline-size");
-            targetElement.style.removeProperty("block-size");
-          }
-          return { inline: undefined, block: undefined };
-        }
-
         if (!targetElement) {
           return { inline: undefined, block: undefined };
         }

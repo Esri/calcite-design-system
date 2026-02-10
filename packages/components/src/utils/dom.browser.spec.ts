@@ -2,7 +2,7 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { IconName } from "../components/icon/interfaces";
 import { guidPattern } from "./guid.browser.spec";
@@ -306,13 +306,13 @@ describe("dom", () => {
         const slottedEls = [createEl("div"), createEl("div")];
 
         appendChildren(testEl, slottedEls);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual(slottedEls);
 
         assigned = null;
         slottedEls.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual([]);
       });
@@ -349,7 +349,7 @@ describe("dom", () => {
         ];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [nodes[1]],
@@ -360,7 +360,7 @@ describe("dom", () => {
 
         Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
         nodes.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [],
@@ -409,13 +409,13 @@ describe("dom", () => {
         const nodes = [document.createTextNode("hello"), createEl("div"), document.createTextNode("world")];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual(nodes);
 
         assigned = null;
         nodes.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual([]);
       });
@@ -452,7 +452,7 @@ describe("dom", () => {
         ];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [nodes[0], nodes[1]],
@@ -463,7 +463,7 @@ describe("dom", () => {
 
         Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
         nodes.forEach((node) => node.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [],
@@ -981,7 +981,7 @@ describe("dom", () => {
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
-          await waitForAnimationFrame();
+          await afterNextFrame();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
@@ -999,7 +999,7 @@ describe("dom", () => {
           const promise = helper(element, testTransitionOrAnimationName);
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
-          await waitForAnimationFrame();
+          await afterNextFrame();
 
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
         });

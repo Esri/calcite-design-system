@@ -240,7 +240,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the components width. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -273,9 +273,9 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Updates the sheet's inline and/or block size via method call.
+   * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the sheet's width (inline) and/or height (block).
+   * Use this method to programmatically override the components's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()

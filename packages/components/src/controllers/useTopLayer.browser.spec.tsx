@@ -3,7 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { isInTopLayer } from "../tests/utils/dom";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { useTopLayer } from "./useTopLayer";
 
 describe("useTopLayer", () => {
@@ -285,7 +285,7 @@ describe("useTopLayer", () => {
     expect(isInTopLayer(component.overlayRef.value)).toBe(false);
 
     container.append(el);
-    await waitForAnimationFrame();
+    await afterNextFrame();
 
     expect(isInTopLayer(component.overlayRef.value)).toBe(true);
   });
