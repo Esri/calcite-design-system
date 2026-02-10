@@ -9,11 +9,10 @@ import { InputDatePicker } from "./input-date-picker";
 
 const { scale, status } = ATTRIBUTES;
 
-interface InputDatePickerStoryArgs
-  extends Pick<
-    InputDatePicker,
-    "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
-  > {
+interface InputDatePickerStoryArgs extends Pick<
+  InputDatePicker,
+  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+> {
   lang: string;
 }
 
