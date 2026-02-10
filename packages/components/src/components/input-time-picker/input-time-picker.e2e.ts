@@ -27,7 +27,9 @@ async function getInputValue(page: E2EPage, locale: SupportedLocale = "en", pick
     ) || "";
   const second = (await page.find(`${elementSelector} >>> .${CSS.second}`))?.innerText || "";
   const decimalSeparator = (await page.find(`${elementSelector} >>> .${CSS.decimalSeparator}`))?.innerText || "";
-  const fractionalSecond = (await page.find(`${elementSelector} >>> .${CSS.fractionalSecond}`))?.innerText || "";
+  const fractionalSecond =
+    (await page.find(`${elementSelector} >>> .${picker ? TimePickerCSS.fractionalSecond : CSS.fractionalSecond}`))
+      ?.innerText || "";
   const secondSuffix =
     (await page.find(`${elementSelector} >>> .${CSS.secondSuffix}`))?.innerText.replaceAll(
       whitespaceRegexPattern,
@@ -410,6 +412,132 @@ describe("calcite-input-time-picker", () => {
         expect(changeEvent).toHaveReceivedEventTimes(1);
         expect(await inputTimePicker.getProperty("value")).toBe("16:00");
         await assertDisplayedTime(page, "04:00 PM");
+      });
+
+      it("directly setting value to undefined when component has undefined value also clears display of any filled-in fields in input and picker (#13328)", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-input-time-picker open step=".001"></calcite-input-time-picker>`);
+        const inputTimePicker = await page.find("calcite-input-time-picker");
+        const hourInput = await page.find(`calcite-input-time-picker >>> .${CSS.hour}`);
+        const minuteInput = await page.find(`calcite-input-time-picker >>> .${CSS.minute}`);
+        const secondInput = await page.find(`calcite-input-time-picker >>> .${CSS.second}`);
+        const fractionalSecondInput = await page.find(`calcite-input-time-picker >>> .${CSS.fractionalSecond}`);
+        const pickerHourInput = await page.find(
+          `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.hour}`,
+        );
+        const pickerMinuteInput = await page.find(
+          `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.minute}`,
+        );
+        const pickerSecondInput = await page.find(
+          `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.second}`,
+        );
+        const pickerFractionalSecondInput = await page.find(
+          `calcite-input-time-picker >>> calcite-time-picker >>> .${TimePickerCSS.fractionalSecond}`,
+        );
+
+        await hourInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "01:--:--.--- AM");
+        await assertDisplayedTime(page, "01:--:--.--- AM", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await minuteInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:00:--.--- --");
+        await assertDisplayedTime(page, "--:00:--.--- --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await secondInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:00.--- --");
+        await assertDisplayedTime(page, "--:--:00.--- --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await fractionalSecondInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.000 --");
+        await assertDisplayedTime(page, "--:--:--.000 --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await pickerHourInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "01:--:--.--- AM");
+        await assertDisplayedTime(page, "01:--:--.--- AM", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await pickerMinuteInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:00:--.--- --");
+        await assertDisplayedTime(page, "--:00:--.--- --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await pickerSecondInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:00.--- --");
+        await assertDisplayedTime(page, "--:--:00.--- --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
+
+        await pickerFractionalSecondInput.click();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.000 --");
+        await assertDisplayedTime(page, "--:--:--.000 --", "en", true);
+
+        inputTimePicker.setProperty("value", undefined);
+        await page.waitForChanges();
+
+        await assertDisplayedTime(page, "--:--:--.--- --");
+        await assertDisplayedTime(page, "--:--:--.--- --", "en", true);
       });
     });
   });
@@ -1994,6 +2122,57 @@ describe("calcite-input-time-picker", () => {
 
           expect(input.textContent).toBe("--");
           expect(pickerInput.textContent).toBe("--");
+        });
+
+        describe("clearing", () => {
+          it("emits change event when cleared after a valid value has been entered", async () => {
+            const component = await page.find("calcite-input-time-picker");
+            const changeEvent = await page.spyOnEvent("calciteInputTimePickerChange");
+
+            await component.callMethod("setFocus");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.press("Tab");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+            expect(await component.getProperty("value")).toBeTruthy();
+
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+
+            await input.click();
+            await page.keyboard.press(deleteKey);
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(2);
+          });
+
+          it("emits change event when cleared right after value is directly set (#12889)", async () => {
+            const component = await page.find("calcite-input-time-picker");
+            const changeEvent = await page.spyOnEvent("calciteInputTimePickerChange");
+
+            component.setProperty("value", "15:00:00");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(0);
+            expect(await component.getProperty("value")).toBe("15:00:00.000");
+
+            await input.click();
+            await page.keyboard.press(deleteKey);
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+
+            expect(changeEvent).toHaveReceivedEventTimes(1);
+          });
         });
       });
     });
