@@ -54,7 +54,7 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot empty-content - A slot for adding content to display when the list has no content.
+ * @slot empty-content - A slot for adding content to display when the component has no `calcite-list-item`s.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
