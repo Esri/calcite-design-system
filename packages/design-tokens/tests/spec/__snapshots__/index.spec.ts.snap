@@ -6089,7 +6089,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "low-saturation",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "low-saturation",
         "subitem": "violet",
@@ -15758,7 +15758,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "text-decoration",
         "subitem": "none",
@@ -15795,7 +15795,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "text-decoration",
         "subitem": "underline",
@@ -15832,7 +15832,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "text-case",
         "subitem": "none",
@@ -15869,7 +15869,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "text-case",
         "subitem": "uppercase",
@@ -15906,7 +15906,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "text-case",
         "subitem": "lowercase",
@@ -15943,7 +15943,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
       "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
       "attributes": {
         "category": "font",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "text-case",
         "subitem": "capitalize",
@@ -18358,7 +18358,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "background",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "default",
         "value": "#f7f7f7",
@@ -18395,7 +18395,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "background",
-        "status": "deprecated",
+        "docs": "unlisted",
         "type": "color",
         "item": "none",
         "value": "rgba(#ffffff, 0)",
@@ -18432,7 +18432,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "foreground",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "1",
         "value": "#ffffff",
@@ -18469,7 +18469,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "foreground",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "2",
         "value": "#f2f2f2",
@@ -18506,7 +18506,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "foreground",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "3",
         "value": "#ebebeb",
@@ -18543,7 +18543,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "foreground",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "color",
         "item": "current",
         "value": "#d6efff",
@@ -18840,7 +18840,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "border",
-        "status": "deprecated",
+        "docs": "unlisted",
         "type": "color",
         "item": "ghost",
         "value": "rgba(#000000, 0.3)",
@@ -18877,7 +18877,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "color",
         "group": "border",
-        "status": "deprecated",
+        "docs": "unlisted",
         "type": "color",
         "item": "white",
         "value": "#ffffff",
@@ -19748,7 +19748,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.",
       "attributes": {
         "category": "breakpoint",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": {
@@ -20014,7 +20014,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.",
       "attributes": {
         "category": "breakpoint",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": {
@@ -20421,7 +20421,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "0",
         "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.",
@@ -20528,7 +20528,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "4px",
         "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
@@ -20699,7 +20699,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "weight",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "fontWeight",
         "item": "normal",
         "value": "400",
@@ -20999,7 +20999,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "fontSize",
         "item": "xxl",
         "value": "24px",
@@ -22265,7 +22265,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "tight",
         "value": "0 - .4 ",
@@ -22302,7 +22302,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "normal",
         "value": "0",
@@ -22339,7 +22339,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "wide",
         "value": "0 + .4 ",
@@ -22412,7 +22412,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-decoration",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "none",
         "value": "none",
@@ -22449,7 +22449,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-decoration",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "underline",
         "value": "underline",
@@ -22486,7 +22486,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "none",
         "value": "none",
@@ -22523,7 +22523,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "uppercase",
         "value": "uppercase",
@@ -22560,7 +22560,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "lowercase",
         "value": "lowercase",
@@ -22597,7 +22597,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "capitalize",
         "value": "capitalize",
@@ -22824,7 +22824,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxs",
         "value": "2px",
@@ -22860,7 +22860,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -22896,7 +22896,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -22932,7 +22932,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -22968,7 +22968,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm+",
         "value": "10px",
@@ -23004,7 +23004,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -23040,7 +23040,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md+",
         "value": "14px",
@@ -23076,7 +23076,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "16px",
@@ -23112,7 +23112,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "20px",
@@ -23148,7 +23148,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "24px",
@@ -23184,7 +23184,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -23268,7 +23268,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "12px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.",
@@ -23327,7 +23327,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "14px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.",
@@ -23506,7 +23506,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "64px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-2xl\` instead.",
@@ -23565,7 +23565,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "96px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-3xl\` instead.",
@@ -23624,7 +23624,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -23660,7 +23660,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -23696,7 +23696,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -23732,7 +23732,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -23768,7 +23768,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "14px",
@@ -23804,7 +23804,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "16px",
@@ -23840,7 +23840,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "20px",
@@ -23876,7 +23876,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -23912,7 +23912,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "none",
         "value": "0",
@@ -23948,7 +23948,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "px",
         "value": "1px",
@@ -23984,7 +23984,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "base",
         "value": "2px",
@@ -24020,7 +24020,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -24056,7 +24056,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -24092,7 +24092,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -24128,7 +24128,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm+",
         "value": "10px",
@@ -24164,7 +24164,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -24200,7 +24200,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md+",
         "value": "14px",
@@ -24236,7 +24236,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "16px",
@@ -24272,7 +24272,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "20px",
@@ -24308,7 +24308,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "24px",
@@ -24344,7 +24344,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -27395,7 +27395,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "0",
         "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use \`--calcite-corner-radius-none\` instead.",
@@ -27502,7 +27502,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "corner-radius",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "4px",
         "description": "Deprecated in v3.2.0, removal target v6.0.0 - Use \`--calcite-corner-radius-sm\` instead.",
@@ -27673,7 +27673,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "weight",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "fontWeight",
         "item": "normal",
         "value": "400",
@@ -27973,7 +27973,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "fontSize",
         "item": "xxl",
         "value": "24px",
@@ -29239,7 +29239,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "tight",
         "value": "0 - .4 ",
@@ -29276,7 +29276,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "normal",
         "value": "0",
@@ -29313,7 +29313,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "letter-spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "wide",
         "value": "0 + .4 ",
@@ -29386,7 +29386,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-decoration",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "none",
         "value": "none",
@@ -29423,7 +29423,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-decoration",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textDecoration",
         "item": "underline",
         "value": "underline",
@@ -29460,7 +29460,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "none",
         "value": "none",
@@ -29497,7 +29497,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "uppercase",
         "value": "uppercase",
@@ -29534,7 +29534,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "lowercase",
         "value": "lowercase",
@@ -29571,7 +29571,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "text-case",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "textCase",
         "item": "capitalize",
         "value": "capitalize",
@@ -29798,7 +29798,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxs",
         "value": "2px",
@@ -29834,7 +29834,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -29870,7 +29870,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -29906,7 +29906,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -29942,7 +29942,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm+",
         "value": "10px",
@@ -29978,7 +29978,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -30014,7 +30014,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md+",
         "value": "14px",
@@ -30050,7 +30050,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "16px",
@@ -30086,7 +30086,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "20px",
@@ -30122,7 +30122,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "24px",
@@ -30158,7 +30158,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -30242,7 +30242,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "12px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-3xs\` instead.",
@@ -30301,7 +30301,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "14px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-2xs\` instead.",
@@ -30480,7 +30480,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "64px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-2xl\` instead.",
@@ -30539,7 +30539,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "size",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "value": "96px",
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use \`--calcite-size-3xl\` instead.",
@@ -30598,7 +30598,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -30634,7 +30634,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -30670,7 +30670,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -30706,7 +30706,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -30742,7 +30742,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "14px",
@@ -30778,7 +30778,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "16px",
@@ -30814,7 +30814,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "20px",
@@ -30850,7 +30850,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -30886,7 +30886,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "none",
         "value": "0",
@@ -30922,7 +30922,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "px",
         "value": "1px",
@@ -30958,7 +30958,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "base",
         "value": "2px",
@@ -30994,7 +30994,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -31030,7 +31030,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -31066,7 +31066,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -31102,7 +31102,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "sm+",
         "value": "10px",
@@ -31138,7 +31138,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -31174,7 +31174,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "md+",
         "value": "14px",
@@ -31210,7 +31210,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "lg",
         "value": "16px",
@@ -31246,7 +31246,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xl",
         "value": "20px",
@@ -31282,7 +31282,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxl",
         "value": "24px",
@@ -31318,7 +31318,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "status": "deprecated",
+        "docs": "deprecated",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
