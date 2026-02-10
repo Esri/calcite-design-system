@@ -228,7 +228,7 @@ calcite-panel {
   visibility: hidden;
 
   transition:
-    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
@@ -245,12 +245,6 @@ calcite-panel {
 
   inset-inline-start: var(--calcite-dialog-offset-x, 0);
   inset-block-start: var(--calcite-internal-dialog-hidden-position);
-
-  &--opening {
-    &-active {
-      inset-block-start: var(--calcite-internal-dialog-shown-position);
-    }
-  }
 }
 
 :host([top-layer-disabled]) .dialog,
@@ -290,7 +284,7 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
@@ -314,13 +308,6 @@ calcite-panel {
             max-w-full;
         inset-inline-start: 0;
         inset-block-start: var(--calcite-internal-dialog-animation-offset);
-      }
-    }
-    .width-#{$size}.dialog {
-      &--opening {
-        &-active {
-          inset-block-start: 0;
-        }
       }
     }
   }
@@ -380,6 +367,16 @@ calcite-panel {
 
 :host([kind="warning"]) .dialog {
   border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-warning));
+}
+
+:host([open]) {
+  .dialog {
+    inset-block-start: var(--calcite-internal-dialog-shown-position);
+
+    @starting-style {
+      inset-block-start: var(--calcite-internal-dialog-hidden-position);
+    }
+  }
 }
 
 :host([kind="brand"][open]),
