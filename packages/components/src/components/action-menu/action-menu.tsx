@@ -69,14 +69,20 @@ export class ActionMenu extends LitElement {
     if (isActivationKey(key)) {
       event.preventDefault();
 
-      if (!open) {
-        this.toggleOpen(true);
-        const action = actionElements[activeMenuItemIndex];
+      const action = actionElements[activeMenuItemIndex];
+
+      if (open) {
         if (action) {
           action.click();
         }
         return;
       }
+
+      this.toggleOpen(true);
+      if (action) {
+        action.click();
+      }
+      return;
     }
 
     if (key === "Tab") {

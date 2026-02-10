@@ -292,7 +292,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
@@ -331,7 +331,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
@@ -373,23 +373,23 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowUp");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
       expect(await trigger.getProperty("active")).toBe(true);
       expect(await actionMenu.getProperty("open")).toBe(true);
-      expect(await actions[0].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[0].getProperty("activeDescendant")).toBe(true);
       expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-      expect(await actions[2].getProperty("activeDescendant")).toBe(true);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
       await page.keyboard.press("ArrowUp");
       await waitForAnimationFrame(page);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-      expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-      expect(await actions[2].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[1].getProperty("activeDescendant")).toBe(false);
+      expect(await actions[2].getProperty("activeDescendant")).toBe(true);
     });
 
     it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -469,7 +469,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
@@ -503,7 +503,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
@@ -540,7 +540,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
@@ -584,7 +584,7 @@ describe("calcite-action-menu", () => {
       await actionMenu.callMethod("setFocus");
       await page.waitForChanges();
       const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
-      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("Enter");
       await page.waitForChanges();
       await openEventSpy.next();
 
