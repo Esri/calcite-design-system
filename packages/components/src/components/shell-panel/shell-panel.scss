@@ -988,6 +988,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     flex-direction: row;
     block-size: 100%;
     max-block-size: var(--calcite-internal-shell-panel-max-width);
+    padding-block-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
   }
 
   .content {
@@ -999,6 +1000,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   slot[name="action-bar"]::slotted(calcite-action-bar) {
     border-inline-end: var(--calcite-internal-shell-panel-border);
+    border-block-end: 0;
   }
 
   .action-bar-container {
@@ -1058,8 +1060,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .content {
-    // max-block-size: var(--calcite-internal-shell-panel-action-bar-size); // TODO: Figure out how to include this while maintaining Action Bar overflow behavior
-
     ::slotted(calcite-panel) {
       border-block-end: 0;
       border-block-start: var(--calcite-internal-shell-panel-border);
