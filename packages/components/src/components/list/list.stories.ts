@@ -10,7 +10,8 @@ import { List } from "./list";
 const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
-  extends Pick<
+  extends
+    Pick<
       List,
       | "disabled"
       | "displayMode"
