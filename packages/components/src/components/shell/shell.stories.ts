@@ -2699,7 +2699,65 @@ export const customPanelWithOverflowingContent = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-customPanelWithOverflowingContent.parameters = {
+export const panelWithActionBarPositionProp = (): string =>
+  html`<calcite-shell>
+    <calcite-shell-panel id="shellPanel" slot="panel-start" action-bar-position="start" width="l" resizable>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Zip" icon="gear"> </calcite-action>
+          <calcite-action text="Zip" icon="gear"> </calcite-action>
+          <calcite-action text="Zip" icon="gear"> </calcite-action>
+          <calcite-action text="Zip" icon="gear"> </calcite-action>
+          <calcite-action text="Zip" icon="gear"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Zap" icon="gear"> </calcite-action>
+          <calcite-action text="Zap" icon="gear"> </calcite-action>
+          <calcite-action text="Zap" icon="gear"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+        <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel heading">
+        <calcite-block collapsible heading="Block heading" description="Description">
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block collapsible heading="Block heading" description="Description">
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block collapsible heading="Block heading" description="Description">
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block collapsible heading="Block heading" description="Description">
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block collapsible heading="Block heading" description="Description">
+          <calcite-notice open>
+            <div slot="message">The viewers are going to love this</div>
+          </calcite-notice>
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+    </calcite-panel>
+  </calcite-shell>`;
+
+panelWithActionBarPositionProp.parameters = {
   chromatic: {
     modes: {
       specific: {
