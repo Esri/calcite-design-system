@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForAnimationFrame } from "../../utils/timing";
+import { afterNextFrame } from "../../utils/timing";
 
 /**
  * Helper for asserting slots.
@@ -30,7 +30,7 @@ export function slots(
       }
 
       el.append(elToSlot);
-      await waitForAnimationFrame();
+      await afterNextFrame();
     }
 
     const namedSlotTestClass = "slotted-into-named-slot";

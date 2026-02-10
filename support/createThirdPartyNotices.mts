@@ -4,8 +4,8 @@ import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import { getProjectLicenses } from "generate-license-file";
 
-(async function(): Promise<void> {
-  console.info("Generating third-party licenses file");
+(async function (): Promise<void> {
+  console.info("Generating third-party notices file");
 
   const execAsync = promisify(exec);
 
@@ -23,13 +23,11 @@ import { getProjectLicenses } from "generate-license-file";
       "@esri/calcite-tailwind-preset",
       "@esri/calcite-ui-icons",
       "@esri/eslint-config-calcite",
-      "@esri/eslint-plugin-calcite-components"
+      "@esri/eslint-plugin-calcite-components",
     ];
 
     const licenses = await getProjectLicenses("./package.json", {
-      exclude: [
-        ...coveredByEsriLicense
-      ],
+      exclude: [...coveredByEsriLicense],
       omitVersions: true,
       replace: {
         "type-fest": "./node_modules/type-fest/license-mit",
@@ -40,24 +38,26 @@ import { getProjectLicenses } from "generate-license-file";
     const markdownDivider = "---";
     const licensesContent = !licenses.length
       ? noLicensesMessage
-      : licenses.map(
-          (license) => dedent`
+      : licenses
+          .map(
+            (license) => dedent`
             ${license.dependencies.join(`\n`)}
             
             ${license.content}
            `,
-        ).join(`\n\n${markdownDivider}\n\n`);
+          )
+          .join(`\n\n${markdownDivider}\n\n`);
 
     const licenseFileContent = dedent`
-## Third Party Licenses
+## Third Party Notices
 
 ${licensesContent}\n
 `;
 
-    const outputLicensesFile = "./THIRD-PARTY-LICENSES.md";
+    const outputLicensesFile = "./THIRD-PARTY-NOTICES.md";
     await writeFile(outputLicensesFile, licenseFileContent);
 
-    console.info(`Wrote third-party licenses to ${outputLicensesFile}`);
+    console.info(`Wrote third-party notices to ${outputLicensesFile}`);
   } catch (error) {
     console.error(error);
     process.exitCode = 1;

@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { Locator, page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForNextTick } from "../../utils/timing";
+import { afterNextTask } from "../../utils/timing";
 import { isInTopLayer } from "../../utils/dom";
 import { getEventPrefix, waitForEvent } from "./utils";
 
@@ -43,14 +43,14 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
     const componentOpen = waitForEvent(el, `${getEventPrefix(el)}Open`);
     el[openProp] = true;
     await componentOpen;
-    await waitForNextTick();
+    await afterNextTask();
 
     expect(isInTopLayer(topLayerEl)).toBe(true);
 
     const componentClose = waitForEvent(el, `${getEventPrefix(el)}Close`);
     el[openProp] = false;
     await componentClose;
-    await waitForNextTick();
+    await afterNextTask();
 
     expect(isInTopLayer(topLayerEl)).toBe(false);
 
@@ -59,7 +59,7 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
       el.topLayerDisabled = true;
       el[openProp] = true;
       await componentOpen;
-      await waitForNextTick();
+      await afterNextTask();
 
       expect(isInTopLayer(topLayerEl)).toBe(false);
     }

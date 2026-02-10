@@ -263,7 +263,10 @@
 .icon--start {
   color: var(
     --calcite-accordion-item-icon-color-start,
-    var(--calcite-accordion-item-start-icon-color, var(--calcite-accordion-item-icon-color, currentColor))
+    var(
+      --calcite-accordion-item-start-icon-color,
+      var(--calcite-accordion-item-icon-color, var(--calcite-ui-icon-color, currentColor))
+    )
   );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
 }
@@ -271,7 +274,10 @@
 .icon--end {
   color: var(
     --calcite-accordion-item-icon-color-end,
-    var(--calcite-accordion-item-end-icon-color, var(--calcite-accordion-item-icon-color, currentColor))
+    var(
+      --calcite-accordion-item-end-icon-color,
+      var(--calcite-accordion-item-icon-color, var(--calcite-ui-icon-color, currentColor))
+    )
   );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
   margin-inline-start: var(--calcite-internal-accordion-icon-margin);
