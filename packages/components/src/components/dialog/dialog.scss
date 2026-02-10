@@ -228,7 +228,7 @@ calcite-panel {
   visibility: hidden;
 
   transition:
-    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
+    inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
@@ -284,7 +284,7 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
+      inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
