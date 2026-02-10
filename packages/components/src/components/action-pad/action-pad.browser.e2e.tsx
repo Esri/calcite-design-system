@@ -123,9 +123,9 @@ describe("calcite-action-pad", () => {
   });
 
   describe("selection-modes", () => {
-    it("supports ARIA keyboard navigation and focus management", async () => {
+    it("supports toolbar pattern keyboard navigation in vertical layout", async () => {
       const { el } = await mount<"calcite-action-pad">(
-        <calcite-action-pad overflow-actions-disabled>
+        <calcite-action-pad>
           <calcite-action-group selection-mode="single-persist">
             <calcite-action icon="plus" text="Add" />
             <calcite-action icon="save" text="Save" />
@@ -134,25 +134,67 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>,
       );
 
-      const [action1, action2, action3] = el.querySelectorAll("calcite-action");
+      await new Promise((resolve) => setTimeout(resolve, 1100));
 
-      await userEvent.click(action1);
-      expect(document.activeElement).toBe(action1);
+      const actions = el.querySelectorAll("calcite-action");
 
-      await userEvent.keyboard("{ArrowRight}");
-      expect(document.activeElement).toBe(action2);
+      await userEvent.keyboard("{Tab}");
+      expect(document.activeElement).toBe(actions[0]);
 
-      await userEvent.keyboard("{ArrowLeft}");
-      expect(document.activeElement).toBe(action1);
-
-      await userEvent.keyboard("{End}");
-      expect(document.activeElement).toBe(action3);
-
-      await userEvent.keyboard("{Home}");
-      expect(document.activeElement).toBe(action1);
+      await userEvent.keyboard("{ArrowDown}");
+      expect(document.activeElement).toBe(actions[1]);
 
       await userEvent.keyboard("{Enter}");
-      expect(action1.active).toBe(true);
+      expect(actions[1].active).toBe(true);
+
+      await userEvent.keyboard("{ArrowDown}");
+      expect(document.activeElement).toBe(actions[2]);
+
+      await userEvent.keyboard("{ArrowUp}");
+      expect(document.activeElement).toBe(actions[1]);
+
+      await userEvent.keyboard("{Home}");
+      expect(document.activeElement).toBe(actions[0]);
+
+      await userEvent.keyboard("{End}");
+      expect(document.activeElement).toBe(el);
+    });
+
+    it("supports toolbar pattern keyboard navigation in horizontal layout", async () => {
+      const { el } = await mount<"calcite-action-pad">(
+        <calcite-action-pad layout="horizontal">
+          <calcite-action-group selection-mode="single-persist">
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+            <calcite-action icon="trash" text="Delete" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, 1100));
+
+      const actions = el.querySelectorAll("calcite-action");
+
+      await userEvent.keyboard("{Tab}");
+      expect(document.activeElement).toBe(actions[0]);
+
+      await userEvent.keyboard("{ArrowRight}");
+      expect(document.activeElement).toBe(actions[1]);
+
+      await userEvent.keyboard("{Enter}");
+      expect(actions[1].active).toBe(true);
+
+      await userEvent.keyboard("{ArrowRight}");
+      expect(document.activeElement).toBe(actions[2]);
+
+      await userEvent.keyboard("{ArrowLeft}");
+      expect(document.activeElement).toBe(actions[1]);
+
+      await userEvent.keyboard("{Home}");
+      expect(document.activeElement).toBe(actions[0]);
+
+      await userEvent.keyboard("{End}");
+      expect(document.activeElement).toBe(el);
     });
 
     it("has single and none (default) selection modes", async () => {

@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { FocusableElement, tabbable } from "tabbable";
+import { getFirstTabbable, slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -9,11 +10,9 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Action } from "../action/action";
-import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
-import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -51,6 +50,8 @@ export class ActionPad extends LitElement {
     this.calciteActionPadToggle.emit();
   };
 
+  private tabbableItems: FocusableElement[] = [];
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -59,6 +60,14 @@ export class ActionPad extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private isMenuOpen = false;
+
+  private handleFocusOut = (event: FocusEvent): void => {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.clearTabIndexes();
+    }
+  };
 
   //#endregion
 
@@ -144,6 +153,7 @@ export class ActionPad extends LitElement {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
     this.listen("keydown", this.handleKeyDown);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -198,6 +208,8 @@ export class ActionPad extends LitElement {
   //#region Private Methods
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    this.isMenuOpen = (event.target as ActionGroup["el"]).menuOpen;
+
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
       this.actionGroups?.forEach((group) => {
@@ -222,6 +234,7 @@ export class ActionPad extends LitElement {
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -233,48 +246,90 @@ export class ActionPad extends LitElement {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    this.queryAndStoreActions();
-    const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement;
+    const items = this.tabbableItems;
+    const focusEl: FocusableElement | null = getFirstTabbable(event.target as HTMLElement);
 
-    if (!isAction(current)) {
+    if (this.isMenuOpen) {
       return;
     }
 
+    let nextIdx: number;
     switch (event.key) {
-      case "ArrowRight":
-      case "ArrowDown":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
+      case "ArrowRight": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
-      case "ArrowLeft":
-      case "ArrowUp":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
+      }
+      case "ArrowDown": {
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
+      }
+      case "ArrowLeft": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
+      case "ArrowUp": {
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
       case "Home":
-        focusElementInGroup(actions, current, "first", true);
+        items[0].focus();
+        this.setTabIndexes(items[0], items);
         event.preventDefault();
         break;
       case "End":
-        focusElementInGroup(actions, current, "last", true);
+        items[items.length - 1].focus();
+        this.setTabIndexes(items[items.length - 1], items);
         event.preventDefault();
         break;
       case "Tab":
-        this.updateTabIndexOfItems(current);
+        this.setTabIndexes(focusEl as HTMLButtonElement, items, true);
         break;
     }
+  }
+
+  private setTabIndexes(
+    active: FocusableElement | null,
+    items: FocusableElement[],
+    checkDisabled = false,
+  ): void {
+    if (this.isMenuOpen) {
+      return;
+    }
+    items.forEach((item) => {
+      const isDisabled = (checkDisabled && (item as HTMLButtonElement).disabled) ?? false;
+      item.tabIndex = !isDisabled && item === active ? 0 : -1;
+    });
+  }
+
+  private clearTabIndexes(): void {
+    this.tabbableItems.forEach((item) => {
+      item.removeAttribute("tabindex");
+    });
   }
 
   private updateActions(): void {
     this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
-    });
-  }
-
-  private updateTabIndexOfItems(target: Action["el"]): void {
-    this.actions.forEach((item: Action["el"]) => {
-      item.tabIndex = target !== item ? -1 : 0;
     });
   }
 
@@ -286,6 +341,13 @@ export class ActionPad extends LitElement {
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
+  }
+
+  private updateTabbableItems(): void {
+    setTimeout(() => {
+      this.tabbableItems = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+    }, 1000);
   }
 
   //#endregion

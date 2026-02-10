@@ -21,7 +21,6 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
-import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
@@ -162,6 +161,14 @@ export class ActionBar extends LitElement {
     this.expandToggleEl = el;
   };
 
+  private isMenuOpen = false;
+
+  private handleFocusOut = (event: FocusEvent): void => {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.clearTabIndexes();
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -266,6 +273,7 @@ export class ActionBar extends LitElement {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
     this.listen("keydown", this.handleKeyDown);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -316,7 +324,6 @@ export class ActionBar extends LitElement {
 
   loaded(): void {
     this.overflowActions();
-    this.updateTabbableItems();
   }
 
   override disconnectedCallback(): void {
@@ -329,7 +336,9 @@ export class ActionBar extends LitElement {
   //#region Private Methods
 
   private updateTabbableItems(): void {
-    this.tabbableItems = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+    setTimeout(() => {
+      this.tabbableItems = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+    }, 1000);
   }
 
   private getItemSizes(): number[] {
@@ -363,6 +372,8 @@ export class ActionBar extends LitElement {
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    this.isMenuOpen = (event.target as ActionGroup["el"]).menuOpen;
+
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
       this.actionGroups?.forEach((group) => {
@@ -424,106 +435,87 @@ export class ActionBar extends LitElement {
     this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
   }
 
-  // private handleKeyDown(event: KeyboardEvent): void {
-  //   this.queryAndStoreActions();
-  //   // const actions = this.actions.filter((action) => !action.disabled);
-  //   const current = document.activeElement;
-  //   const items = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
-  //   console.log(items, current);
-  //   // if (!isAction(current)) {
-  //   //   return;
-  //   // }
-  //   switch (event.key) {
-  //     case "ArrowRight":
-  //     case "ArrowDown":
-  //       focusElementInGroup(items, current, "next", true);
-  //       event.preventDefault();
-  //       break;
-  //     case "ArrowLeft":
-  //     case "ArrowUp":
-  //       focusElementInGroup(items, current, "previous", true);
-  //       event.preventDefault();
-  //       break;
-  //     case "Home":
-  //       focusElementInGroup(items, current, "first", true);
-  //       event.preventDefault();
-  //       break;
-  //     case "End":
-  //       focusElementInGroup(items, current, "last", true);
-  //       event.preventDefault();
-  //       break;
-  //     case "Tab":
-  //       this.setActionTabIndexes(current as HTMLButtonElement);
-  //       break;
-  //     // case "Shift":
-  //     //   this.setActionTabIndexes(current);
-  //     //   break;
-  //   }
-  // }
   private handleKeyDown(event: KeyboardEvent): void {
-    // this.queryAndStoreActions();
     const items = this.tabbableItems;
-    let focusEl: FocusableElement | null = getFirstTabbable(event.target as HTMLElement);
+    const focusEl: FocusableElement | null = getFirstTabbable(event.target as HTMLElement);
 
-    while (focusEl && isAction(focusEl)) {
-      const [next] = tabbable(focusEl, { getShadowRoot: true });
-      if (!next || next === focusEl) {
-        break;
-      }
-      focusEl = next;
+    if (this.isMenuOpen) {
+      return;
     }
 
-    console.log("current element", focusEl);
-    console.log("tabbable items", items);
-
-    // if (!items.includes(focusEl)) {
-    //   return;
-    // }
-
+    let nextIdx: number;
     switch (event.key) {
-      case "ArrowRight":
-      case "ArrowDown": {
-        const nextIdx = (items.indexOf(focusEl) + 1) % items.length;
-        items[nextIdx].focus();
-        this.setToolbarTabIndexes(items[nextIdx], items);
-        event.preventDefault();
+      case "ArrowRight": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
       }
-      case "ArrowLeft":
+      case "ArrowDown": {
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
+      case "ArrowLeft": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
       case "ArrowUp": {
-        const prevIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
-        items[prevIdx].focus();
-        this.setToolbarTabIndexes(items[prevIdx], items);
-        event.preventDefault();
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
       }
       case "Home":
         items[0].focus();
-        this.setToolbarTabIndexes(items[0], items);
+        this.setTabIndexes(items[0], items);
         event.preventDefault();
         break;
       case "End":
         items[items.length - 1].focus();
-        this.setToolbarTabIndexes(items[items.length - 1], items);
+        this.setTabIndexes(items[items.length - 1], items);
         event.preventDefault();
         break;
       case "Tab":
-        this.setToolbarTabIndexes(null, items);
+        this.setTabIndexes(focusEl as HTMLButtonElement, items, true);
         break;
     }
   }
 
-  private setToolbarTabIndexes(active: FocusableElement | null, items: FocusableElement[]): void {
+  private setTabIndexes(
+    active: FocusableElement | null,
+    items: FocusableElement[],
+    checkDisabled = false,
+  ): void {
+    if (this.isMenuOpen) {
+      return;
+    }
     items.forEach((item) => {
-      item.tabIndex = item === active ? 0 : -1;
+      const isDisabled = (checkDisabled && (item as HTMLButtonElement).disabled) ?? false;
+      item.tabIndex = !isDisabled && item === active ? 0 : -1;
     });
   }
 
-  // private setActionTabIndexes(active: HTMLButtonElement): void {
-  //   this.actions.forEach((action) => {
-  //     action.tabIndex = !action.disabled && action.contains(active) ? 0 : -1;
-  //   });
-  // }
+  private clearTabIndexes(): void {
+    this.tabbableItems.forEach((item) => {
+      item.removeAttribute("tabindex");
+    });
+  }
 
   //#endregion
 
