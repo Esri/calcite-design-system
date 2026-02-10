@@ -9,7 +9,8 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { dateToISO } from "../../utils/date";
-import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
