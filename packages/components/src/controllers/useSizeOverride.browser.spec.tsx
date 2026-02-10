@@ -17,7 +17,7 @@ describe("useSizeOverride", async () => {
       getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
       onResize: (resizeValues) => {
         receivedResizeValues = resizeValues;
-        onResizeSpy(resizeValues);
+        new onResizeSpy(resizeValues);
       },
     });
 
