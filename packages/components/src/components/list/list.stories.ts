@@ -6531,10 +6531,10 @@ export const filterGroups = (): string =>
 export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
 
-export const emptyStateDropTarget = (): string =>
+export const emptyContent = (): string =>
   html`<h1>Empty List</h1>
     <calcite-list group="items" drag-enabled label="Park features">
-      <div slot="drag-enabled-empty">
+      <div slot="empty-content">
         <h2>Start configuring a form for the layer</h2>
         <p>Drag items here to add them to the form.</p>
       </div>

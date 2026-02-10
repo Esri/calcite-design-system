@@ -12,7 +12,7 @@ export const CSS = {
 export type SelectionAppearance = "border" | "highlight" | "icon";
 
 export const SLOTS = {
-  dragEnabledEmpty: "drag-enabled-empty",
+  emptyContent: "empty-content",
   filterNoResults: "filter-no-results",
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",
