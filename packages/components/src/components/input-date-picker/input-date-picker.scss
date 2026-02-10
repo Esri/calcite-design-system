@@ -18,6 +18,7 @@
  * @prop --calcite-input-date-picker-calendar-day-background-color: Specifies the background color of the component's calendar day elements.
  * @prop --calcite-input-date-picker-calendar-day-background-color-hover: Specifies the background color of the component's calendar day elements when hovered.
  * @prop --calcite-input-date-picker-calendar-day-current-text-color: [Deprecated] Use `--calcite-input-date-picker-calendar-current-day-text-color`. Specifies the text color of current day of the component's date-picker.
+ * @prop --calcite-input-date-picker-calendar-day-range-background-color: Specifies the background color of the component's calendar selected day range.
  * @prop --calcite-input-date-picker-calendar-day-range-text-color: Specifies the text color of the component's calendar selected day range.
  * @prop --calcite-input-date-picker-calendar-day-text-color-selected: Specifies the text color of component's calendar selected day.
  * @prop --calcite-input-date-picker-calendar-day-outside-range-background-color-hover: Specifies the background color of the component's calendar day elements outside the current range when hovered.
@@ -274,7 +275,9 @@ calcite-date-picker {
     var(--calcite-input-date-picker-calendar-day-current-text-color)
   );
   --calcite-date-picker-day-range-text-color: var(--calcite-input-date-picker-calendar-day-range-text-color);
-  --calcite-date-picker-day-range-background-color: var(--calcite-input-date-picker-calendar-selected-background-color);
+  --calcite-date-picker-day-range-background-color: var(
+    --calcite-input-date-picker-calendar-day-range-background-color
+  );
   --calcite-date-picker-day-outside-range-background-color-hover: var(
     --calcite-input-date-picker-calendar-day-outside-range-background-color-hover
   );

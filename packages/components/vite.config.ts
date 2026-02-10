@@ -32,7 +32,6 @@ const lumina = useLumina({
         proxiesFile: "../components-react/src/components.ts",
       },
     ],
-    preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.\nv${version}`,
   },
   css: {
     globalStylesPath: "src/styles/global/index.scss",
