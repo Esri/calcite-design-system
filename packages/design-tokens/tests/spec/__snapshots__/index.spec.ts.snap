@@ -23624,7 +23624,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -23660,7 +23660,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -23696,7 +23696,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -23732,7 +23732,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -23768,7 +23768,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "lg",
         "value": "14px",
@@ -23804,7 +23804,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xl",
         "value": "16px",
@@ -23840,7 +23840,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxl",
         "value": "20px",
@@ -23876,7 +23876,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
@@ -30598,7 +30598,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxs",
         "value": "4px",
@@ -30634,7 +30634,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xs",
         "value": "6px",
@@ -30670,7 +30670,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "sm",
         "value": "8px",
@@ -30706,7 +30706,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "md",
         "value": "12px",
@@ -30742,7 +30742,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "lg",
         "value": "14px",
@@ -30778,7 +30778,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xl",
         "value": "16px",
@@ -30814,7 +30814,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxl",
         "value": "20px",
@@ -30850,7 +30850,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "type": "dimension",
       "attributes": {
         "category": "spacing",
-        "docs": "deprecated",
+        "docs": "unlisted",
         "type": "dimension",
         "item": "xxxl",
         "value": "32px",
