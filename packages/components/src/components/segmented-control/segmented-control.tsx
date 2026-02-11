@@ -10,7 +10,8 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -53,6 +54,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
   //#region Private Properties
 
   defaultValue: SegmentedControl["value"];
+
+  #dir = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -275,7 +278,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
   protected handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
-    const { el, selectedItem } = this;
+    const { selectedItem } = this;
 
     if (keys.indexOf(key) === -1) {
       return;
@@ -283,7 +286,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
 
     let adjustedKey = key;
 
-    if (getElementDir(el) === "rtl") {
+    if (this.#dir === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

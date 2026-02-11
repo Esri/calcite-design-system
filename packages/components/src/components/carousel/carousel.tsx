@@ -2,9 +2,9 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   focusElementInGroup,
-  getElementDir,
   slotChangeGetAssignedElements,
   whenAnimationDone,
 } from "../../utils/dom";
@@ -47,6 +47,8 @@ export class Carousel extends LitElement {
   private containerRef = createRef<HTMLDivElement>();
 
   private containerId = IDS.host(guid());
+
+  #dir = useDirection();
 
   private itemContainerRef = createRef<HTMLDivElement>();
 
@@ -698,7 +700,7 @@ export class Carousel extends LitElement {
 
   private renderArrow(direction: "previous" | "next"): JsxNode {
     const isPrev = direction === "previous";
-    const dir = getElementDir(this.el);
+    const dir = this.#dir;
     const scale = this.arrowType === "edge" ? "m" : "s";
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
     const title = isPrev ? this.messages.previous : this.messages.next;

@@ -39,6 +39,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
     open: false,
     reposition: async () => {
       await reposition(fake, {
+        direction: "ltr",
         floatingEl,
         referenceEl,
         overlayPositioning: fake.overlayPositioning,
@@ -71,6 +72,7 @@ describe("repositioning", () => {
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
 
     positionOptions = {
+      direction: "ltr",
       floatingEl,
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,

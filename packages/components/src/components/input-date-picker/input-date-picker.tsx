@@ -11,6 +11,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
@@ -112,6 +113,8 @@ export class InputDatePicker
   defaultValue: InputDatePicker["value"];
 
   private dialogId = IDS.dialog(guid());
+
+  #dir = useDirection();
 
   private endInputRef = createRef<InputText["el"]>();
 
@@ -376,6 +379,7 @@ export class InputDatePicker
     return reposition(
       this,
       {
+        direction: this.#dir,
         floatingEl,
         referenceEl,
         overlayPositioning,

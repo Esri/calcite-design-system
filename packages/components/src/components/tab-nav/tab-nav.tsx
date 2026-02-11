@@ -6,13 +6,13 @@ import {
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   Direction,
   filterDirectChildren,
   focusElement,
   focusElementInGroup,
   FocusElementInGroupDestination,
-  getElementDir,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -41,6 +41,8 @@ export class TabNav extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  #dir = useDirection();
 
   private effectiveDir: Direction = "ltr";
 
@@ -180,7 +182,7 @@ export class TabNav extends LitElement {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    this.effectiveDir = getElementDir(this.el);
+    this.effectiveDir = this.#dir;
   }
 
   loaded(): void {

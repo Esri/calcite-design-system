@@ -11,7 +11,8 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
@@ -50,6 +51,8 @@ export class TabTitle extends LitElement {
   private closeButtonRef = createRef<Action["el"]>();
 
   private containerEl: HTMLDivElement;
+
+  #dir = useDirection();
 
   private guid = IDS.host(guid());
 
@@ -341,7 +344,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.#dir === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
           this.calciteInternalTabsFocusPrevious.emit();
@@ -349,7 +352,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.#dir === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
           this.calciteInternalTabsFocusNext.emit();

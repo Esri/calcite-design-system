@@ -11,6 +11,7 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -61,6 +62,8 @@ export class Popover extends LitElement implements FloatingUIComponent {
   //#region Private Properties
 
   private arrowEl: SVGSVGElement;
+
+  #dir = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -244,6 +247,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.#dir,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,

@@ -2,6 +2,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
@@ -9,7 +10,6 @@ import { HourFormat, TimePart } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
-import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
@@ -33,6 +33,8 @@ export class TimePicker extends LitElement implements TimeComponent {
   //#endregion
 
   //#region Private Properties
+
+  #dir = useDirection();
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -601,7 +603,7 @@ export class TimePicker extends LitElement implements TimeComponent {
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: meridiemOrder === 0 || getElementDir(this.el) === "rtl",
+              [CSS.meridiemStart]: meridiemOrder === 0 || this.#dir === "rtl",
             }}
             role="group"
           >

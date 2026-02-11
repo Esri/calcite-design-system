@@ -14,6 +14,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -94,6 +95,8 @@ export class Combobox
   //#region Private Properties
 
   private closeButtonRef = createRef<HTMLButtonElement>();
+
+  #dir = useDirection();
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -531,6 +534,7 @@ export class Combobox
     return reposition(
       this,
       {
+        direction: this.#dir,
         floatingEl,
         referenceEl,
         overlayPositioning,

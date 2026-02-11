@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -50,6 +50,8 @@ export class FlowItem extends LitElement {
   private backButtonRef = createRef<Action["el"]>();
 
   private containerRef = createRef<Panel["el"]>();
+
+  #dir = useDirection();
 
   /**
    * Made into a prop for testing purposes only
@@ -271,9 +273,7 @@ export class FlowItem extends LitElement {
   //#region Rendering
 
   private renderBackButton(): JsxNode {
-    const { el } = this;
-
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = this.#dir === "rtl";
     const { showBackButton, backButtonClick, messages } = this;
     const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;

@@ -2,9 +2,9 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { Alignment, Scale } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
-import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -30,6 +30,8 @@ export class TableCell extends LitElement {
   //#region Private Properties
 
   private containerRef = createRef<HTMLTableCellElement>();
+
+  #dir = useDirection();
 
   /**
    * Made into a prop for testing purposes only
@@ -162,7 +164,7 @@ export class TableCell extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.#dir;
     const staticCell =
       this.disabled ||
       (this.interactionMode === "static" &&

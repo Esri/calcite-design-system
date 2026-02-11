@@ -11,6 +11,7 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -52,6 +53,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   // #region Private Properties
 
   private arrowRef = createRef<SVGSVGElement>();
+
+  #dir = useDirection();
 
   floatingEl: HTMLDivElement;
 
@@ -155,6 +158,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.#dir,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,
