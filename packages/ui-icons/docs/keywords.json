@@ -11809,5 +11809,25 @@
     "alias": ["4.4.0", "template group", "features", "boundaries", "map", "distance"],
     "category": "Template Group",
     "release": "4.4.0"
+  },
+  "conditional-rules-down": {
+    "alias": ["5.0.0", "charts and graphs", "automation", "data", "management", "analysis", "visualization"],
+    "category": "Charts and Graphs",
+    "release": "5.0.0"
+  },
+  "feature-details-set": {
+    "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit", "multi-value"],
+    "category": "Lists",
+    "release": "5.0.0"
+  },
+  "add-to-livestream-video-layer": {
+    "alias": ["5.0.0", "layers", "web", "publish", "ingest", "connection-address", "protocol", "insert"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "add-to-video-layer": {
+    "alias": ["5.0.0", "layers", "insert", "publish", "data", "telemetry", "tool"],
+    "category": "Layers",
+    "release": "5.0.0"
   }
 }

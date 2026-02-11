@@ -1339,6 +1339,10 @@
     "radial-lines": 61876,
     "point-at-every-intersection": 61877,
     "group-off-set-start-of-line": 61878,
-    "3d-search": 61879
+    "3d-search": 61879,
+    "feature-details-set": 61880,
+    "conditional-rules-down": 61881,
+    "add-to-video-layer": 61882,
+    "add-to-livestream-video-layer": 61883
   }
 }

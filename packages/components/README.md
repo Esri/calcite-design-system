@@ -54,7 +54,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](https://github.c
 
 ## License
 
-COPYRIGHT © Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -66,6 +66,6 @@ For additional information, refer to [Calcite's licensing](https://developers.ar
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).
