@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.3...@esri/calcite-components@5.1.0-next.0) (2026-02-11)
+
+### Features
+
+- **list:** add `empty-content` slot that displays content when no default slotted items are present ([#13863](https://github.com/Esri/calcite-design-system/issues/13863)) ([96fa08f](https://github.com/Esri/calcite-design-system/commit/96fa08fb1fddfa02c8b267f396da6d8454851d7e)), closes [#11954](https://github.com/Esri/calcite-design-system/issues/11954) [#11954](https://github.com/Esri/calcite-design-system/issues/11954)
+
 ## [5.0.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.2...@esri/calcite-components@5.0.1-next.3) (2026-02-10)
 
 ### Bug Fixes
