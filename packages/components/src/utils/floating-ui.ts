@@ -292,6 +292,8 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
+   *
+   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
   reposition: (delayed?: boolean) => Promise<void>;
 
