@@ -5,7 +5,6 @@ import { html } from "../../support/formatting";
 import { waitForAnimationFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { IconName } from "../components/icon/interfaces";
-import { toAriaBoolean } from "./aria";
 import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,
@@ -203,18 +202,6 @@ describe("dom", () => {
         </div>
       `;
       expect(getTestComponentMode()).toBe("dark");
-    });
-  });
-
-  describe("toAriaBoolean()", () => {
-    it("handles truthy values", () => {
-      expect(toAriaBoolean(true)).toBe("true");
-    });
-
-    it("handles falsy values", () => {
-      expect(toAriaBoolean(false)).toBe("false");
-      expect(toAriaBoolean(null)).toBe("false");
-      expect(toAriaBoolean(undefined)).toBe("false");
     });
   });
 

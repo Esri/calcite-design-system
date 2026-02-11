@@ -1,6 +1,18 @@
 import { describe, it, expect } from "vitest";
 import { ariaValueFromSize } from "./aria";
 
+describe("toAriaBoolean()", () => {
+  it("handles truthy values", () => {
+    expect(toAriaBoolean(true)).toBe("true");
+  });
+
+  it("handles falsy values", () => {
+    expect(toAriaBoolean(false)).toBe("false");
+    expect(toAriaBoolean(null)).toBe("false");
+    expect(toAriaBoolean(undefined)).toBe("false");
+  });
+});
+
 describe("ariaValueFromSize", () => {
   it("returns block value as string when axis is 'block' and blockValue is not null", () => {
     expect(ariaValueFromSize("block", 42, 100)).toBe("42");
