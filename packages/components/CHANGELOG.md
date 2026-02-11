@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.3...@esri/calcite-components@5.1.0-next.0) (2026-02-11)
+
+### Features
+
+- **list:** add `empty-content` slot that displays content when no default slotted items are present ([#13863](https://github.com/Esri/calcite-design-system/issues/13863)) ([96fa08f](https://github.com/Esri/calcite-design-system/commit/96fa08fb1fddfa02c8b267f396da6d8454851d7e)), closes [#11954](https://github.com/Esri/calcite-design-system/issues/11954) [#11954](https://github.com/Esri/calcite-design-system/issues/11954)
+
+## [5.0.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.2...@esri/calcite-components@5.0.1-next.3) (2026-02-10)
+
+### Bug Fixes
+
+- **dialog:** honor `--calcite-dialog-offset-y` regardless of fullscreen behavior ([#13903](https://github.com/Esri/calcite-design-system/issues/13903)) ([52c6e8b](https://github.com/Esri/calcite-design-system/commit/52c6e8b30d84ffae920bed77840e28bc2de1d7d8)), closes [#13902](https://github.com/Esri/calcite-design-system/issues/13902)
+- **tab-title:** switch order of preferred and deprecated icon color variables ([#13889](https://github.com/Esri/calcite-design-system/issues/13889)) ([eb7db37](https://github.com/Esri/calcite-design-system/commit/eb7db371ac0b5c1f2ddef418c7be819617f41a2c)), closes [#13899](https://github.com/Esri/calcite-design-system/issues/13899)
+
+## [5.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.1...@esri/calcite-components@5.0.1-next.2) (2026-02-06)
+
+### Bug Fixes
+
+- **input-time-picker:** sync popup value with input when directly cleared ([#13875](https://github.com/Esri/calcite-design-system/issues/13875)) ([4bc9d32](https://github.com/Esri/calcite-design-system/commit/4bc9d323b4fd92b7e35cf0cd97c46987aa3d1bef)), closes [#13328](https://github.com/Esri/calcite-design-system/issues/13328)
+
 ## [5.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.0...@esri/calcite-components@5.0.1-next.1) (2026-02-06)
 
 ### Bug Fixes
