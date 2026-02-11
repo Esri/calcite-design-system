@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ariaValueFromSize } from "./aria";
+import { ariaValueFromSize, toAriaBoolean } from "./aria";
 
 describe("toAriaBoolean()", () => {
   it("handles truthy values", () => {
