@@ -1,4 +1,4 @@
-# React and TypeScript
+# React 18 and below with TypeScript
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md)
 
