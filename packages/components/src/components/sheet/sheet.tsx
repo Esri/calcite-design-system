@@ -487,7 +487,7 @@ export class Sheet extends LitElement {
     this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
 
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentRef.value);
+      computedStyle;
 
     const values: ResizeValues = {
       inlineSize: getStylePixelValue(inlineSize),
