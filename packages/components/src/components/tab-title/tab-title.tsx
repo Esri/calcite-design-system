@@ -11,7 +11,8 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { getElementDir, nodeListToArray } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";

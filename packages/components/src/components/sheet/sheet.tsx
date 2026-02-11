@@ -19,6 +19,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
@@ -112,6 +113,9 @@ export class Sheet extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResize: (resizeValues) => {
+      this.resizeValues = { ...resizeValues };
+    },
   });
 
   private topLayer = useTopLayer<this>({
@@ -454,17 +458,7 @@ export class Sheet extends LitElement {
       return;
     }
 
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private cleanupInteractions(): void {
@@ -486,8 +480,14 @@ export class Sheet extends LitElement {
 
     await this.el.componentOnReady();
 
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
+    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
+    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
+    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
+
     const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentRef.value);
+      computedStyle;
 
     const values: ResizeValues = {
       inlineSize: getStylePixelValue(inlineSize),
@@ -497,8 +497,6 @@ export class Sheet extends LitElement {
       maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
       maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
     };
-
-    this.resizeValues = values;
 
     const rtl = getElementDir(el) === "rtl";
 
@@ -613,13 +611,21 @@ export class Sheet extends LitElement {
             <div
               ariaLabel={this.messages.resizeEnabled}
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
-              ariaValueMax={
-                isBlockPosition ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-              }
-              ariaValueMin={
-                isBlockPosition ? resizeValues.minBlockSize : resizeValues.minInlineSize
-              }
-              ariaValueNow={isBlockPosition ? resizeValues.blockSize : resizeValues.inlineSize}
+              ariaValueMax={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.maxBlockSize,
+                resizeValues.maxInlineSize,
+              )}
+              ariaValueMin={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.minBlockSize,
+                resizeValues.minInlineSize,
+              )}
+              ariaValueNow={ariaValueFromSize(
+                isBlockPosition ? "block" : "inline",
+                resizeValues.blockSize,
+                resizeValues.inlineSize,
+              )}
               class={CSS.resizeHandle}
               key="resize-handle"
               onKeyDown={this.handleKeyDown}

@@ -2,7 +2,8 @@
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues, isServer } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
