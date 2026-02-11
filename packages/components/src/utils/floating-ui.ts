@@ -34,71 +34,79 @@ function roundByDPR(value: number): number {
   return Math.round(value * dpr) / dpr;
 }
 
+interface PositionFloatingUiOptions {
+  /**
+   * The associated arrow element used to point to the reference element, if applicable.
+   */
+  arrowEl?: SVGSVGElement;
+
+  /**
+   * Prevents flipping the component's placement when overlapping its `referenceElement`.
+   */
+  flipDisabled?: boolean;
+
+  /**
+   * Defines the available placements that can be used when a flip occurs.
+   */
+  flipPlacements?: FlipPlacement[];
+
+  /**
+   * The `floatingElement` containing the floating ui.
+   */
+  floatingEl: HTMLElement;
+
+  /**
+   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
+   */
+  overlayPositioning: Strategy;
+
+  /**
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   */
+  placement: LogicalPlacement;
+
+  /**
+   * Offsets the position of the popover away from the `referenceElement`.
+   */
+  offsetDistance?: number;
+
+  /**
+   * Offsets the position of the component along the `referenceElement`.
+   */
+  offsetSkidding?: number;
+
+  /**
+   * The `referenceElement` used to position the component according to its `placement` value.
+   */
+  referenceEl: ReferenceElement;
+
+  /**
+   * The type of floating UI, which determines the default middleware used for positioning.
+   */
+  type: UIType;
+}
+
 /**
  * Positions the floating element relative to the reference element.
  *
  * **Note:** exported for testing purposes only
- *
- * @param root0
- * @param root0.referenceEl
- * @param root0.floatingEl
- * @param root0.overlayPositioning
- * @param root0.placement
- * @param root0.flipDisabled
- * @param root0.flipPlacements
- * @param root0.offsetDistance
- * @param root0.offsetSkidding
- * @param root0.arrowEl
- * @param root0.type
- * @param component
- * @param root0.referenceEl.referenceEl
- * @param root0.referenceEl.floatingEl
- * @param root0.referenceEl.overlayPositioning
- * @param root0.referenceEl.placement
- * @param root0.referenceEl.flipDisabled
- * @param root0.referenceEl.flipPlacements
- * @param root0.referenceEl.offsetDistance
- * @param root0.referenceEl.offsetSkidding
- * @param root0.referenceEl.arrowEl
- * @param root0.referenceEl.type
- * @param component.referenceEl
- * @param component.floatingEl
- * @param component.overlayPositioning
- * @param component.placement
- * @param component.flipDisabled
- * @param component.flipPlacements
- * @param component.offsetDistance
- * @param component.offsetSkidding
- * @param component.arrowEl
- * @param component.type
  */
 export const positionFloatingUI =
   /* we export arrow function to allow us to spy on it during testing */
   async (
     component: FloatingUIComponent,
     {
-      referenceEl,
-      floatingEl,
-      overlayPositioning = "absolute",
-      placement,
+      arrowEl,
       flipDisabled,
       flipPlacements,
+      floatingEl,
       offsetDistance,
       offsetSkidding,
-      arrowEl,
+      overlayPositioning = "absolute",
+      placement,
+      referenceEl,
       type,
-    }: {
-      referenceEl: ReferenceElement;
-      floatingEl: HTMLElement;
-      overlayPositioning: Strategy;
-      placement: LogicalPlacement;
-      flipDisabled?: boolean;
-      flipPlacements?: FlipPlacement[];
-      offsetDistance?: number;
-      offsetSkidding?: number;
-      arrowEl?: SVGSVGElement;
-      type: UIType;
-    },
+    }: PositionFloatingUiOptions,
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
       return;
@@ -284,8 +292,6 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
-   *
-   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
   reposition: (delayed?: boolean) => Promise<void>;
 
@@ -410,21 +416,11 @@ export function getEffectivePlacement(placement: LogicalPlacement, isRTL = false
  *
  * @param component - A floating-ui component.
  * @param options - Reposition parameters.
- * @param options.referenceEl - The `referenceElement` used to position the component according to its `placement` value.
- * @param options.floatingEl - The `floatingElement` containing the floating ui.
- * @param options.overlayPositioning - type of positioning to use for the overlaid content.
- * @param options.placement - Determines where the component will be positioned relative to the `referenceElement`.
- * @param options.flipDisabled - Prevents flipping the component's placement when overlapping its `referenceElement`.
- * @param options.flipPlacements - Defines the available placements that can be used when a flip occurs.
- * @param options.offsetDistance - Offsets the position of the popover away from the `referenceElement`.
- * @param options.offsetSkidding - Offsets the position of the component along the `referenceElement`.
- * @param options.arrowEl - A customizable arrow element.
- * @param options.type - The type of floating UI.
  * @param delayed - Reposition the component after a delay.
  */
 export async function reposition(
   component: FloatingUIComponent,
-  options: Parameters<typeof positionFloatingUI>[1],
+  options: PositionFloatingUiOptions,
   delayed = false,
 ): Promise<void> {
   if (!component.open || !options.floatingEl || !options.referenceEl) {
@@ -538,8 +534,6 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
 /**
  * Helper to hide the floating element when the component is closed. This should be called within onClose() of an OpenCloseComponent.
- *
- * @param component - A floating-ui component.
  */
 export function hideFloatingUI(component: FloatingUIComponent): void {
   const { floatingEl } = component;
@@ -561,8 +555,6 @@ export function hideFloatingUI(component: FloatingUIComponent): void {
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
- *
- * @param component - A floating-ui component.
  */
 export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
   const { floatingEl, referenceEl } = component;
@@ -584,8 +576,6 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
 
 /**
  * Helper to tear down floating element interactions on disconnectedCallback.
- *
- * @param component - A floating-ui component.
  */
 export function disconnectFloatingUI(component: FloatingUIComponent): void {
   const trackedState = autoUpdatingComponentMap.get(component);
