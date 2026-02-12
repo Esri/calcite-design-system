@@ -39,7 +39,7 @@
         "attributes": {
           "category": "font",
           "group": "weight",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-font-weight-regular` instead."
       },
@@ -131,7 +131,7 @@
         "attributes": {
           "category": "font",
           "group": "size",
-          "status": "deprecated"
+          "docs": "deprecated"
         },
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-font-size-2xl` instead."
       },
@@ -526,7 +526,7 @@
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "normal": {
@@ -536,7 +536,7 @@
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "wide": {
@@ -546,7 +546,7 @@
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       }
     },
@@ -569,7 +569,7 @@
         "attributes": {
           "category": "font",
           "group": "text-decoration",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "underline": {
@@ -579,7 +579,7 @@
         "attributes": {
           "category": "font",
           "group": "text-decoration",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       }
     },
@@ -591,7 +591,7 @@
         "attributes": {
           "category": "font",
           "group": "text-case",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "uppercase": {
@@ -601,7 +601,7 @@
         "attributes": {
           "category": "font",
           "group": "text-case",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "lowercase": {
@@ -611,7 +611,7 @@
         "attributes": {
           "category": "font",
           "group": "text-case",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "capitalize": {
@@ -621,7 +621,7 @@
         "attributes": {
           "category": "font",
           "group": "text-case",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       }
     }

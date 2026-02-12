@@ -10,7 +10,7 @@
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-container-size-height-2xs-min|max` instead.",
         "attributes": {
           "category": "breakpoint",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "2xs": {
@@ -89,7 +89,7 @@
         "description": "Deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-container-size-width-2xs-min|max` instead.",
         "attributes": {
           "category": "breakpoint",
-          "status": "deprecated"
+          "docs": "deprecated"
         }
       },
       "2xs": {

@@ -7,8 +7,8 @@ import {
   getElementDir,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
