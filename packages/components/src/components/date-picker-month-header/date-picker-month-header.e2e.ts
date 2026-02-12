@@ -71,19 +71,13 @@ describe("calcite-date-picker-month-header", () => {
     const datePickerMonthHeader = await page.find("calcite-date-picker-month-header");
     const [prev, next] = await findAll(page, "calcite-date-picker-month-header >>> .chevron");
 
-    datePickerMonthHeader.setProperty("scale", "m");
-    await page.waitForChanges();
-    expect(await prev.getProperty("scale")).toBe("m");
-    expect(await next.getProperty("scale")).toBe("m");
+    const scales = ["s", "m", "l"] as const;
 
-    datePickerMonthHeader.setProperty("scale", "l");
-    await page.waitForChanges();
-    expect(await prev.getProperty("scale")).toBe("l");
-    expect(await next.getProperty("scale")).toBe("l");
-
-    datePickerMonthHeader.setProperty("scale", "s");
-    await page.waitForChanges();
-    expect(await prev.getProperty("scale")).toBe("s");
-    expect(await next.getProperty("scale")).toBe("s");
+    for (const scale of scales) {
+      datePickerMonthHeader.setProperty("scale", scale);
+      await page.waitForChanges();
+      expect(await prev.getProperty("scale")).toBe(scale);
+      expect(await next.getProperty("scale")).toBe(scale);
+    }
   });
 });
