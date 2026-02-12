@@ -188,7 +188,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         },
         "underline": {
@@ -197,7 +197,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         }
       },
@@ -208,7 +208,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         },
         "uppercase": {
@@ -217,7 +217,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         },
         "lowercase": {
@@ -226,7 +226,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         },
         "capitalize": {
@@ -235,7 +235,7 @@
           "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
-            "status": "deprecated"
+            "docs": "deprecated"
           }
         }
       }
