@@ -73,7 +73,7 @@ describe("calcite-date-picker-month-header", () => {
     });
 
     const datePickerMonthHeader = el;
-    const [prev, next] = el.shadowRoot.querySelectorAll(".chevron") as unknown as Action[];
+    const [prev, next] = el.shadowRoot.querySelectorAll<Action>(".chevron");
 
     const scales = ["s", "m", "l"] as const;
 
