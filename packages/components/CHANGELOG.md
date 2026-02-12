@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.0...@esri/calcite-components@5.1.0-next.1) (2026-02-12)
+
+### Features
+
+- **shell-panel, sheet:** improve size override capability ([#13519](https://github.com/Esri/calcite-design-system/issues/13519)) ([4069edd](https://github.com/Esri/calcite-design-system/commit/4069edde3eb72d46f507674d37bb1f6e2cb7c3b0)), closes [#10568](https://github.com/Esri/calcite-design-system/issues/10568)
+
 ## [5.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.3...@esri/calcite-components@5.1.0-next.0) (2026-02-11)
 
 ### Features
