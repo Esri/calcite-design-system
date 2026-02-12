@@ -360,14 +360,29 @@ export class TreeItem extends LitElement {
     }
   }
 
+  private getSelectionIcon(): IconName {
+    const { selectionMode, hasChildren } = this;
+    if (
+      selectionMode === "single" ||
+      selectionMode === "children" ||
+      selectionMode === "single-persist"
+    ) {
+      return ICONS.bulletPoint;
+    } else if (selectionMode === "multiple" || selectionMode === "multichildren") {
+      return ICONS.checkmark;
+    } else if (selectionMode === "none" && !hasChildren) {
+      return ICONS.blank;
+    }
+    return null;
+  }
+
   //#endregion
 
   //#region Rendering
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showCheckmark = this.selectionMode !== "none" && this.selectionMode !== "ancestors";
-    const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const selectionIcon = this.getSelectionIcon();
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron =
@@ -401,14 +416,14 @@ export class TreeItem extends LitElement {
           />
         </div>
       ) : null;
-    const selectedIcon = showCheckmark ? ICONS.checkmark : showBlank ? ICONS.blank : null;
-    const itemIndicator = selectedIcon ? (
+
+    const itemIndicator = selectionIcon ? (
       <calcite-icon
         class={{
-          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS.selectionIcon]: true,
           [CSS_UTILITY.rtl]: rtl,
         }}
-        icon={selectedIcon}
+        icon={selectionIcon}
         scale={getIconScale(this.scale)}
       />
     ) : null;
