@@ -208,7 +208,7 @@ localized.parameters = {
 };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
-  createBreakpointStories(html`<calcite-date-picker value="2000-11-27"></calcite-date-picker>`);
+  createBreakpointStories(html`<calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>`);
 
 export const defaultWidthAllScales_TestOnly = (): string => html`
   <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
