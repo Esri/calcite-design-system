@@ -27,6 +27,7 @@
         "@cspell/**",
         "@prettier",
         "@typescript-eslint/**",
+        "@vitest/eslint-plugin",
         "husky",
         "lint-staged",
         "markdownlint-cli2",
@@ -60,7 +61,7 @@
     {
       "groupName": "Tests (Browser)",
       "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["playwright", "happy-dom", "@vitest/**", "vitest"]
+      "matchPackageNames": ["!@vitest/eslint-plugin", "@vitest/**", "happy-dom", "playwright", "vitest"]
     },
     {
       "groupName": "Tests (A11y)",
