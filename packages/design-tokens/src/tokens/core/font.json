@@ -185,7 +185,7 @@
         "none": {
           "value": "none",
           "type": "textDecoration",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
@@ -194,7 +194,7 @@
         "underline": {
           "value": "underline",
           "type": "textDecoration",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
@@ -205,7 +205,7 @@
         "none": {
           "value": "none",
           "type": "textCase",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
@@ -214,7 +214,7 @@
         "uppercase": {
           "value": "uppercase",
           "type": "textCase",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
@@ -223,7 +223,7 @@
         "lowercase": {
           "value": "lowercase",
           "type": "textCase",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
@@ -232,7 +232,7 @@
         "capitalize": {
           "value": "capitalize",
           "type": "textCase",
-          "description": "Deprecated in v3.0.0, removal target v6.0.0 - No longer needed.",
+          "description": "Deprecated in Calcite Components v3.0.0, removal target v6.0.0 - No longer needed.",
           "attributes": {
             "category": "font",
             "docs": "deprecated"
