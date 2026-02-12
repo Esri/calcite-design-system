@@ -29,7 +29,6 @@ import {
   slotChangeHasAssignedNode,
   slotChangeHasContent,
   slotChangeHasTextContent,
-  toAriaBoolean,
   viewportUnitToPixel,
   whenAnimationDone,
   whenTransitionDone,
@@ -203,18 +202,6 @@ describe("dom", () => {
         </div>
       `;
       expect(getTestComponentMode()).toBe("dark");
-    });
-  });
-
-  describe("toAriaBoolean()", () => {
-    it("handles truthy values", () => {
-      expect(toAriaBoolean(true)).toBe("true");
-    });
-
-    it("handles falsy values", () => {
-      expect(toAriaBoolean(false)).toBe("false");
-      expect(toAriaBoolean(null)).toBe("false");
-      expect(toAriaBoolean(undefined)).toBe("false");
     });
   });
 
