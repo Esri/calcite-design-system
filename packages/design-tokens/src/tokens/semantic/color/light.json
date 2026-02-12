@@ -51,7 +51,7 @@
           "group": "background",
           "docs": "deprecated"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-1` instead."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-1` instead."
       },
       "none": {
         "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
@@ -61,7 +61,7 @@
           "group": "background",
           "docs": "unlisted"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - No longer needed."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       }
     },
     "foreground": {
@@ -73,7 +73,7 @@
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-2` instead."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-2` instead."
       },
       "2": {
         "value": "{core.color.neutral.blk-010}",
@@ -83,7 +83,7 @@
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-3` instead."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-3` instead."
       },
       "3": {
         "value": "{core.color.neutral.blk-020}",
@@ -93,7 +93,7 @@
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - Use `--calcite-color-surface-4` instead."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-4` instead."
       },
       "current": {
         "value": "{core.color.high-saturation.blue.h-bb-010}",
@@ -103,7 +103,7 @@
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in Calcite Components v3.3.0, removal target v6.0.0 - Use `--calcite-color-surface-highlight` instead."
+        "description": "Deprecated in v3.3.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
     },
     "text": {
@@ -197,7 +197,7 @@
           "group": "border",
           "docs": "unlisted"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - No longer needed."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       },
       "white": {
         "value": "{core.color.neutral.blk-000}",
@@ -207,7 +207,7 @@
           "group": "border",
           "docs": "unlisted"
         },
-        "description": "Deprecated in Calcite Components v5.0.0, removal target v6.0.0 - No longer needed."
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       }
     },
     "brand": {
