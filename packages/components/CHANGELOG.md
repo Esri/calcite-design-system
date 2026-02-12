@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0...@esri/calcite-components@5.0.1) (2026-02-12)
+
+
+### Bug Fixes
+
+* **dialog:** Honor `--calcite-dialog-offset-y` regardless of fullscreen behavior ([#13903](https://github.com/Esri/calcite-design-system/issues/13903)) ([b3a4215](https://github.com/Esri/calcite-design-system/commit/b3a4215e8da3d3e8aafbc26f1289f05707396141))
+* **input-date-picker:** Allow configuring range calendar background color via token ([#13873](https://github.com/Esri/calcite-design-system/issues/13873)) ([41481c2](https://github.com/Esri/calcite-design-system/commit/41481c2d3a14c082e903646ebfeac00f4323a2b0))
+* **input-time-picker:** Emit change event when clearing meridiem ([#13836](https://github.com/Esri/calcite-design-system/issues/13836)) ([c0b2fc5](https://github.com/Esri/calcite-design-system/commit/c0b2fc5684b0707639f4d6b5ff8896f7891e83ee))
+* **input-time-picker:** Sync popup value with input when directly cleared ([#13875](https://github.com/Esri/calcite-design-system/issues/13875)) ([611234a](https://github.com/Esri/calcite-design-system/commit/611234a3c906201e3ed1ac67db7541e47bbb82ef))
+* **tab-title:** Switch order of preferred and deprecated icon color variables ([#13889](https://github.com/Esri/calcite-design-system/issues/13889)) ([1459c8c](https://github.com/Esri/calcite-design-system/commit/1459c8ced4526a4dcdd6179286b351b8e1113ce4))
+* **tree-item:** Restore selection icon to bullet when `selection-mode='single'|'single-persist'|'children'` ([#13915](https://github.com/Esri/calcite-design-system/issues/13915)) ([c8e6f4f](https://github.com/Esri/calcite-design-system/commit/c8e6f4f945bebd923968bd313bf67faf233d7352))
+
 ## [5.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.3...@esri/calcite-components@5.0.0) (2026-02-04)
 
 ### ⚠ BREAKING CHANGES
