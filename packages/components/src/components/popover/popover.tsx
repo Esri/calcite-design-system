@@ -27,7 +27,8 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { queryElementRoots } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
