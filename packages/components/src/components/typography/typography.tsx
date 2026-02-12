@@ -19,6 +19,8 @@ export class Typography extends LitElement {
 
   //#region Private Properties
 
+  private defaultText: string;
+
   private value: string;
 
   private isTruncated = false;
@@ -56,7 +58,7 @@ export class Typography extends LitElement {
 
   @property() nowrap: boolean;
 
-  @property({ reflect: true }) maxLines: number;
+  @property({ type: Number, reflect: true }) maxLines: number;
 
   @property({ reflect: true }) truncatePosition: "start" | "middle" | "end" = "end";
 
