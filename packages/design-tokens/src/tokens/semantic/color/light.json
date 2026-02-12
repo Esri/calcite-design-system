@@ -103,7 +103,7 @@
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v3.3.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
+        "description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
     },
     "text": {
