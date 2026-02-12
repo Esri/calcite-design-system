@@ -77,7 +77,7 @@ cp -r node_modules/@esri/calcite-components/dist/cdn/assets/ ./public
 
 ### Import the styles
 
-Angular does not automatically load `.css` assets from external libraries. To ensure all component styles load correctly, import Calcite’s CSS in your Angular app’s global stylesheet (`src/styles.css`):
+Angular does not automatically load `.css` assets from external libraries. To ensure all component styles load correctly, explicitly import Calcite’s CSS in the project's root stylesheet (`src/styles.css`):
 
 ```javascript
 import "@esri/calcite-components/main.css";
