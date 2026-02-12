@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.2...@esri/calcite-components@5.0.2-next.0) (2026-02-12)
+
+### Bug Fixes
+
+- **date-picker:** set appropriate scale for month header actions ([#13922](https://github.com/Esri/calcite-design-system/issues/13922)) ([48d2099](https://github.com/Esri/calcite-design-system/commit/48d2099d7f772470c3ed4f3dd6ceafb7cacc9aaa)), closes [#13914](https://github.com/Esri/calcite-design-system/issues/13914)
+
 ## [5.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0...@esri/calcite-components@5.0.1) (2026-02-12)
 
 ### Bug Fixes
