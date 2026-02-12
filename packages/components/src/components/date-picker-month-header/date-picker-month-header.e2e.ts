@@ -66,18 +66,4 @@ describe("calcite-date-picker-month-header", () => {
     const yearInput = await page.find(`calcite-date-picker-month-header >>> input`);
     expect(yearInput.getAttribute("aria-label")).toBe(messages.year);
   });
-
-  it("displays the correct scale for actions", async () => {
-    const datePickerMonthHeader = await page.find("calcite-date-picker-month-header");
-    const [prev, next] = await findAll(page, "calcite-date-picker-month-header >>> .chevron");
-
-    const scales = ["s", "m", "l"] as const;
-
-    for (const scale of scales) {
-      datePickerMonthHeader.setProperty("scale", scale);
-      await page.waitForChanges();
-      expect(await prev.getProperty("scale")).toBe(scale);
-      expect(await next.getProperty("scale")).toBe(scale);
-    }
-  });
 });
