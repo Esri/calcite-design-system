@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.1...@esri/calcite-components@5.1.0-next.2) (2026-02-12)
+
+### Features
+
+- **tree-item:** restore selection icon to bullet when `selection-mode='single'|'single-persist'|'children'` ([#13915](https://github.com/Esri/calcite-design-system/issues/13915)) ([b0d28f4](https://github.com/Esri/calcite-design-system/commit/b0d28f43dece08a8fe4b1a01287dea44b2bf8791)), closes [#13817](https://github.com/Esri/calcite-design-system/issues/13817)
+
 ## [5.1.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.0...@esri/calcite-components@5.1.0-next.1) (2026-02-12)
 
 ### Features
