@@ -5,5 +5,5 @@
   "pause": "Pauze",
   "carousel": "Karuselis",
   "carouselItemProgress": "Progresa indikators karuseļa vienībai",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Vienība {current} no {total}"
 }

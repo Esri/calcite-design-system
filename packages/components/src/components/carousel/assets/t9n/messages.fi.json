@@ -5,5 +5,5 @@
   "pause": "Keskeytä",
   "carousel": "Pyörivä näkymä",
   "carouselItemProgress": "Pyörivän näkymän kohteen edistymisen ilmaisin",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Kohde {current}/{total}"
 }
