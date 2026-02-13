@@ -475,6 +475,18 @@ export class InputNumber
 
   //#region Private Methods
 
+  onFormSubmit(event: SubmitEvent): void {
+    const inputValue = this.childNumberRef?.value.value;
+    if (!inputValue) {
+      return;
+    }
+    if (inputValue !== this.value && ["-", ".", "e", "E", ","].includes(inputValue)) {
+      event.preventDefault();
+      event.stopPropagation();
+      // TODO: trigger validation error
+    }
+  }
+
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
   }
@@ -875,6 +887,11 @@ export class InputNumber
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
+
+    if (newValue) {
+      this.status = isValidNumber(newValue) ? "valid" : "invalid";
+    }
+
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;

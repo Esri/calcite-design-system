@@ -1789,6 +1789,13 @@ describe("calcite-input-number", () => {
       validation: true,
     });
 
+    formAssociated("calcite-input-number", {
+      testValue: "-",
+      submitsOnEnter: true,
+      inputType: "number",
+      validation: true,
+    });
+
     testPostValidationFocusing("calcite-input-number");
 
     testHiddenInputSyncing("calcite-input-number");

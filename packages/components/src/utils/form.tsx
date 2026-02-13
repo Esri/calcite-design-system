@@ -123,6 +123,9 @@ export interface FormComponent<T = any> extends FormOwner {
   /** Hook for components to provide custom form reset behavior. */
   onFormReset?: () => void;
 
+  /** Hook for components to provide custom form submit behavior. */
+  onFormSubmit?: (event: SubmitEvent) => void;
+
   /**
    * Hook for components to sync _extra_ props on the hidden input form element used for form-submitting.
    *
@@ -153,6 +156,7 @@ function isCheckable(component: FormComponent): component is CheckableFormCompon
 }
 
 const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
+const onFormSubmitMap = new WeakMap<HTMLElement, FormComponent["onFormSubmit"]>();
 const formComponentSet = new WeakSet<HTMLElement>();
 
 /**
@@ -371,6 +375,11 @@ export function connectForm<T>(component: FormComponent<T>): void {
   const boundOnFormReset = onFormReset.bind(component);
   associatedForm.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(component.el, boundOnFormReset);
+
+  const boundOnFormSubmit = onFormSubmit.bind(component);
+  associatedForm.addEventListener("submit", boundOnFormSubmit);
+  onFormSubmitMap.set(component.el, boundOnFormSubmit);
+
   formComponentSet.add(el);
 }
 
@@ -410,6 +419,10 @@ function onFormReset<T>(this: FormComponent<T>): void {
   this.onFormReset?.();
 }
 
+function onFormSubmit(event: SubmitEvent): void {
+  this.onFormSubmit?.(event);
+}
+
 /**
  * Helper to tear down form interactions on disconnectedCallback.
  *
@@ -425,6 +438,11 @@ export function disconnectForm<T>(component: FormComponent<T>): void {
   const boundOnFormReset = onFormResetMap.get(el);
   formEl.removeEventListener("reset", boundOnFormReset);
   onFormResetMap.delete(el);
+
+  const boundOnFormSubmit = onFormSubmitMap.get(el);
+  formEl.removeEventListener("submit", boundOnFormSubmit);
+  onFormSubmitMap.delete(el);
+
   component.formEl = null;
   formComponentSet.delete(el);
 }
