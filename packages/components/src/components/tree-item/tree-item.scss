@@ -161,7 +161,6 @@
   @apply pointer-events-none flex items-center;
 }
 
-.node-and-actions-container,
 .children-container {
   opacity: 0;
   max-block-size: 0;
@@ -172,7 +171,6 @@
   pointer-events: none;
 }
 
-.item--expanded > .node-and-actions-container,
 .item--expanded > .children-container {
   opacity: 1;
   max-block-size: 900px;
