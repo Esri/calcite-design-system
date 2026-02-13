@@ -5,5 +5,5 @@
   "pause": "Felfüggesztés",
   "carousel": "Forgótár",
   "carouselItemProgress": "Folyamatjelző a Forgótár elemhez",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "{current}/{total}. tétel"
 }
