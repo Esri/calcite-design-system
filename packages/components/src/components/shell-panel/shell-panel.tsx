@@ -432,7 +432,7 @@ export class ShellPanel extends LitElement {
     });
   }
 
-  private handleActionBarSlotChange(event: Event): void {
+  private async handleActionBarSlotChange(event: Event): Promise<void> {
     const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
       el?.matches("calcite-action-bar"),
     );
@@ -440,12 +440,8 @@ export class ShellPanel extends LitElement {
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
 
-    // Trigger overflow recalculation after layout and styles are applied
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        actionBars.forEach((actionBar) => actionBar.overflowActions());
-      });
-    });
+    await this.updateComplete;
+    actionBars.forEach((actionBar) => actionBar.overflowActions());
   }
 
   private handleHeaderSlotChange(event: Event): void {
