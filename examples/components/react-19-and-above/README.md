@@ -1,8 +1,8 @@
-# React and TypeScript
+# React 19+ and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react-19-and-above?file=README.md)
 
-This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
+This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components).
 
 To install dependencies and start the development server, run:
 
