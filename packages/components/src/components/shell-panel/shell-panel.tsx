@@ -91,7 +91,7 @@ export class ShellPanel extends LitElement {
   //#region Public Properties
 
   /** Specifies the placement of the `calcite-action-bar` (when slotted). */
-  @property({ reflect: true }) actionBarPosition: Position;
+  @property({ reflect: true }) actionBarPosition?: Position;
 
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
