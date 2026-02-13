@@ -218,10 +218,6 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-  }
-
   override firstUpdated(): void {
     this.setupActionBarObserver();
   }
