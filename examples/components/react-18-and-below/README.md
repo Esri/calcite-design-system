@@ -39,9 +39,6 @@ import { setAssetPath } from "@esri/calcite-components/dist/components";
 
 // Local assets
 setAssetPath(window.location.href);
-
-// CDN hosted assets
-// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/cdn/assets");
 ```
 
 Next, import the components used in your application:
