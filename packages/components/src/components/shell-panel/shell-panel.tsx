@@ -171,6 +171,9 @@ export class ShellPanel extends LitElement {
   //#region Events
 
   /** @private */
+  calciteInternalShellPanelResizableChange = createEvent({ cancelable: false });
+
+  /** @private */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
 
   /** @private */
@@ -202,6 +205,9 @@ export class ShellPanel extends LitElement {
       this.hasUpdated
     ) {
       this.setupInteractions();
+    }
+    if (changes.has("resizable") && this.hasUpdated) {
+      this.calciteInternalShellPanelResizableChange.emit();
     }
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {

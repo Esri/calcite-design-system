@@ -70,6 +70,10 @@ export class Shell extends LitElement {
   constructor() {
     super();
     this.listen(
+      "calciteInternalShellPanelResizableChange",
+      this.handleCalciteInternalShellPanelResizableChange,
+    );
+    this.listen(
       "calciteInternalShellPanelResizeStart",
       this.handleCalciteInternalShellPanelResizeStart,
     );
@@ -95,6 +99,11 @@ export class Shell extends LitElement {
   // #endregion
 
   // #region Private Methods
+
+  private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
+    this.updateShellPanelConfig();
+    event.stopPropagation();
+  }
 
   private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
@@ -196,16 +205,10 @@ export class Shell extends LitElement {
     const shellPanels = this.el.querySelectorAll<ShellPanel["el"]>("calcite-shell-panel");
 
     shellPanels.forEach((panel) => {
-      const slot = panel.getAttribute("slot");
-      // const actionBarPosition = panel.getAttribute("action-bar-position");
-      const resizable = panel.getAttribute("resizable");
+      const { slot, resizable } = panel;
 
-      // if (slot && actionBarPosition) {
-      //   this.el.setAttribute(`data-${slot}-action-bar-${actionBarPosition}`, "");
-      // }
-
-      if (slot && resizable !== null) {
-        this.el.setAttribute(`data-${slot}-resizable`, "");
+      if (slot && resizable) {
+        this.el.setAttribute(`data-resizable`, `${slot}`);
       }
     });
   }
