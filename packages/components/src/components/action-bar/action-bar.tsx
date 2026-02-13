@@ -3,10 +3,12 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { FocusableElement, tabbable } from "tabbable";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
+  getFirstTabbable,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -19,9 +21,7 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
-import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
-import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
@@ -58,6 +58,8 @@ export class ActionBar extends LitElement {
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
+
+  private tabbableItems: FocusableElement[] = [];
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
@@ -157,6 +159,14 @@ export class ActionBar extends LitElement {
 
   private setExpandToggleEl = (el: Action["el"]): void => {
     this.expandToggleEl = el;
+  };
+
+  private isMenuOpen = false;
+
+  private handleFocusOut = (event: FocusEvent): void => {
+    if (!this.el.contains(event.relatedTarget as Node)) {
+      this.clearTabIndexes();
+    }
   };
 
   //#endregion
@@ -263,6 +273,7 @@ export class ActionBar extends LitElement {
     super();
     this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
     this.listen("keydown", this.handleKeyDown);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -324,6 +335,12 @@ export class ActionBar extends LitElement {
 
   //#region Private Methods
 
+  private updateTabbableItems(): void {
+    setTimeout(() => {
+      this.tabbableItems = tabbable(this.el, { includeContainer: true, getShadowRoot: true });
+    }, 1000);
+  }
+
   private getItemSizes(): number[] {
     const { el, layout, expandToggleEl } = this;
 
@@ -355,6 +372,8 @@ export class ActionBar extends LitElement {
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    this.isMenuOpen = (event.target as ActionGroup["el"]).menuOpen;
+
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
       this.actionGroups?.forEach((group) => {
@@ -370,6 +389,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -389,10 +409,12 @@ export class ActionBar extends LitElement {
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();
+    this.updateTabbableItems();
   }
 
   private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.updateTabbableItems();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -414,42 +436,84 @@ export class ActionBar extends LitElement {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    this.queryAndStoreActions();
-    const actions = this.actions.filter((action) => !action.disabled);
-    const current = document.activeElement;
+    const items = this.tabbableItems;
+    const focusEl: FocusableElement | null = getFirstTabbable(event.target as HTMLElement);
 
-    if (!isAction(current)) {
+    if (this.isMenuOpen) {
       return;
     }
 
+    let nextIdx: number;
     switch (event.key) {
-      case "ArrowRight":
-      case "ArrowDown":
-        focusElementInGroup(actions, current, "next", true);
-        event.preventDefault();
+      case "ArrowRight": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
-      case "ArrowLeft":
-      case "ArrowUp":
-        focusElementInGroup(actions, current, "previous", true);
-        event.preventDefault();
+      }
+      case "ArrowDown": {
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) + 1) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
         break;
+      }
+      case "ArrowLeft": {
+        if (this.layout === "horizontal") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
+      case "ArrowUp": {
+        if (this.layout === "vertical") {
+          nextIdx = (items.indexOf(focusEl) - 1 + items.length) % items.length;
+          items[nextIdx].focus();
+          this.setTabIndexes(items[nextIdx], items);
+          event.preventDefault();
+        }
+        break;
+      }
       case "Home":
-        focusElementInGroup(actions, current, "first", true);
+        items[0].focus();
+        this.setTabIndexes(items[0], items);
         event.preventDefault();
         break;
       case "End":
-        focusElementInGroup(actions, current, "last", true);
+        items[items.length - 1].focus();
+        this.setTabIndexes(items[items.length - 1], items);
         event.preventDefault();
         break;
       case "Tab":
-        this.setActionTabIndexes(current);
+        this.setTabIndexes(focusEl as HTMLButtonElement, items, true);
         break;
     }
   }
 
-  private setActionTabIndexes(active: Action["el"]): void {
-    this.actions.forEach((action: Action["el"]) => {
-      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+  private setTabIndexes(
+    active: FocusableElement | null,
+    items: FocusableElement[],
+    checkDisabled = false,
+  ): void {
+    if (this.isMenuOpen) {
+      return;
+    }
+    items.forEach((item) => {
+      const isDisabled = (checkDisabled && (item as HTMLButtonElement).disabled) ?? false;
+      item.tabIndex = !isDisabled && item === active ? 0 : -1;
+    });
+  }
+
+  private clearTabIndexes(): void {
+    this.tabbableItems.forEach((item) => {
+      item.removeAttribute("tabindex");
     });
   }
 

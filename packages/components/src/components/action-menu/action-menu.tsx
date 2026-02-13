@@ -69,17 +69,20 @@ export class ActionMenu extends LitElement {
     if (isActivationKey(key)) {
       event.preventDefault();
 
-      if (!open) {
-        this.toggleOpen();
+      const action = actionElements[activeMenuItemIndex];
+
+      if (open) {
+        if (action) {
+          action.click();
+        }
         return;
       }
 
-      const action = actionElements[activeMenuItemIndex];
+      this.toggleOpen(true);
       if (action) {
         action.click();
-      } else {
-        this.toggleOpen(false);
       }
+      return;
     }
 
     if (key === "Tab") {
@@ -439,36 +442,27 @@ export class ActionMenu extends LitElement {
 
     event.preventDefault();
 
-    if (!this.open) {
-      this.toggleOpen();
-
-      if (key === "Home" || key === "ArrowDown") {
+    if (this.open) {
+      if (key === "Home") {
         this.activeMenuItemIndex = 0;
       }
 
-      if (key === "End" || key === "ArrowUp") {
+      if (key === "End") {
         this.activeMenuItemIndex = actions.length - 1;
       }
 
-      return;
-    }
+      const currentIndex = this.activeMenuItemIndex;
 
-    if (key === "Home") {
-      this.activeMenuItemIndex = 0;
-    }
+      if (key === "ArrowUp") {
+        this.activeMenuItemIndex = getRoundRobinIndex(
+          Math.max(currentIndex - 1, -1),
+          actions.length,
+        );
+      }
 
-    if (key === "End") {
-      this.activeMenuItemIndex = actions.length - 1;
-    }
-
-    const currentIndex = this.activeMenuItemIndex;
-
-    if (key === "ArrowUp") {
-      this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);
-    }
-
-    if (key === "ArrowDown") {
-      this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
+      if (key === "ArrowDown") {
+        this.activeMenuItemIndex = getRoundRobinIndex(currentIndex + 1, actions.length);
+      }
     }
   }
 
