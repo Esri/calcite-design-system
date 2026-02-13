@@ -13,13 +13,11 @@ npm run dev
 
 ## Developer info
 
-To install `@esri/calcite-components-react`, run:
+To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components-react
+npm install @esri/calcite-components
 ```
-
-This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
 
 ### Setup components
 
@@ -39,9 +37,6 @@ Next, import the components used in your application:
 import "@esri/calcite-components/dist/components/calcite-button";
 import "@esri/calcite-components/dist/components/calcite-icon";
 import "@esri/calcite-components/dist/components/calcite-slider";
-
-// import the React wrapper components
-import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 ```
 
 ### Copy the assets
@@ -50,30 +45,4 @@ Calcite components' assets need to be copied from `node_modules` to your applica
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public
-```
-
-## Why not use the web components directly?
-
-The React wrappers improve the developer experience in TypeScript projects because you'll benefit from code completion, go to definition, increased type safety, and more.
-
-Additionally, React [lacked support](https://github.com/facebook/react/issues/11347) for custom elements until `v19`. For example, with `v18` or below, updating the value of `calcite-slider` on change required saving a ref to the element and adding a listener:
-
-```jsx
-const sliderEl = useRef(null);
-const [sliderValue, setSliderValue] = useState(50);
-
-function onUpdate(event) {
-  setSliderValue(event.target.value);
-}
-
-useEffect(() => {
-  sliderEl.current.addEventListener("calciteSliderUpdate", onUpdate);
-}, [sliderEl]);
-```
-
-Using `@esri/calcite-components-react`, these events are connected for you:
-
-```jsx
-const [sliderValue, setSliderValue] = useState(50);
-<CalciteSlider onCalciteSliderUpdate={(e) => setSliderValue(e.target.value)} />;
 ```
