@@ -6,190 +6,188 @@ import { openClose } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { Notice } from "./notice";
 
-describe("calcite-notice", () => {
-  const noticeContent = html`
-    <div slot="title">Title Text</div>
-    <div slot="message">Message Text</div>
-    <calcite-link slot="link" href="">Action</calcite-link>
-  `;
+const noticeContent = html`
+  <div slot="title">Title Text</div>
+  <div slot="message">Message Text</div>
+  <calcite-link slot="link" href="">Action</calcite-link>
+`;
 
-  describe("accessible", () => {
-    accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
+describe("accessible", () => {
+  accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
+});
+
+describe("accessible with icon", () => {
+  accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
+});
+
+describe("accessible with icon with close button", () => {
+  accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
+});
+
+describe("accessible with icon and close button", () => {
+  accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
+});
+
+describe("openClose", () => {
+  openClose("calcite-notice", {
+    collapsedOnClose: "vertical",
   });
+});
 
-  describe("accessible with icon", () => {
-    accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("accessible with icon with close button", () => {
-    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("accessible with icon and close button", () => {
-    accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
-  });
-
-  describe("openClose", () => {
-    openClose("calcite-notice", {
-      collapsedOnClose: "vertical",
-    });
-  });
-
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("renders default props when none are provided", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
     <calcite-notice>
     <div slot="title">Title Text</div>
     <div slot="message">Message Text</div>
     <calcite-link slot="link" href="">Action</calcite-link>
     </calcite-notice>`);
-    const element = await page.find("calcite-notice");
-    const close = await page.find(`calcite-notice >>> .${CSS.close}`);
-    const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
-    expect(element).toEqualAttribute("kind", "brand");
-    expect(close).toBeNull();
-    expect(icon).toBeNull();
-  });
+  const element = await page.find("calcite-notice");
+  const close = await page.find(`calcite-notice >>> .${CSS.close}`);
+  const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
+  expect(element).toEqualAttribute("kind", "brand");
+  expect(close).toBeNull();
+  expect(icon).toBeNull();
+});
 
-  it("renders requested props when valid props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("renders requested props when valid props are provided", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
     <calcite-notice kind="warning" closable>
     ${noticeContent}
     </calcite-notice>`);
 
-    const element = await page.find("calcite-notice");
-    const close = await page.find(`calcite-notice >>> .${CSS.close}`);
-    const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
+  const element = await page.find("calcite-notice");
+  const close = await page.find(`calcite-notice >>> .${CSS.close}`);
+  const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
 
-    expect(element).toEqualAttribute("kind", "warning");
-    expect(close).not.toBeNull();
-    expect(icon).toBeNull();
-  });
+  expect(element).toEqualAttribute("kind", "warning");
+  expect(close).not.toBeNull();
+  expect(icon).toBeNull();
+});
 
-  it("renders an icon and close button when requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("renders an icon and close button when requested", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
     <calcite-notice icon closable>
     ${noticeContent}
     </calcite-notice>`);
 
-    const close = await page.find(`calcite-notice >>> .${CSS.close}`);
-    const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
-    expect(close).not.toBeNull();
-    expect(icon).not.toBeNull();
+  const close = await page.find(`calcite-notice >>> .${CSS.close}`);
+  const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
+  expect(close).not.toBeNull();
+  expect(icon).not.toBeNull();
+});
+
+it("successfully closes a closable notice", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
+
+  const notice1 = await page.find("#notice-1 >>> .container");
+  const noticeClose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
+  const animationDurationInMs = 400;
+
+  expect(await notice1.isVisible()).toBe(true);
+
+  await noticeClose1.click();
+  await page.waitForTimeout(animationDurationInMs);
+  expect(await notice1.isVisible()).not.toBe(true);
+});
+
+describe("theme", () => {
+  const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
+    html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
+      <div slot="title">Title</div>
+      <div slot="message">Message</div>
+      <calcite-link slot="link" title="my action">Retry</calcite-link>
+    </calcite-notice>`;
+
+  const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
+
+  describe("default", () => {
+    themed(noticeHTML("brand"), {
+      "--calcite-notice-close-icon-color": {
+        shadowSelector: `.${CSS.close}`,
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-notice-close-icon-color-hover": [
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+      ],
+      "--calcite-notice-close-background-color": {
+        shadowSelector: `.${CSS.close}`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-notice-close-background-color-hover": [
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "focus",
+        },
+        {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+      ],
+      "--calcite-notice-close-background-color-press": {
+        shadowSelector: `.${CSS.close}`,
+        targetProp: "--calcite-action-background-color-press",
+        state: { press: { attribute: "class", value: CSS.close } },
+      },
+      "--calcite-notice-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-notice-corner-radius": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-notice-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+    });
   });
 
-  it("successfully closes a closable notice", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice>`);
-
-    const notice1 = await page.find("#notice-1 >>> .container");
-    const noticeClose1 = await page.find(`#notice-1 >>> .${CSS.close}`);
-    const animationDurationInMs = 400;
-
-    expect(await notice1.isVisible()).toBe(true);
-
-    await noticeClose1.click();
-    await page.waitForTimeout(animationDurationInMs);
-    expect(await notice1.isVisible()).not.toBe(true);
+  kinds.forEach((kind) => {
+    describe(`kind = "${kind}" `, () => {
+      themed(noticeHTML(kind), {
+        "--calcite-notice-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+      });
+    });
   });
-
-  describe("theme", () => {
-    const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
-      html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
-        <div slot="title">Title</div>
-        <div slot="message">Message</div>
-        <calcite-link slot="link" title="my action">Retry</calcite-link>
-      </calcite-notice>`;
-
-    const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
-
-    describe("default", () => {
-      themed(noticeHTML("brand"), {
-        "--calcite-notice-close-icon-color": {
+  describe("deprecated", () => {
+    themed(noticeHTML("brand"), {
+      "--calcite-notice-width": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "width",
+      },
+      "--calcite-notice-close-background-color-focus": [
+        {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-text-color",
+          targetProp: "--calcite-action-background-color-hover",
+          state: "focus",
         },
-        "--calcite-notice-close-icon-color-hover": [
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-text-color-press",
-            state: { focus: { attribute: "class", value: CSS.close } },
-          },
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-text-color-press",
-            state: { hover: { attribute: "class", value: CSS.close } },
-          },
-        ],
-        "--calcite-notice-close-background-color": {
+        {
           shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color",
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
         },
-        "--calcite-notice-close-background-color-hover": [
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-background-color-hover",
-            state: "focus",
-          },
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-background-color-hover",
-            state: "hover",
-          },
-        ],
-        "--calcite-notice-close-background-color-press": {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-press",
-          state: { press: { attribute: "class", value: CSS.close } },
-        },
-        "--calcite-notice-border-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderColor",
-        },
-        "--calcite-notice-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-        "--calcite-notice-shadow": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "boxShadow",
-        },
-      });
-    });
-
-    kinds.forEach((kind) => {
-      describe(`kind = "${kind}" `, () => {
-        themed(noticeHTML(kind), {
-          "--calcite-notice-background-color": [
-            {
-              shadowSelector: `.${CSS.container}`,
-              targetProp: "backgroundColor",
-            },
-          ],
-        });
-      });
-    });
-    describe("deprecated", () => {
-      themed(noticeHTML("brand"), {
-        "--calcite-notice-width": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "width",
-        },
-        "--calcite-notice-close-background-color-focus": [
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-background-color-hover",
-            state: "focus",
-          },
-          {
-            shadowSelector: `.${CSS.close}`,
-            targetProp: "--calcite-action-background-color-hover",
-            state: "hover",
-          },
-        ],
-      });
+      ],
     });
   });
 });
