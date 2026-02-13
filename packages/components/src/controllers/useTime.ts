@@ -687,4 +687,5 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
+/** @public */
 export const useTime = toFunction(TimeController);

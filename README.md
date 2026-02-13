@@ -165,17 +165,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/kumarGayu">
-      <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
-      <br />
-      <sub><b>Kumar Jayaram Gayatri</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/matgalla">
       <img src="https://avatars.githubusercontent.com/u/48596928?v=4" width="100;" alt="matgalla"/>
       <br />
       <sub><b>Matt Gallagher</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/kumarGayu">
+      <img src="https://avatars.githubusercontent.com/u/9862218?v=4" width="100;" alt="kumarGayu"/>
+      <br />
+      <sub><b>Kumar Jayaram Gayatri</b></sub>
     </a>
   </td>
   <td align="center">
