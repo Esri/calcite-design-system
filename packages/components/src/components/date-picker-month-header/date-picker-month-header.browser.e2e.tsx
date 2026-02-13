@@ -56,32 +56,30 @@ const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader) => {
   el.monthStyle = "wide";
 };
 
-describe("calcite-date-picker-month-header", () => {
-  describe("renders", () => {
-    renders(
-      () =>
-        mount("calcite-date-picker-month-header", {
-          afterConnect: setupDatePickerMonthHeader,
-        }),
-      { display: "block" },
-    );
+describe("renders", () => {
+  renders(
+    () =>
+      mount("calcite-date-picker-month-header", {
+        afterConnect: setupDatePickerMonthHeader,
+      }),
+    { display: "block" },
+  );
+});
+
+it("displays the correct scale for actions", async () => {
+  const { el, reRender } = await mount("calcite-date-picker-month-header", {
+    afterConnect: setupDatePickerMonthHeader,
   });
 
-  it("displays the correct scale for actions", async () => {
-    const { el, reRender } = await mount("calcite-date-picker-month-header", {
-      afterConnect: setupDatePickerMonthHeader,
-    });
+  const datePickerMonthHeader = el;
+  const [prev, next] = el.shadowRoot.querySelectorAll<Action>(".chevron");
 
-    const datePickerMonthHeader = el;
-    const [prev, next] = el.shadowRoot.querySelectorAll<Action>(".chevron");
+  const scales = ["s", "m", "l"] as const;
 
-    const scales = ["s", "m", "l"] as const;
-
-    for (const scale of scales) {
-      datePickerMonthHeader.scale = scale;
-      await reRender();
-      expect(prev.scale).toBe(scale);
-      expect(next.scale).toBe(scale);
-    }
-  });
+  for (const scale of scales) {
+    datePickerMonthHeader.scale = scale;
+    await reRender();
+    expect(prev.scale).toBe(scale);
+    expect(next.scale).toBe(scale);
+  }
 });
