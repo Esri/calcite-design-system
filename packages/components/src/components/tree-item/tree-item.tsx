@@ -175,7 +175,11 @@ export class TreeItem extends LitElement {
             childrenContainer.addEventListener(
               "transitionend",
               (event) => {
-                if (event.propertyName === "max-block-size" || event.propertyName === "opacity") {
+                const transitionEvent = event as TransitionEvent;
+                if (
+                  transitionEvent.propertyName === "max-block-size" ||
+                  transitionEvent.propertyName === "opacity"
+                ) {
                   this.el.inert = true;
                   this.el.toggleAttribute("calcite-hydrated-hidden", true);
                 }
