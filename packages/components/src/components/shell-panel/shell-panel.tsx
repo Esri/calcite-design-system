@@ -428,9 +428,7 @@ export class ShellPanel extends LitElement {
         return;
       }
 
-      if (!actionBar.hasAttribute("layout")) {
-        actionBar.layout = this.layout;
-      }
+      actionBar.layout = this.layout;
     });
   }
 
