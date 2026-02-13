@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.0...@esri/calcite-ui-icons@4.5.0-next.1) (2026-02-10)
+
+### Features
+
+- add excalibur icons ([#13898](https://github.com/Esri/calcite-design-system/issues/13898)) ([5b45d06](https://github.com/Esri/calcite-design-system/commit/5b45d06937d4907314731e7354db528e729d2214))
+
 ## [4.5.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.22...@esri/calcite-ui-icons@4.5.0-next.0) (2026-02-05)
 
 ### Features

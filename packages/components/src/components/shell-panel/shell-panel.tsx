@@ -14,6 +14,7 @@ import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
@@ -69,6 +70,9 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   //#endregion
@@ -241,18 +245,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -502,19 +495,28 @@ export class ShellPanel extends LitElement {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
     const dir = getElementDir(this.el);
+    const isBlockPosition = layout === "horizontal";
 
     const separatorNode =
       !collapsed && resizable ? (
         <div
           ariaLabel={this.messages.resize}
-          ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          ariaValueMax={
-            layout == "horizontal" ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-          }
-          ariaValueMin={
-            layout == "horizontal" ? resizeValues.minBlockSize : resizeValues.minInlineSize
-          }
-          ariaValueNow={layout == "horizontal" ? resizeValues.blockSize : resizeValues.inlineSize}
+          ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+          ariaValueMax={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.maxBlockSize,
+            resizeValues.maxInlineSize,
+          )}
+          ariaValueMin={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.minBlockSize,
+            resizeValues.minInlineSize,
+          )}
+          ariaValueNow={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.blockSize,
+            resizeValues.inlineSize,
+          )}
           class={CSS.resizeHandle}
           key="resize-handle"
           onKeyDown={this.handleKeyDown}
