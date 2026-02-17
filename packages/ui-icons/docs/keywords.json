@@ -11829,5 +11829,10 @@
     "alias": ["5.0.0", "layers", "insert", "publish", "data", "telemetry", "tool"],
     "category": "Layers",
     "release": "5.0.0"
+  },
+  "gradient": {
+    "alias": ["5.0.0", "media", "slope-analysis", "transition", "map-features", "visualize"],
+    "category": "Media",
+    "release": "5.0.0"
   }
 }
