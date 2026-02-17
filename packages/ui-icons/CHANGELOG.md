@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.2...@esri/calcite-ui-icons@4.5.0-next.3) (2026-02-17)
+
+### Features
+
+- update eyedropper ([#13941](https://github.com/Esri/calcite-design-system/issues/13941)) ([5825f26](https://github.com/Esri/calcite-design-system/commit/5825f26083f42f559233ecf4ded7bf2da30c7bd5))
+
 ## [4.5.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.1...@esri/calcite-ui-icons@4.5.0-next.2) (2026-02-17)
 
 ### Features
