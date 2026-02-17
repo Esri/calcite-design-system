@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.1...@esri/calcite-ui-icons@4.5.0-next.2) (2026-02-17)
+
+### Features
+
+- add gradient ([#13937](https://github.com/Esri/calcite-design-system/issues/13937)) ([76dbbd1](https://github.com/Esri/calcite-design-system/commit/76dbbd1034a96c1a77cfd9e59bc79c98352d5e5f))
+
 ## [4.5.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.0...@esri/calcite-ui-icons@4.5.0-next.1) (2026-02-10)
 
 ### Features
