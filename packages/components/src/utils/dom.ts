@@ -393,18 +393,6 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 }
 
 /**
- * This helper makes sure that boolean aria attributes are properly converted to a string.
- *
- * It should only be used for aria attributes that require a string value of "true" or "false".
- *
- * @param value The value.
- * @returns The string conversion of a boolean value ("true" | "false").
- */
-export function toAriaBoolean(value: boolean): string {
-  return Boolean(value).toString();
-}
-
-/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any content (text or elements).
  *
  * ```

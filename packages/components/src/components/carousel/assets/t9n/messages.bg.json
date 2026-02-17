@@ -5,5 +5,5 @@
   "pause": "Временно спиране",
   "carousel": "Карусел",
   "carouselItemProgress": "Индикатор за напредък при каруселен елемент",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Елемент {current} от {total}"
 }

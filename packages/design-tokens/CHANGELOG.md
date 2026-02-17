@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.1-next.2...@esri/calcite-design-tokens@4.1.0-next.0) (2026-02-17)
+
+### Features
+
+- **tokens:** provide semantic brand and status hover/press dark-mode colors for improved a11y ([#13916](https://github.com/Esri/calcite-design-system/issues/13916)) ([9eb32b3](https://github.com/Esri/calcite-design-system/commit/9eb32b3c86f92f3df191c45b9741a75b319a071c)), closes [#13234](https://github.com/Esri/calcite-design-system/issues/13234) [#ffc47](https://github.com/Esri/calcite-design-system/issues/ffc47) [#ffaf4](https://github.com/Esri/calcite-design-system/issues/ffaf4) [#40b9](https://github.com/Esri/calcite-design-system/issues/40b9) [#6df278](https://github.com/Esri/calcite-design-system/issues/6df278) [#fe7863](https://github.com/Esri/calcite-design-system/issues/fe7863) [#80d1](https://github.com/Esri/calcite-design-system/issues/80d1) [#9df2a3](https://github.com/Esri/calcite-design-system/issues/9df2a3) [#fe9989](https://github.com/Esri/calcite-design-system/issues/fe9989)
+
+## [4.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.1-next.1...@esri/calcite-design-tokens@4.0.1-next.2) (2026-02-12)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
+## [4.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.1-next.0...@esri/calcite-design-tokens@4.0.1-next.1) (2026-02-12)
+
+**Note:** Version bump only for package @esri/calcite-design-tokens
+
 ## [4.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.0.0-next.23...@esri/calcite-design-tokens@4.0.1-next.0) (2026-02-05)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
