@@ -51,6 +51,17 @@ export class TreeItem extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
+  private handleChildrenTransitionEnd = (event: TransitionEvent): void => {
+    const shouldBeHidden = !(this.parentExpanded || this.depth === 1);
+    if (
+      shouldBeHidden &&
+      (event.propertyName === "max-block-size" || event.propertyName === "opacity")
+    ) {
+      this.el.inert = true;
+      this.el.toggleAttribute("calcite-hydrated-hidden", true);
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -154,42 +165,17 @@ export class TreeItem extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    const shouldBeHidden = !(this.parentExpanded || this.depth === 1);
 
     if (changes.has("expanded")) {
       if (this.hasUpdated || this.expanded !== false) {
         this.updateChildTree();
       }
+
       if (this.hasUpdated) {
         if (this.expanded) {
           this.calciteTreeItemExpand.emit();
         } else {
           this.calciteTreeItemCollapse.emit();
-        }
-        if (!shouldBeHidden) {
-          this.el.inert = false;
-          this.el.toggleAttribute("calcite-hydrated-hidden", false);
-        } else {
-          const childrenContainer = this.el.querySelector(".children-container");
-          if (childrenContainer) {
-            childrenContainer.addEventListener(
-              "transitionend",
-              (event) => {
-                const transitionEvent = event as TransitionEvent;
-                if (
-                  transitionEvent.propertyName === "max-block-size" ||
-                  transitionEvent.propertyName === "opacity"
-                ) {
-                  this.el.inert = true;
-                  this.el.toggleAttribute("calcite-hydrated-hidden", true);
-                }
-              },
-              { once: true },
-            );
-          } else {
-            this.el.inert = true;
-            this.el.toggleAttribute("calcite-hydrated-hidden", true);
-          }
         }
       }
     }
@@ -440,6 +426,12 @@ export class TreeItem extends LitElement {
       />
     ) : null;
 
+    const shouldBeVisible = this.parentExpanded || this.depth === 1;
+    if (shouldBeVisible) {
+      /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+      this.el.inert = false;
+      this.el.toggleAttribute("calcite-hydrated-hidden", false);
+    }
     const isExpanded = this.updateAfterInitialRender && this.expanded;
     const { hasEndActions } = this;
     const slotNode = (
@@ -467,6 +459,7 @@ export class TreeItem extends LitElement {
         : undefined;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -476,6 +469,7 @@ export class TreeItem extends LitElement {
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
         : undefined;
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
@@ -514,6 +508,7 @@ export class TreeItem extends LitElement {
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
+            onTransitionEnd={this.handleChildrenTransitionEnd}
             role={this.hasChildren ? "group" : undefined}
           >
             <slot name={SLOTS.children} onSlotChange={this.handleChildrenSlotChange} />
