@@ -55,6 +55,8 @@ export class ShellPanel extends LitElement {
 
   private actionBarResizeObserver = createObserver("resize", () => this.updateActionBarSize());
 
+  private actionBarObserver: MutationObserver;
+
   private contentRef = createRef<HTMLDivElement>();
 
   /**
