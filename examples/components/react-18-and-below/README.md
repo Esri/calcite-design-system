@@ -1,4 +1,4 @@
-# React 18 and below with TypeScript
+# React (version 18 and below) with TypeScript
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react-18-and-below?file=README.md)
 
@@ -32,7 +32,7 @@ This package includes the compatible version of the main component library as a 
 
 ### Setup components
 
-By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can import and use `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components. (More on copying assets below.)
+By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can copy your assets to a project directory and set the asset path in your app with `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components:
 
 ```ts
 import { setAssetPath } from "@esri/calcite-components/dist/components";
