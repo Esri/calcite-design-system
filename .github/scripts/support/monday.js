@@ -85,8 +85,8 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       type: "comma",
     },
     allAssignees: {
-      id: "multiple_person_mkznz4wx",
-      title: "People",
+      id: "multiple_person_mm0pwfy",
+      title: "Github Assignee",
       type: "comma",
     },
     status: { id: "dup__of_overall_status__1", title: "Status" },
