@@ -200,7 +200,7 @@ export class InputDatePicker
   /** When `range` is `true`, specifies the number of calendars displayed.
    * @internal
    */
-  @property({ reflect: true }) compositeLayer = false;
+  @property({ reflect: true }) compositedLayer = false;
 
   /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
@@ -478,7 +478,7 @@ export class InputDatePicker
   async load(): Promise<void> {
     // Workaround for Safari issue https://github.com/Esri/calcite-design-system/issues/13795
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    this.compositeLayer = /safari/i.test(getUserAgentString());
+    this.compositedLayer = /safari/i.test(getUserAgentString());
 
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();

@@ -65,8 +65,8 @@
   }
 }
 
-:host([composite-layer]) {
-  transform: translateZ(0);
+:host([composited-layer]) {
+  will-change: transform;
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
