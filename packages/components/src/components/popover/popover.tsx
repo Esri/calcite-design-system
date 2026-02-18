@@ -450,7 +450,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
       referenceEl.removeAttribute(ARIA_EXPANDED);
     }
 
-    manager.unregisterElement(referenceEl);
+    manager.unregisterElement(referenceEl, this.el);
   }
 
   private getReferenceElement(): ReferenceElement {

@@ -12,7 +12,7 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new WeakMap<ReferenceElement, Tooltip["el"]>();
+  private registeredElements = new WeakMap<ReferenceElement, Tooltip["el"][]>();
 
   private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
@@ -20,13 +20,13 @@ export default class TooltipManager {
 
   private hoverCloseTimeout: number = null;
 
-  private activeTooltip: Tooltip["el"] = null;
+  private activeTooltips: Tooltip["el"][] = [];
 
   private registeredElementCount = 0;
 
-  private clickedTooltip: Tooltip["el"] = null;
+  private clickedTooltips: Tooltip["el"][] = [];
 
-  private hoveredTooltip: Tooltip["el"] = null;
+  private hoveredTooltips: Tooltip["el"][] = [];
 
   // --------------------------------------------------------------------------
   //
@@ -36,7 +36,10 @@ export default class TooltipManager {
 
   registerElement(referenceEl: ReferenceElement, tooltip: Tooltip["el"]): void {
     this.registeredElementCount++;
-    this.registeredElements.set(referenceEl, tooltip);
+
+    const existingTooltips = this.registeredElements.get(referenceEl) ?? [];
+    this.registeredElements.set(referenceEl, [...existingTooltips, tooltip]);
+
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
@@ -48,14 +51,20 @@ export default class TooltipManager {
     }
   }
 
-  unregisterElement(referenceEl: ReferenceElement): void {
+  unregisterElement(referenceEl: ReferenceElement, tooltip: Tooltip["el"]): void {
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
       this.unregisterShadowRoot(shadowRoot);
     }
 
-    if (this.registeredElements.delete(referenceEl)) {
+    const existingTooltips = this.registeredElements.get(referenceEl) ?? [];
+    const updatedTooltips = existingTooltips.filter((t) => t !== tooltip);
+
+    if (updatedTooltips.length > 0) {
+      this.registeredElements.set(referenceEl, updatedTooltips);
+      this.registeredElementCount--;
+    } else if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
 
@@ -70,27 +79,29 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryTooltip = (composedPath: EventTarget[]): Tooltip["el"] => {
+  private queryTooltips = (composedPath: EventTarget[]): Tooltip["el"][] => {
     const { registeredElements } = this;
 
-    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
+    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl))!;
 
     return registeredElements.get(registeredElement);
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && !event.defaultPrevented) {
-      const { activeTooltip } = this;
+      const { activeTooltips } = this;
 
-      if (activeTooltip?.open) {
+      const tooltip = activeTooltips?.find((tooltip) => tooltip?.open);
+
+      if (tooltip?.open) {
         this.clearHoverTimeout();
-        this.closeActiveTooltip();
-        const referenceElement = getEffectiveReferenceElement(activeTooltip);
+        this.closeActiveTooltips();
+        const referenceElement = getEffectiveReferenceElement(tooltip);
         const composedPath = event.composedPath();
 
         if (
           (referenceElement instanceof Element && composedPath.includes(referenceElement)) ||
-          composedPath.includes(activeTooltip)
+          composedPath.includes(tooltip)
         ) {
           event.preventDefault();
         }
@@ -104,48 +115,49 @@ export default class TooltipManager {
     }
 
     this.clearHoverTimeout();
-    this.closeHoveredTooltip();
+    this.closeHoveredTooltips();
   };
 
   private pointerMoveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
-      this.closeHoveredTooltip();
+      this.closeHoveredTooltips();
       return;
     }
 
     const composedPath = event.composedPath();
 
-    const tooltip = this.queryTooltip(composedPath);
+    const tooltips = this.queryTooltips(composedPath);
 
-    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltips, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
 
-    if (tooltip === this.clickedTooltip) {
+    if (tooltips?.some((tooltip) => this.clickedTooltips?.includes(tooltip))) {
       return;
     }
 
-    if (tooltip !== this.hoveredTooltip) {
+    if (!tooltips?.some((tooltip) => this.hoveredTooltips?.includes(tooltip))) {
       this.clearHoverOpenTimeout();
     }
 
-    this.hoveredTooltip = tooltip;
+    this.hoveredTooltips = tooltips;
 
-    if (tooltip) {
-      this.openHoveredTooltip(tooltip);
-    } else if (this.activeTooltip?.open) {
-      this.closeHoveredTooltip();
+    if (tooltips?.length) {
+      this.openHoveredTooltips(tooltips);
+    } else if (this.activeTooltips?.some((tooltip) => tooltip?.open)) {
+      this.closeHoveredTooltips();
     }
 
-    this.clickedTooltip = null;
+    this.clickedTooltips = null;
   };
 
-  private pathHasOpenTooltip(tooltip: Tooltip["el"], composedPath: EventTarget[]): boolean {
-    const { activeTooltip } = this;
+  private pathHasOpenTooltip(tooltips: Tooltip["el"][], composedPath: EventTarget[]): boolean {
+    const { activeTooltips } = this;
 
     return (
-      (activeTooltip?.open && composedPath.includes(activeTooltip)) || (tooltip?.open && composedPath.includes(tooltip))
+      activeTooltips?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip)) ||
+      tooltips?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip))
     );
   }
 
@@ -154,34 +166,36 @@ export default class TooltipManager {
       return;
     }
 
-    this.clickedTooltip = null;
+    this.clickedTooltips = null;
     const composedPath = event.composedPath();
-    const tooltip = this.queryTooltip(composedPath);
+    const tooltips = this.queryTooltips(composedPath);
 
-    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltips, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
 
-    this.closeActiveTooltip();
+    this.closeActiveTooltips();
 
-    if (!tooltip) {
+    if (!tooltips) {
       return;
     }
 
     this.clearHoverTimeout();
 
-    if (tooltip.closeOnClick) {
-      this.clickedTooltip = tooltip;
-      this.toggleTooltip(tooltip, false);
-      return;
+    const closeOnClickTooltips = tooltips.filter((tooltip) => tooltip.closeOnClick);
+    const nonCloseOnClickTooltips = tooltips.filter((tooltip) => !tooltip.closeOnClick);
+
+    if (closeOnClickTooltips?.length) {
+      this.clickedTooltips = closeOnClickTooltips;
+      this.toggleTooltips(closeOnClickTooltips, false);
     }
 
-    this.toggleTooltip(tooltip, true);
+    this.toggleTooltips(nonCloseOnClickTooltips, true);
   };
 
   private blurHandler = (): void => {
-    this.closeActiveTooltip();
+    this.closeActiveTooltips();
   };
 
   private focusInHandler = (event: FocusEvent): void => {
@@ -190,26 +204,25 @@ export default class TooltipManager {
     }
 
     const composedPath = event.composedPath();
-    const tooltip = this.queryTooltip(composedPath);
+    const tooltips = this.queryTooltips(composedPath);
 
-    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltips, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
-
-    if (tooltip === this.clickedTooltip) {
+    if (tooltips === this.clickedTooltips) {
       return;
     }
 
-    this.clickedTooltip = null;
+    this.clickedTooltips = null;
 
-    this.closeTooltipIfNotActive(tooltip);
+    this.closeTooltipsIfNotActive(tooltips);
 
-    if (!tooltip) {
+    if (!tooltips?.length) {
       return;
     }
 
-    this.toggleFocusedTooltip(tooltip, true);
+    this.toggleFocusedTooltips(tooltips, true);
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
@@ -253,56 +266,54 @@ export default class TooltipManager {
     this.clearHoverCloseTimeout();
   }
 
-  private closeTooltipIfNotActive(tooltip: Tooltip["el"]): void {
-    if (this.activeTooltip !== tooltip) {
-      this.closeActiveTooltip();
+  private closeTooltipsIfNotActive(tooltips: Tooltip["el"][]): void {
+    if (tooltips !== this.activeTooltips) {
+      this.closeActiveTooltips();
     }
   }
 
-  private closeActiveTooltip(): void {
-    const { activeTooltip } = this;
+  private closeActiveTooltips(): void {
+    const { activeTooltips } = this;
 
-    if (activeTooltip?.open) {
-      this.toggleTooltip(activeTooltip, false);
-    }
+    this.toggleTooltips(activeTooltips, false);
   }
 
-  private toggleFocusedTooltip(tooltip: Tooltip["el"], open: boolean): void {
+  private toggleFocusedTooltips(tooltips: Tooltip["el"][], open: boolean): void {
     if (open) {
       this.clearHoverTimeout();
     }
 
-    this.toggleTooltip(tooltip, open);
+    this.toggleTooltips(tooltips, open);
   }
 
-  private toggleTooltip(tooltip: Tooltip["el"], open: boolean): void {
-    tooltip.open = open;
+  private toggleTooltips(tooltips: Tooltip["el"][], open: boolean): void {
+    tooltips?.forEach((tooltip) => (tooltip.open = open));
 
-    this.activeTooltip = open ? tooltip : null;
+    this.activeTooltips = open ? tooltips : null;
   }
 
-  private openHoveredTooltip = (tooltip: Tooltip["el"]): void => {
+  private openHoveredTooltips = (tooltips: Tooltip["el"][]): void => {
     this.hoverOpenTimeout = window.setTimeout(
       () => {
-        if (this.hoverOpenTimeout === null || tooltip !== this.hoveredTooltip) {
+        if (this.hoverOpenTimeout === null || tooltips !== this.hoveredTooltips) {
           return;
         }
 
         this.clearHoverCloseTimeout();
-        this.closeTooltipIfNotActive(tooltip);
-        this.toggleTooltip(tooltip, true);
+        this.closeTooltipsIfNotActive(tooltips);
+        this.toggleTooltips(tooltips, true);
       },
-      this.activeTooltip?.open ? TOOLTIP_QUICK_OPEN_DELAY_MS : TOOLTIP_OPEN_DELAY_MS,
+      this.activeTooltips?.some((tooltip) => tooltip.open) ? TOOLTIP_QUICK_OPEN_DELAY_MS : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 
-  private closeHoveredTooltip = (): void => {
+  private closeHoveredTooltips = (): void => {
     this.hoverCloseTimeout = window.setTimeout(() => {
       if (this.hoverCloseTimeout === null) {
         return;
       }
 
-      this.closeActiveTooltip();
+      this.closeActiveTooltips();
     }, TOOLTIP_CLOSE_DELAY_MS);
   };
 

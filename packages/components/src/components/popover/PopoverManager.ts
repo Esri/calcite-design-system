@@ -27,7 +27,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new Map<ReferenceElement, Popover["el"]>();
+  private registeredElements = new Map<ReferenceElement, Popover["el"][]>();
 
   private registeredElementCount = 0;
 
@@ -42,15 +42,22 @@ export default class PopoverManager {
   registerElement(referenceEl: ReferenceElement, popover: Popover["el"]): void {
     this.registeredElementCount++;
 
-    this.registeredElements.set(referenceEl, popover);
+    const existingPopovers = this.registeredElements.get(referenceEl) ?? [];
+    this.registeredElements.set(referenceEl, [...existingPopovers, popover]);
 
     if (this.registeredElementCount === 1) {
       this.addListeners();
     }
   }
 
-  unregisterElement(referenceEl: ReferenceElement): void {
-    if (this.registeredElements.delete(referenceEl)) {
+  unregisterElement(referenceEl: ReferenceElement, popover: Popover["el"]): void {
+    const existingPopovers = this.registeredElements.get(referenceEl) ?? [];
+    const updatedPopovers = existingPopovers.filter((p) => p !== popover);
+
+    if (updatedPopovers.length > 0) {
+      this.registeredElements.set(referenceEl, updatedPopovers);
+      this.registeredElementCount--;
+    } else if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
 
@@ -65,7 +72,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryPopover = (composedPath: EventTarget[]): Popover["el"] | undefined => {
+  private queryPopovers = (composedPath: EventTarget[]): Popover["el"][] | undefined => {
     const { registeredElements } = this;
 
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl))!;
@@ -75,21 +82,27 @@ export default class PopoverManager {
 
   private togglePopovers = (event: KeyboardEvent | PointerEvent): void => {
     const composedPath = event.composedPath();
-    const togglePopover = this.queryPopover(composedPath);
+    const togglePopovers = this.queryPopovers(composedPath);
 
-    if (togglePopover && !togglePopover.triggerDisabled) {
-      togglePopover.open = !togglePopover.open;
-    }
+    togglePopovers?.forEach((togglePopover) => {
+      if (togglePopover && !togglePopover.triggerDisabled) {
+        togglePopover.open = !togglePopover.open;
+      }
+    });
 
     Array.from(this.registeredElements.values())
+      .flat()
       .filter(
-        (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover),
+        (popover) =>
+          !togglePopovers?.includes(popover) && popover.autoClose && popover.open && !composedPath.includes(popover),
       )
       .forEach((popover) => (popover.open = false));
   };
 
   private closeAllPopovers(): void {
-    Array.from(this.registeredElements.values()).forEach((popover) => (popover.open = false));
+    Array.from(this.registeredElements.values())
+      .flat()
+      .forEach((popover) => (popover.open = false));
   }
 
   private keyDownHandler = (event: KeyboardEvent): void => {

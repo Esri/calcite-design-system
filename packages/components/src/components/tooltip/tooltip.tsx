@@ -314,7 +314,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
       referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
     }
 
-    manager.unregisterElement(referenceEl);
+    manager.unregisterElement(referenceEl, this.el);
   }
 
   // #endregion
