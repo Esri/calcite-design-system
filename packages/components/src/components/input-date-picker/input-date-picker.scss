@@ -65,6 +65,10 @@
   }
 }
 
+:host([composite-layer]) {
+  transform: translateZ(0);
+}
+
 @function get-trailing-text-input-padding($chevron-spacing) {
   @return calc(var(--calcite-internal-date-picker-toggle-spacing) + $chevron-spacing);
 }
