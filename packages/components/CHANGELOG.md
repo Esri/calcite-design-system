@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.3...@esri/calcite-components@5.0.2-next.4) (2026-02-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.2-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.2...@esri/calcite-components@5.0.2-next.3) (2026-02-17)
+
+### Bug Fixes
+
+- **popover:** implement missing `extraContainers` parameter on `updateFocusTrapElements()` ([#13940](https://github.com/Esri/calcite-design-system/issues/13940)) ([f86bab8](https://github.com/Esri/calcite-design-system/commit/f86bab87bb91fa1bf7314a23a52255ba4734138e)), closes [#13807](https://github.com/Esri/calcite-design-system/issues/13807)
+
+## [5.0.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.1...@esri/calcite-components@5.0.2-next.2) (2026-02-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.0...@esri/calcite-components@5.0.2-next.1) (2026-02-17)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.0.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.2...@esri/calcite-components@5.0.2-next.0) (2026-02-12)
 
 ### Bug Fixes
