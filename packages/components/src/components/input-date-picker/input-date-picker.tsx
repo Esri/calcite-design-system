@@ -197,7 +197,8 @@ export class InputDatePicker
 
   //#region Public Properties
 
-  /** When `range` is `true`, specifies the number of calendars displayed.
+  /** When `true`, the component's content is rendered in its own compositor layer.
+   *  This prop is automatically set to `true` when the component detects it's being rendered in Safari.
    * @internal
    */
   @property({ reflect: true }) compositedLayer = false;
@@ -726,7 +727,7 @@ export class InputDatePicker
   }
 
   private blurHandler(): void {
-    this.open = false;
+    // this.open = false;
   }
 
   private commitValue(): void {
