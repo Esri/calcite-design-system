@@ -5,5 +5,5 @@
   "pause": "หยุดชั่วคราว",
   "carousel": "ภาพสไลด์",
   "carouselItemProgress": "ตัวบ่งชี้ความคืบหน้าสำหรับรายการภาพสไลด์",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "ไอเท็มที่ {current} จาก {total}"
 }

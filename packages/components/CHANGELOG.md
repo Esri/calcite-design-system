@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1...@esri/calcite-components@5.0.2) (2026-02-18)
+
+### Bug Fixes
+
+- **date-picker:** Set appropriate scale for month header actions ([#13922](https://github.com/Esri/calcite-design-system/issues/13922)) ([baead2f](https://github.com/Esri/calcite-design-system/commit/baead2fc469bfccf5eb29a90e88e52a8b0c5cfe1))
+- **popover:** Implement missing `extraContainers` parameter on `updateFocusTrapElements()` ([#13940](https://github.com/Esri/calcite-design-system/issues/13940)) ([6cde9c5](https://github.com/Esri/calcite-design-system/commit/6cde9c5d092a260e118a46faf29fbbb1d34dbde6))
+
 ## [5.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0...@esri/calcite-components@5.0.1) (2026-02-12)
 
 ### Bug Fixes
