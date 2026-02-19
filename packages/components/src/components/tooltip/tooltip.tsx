@@ -1,15 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   connectFloatingUI,
@@ -24,11 +15,10 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { ARIA_DESCRIBED_BY, CSS, IDS } from "./resources";
+import { CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
 import { styles } from "./tooltip.scss";
@@ -54,8 +44,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   private arrowRef = createRef<SVGSVGElement>();
 
   floatingEl: HTMLDivElement;
-
-  private guid = IDS.host(guid());
 
   transitionProp = "opacity" as const;
 
@@ -283,38 +271,35 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     this.addReferences();
   }
 
-  private getId(): string {
-    return this.el.id || this.guid;
-  }
-
   private addReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEl, el } = this;
 
     if (!referenceEl) {
       return;
     }
 
-    const id = this.getId();
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
+    if ("ariaDescribedByElements" in referenceEl) {
+      const currentElements = referenceEl.ariaDescribedByElements ?? [];
+      const updatedElements = [...currentElements, el];
+      referenceEl.ariaDescribedByElements = updatedElements;
     }
 
-    manager.registerElement(referenceEl, this.el);
+    manager.registerElement(referenceEl, el);
   }
 
   private removeReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEl, el } = this;
 
     if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
+    if ("ariaDescribedByElements" in referenceEl) {
+      const newElements = referenceEl.ariaDescribedByElements?.filter((element) => element !== el);
+      referenceEl.ariaDescribedByElements = newElements ?? null;
     }
 
-    manager.unregisterElement(referenceEl, this.el);
+    manager.unregisterElement(referenceEl, el);
   }
 
   // #endregion
@@ -331,8 +316,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 

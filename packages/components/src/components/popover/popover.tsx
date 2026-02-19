@@ -1,15 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   connectFloatingUI,
@@ -28,7 +19,6 @@ import {
 } from "../../utils/floating-ui";
 import { queryElementRoots } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -40,7 +30,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import PopoverManager from "./PopoverManager";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
+import { CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 
 declare global {
@@ -81,8 +71,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
       },
     },
   })(this);
-
-  private guid = `calcite-popover-${guid()}`;
 
   private hasLoaded = false;
 
@@ -405,10 +393,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.addReferences();
   }
 
-  private getId(): string {
-    return this.el.id || this.guid;
-  }
-
   private setExpandedAttr(): void {
     const { referenceEl, open } = this;
 
@@ -416,41 +400,45 @@ export class Popover extends LitElement implements FloatingUIComponent {
       return;
     }
 
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("ariaExpanded" in referenceEl) {
+      referenceEl.ariaExpanded = toAriaBoolean(open);
     }
   }
 
   private addReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEl, el } = this;
 
     if (!referenceEl) {
       return;
     }
 
-    const id = this.getId();
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_CONTROLS, id);
+    if ("ariaControlsElements" in referenceEl) {
+      const currentElements = referenceEl.ariaControlsElements ?? [];
+      const updatedElements = [...currentElements, el];
+      referenceEl.ariaControlsElements = updatedElements;
     }
 
-    manager.registerElement(referenceEl, this.el);
+    manager.registerElement(referenceEl, el);
     this.setExpandedAttr();
   }
 
   private removeReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEl, el } = this;
 
     if (!referenceEl) {
       return;
     }
 
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_CONTROLS);
-      referenceEl.removeAttribute(ARIA_EXPANDED);
+    if ("ariaControlsElements" in referenceEl) {
+      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== el);
+      referenceEl.ariaControlsElements = newElements ?? null;
     }
 
-    manager.unregisterElement(referenceEl, this.el);
+    if ("ariaExpanded" in referenceEl) {
+      referenceEl.ariaExpanded = null;
+    }
+
+    manager.unregisterElement(referenceEl, el);
   }
 
   private getReferenceElement(): ReferenceElement {
@@ -541,8 +529,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 
