@@ -28,7 +28,11 @@ import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import PopoverManager from "./PopoverManager";
+import { referenceElementManager } from "../../controllers/referenceElementManager";
+import {
+  ReferenceElementComponent,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
@@ -39,10 +43,10 @@ declare global {
   }
 }
 
-const manager = new PopoverManager();
+const manager = referenceElementManager();
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent {
+export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -50,6 +54,11 @@ export class Popover extends LitElement implements FloatingUIComponent {
   //#endregion
 
   //#region Private Properties
+
+  // todo: later
+  referenceElementOptions: ReferenceElementComponent["referenceElementOptions"] = { click: true };
+
+  referenceElementController = useReferenceElement(manager)(this);
 
   private arrowEl: SVGSVGElement;
 
@@ -338,7 +347,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    this.removeReferences();
     disconnectFloatingUI(this);
   }
 
@@ -379,7 +387,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
   }
 
   private setUpReferenceElement(warn = true): void {
-    this.removeReferences();
     this.referenceEl = this.getReferenceElement();
     connectFloatingUI(this);
 
@@ -389,8 +396,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
         el,
       });
     }
-
-    this.addReferences();
   }
 
   private setExpandedAttr(): void {
@@ -403,42 +408,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     if ("ariaExpanded" in referenceEl) {
       referenceEl.ariaExpanded = toAriaBoolean(open);
     }
-  }
-
-  private addReferences(): void {
-    const { referenceEl, el } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("ariaControlsElements" in referenceEl) {
-      const currentElements = referenceEl.ariaControlsElements ?? [];
-      const updatedElements = [...currentElements, el];
-      referenceEl.ariaControlsElements = updatedElements;
-    }
-
-    manager.registerElement(referenceEl, el);
-    this.setExpandedAttr();
-  }
-
-  private removeReferences(): void {
-    const { referenceEl, el } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("ariaControlsElements" in referenceEl) {
-      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== el);
-      referenceEl.ariaControlsElements = newElements ?? null;
-    }
-
-    if ("ariaExpanded" in referenceEl) {
-      referenceEl.ariaExpanded = null;
-    }
-
-    manager.unregisterElement(referenceEl, el);
   }
 
   private getReferenceElement(): ReferenceElement {
