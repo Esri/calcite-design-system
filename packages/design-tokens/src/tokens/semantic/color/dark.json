@@ -220,7 +220,7 @@
         }
       },
       "hover": {
-        "value": "{core.color.high-saturation.blue.h-bb-060}",
+        "value": "{core.color.dark.blue.d-bb-410}",
         "type": "color",
         "attributes": {
           "category": "color",
@@ -228,7 +228,7 @@
         }
       },
       "press": {
-        "value": "{core.color.high-saturation.blue.h-bb-070}",
+        "value": "{core.color.vibrant.blue.v-bb-110}",
         "type": "color",
         "attributes": {
           "category": "color",
@@ -282,7 +282,7 @@
           }
         },
         "hover": {
-          "value": "{core.color.vibrant.blue.v-bb-140}",
+          "value": "{core.color.dark.blue.d-bb-410}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -291,7 +291,7 @@
           }
         },
         "press": {
-          "value": "{core.color.vibrant.blue.v-bb-160}",
+          "value": "{core.color.vibrant.blue.v-bb-110}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -311,7 +311,7 @@
           }
         },
         "hover": {
-          "value": "{core.color.vibrant.green.v-gg-140}",
+          "value": "{core.color.vibrant.green.v-gg-120}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -320,7 +320,7 @@
           }
         },
         "press": {
-          "value": "{core.color.vibrant.green.v-gg-160}",
+          "value": "{core.color.vibrant.green.v-gg-110}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -340,7 +340,7 @@
           }
         },
         "hover": {
-          "value": "{core.color.vibrant.orange-yellow.v-oy-120}",
+          "value": "{core.color.high-saturation.orange-yellow.h-oy-050}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -349,7 +349,7 @@
           }
         },
         "press": {
-          "value": "{core.color.vibrant.orange-yellow.v-oy-140}",
+          "value": "{core.color.high-saturation.orange-yellow.h-oy-030}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -369,7 +369,7 @@
           }
         },
         "hover": {
-          "value": "{core.color.vibrant.red.v-rr-140}",
+          "value": "{core.color.dark.red.d-rr-410}",
           "type": "color",
           "attributes": {
             "category": "color",
@@ -378,7 +378,7 @@
           }
         },
         "press": {
-          "value": "{core.color.vibrant.red.v-rr-160}",
+          "value": "{core.color.vibrant.red.v-rr-110}",
           "type": "color",
           "attributes": {
             "category": "color",

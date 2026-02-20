@@ -2794,7 +2794,7 @@
             }
           },
           "h-oy-030": {
-            "value": "#fcc582",
+            "value": "#ffc47d",
             "type": "color",
             "attributes": {
               "category": "color",
@@ -2810,7 +2810,7 @@
             }
           },
           "h-oy-050": {
-            "value": "#f9a845",
+            "value": "#ffaf4f",
             "type": "color",
             "attributes": {
               "category": "color",
@@ -3353,6 +3353,14 @@
       },
       "vibrant": {
         "blue": {
+          "v-bb-110": {
+            "value": "#80d1ff",
+            "type": "color",
+            "attributes": {
+              "category": "color",
+              "group": "vibrant"
+            }
+          },
           "v-bb-120": {
             "value": "#59d6ff",
             "type": "color",
@@ -3421,8 +3429,16 @@
           }
         },
         "green": {
+          "v-gg-110": {
+            "value": "#9df2a3",
+            "type": "color",
+            "attributes": {
+              "category": "color",
+              "group": "vibrant"
+            }
+          },
           "v-gg-120": {
-            "value": "#73ff84",
+            "value": "#6df278",
             "type": "color",
             "attributes": {
               "category": "color",
@@ -3591,6 +3607,14 @@
           }
         },
         "red": {
+          "v-rr-110": {
+            "value": "#fe9989",
+            "type": "color",
+            "attributes": {
+              "category": "color",
+              "group": "vibrant"
+            }
+          },
           "v-rr-120": {
             "value": "#ff624d",
             "type": "color",
@@ -3782,7 +3806,7 @@
         },
         "red": {
           "d-rr-410": {
-            "value": "#FF7465",
+            "value": "#fe7863",
             "type": "color",
             "attributes": {
               "category": "color",
@@ -3808,7 +3832,7 @@
         },
         "blue": {
           "d-bb-410": {
-            "value": "#47BBFF",
+            "value": "#40b9ff",
             "type": "color",
             "attributes": {
               "category": "color",
