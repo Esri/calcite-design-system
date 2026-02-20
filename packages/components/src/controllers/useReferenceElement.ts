@@ -7,14 +7,15 @@ import { ReferenceElementComponentManager } from "./referenceElementManager";
  */
 export interface ReferenceElementComponent extends HTMLElement {
   autoClose?: boolean;
+  closeOnClick?: boolean;
+  el: HTMLElement;
   open: boolean;
   referenceEl?: ReferenceElement;
-  triggerDisabled?: boolean;
-  closeOnClick?: boolean;
   referenceElementOptions: {
     click?: boolean;
     hover?: boolean;
   };
+  triggerDisabled?: boolean;
 }
 
 /**

@@ -62,7 +62,7 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
           !toggleComponents?.includes(referenceElementComponent) &&
           referenceElementComponent.autoClose &&
           referenceElementComponent.open &&
-          !composedPath.includes(referenceElementComponent),
+          !composedPath.includes(referenceElementComponent.el),
       )
       .forEach((referenceElementComponent) => (referenceElementComponent.open = false));
   };
