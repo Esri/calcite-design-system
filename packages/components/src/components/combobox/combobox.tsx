@@ -370,7 +370,7 @@ export class Combobox
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group` & `calcite-combobox-item`s  (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
   /** Overrides individual strings used by the component. */
@@ -1207,7 +1207,7 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const allItemsAndGroups = this.getItemsAndGroups(true);
     const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
@@ -1248,8 +1248,25 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(): ComboboxChildElement[] {
-    return [...this.groupItems, ...this.items];
+  private getItemsAndGroups(withDisabledItems = false): ComboboxChildElement[] {
+    if (this.items.length === 0) {
+      return this.groupItems;
+    } else if (this.groupItems.length === 0) {
+      return withDisabledItems ? this.getItems(true) : this.items;
+    } else {
+      const itemsAndGroup: ComboboxChildElement[] = Array.from(
+        this.el.querySelectorAll(`${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`),
+      );
+
+      return itemsAndGroup.filter((childElement) => {
+        if (childElement.matches(ComboboxItemSelector)) {
+          return (
+            withDisabledItems || !(childElement as HTMLCalciteComboboxItemElement["el"]).disabled
+          );
+        }
+        return childElement;
+      });
+    }
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
