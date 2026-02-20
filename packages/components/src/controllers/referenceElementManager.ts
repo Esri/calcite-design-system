@@ -1,5 +1,5 @@
 import { ReferenceElement } from "../utils/floating-ui";
-import { isKeyboardTriggeredClick, isPrimaryPointerButton } from "../utils/dom";
+import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../utils/dom";
 import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent } from "./useReferenceElement";
@@ -16,6 +16,10 @@ export interface ReferenceElementComponentManager {
 }
 
 const clickTolerance = 5;
+
+export const HOVER_OPEN_DELAY_MS = 300;
+export const HOVER_QUICK_OPEN_DELAY_MS = HOVER_OPEN_DELAY_MS / 3;
+export const HOVER_CLOSE_DELAY_MS = HOVER_OPEN_DELAY_MS * 1.5;
 
 export function isDrag({
   startX,
@@ -39,10 +43,14 @@ export function isDrag({
  */
 export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
-
-  let registeredElementCount = 0;
-
+  const registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
+  let activeHoverComponents: ReferenceElementComponent[] = [];
+  let clickedHoverComponents: ReferenceElementComponent[] = [];
+  let hoverCloseTimeout: number = null;
+  let hoverOpenTimeout: number = null;
+  let hoveredComponents: ReferenceElementComponent[] = [];
   let pointerDownPosition: { x: number; y: number };
+  let registeredElementCount = 0;
 
   const queryComponents = (composedPath: EventTarget[]): ReferenceElementComponent[] | undefined => {
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl))!;
@@ -92,6 +100,93 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleComponents(event);
   };
 
+  const clearHoverOpenTimeout = (): void => {
+    window.clearTimeout(hoverOpenTimeout);
+    hoverOpenTimeout = null;
+  };
+
+  const clearHoverCloseTimeout = (): void => {
+    window.clearTimeout(hoverCloseTimeout);
+    hoverCloseTimeout = null;
+  };
+
+  const clearHoverTimeout = (): void => {
+    clearHoverOpenTimeout();
+    clearHoverCloseTimeout();
+  };
+
+  const pathHasOpenHoverComponent = (components: ReferenceElementComponent[], composedPath: EventTarget[]): boolean => {
+    return (
+      activeHoverComponents?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip)) ||
+      components?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip))
+    );
+  };
+
+  const toggleHoverComponents = (components: ReferenceElementComponent[], open: boolean): void => {
+    components?.forEach((component) => (component.open = open));
+
+    activeHoverComponents = open ? components : [];
+  };
+
+  const closeActiveHoverComponents = (): void => {
+    toggleHoverComponents(activeHoverComponents, false);
+  };
+
+  const hoverKeyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape" && !event.defaultPrevented) {
+      const openActiveHoverComponents = activeHoverComponents?.filter((component) => component?.open);
+
+      if (openActiveHoverComponents?.length) {
+        clearHoverTimeout();
+        closeActiveHoverComponents();
+
+        openActiveHoverComponents.some((component) => {
+          const composedPath = event.composedPath();
+
+          if (
+            (component.referenceEl instanceof Element && composedPath.includes(component.referenceEl)) ||
+            composedPath.includes(component.el)
+          ) {
+            event.preventDefault();
+          }
+        });
+      }
+    }
+  };
+
+  const hoverClickHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    clickedHoverComponents = null;
+    const composedPath = event.composedPath();
+    const components = queryComponents(composedPath);
+
+    if (pathHasOpenHoverComponent(components, composedPath)) {
+      clearHoverTimeout();
+      return;
+    }
+
+    closeActiveHoverComponents();
+
+    if (!components?.length) {
+      return;
+    }
+
+    clearHoverTimeout();
+
+    const closeOnClickTooltips = components.filter((tooltip) => tooltip.closeOnClick);
+    const nonCloseOnClickTooltips = components.filter((tooltip) => !tooltip.closeOnClick);
+
+    if (closeOnClickTooltips?.length) {
+      clickedHoverComponents = closeOnClickTooltips;
+      toggleHoverComponents(closeOnClickTooltips, false);
+    }
+
+    toggleHoverComponents(nonCloseOnClickTooltips, true);
+  };
+
   const pointerDownHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented || !isPrimaryPointerButton(event)) {
       return;
@@ -119,6 +214,84 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       .forEach((component) => (component.open = false));
   };
 
+  const closeComponentsIfNotActive = (components: ReferenceElementComponent[]): void => {
+    if (components !== activeHoverComponents) {
+      closeActiveHoverComponents();
+    }
+  };
+
+  const openHoveredComponents = (components: ReferenceElementComponent[]): void => {
+    hoverOpenTimeout = window.setTimeout(
+      () => {
+        if (hoverOpenTimeout === null || components !== hoveredComponents) {
+          return;
+        }
+
+        clearHoverCloseTimeout();
+        closeComponentsIfNotActive(components);
+        toggleHoverComponents(components, true);
+      },
+      activeHoverComponents?.some((component) => component.open) ? HOVER_QUICK_OPEN_DELAY_MS : HOVER_OPEN_DELAY_MS,
+    );
+  };
+
+  const closeHoveredComponents = (): void => {
+    hoverCloseTimeout = window.setTimeout(() => {
+      if (hoverCloseTimeout === null) {
+        return;
+      }
+
+      closeActiveHoverComponents();
+    }, HOVER_CLOSE_DELAY_MS);
+  };
+
+  const pointerMoveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      closeActiveHoverComponents();
+      return;
+    }
+
+    const composedPath = event.composedPath();
+
+    const components = queryComponents(composedPath);
+
+    if (pathHasOpenHoverComponent(components, composedPath)) {
+      clearHoverTimeout();
+      return;
+    }
+
+    if (components?.some((component) => clickedHoverComponents?.includes(component))) {
+      return;
+    }
+
+    if (!components?.some((component) => hoveredComponents?.includes(component))) {
+      clearHoverOpenTimeout();
+    }
+
+    hoveredComponents = components;
+
+    if (components?.length) {
+      openHoveredComponents(components);
+    } else if (activeHoverComponents?.some((component) => component?.open)) {
+      closeHoveredComponents();
+    }
+
+    clickedHoverComponents = null;
+  };
+
+  const blurHandler = (): void => {
+    closeActiveHoverComponents();
+  };
+
+  const pointerLeaveHandler = (event: PointerEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    clearHoverTimeout();
+    closeHoveredComponents();
+  };
+
   const addListeners = (): void => {
     if (options.click) {
       window.addEventListener("click", clickHandler);
@@ -126,7 +299,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.addEventListener("pointerdown", pointerDownHandler);
     }
     if (options.hover) {
-      // todo
+      window.addEventListener("click", hoverClickHandler);
+      window.addEventListener("keydown", hoverKeyDownHandler);
+      window.addEventListener("pointermove", pointerMoveHandler);
+      window.addEventListener("focusin", focusInHandler);
+      window.addEventListener("blur", blurHandler);
+      document.addEventListener("pointerleave", pointerLeaveHandler);
     }
   };
 
@@ -137,8 +315,52 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.removeEventListener("keydown", keyDownHandler);
     }
     if (options.hover) {
-      // todo
+      window.removeEventListener("click", hoverClickHandler);
+      window.removeEventListener("keydown", hoverKeyDownHandler);
+      window.removeEventListener("pointermove", pointerMoveHandler);
+      window.removeEventListener("focusin", focusInHandler);
+      window.removeEventListener("blur", blurHandler);
+      document.removeEventListener("pointerleave", pointerLeaveHandler);
     }
+  };
+
+  const toggleFocusedComponents = (components: ReferenceElementComponent[], open: boolean): void => {
+    if (open) {
+      clearHoverTimeout();
+    }
+
+    toggleHoverComponents(components, open);
+  };
+
+  const getReferenceElShadowRootNode = (referenceEl: ReferenceElement): ShadowRoot | null => {
+    return referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
+  };
+
+  const focusInHandler = (event: FocusEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    const composedPath = event.composedPath();
+    const components = queryComponents(composedPath);
+
+    if (pathHasOpenHoverComponent(components, composedPath)) {
+      clearHoverTimeout();
+      return;
+    }
+    if (components === clickedHoverComponents) {
+      return;
+    }
+
+    clickedHoverComponents = null;
+
+    closeComponentsIfNotActive(components);
+
+    if (!components?.length) {
+      return;
+    }
+
+    toggleFocusedComponents(components, true);
   };
 
   const updateElement = (component: ReferenceElementComponent): void => {
@@ -151,6 +373,36 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     if ("ariaExpanded" in referenceEl) {
       referenceEl.ariaExpanded = toAriaBoolean(open);
     }
+  };
+
+  const addShadowListeners = (shadowRoot: ShadowRoot): void => {
+    shadowRoot.addEventListener("focusin", focusInHandler);
+  };
+
+  const removeShadowListeners = (shadowRoot: ShadowRoot): void => {
+    shadowRoot.removeEventListener("focusin", focusInHandler);
+  };
+
+  const registerShadowRoot = (shadowRoot: ShadowRoot): void => {
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.min((typeof count === "number" ? count : 0) + 1, 1);
+
+    if (newCount === 1) {
+      addShadowListeners(shadowRoot);
+    }
+
+    registeredShadowRootCounts.set(shadowRoot, newCount);
+  };
+
+  const unregisterShadowRoot = (shadowRoot: ShadowRoot): void => {
+    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = Math.max((typeof count === "number" ? count : 1) - 1, 0);
+
+    if (newCount === 0) {
+      removeShadowListeners(shadowRoot);
+    }
+
+    registeredShadowRootCounts.set(shadowRoot, newCount);
   };
 
   const registerElement = (component: ReferenceElementComponent): void => {
@@ -171,6 +423,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const existingComponents = registeredElements.get(referenceEl) ?? [];
     registeredElements.set(referenceEl, [...existingComponents, component]);
 
+    const shadowRoot = getReferenceElShadowRootNode(referenceEl);
+
+    if (shadowRoot) {
+      registerShadowRoot(shadowRoot);
+    }
+
     if (registeredElementCount === 1) {
       addListeners();
     }
@@ -183,6 +441,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (!referenceEl) {
       return;
+    }
+
+    const shadowRoot = getReferenceElShadowRootNode(referenceEl);
+
+    if (shadowRoot) {
+      unregisterShadowRoot(shadowRoot);
     }
 
     if ("ariaControlsElements" in referenceEl) {

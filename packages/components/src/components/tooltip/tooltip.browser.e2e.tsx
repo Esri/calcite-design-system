@@ -9,7 +9,11 @@ import {
   topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
+import {
+  HOVER_CLOSE_DELAY_MS,
+  HOVER_OPEN_DELAY_MS,
+} from "../../controllers/referenceElementManager";
+import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 describe("calcite-tooltip", () => {
@@ -55,25 +59,25 @@ describe("calcite-tooltip", () => {
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
+          delay: HOVER_OPEN_DELAY_MS * 0.25,
           property: "open",
           value: false,
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
+          delay: HOVER_OPEN_DELAY_MS * 0.25,
           property: "open",
           value: false,
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_OPEN_DELAY_MS,
+          delay: HOVER_OPEN_DELAY_MS,
           property: "open",
           value: true,
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
+          delay: HOVER_OPEN_DELAY_MS + HOVER_OPEN_DELAY_MS * 0.5,
           property: "open",
           value: true,
           selector: "#ref",
@@ -111,25 +115,25 @@ describe("calcite-tooltip", () => {
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_CLOSE_DELAY_MS,
+          delay: HOVER_CLOSE_DELAY_MS,
           property: "open",
           value: true,
           selector: "#ref",
         },
         {
-          delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
+          delay: HOVER_CLOSE_DELAY_MS * 0.25,
           property: "open",
           value: true,
           selector: "#ref2",
         },
         {
-          delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
+          delay: HOVER_CLOSE_DELAY_MS * 0.5,
           property: "open",
           value: true,
           selector: "#ref2",
         },
         {
-          delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
+          delay: HOVER_CLOSE_DELAY_MS * 0.5,
           property: "open",
           value: false,
           selector: "#ref2",

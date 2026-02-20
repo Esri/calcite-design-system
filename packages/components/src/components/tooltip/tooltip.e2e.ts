@@ -7,7 +7,12 @@ import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
+import {
+  HOVER_CLOSE_DELAY_MS,
+  HOVER_OPEN_DELAY_MS,
+  HOVER_QUICK_OPEN_DELAY_MS,
+} from "../../controllers/referenceElementManager";
+import { CSS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
 const eventOptions = { bubbles: true, cancelable: true };
@@ -254,7 +259,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await positionContainer.isVisible()).toBe(true);
   });
@@ -277,7 +282,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
     await page.waitForChanges();
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await positionContainer.isVisible()).toBe(false);
   });
@@ -296,7 +301,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
     await page.waitForChanges();
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await positionContainer.isVisible()).toBe(true);
 
@@ -308,7 +313,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
     await page.waitForChanges();
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
     expect(await positionContainer.isVisible()).toBe(false);
   });
 
@@ -329,7 +334,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await positionContainer.isVisible()).toBe(true);
   });
@@ -371,7 +376,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -381,7 +386,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -521,7 +526,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -554,7 +559,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -587,7 +592,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -627,7 +632,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await dispatchPointerEvent(page, "#hoverRef");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -671,7 +676,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await dispatchPointerEvent(page, "#hoverRef");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -696,7 +701,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -720,7 +725,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -745,7 +750,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.click();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -819,7 +824,7 @@ describe("calcite-tooltip", () => {
 
     it("emits via mouse", async () => {
       const moveOptions = { steps: 10 };
-      const totalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * moveOptions.steps;
+      const totalDelayFromMoveSteps = HOVER_OPEN_DELAY_MS * moveOptions.steps;
       const xMoveOffset = 25;
 
       await assertEventEmitting({
@@ -941,7 +946,7 @@ describe("calcite-tooltip", () => {
       const ref = await page.find("#ref");
       await ref.hover();
 
-      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
       await page.waitForChanges();
 
       expect(await positionContainer.isVisible()).toBe(true);
@@ -954,7 +959,7 @@ describe("calcite-tooltip", () => {
       const hoverOutsideContainer = await page.find(".hoverOutsideContainer");
       await hoverOutsideContainer.hover();
 
-      await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+      await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
       await page.waitForChanges();
 
       expect(await positionContainer.isVisible()).not.toBe(true);
@@ -1075,12 +1080,12 @@ describe("calcite-tooltip", () => {
     expect(await tooltip2.getProperty("open")).toBe(false);
 
     await dispatchPointerEvent(page, "#ref1");
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
     expect(await tooltip1.getProperty("open")).toBe(true);
     expect(await tooltip2.getProperty("open")).toBe(false);
 
     await dispatchPointerEvent(page, "#ref2");
-    await page.waitForTimeout(TOOLTIP_QUICK_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_QUICK_OPEN_DELAY_MS);
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
   });
@@ -1105,7 +1110,7 @@ describe("calcite-tooltip", () => {
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
       await positionContainer.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
@@ -1151,7 +1156,7 @@ describe("calcite-tooltip", () => {
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
 
-      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+      await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
       await positionContainer.click();
       await page.waitForChanges();
       expect(await tooltip.getProperty("open")).toBe(true);
@@ -1215,7 +1220,7 @@ describe("calcite-tooltip", () => {
     const tooltip = await page.find("calcite-tooltip");
 
     await button.hover();
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(true);
@@ -1224,7 +1229,7 @@ describe("calcite-tooltip", () => {
     await page.mouse.move(viewport.width + 100, viewport.height + 100);
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 

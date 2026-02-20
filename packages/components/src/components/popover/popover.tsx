@@ -3,8 +3,8 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
-  connectFloatingUI,
   defaultOffsetDistance,
+  connectFloatingUI,
   disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
@@ -17,8 +17,6 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { queryElementRoots } from "../../utils/dom";
-import { toAriaBoolean } from "../../utils/aria";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -80,8 +78,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
       },
     },
   })(this);
-
-  private hasLoaded = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
@@ -298,10 +294,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-
-    // we set up the ref element in the next frame to ensure PopoverManager
-    // event handlers are invoked after connect (mainly for `components` output target)
-    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -328,21 +320,13 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
       this.reposition(true);
     }
 
-    if (changes.has("referenceElement")) {
-      this.referenceElementHandler();
-
-      if (!this.referenceElement && this.open) {
+    if (changes.has("referenceEl")) {
+      if (!this.referenceEl && this.open) {
         this.topLayer.hide();
       }
-    }
-  }
 
-  loaded(): void {
-    if (this.referenceElement && !this.referenceEl) {
-      this.setUpReferenceElement();
+      connectFloatingUI(this);
     }
-
-    this.hasLoaded = true;
   }
 
   override disconnectedCallback(): void {
@@ -362,20 +346,10 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
-    this.setExpandedAttr();
-  }
-
-  private referenceElementHandler(): void {
-    this.setUpReferenceElement();
-    this.reposition(true);
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
-    }
   }
 
   private setFilteredPlacements(): void {
@@ -384,40 +358,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
       : null;
-  }
-
-  private setUpReferenceElement(warn = true): void {
-    this.referenceEl = this.getReferenceElement();
-    connectFloatingUI(this);
-
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
-    }
-  }
-
-  private setExpandedAttr(): void {
-    const { referenceEl, open } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("ariaExpanded" in referenceEl) {
-      referenceEl.ariaExpanded = toAriaBoolean(open);
-    }
-  }
-
-  private getReferenceElement(): ReferenceElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
   }
 
   private hide(): void {

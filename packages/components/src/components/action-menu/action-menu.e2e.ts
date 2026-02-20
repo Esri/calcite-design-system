@@ -3,7 +3,7 @@ import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, themed } from "../../tests/commonTests";
-import { CSS as TooltipCSS, TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
+import { CSS as TooltipCSS } from "../tooltip/resources";
 import {
   findAll,
   getElementRect,
@@ -13,6 +13,7 @@ import {
 } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
+import { HOVER_OPEN_DELAY_MS } from "../../controllers/referenceElementManager";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -226,7 +227,7 @@ describe("calcite-action-menu", () => {
     expect(await tooltipPositionContainer.isVisible()).toBe(false);
 
     await trigger.hover();
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
     expect(await tooltipPositionContainer.isVisible()).toBe(true);
 
