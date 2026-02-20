@@ -31,6 +31,7 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { referenceElementManager } from "../../controllers/referenceElementManager";
 import {
   ReferenceElementComponent,
+  ReferenceElementType,
   useReferenceElement,
 } from "../../controllers/useReferenceElement";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -43,7 +44,7 @@ declare global {
   }
 }
 
-const manager = referenceElementManager();
+const manager = referenceElementManager({ click: true });
 
 /** @slot - A slot for adding custom content. */
 export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
@@ -55,8 +56,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   //#region Private Properties
 
-  // todo: later
-  referenceElementOptions: ReferenceElementComponent["referenceElementOptions"] = { click: true };
+  referenceElementType: ReferenceElementType = "click";
 
   referenceElementController = useReferenceElement(manager)(this);
 

@@ -4,10 +4,15 @@ import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent } from "./useReferenceElement";
 
+export type ReferenceElementManagerOptions = {
+  click?: boolean;
+  hover?: boolean;
+};
+
 export interface ReferenceElementComponentManager {
-  registerElement: (referenceElementComponent: ReferenceElementComponent) => void;
-  unregisterElement: (referenceElementComponent: ReferenceElementComponent) => void;
-  setExpanded: (referenceElementComponent: ReferenceElementComponent) => void;
+  registerElement: (component: ReferenceElementComponent) => void;
+  unregisterElement: (component: ReferenceElementComponent) => void;
+  updateElement: (component: ReferenceElementComponent) => void;
 }
 
 const clickTolerance = 5;
@@ -32,7 +37,7 @@ export function isDrag({
  *
  * Note: reference elements will be managed automatically when the component is disconnected.
  */
-export const referenceElementManager = (): ReferenceElementComponentManager => {
+export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
 
   let registeredElementCount = 0;
@@ -58,13 +63,13 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
     Array.from(registeredElements.values())
       .flat()
       .filter(
-        (referenceElementComponent) =>
-          !toggleComponents?.includes(referenceElementComponent) &&
-          referenceElementComponent.autoClose &&
-          referenceElementComponent.open &&
-          !composedPath.includes(referenceElementComponent.el),
+        (component) =>
+          !toggleComponents?.includes(component) &&
+          component.autoClose &&
+          component.open &&
+          !composedPath.includes(component.el),
       )
-      .forEach((referenceElementComponent) => (referenceElementComponent.open = false));
+      .forEach((component) => (component.open = false));
   };
 
   const clickHandler = (event: PointerEvent): void => {
@@ -111,24 +116,33 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
   const closeAllComponents = (): void => {
     Array.from(registeredElements.values())
       .flat()
-      .forEach((referenceElementComponent) => (referenceElementComponent.open = false));
+      .forEach((component) => (component.open = false));
   };
 
   const addListeners = (): void => {
-    // todo: referenceElementOptions
-    window.addEventListener("pointerdown", pointerDownHandler);
-    window.addEventListener("click", clickHandler);
-    window.addEventListener("keydown", keyDownHandler);
+    if (options.click) {
+      window.addEventListener("click", clickHandler);
+      window.addEventListener("keydown", keyDownHandler);
+      window.addEventListener("pointerdown", pointerDownHandler);
+    }
+    if (options.hover) {
+      // todo
+    }
   };
 
   const removeListeners = (): void => {
-    window.removeEventListener("pointerdown", pointerDownHandler);
-    window.removeEventListener("click", clickHandler);
-    window.removeEventListener("keydown", keyDownHandler);
+    if (options.click) {
+      window.removeEventListener("pointerdown", pointerDownHandler);
+      window.removeEventListener("click", clickHandler);
+      window.removeEventListener("keydown", keyDownHandler);
+    }
+    if (options.hover) {
+      // todo
+    }
   };
 
-  const setExpanded = (referenceElementComponent: ReferenceElementComponent): void => {
-    const { referenceEl, open } = referenceElementComponent;
+  const updateElement = (component: ReferenceElementComponent): void => {
+    const { referenceEl, open } = component;
 
     if (!referenceEl) {
       return;
@@ -139,8 +153,8 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
     }
   };
 
-  const registerElement = (referenceElementComponent: ReferenceElementComponent): void => {
-    const { referenceEl } = referenceElementComponent;
+  const registerElement = (component: ReferenceElementComponent): void => {
+    const { referenceEl } = component;
 
     if (!referenceEl) {
       return;
@@ -148,31 +162,31 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
 
     if ("ariaControlsElements" in referenceEl) {
       const currentElements = referenceEl.ariaControlsElements ?? [];
-      const updatedElements = [...currentElements, referenceElementComponent];
+      const updatedElements = [...currentElements, component];
       referenceEl.ariaControlsElements = updatedElements;
     }
 
     registeredElementCount++;
 
     const existingComponents = registeredElements.get(referenceEl) ?? [];
-    registeredElements.set(referenceEl, [...existingComponents, referenceElementComponent]);
+    registeredElements.set(referenceEl, [...existingComponents, component]);
 
     if (registeredElementCount === 1) {
       addListeners();
     }
 
-    setExpanded(referenceElementComponent);
+    updateElement(component);
   };
 
-  const unregisterElement = (referenceElementComponent: ReferenceElementComponent): void => {
-    const { referenceEl } = referenceElementComponent;
+  const unregisterElement = (component: ReferenceElementComponent): void => {
+    const { referenceEl } = component;
 
     if (!referenceEl) {
       return;
     }
 
     if ("ariaControlsElements" in referenceEl) {
-      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== referenceElementComponent);
+      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component);
       referenceEl.ariaControlsElements = newElements ?? null;
     }
 
@@ -181,7 +195,7 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
     }
 
     const existingComponents = registeredElements.get(referenceEl) ?? [];
-    const updatedComponents = existingComponents.filter((p) => p !== referenceElementComponent);
+    const updatedComponents = existingComponents.filter((p) => p !== component);
 
     if (updatedComponents.length > 0) {
       registeredElements.set(referenceEl, updatedComponents);
@@ -198,6 +212,6 @@ export const referenceElementManager = (): ReferenceElementComponentManager => {
   return {
     registerElement,
     unregisterElement,
-    setExpanded,
+    updateElement,
   };
 };

@@ -2,6 +2,8 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { ReferenceElement } from "../utils/floating-ui";
 import { ReferenceElementComponentManager } from "./referenceElementManager";
 
+export type ReferenceElementType = "click" | "hover";
+
 /**
  * TODO
  */
@@ -11,10 +13,7 @@ export interface ReferenceElementComponent extends HTMLElement {
   el: HTMLElement;
   open: boolean;
   referenceEl?: ReferenceElement;
-  referenceElementOptions: {
-    click?: boolean;
-    hover?: boolean;
-  };
+  referenceElementType: ReferenceElementType;
   triggerDisabled?: boolean;
 }
 
@@ -44,7 +43,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
         manager.unregisterElement(component);
         manager.registerElement(component);
       } else if (changes.has("open")) {
-        manager.setExpanded(component);
+        manager.updateElement(component);
       }
     });
 
