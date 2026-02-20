@@ -6,7 +6,7 @@ import { ReferenceElementComponentManager } from "./referenceElementManager";
 export type ReferenceElementType = "click" | "hover";
 
 /**
- * TODO
+ * Component contract required by the reference element controller.
  */
 export interface ReferenceElementComponent extends HTMLElement {
   autoClose?: boolean;
@@ -20,9 +20,15 @@ export interface ReferenceElementComponent extends HTMLElement {
 }
 
 /**
- * A controller for managing reference elements.
+ * Creates a controller that resolves and tracks a component's reference element.
  *
- * Note: reference elements will be managed automatically when the component is disconnected.
+ * It registers the component with the provided manager and keeps registration state
+ * synchronized when `referenceElement`, `referenceEl`, or `open` changes.
+ *
+ * Note: reference elements are managed automatically when the component is disconnected.
+ *
+ * @param manager Reference element manager used to register and update the component.
+ * @returns A generic controller that manages reference-element lifecycle wiring.
  */
 export const useReferenceElement = <T extends ReferenceElementComponent>(
   manager: ReferenceElementComponentManager,
