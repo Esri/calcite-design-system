@@ -204,11 +204,13 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
       this.openHandler();
     }
 
-    if (changes.has("referenceEl")) {
-      if (!this.referenceEl && this.open) {
-        this.topLayer.hide();
-      }
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
+    }
+  }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl")) {
       connectFloatingUI(this);
     }
   }

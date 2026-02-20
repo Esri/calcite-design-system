@@ -117,8 +117,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const pathHasOpenHoverComponent = (components: ReferenceElementComponent[], composedPath: EventTarget[]): boolean => {
     return (
-      activeHoverComponents?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip)) ||
-      components?.some((tooltip) => tooltip?.open && composedPath.includes(tooltip))
+      activeHoverComponents?.some((component) => component?.open && composedPath.includes(component.el)) ||
+      components?.some((component) => component?.open && composedPath.includes(component.el))
     );
   };
 
@@ -176,15 +176,15 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     clearHoverTimeout();
 
-    const closeOnClickTooltips = components.filter((tooltip) => tooltip.closeOnClick);
-    const nonCloseOnClickTooltips = components.filter((tooltip) => !tooltip.closeOnClick);
+    const closeOnClickHoverComponents = components.filter((component) => component.closeOnClick);
+    const nonCloseOnClickHoverComponents = components.filter((component) => !component.closeOnClick);
 
-    if (closeOnClickTooltips?.length) {
-      clickedHoverComponents = closeOnClickTooltips;
-      toggleHoverComponents(closeOnClickTooltips, false);
+    if (closeOnClickHoverComponents?.length) {
+      clickedHoverComponents = closeOnClickHoverComponents;
+      toggleHoverComponents(closeOnClickHoverComponents, false);
     }
 
-    toggleHoverComponents(nonCloseOnClickTooltips, true);
+    toggleHoverComponents(nonCloseOnClickHoverComponents, true);
   };
 
   const pointerDownHandler = (event: PointerEvent): void => {
