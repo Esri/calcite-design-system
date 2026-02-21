@@ -480,10 +480,12 @@ export class InputNumber
     if (!inputValue) {
       return;
     }
+    // TODO: figure out other invalid values to check for
     if (inputValue !== this.value && ["-", ".", "e", "E", ","].includes(inputValue)) {
       event.preventDefault();
       event.stopPropagation();
-      // TODO: trigger validation error
+      this.status = "invalid";
+      this.validationIcon = true;
     }
   }
 
@@ -889,7 +891,9 @@ export class InputNumber
     this.userChangedValue = origin === "user" && this.value !== newValue;
 
     if (newValue) {
-      this.status = isValidNumber(newValue) ? "valid" : "invalid";
+      const valid = isValidNumber(newValue);
+      this.status = valid ? "valid" : "invalid";
+      this.validationIcon = !valid;
     }
 
     // don't sanitize the start of negative/decimal numbers, but
