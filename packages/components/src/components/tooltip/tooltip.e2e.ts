@@ -731,6 +731,35 @@ it("should close tooltip when closeOnClick is true and referenceElement is click
   expect(await tooltip.getProperty("open")).toBe(false);
 });
 
+it("should close tooltip when tooltips share the same referenceElement, closeOnClick is true and referenceElement is clicked", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(html`
+    <calcite-tooltip id="tip1" close-on-click reference-element="ref" open>Content</calcite-tooltip>
+    <calcite-tooltip id="tip2" reference-element="ref" open>Content</calcite-tooltip>
+    <calcite-tooltip id="tip3" reference-element="ref" open>Content</calcite-tooltip>
+    <button id="ref">Button</button>
+  `);
+
+  await page.waitForChanges();
+
+  const referenceElement = await page.find("#ref");
+
+  await referenceElement.click();
+
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
+
+  await page.waitForChanges();
+
+  const tip1 = await page.find("#tip1");
+  const tip2 = await page.find("#tip2");
+  const tip3 = await page.find("#tip3");
+
+  expect(await tip1.getProperty("open")).toBe(false);
+  expect(await tip2.getProperty("open")).toBe(true);
+  expect(await tip3.getProperty("open")).toBe(true);
+});
+
 it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
   const page = await newE2EPage();
 

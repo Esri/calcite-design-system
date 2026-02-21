@@ -16,11 +16,10 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface PopoverStoryArgs
-  extends Pick<
-    Popover,
-    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
-  > {
+interface PopoverStoryArgs extends Pick<
+  Popover,
+  "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+> {
   textClose: string;
 }
 
@@ -234,3 +233,16 @@ export const closedShouldNotCauseScrollbars = (): string =>
       <div style="width:10000px; height:10000px;">Popover</div>
     </calcite-popover>
     <calcite-button id="button">Button</calcite-button>`;
+
+export const sharedReferenceElement = (): string =>
+  html`<p>
+      Some text
+      <button id="ref1">Button</button>
+    </p>
+    <calcite-popover placement="trailing-start" auto-close reference-element="ref1" open>Content 1</calcite-popover>
+    <calcite-popover placement="trailing-start" offset-skidding="30" auto-close reference-element="ref1" open
+      >Content 2</calcite-popover
+    >
+    <calcite-popover placement="trailing-start" offset-skidding="60" auto-close reference-element="ref1" open
+      >Content 3</calcite-popover
+    >`;

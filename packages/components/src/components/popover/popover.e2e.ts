@@ -470,6 +470,50 @@ it("should autoClose popovers when clicked on another referenceElement", async (
   expect(await popover2.getProperty("open")).toBe(false);
 });
 
+it("should autoClose popovers with a shared referenceElement", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(html`
+    <p>
+      Some text
+      <button id="ref1">Button</button>
+    </p>
+    <p>
+      Some more text
+      <button id="ref2">Button</button>
+    </p>
+    <calcite-popover id="popover1" auto-close reference-element="ref1" open>Content 1</calcite-popover>
+    <calcite-popover id="popover2" auto-close reference-element="ref1" open>Content 2</calcite-popover>
+    <calcite-popover id="popover3" auto-close reference-element="ref1" open>Content 3</calcite-popover>
+  `);
+
+  await page.waitForChanges();
+
+  const popover1 = await page.find("#popover1");
+  const popover2 = await page.find("#popover2");
+  const popover3 = await page.find("#popover3");
+  const ref1 = await page.find("#ref1");
+  const ref2 = await page.find("#ref2");
+
+  expect(await popover1.getProperty("open")).toBe(true);
+  expect(await popover2.getProperty("open")).toBe(true);
+  expect(await popover3.getProperty("open")).toBe(true);
+
+  await ref2.click();
+  await page.waitForChanges();
+
+  expect(await popover1.getProperty("open")).toBe(false);
+  expect(await popover2.getProperty("open")).toBe(false);
+  expect(await popover3.getProperty("open")).toBe(false);
+
+  await ref1.click();
+  await page.waitForChanges();
+
+  expect(await popover1.getProperty("open")).toBe(true);
+  expect(await popover2.getProperty("open")).toBe(true);
+  expect(await popover3.getProperty("open")).toBe(true);
+});
+
 it("should not be visible if ui has escaped", async () => {
   const page = await newE2EPage();
 

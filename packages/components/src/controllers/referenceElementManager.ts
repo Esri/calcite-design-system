@@ -445,7 +445,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const existingComponents = registeredElements.get(referenceEl) ?? [];
     registeredElements.set(referenceEl, [...existingComponents, component]);
 
-    const shadowRoot = getReferenceElShadowRootNode(referenceEl);
+    const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
       registerShadowRoot(shadowRoot);
@@ -465,7 +465,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    const shadowRoot = getReferenceElShadowRootNode(referenceEl);
+    const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
       unregisterShadowRoot(shadowRoot);
