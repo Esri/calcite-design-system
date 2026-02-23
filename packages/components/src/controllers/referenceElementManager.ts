@@ -5,36 +5,30 @@ import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent } from "./useReferenceElement";
 
-const haveSameContents = (a: ReferenceElementComponent[] | nil, b: ReferenceElementComponent[] | nil) => {
-  // Fast path: if lengths differ (including undefined vs. 0), contents cannot be the same.
-  if (a?.length !== b?.length) {
-    return false;
-  }
-  // Both are nil (undefined/null) and thus treated as equal.
-  if (!a && !b) {
+function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElementComponent[]): boolean {
+  if (a1 === a2) {
     return true;
   }
-  const arrA = a ?? [];
-  const arrB = b ?? [];
-  // Count occurrences of each component in arrA.
-  const counts = new Map<ReferenceElementComponent, number>();
-  for (const item of arrA) {
-    counts.set(item, (counts.get(item) ?? 0) + 1);
+
+  if (a1.length !== a2.length) {
+    return false;
   }
-  // Subtract occurrences using arrB; fail fast on mismatches.
-  for (const item of arrB) {
-    const current = counts.get(item);
-    if (!current) {
+
+  const s1 = new Set(a1);
+  const s2 = new Set(a2);
+
+  if (s1.size !== s2.size) {
+    return false;
+  }
+
+  for (const item of s1) {
+    if (!s2.has(item)) {
       return false;
     }
-    if (current === 1) {
-      counts.delete(item);
-    } else {
-      counts.set(item, current - 1);
-    }
   }
-  return counts.size === 0;
-};
+
+  return true;
+}
 
 export type ReferenceElementManagerOptions = {
   /** Enables click and keyboard-activation interactions for registered reference elements. */
@@ -277,7 +271,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const closeComponentsIfNotActive = (components: ReferenceElementComponent[]): void => {
-    if (!haveSameContents(components, activeComponents)) {
+    if (!haveSameComponents(components ?? [], activeComponents ?? [])) {
       closeActiveHoverComponents();
     }
   };
@@ -285,7 +279,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   const openHoveredComponents = (components: ReferenceElementComponent[]): void => {
     hoverOpenTimeout = window.setTimeout(
       () => {
-        if (hoverOpenTimeout === null || !haveSameContents(components, hoveredComponents)) {
+        if (hoverOpenTimeout === null || !haveSameComponents(components ?? [], hoveredComponents ?? [])) {
           return;
         }
 
