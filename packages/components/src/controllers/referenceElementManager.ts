@@ -5,6 +5,12 @@ import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent } from "./useReferenceElement";
 
+const haveSameContents = (a: ReferenceElementComponent[] | nil, b: ReferenceElementComponent[] | nil) =>
+  a?.length === b?.length &&
+  [...new Set([...(a ?? []), ...(b ?? [])])].every(
+    (v) => (a ?? []).filter((f) => f === v).length === (b ?? []).filter((f) => f === v).length,
+  );
+
 export type ReferenceElementManagerOptions = {
   /** Enables click and keyboard-activation interactions for registered reference elements. */
   click?: boolean;
@@ -67,11 +73,11 @@ export function isDrag({
 export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
   const registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
-  let activeHoverComponents: ReferenceElementComponent[] | nil = null;
-  let clickedHoverComponents: ReferenceElementComponent[] | nil = null;
+  let activeComponents: ReferenceElementComponent[] | nil = null;
+  let clickedComponents: ReferenceElementComponent[] | nil = null;
   let hoverCloseTimeout: number | nil = null;
   let hoverOpenTimeout: number | nil = null;
-  let hoveredComponents: ReferenceElementComponent[] = [];
+  let hoveredComponents: ReferenceElementComponent[] | nil = null;
   let pointerDownPosition: { x: number; y: number } | nil = null;
   let registeredElementCount = 0;
 
@@ -138,26 +144,29 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     clearHoverCloseTimeout();
   };
 
-  const pathHasOpenHoverComponent = (components: ReferenceElementComponent[], composedPath: EventTarget[]): boolean => {
+  const pathHasOpenHoverComponent = (
+    components: ReferenceElementComponent[] | nil,
+    composedPath: EventTarget[],
+  ): boolean => {
     return (
-      activeHoverComponents?.some((component) => component?.open && composedPath.includes(component.el)) ||
+      activeComponents?.some((component) => component?.open && composedPath.includes(component.el)) ||
       components?.some((component) => component?.open && composedPath.includes(component.el))
     );
   };
 
-  const toggleHoverComponents = (components: ReferenceElementComponent[], open: boolean): void => {
+  const toggleHoverComponents = (components: ReferenceElementComponent[] | nil, open: boolean): void => {
     components?.forEach((component) => (component.open = open));
 
-    activeHoverComponents = open ? components : null;
+    activeComponents = open ? components : null;
   };
 
   const closeActiveHoverComponents = (): void => {
-    toggleHoverComponents(activeHoverComponents, false);
+    toggleHoverComponents(activeComponents, false);
   };
 
   const hoverKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && !event.defaultPrevented) {
-      const openActiveHoverComponents = activeHoverComponents?.filter((component) => component?.open);
+      const openActiveHoverComponents = activeComponents?.filter((component) => component?.open);
 
       if (openActiveHoverComponents?.length) {
         clearHoverTimeout();
@@ -182,7 +191,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    clickedHoverComponents = null;
+    clickedComponents = null;
     const composedPath = event.composedPath();
     const components = queryComponents(composedPath);
 
@@ -203,7 +212,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     const nonCloseOnClickHoverComponents = components.filter((component) => !component.closeOnClick);
 
     if (closeOnClickHoverComponents?.length) {
-      clickedHoverComponents = closeOnClickHoverComponents;
+      clickedComponents = closeOnClickHoverComponents;
       toggleHoverComponents(closeOnClickHoverComponents, false);
     }
 
@@ -238,7 +247,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const closeComponentsIfNotActive = (components: ReferenceElementComponent[]): void => {
-    if (components !== activeHoverComponents) {
+    if (!haveSameContents(components, activeComponents)) {
       closeActiveHoverComponents();
     }
   };
@@ -246,7 +255,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   const openHoveredComponents = (components: ReferenceElementComponent[]): void => {
     hoverOpenTimeout = window.setTimeout(
       () => {
-        if (hoverOpenTimeout === null || components !== hoveredComponents) {
+        if (hoverOpenTimeout === null || !haveSameContents(components, hoveredComponents)) {
           return;
         }
 
@@ -254,7 +263,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
         closeComponentsIfNotActive(components);
         toggleHoverComponents(components, true);
       },
-      activeHoverComponents?.some((component) => component.open) ? HOVER_QUICK_OPEN_DELAY_MS : HOVER_OPEN_DELAY_MS,
+      activeComponents?.some((component) => component.open) ? HOVER_QUICK_OPEN_DELAY_MS : HOVER_OPEN_DELAY_MS,
     );
   };
 
@@ -283,7 +292,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    if (components?.some((component) => clickedHoverComponents?.includes(component))) {
+    if (components?.some((component) => clickedComponents?.includes(component))) {
       return;
     }
 
@@ -295,11 +304,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (components?.length) {
       openHoveredComponents(components);
-    } else if (activeHoverComponents?.some((component) => component?.open)) {
+    } else if (activeComponents?.some((component) => component?.open)) {
       closeHoveredComponents();
     }
 
-    clickedHoverComponents = null;
+    clickedComponents = null;
   };
 
   const blurHandler = (): void => {
@@ -372,11 +381,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    if (components?.some((component) => clickedHoverComponents?.includes(component))) {
+    if (components?.some((component) => clickedComponents?.includes(component))) {
       return;
     }
 
-    clickedHoverComponents = null;
+    clickedComponents = null;
 
     closeComponentsIfNotActive(components);
 
@@ -387,10 +396,6 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleFocusedComponents(components, true);
   };
 
-  const referenceHasOpenComponent = (referenceEl: ReferenceElement): boolean => {
-    return registeredElements.get(referenceEl)?.some((component) => component.open) ?? false;
-  };
-
   const updateElement = (component: ReferenceElementComponent): void => {
     const { referenceEl, open } = component;
 
@@ -399,7 +404,9 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
-      referenceEl.ariaExpanded = toAriaBoolean(open || referenceHasOpenComponent(referenceEl));
+      const existingComponents = registeredElements.get(referenceEl) ?? [];
+      const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
+      referenceEl.ariaExpanded = toAriaBoolean(open || existingComponentOpen);
     }
   };
 
@@ -523,8 +530,14 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
-      const refHasOpenComponent = referenceHasOpenComponent(referenceEl);
-      referenceEl.ariaExpanded = refHasOpenComponent ? toAriaBoolean(refHasOpenComponent) : null;
+      const hasRegisteredComponents = (existingComponents?.length ?? 0) > 0;
+
+      if (hasRegisteredComponents) {
+        const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
+        referenceEl.ariaExpanded = toAriaBoolean(existingComponentOpen);
+      } else {
+        referenceEl.ariaExpanded = null;
+      }
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {
