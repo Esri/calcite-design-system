@@ -30,7 +30,7 @@ export interface ReferenceElementComponent extends LitElement {
   /**
    * The reference element, either as a string id or HTMLElement.
    */
-  referenceElement: string | ReferenceElement;
+  referenceElement: string | ReferenceElement | nil;
   /**
    * The type of reference element interaction ("click" or "hover").
    */
@@ -57,7 +57,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
 ): ReturnType<typeof makeGenericController<void, T>> => {
   return makeGenericController<void, T>((component, controller) => {
     let hasLoaded = false;
-    let animationFrameId: number;
+    let animationFrameId: number | nil = null;
 
     const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | nil => {
       const { referenceElement, el } = component;

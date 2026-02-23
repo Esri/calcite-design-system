@@ -112,11 +112,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const toggleComponents = (event: KeyboardEvent | PointerEvent): void => {
     const composedPath = event.composedPath();
-    const toggleComponents = queryComponents(composedPath);
+    const components = queryComponents(composedPath);
 
-    toggleComponents?.forEach((toggleComponent) => {
-      if (toggleComponent && !toggleComponent.triggerDisabled) {
-        toggleComponent.open = !toggleComponent.open;
+    components?.forEach((component) => {
+      if (component && !component.triggerDisabled) {
+        component.open = !component.open;
       }
     });
 
@@ -124,7 +124,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       .flat()
       .filter(
         (component) =>
-          !toggleComponents?.includes(component) &&
+          !components?.includes(component) &&
           component.autoClose &&
           component.open &&
           !composedPath.includes(component.el),
@@ -270,7 +270,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       .forEach((component) => (component.open = false));
   };
 
-  const closeComponentsIfNotActive = (components: ReferenceElementComponent[]): void => {
+  const closeComponentsIfNotActive = (components: ReferenceElementComponent[] | nil): void => {
     if (!haveSameComponents(components ?? [], activeComponents ?? [])) {
       closeActiveHoverComponents();
     }
@@ -502,7 +502,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     registeredElements.set(referenceEl, [...existingComponents, component]);
 
-    const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
+    const shadowRoot = options.hover ? getReferenceElShadowRootNode(referenceEl) : null;
 
     if (shadowRoot) {
       registerShadowRoot(shadowRoot);
@@ -528,7 +528,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
+    const shadowRoot = options.hover ? getReferenceElShadowRootNode(referenceEl) : null;
     const existingComponents = registeredElements.get(referenceEl) ?? [];
     const updatedComponents = existingComponents.filter((p) => p !== component);
 
