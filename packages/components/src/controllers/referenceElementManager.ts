@@ -496,6 +496,14 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     updateElement(component);
   };
 
+  const decrementRegisteredElementCount = (shadowRoot: ShadowRoot): void => {
+    registeredElementCount--;
+
+    if (shadowRoot) {
+      unregisterShadowRoot(shadowRoot);
+    }
+  };
+
   const unregisterElement = (component: ReferenceElementComponent): void => {
     const { referenceEl } = component;
 
@@ -504,21 +512,16 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
-
-    if (shadowRoot) {
-      unregisterShadowRoot(shadowRoot);
-    }
-
     const existingComponents = registeredElements.get(referenceEl) ?? [];
     const updatedComponents = existingComponents.filter((p) => p !== component);
 
     if (updatedComponents.length > 0) {
       registeredElements.set(referenceEl, updatedComponents);
       if (updatedComponents.length !== existingComponents.length) {
-        registeredElementCount--;
+        decrementRegisteredElementCount(shadowRoot);
       }
     } else if (registeredElements.delete(referenceEl)) {
-      registeredElementCount--;
+      decrementRegisteredElementCount(shadowRoot);
     }
 
     if (registeredElementCount === 0) {
@@ -531,10 +534,10 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
-      const hasRegisteredComponents = (existingComponents?.length ?? 0) > 0;
+      const hasRegisteredComponents = (updatedComponents?.length ?? 0) > 0;
 
       if (hasRegisteredComponents) {
-        const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
+        const existingComponentOpen = updatedComponents?.some((component) => component.open) ?? false;
         referenceEl.ariaExpanded = toAriaBoolean(existingComponentOpen);
       } else {
         referenceEl.ariaExpanded = null;

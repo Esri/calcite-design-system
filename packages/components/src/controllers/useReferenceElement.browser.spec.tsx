@@ -49,7 +49,7 @@ describe("useReferenceElement", () => {
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaControlsElements).toContain(component);
       expect(component.referenceEl.ariaExpanded).toBe("false");
-      refClickManager.unregisterElement(component);
+      refClickManager.unregisterElement(component, component.referenceEl);
     });
 
     it("register and resolves string reference element", async () => {
@@ -63,7 +63,7 @@ describe("useReferenceElement", () => {
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaControlsElements).toContain(component);
       expect(component.referenceEl.ariaExpanded).toBe("false");
-      refClickManager.unregisterElement(component);
+      refClickManager.unregisterElement(component, component.referenceEl);
     });
   });
 
@@ -77,7 +77,7 @@ describe("useReferenceElement", () => {
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      refHoverManager.unregisterElement(component);
+      refHoverManager.unregisterElement(component, component.referenceEl);
     });
 
     it("register and resolves string reference element", async () => {
@@ -90,7 +90,7 @@ describe("useReferenceElement", () => {
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      refHoverManager.unregisterElement(component);
+      refHoverManager.unregisterElement(component, component.referenceEl);
     });
   });
 });
