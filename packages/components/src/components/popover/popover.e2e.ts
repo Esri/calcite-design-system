@@ -3,7 +3,7 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, openClose, themed } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils/puppeteer";
+import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -489,29 +489,28 @@ it("should autoClose popovers with a shared referenceElement", async () => {
 
   await page.waitForChanges();
 
-  const popover1 = await page.find("#popover1");
-  const popover2 = await page.find("#popover2");
-  const popover3 = await page.find("#popover3");
+  const popovers = await findAll(page, "calcite-popover");
+
   const ref1 = await page.find("#ref1");
   const ref2 = await page.find("#ref2");
 
-  expect(await popover1.getProperty("open")).toBe(true);
-  expect(await popover2.getProperty("open")).toBe(true);
-  expect(await popover3.getProperty("open")).toBe(true);
+  for (const popover of popovers) {
+    expect(await popover.getProperty("open")).toBe(true);
+  }
 
   await ref2.click();
   await page.waitForChanges();
 
-  expect(await popover1.getProperty("open")).toBe(false);
-  expect(await popover2.getProperty("open")).toBe(false);
-  expect(await popover3.getProperty("open")).toBe(false);
+  for (const popover of popovers) {
+    expect(await popover.getProperty("open")).toBe(false);
+  }
 
   await ref1.click();
   await page.waitForChanges();
 
-  expect(await popover1.getProperty("open")).toBe(true);
-  expect(await popover2.getProperty("open")).toBe(true);
-  expect(await popover3.getProperty("open")).toBe(true);
+  for (const popover of popovers) {
+    expect(await popover.getProperty("open")).toBe(true);
+  }
 });
 
 it("should not be visible if ui has escaped", async () => {

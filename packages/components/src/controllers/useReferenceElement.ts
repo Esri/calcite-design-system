@@ -1,4 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
+import { LitElement } from "@arcgis/lumina";
+import { nil } from "@arcgis/toolkit/type";
 import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
 import { ReferenceElementComponentManager } from "./referenceElementManager";
@@ -8,14 +10,34 @@ export type ReferenceElementType = "click" | "hover";
 /**
  * Component contract required by the reference element controller.
  */
-export interface ReferenceElementComponent extends HTMLElement {
+export interface ReferenceElementComponent extends LitElement {
+  /**
+   * If true, the component will automatically close when another component opens.
+   */
   autoClose?: boolean;
+  /**
+   * If true, the component will close when its reference element is clicked.
+   */
   closeOnClick?: boolean;
-  el: HTMLElement;
+  /**
+   * Whether the component is currently open.
+   */
   open: boolean;
-  referenceEl: ReferenceElement;
+  /**
+   * The resolved reference element used to trigger the component.
+   */
+  referenceEl: ReferenceElement | nil;
+  /**
+   * The reference element, either as a string id or HTMLElement.
+   */
   referenceElement: string | ReferenceElement;
+  /**
+   * The type of reference element interaction ("click" or "hover").
+   */
   referenceElementType: ReferenceElementType;
+  /**
+   * If true, disables the trigger interaction for the component.
+   */
   triggerDisabled?: boolean;
 }
 
@@ -70,8 +92,6 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       if (component.referenceElement && !component.referenceEl) {
         setUpReferenceElement();
       }
-
-      manager.registerElement(component);
     });
 
     controller.onUpdate((changes) => {

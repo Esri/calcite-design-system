@@ -1,3 +1,4 @@
+import { nil } from "@arcgis/toolkit/type";
 import { ReferenceElement } from "../utils/floating-ui";
 import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../utils/dom";
 import { isActivationKey } from "../utils/key";
@@ -66,12 +67,12 @@ export function isDrag({
 export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
   const registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
-  let activeHoverComponents: ReferenceElementComponent[] = [];
-  let clickedHoverComponents: ReferenceElementComponent[] = [];
-  let hoverCloseTimeout: number = null;
-  let hoverOpenTimeout: number = null;
+  let activeHoverComponents: ReferenceElementComponent[] | nil = null;
+  let clickedHoverComponents: ReferenceElementComponent[] | nil = null;
+  let hoverCloseTimeout: number | nil = null;
+  let hoverOpenTimeout: number | nil = null;
   let hoveredComponents: ReferenceElementComponent[] = [];
-  let pointerDownPosition: { x: number; y: number };
+  let pointerDownPosition: { x: number; y: number } | nil = null;
   let registeredElementCount = 0;
 
   const queryComponents = (composedPath: EventTarget[]): ReferenceElementComponent[] | undefined => {
@@ -117,7 +118,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    pointerDownPosition = undefined;
+    pointerDownPosition = null;
 
     toggleComponents(event);
   };
@@ -147,7 +148,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   const toggleHoverComponents = (components: ReferenceElementComponent[], open: boolean): void => {
     components?.forEach((component) => (component.open = open));
 
-    activeHoverComponents = open ? components : [];
+    activeHoverComponents = open ? components : null;
   };
 
   const closeActiveHoverComponents = (): void => {
@@ -370,7 +371,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       clearHoverTimeout();
       return;
     }
-    if (components === clickedHoverComponents) {
+
+    if (components?.some((component) => clickedHoverComponents?.includes(component))) {
       return;
     }
 
@@ -385,6 +387,10 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleFocusedComponents(components, true);
   };
 
+  const referenceHasOpenComponent = (referenceEl: ReferenceElement): boolean => {
+    return registeredElements.get(referenceEl)?.some((component) => component.open) ?? false;
+  };
+
   const updateElement = (component: ReferenceElementComponent): void => {
     const { referenceEl, open } = component;
 
@@ -393,7 +399,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if ("ariaExpanded" in referenceEl) {
-      referenceEl.ariaExpanded = toAriaBoolean(open);
+      referenceEl.ariaExpanded = toAriaBoolean(open || referenceHasOpenComponent(referenceEl));
     }
   };
 
@@ -407,7 +413,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const registerShadowRoot = (shadowRoot: ShadowRoot): void => {
     const count = registeredShadowRootCounts.get(shadowRoot);
-    const newCount = Math.min((typeof count === "number" ? count : 0) + 1, 1);
+    const newCount = (typeof count === "number" ? count : 0) + 1;
 
     if (newCount === 1) {
       addShadowListeners(shadowRoot);
@@ -418,7 +424,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const unregisterShadowRoot = (shadowRoot: ShadowRoot): void => {
     const count = registeredShadowRootCounts.get(shadowRoot);
-    const newCount = Math.max((typeof count === "number" ? count : 1) - 1, 0);
+    const newCount = (typeof count === "number" ? count : 1) - 1;
 
     if (newCount === 0) {
       removeShadowListeners(shadowRoot);
@@ -434,15 +440,23 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
+    const existingComponents = registeredElements.get(referenceEl) ?? [];
+
+    if (existingComponents.includes(component)) {
+      return;
+    }
+
     if ("ariaControlsElements" in referenceEl) {
       const currentElements = referenceEl.ariaControlsElements ?? [];
-      const updatedElements = [...currentElements, component];
-      referenceEl.ariaControlsElements = updatedElements;
+
+      if (!currentElements.includes(component)) {
+        const updatedElements = [...currentElements, component];
+        referenceEl.ariaControlsElements = updatedElements;
+      }
     }
 
     registeredElementCount++;
 
-    const existingComponents = registeredElements.get(referenceEl) ?? [];
     registeredElements.set(referenceEl, [...existingComponents, component]);
 
     const shadowRoot = options.hover && getReferenceElShadowRootNode(referenceEl);
@@ -471,15 +485,6 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       unregisterShadowRoot(shadowRoot);
     }
 
-    if ("ariaControlsElements" in referenceEl) {
-      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component);
-      referenceEl.ariaControlsElements = newElements ?? null;
-    }
-
-    if ("ariaExpanded" in referenceEl) {
-      referenceEl.ariaExpanded = null;
-    }
-
     const existingComponents = registeredElements.get(referenceEl) ?? [];
     const updatedComponents = existingComponents.filter((p) => p !== component);
 
@@ -492,6 +497,16 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (registeredElementCount === 0) {
       removeListeners();
+    }
+
+    if ("ariaControlsElements" in referenceEl) {
+      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component);
+      referenceEl.ariaControlsElements = newElements ?? null;
+    }
+
+    if ("ariaExpanded" in referenceEl) {
+      const refHasOpenComponent = referenceHasOpenComponent(referenceEl);
+      referenceEl.ariaExpanded = refHasOpenComponent ? toAriaBoolean(refHasOpenComponent) : null;
     }
   };
 
