@@ -49,7 +49,9 @@ describe("useReferenceElement", () => {
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaControlsElements).toContain(component);
       expect(component.referenceEl.ariaExpanded).toBe("false");
-      refClickManager.unregisterElement(component, component.referenceEl);
+      refClickManager.unregisterElement(component, referenceElement);
+      expect(referenceElement.ariaControlsElements).toBeNull();
+      expect(referenceElement.ariaExpanded).toBeNull();
     });
 
     it("register and resolves string reference element", async () => {
@@ -63,7 +65,9 @@ describe("useReferenceElement", () => {
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaControlsElements).toContain(component);
       expect(component.referenceEl.ariaExpanded).toBe("false");
-      refClickManager.unregisterElement(component, component.referenceEl);
+      refClickManager.unregisterElement(component, referenceElement);
+      expect(referenceElement.ariaControlsElements).toBeNull();
+      expect(referenceElement.ariaExpanded).toBeNull();
     });
   });
 
@@ -77,7 +81,8 @@ describe("useReferenceElement", () => {
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      refHoverManager.unregisterElement(component, component.referenceEl);
+      refHoverManager.unregisterElement(component, referenceElement);
+      expect(referenceElement.ariaDescribedByElements).toBeNull();
     });
 
     it("register and resolves string reference element", async () => {
@@ -90,7 +95,8 @@ describe("useReferenceElement", () => {
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
       expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      refHoverManager.unregisterElement(component, component.referenceEl);
+      refHoverManager.unregisterElement(component, referenceElement);
+      expect(referenceElement.ariaDescribedByElements).toBeNull();
     });
   });
 });

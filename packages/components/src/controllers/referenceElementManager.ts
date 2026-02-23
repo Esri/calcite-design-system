@@ -5,11 +5,36 @@ import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent } from "./useReferenceElement";
 
-const haveSameContents = (a: ReferenceElementComponent[] | nil, b: ReferenceElementComponent[] | nil) =>
-  a?.length === b?.length &&
-  [...new Set([...(a ?? []), ...(b ?? [])])].every(
-    (v) => (a ?? []).filter((f) => f === v).length === (b ?? []).filter((f) => f === v).length,
-  );
+const haveSameContents = (a: ReferenceElementComponent[] | nil, b: ReferenceElementComponent[] | nil) => {
+  // Fast path: if lengths differ (including undefined vs. 0), contents cannot be the same.
+  if (a?.length !== b?.length) {
+    return false;
+  }
+  // Both are nil (undefined/null) and thus treated as equal.
+  if (!a && !b) {
+    return true;
+  }
+  const arrA = a ?? [];
+  const arrB = b ?? [];
+  // Count occurrences of each component in arrA.
+  const counts = new Map<ReferenceElementComponent, number>();
+  for (const item of arrA) {
+    counts.set(item, (counts.get(item) ?? 0) + 1);
+  }
+  // Subtract occurrences using arrB; fail fast on mismatches.
+  for (const item of arrB) {
+    const current = counts.get(item);
+    if (!current) {
+      return false;
+    }
+    if (current === 1) {
+      counts.delete(item);
+    } else {
+      counts.set(item, current - 1);
+    }
+  }
+  return counts.size === 0;
+};
 
 export type ReferenceElementManagerOptions = {
   /** Enables click and keyboard-activation interactions for registered reference elements. */
@@ -82,7 +107,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   let registeredElementCount = 0;
 
   const queryComponents = (composedPath: EventTarget[]): ReferenceElementComponent[] | undefined => {
-    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl))!;
+    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
+
+    if (!registeredElement) {
+      return undefined;
+    }
 
     return registeredElements.get(registeredElement);
   };
@@ -443,8 +472,6 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (newCount > 0) {
       registeredShadowRootCounts.set(shadowRoot, newCount);
-    } else {
-      registeredShadowRootCounts.delete(shadowRoot);
     }
   };
 
@@ -522,6 +549,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (registeredElementCount === 0) {
       removeListeners();
+      clearHoverTimeout();
     }
 
     if (options.click && "ariaControlsElements" in referenceEl) {
