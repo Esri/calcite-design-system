@@ -79,7 +79,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     };
 
     controller.onConnected(() => {
-      // we set up the ref element in the next frame to ensure PopoverManager
+      // we set up the ref element in the next frame to ensure manager
       // event handlers are invoked after connect (mainly for `components` output target)
       requestAnimationFrame(() => setUpReferenceElement(hasLoaded));
 

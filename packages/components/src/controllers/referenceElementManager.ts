@@ -526,7 +526,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (options.click && "ariaControlsElements" in referenceEl) {
       const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component);
-      referenceEl.ariaControlsElements = newElements ?? null;
+      referenceEl.ariaControlsElements = newElements?.length > 0 ? newElements : null;
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
@@ -542,7 +542,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {
       const newElements = referenceEl.ariaDescribedByElements?.filter((element) => element !== component);
-      referenceEl.ariaDescribedByElements = newElements ?? null;
+      referenceEl.ariaDescribedByElements = newElements?.length > 0 ? newElements : null;
     }
   };
 
