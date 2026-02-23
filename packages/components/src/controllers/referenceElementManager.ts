@@ -398,7 +398,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    if ("ariaExpanded" in referenceEl) {
+    if (options.click && "ariaExpanded" in referenceEl) {
       referenceEl.ariaExpanded = toAriaBoolean(open || referenceHasOpenComponent(referenceEl));
     }
   };
@@ -453,12 +453,21 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       return;
     }
 
-    if ("ariaControlsElements" in referenceEl) {
+    if (options.click && "ariaControlsElements" in referenceEl) {
       const currentElements = referenceEl.ariaControlsElements ?? [];
 
       if (!currentElements.includes(component)) {
         const updatedElements = [...currentElements, component];
         referenceEl.ariaControlsElements = updatedElements;
+      }
+    }
+
+    if (options.hover && "ariaDescribedByElements" in referenceEl) {
+      const currentElements = referenceEl.ariaDescribedByElements ?? [];
+
+      if (!currentElements.includes(component)) {
+        const updatedElements = [...currentElements, component];
+        referenceEl.ariaDescribedByElements = updatedElements;
       }
     }
 
@@ -508,14 +517,19 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       removeListeners();
     }
 
-    if ("ariaControlsElements" in referenceEl) {
+    if (options.click && "ariaControlsElements" in referenceEl) {
       const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component);
       referenceEl.ariaControlsElements = newElements ?? null;
     }
 
-    if ("ariaExpanded" in referenceEl) {
+    if (options.click && "ariaExpanded" in referenceEl) {
       const refHasOpenComponent = referenceHasOpenComponent(referenceEl);
       referenceEl.ariaExpanded = refHasOpenComponent ? toAriaBoolean(refHasOpenComponent) : null;
+    }
+
+    if (options.hover && "ariaDescribedByElements" in referenceEl) {
+      const newElements = referenceEl.ariaDescribedByElements?.filter((element) => element !== component);
+      referenceEl.ariaDescribedByElements = newElements ?? null;
     }
   };
 
