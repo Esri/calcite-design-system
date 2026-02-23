@@ -515,7 +515,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     updateElement(component);
   };
 
-  const decrementRegisteredElementCount = (shadowRoot: ShadowRoot): void => {
+  const decrementRegisteredElementCount = (shadowRoot: ShadowRoot | nil): void => {
     registeredComponentCount--;
 
     if (shadowRoot) {

@@ -118,7 +118,10 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     });
 
     controller.onDisconnected(() => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId != null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
       manager.unregisterElement(component, component.referenceEl);
     });
   });
