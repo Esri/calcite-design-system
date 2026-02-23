@@ -172,16 +172,17 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
         clearHoverTimeout();
         closeActiveHoverComponents();
 
-        openActiveHoverComponents.some((component) => {
-          const composedPath = event.composedPath();
+        const composedPath = event.composedPath();
 
-          if (
-            (component.referenceEl instanceof Element && composedPath.includes(component.referenceEl)) ||
-            composedPath.includes(component.el)
-          ) {
-            event.preventDefault();
-          }
-        });
+        if (
+          openActiveHoverComponents.some(
+            (component) =>
+              (component.referenceEl instanceof Element && composedPath.includes(component.referenceEl)) ||
+              composedPath.includes(component.el),
+          )
+        ) {
+          event.preventDefault();
+        }
       }
     }
   };
