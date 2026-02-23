@@ -1248,24 +1248,14 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(withDisabledItems = false): ComboboxChildElement[] {
-    if (this.items.length === 0) {
-      return this.groupItems;
-    } else if (this.groupItems.length === 0) {
-      return withDisabledItems ? this.getItems(true) : this.items;
-    } else {
+  private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
+    if (preserveOrder) {
       const itemsAndGroup: ComboboxChildElement[] = Array.from(
         this.el.querySelectorAll(`${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`),
       );
-
-      return itemsAndGroup.filter((childElement) => {
-        if (childElement.matches(ComboboxItemSelector)) {
-          return (
-            withDisabledItems || !(childElement as HTMLCalciteComboboxItemElement["el"]).disabled
-          );
-        }
-        return childElement;
-      });
+      return itemsAndGroup;
+    } else {
+      return [...this.groupItems, ...this.items];
     }
   }
 
