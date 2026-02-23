@@ -71,6 +71,7 @@ export const single = (): string => html`
       selection-display="all"
       selection-mode="single"
       label="demo"
+      max-items="0"
       placeholder="placeholder"
       scale="m"
       status="idle"
