@@ -57,8 +57,9 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
 ): ReturnType<typeof makeGenericController<void, T>> => {
   return makeGenericController<void, T>((component, controller) => {
     let hasLoaded = false;
+    let animationFrameId: number;
 
-    const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement => {
+    const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | nil => {
       const { referenceElement, el } = component;
 
       return (
@@ -81,7 +82,11 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     controller.onConnected(() => {
       // we set up the ref element in the next frame to ensure manager
       // event handlers are invoked after connect (mainly for `components` output target)
-      requestAnimationFrame(() => {
+      animationFrameId = requestAnimationFrame(() => {
+        if (!component.el.isConnected) {
+          return;
+        }
+
         setUpReferenceElement(hasLoaded);
         manager.registerElement(component, component.referenceEl);
       });
@@ -113,6 +118,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     });
 
     controller.onDisconnected(() => {
+      cancelAnimationFrame(animationFrameId);
       manager.unregisterElement(component, component.referenceEl);
     });
   });
