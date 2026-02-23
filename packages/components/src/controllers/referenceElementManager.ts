@@ -98,7 +98,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   let hoverOpenTimeout: number | nil = null;
   let hoveredComponents: ReferenceElementComponent[] | nil = null;
   let pointerDownPosition: { x: number; y: number } | nil = null;
-  let registeredElementCount = 0;
+  let registeredComponentCount = 0;
 
   const queryComponents = (composedPath: EventTarget[]): ReferenceElementComponent[] | undefined => {
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
@@ -498,7 +498,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       }
     }
 
-    registeredElementCount++;
+    registeredComponentCount++;
 
     registeredElements.set(referenceEl, [...existingComponents, component]);
 
@@ -508,7 +508,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       registerShadowRoot(shadowRoot);
     }
 
-    if (registeredElementCount === 1) {
+    if (registeredComponentCount === 1) {
       addListeners();
     }
 
@@ -516,7 +516,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const decrementRegisteredElementCount = (shadowRoot: ShadowRoot): void => {
-    registeredElementCount--;
+    registeredComponentCount--;
 
     if (shadowRoot) {
       unregisterShadowRoot(shadowRoot);
@@ -541,7 +541,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       decrementRegisteredElementCount(shadowRoot);
     }
 
-    if (registeredElementCount === 0) {
+    if (registeredComponentCount === 0) {
       removeListeners();
       clearHoverTimeout();
     }

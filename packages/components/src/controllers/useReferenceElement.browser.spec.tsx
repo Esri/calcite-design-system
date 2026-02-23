@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { referenceElementManager } from "./referenceElementManager";
 import { ReferenceElementComponent, useReferenceElement } from "./useReferenceElement";
 
@@ -18,7 +18,7 @@ describe("useReferenceElement", () => {
     @property() open = false;
     @property() referenceElement: string | HTMLElement;
     @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
-    @property() referenceEl: HTMLElement;
+    @state() referenceEl: HTMLElement;
     referenceElementController = useReferenceElement(refClickManager)(this);
 
     render(): JsxNode {
@@ -30,7 +30,7 @@ describe("useReferenceElement", () => {
     @property() open = false;
     @property() referenceElement: string | HTMLElement;
     @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
-    @property() referenceEl: HTMLElement;
+    @state() referenceEl: HTMLElement;
     referenceElementController = useReferenceElement(refHoverManager)(this);
 
     render(): JsxNode {
