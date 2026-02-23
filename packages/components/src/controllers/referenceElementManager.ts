@@ -20,11 +20,11 @@ export type ReferenceElementManagerOptions = {
 
 export interface ReferenceElementComponentManager {
   /** Registers a component and wires global listeners when needed. */
-  registerElement: (component: ReferenceElementComponent) => void;
+  registerElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
   /** Removes a component and removes global listeners when no elements remain. */
-  unregisterElement: (component: ReferenceElementComponent) => void;
+  unregisterElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
   /** Synchronizes ARIA state from a component to its reference element. */
-  updateElement: (component: ReferenceElementComponent) => void;
+  updateElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
 }
 
 const clickTolerance = 5;
@@ -448,9 +448,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
   };
 
-  const registerElement = (component: ReferenceElementComponent): void => {
-    const { referenceEl } = component;
-
+  const registerElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
     if (!referenceEl) {
       return;
     }
@@ -504,9 +502,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
   };
 
-  const unregisterElement = (component: ReferenceElementComponent): void => {
-    const { referenceEl } = component;
-
+  const unregisterElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
     if (!referenceEl) {
       return;
     }

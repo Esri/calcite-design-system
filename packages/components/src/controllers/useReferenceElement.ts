@@ -83,7 +83,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       // event handlers are invoked after connect (mainly for `components` output target)
       requestAnimationFrame(() => setUpReferenceElement(hasLoaded));
 
-      manager.registerElement(component);
+      manager.registerElement(component, component.referenceEl);
     });
 
     controller.onLoaded(() => {
@@ -104,15 +104,15 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       }
 
       if (changes.has("referenceEl")) {
-        manager.unregisterElement(component);
-        manager.registerElement(component);
+        manager.unregisterElement(component, changes.get("referenceEl"));
+        manager.registerElement(component, component.referenceEl);
       } else if (changes.has("open")) {
-        manager.updateElement(component);
+        manager.updateElement(component, component.referenceEl);
       }
     });
 
     controller.onDisconnected(() => {
-      manager.unregisterElement(component);
+      manager.unregisterElement(component, component.referenceEl);
     });
   });
 };
