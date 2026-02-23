@@ -5,7 +5,8 @@ import { referenceElementManager } from "./referenceElementManager";
 import { ReferenceElementComponent, useReferenceElement } from "./useReferenceElement";
 
 describe("useReferenceElement", () => {
-  const refManager = referenceElementManager({ click: true });
+  const refClickManager = referenceElementManager({ click: true });
+  const refHoverManager = referenceElementManager({ hover: true });
 
   class ReferenceElement extends LitElement {
     render(): JsxNode {
@@ -13,35 +14,83 @@ describe("useReferenceElement", () => {
     }
   }
 
-  class TestComponent extends LitElement implements ReferenceElementComponent {
+  class TestClickComponent extends LitElement implements ReferenceElementComponent {
     @property() open = false;
     @property() referenceElement: string | HTMLElement;
     @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
     @property() referenceEl: HTMLElement;
-    referenceElementController = useReferenceElement(refManager)(this);
+    referenceElementController = useReferenceElement(refClickManager)(this);
 
     render(): JsxNode {
       return <div>Hello world!</div>;
     }
   }
 
-  it("register and resolves reference element", async () => {
-    const { component } = await mount(TestComponent);
-    component.referenceElement = document.createElement("div");
-    await component.updateComplete;
-    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    refManager.unregisterElement(component);
+  class TestHoverComponent extends LitElement implements ReferenceElementComponent {
+    @property() open = false;
+    @property() referenceElement: string | HTMLElement;
+    @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
+    @property() referenceEl: HTMLElement;
+    referenceElementController = useReferenceElement(refHoverManager)(this);
+
+    render(): JsxNode {
+      return <div>Hello world!</div>;
+    }
+  }
+
+  describe("click manager", () => {
+    it("register and resolves reference element", async () => {
+      const { component: referenceElement } = await mount(ReferenceElement);
+      await referenceElement.updateComplete;
+
+      const { component } = await mount(TestClickComponent);
+      component.referenceElement = referenceElement;
+      await component.updateComplete;
+      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaExpanded).toBe("false");
+      refClickManager.unregisterElement(component);
+    });
+
+    it("register and resolves string reference element", async () => {
+      const { component: referenceElement } = await mount(ReferenceElement);
+      referenceElement.el.id = "my-ref";
+      await referenceElement.updateComplete;
+
+      const { component } = await mount(TestClickComponent);
+      component.referenceElement = "my-ref";
+      await component.updateComplete;
+      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaExpanded).toBe("false");
+      refClickManager.unregisterElement(component);
+    });
   });
 
-  it("register and resolves string reference element", async () => {
-    const { component: referenceElement } = await mount(ReferenceElement);
-    referenceElement.el.id = "my-ref";
-    await referenceElement.updateComplete;
+  describe("hover manager", () => {
+    it("register and resolves reference element", async () => {
+      const { component: referenceElement } = await mount(ReferenceElement);
+      await referenceElement.updateComplete;
 
-    const { component } = await mount(TestComponent);
-    component.referenceElement = "my-ref";
-    await component.updateComplete;
-    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    refManager.unregisterElement(component);
+      const { component } = await mount(TestHoverComponent);
+      component.referenceElement = referenceElement;
+      await component.updateComplete;
+      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      refHoverManager.unregisterElement(component);
+    });
+
+    it("register and resolves string reference element", async () => {
+      const { component: referenceElement } = await mount(ReferenceElement);
+      referenceElement.el.id = "my-ref";
+      await referenceElement.updateComplete;
+
+      const { component } = await mount(TestHoverComponent);
+      component.referenceElement = "my-ref";
+      await component.updateComplete;
+      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      refHoverManager.unregisterElement(component);
+    });
   });
 });
