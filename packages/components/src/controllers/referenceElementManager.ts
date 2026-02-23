@@ -424,13 +424,20 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const unregisterShadowRoot = (shadowRoot: ShadowRoot): void => {
     const count = registeredShadowRootCounts.get(shadowRoot);
-    const newCount = (typeof count === "number" ? count : 1) - 1;
+    const currentCount = typeof count === "number" ? count : 0;
+    const newCount = Math.max(0, currentCount - 1);
 
-    if (newCount === 0) {
+    if (currentCount > 0 && newCount === 0) {
       removeShadowListeners(shadowRoot);
+      registeredShadowRootCounts.delete(shadowRoot);
+      return;
     }
 
-    registeredShadowRootCounts.set(shadowRoot, newCount);
+    if (newCount > 0) {
+      registeredShadowRootCounts.set(shadowRoot, newCount);
+    } else {
+      registeredShadowRootCounts.delete(shadowRoot);
+    }
   };
 
   const registerElement = (component: ReferenceElementComponent): void => {
@@ -490,7 +497,9 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     if (updatedComponents.length > 0) {
       registeredElements.set(referenceEl, updatedComponents);
-      registeredElementCount--;
+      if (updatedComponents.length !== existingComponents.length) {
+        registeredElementCount--;
+      }
     } else if (registeredElements.delete(referenceEl)) {
       registeredElementCount--;
     }
