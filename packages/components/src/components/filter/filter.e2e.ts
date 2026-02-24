@@ -100,6 +100,49 @@ describe("clear button", () => {
       expect(await filter.getProperty("value")).toBe("");
       expect(await filterIsFocused()).toBe(true);
     });
+
+    it("should prevent default on Escape when value is not empty", async () => {
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.type("developer");
+      await page.waitForChanges();
+
+      const wasDefaultPrevented = await page.evaluate(() => {
+        const input = document
+          .querySelector("calcite-filter")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector<HTMLInputElement>("input");
+
+        const event = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true });
+
+        return !input.dispatchEvent(event);
+      });
+
+      expect(wasDefaultPrevented).toBe(true);
+      expect(await filter.getProperty("value")).toBe("");
+    });
+
+    it("should not prevent default on Escape when value is empty", async () => {
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const wasDefaultPrevented = await page.evaluate(() => {
+        const input = document
+          .querySelector("calcite-filter")
+          .shadowRoot.querySelector("calcite-input")
+          .shadowRoot.querySelector<HTMLInputElement>("input");
+
+        const event = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true });
+
+        return !input.dispatchEvent(event);
+      });
+
+      expect(wasDefaultPrevented).toBe(false);
+      expect(await filter.getProperty("value")).toBe("");
+    });
   });
 });
 
