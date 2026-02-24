@@ -36,6 +36,8 @@ function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElemen
 export type ReferenceElementManagerOptions = {
   /** Enables click and keyboard-activation interactions for registered reference elements. */
   click?: boolean;
+  /** Enables context menu interactions for registered reference elements. */
+  context?: boolean;
   /** Enables hover and focus interactions for registered reference elements. */
   hover?: boolean;
 };
@@ -50,6 +52,7 @@ export interface ReferenceElementComponentManager {
 }
 
 const clickTolerance = 5;
+const pressTimerDuration = 800;
 
 /** Standard delay before hover-triggered components open. */
 export const HOVER_OPEN_DELAY_MS = 300;
@@ -102,6 +105,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   let hoveredComponents: ReferenceElementComponent[] | nil = null;
   let pointerDownPosition: { x: number; y: number } | nil = null;
   let registeredComponentCount = 0;
+  let pressTimer: number | nil = null;
 
   const queryComponents = (
     composedPath: EventTarget[],
@@ -347,6 +351,33 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     closeActiveHoverComponents();
   };
 
+  const setContextVirtualElement = (components: ReferenceElementComponent[], x: number, y: number): void => {
+    components?.forEach((component) => {
+      if (!component.disabled) {
+        component.setVirtualElement(x, y);
+        component.open = true;
+      }
+    });
+  };
+
+  const pressed = (path: EventTarget[], x: number, y: number): void => {
+    setContextVirtualElement(queryComponents(path, "context"), x, y);
+  };
+
+  const contextMenuHandler = (event: MouseEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    const composedPath = event.composedPath();
+    const components = queryComponents(composedPath, "context");
+
+    if (components?.length) {
+      event.preventDefault();
+      setContextVirtualElement(components, event.clientX, event.clientY);
+    }
+  };
+
   const pointerLeaveHandler = (event: PointerEvent): void => {
     if (event.defaultPrevented) {
       return;
@@ -354,6 +385,31 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     clearHoverTimeout();
     closeHoveredComponents();
+  };
+
+  const startPress = (event: TouchEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+    }
+
+    const composedPath = event.composedPath();
+    const x = event.touches[0].clientX;
+    const y = event.touches[0].clientY;
+
+    pressTimer = window.setTimeout(() => pressed(composedPath, x, y), pressTimerDuration);
+  };
+
+  const endPress = (event: TouchEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    clearTimeout(pressTimer);
+    pressTimer = null;
   };
 
   const addListeners = (): void => {
@@ -370,6 +426,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.addEventListener("blur", blurHandler);
       document.addEventListener("pointerleave", pointerLeaveHandler);
     }
+    if (options.context) {
+      window.addEventListener("contextmenu", contextMenuHandler);
+      window.addEventListener("touchstart", startPress);
+      window.addEventListener("touchend", endPress);
+      window.addEventListener("touchcancel", endPress);
+    }
   };
 
   const removeListeners = (): void => {
@@ -385,6 +447,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.removeEventListener("focusin", focusInHandler);
       window.removeEventListener("blur", blurHandler);
       document.removeEventListener("pointerleave", pointerLeaveHandler);
+    }
+    if (options.context) {
+      window.removeEventListener("contextmenu", contextMenuHandler);
+      window.removeEventListener("touchstart", startPress);
+      window.removeEventListener("touchend", endPress);
+      window.removeEventListener("touchcancel", endPress);
     }
   };
 

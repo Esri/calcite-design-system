@@ -44,7 +44,7 @@ declare global {
   }
 }
 
-const manager = referenceElementManager({ click: true, hover: true });
+const manager = referenceElementManager({ click: true, hover: true, context: true });
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -245,25 +245,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     );
   }
 
-  @method()
-  async setVirtualElement(x: number, y: number): Promise<void> {
-    this.referenceEl = {
-      getBoundingClientRect() {
-        return {
-          width: 0,
-          height: 0,
-          x,
-          y,
-          top: y,
-          left: x,
-          right: x,
-          bottom: y,
-        };
-      },
-    };
-    connectFloatingUI(this);
-  }
-
   //#endregion
 
   //#region Events
@@ -368,6 +349,24 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#endregion
 
   //#region Private Methods
+
+  setVirtualElement(x: number, y: number): void {
+    this.referenceEl = {
+      getBoundingClientRect() {
+        return {
+          width: 0,
+          height: 0,
+          x,
+          y,
+          top: y,
+          left: x,
+          right: x,
+          bottom: y,
+        };
+      },
+    };
+    connectFloatingUI(this);
+  }
 
   private openHandler(): void {
     if (this.disabled) {

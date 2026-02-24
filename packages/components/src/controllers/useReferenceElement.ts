@@ -19,6 +19,8 @@ export interface ReferenceElementComponent extends LitElement {
    * If true, the component will close when its reference element is clicked.
    */
   closeOnClick?: boolean;
+  /** If true, prevents interaction and decreases the component's opacity. */
+  disabled?: boolean;
   /**
    * Whether the component is currently open.
    */
@@ -39,6 +41,10 @@ export interface ReferenceElementComponent extends LitElement {
    * If true, disables the trigger interaction for the component.
    */
   triggerDisabled?: boolean;
+  /**
+   * Sets a virtual reference element position using viewport coordinates.
+   */
+  setVirtualElement?: (x: number, y: number) => void;
 }
 
 /**
